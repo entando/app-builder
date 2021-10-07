@@ -3,17 +3,18 @@ import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { formatDate } from '@entando/utils';
 import { screen, within } from '@testing-library/react';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 import SingleContentVersioningHistoryContainer from 'ui/versioning/SingleContentVersioningHistoryContainer';
 import { getSingleVersioning } from 'api/versioning';
-import { LIST_SINGLE_VERSIONING_OK } from 'testutils/mocks/versioning';
+import { LIST_SINGLE_VERSIONING_OK } from 'test/mocks/versioning';
 
 jest.mock('api/versioning');
+jest.unmock('react-redux');
 
 describe('Single Content Versioning History Container', () => {
   it('renders table header and data', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <SingleContentVersioningHistoryContainer />
         </IntlProvider>,
@@ -45,6 +46,5 @@ describe('Single Content Versioning History Container', () => {
     });
     expect(screen.getAllByText('Delete version')).toHaveLength(LIST_SINGLE_VERSIONING_OK.length);
     expect(screen.getAllByText('Restore version')).toHaveLength(LIST_SINGLE_VERSIONING_OK.length);
-    expect(screen.getAllByText('Details')).toHaveLength(LIST_SINGLE_VERSIONING_OK.length);
   });
 });

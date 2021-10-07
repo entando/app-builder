@@ -1,13 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
-
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import { Button } from 'patternfly-react';
 import RadioInput from 'ui/common/form/RenderRadioInput';
 import ContentSettingsGeneral from 'ui/content-settings/ContentSettingsGeneral';
 
 configEnzymeAdapter();
+
+jest.unmock('react-redux');
 
 const PROPS = {
   indexesLastReloadDate: '11/11/2018 11:11',
@@ -25,7 +26,7 @@ const PROPS = {
 };
 
 describe('ui/content-settings/ContentSettingsGeneral', () => {
-  const component = mount(mockRenderWithIntl(<ContentSettingsGeneral {...PROPS} />));
+  const component = mount(mockRenderWithIntlAndStore(<ContentSettingsGeneral {...PROPS} />));
 
   it('renders without crashing and calls onDidMount', () => {
     expect(component.exists()).toEqual(true);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import {
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
@@ -19,6 +19,8 @@ import {
 import AttributeField from 'ui/edit-content/content-attributes/AttributeField';
 
 configEnzymeAdapter();
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 const attributeFields = {
   [TYPE_BOOLEAN]: 'BooleanAttributeField',

@@ -37,9 +37,7 @@ describe('state/versioning/reducer', () => {
 
     it('should define the versioning list payload', () => {
       expect(getVersioningList({
-        apps: {
-          cms: { versioning: newState },
-        },
+        versioning: newState,
       })).toEqual(LIST_VERSIONING_OK);
     });
   });
@@ -52,9 +50,7 @@ describe('state/versioning/reducer', () => {
 
     it('should define the versioning list payload', () => {
       expect(getResourceVersioningList({
-        apps: {
-          cms: { versioning: newState },
-        },
+        versioning: newState,
       })).toEqual(LIST_ATTACHMENTS_OK);
     });
   });
@@ -66,7 +62,7 @@ describe('state/versioning/reducer', () => {
     });
 
     it('should define the selected versioning type', () => {
-      expect(getSelectedVersioningType({ apps: { cms: { versioning: newState } } })).toEqual('contents');
+      expect(getSelectedVersioningType({ versioning: newState })).toEqual('contents');
     });
   });
 

@@ -6,7 +6,7 @@ import {
   fieldMetaPropTypes,
 } from 'redux-form';
 
-import DateTimePickerInput from 'ui/common/form/RenderDateTimePickerInput';
+import DateTimePickerInput from 'ui/common/form/RenderCMSDateTimePickerInput';
 import { generateNumArray } from 'helpers/arrayUtils';
 
 const TimestampAttributeField = ({

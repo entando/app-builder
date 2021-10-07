@@ -1,7 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
-
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { mount, shallow } from 'enzyme';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import { injectIntl } from 'react-intl';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -10,6 +9,9 @@ import RenderContentTemplateInput from 'ui/common/form/RenderContentTemplateInpu
 import AddContentTemplateForm from 'ui/content-template/AddContentTemplateForm';
 
 configEnzymeAdapter();
+
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 const PROPS = {
   onDidMount: jest.fn(),
@@ -33,7 +35,7 @@ const STATE = {
 
 describe('content-template/AddContentTemplateForm', () => {
   const InjectedAddContentTemplateForm = injectIntl(AddContentTemplateForm);
-  const component = mount(mockRenderWithIntl(<InjectedAddContentTemplateForm {...PROPS} />, STATE));
+  const component = mount(mockRenderWithIntlAndStore(<InjectedAddContentTemplateForm {...PROPS} />, STATE));
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

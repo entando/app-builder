@@ -77,24 +77,20 @@ it('test clearContentTemplateDictionary action', () => {
 });
 
 const DEFAULT_STATE = {
-  apps: {
-    cms: {
-      contentTemplate: {
-        list: [],
-        opened: {},
-        filters: {
-          filterProps: {},
-          attribute: 'descr',
-        },
-      },
-      contentType: {
-        list: ['GUU'],
-        map: {
-          GUU: {
-            code: 'GUU',
-            name: 'GuuGuu',
-          },
-        },
+  contentTemplate: {
+    list: [],
+    opened: {},
+    filters: {
+      filterProps: {},
+      attribute: 'descr',
+    },
+  },
+  contentType: {
+    list: ['GUU'],
+    map: {
+      GUU: {
+        code: 'GUU',
+        name: 'GuuGuu',
       },
     },
   },
@@ -150,27 +146,23 @@ describe('contentTemplate thunks', () => {
 
   it('filterContentTemplateBySearch', (done) => {
     const STATE = {
-      apps: {
-        cms: {
-          contentTemplate: {
-            list: [],
-            opened: {},
-            filters: {
-              filterProps: {
-                formValues: { descr: 'boger' },
-                operators: { descr: 'like' },
-              },
-              attribute: 'descr',
-            },
+      contentTemplate: {
+        list: [],
+        opened: {},
+        filters: {
+          filterProps: {
+            formValues: { descr: 'boger' },
+            operators: { descr: 'like' },
           },
-          contentType: {
-            list: ['GUU'],
-            map: {
-              GUU: {
-                code: 'GUU',
-                name: 'GuuGuu',
-              },
-            },
+          attribute: 'descr',
+        },
+      },
+      contentType: {
+        list: ['GUU'],
+        map: {
+          GUU: {
+            code: 'GUU',
+            name: 'GuuGuu',
           },
         },
       },
@@ -196,27 +188,23 @@ describe('contentTemplate thunks', () => {
 
   it('fetchContentTemplatesByContentType', (done) => {
     const STATE = {
-      apps: {
-        cms: {
-          contentTemplate: {
-            list: [],
-            opened: {},
-            filters: {
-              filterProps: {
-                formValues: { contentType: 'GUU' },
-                operators: { contentType: 'eq' },
-              },
-              attribute: 'descr',
-            },
+      contentTemplate: {
+        list: [],
+        opened: {},
+        filters: {
+          filterProps: {
+            formValues: { contentType: 'GUU' },
+            operators: { contentType: 'eq' },
           },
-          contentType: {
-            list: ['GUU'],
-            map: {
-              GUU: {
-                code: 'GUU',
-                name: 'GuuGuu',
-              },
-            },
+          attribute: 'descr',
+        },
+      },
+      contentType: {
+        list: ['GUU'],
+        map: {
+          GUU: {
+            code: 'GUU',
+            name: 'GuuGuu',
           },
         },
       },

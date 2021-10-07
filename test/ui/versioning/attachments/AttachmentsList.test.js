@@ -2,10 +2,11 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/react';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 import AttachmentsList from 'ui/versioning/attachments/AttachmentsList';
-import { LIST_ATTACHMENTS_OK } from 'testutils/mocks/versioning';
+import { LIST_ATTACHMENTS_OK } from 'test/mocks/versioning';
 
+jest.unmock('react-redux');
 
 const STARTING_PROPS = {
   attachments: LIST_ATTACHMENTS_OK,
@@ -14,7 +15,7 @@ const STARTING_PROPS = {
 describe('AttachmentsList', () => {
   it('renders without crash with attachments and actions', () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <AttachmentsList {...STARTING_PROPS} />
         </IntlProvider>,
@@ -31,7 +32,7 @@ describe('AttachmentsList', () => {
   describe('renders correct file sizes', () => {
     it('in Bs', () => {
       renderWithRedux(
-        renderWithRouter(
+        renderWithRouterProvider(
           <IntlProvider locale="en">
             <AttachmentsList attachments={[LIST_ATTACHMENTS_OK[0]]} />
           </IntlProvider>,
@@ -43,7 +44,7 @@ describe('AttachmentsList', () => {
 
     it('in KBs', () => {
       renderWithRedux(
-        renderWithRouter(
+        renderWithRouterProvider(
           <IntlProvider locale="en">
             <AttachmentsList attachments={[LIST_ATTACHMENTS_OK[1]]} />
           </IntlProvider>,
@@ -55,7 +56,7 @@ describe('AttachmentsList', () => {
 
     it('in MBs', () => {
       renderWithRedux(
-        renderWithRouter(
+        renderWithRouterProvider(
           <IntlProvider locale="en">
             <AttachmentsList attachments={[LIST_ATTACHMENTS_OK[2]]} />
           </IntlProvider>,
@@ -67,7 +68,7 @@ describe('AttachmentsList', () => {
 
     it('in GBs', () => {
       renderWithRedux(
-        renderWithRouter(
+        renderWithRouterProvider(
           <IntlProvider locale="en">
             <AttachmentsList attachments={[LIST_ATTACHMENTS_OK[3]]} />
           </IntlProvider>,
@@ -79,7 +80,7 @@ describe('AttachmentsList', () => {
 
     it('in TBs', () => {
       renderWithRedux(
-        renderWithRouter(
+        renderWithRouterProvider(
           <IntlProvider locale="en">
             <AttachmentsList attachments={[LIST_ATTACHMENTS_OK[4]]} />
           </IntlProvider>,

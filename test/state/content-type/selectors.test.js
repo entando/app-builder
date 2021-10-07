@@ -60,117 +60,97 @@ import {
 } from 'state/content-type/selectors';
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      contentType: {
-        list: ['ABC', 'DEF'],
-        map: {
-          ABC: {
-            name: 'contentType1',
-            code: 'ABC',
-            status: '0',
-          },
-          DEF: {
-            name: 'contentType2',
-            code: 'DEF',
-            status: '0',
-          },
-        },
-        attributes: {
-          selected: '',
-          selectedNested: '',
-        },
-        references: {
-          status: CONTENT_TYPE_REFERENCES_STATUS,
-        },
+  contentType: {
+    list: ['ABC', 'DEF'],
+    map: {
+      ABC: {
+        name: 'contentType1',
+        code: 'ABC',
+        status: '0',
       },
+      DEF: {
+        name: 'contentType2',
+        code: 'DEF',
+        status: '0',
+      },
+    },
+    attributes: {
+      selected: '',
+      selectedNested: '',
+    },
+    references: {
+      status: CONTENT_TYPE_REFERENCES_STATUS,
     },
   },
   pagination: CONTENT_TYPES_OK_PAGE.metaData,
 };
 
 const TEST_STATE_HAS_BLANKSELECTED = {
-  apps: {
-    cms: {
-      contentType: {
-        list: GET_CONTENT_TYPES_RESPONSE_OK,
-        selected: {},
-        attributes: {
-          list: CONTENT_TYPES_ATTRIBUTES,
-          selected: CONTENT_TYPE_ATTRIBUTE,
-        },
-      },
+  contentType: {
+    list: GET_CONTENT_TYPES_RESPONSE_OK,
+    selected: {},
+    attributes: {
+      list: CONTENT_TYPES_ATTRIBUTES,
+      selected: CONTENT_TYPE_ATTRIBUTE,
     },
   },
 };
 
 const STATE_ATTRIBUTES = {
-  apps: {
-    cms: {
-      contentType: {
-        selected: {
-          attributes: 'ey',
-          attributeSelected: {
-            type: 'A',
-            nestedAttribute: {
-              type: 'B',
-            },
-            validationRules: [4],
-          },
-          actionMode: 'wa',
+  contentType: {
+    selected: {
+      attributes: 'ey',
+      attributeSelected: {
+        type: 'A',
+        nestedAttribute: {
+          type: 'B',
         },
-        attributes: {
-          list: [],
-          selected: {
-            code: 'lecode',
-            attributeSelected: {},
-            listAttribute: [1],
-            searchableOptionSupported: [2],
-            indexableOptionSupported: [3],
-            assignedRoles: { bbc: 'lecode' },
-            allowedRoles: [{ code: 'bbc' }, { code: 'dde' }],
-            allowedDisablingCodes: [5],
-          },
-          selectedNested: {
-            code: 'lecode',
-            attributeSelected: {},
-            listAttribute: [1],
-            searchableOptionSupported: [2],
-            indexableOptionSupported: [3],
-            assignedRoles: { bbc: 'lecode' },
-            allowedRoles: [{ code: 'bbc' }, { code: 'dde' }],
-            allowedDisablingCodes: [5],
-          },
-        },
+        validationRules: [4],
+      },
+      actionMode: 'wa',
+    },
+    attributes: {
+      list: [],
+      selected: {
+        code: 'lecode',
+        attributeSelected: {},
+        listAttribute: [1],
+        searchableOptionSupported: [2],
+        indexableOptionSupported: [3],
+        assignedRoles: { bbc: 'lecode' },
+        allowedRoles: [{ code: 'bbc' }, { code: 'dde' }],
+        allowedDisablingCodes: [5],
+      },
+      selectedNested: {
+        code: 'lecode',
+        attributeSelected: {},
+        listAttribute: [1],
+        searchableOptionSupported: [2],
+        indexableOptionSupported: [3],
+        assignedRoles: { bbc: 'lecode' },
+        allowedRoles: [{ code: 'bbc' }, { code: 'dde' }],
+        allowedDisablingCodes: [5],
       },
     },
   },
 };
 
 const STATE_ATTRIBUTES_MONOLIST = {
-  apps: {
-    cms: {
-      contentType: {
-        selected: {
-          attributes: 'ey',
-          attributeSelected: ATTRIBUTE_MONOLIST_COMPOSITE,
-        },
-      },
+  contentType: {
+    selected: {
+      attributes: 'ey',
+      attributeSelected: ATTRIBUTE_MONOLIST_COMPOSITE,
     },
   },
 };
 
 const STATE_ATTRIBUTES_NO_LIST = {
-  apps: {
-    cms: {
-      contentType: {
-        selected: {
-          attributeSelected: {},
-        },
-        attributes: {
-          selected: {},
-        },
-      },
+  contentType: {
+    selected: {
+      attributeSelected: {},
+    },
+    attributes: {
+      selected: {},
     },
   },
 };
@@ -178,15 +158,15 @@ const STATE_ATTRIBUTES_NO_LIST = {
 describe('state/content-type/selectors', () => {
   it('getContentTypeState(state) returns the content-type object', () => {
     const selected = getContentTypeState(TEST_STATE);
-    expect(selected).toBe(TEST_state.contentType);
+    expect(selected).toBe(TEST_STATE.contentType);
   });
 
   it('verify getContentTypeIdList selector', () => {
-    expect(getContentTypeIdList(TEST_STATE)).toEqual(TEST_state.contentType.list);
+    expect(getContentTypeIdList(TEST_STATE)).toEqual(TEST_STATE.contentType.list);
   });
 
   it('verify getContentTypeMap selector', () => {
-    expect(getContentTypeMap(TEST_STATE)).toEqual(TEST_state.contentType.map);
+    expect(getContentTypeMap(TEST_STATE)).toEqual(TEST_STATE.contentType.map);
   });
 
   it('verify getContentTypeList selector', () => {
@@ -195,7 +175,7 @@ describe('state/content-type/selectors', () => {
 
   it('verify getContentTypeSelectedAttribute selector', () => {
     expect(getContentTypeSelectedAttribute(STATE_ATTRIBUTES))
-      .toEqual(STATE_ATTRIBUTES..contentType.attributes.selected);
+      .toEqual(STATE_ATTRIBUTES.contentType.attributes.selected);
   });
 
   it('verify getContentTypeSelectedAttributeIsList selector', () => {
@@ -230,16 +210,12 @@ describe('state/content-type/selectors', () => {
       count: 1,
     });
     const anotherState = {
-      apps: {
-        cms: {
-          contentType: {
-            references: {
-              status: {
-                ready: ['AAA', 'BBB'],
-                toRefresh: [],
-                refreshing: [],
-              },
-            },
+      contentType: {
+        references: {
+          status: {
+            ready: ['AAA', 'BBB'],
+            toRefresh: [],
+            refreshing: [],
           },
         },
       },
@@ -260,7 +236,7 @@ describe('state/content-type/selectors', () => {
   });
 
   it('verify getSelectedContentType selector is defined', () => {
-    const STATE_HERE = { apps: { cms: { contentType: { selected: {} } } } };
+    const STATE_HERE = { contentType: { selected: {} } };
     expect(getSelectedContentType(STATE_HERE)).toBeDefined();
   });
 
@@ -278,7 +254,7 @@ describe('state/content-type/selectors', () => {
 
   it('verify getContentTypeAttributesIdList returning list except selected attribute', () => {
     const LIST_SELECTED = { ...TEST_STATE_HAS_BLANKSELECTED };
-    LIST_SELECTED..contentType.attributes.selected = { code: 'List' };
+    LIST_SELECTED.contentType.attributes.selected = { code: 'List' };
     expect(getContentTypeAttributesIdList(LIST_SELECTED)).toEqual(['Enumerator', 'Monotext']);
   });
 
@@ -339,22 +315,18 @@ describe('state/content-type/selectors', () => {
     expect(getSelectedCompositeAttributes(STATE_ATTRIBUTES_MONOLIST)[0])
       .toEqual(ATTRIBUTE_MONOLIST_COMPOSITE.nestedAttribute.compositeAttributes[0]);
     const noCompAttr = {
-      apps: {
-        cms: {
-          contentType: {
-            selected: {
-              attributes: 'ey',
-              attributeSelected: {
-                code: 'mlstc',
-                type: 'Monolist',
-                name: 'Monolist Composite',
-                nestedAttribute: {
-                  code: 'mlstc',
-                  type: 'Text',
-                  nestedAttribute: null,
-                  compositeAttributes: null,
-                },
-              },
+      contentType: {
+        selected: {
+          attributes: 'ey',
+          attributeSelected: {
+            code: 'mlstc',
+            type: 'Monolist',
+            name: 'Monolist Composite',
+            nestedAttribute: {
+              code: 'mlstc',
+              type: 'Text',
+              nestedAttribute: null,
+              compositeAttributes: null,
             },
           },
         },
@@ -365,16 +337,12 @@ describe('state/content-type/selectors', () => {
 
   it('test #2 on verifying getContentTypeAttributesIdList returning list except selected attribute', () => {
     const LIST_SELECTED2 = {
-      apps: {
-        cms: {
-          contentType: {
-            list: GET_CONTENT_TYPES_RESPONSE_OK,
-            selected: {},
-            attributes: {
-              list: CONTENT_TYPES_ATTRIBUTES,
-              selected: { code: 'Monolist' },
-            },
-          },
+      contentType: {
+        list: GET_CONTENT_TYPES_RESPONSE_OK,
+        selected: {},
+        attributes: {
+          list: CONTENT_TYPES_ATTRIBUTES,
+          selected: { code: 'Monolist' },
         },
       },
     };
@@ -384,14 +352,10 @@ describe('state/content-type/selectors', () => {
 
   it('verify getMonolistAttributeType', () => {
     const LIST_SELECTED3 = {
-      apps: {
-        cms: {
-          contentType: {
-            list: GET_CONTENT_TYPES_RESPONSE_OK,
-            selected: {
-              attributeSelected: ATTRIBUTE_MONOLIST_COMPOSITE,
-            },
-          },
+      contentType: {
+        list: GET_CONTENT_TYPES_RESPONSE_OK,
+        selected: {
+          attributeSelected: ATTRIBUTE_MONOLIST_COMPOSITE,
         },
       },
     };
@@ -399,22 +363,18 @@ describe('state/content-type/selectors', () => {
     expect(res).toEqual('Composite');
 
     const LIST_SELECTED4 = {
-      apps: {
-        cms: {
-          contentType: {
-            list: [],
-            selected: {
-              attributeSelected: {
-                code: 'mlstc',
-                type: 'Monolist',
-                name: 'Monolist Composite',
-                nestedAttribute: {
-                  code: 'mlstc',
-                  type: '',
-                  nestedAttribute: {},
-                  compositeAttributes: null,
-                },
-              },
+      contentType: {
+        list: [],
+        selected: {
+          attributeSelected: {
+            code: 'mlstc',
+            type: 'Monolist',
+            name: 'Monolist Composite',
+            nestedAttribute: {
+              code: 'mlstc',
+              type: '',
+              nestedAttribute: {},
+              compositeAttributes: null,
             },
           },
         },
@@ -432,13 +392,9 @@ describe('state/content-type/selectors', () => {
 
   it('verify getNewAttributeComposite', () => {
     const LIST_SELECTED4 = {
-      apps: {
-        cms: {
-          contentType: {
-            list: GET_CONTENT_TYPES_RESPONSE_OK,
-            selected: { newAttributeComposite: 'boi' },
-          },
-        },
+      contentType: {
+        list: GET_CONTENT_TYPES_RESPONSE_OK,
+        selected: { newAttributeComposite: 'boi' },
       },
     };
     const res = getNewAttributeComposite(LIST_SELECTED4);
@@ -447,16 +403,12 @@ describe('state/content-type/selectors', () => {
 
   it('verify getMethodsSelectedAttribute', () => {
     const TEST_STATE_HAS_SELECTED = {
-      apps: {
-        cms: {
-          contentType: {
-            selected: {
-              attributes: [
-                { code: 'Title', type: 'Text' },
-                { code: 'Created', type: 'Date' },
-              ],
-            },
-          },
+      contentType: {
+        selected: {
+          attributes: [
+            { code: 'Title', type: 'Text' },
+            { code: 'Created', type: 'Date' },
+          ],
         },
       },
     };

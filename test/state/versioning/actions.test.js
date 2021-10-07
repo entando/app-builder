@@ -94,13 +94,9 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              map: {},
-            },
-          },
+        versioning: {
+          list: [],
+          map: {},
         },
       });
     });
@@ -142,13 +138,9 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              map: {},
-            },
-          },
+        versioning: {
+          list: [],
+          map: {},
         },
         pagination: {
           global: {
@@ -195,13 +187,9 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              map: {},
-            },
-          },
+        versioning: {
+          list: [],
+          map: {},
         },
       });
     });
@@ -250,13 +238,9 @@ describe('versioning actions', () => {
             pageSize: 10,
           },
         },
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              map: {},
-            },
-          },
+        versioning: {
+          list: [],
+          map: {},
         },
       });
     });
@@ -286,13 +270,9 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              map: {},
-            },
-          },
+        versioning: {
+          list: [],
+          map: {},
         },
       });
     });
@@ -332,15 +312,11 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              resourceList: [],
-              map: {},
-              resourceMap: {},
-            },
-          },
+        versioning: {
+          list: [],
+          resourceList: [],
+          map: {},
+          resourceMap: {},
         },
         pagination: {
           global: {
@@ -387,15 +363,11 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              list: [],
-              resourceList: [],
-              map: {},
-              resourceMap: {},
-            },
-          },
+        versioning: {
+          list: [],
+          resourceList: [],
+          map: {},
+          resourceMap: {},
         },
       });
     });
@@ -437,12 +409,8 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              versioningConfig: {},
-            },
-          },
+        versioning: {
+          versioningConfig: {},
         },
       });
     });
@@ -489,12 +457,8 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              versioningConfig: {},
-            },
-          },
+        versioning: {
+          versioningConfig: {},
         },
       });
     });
@@ -543,12 +507,8 @@ describe('versioning actions', () => {
     let store;
     beforeEach(() => {
       store = createMockStore({
-        apps: {
-          cms: {
-            versioning: {
-              selected: 'image',
-            },
-          },
+        versioning: {
+          selected: 'image',
         },
       });
     });

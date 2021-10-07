@@ -1,9 +1,8 @@
 import { isFSA } from 'flux-standard-action';
+import { configEnzymeAdapter, createMockHistory } from 'test/legacyTestUtils';
 import {
-  configEnzymeAdapter,
   mockApi,
   createMockStore,
-  createMockHistory,
 } from 'test/testUtils';
 
 import { METHODS } from '@entando/apimanager';
@@ -109,6 +108,22 @@ import {
   MODE_EDIT_COMPOSITE,
   MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
 } from 'state/content-type/const';
+
+jest.mock('app-init/router', () => {
+  const {
+    ROUTE_CMS_CONTENTTYPE_EDIT,
+    ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
+    ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
+  } = require.requireActual('app-init/router');
+  return {
+    ROUTE_CMS_CONTENTTYPE_EDIT,
+    ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
+    ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
+    history: {
+      push: jest.fn(),
+    },
+  };
+});
 
 jest.mock('api/contentTypes', () => ({
   getContentTypesStatus: jest.fn(mockApi({ payload: {} })),

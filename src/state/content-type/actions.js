@@ -24,6 +24,7 @@ import {
   SET_SELECTED_NESTED_ATTRIBUTE,
 } from 'state/content-type/types';
 import {
+  history as globalHistory,
   ROUTE_CMS_CONTENTTYPE_EDIT,
   ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
@@ -532,10 +533,11 @@ export const fetchAttributeFromContentType = (formName, contentTypeCode, attribu
     .catch(() => {});
 });
 
-export const sendPostAttributeFromContentType = (attributeObject, entityCode, history) => (
-  dispatch,
-  getState,
-) => new Promise((resolve) => {
+export const sendPostAttributeFromContentType = (
+  attributeObject,
+  entityCode,
+  history = globalHistory,
+) => (dispatch, getState) => new Promise((resolve) => {
   const list = getContentTypeSelectedAttributeType(getState());
   postAttributeFromContentType(entityCode, attributeObject)
     .then((response) => {
@@ -556,10 +558,12 @@ export const sendPostAttributeFromContentType = (attributeObject, entityCode, hi
     .catch(() => {});
 });
 
-export const sendPutAttributeFromContentType = (attributeObject, entityCode, mode, history) => (
-  dispatch,
-  getState,
-) => new Promise((resolve) => {
+export const sendPutAttributeFromContentType = (
+  attributeObject,
+  entityCode,
+  mode,
+  history = globalHistory,
+) => (dispatch, getState) => new Promise((resolve) => {
   const list = getContentTypeSelectedAttributeType(getState());
   putAttributeFromContentType(entityCode, attributeObject)
     .then((response) => {
@@ -604,22 +608,24 @@ export const sendPutAttributeFromContentType = (attributeObject, entityCode, mod
     .catch(() => {});
 });
 
-export const sendPostAttributeFromContentTypeMonolist = (attributeObject, entityCode, history) => (
-  dispatch => new Promise((resolve) => {
-    postAttributeFromContentType(entityCode, attributeObject)
-      .then((response) => {
-        response.json().then((json) => {
-          if (!response.ok) {
-            dispatch(addErrors(json.errors.map(err => err.message)));
-          } else {
-            history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
-          }
-          resolve();
-        });
-      })
-      .catch(() => {});
-  })
-);
+export const sendPostAttributeFromContentTypeMonolist = (
+  attributeObject,
+  entityCode,
+  history = globalHistory,
+) => dispatch => new Promise((resolve) => {
+  postAttributeFromContentType(entityCode, attributeObject)
+    .then((response) => {
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
+        }
+        resolve();
+      });
+    })
+    .catch(() => {});
+});
 
 const convertDate = date => `${date
   .split('/')
@@ -651,32 +657,34 @@ const convertDateValidationRules = (validationRules) => {
   return rules;
 };
 
-export const sendPutAttributeFromContentTypeMonolist = (attributeObject, entityCode, history) => (
-  dispatch => new Promise((resolve) => {
-    const { nestedAttribute } = attributeObject;
-    const payload = {
-      ...attributeObject,
-      nestedAttribute: {
-        ...nestedAttribute,
-        ...(nestedAttribute.type === TYPE_DATE ? ({
-          validationRules: convertDateValidationRules(nestedAttribute.validationRules),
-        }) : {}),
-      },
-    };
-    putAttributeFromContentType(entityCode, payload)
-      .then((response) => {
-        response.json().then((json) => {
-          if (!response.ok) {
-            dispatch(addErrors(json.errors.map(err => err.message)));
-          } else {
-            history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
-          }
-          resolve();
-        });
-      })
-      .catch(() => {});
-  })
-);
+export const sendPutAttributeFromContentTypeMonolist = (
+  attributeObject,
+  entityCode,
+  history = globalHistory,
+) => dispatch => new Promise((resolve) => {
+  const { nestedAttribute } = attributeObject;
+  const payload = {
+    ...attributeObject,
+    nestedAttribute: {
+      ...nestedAttribute,
+      ...(nestedAttribute.type === TYPE_DATE ? ({
+        validationRules: convertDateValidationRules(nestedAttribute.validationRules),
+      }) : {}),
+    },
+  };
+  putAttributeFromContentType(entityCode, payload)
+    .then((response) => {
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          history.push(routeConverter(ROUTE_CMS_CONTENTTYPE_EDIT, { code: entityCode }));
+        }
+        resolve();
+      });
+    })
+    .catch(() => {});
+});
 
 const getPayloadFromTypeAttribute = (values, allowedRoles) => {
   const { nestedAttribute } = values;
@@ -724,7 +732,7 @@ export const handlerAttributeFromContentType = (
   allowedRoles,
   mode,
   entityCode,
-  history,
+  history = globalHistory,
 ) => (dispatch, getState) => {
   let payload = getPayloadFromTypeAttribute(values, allowedRoles);
   const isMonolistComposite = payload.type === TYPE_MONOLIST

@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import { mount } from 'enzyme';
 import DeleteAttributeModal from 'ui/content-type/attributes/DeleteAttributeModal';
 
@@ -20,10 +19,12 @@ const STATE = {
   modal: { visibleModal: 'DeleteAttributeModal', info: {} },
 };
 
+jest.unmock('react-redux');
+
 describe('DeleteAttributeModal', () => {
   let component;
   beforeEach(() => {
-    component = mount(mockRenderWithIntl(<DeleteAttributeModal />, STATE));
+    component = mount(mockRenderWithIntlAndStore(<DeleteAttributeModal />, STATE));
   });
 
   describe('component with required props only', () => {
@@ -58,7 +59,7 @@ describe('DeleteAttributeModal', () => {
 
   describe('component with extra props', () => {
     it('renders info prop', () => {
-      component = mount(mockRenderWithIntl(<DeleteAttributeModal {...props} />, STATE));
+      component = mount(mockRenderWithIntlAndStore(<DeleteAttributeModal {...props} />, STATE));
       const title = component.find('EmptyStateTitle');
       expect(title.render().text()).toContain('attribute');
     });

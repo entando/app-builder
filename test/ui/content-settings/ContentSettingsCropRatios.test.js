@@ -1,10 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-
-import { configEnzymeAdapter, enzymeHelperFindByTestId } from 'testutils/helpers';
+import { configEnzymeAdapter, enzymeHelperFindByTestId } from 'test/legacyTestUtils';
 import ContentSettingsCropRatios from 'ui/content-settings/ContentSettingsCropRatios';
 
 configEnzymeAdapter();
+
+jest.unmock('react-redux');
 
 const cropRatios = ['4:3', '16:9'];
 

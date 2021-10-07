@@ -46,11 +46,11 @@ class MultiSelectRenderer extends Component {
     });
 
     if (emptyOptionTextId) {
-      filteredOptions.unshift(
+      filteredOptions.unshift((
         <option key={messages.emptyOption.id} value="">
           {intl.formatMessage(messages.emptyOption)}
-        </option>,
-      );
+        </option>
+      ));
     }
 
     const renderedTags = selectedValues.map((value, i) => (

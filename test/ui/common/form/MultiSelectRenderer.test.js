@@ -1,5 +1,5 @@
 import React from 'react';
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import { shallow, mount } from 'enzyme';
 import MultiSelectRenderer from 'ui/common/form/MultiSelectRenderer';
 
@@ -20,7 +20,9 @@ const OPTIONS = [
 const SELECTED_VALUES = ['opt2', 'opt3'];
 const EMPTY_TEXT_LABEL_ID = 'empty.text.id';
 
-const messages = require('../../../../locales/en');
+const messages = require('../../../../src/locales/en');
+
+jest.unmock('react-redux');
 
 function shallowWithIntl(node) {
   return shallow(node, {
@@ -68,7 +70,7 @@ describe('MultiSelectRenderer', () => {
   describe('when using an empty option', () => {
     beforeEach(() => {
       component = shallow(
-        mockRenderWithIntl(
+        mockRenderWithIntlAndStore(
           <MultiSelectRenderer
             fields={FIELDS}
             options={OPTIONS}

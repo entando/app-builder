@@ -9,11 +9,7 @@ import {
 import { CONTENT_SETTINGS_OK } from 'test/mocks/contentSettings';
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      contentSettings: CONTENT_SETTINGS_OK,
-    },
-  },
+  contentSettings: CONTENT_SETTINGS_OK,
 };
 
 it('verify getSettingsState selector', () => {

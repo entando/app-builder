@@ -1,10 +1,10 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   getAssets, editAsset, deleteAsset, createAsset, cloneAsset,
 } from 'api/assets';
 import { makeRequest } from '@entando/apimanager';
-import { GET_ASSETS_RESPONSE_OK } from 'testutils/mocks/assets';
+import { GET_ASSETS_RESPONSE_OK } from 'test/mocks/assets';
 
 configEnzymeAdapter();
 

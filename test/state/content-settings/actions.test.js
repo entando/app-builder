@@ -133,12 +133,8 @@ describe('contentSettings thunks', () => {
   beforeEach(() => {
     store = createMockStore({
       loading: { legend: '' },
-      apps: {
-        cms: {
-          contentSettings: {
-            metadata: {},
-          },
-        },
+      contentSettings: {
+        metadata: {},
       },
     });
   });

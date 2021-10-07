@@ -10,41 +10,37 @@ import {
 import { getShapeMethodsByAttributeType } from 'state/content-type/selectors';
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      contentType: {
-        selected: {
-          attributes: [
-            { code: 'Title', type: 'Text' },
-            { code: 'Subtitle', type: 'Text' },
-          ],
-        },
+  contentType: {
+    selected: {
+      attributes: [
+        { code: 'Title', type: 'Text' },
+        { code: 'Subtitle', type: 'Text' },
+      ],
+    },
+  },
+  contentTemplate: {
+    list: ['hello', 'world'],
+    opened: { name: 'ciao', id: 1 },
+    filters: {
+      filterProps: {
+        formValues: { descr: 'boger' },
+        operators: { descr: 'like' },
       },
-      contentTemplate: {
-        list: ['hello', 'world'],
-        opened: { name: 'ciao', id: 1 },
-        filters: {
-          filterProps: {
-            formValues: { descr: 'boger' },
-            operators: { descr: 'like' },
-          },
-          attribute: 'descr',
-          keyword: 'woo',
+      attribute: 'descr',
+      keyword: 'woo',
+    },
+    dictionary: {
+      list: [
+        {
+          code: '$content',
+          methods: { getId: null },
         },
-        dictionary: {
-          list: [
-            {
-              code: '$content',
-              methods: { getId: null },
-            },
-            {
-              code: 'lecode',
-              methods: null,
-            },
-          ],
-          map: { content: { getId: null } },
+        {
+          code: 'lecode',
+          methods: null,
         },
-      },
+      ],
+      map: { content: { getId: null } },
     },
   },
 };
@@ -65,19 +61,19 @@ it('verify getContentTemplateOpened selector', () => {
 it('verify getContentTemplateSearchKeyword selector', () => {
   const keyword = getContentTemplateSearchKeyword(TEST_STATE);
   expect(keyword).toBeDefined();
-  expect(keyword).toEqual(TEST_state.contentTemplate.filters.keyword);
+  expect(keyword).toEqual(TEST_STATE.contentTemplate.filters.keyword);
 });
 
 it('verify getContentTemplateSearchAttribute selector', () => {
   const attribute = getContentTemplateSearchAttribute(TEST_STATE);
   expect(attribute).toBeDefined();
-  expect(attribute).toEqual(TEST_state.contentTemplate.filters.attribute);
+  expect(attribute).toEqual(TEST_STATE.contentTemplate.filters.attribute);
 });
 
 it('verify getContentTemplateFilterProps selector', () => {
   const filtProps = getContentTemplateFilterProps(TEST_STATE);
   expect(filtProps).toBeDefined();
-  expect(filtProps).toEqual(TEST_state.contentTemplate.filters.filterProps);
+  expect(filtProps).toEqual(TEST_STATE.contentTemplate.filters.filterProps);
 });
 
 it('verify getContentTemplateDictionaryList selector', () => {

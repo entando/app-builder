@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   postContentType,
@@ -30,7 +30,7 @@ import {
   ATTRIBUTE_CONTENT_TYPES_DELETE_OK,
   ATTRIBUTE_MOVE_UP,
   ATTRIBUTE_MOVE_DOWN,
-} from 'testutils/mocks/contentType';
+} from 'test/mocks/contentType';
 
 configEnzymeAdapter();
 

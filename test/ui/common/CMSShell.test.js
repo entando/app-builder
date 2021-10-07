@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
-import { BrandMenu } from '@entando/menu';
 import CMSShell from 'ui/common/CMSShell';
 
 configEnzymeAdapter();
@@ -17,9 +16,5 @@ describe('ui/common/CMSShell', () => {
 
   it('has class CMSShell', () => {
     expect(component.hasClass('CMSShell')).toBe(true);
-  });
-
-  it('Renders BrandMenu', () => {
-    expect(component.find(BrandMenu).exists()).toBe(true);
   });
 });

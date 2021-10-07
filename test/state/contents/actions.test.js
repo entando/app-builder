@@ -204,16 +204,12 @@ describe('state/contents/actions', () => {
     it('when deleting content it fires all the appropriate actions', (done) => {
       deleteContent.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentQuickFilter: { id: 'id', value: 'test' },
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentQuickFilter: { id: 'id', value: 'test' },
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -254,16 +250,12 @@ describe('state/contents/actions', () => {
     it('when publishing multiple contents it fires all the appropriate actions', (done) => {
       publishMultipleContents.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentQuickFilter: { id: 'id', value: 'test' },
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentQuickFilter: { id: 'id', value: 'test' },
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -304,16 +296,12 @@ describe('state/contents/actions', () => {
     it('when publishing multiple contents it fires all the appropriate actions', (done) => {
       cloneContent.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentQuickFilter: { id: 'id', value: 'test' },
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentQuickFilter: { id: 'id', value: 'test' },
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -352,16 +340,12 @@ describe('state/contents/actions', () => {
     it('when publishing/unpublishing content it fires all the appropriate actions', (done) => {
       publishContent.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentQuickFilter: { id: 'id', value: 'test' },
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentQuickFilter: { id: 'id', value: 'test' },
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -393,16 +377,12 @@ describe('state/contents/actions', () => {
     it('when updating batch of contents it fires all the appropriate actions', (done) => {
       updateContents.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentQuickFilter: { id: 'id', value: 'test' },
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentQuickFilter: { id: 'id', value: 'test' },
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -421,23 +401,19 @@ describe('state/contents/actions', () => {
     it('when updating batch of contents it fires all the appropriate actions', (done) => {
       updateContents.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-              currentQuickFilter: { id: 'id', value: '' },
-              filteringCategories: ['a', 'b'],
-              contentType: 'OLD',
-              group: 'free',
-              statusChecked: 'draft',
-              accessChecked: 'free',
-              authorChecked: 'admin',
-            },
+        contents: {
+          contents: [],
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
+          currentQuickFilter: { id: 'id', value: '' },
+          filteringCategories: ['a', 'b'],
+          contentType: 'OLD',
+          group: 'free',
+          statusChecked: 'draft',
+          accessChecked: 'free',
+          authorChecked: 'admin',
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -455,20 +431,16 @@ describe('state/contents/actions', () => {
     it('when updating batch of contents it fires all the appropriate actions', (done) => {
       updateContents.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-              currentQuickFilter: { id: 'id', value: '' },
-              filteringCategories: ['a', 'b'],
-              currentStatusShow: 'draft',
-              currentAuthorShow: 'admin',
-            },
+        contents: {
+          contents: [],
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
+          currentQuickFilter: { id: 'id', value: '' },
+          filteringCategories: ['a', 'b'],
+          currentStatusShow: 'draft',
+          currentAuthorShow: 'admin',
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -486,18 +458,14 @@ describe('state/contents/actions', () => {
     it('when updating batch of contents it fires all the appropriate actions', (done) => {
       updateContents.mockImplementationOnce(mockApi({ payload: { result: 'ok' } }));
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-              accessChecked: 'administrators',
-              currentQuickFilter: { id: 'id', value: '' },
-            },
+        contents: {
+          contents: [],
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
+          accessChecked: 'administrators',
+          currentQuickFilter: { id: 'id', value: '' },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -529,18 +497,14 @@ describe('state/contents/actions', () => {
 
     it('when updating batch of contents it fires all the appropriate actions', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              accessChecked: 'administrators',
-              currentQuickFilter: { id: 'id', value: '' },
-              currentStatusShow: 'published',
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          accessChecked: 'administrators',
+          currentQuickFilter: { id: 'id', value: '' },
+          currentStatusShow: 'published',
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -561,21 +525,17 @@ describe('state/contents/actions', () => {
 
     it('when fetching contents paged all the necessary actions are triggered', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              accessChecked: 'administrators',
-              currentStatusShow: 'published',
-              currentAuthorShow: 'all',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-              tabSearchEnabled: true,
-            },
+        contents: {
+          contents: [],
+          accessChecked: 'administrators',
+          currentStatusShow: 'published',
+          currentAuthorShow: 'all',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
+          tabSearchEnabled: true,
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -594,20 +554,16 @@ describe('state/contents/actions', () => {
     });
     it('when fetching contents paged all the necessary actions are triggered', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentAuthorShow: 'me',
-              currentStatusShow: 'draft',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-              tabSearchEnabled: true,
-            },
+        contents: {
+          contents: [],
+          currentAuthorShow: 'me',
+          currentStatusShow: 'draft',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
+          tabSearchEnabled: true,
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -627,19 +583,15 @@ describe('state/contents/actions', () => {
 
     it('when fetching contents paged all the necessary actions are triggered', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentAuthorShow: 'me',
-              currentStatusShow: 'published',
-              statusChecked: 'published',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentAuthorShow: 'me',
+          currentStatusShow: 'published',
+          statusChecked: 'published',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -659,19 +611,15 @@ describe('state/contents/actions', () => {
     });
     it('fetch contents with tab filter', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentAuthorShow: 'me',
-              currentStatusShow: 'published',
-              statusChecked: 'published',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentAuthorShow: 'me',
+          currentStatusShow: 'published',
+          statusChecked: 'published',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -691,19 +639,15 @@ describe('state/contents/actions', () => {
     });
     it('fetch contents with tab filter but without group params', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentAuthorShow: 'me',
-              currentStatusShow: 'published',
-              statusChecked: 'published',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentAuthorShow: 'me',
+          currentStatusShow: 'published',
+          statusChecked: 'published',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -723,19 +667,15 @@ describe('state/contents/actions', () => {
     });
     it('fetch contents with tab filter but without group params', (done) => {
       store = mockStore({
-        apps: {
-          cms: {
-            contents: {
-              contents: [],
-              currentAuthorShow: 'me',
-              currentStatusShow: 'draft',
-              statusChecked: 'draft',
-              currentQuickFilter: {},
-              sortingColumns: {
-                attribute: 'created',
-                direction: 'ASC',
-              },
-            },
+        contents: {
+          contents: [],
+          currentAuthorShow: 'me',
+          currentStatusShow: 'draft',
+          statusChecked: 'draft',
+          currentQuickFilter: {},
+          sortingColumns: {
+            attribute: 'created',
+            direction: 'ASC',
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },

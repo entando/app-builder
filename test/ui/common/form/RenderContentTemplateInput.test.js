@@ -1,5 +1,5 @@
 import React from 'react';
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import { mount } from 'enzyme';
 import AceEditor from 'react-ace';
 

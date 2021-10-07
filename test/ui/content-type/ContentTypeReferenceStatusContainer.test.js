@@ -1,4 +1,4 @@
-import { createMockHistory } from 'testutils/helpers';
+import { createMockHistory } from 'test/legacyTestUtils';
 
 import {
   mapStateToProps,

@@ -1,7 +1,7 @@
 import { getJoinedCategories, getNewContentsType } from 'state/edit-content/selectors';
 
 const TEST_STATE = {
-  apps: { cms: { editContent: { contentType: 'NEWS', joinedCategories: ['a', 'b'] } } },
+  editContent: { contentType: 'NEWS', joinedCategories: ['a', 'b'] },
 };
 
 it('verify getContentTypeList selector', () => {

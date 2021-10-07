@@ -2,20 +2,21 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { screen } from '@testing-library/react';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 import ContentVersionDetailsContainer from 'ui/versioning/details/ContentVersionDetailsContainer';
 import { getLanguages } from 'api/languages';
 import { getContentDetails } from 'api/versioning';
-import { CONTENT_DETAILS_OK } from 'testutils/mocks/versioning';
-import { LANGUAGES_LIST } from 'testutils/mocks/languages';
+import { CONTENT_DETAILS_OK } from 'test/mocks/versioning';
+import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 jest.mock('api/languages');
 jest.mock('api/versioning');
+jest.unmock('react-redux');
 
 describe('ContentVersionDetailsContainer Test', () => {
   it('renders data', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <ContentVersionDetailsContainer />
         </IntlProvider>,

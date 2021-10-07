@@ -59,7 +59,7 @@
       .react-datepicker__input-container {
         width: 100%;
 
-        input {
+        input { // sass-lint:disable-line nesting-depth
           width: 100%;
         }
       }

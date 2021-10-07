@@ -18,46 +18,34 @@ describe('state/store', () => {
       const localStorageStates = {
         locale: [],
         permissions: ['loggedUser'],
-        apps: {
-          cms: {
-            testParent: ['testChild1', 'testChild2'],
-          },
-        },
+        testParent: ['testChild1', 'testChild2'],
       };
       const state = {
         locale: 'en',
         permissions: {
           loggedUser: ['test'],
         },
-        apps: {
-          cms: {
-            testParent: {
-              testChild1: 'test1',
-              testChild2: 'test2',
-              testChild3: 'not included in result',
-            },
-            testNotPersisted: 'not included in result',
-          },
+        testParent: {
+          testChild1: 'test1',
+          testChild2: 'test2',
+          testChild3: 'not included in result',
         },
+        testNotPersisted: 'not included in result',
       };
       const expected = {
         locale: 'en',
         permissions: {
           loggedUser: ['test'],
         },
-        apps: {
-          cms: {
-            testParent: {
-              testChild1: 'test1',
-              testChild2: 'test2',
-            },
-          },
+        testParent: {
+          testChild1: 'test1',
+          testChild2: 'test2',
         },
       };
       const result = {
-        locale: getPersistedState(state, 'locale', localStorageStates.locale),
-        permissions: getPersistedState(state, 'permissions', localStorageStates.permissions),
-        apps: getPersistedState(state, 'apps', localStorageStates.apps),
+        locale: getPersistedState(state, 'locale', localStorageStates),
+        permissions: getPersistedState(state, 'permissions', localStorageStates),
+        apps: getPersistedState(state, 'apps', localStorageStates),
       };
       expect(result).toEqual(expected);
     });

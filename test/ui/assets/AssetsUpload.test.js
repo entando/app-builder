@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { configEnzymeAdapter } from 'test/testUtils';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import { shallow } from 'enzyme';
 import AssetsUpload from 'ui/assets/AssetsUpload';
 

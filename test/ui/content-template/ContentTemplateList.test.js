@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within } from '@testing-library/react';
-import { mockRenderWithRouter, mockRenderWithIntl } from 'testutils/helpers';
-import { GET_CONTENT_TEMPLATES_RESPONSE_OK as contentTemplates } from 'testutils/mocks/contentTemplate';
+import { configEnzymeAdapter, mockRenderWithRouter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import { GET_CONTENT_TEMPLATES_RESPONSE_OK as contentTemplates } from 'test/mocks/contentTemplate';
 
 import ContentTemplateList from 'ui/content-template/ContentTemplateList';
 
@@ -16,8 +16,12 @@ const props = {
   onClickDelete: () => {},
 };
 
+configEnzymeAdapter();
+
+jest.unmock('react-redux');
+
 const generateWrapper = () => mockRenderWithRouter(
-  mockRenderWithIntl(
+  mockRenderWithIntlAndStore(
     <ContentTemplateList {...props} />,
     {
       modal: { info: {}, visiableModal: '' },

@@ -80,6 +80,9 @@ jest.mock('state/content-type/selectors', () => ({
   getSelectedContentTypeAttributes: jest.fn(),
 }));
 
+jest.unmock('react-redux');
+jest.unmock('redux-form');
+
 it('test setContentTemplateList action', () => {
   expect(setContentEntry(GET_CONTENT_RESPONSE_OK)).toEqual(SET_CONTENT);
 });
@@ -188,14 +191,10 @@ describe('editContent thunks', () => {
   it('duplicate en values to it', () => {
     getSelectedContentTypeAttributes.mockImplementationOnce(jest.requireActual('state/content-type/selectors').getSelectedContentTypeAttributes);
     const elstate = {
-      apps: {
-        cms: {
-          languages,
-          editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
-          contentType: {
-            selected: { ...NEWS_CTYPE },
-          },
-        },
+      languages,
+      editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
+      contentType: {
+        selected: { ...NEWS_CTYPE },
       },
       form: {
         editcontentform: {
@@ -211,13 +210,8 @@ describe('editContent thunks', () => {
   it('save new content', (done) => {
     getSelectedContentTypeAttributes.mockImplementation(() => [{ type: 'Text' }]);
     store = createMockStore({
-      apps:
-      {
-        cms: {
-          editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
-          languages,
-        },
-      },
+      editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
+      languages,
       currentUser: { username: 'admin' },
       form: { editcontentform: { values: {} } },
     });
@@ -243,13 +237,8 @@ describe('editContent thunks', () => {
       { type: 'Boolean' },
     ]);
     store = createMockStore({
-      apps:
-      {
-        cms: {
-          editContent: { workMode: WORK_MODE_EDIT, content: { id: 1, contentType: { typeCode: 'NEWS', typeDescription: 'News' } } },
-          languages,
-        },
-      },
+      editContent: { workMode: WORK_MODE_EDIT, content: { id: 1, contentType: { typeCode: 'NEWS', typeDescription: 'News' } } },
+      languages,
       currentUser: { username: 'admin' },
       form: { editcontentform: { values: {} } },
     });
@@ -271,8 +260,7 @@ describe('editContent thunks', () => {
   it('save new content without attribues', (done) => {
     getSelectedContentTypeAttributes.mockImplementation(() => [{ type: 'Text' }]);
     store = createMockStore({
-      apps:
-      { cms: { editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } } } },
+      editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
       currentUser: { username: 'admin' },
       form: { editcontentform: { values: {} } },
     });
@@ -283,8 +271,7 @@ describe('editContent thunks', () => {
   it('save new content with ', (done) => {
     getSelectedContentTypeAttributes.mockImplementation(() => [{ type: 'Text' }]);
     store = createMockStore({
-      apps:
-      { cms: { editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } } } },
+      editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
       currentUser: { username: 'admin' },
       form: {
         editcontentform: {

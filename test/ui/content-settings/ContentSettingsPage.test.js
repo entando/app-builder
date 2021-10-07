@@ -1,12 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
-
-import {
-  configEnzymeAdapter,
-  mockRenderWithIntl,
-  mockRenderWithRouter,
-  createMockHistory,
-} from 'testutils/helpers';
+import { shallow } from 'enzyme';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import ContentSettingsPage from 'ui/content-settings/ContentSettingsPage';
 import ContentSettingsGeneralContainer from 'ui/content-settings/ContentSettingsGeneralContainer';
@@ -16,31 +10,11 @@ import ContentSettingsMetadataListContainer from 'ui/content-settings/metadata/C
 
 configEnzymeAdapter();
 
-const initState = {
-  loading: {},
-  modal: { visibleModal: '', info: {} },
-  messages: {
-    errors: [],
-  },
-  apps: {
-    cms: {
-      contentSettings: {
-        cropRatios: [],
-      },
-    },
-  },
-};
-
 let component;
 
 describe('content-settings/ContentSettingsPage', () => {
   beforeEach(() => {
-    component = mount(
-      mockRenderWithRouter(
-        mockRenderWithIntl(<ContentSettingsPage />, initState),
-        createMockHistory(),
-      ),
-    );
+    component = shallow(<ContentSettingsPage />);
   });
 
   it('renders without crashing', () => {

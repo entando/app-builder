@@ -2,10 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import ContentAttributes from 'ui/edit-content/content-attributes/ContentAttributes';
-import { configEnzymeAdapter, enzymeHelperFindByTestId } from 'testutils/helpers';
-import { LANGUAGES_LIST } from 'testutils/mocks/languages';
+import { configEnzymeAdapter, enzymeHelperFindByTestId } from 'test/legacyTestUtils';
+import { LANGUAGES_LIST } from 'test/mocks/languages';
 
 configEnzymeAdapter();
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 describe('ui/edit-content/content-attributes/ContentAttributes', () => {
   const onDidMountMock = jest.fn();

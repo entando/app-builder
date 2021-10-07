@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import RatioInput from 'ui/content-settings/ContentSettingsCropRatioInput';
-import { enzymeHelperFindByTestId, configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter, enzymeHelperFindByTestId } from 'test/legacyTestUtils';
 
 configEnzymeAdapter();
 

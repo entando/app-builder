@@ -1,8 +1,7 @@
 import React from 'react';
-
-import { configEnzymeAdapter, addReduxForm, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, addReduxForm, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import { mount } from 'enzyme';
-import AttributeEnumMapSettingsBody, {
+import AttributeEnumMapSettings, {
   elements as elementValidation,
 } from 'ui/common/contenttype-attributes/AttributeEnumMapSettings';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -11,14 +10,13 @@ import { required } from '@entando/utils';
 const DATA = { code: 'code', descr: 'descr' };
 
 configEnzymeAdapter();
-
-const AttributeEnumMapSettings = addReduxForm(AttributeEnumMapSettingsBody);
+jest.unmock('react-redux');
 
 describe('AttributeEnumMapSettings', () => {
   let component;
   beforeEach(() => {
     component = mount(
-      mockRenderWithIntl(<AttributeEnumMapSettings enumeratorMapExtractorBeans={[DATA]} />),
+      mockRenderWithIntlAndStore(<AttributeEnumMapSettings enumeratorMapExtractorBeans={[DATA]} />),
     );
   });
 
@@ -34,7 +32,7 @@ describe('AttributeEnumMapSettings', () => {
   it('has a enumeratorStaticItems text field', () => {
     const element = component.find('Field[name="enumeratorStaticItems"]');
     expect(element.exists()).toBe(true);
-    const props = element.at(0).props();
+    const props = element.props();
     expect(props).toHaveProperty('component', RenderTextInput);
     expect(props).toHaveProperty('validate', [required, elementValidation]);
   });
@@ -42,7 +40,7 @@ describe('AttributeEnumMapSettings', () => {
   it('has a enumeratorStaticItemsSeparator text field', () => {
     const element = component.find('Field[name="enumeratorStaticItemsSeparator"]');
     expect(element.exists()).toBe(true);
-    const props = element.at(0).props();
+    const props = element.props();
     expect(props).toHaveProperty('component', RenderTextInput);
   });
 });

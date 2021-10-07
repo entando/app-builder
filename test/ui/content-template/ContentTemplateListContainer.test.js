@@ -1,12 +1,8 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/content-template/ContentTemplateListContainer';
 
 const state = {
-  apps: {
-    cms: {
-      contentTemplate: {
-        list: [],
-      },
-    },
+  contentTemplate: {
+    list: [],
   },
   loading: {},
   pagination: {

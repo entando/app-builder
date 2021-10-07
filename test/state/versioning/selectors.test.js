@@ -26,11 +26,7 @@ const versioningSlice = {
 };
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      versioning: versioningSlice,
-    },
-  },
+  versioning: versioningSlice,
 };
 
 describe('state/versioning/selectors', () => {

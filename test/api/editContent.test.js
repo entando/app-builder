@@ -1,11 +1,11 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   getContent, getCategories, postAddContent,
 } from 'api/editContent';
 import { makeRequest } from '@entando/apimanager';
-import { GET_CATEGORIES_RESPONSE_OK } from 'testutils/mocks/contentType';
-import { GET_CONTENT_RESPONSE_OK, POST_CONTENT_ADD_RESPONSE_OK } from 'testutils/mocks/editContent';
+import { GET_CATEGORIES_RESPONSE_OK } from 'test/mocks/contentType';
+import { GET_CONTENT_RESPONSE_OK, POST_CONTENT_ADD_RESPONSE_OK } from 'test/mocks/editContent';
 
 configEnzymeAdapter();
 

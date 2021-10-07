@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   getContents, deleteContent, publishContent,
@@ -7,7 +7,7 @@ import {
 import { makeRequest } from '@entando/apimanager';
 import {
   MOCK_CONTENTS_STATUS, RESPONSE_CONTENTS_OK, RESPONSE_DELETE_OK, RESPONSE_PUBLISH_OK,
-} from 'testutils/mocks/contents';
+} from 'test/mocks/contents';
 
 configEnzymeAdapter();
 

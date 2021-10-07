@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   getContentTemplates,
@@ -9,7 +9,7 @@ import {
   getContentTemplateDictionary,
 } from 'api/contentTemplates';
 import { makeRequest } from '@entando/apimanager';
-import { GET_CONTENT_TEMPLATES_RESPONSE_OK } from 'testutils/mocks/contentTemplate';
+import { GET_CONTENT_TEMPLATES_RESPONSE_OK } from 'test/mocks/contentTemplate';
 
 configEnzymeAdapter();
 

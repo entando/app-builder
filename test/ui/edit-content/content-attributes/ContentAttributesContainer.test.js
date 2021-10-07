@@ -4,39 +4,35 @@ import {
 } from 'ui/edit-content/content-attributes/ContentAttributesContainer';
 
 const state = {
-  apps: {
-    cms: {
-      contentType: {
-        selected: {
-          attributes: [
-            { code: 'Title', type: 'Text' },
-          ],
-        },
+  contentType: {
+    selected: {
+      attributes: [
+        { code: 'Title', type: 'Text' },
+      ],
+    },
+  },
+  languages: {
+    map: {
+      it: {
+        code: 'it',
+        description: 'Italiano',
+        isActive: false,
+        isDefault: false,
       },
-      languages: {
-        map: {
-          it: {
-            code: 'it',
-            description: 'Italiano',
-            isActive: false,
-            isDefault: false,
-          },
-          en: {
-            code: 'en',
-            description: 'English',
-            isActive: true,
-            isDefault: true,
-          },
-        },
-        list: ['it', 'en'],
+      en: {
+        code: 'en',
+        description: 'English',
+        isActive: true,
+        isDefault: true,
       },
-      contents: {
-        selected: {
-          attributes: [
-            { code: 'Title', value: 'Test title' },
-          ],
-        },
-      },
+    },
+    list: ['it', 'en'],
+  },
+  contents: {
+    selected: {
+      attributes: [
+        { code: 'Title', value: 'Test title' },
+      ],
     },
   },
 };

@@ -2,19 +2,20 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { screen, within } from '@testing-library/react';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 import VersioningListContainer from 'ui/versioning/VersioningListContainer';
 import { getVersionings } from 'api/versioning';
 import { getContentTypes } from 'api/contentTypes';
-import { LIST_VERSIONING_OK } from 'testutils/mocks/versioning';
+import { LIST_VERSIONING_OK } from 'test/mocks/versioning';
 
 jest.mock('api/versioning');
 jest.mock('api/contentTypes');
+jest.unmock('react-redux');
 
 describe('Versioning List Container', () => {
   it('renders table header and data', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <VersioningListContainer />
         </IntlProvider>,

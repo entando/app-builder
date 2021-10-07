@@ -7,7 +7,7 @@
       margin-bottom: 5.5rem;
     }
 
-    .container { // sass-lint:disable-line class-name-format
+    .container { // sass-lint:disable-line class-name-format nesting-depth
       max-width: 100%;
     }
   }
@@ -69,7 +69,7 @@
     padding-right: 20px;
 
     div {
-      input {
+      input { // sass-lint:disable-line nesting-depth
         width: 80px;
       }
     }

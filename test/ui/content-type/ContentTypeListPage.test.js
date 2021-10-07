@@ -1,5 +1,5 @@
 import React from 'react';
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import { shallow } from 'enzyme';
 import ContentTypeListPage from 'ui/content-type/ContentTypeListPage';
 

@@ -25,22 +25,18 @@ const list = toIdList(contType);
 const map = toMap(contType);
 
 const state = {
-  apps: {
-    cms: {
-      contentType: {
-        map,
-        list,
-      },
-      contentTemplate: {
-        opened: {
-          id: 1,
-          contentType: 'WEh',
-          descr: 'b',
-        },
-        dictionary: {
-          list: [],
-        },
-      },
+  contentType: {
+    map,
+    list,
+  },
+  contentTemplate: {
+    opened: {
+      id: 1,
+      contentType: 'WEh',
+      descr: 'b',
+    },
+    dictionary: {
+      list: [],
     },
   },
 };

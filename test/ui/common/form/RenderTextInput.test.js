@@ -1,13 +1,15 @@
-import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
+import { RenderTextInputBody as RenderTextInput } from 'ui/common/form/RenderTextInput';
+
+configEnzymeAdapter();
 
 const INPUT = { name: 'textInput', value: 'sample text' };
 const LABEL = 'Some Text';
 const META = { touched: true, error: '' };
 const META_WITH_ERROR = { touched: true, error: 'Required' };
 
-describe('RenderTextInput', () => {
+describe('ui/common/form/RenderTextInput', () => {
   let textInput;
 
   it('render component without crash', () => {

@@ -16,6 +16,7 @@ const TEST_STATE = {
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
+  getGroupsMap: jest.fn(),
 }));
 
 jest.mock('state/users/selectors', () => ({

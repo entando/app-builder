@@ -52,7 +52,7 @@
 // sass-lint:disable class-name-format force-element-nesting
 .BrandMenu__first-level-menu {
   &.nav.persistent-secondary { // sass-lint:disable-line force-element-nesting class-name-format
-    .LinkMenuItem.active { // sass-lint:disable-line force-element-nesting class-name-format
+    .LinkMenuItem.active { // sass-lint:disable-line force-element-nesting class-name-format nesting-depth
       margin-bottom: 0;
     }
   }

@@ -3,7 +3,7 @@ import {
   mapDispatchToProps,
 } from 'ui/content-type/attributes/DeleteAttributeModalContainer';
 
-import { MODAL_VISIBILITY, MODAL_INFO } from 'testutils/mocks/modal';
+import { MODAL_VISIBILITY, MODAL_INFO } from 'test/mocks/modal';
 
 const TEST_STATE = {
   modal: {

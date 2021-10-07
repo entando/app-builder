@@ -1,29 +1,26 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import {
-  configEnzymeAdapter,
-  mockApi,
-} from 'testutils/helpers';
 import '@testing-library/jest-dom/extend-expect';
 import { formatDate } from '@entando/utils';
 import { screen, within } from '@testing-library/react';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
+import { mockApi, renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 import SingleContentCurrentVersionContainer from 'ui/versioning/SingleContentCurrentVersionContainer';
 import { getContent } from 'api/editContent';
 import { getMyGroups } from 'api/groups';
-import { GET_CONTENT_RESPONSE_OK } from 'testutils/mocks/editContent';
+import { GET_CONTENT_RESPONSE_OK } from 'test/mocks/editContent';
 
 jest.mock('api/editContent');
 jest.mock('api/groups', () => ({
   getMyGroups: jest.fn(mockApi({ payload: [] })),
 }));
-
 configEnzymeAdapter();
+jest.unmock('react-redux');
 
 describe('Single Content Current Version Container Test', () => {
   it('renders table header and data', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <SingleContentCurrentVersionContainer />
         </IntlProvider>,

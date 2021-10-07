@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import AddContentTemplatePage from 'ui/content-template/AddContentTemplatePage';
 import AddContentTemplateFormContainer from 'ui/content-template/AddContentTemplateFormContainer';
@@ -19,8 +19,8 @@ describe('ui/content-template/AddContentTemplatePage', () => {
     expect(component.exists()).toBe(true);
   });
 
-  it('is Grid', () => {
-    expect(component.is('Grid')).toBe(true);
+  it('is an InternalPage', () => {
+    expect(component.is('InternalPage')).toBe(true);
   });
 
   it('contains AddContentTemplateFormContainer', () => {

@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import {
   getContentSettings,
@@ -18,7 +18,7 @@ import {
   CONTENT_SETTINGS_EDITOR_OK,
   CONTENT_SETTINGS_CROP_RATIOS_OK,
   CONTENT_SETTINGS_METADATA_OK,
-} from 'testutils/mocks/contentSettings';
+} from 'test/mocks/contentSettings';
 
 configEnzymeAdapter();
 

@@ -6,7 +6,7 @@ import {
   CONTENT_SETTINGS_OK as C_OK,
   CONTENT_SETTINGS_OK_MAPPED as maplist,
   CONTENT_SETTINGS_OK_FORMED as mapform,
-} from 'testutils/mocks/contentSettings';
+} from 'test/mocks/contentSettings';
 import { MODAL_ID } from 'ui/content-settings/metadata/DeleteContentMetadataModal';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 
@@ -17,11 +17,7 @@ jest.mock('state/modal/actions', () => ({
 
 const state = {
   loading: {},
-  apps: {
-    cms: {
-      contentSettings: C_OK,
-    },
-  },
+  contentSettings: C_OK,
   modal: {},
 };
 describe('content-settings/metadata/ContentSettingsMetadataListContainer', () => {

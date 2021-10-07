@@ -16,28 +16,24 @@ import {
 } from 'state/contents/selectors';
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      contents: {
-        sortingColumns: { name: { direction: 'ASC', position: 0 } },
-        contents: ['a', 'b'],
-        currentQuickFilter: { name: 'code', value: 'new2' },
-        filteringCategories: [{ code: 'a' }],
-        joiningCategories: [{ code: 'a' }],
-        contentType: 'NEWS',
-        group: 'free',
-        statusChecked: 'approved',
-        authorChecked: 'me',
-        accessChecked: 'open',
-        currentAuthorShow: 'me',
-        currentStatusShow: 'approved',
-        selectedRows: ['row1', 'row2'],
-        currentColumnsShow: ['col1', 'col2'],
-        tabSearchEnabled: true,
-        lastSelectedRow: { a: 1 },
-        status: { published: 0 },
-      },
-    },
+  contents: {
+    sortingColumns: { name: { direction: 'ASC', position: 0 } },
+    contents: ['a', 'b'],
+    currentQuickFilter: { name: 'code', value: 'new2' },
+    filteringCategories: [{ code: 'a' }],
+    joiningCategories: [{ code: 'a' }],
+    contentType: 'NEWS',
+    group: 'free',
+    statusChecked: 'approved',
+    authorChecked: 'me',
+    accessChecked: 'open',
+    currentAuthorShow: 'me',
+    currentStatusShow: 'approved',
+    selectedRows: ['row1', 'row2'],
+    currentColumnsShow: ['col1', 'col2'],
+    tabSearchEnabled: true,
+    lastSelectedRow: { a: 1 },
+    status: { published: 0 },
   },
 };
 

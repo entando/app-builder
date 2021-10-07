@@ -1,8 +1,10 @@
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, within } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
+import { renderWithRedux, renderWithRouter } from 'test/testUtils';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const props = {
@@ -26,9 +28,16 @@ jest.unmock('redux-form');
 describe('AppSettingsForm', () => {
   it('renders without crashing, and display all elements', () => {
     render(mockRenderWithIntlAndStore(<AppSettingsForm {...props} />));
-    const defaultPageOwnerGroupSelectView = within(screen.getByRole('combobox', { name: 'Default Page Owner Group' }));
+    /* renderWithRedux(
+      renderWithRouter(
+        <IntlProvider locale="en">
+          <AppSettingsForm {...props} />
+        </IntlProvider>,
+      ),
+    ); */
+    const defaultPageOwnerGroupSelectView = within(screen.getAllByRole('combobox')[0]);
     const defaultPageJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[0]);
-    const defaultContentOwnerGroupSelectView = within(screen.getByRole('combobox', { name: 'Default Content Owner Group' }));
+    const defaultContentOwnerGroupSelectView = within(screen.getAllByRole('combobox')[0]);
     const defaultContentJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[1]);
     expect(screen.getByText('Preferences')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();

@@ -2,15 +2,11 @@ import {
   mapStateToProps,
   mapDispatchToProps,
 } from 'ui/content-settings/ContentSettingsGeneralContainer';
-import { CONTENT_SETTINGS_OK as C_OK } from 'testutils/mocks/contentSettings';
+import { CONTENT_SETTINGS_OK as C_OK } from 'test/mocks/contentSettings';
 
 const state = {
   loading: {},
-  apps: {
-    cms: {
-      contentSettings: C_OK,
-    },
-  },
+  contentSettings: C_OK,
 };
 
 describe('content-settings/ContentSettingsGeneralContainer', () => {

@@ -1,6 +1,6 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/content-type/EditContentTypeFormContainer';
 import { ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT } from 'app-init/router';
-import { createMockHistory } from 'test/testUtils';
+import { createMockHistory } from 'test/legacyTestUtils';
 
 jest.mock('redux-form', () => ({
   formValueSelector: jest.fn().mockReturnValue(() => 'formValueSelector_result'),

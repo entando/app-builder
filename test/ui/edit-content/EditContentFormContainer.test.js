@@ -1,22 +1,18 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/edit-content/EditContentFormContainer';
-import { EDIT_CONTENT_OPENED_OK } from 'testutils/mocks/editContent';
+import { EDIT_CONTENT_OPENED_OK } from 'test/mocks/editContent';
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      editContent: {
-        workMode: 'work-mode-edit',
-        content: {
-          contentType: 'NEWS',
-          version: '0.0',
-        },
-        selectedCategories: undefined,
-        selectedJoinGroups: undefined,
-        ownerGroupDisabled: { disabled: false },
-      },
+  editContent: {
+    workMode: 'work-mode-edit',
+    content: {
+      contentType: 'NEWS',
+      version: '0.0',
     },
+    selectedCategories: undefined,
+    selectedJoinGroups: undefined,
+    ownerGroupDisabled: { disabled: false },
   },
   groups: {
     list: ['adminstrators', 'freeAccess'],

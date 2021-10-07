@@ -1,7 +1,7 @@
 import { getLoading } from 'state/loading/selectors';
 import { mapStateToProps, mapDispatchToProps } from 'ui/content-type/ContentTypeListContainer';
 import { fetchContentTypeListPaged, sendPostRefreshContentType } from 'state/content-type/actions';
-import { CONTENT_TYPES_OK_PAGE } from 'testutils/mocks/contentType';
+import { CONTENT_TYPES_OK_PAGE } from 'test/mocks/contentType';
 import { getContentTypeList } from 'state/content-type/selectors';
 
 const TEST_STATE = {

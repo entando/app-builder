@@ -1,4 +1,4 @@
-import { mockApi } from 'testutils/helpers';
+import { mockApi } from 'test/testUtils';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import 'jest-canvas-mock';
@@ -50,6 +50,8 @@ const ADD_TOAST = 'toasts/add-toast';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+
+jest.unmock('@entando/utils');
 
 jest.mock('api/assets', () => ({
   getAssets: jest.fn(mockApi({ payload: ['a', 'b'], ok: true })),
@@ -199,12 +201,8 @@ describe('state/assets/actions', () => {
   describe('filtering options', () => {
     beforeEach(() => {
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -231,12 +229,8 @@ describe('state/assets/actions', () => {
     it('applyAssetsFilter', (done) => {
       const filters = { categories: makeFilter(['news', 'bits']) };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { },
       });
@@ -277,12 +271,8 @@ describe('state/assets/actions', () => {
     it('sortAssetsList', (done) => {
       const attribute = 'name';
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { },
       });
@@ -309,15 +299,11 @@ describe('state/assets/actions', () => {
         sorting: { attribute, direction: SORT_DIRECTIONS.ASCENDANT },
       };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [],
-              filterParams,
-              fileType: 'image',
-              filteringCategories: ['cats'],
-            },
-          },
+        assets: {
+          assets: [],
+          filterParams,
+          fileType: 'image',
+          filteringCategories: ['cats'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -374,11 +360,7 @@ describe('state/assets/actions', () => {
     it('filterAssetsBy advanced Search', (done) => {
       const values = { fromDate: '01/10/2020', toDate: '01/11/2010' };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: { filterParams: {} },
-          },
-        },
+        assets: { filterParams: {} },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
       store.dispatch(advancedSearchFilter(values)).then(() => {
@@ -397,11 +379,7 @@ describe('state/assets/actions', () => {
     it('filterAssetsBy advanced Search', (done) => {
       const values = { group: 'free' };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: { filterParams: {}, fileType: 'image' },
-          },
-        },
+        assets: { filterParams: {}, fileType: 'image' },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
       store.dispatch(advancedSearchFilter(values)).then(() => {
@@ -420,11 +398,7 @@ describe('state/assets/actions', () => {
     it('filterAssetsBy advanced Search', (done) => {
       const values = { group: 'free' };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: { filterParams: { }, fileType: 'all' },
-          },
-        },
+        assets: { filterParams: { }, fileType: 'all' },
         form: {
           assetSearchForm: {
             values: {
@@ -453,15 +427,11 @@ describe('state/assets/actions', () => {
         operators: { categories: 'like' },
       };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [],
-              filterParams,
-              fileType: 'image',
-              filteringCategories: ['cats'],
-            },
-          },
+        assets: {
+          assets: [],
+          filterParams,
+          fileType: 'image',
+          filteringCategories: ['cats'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -478,15 +448,11 @@ describe('state/assets/actions', () => {
         operators: { categories: 'like' },
       };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [],
-              filterParams,
-              fileType: 'image',
-              filteringCategories: ['cats'],
-            },
-          },
+        assets: {
+          assets: [],
+          filterParams,
+          fileType: 'image',
+          filteringCategories: ['cats'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -504,15 +470,11 @@ describe('state/assets/actions', () => {
         operators: { description: 'like' },
       };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [],
-              filterParams,
-              fileType: 'image',
-              filteringCategories: ['cats'],
-            },
-          },
+        assets: {
+          assets: [],
+          filterParams,
+          fileType: 'image',
+          filteringCategories: ['cats'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -537,15 +499,11 @@ describe('state/assets/actions', () => {
         operators: { description: 'like' },
       };
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [],
-              filterParams,
-              fileType: 'image',
-              filteringCategories: ['cats'],
-            },
-          },
+        assets: {
+          assets: [],
+          filterParams,
+          fileType: 'image',
+          filteringCategories: ['cats'],
         },
         pagination: { },
       });
@@ -606,12 +564,8 @@ describe('state/assets/actions', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -691,12 +645,8 @@ describe('state/assets/actions', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });
@@ -731,12 +681,8 @@ describe('state/assets/actions', () => {
     beforeEach(() => {
       jest.clearAllMocks();
       store = mockStore({
-        apps: {
-          cms: {
-            assets: {
-              assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
-            },
-          },
+        assets: {
+          assets: [], filterParams: {}, fileType: 'image', filteringCategories: ['news'],
         },
         pagination: { global: { page: 1, pageSize: 10 } },
       });

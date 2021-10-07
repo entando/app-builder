@@ -3,14 +3,16 @@ import { mount } from 'enzyme';
 import {
   CONTENT_SETTINGS_OK_MAPPED as metadata,
   CONTENT_SETTINGS_OK_FORMED as initialValues,
-} from 'testutils/mocks/contentSettings';
-
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+} from 'test/mocks/contentSettings';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import ContentSettingsMetadataList from 'ui/content-settings/metadata/ContentSettingsMetadataList';
 
 configEnzymeAdapter();
+jest.unmock('react-redux');
+jest.unmock('react-intl');
+jest.unmock('redux-form');
 
 const PROPS = {
   metadata,
@@ -30,7 +32,7 @@ const STATE = {
 };
 
 describe('content-settings/metadata/ContentSettingsMetadataList', () => {
-  const component = mount(mockRenderWithIntl(<ContentSettingsMetadataList {...PROPS} />, STATE));
+  const component = mount(mockRenderWithIntlAndStore(<ContentSettingsMetadataList {...PROPS} />, STATE));
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

@@ -1,14 +1,15 @@
 import React from 'react';
-import {
+import { 
   configEnzymeAdapter,
   createMockHistory,
-  mockRenderWithIntl,
+  mockRenderWithIntlAndStore,
   mockRenderWithRouter,
-} from 'testutils/helpers';
+} from 'test/legacyTestUtils';
 import { mount } from 'enzyme';
 import AttributeListTableActions from 'ui/common/contenttype-attributes/AttributeListTableActions';
 
 configEnzymeAdapter();
+jest.unmock('react-redux');
 
 const FIELDS = {
   remove: jest.fn(),
@@ -56,7 +57,7 @@ describe('AttributeListTableActions', () => {
   beforeEach(() => {
     history = createMockHistory();
     component = mount(
-      mockRenderWithRouter(mockRenderWithIntl(<AttributeListTableActions {...props} />), history),
+      mockRenderWithRouter(mockRenderWithIntlAndStore(<AttributeListTableActions {...props} />), history),
     );
   });
 

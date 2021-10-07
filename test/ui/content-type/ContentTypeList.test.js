@@ -1,6 +1,6 @@
 import React from 'react';
-import { configEnzymeAdapter, shallowWithIntl } from 'testutils/helpers';
-import { CONTENT_TYPES_OK_PAGE } from 'testutils/mocks/contentType';
+import { configEnzymeAdapter, shallowWithIntl } from 'test/legacyTestUtils';
+import { CONTENT_TYPES_OK_PAGE } from 'test/mocks/contentType';
 
 import ContentTypeList from 'ui/content-type/ContentTypeList';
 

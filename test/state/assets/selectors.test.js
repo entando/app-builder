@@ -36,30 +36,26 @@ const b = {
 };
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      assets: {
-        assetsCount: {
-          image: 10,
-          file: 10,
-        },
-        sort: {},
-        assets: ['a', 'b'],
-        assetsMap: { a, b },
-        language: 'en',
-        filteringCategories: [],
-        activeFilters: [],
-        assetsView: 'list',
-        fileType: 'image',
-        paginationOptions: {
-          page: 1,
-        },
-        keyword: 'kolokoks',
-      },
-      categories: {
-        map: {},
-      },
+  assets: {
+    assetsCount: {
+      image: 10,
+      file: 10,
     },
+    sort: {},
+    assets: ['a', 'b'],
+    assetsMap: { a, b },
+    language: 'en',
+    filteringCategories: [],
+    activeFilters: [],
+    assetsView: 'list',
+    fileType: 'image',
+    paginationOptions: {
+      page: 1,
+    },
+    keyword: 'kolokoks',
+  },
+  categories: {
+    map: {},
   },
   api: {
     domain: 'https://localhost:8080/',
@@ -134,7 +130,7 @@ it('verify getPaginationOptions selector', () => {
 });
 it('verify getAssetSearchKeyword selector', () => {
   const key = getAssetSearchKeyword(TEST_STATE);
-  expect(key).toEqual(TEST_state.assets.keyword);
+  expect(key).toEqual(TEST_STATE.assets.keyword);
 });
 it('verify getAssetsCount selector', () => {
   const ac = getAssetsCount(TEST_STATE);

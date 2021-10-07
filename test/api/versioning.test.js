@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import {
   getVersionings,
   getSingleVersioning,
@@ -20,7 +20,7 @@ import {
   LIST_ATTACHMENTS_OK,
   VERSIONING_CONFIG_GET_OK,
   VERSIONING_CONFIG_PUT_OK,
-} from 'testutils/mocks/versioning';
+} from 'test/mocks/versioning';
 
 import { METHODS, makeRequest } from '@entando/apimanager';
 

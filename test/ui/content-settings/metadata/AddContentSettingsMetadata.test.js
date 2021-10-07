@@ -1,11 +1,14 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import AddContentSettingsMetadata from 'ui/content-settings/metadata/AddContentSettingsMetadata';
 
 configEnzymeAdapter();
+jest.unmock('react-redux');
+jest.unmock('react-intl');
+jest.unmock('redux-form');
 
 const PROPS = {
   handleSubmit: () => {},
@@ -16,7 +19,7 @@ const STATE = {
 };
 
 describe('content-settings/metadata/AddContentSettingsMetadata', () => {
-  const component = mount(mockRenderWithIntl(<AddContentSettingsMetadata {...PROPS} />, STATE));
+  const component = mount(mockRenderWithIntlAndStore(<AddContentSettingsMetadata {...PROPS} />, STATE));
 
   it('renders without crashing', () => {
     expect(component.exists()).toEqual(true);

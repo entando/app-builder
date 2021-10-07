@@ -1,4 +1,4 @@
-import { configEnzymeAdapter } from 'test/testUtils';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/add-content/AddContentFormContainer';
 import { ADD_CONTENT_OPENED_OK } from 'test/mocks/editContent';
@@ -13,24 +13,20 @@ jest.mock('state/permissions/selectors', () => ({
 }));
 
 const TEST_STATE = {
-  apps: {
-    cms: {
-      editContent: {
-        ownerGroupDisabled: {
-          disabled: false,
-        },
-        workMode: 'work-mode-add',
-        content: {
-          contentType: 'NEWS',
-          version: '0.0',
-        },
-        selectedCategories: undefined,
-        selectedJoinGroups: undefined,
-      },
-      contentType: {
-        selected: 'ART',
-      },
+  editContent: {
+    ownerGroupDisabled: {
+      disabled: false,
     },
+    workMode: 'work-mode-add',
+    content: {
+      contentType: 'NEWS',
+      version: '0.0',
+    },
+    selectedCategories: undefined,
+    selectedJoinGroups: undefined,
+  },
+  contentType: {
+    selected: 'ART',
   },
   groups: {
     list: ['adminstrators', 'freeAccess'],

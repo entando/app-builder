@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import { shallow } from 'enzyme';
 import ContentTypeReferenceStatus from 'ui/content-type/ContentTypeReferenceStatus';
 

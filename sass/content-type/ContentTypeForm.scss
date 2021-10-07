@@ -11,7 +11,7 @@
 
 .AddContentTypeFormBody {
   &__save {
-    &--btn {
+    &--btn { // sass-lint:disable-line nesting-depth
       margin-left: 5px;
     }
   }

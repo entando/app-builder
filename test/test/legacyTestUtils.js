@@ -9,6 +9,7 @@ import { DDProvider } from '@entando/ddtable';
 import { config } from '@entando/apimanager';
 import { Router } from 'react-router-dom';
 import { IntlProvider, intlShape } from 'react-intl';
+import { reduxForm } from 'redux-form';
 
 import enTranslations from 'locales/en';
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
@@ -16,6 +17,8 @@ import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 export const configEnzymeAdapter = () => {
   configure({ adapter: new Adapter() });
 };
+
+export const enzymeHelperFindByTestId = (wrapper, testId) => wrapper.find(`[data-test-id="${testId}"]`);
 
 export const createMockHistory = () => createMemoryHistory({ initialEntries: ['/'] });
 
@@ -97,3 +100,5 @@ export function mountWithIntl(node, { context, childContextTypes, ...additionalO
     },
   );
 }
+
+export const addReduxForm = (def, formName = 'form') => reduxForm({ form: formName })(def);

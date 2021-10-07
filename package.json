@@ -115,9 +115,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "node scripts/test.js --env=jest-environment-jsdom-sixteen",
     "lint": "eslint ./src",
-    "coverage": "node scripts/test.js --env=jsdom --coverage",
+    "coverage": "node scripts/test.js --env=jest-environment-jsdom-sixteen --coverage",
     "sass-lint": "sass-lint -v",
     "precommit": "npm run lint && npm run sass-lint && npm run coverage",
     "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
@@ -249,6 +249,8 @@
     "npm-run": "^5.0.1",
     "source-map-explorer": "^1.8.0",
     "webpack-cli": "^3.3.0",
+    "jest-canvas-mock": "^2.3.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "whatwg-fetch": "^2.0.4"
   }
 }

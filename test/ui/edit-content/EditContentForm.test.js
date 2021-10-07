@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { configEnzymeAdapter } from 'testutils/helpers';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
 import { EditContentFormBody } from 'ui/edit-content/EditContentForm';
 import { WORK_MODE_ADD, WORK_MODE_EDIT } from 'state/edit-content/types';

@@ -1,21 +1,23 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { IntlProvider } from 'react-intl';
-import { mockApi } from 'testutils/helpers';
 import { screen } from '@testing-library/react';
 
 import { getResourceVersionings } from 'api/versioning';
-import { LIST_IMAGES_OK } from 'testutils/mocks/versioning';
-import { renderWithRedux, renderWithRouter } from 'testutils/testUtils';
+import { LIST_IMAGES_OK } from 'test/mocks/versioning';
+import { mockApi, renderWithRedux, renderWithRouterProvider } from 'test/testUtils';
 
 import ImagesListContainer from 'ui/versioning/images/ImagesListContainer';
 
 jest.mock('api/versioning');
+jest.unmock('react-redux');
+jest.unmock('react-intl');
+jest.unmock('redux-form');
 
 describe('Images List Container', () => {
   it('renders container without error', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <ImagesListContainer />
         </IntlProvider>,
@@ -26,7 +28,7 @@ describe('Images List Container', () => {
 
   it('renders search form inside container', async () => {
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <ImagesListContainer />
         </IntlProvider>,
@@ -40,7 +42,7 @@ describe('Images List Container', () => {
   it('renders image list', async () => {
     getResourceVersionings.mockImplementationOnce(mockApi({ payload: LIST_IMAGES_OK }));
     renderWithRedux(
-      renderWithRouter(
+      renderWithRouterProvider(
         <IntlProvider locale="en">
           <ImagesListContainer />
         </IntlProvider>,

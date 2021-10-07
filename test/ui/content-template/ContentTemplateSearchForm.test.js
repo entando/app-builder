@@ -1,13 +1,15 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { DropdownButton } from 'patternfly-react';
-
-import { configEnzymeAdapter, mockRenderWithIntl } from 'testutils/helpers';
+import { configEnzymeAdapter, mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 import RenderSearchFormInput from 'ui/common/form/RenderSearchFormInput';
 import ContentTemplateSearchForm from 'ui/content-template/ContentTemplateSearchForm';
 
 configEnzymeAdapter();
+
+jest.unmock('react-redux');
+jest.unmock('redux-form');
 
 const PROPS = {
   onDidMount: jest.fn(),
@@ -24,7 +26,7 @@ const PROPS = {
 };
 
 describe('ui/content-template/ContentTemplateSearchForm', () => {
-  const component = mount(mockRenderWithIntl(<ContentTemplateSearchForm {...PROPS} />));
+  const component = mount(mockRenderWithIntlAndStore(<ContentTemplateSearchForm {...PROPS} />));
 
   it('renders without crashing and called onDidMount', () => {
     expect(component.exists()).toEqual(true);
