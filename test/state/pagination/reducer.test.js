@@ -110,7 +110,7 @@ describe('pagination reducer', () => {
         expect(state).toEqual(defaultState);
       });
 
-      it('should define page if totalItems is numeric', () => {
+      it('should define page if totalItems is numeric and a positive integer', () => {
         const state = reducer(defaultState, setPage({
           ...correctBody,
           totalItems: '10',
@@ -119,6 +119,17 @@ describe('pagination reducer', () => {
         expect(state).toHaveProperty('global.pageSize', 2);
         expect(state).toHaveProperty('global.lastPage', 3);
         expect(state).toHaveProperty('global.totalItems', 10);
+      });
+
+      it('should define page if totalItems is zero', () => {
+        const state = reducer(defaultState, setPage({
+          ...correctBody,
+          totalItems: 0,
+        }));
+        expect(state).toHaveProperty('global.page', 1);
+        expect(state).toHaveProperty('global.pageSize', 2);
+        expect(state).toHaveProperty('global.lastPage', 3);
+        expect(state).toHaveProperty('global.totalItems', 0);
       });
     });
 
