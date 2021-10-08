@@ -14,22 +14,22 @@ export const ASSET_RESPONSE = {
   versions: [
     {
       dimensions: null,
-      path: '/cms/images/a-ping-d0.png',
+      path: 'https://localhost:8080/cms/images/a-ping-d0.png',
       size: '130 Kb',
     },
     {
       dimensions: '90x90 px',
-      path: '/cms/images/a-ping-d1.png',
+      path: 'https://localhost:8080/cms/images/a-ping-d1.png',
       size: '1 Kb',
     },
     {
       dimensions: '130x130 px',
-      path: '/cms/images/a-ping-d2.png',
+      path: 'https://localhost:8080/cms/images/a-ping-d2.png',
       size: '3 Kb',
     },
     {
       dimensions: '150x150 px',
-      path: '/cms/images/a-ping-d3.png',
+      path: 'https://localhost:8080/cms/images/a-ping-d3.png',
       size: '3 Kb',
     },
   ],

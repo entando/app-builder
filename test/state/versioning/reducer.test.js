@@ -75,8 +75,7 @@ describe('state/versioning/reducer', () => {
 
     it('should define the selected versioning type', () => {
       expect(getDetailedContentVersion({
-        apps:
-        { cms: { versioning: newState } },
+        versioning: newState,
       })).toEqual(content);
     });
   });

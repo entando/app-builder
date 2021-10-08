@@ -21,6 +21,7 @@ const groupre = { code: 'groupre', name: 'rere' };
 const a = {
   id: 'a',
   name: 'yo',
+  type: 'image',
   group: 'groupdo',
   path: 'test',
   versions,
@@ -29,6 +30,7 @@ const a = {
 const b = {
   id: 'b',
   name: 'mama',
+  type: 'image',
   group: 'groupre',
   path: 'test',
   versions,
@@ -96,8 +98,8 @@ it('verify getFileType selector', () => {
 
 it('verify getAssetsList selector', () => {
   const assetsList = getAssetsList(TEST_STATE);
-  const cA = condenseAssetInfo({ ...a, group: groupdo }, TEST_STATE.api.domain);
-  const cB = condenseAssetInfo({ ...b, group: groupre }, TEST_STATE.api.domain);
+  const cA = condenseAssetInfo({ ...a, group: groupdo }, '');
+  const cB = condenseAssetInfo({ ...b, group: groupre }, '');
   const isImg = atype => atype === 'image';
   const addUrls = (ast) => {
     let newAsset = {
