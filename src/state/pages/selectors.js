@@ -115,6 +115,13 @@ export const getPageTreePages = createSelector(
           hasPublishedChildren = pageChildren[pageCode]
             .some(el => pages[el] && pages[el].status === PAGE_STATUS_PUBLISHED);
         }
+
+        const title = pagesTitles[pageCode][locale]
+          || pagesTitles[pageCode][defaultLang]
+          || pagesTitles[pageCode][
+            Object.keys(pagesTitles[pageCode]).find(langCode => pagesTitles[pageCode][langCode])
+          ];
+
         return ({
           ...pages[pageCode],
           ...PAGE_STATUS_DEFAULTS,
@@ -123,7 +130,7 @@ export const getPageTreePages = createSelector(
           isEmpty,
           hasPublishedChildren,
           parentStatus,
-          title: pagesTitles[pageCode][locale] || pagesTitles[pageCode][defaultLang],
+          title,
         });
       })),
 );

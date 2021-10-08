@@ -9,7 +9,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
-import { sendPostPage } from 'state/pages/actions';
+import { sendClonePage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { setVisibleModal } from 'state/modal/actions';
 import getSearchParam from 'helpers/getSearchParam';
@@ -29,8 +29,10 @@ export const mapDispatchToProps = dispatch => ({
   onWillMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
   },
-  onSubmit: (data, action) =>
-    dispatch(sendPostPage(data)).then(() => {
+  onSubmit: (data, action) => {
+    const pageCode = getSearchParam('pageCode');
+
+    return dispatch(sendClonePage(pageCode, data)).then(() => {
       const redirectTo = getSearchParam('redirectTo');
       switch (action) {
         case ACTION_SAVE: {
@@ -50,7 +52,8 @@ export const mapDispatchToProps = dispatch => ({
         }
         default: history.push(ROUTE_PAGE_TREE);
       }
-    }),
+    });
+  },
   onChangeDefaultTitle: title =>
     dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),

@@ -8,13 +8,13 @@ import { getGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
-import { sendPostPage } from 'state/pages/actions';
+import { sendClonePage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
 jest.mock('state/pages/actions', () => ({
-  sendPostPage: jest.fn(() => Promise.resolve({})),
+  sendClonePage: jest.fn(() => Promise.resolve({})),
 }));
 
 jest.mock('state/groups/selectors', () => ({
@@ -96,10 +96,10 @@ describe('CloneFormContainer', () => {
       props = mapDispatchToProps(dispatchMock);
     });
 
-    it('maps the "onSubmit" prop a sendPostPage dispatch', (done) => {
+    it('maps the "onSubmit" prop a sendClonePage dispatch', (done) => {
       expect(props).toHaveProperty('onSubmit');
       props.onSubmit({ ...DASHBOARD_PAYLOAD, action: ACTION_SAVE }).then(() => {
-        expect(sendPostPage).toHaveBeenCalled();
+        expect(sendClonePage).toHaveBeenCalled();
         expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);

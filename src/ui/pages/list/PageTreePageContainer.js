@@ -14,6 +14,7 @@ import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
 import { APP_TOUR_HOMEPAGE_CODEREF, APP_TOUR_CANCELLED } from 'state/app-tour/const';
 import { getAppTourProgress } from 'state/app-tour/selectors';
+import { fetchLanguages } from 'state/languages/actions';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -38,6 +39,7 @@ export const mapDispatchToProps = dispatch => ({
         }
       })
       .catch(() => dispatch(toggleLoading('pageTree')));
+    dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
   },
   onClear: () => {
     dispatch(clearSearchPage());

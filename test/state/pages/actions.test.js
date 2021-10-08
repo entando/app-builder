@@ -847,7 +847,7 @@ describe('fetchSearchPages', () => {
   });
 });
 
-describe('clonePage', () => {
+describe.only('clonePage', () => {
   let store;
   beforeEach(() => {
     store = mockStore(INITIALIZED_STATE);
@@ -857,7 +857,7 @@ describe('clonePage', () => {
     store.dispatch(clonePage('page')).then(() => {
       const actions = store.getActions();
       expect(actions).toHaveLength(1);
-      expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_CLONE);
+      expect(history.push).toHaveBeenCalledWith(`${ROUTE_PAGE_CLONE}?pageCode=undefined`);
       expect(initialize).toHaveBeenCalled();
       done();
     }).catch(done.fail);
@@ -865,7 +865,7 @@ describe('clonePage', () => {
 
   it('should pass redirectTo as query parameter', (done) => {
     store.dispatch(clonePage('page', 'redirectToPage')).then(() => {
-      expect(history.push).toHaveBeenCalledWith(`${ROUTE_PAGE_CLONE}?redirectTo=redirectToPage`);
+      expect(history.push).toHaveBeenCalledWith(`${ROUTE_PAGE_CLONE}?pageCode=undefined&redirectTo=redirectToPage`);
       done();
     }).catch(done.fail);
   });

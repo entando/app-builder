@@ -27,7 +27,7 @@ const isPageSizeValid = (pageSize) => {
   return true;
 };
 
-const isTotalItemsValid = totalItems => isInteger(totalItems) && totalItems > 0;
+const isTotalItemsValid = totalItems => isInteger(totalItems) && totalItems >= 0;
 
 const isLastPageValid = (lastPage) => {
   if (!isInteger(lastPage)) {
