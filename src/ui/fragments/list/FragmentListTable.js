@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Spinner } from 'patternfly-react';
+import { Col, Spinner, PaginationRow } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { DataTable } from '@entando/datatable';
 
@@ -73,6 +73,8 @@ class FragmentListTable extends Component {
       intl,
       fragments,
       onSetColumnOrder,
+      totalItems,
+      lastPage,
     } = this.props;
     const pagination = {
       page,
@@ -85,6 +87,9 @@ class FragmentListTable extends Component {
     const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
       { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
     ), {});
+
+    const itemsStart = totalItems === 0 ? 0 : ((page - 1) * pageSize) + 1;
+    const itemsEnd = Math.min(page * pageSize, totalItems);
 
     const rowAction = {
       Header: <FormattedMessage id="app.actions" />,
@@ -113,12 +118,21 @@ class FragmentListTable extends Component {
             cell: 'FragmentListRow__td',
           }}
         />
-        <Paginator
-          pagination={pagination}
+        <PaginationRow
+          itemCount={totalItems}
+          itemsStart={itemsStart}
+          itemsEnd={itemsEnd}
           viewType="table"
-          itemCount={this.props.totalItems}
+          pagination={pagination}
+          amountOfPages={lastPage}
+          pageInputValue={page}
           onPageSet={this.changePage}
           onPerPageSelect={this.changePageSize}
+          onFirstPage={() => this.changePage(1)}
+          onPreviousPage={() => this.changePage(page - 1)}
+          onPageInput={this.onPageInput}
+          onNextPage={() => this.changePage(page + 1)}
+          onLastPage={() => this.changePage(lastPage)}
           messages={messages}
         />
       </Col>);
@@ -152,6 +166,7 @@ FragmentListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  lastPage: PropTypes.number.isRequired,
   filters: PropTypes.string,
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   onSetColumnOrder: PropTypes.func,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchFragments } from 'state/fragments/actions';
 import { getFragmentList, getFilters } from 'state/fragments/selectors';
 import { getLoading } from 'state/loading/selectors';
-import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
+import { getCurrentPage, getTotalItems, getPageSize, getLastPage } from 'state/pagination/selectors';
 import { setColumnOrder } from 'state/table-column-order/actions';
 import { getColumnOrder } from 'state/table-column-order/selectors';
 import FragmentListTable from 'ui/fragments/list/FragmentListTable';
@@ -16,6 +16,7 @@ export const mapStateToProps = state => (
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),
+    lastPage: getLastPage(state),
     loading: getLoading(state).fragments,
     columnOrder: getColumnOrder(state, 'fragments'),
     filters: getFilters(state),
