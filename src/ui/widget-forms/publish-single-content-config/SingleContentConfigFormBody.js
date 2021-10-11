@@ -21,6 +21,7 @@ export class SingleContentConfigFormBody extends PureComponent {
     super(props);
     this.state = {
       selectedContent: null,
+      contentLoading: false,
     };
     this.handleContentSelect = this.handleContentSelect.bind(this);
   }
@@ -42,6 +43,7 @@ export class SingleContentConfigFormBody extends PureComponent {
     const { chosenContent } = this.props;
     const { selectedContent } = this.state;
     const isNewContent = window.location.search.includes('contentId');
+
     if (
       prevProps.chosenContent !== chosenContent
       && !isEmpty(chosenContent)
@@ -51,15 +53,17 @@ export class SingleContentConfigFormBody extends PureComponent {
       if (chosenContent.status) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ selectedContent: chosenContent });
-      } else {
+      } else if (!this.state.contentLoading) {
         this.fetchContentById(chosenContent.contentId);
       }
     }
   }
 
   async fetchContentById(contentId) {
+    this.setState({ contentLoading: true });
     const response = await getContentById(contentId);
     const json = await response.json();
+    this.setState({ contentLoading: false });
     if (response.ok) {
       const selectedContent = json.payload;
       this.handleContentSelect(selectedContent, false);
