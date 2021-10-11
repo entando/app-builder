@@ -9,7 +9,7 @@ import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContai
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
 import CreateTextFileFormContainer from 'ui/file-browser/add/CreateTextFileFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const CreateTextFilePage = () => (
   <InternalPage className="CreateTextFilePage">
@@ -57,4 +57,4 @@ const CreateTextFilePage = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(CreateTextFilePage);
+export default withPermissions(SUPERUSER_PERMISSION)(CreateTextFilePage);

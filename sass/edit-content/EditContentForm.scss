@@ -1,0 +1,51 @@
+.EditContentForm {
+  &__content {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    @media (min-width: 376px) and (max-width: 670px) {
+      height: 50vh;
+      overflow-x: scroll;
+    }
+
+    @media (max-width: 375px) {
+      height: 45vh;
+      overflow-x: scroll;
+    }
+  }
+
+  &__fieldset {
+    padding: 20px 0;
+  }
+
+  &__outer-fieldset {
+    border-bottom: 1px solid $color-mid-grey;
+  }
+
+  &__attributes-area {
+    margin-top: 70px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 0 20px;
+
+    & {
+      .control-label { //sass-lint:disable-line class-name-format
+        float: left;
+        text-align: left;
+      }
+    }
+  }
+
+  .tab-content { //sass-lint:disable-line class-name-format
+    margin: 20px 0 40px 95px;
+  }
+
+  .ql-editor { //sass-lint:disable-line class-name-format
+    min-height: 250px;
+  }
+
+  .react-datepicker-popper { //sass-lint:disable-line class-name-format
+    z-index: 9999;
+  }
+}

@@ -1,12 +1,14 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { Provider as StateProvider } from 'react-redux';
 import { reducer as formReducer } from 'redux-form';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route, Router } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import rootReducer from 'state/rootReducer';
+import { createMockHistory } from 'test/legacyTestUtils';
 
 import enTranslations from 'locales/en';
 
@@ -45,10 +47,15 @@ export const mockApi = ({
 
 export const mockThunk = arg => () => () => new Promise(r => r(arg));
 
-const createMockStore = (state = {}) => {
+export const createMockStore = (state = {}) => {
   const middlewares = [thunk];
   const mockStore = configureMockStore(middlewares);
-  return mockStore(state);
+  const defAuths = {
+    api: { useMocks: true },
+    currentUser: { username: 'a', token: 'b' },
+  };
+  const store = mockStore({ ...defAuths, ...state });
+  return store;
 };
 
 export const renderWithWrapper = (ui, {
@@ -90,6 +97,21 @@ export const renderWithState = (ui, {
   wrapperProps: { store },
   ...renderOptions,
 });
+
+export const renderWithRedux = (
+  component,
+  { initialState, reducer = rootReducer } = {},
+) => {
+  const store = createStore(reducer, initialState, applyMiddleware(thunk));
+  return ({
+    ...render(<StateProvider store={store}>{component}</StateProvider>),
+    store,
+  });
+};
+
+export const renderWithRouterProvider = (ui, history = createMockHistory()) => (
+  <Router history={history}>{ui}</Router>
+);
 
 export const renderWithIntlAndRouter = (ui, {
   locale = enLocale, messages = enMessages, initialRoute = '/', path = '/', ...renderOptions

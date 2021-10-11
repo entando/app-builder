@@ -1,0 +1,229 @@
+.AssetsList {
+  &__wrap {
+    margin-top: 3.4rem;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width: 991px) {
+      margin-bottom: 5.5rem;
+    }
+
+    .container { // sass-lint:disable-line class-name-format nesting-depth
+      max-width: 100%;
+    }
+  }
+
+  &__sort {
+    margin-top: .5rem;
+    float: right;
+  }
+
+  &__files-header {
+    height: 32px;
+    border-bottom: 1px solid $color-ultra-grey-border;
+  }
+
+  &__file-type {
+    display: inline-block;
+    min-width: 60px;
+    margin: 0 10px;
+    padding-bottom: 10px;
+    transition: border-color .5s ease-out;
+    border-bottom: 1px solid $color-white;
+    color: $color-thin-light-grey;
+    font-family: "Open Sans";
+    font-size: 14px;
+    line-height: 19px;
+
+    &--selected {
+      border-bottom: 2px solid $color-mid-blue;
+      color: $color-mid-blue;
+    }
+
+    &:hover {
+      border-bottom: 2px solid $color-mid-blue;
+      color: $color-mid-blue;
+    }
+  }
+
+  &__files-container {
+    margin-bottom: 60px;
+  }
+
+  &__view-options {
+    float: right;
+  }
+
+  &__view-option {
+    &.fa {  // sass-lint:disable-line class-name-format
+      margin: 8px;
+      font-size: 15px;
+    }
+
+    &--selected {
+      color: $color-mid-grey;
+    }
+  }
+
+  &__filter-container {
+    display: flex;
+    padding-right: 20px;
+
+    div {
+      input { // sass-lint:disable-line nesting-depth
+        width: 80px;
+      }
+    }
+  }
+
+  &__files-container {
+    margin-top: -20px;
+    padding-bottom: 20px;
+    border-left: 1px solid $color-vertical-grey;
+
+    &--mobile {
+      border-left: 0;
+    }
+
+    &--no-border {
+      border: 0;
+    }
+
+    .table { // sass-lint:disable-line class-name-format
+      margin-bottom: 0;
+    }
+  }
+
+  &__filter-info {
+    min-height: 40px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+    @media (max-width: 991px) {
+      margin-top: 15px;
+      margin-bottom: 25px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    padding-top: 20px;
+  }
+
+  &__tree-container {
+    overflow: scroll;
+  }
+
+  &__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+  }
+
+  &__nothing-found {
+    margin-left: 20px;
+  }
+
+  &__ca {
+    margin-left: 10px;
+    color: $color-light-blue;
+    font-family: "Open Sans";
+    cursor: pointer;
+  }
+
+  &__toolbar-results.toolbar-pf-results {  // sass-lint:disable-line class-name-format force-element-nesting
+    border-top: 0;
+  }
+
+  &__filters-label {
+    margin-right: 15px;
+    color: $color-thin-light-grey;
+    font-family: "Open Sans";
+    font-weight: 300;
+  }
+
+  &__items-count {
+    margin-right: 20px;
+    color: $color-thin-light-grey;
+    font-family: "Open Sans";
+    font-weight: bold;
+  }
+
+  &__item-file {
+    padding-left: 13px;
+    font-size: 2rem;
+
+    @media (max-width: 991px) {
+      font-size: 10rem;
+    }
+  }
+
+  &__item-desc {
+    word-break: break-all;
+  }
+
+  &__item {
+    td:nth-child(odd) {
+      padding-top: 10px;
+    }
+
+    td:nth-child(even) {
+      padding-top: 10px;
+    }
+
+    td:first-child {
+      padding: 7px 20px 10px 5px;
+    }
+
+    td:last-child {
+      padding-top: 10px;
+      text-align: center;
+
+      .dropdown-kebab-pf.AssetsList__item-actions.dropdown.btn-group { //sass-lint:disable-line force-element-nesting class-name-format
+        margin-left: 0;
+      }
+    }
+
+    &.selected { // sass-lint:disable-line class-name-format
+      background: #def3ff;
+    }
+  }
+
+  // sass-lint:disable class-name-format
+  &.modal-dialog {
+
+    @media (max-width: 1220px) {
+      width: 100vw;
+    }
+    width: 1210px;
+    height: 90vh;
+
+    .AssetsList__wrap {
+      height: calc(90vh - 96px);
+      margin-top: 0;
+    }
+
+    .AssetsList__files-grid {
+      height: 100%;
+      margin-top: 0;
+    }
+
+    .AssetsList__files-container--mobile {
+      padding-bottom: 50px;
+    }
+
+    .AssetsList__files-container {
+      padding-bottom: 40px;
+    }
+  }
+
+  & > .modal-content {
+    height: 90vh;
+    overflow-y: scroll;
+  }
+
+  & > .modal-body {
+    height: calc(90vh - 42px);
+  }
+  // sass-lint:enable class-name-format
+}

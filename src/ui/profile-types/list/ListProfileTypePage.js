@@ -9,7 +9,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import ProfileTypeListTableContainer from 'ui/profile-types/list/ProfileTypeListTableContainer';
 import { ROUTE_PROFILE_TYPE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ListProfileTypePageBody = () => (
   <InternalPage className="ListProfileTypePage">
@@ -52,4 +52,4 @@ export const ListProfileTypePageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(ListProfileTypePageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ListProfileTypePageBody);

@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const UserRestrictionsPageBody = () => (
   <InternalPage className="UserRestrictionsPage">
@@ -41,4 +41,4 @@ export const UserRestrictionsPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(UserRestrictionsPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(UserRestrictionsPageBody);

@@ -1,5 +1,6 @@
 import { initialize } from 'redux-form';
 import { batch } from 'react-redux';
+import { flattenDeep } from 'lodash';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
@@ -17,13 +18,15 @@ import {
   getCategoriesMap,
   getChildrenMap,
   getCategoriesLoadedStatus,
+  getAllCategories,
 } from 'state/categories/selectors';
 
 import {
   SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
-  SET_REFERENCES,
+  SET_REFERENCES, SET_CATEGORY_TREE_FETCHED,
 } from 'state/categories/types';
+import { JOIN_CATEGORY, UNJOIN_CATEGORY } from 'state/edit-content/types';
 import { ROOT_CODE } from 'state/categories/const';
 
 export const setCategories = categories => ({
@@ -77,6 +80,11 @@ export const setReferences = references => ({
   },
 });
 
+export const setCategoryTreeFetched = value => ({
+  type: SET_CATEGORY_TREE_FETCHED,
+  payload: value,
+});
+
 export const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const json = await response.json();
@@ -118,6 +126,36 @@ export const fetchCategoryTree = (categoryCode = ROOT_CODE) => async (dispatch, 
   }
 };
 
+export const fetchCategoryTreeAll = () => dispatch => new Promise((resolve) => {
+  const fetchBranch = categoryCode => (
+    dispatch(fetchCategoryChildren(categoryCode)).then(response => response.payload)
+  );
+
+  const loadChildrenBranch = catArr => (
+    Promise.all(catArr.map((cat) => {
+      if (cat.children.length > 0) {
+        return fetchBranch(cat.code).then(res => (
+          loadChildrenBranch(res)
+        )).then(loadedres => (
+          [cat, ...loadedres]
+        ));
+      }
+      return Promise.resolve(cat);
+    }))
+  );
+
+  dispatch(fetchCategoryNode(ROOT_CODE)).then((rootCat) => {
+    fetchBranch(ROOT_CODE).then((catResult) => {
+      loadChildrenBranch(catResult).then((fullResult) => {
+        const allCats = [rootCat.payload, ...flattenDeep(fullResult)];
+        dispatch(setCategories(allCats));
+        dispatch(setCategoryTreeFetched(true));
+        resolve(allCats);
+      });
+    });
+  }).catch(() => {});
+});
+
 export const handleExpandCategory = (categoryCode = ROOT_CODE, alwaysExpand) =>
   (dispatch, getState) => {
     const categoryStatus = getStatusMap(getState())[categoryCode];
@@ -156,6 +194,26 @@ export const handleCollapseAll = () => (dispatch, getState) => {
     categoriesToCollapse
       .forEach(categoryCode => dispatch(setCategoryExpanded(categoryCode, false)));
   });
+};
+
+export const onJoinCategory = category => ({
+  type: JOIN_CATEGORY,
+  payload: {
+    category,
+  },
+});
+
+export const onUnjoinCategory = categoryCode => ({
+  type: UNJOIN_CATEGORY,
+  payload: {
+    categoryCode,
+  },
+});
+
+export const handleJoinCategory = categoryCode => (dispatch, getState) => {
+  const categoryTree = getAllCategories(getState());
+  const targetCategory = categoryTree.filter(category => category.code === categoryCode)[0];
+  dispatch(onJoinCategory(targetCategory));
 };
 
 export const fetchCategory = categoryCode => dispatch =>

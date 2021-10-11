@@ -4,7 +4,7 @@ import { fetchDatabaseDumpTable } from 'state/database/actions';
 import DatabaseDumpTablePage from 'ui/database/dump/DatabaseDumpTablePage';
 import { getTableDumpData } from 'state/database/selectors';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { getVisibleModal } from 'state/modal/selectors';
 
@@ -27,4 +27,4 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const DatabaseDumpTablePageContainer =
 withRouter(connect(mapStateToProps, mapDispatchToProps)(DatabaseDumpTablePage));
-export default withPermissions(ROLE_SUPERUSER)(DatabaseDumpTablePageContainer);
+export default withPermissions(SUPERUSER_PERMISSION)(DatabaseDumpTablePageContainer);

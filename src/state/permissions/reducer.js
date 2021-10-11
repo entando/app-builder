@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { get, flatten } from 'lodash';
-import { ROLE_SUPERUSER, CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION, EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION, CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION, EDIT_USER_PROFILES_PERMISSION } from 'state/permissions/const';
 import {
   SET_PERMISSIONS,
   SET_LOGGED_USER_PERMISSIONS,
@@ -45,7 +45,7 @@ const loggedUser = (state = null, action = {}) => {
         stringToArr(authority.permissions ? authority.permissions : get(authority, 'role', []))
       ));
       const roles = Array.from(new Set(flatten(authorityMaps)));
-      if (roles.includes(ROLE_SUPERUSER)) {
+      if (roles.includes(SUPERUSER_PERMISSION)) {
         return allPermissions;
       }
       if (roles.includes(CRUD_USERS_PERMISSION) || roles.includes(EDIT_USER_PROFILES_PERMISSION)) {

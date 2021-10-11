@@ -2,7 +2,7 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
-  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES, PAGE_SEO,
+  PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES, MOCK_REFERENCES, PAGE_SEO, VIEWPAGES_PAYLOAD,
 } from 'test/mocks/pages';
 
 import {
@@ -80,6 +80,15 @@ export const getPageChildren = pageCode => makeRequest({
       [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
   ),
 });
+
+export const getViewPages = () => makeRequest({
+  uri: '/api/pages/viewpages',
+  method: METHODS.GET,
+  mockResponse: VIEWPAGES_PAYLOAD,
+  contentType: 'application/json',
+  useAuthentication: true,
+});
+
 
 export const setPagePosition = (pageCode, position, parentCode) => makeRequest({
   uri: `/api/pages/${pageCode}/position`,

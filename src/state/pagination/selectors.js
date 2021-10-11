@@ -1,6 +1,10 @@
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
+import { NAMESPACE_GLOBAL } from 'state/pagination/const';
 
-export const getPagination = (state, namespace = 'global') => state.pagination[namespace];
+export const getPagination = (state, namespace = NAMESPACE_GLOBAL) => (
+  get(state, `pagination.${namespace}`, state.pagination[NAMESPACE_GLOBAL])
+);
 
 export const getCurrentPage = createSelector(
   getPagination,

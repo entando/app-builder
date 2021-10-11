@@ -1,0 +1,40 @@
+.ContentSettingsMetadata {
+  &__heading {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d1d1d1;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  &__form {
+    margin: 60px 0;
+  }
+
+  &__label-emphasize {
+    font-weight: bold;
+  }
+
+  &__list-row {
+    margin-bottom: 20px;
+  }
+
+  &__list-label-padded {
+    padding-top: 34px;
+  }
+
+  &__list-input-area {
+    position: relative;
+  }
+
+  &__list-input-right-placeholder {
+    position: absolute;
+    right: 50px;
+    bottom: 3px;
+    color: $color-icon-gray;
+    font-style: oblique;
+  }
+
+  &__list-cell-del {
+    padding-top: 30px;
+  }
+}

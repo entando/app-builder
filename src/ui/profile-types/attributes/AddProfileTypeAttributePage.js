@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/profile-types/attributes/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const msgs = defineMessages({
   appAdd: {
@@ -55,4 +55,4 @@ AddProfileTypeAttributePage.propTypes = {
 
 const AddProfileTypeAttributePageWithIntl = injectIntl(AddProfileTypeAttributePage);
 
-export default withPermissions(ROLE_SUPERUSER)(AddProfileTypeAttributePageWithIntl);
+export default withPermissions(SUPERUSER_PERMISSION)(AddProfileTypeAttributePageWithIntl);

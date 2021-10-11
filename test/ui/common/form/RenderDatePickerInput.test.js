@@ -1,7 +1,9 @@
-import 'test/enzyme-init';
+import { configEnzymeAdapter } from 'test/legacyTestUtils';
 import React from 'react';
 import { shallow } from 'enzyme';
 import RenderDatePickerInput from 'ui/common/form/RenderDatePickerInput';
+
+configEnzymeAdapter();
 
 const INPUT = {
   onChange: jest.fn(),

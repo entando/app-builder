@@ -9,7 +9,7 @@ import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContai
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const CreateFolderPageBody = () => (
   <InternalPage className="CreateFolderPage">
@@ -57,4 +57,4 @@ export const CreateFolderPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(CreateFolderPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(CreateFolderPageBody);

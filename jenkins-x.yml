@@ -36,7 +36,6 @@ pipelineConfig:
             export DOMAIN=/entando-de-app;
             export COMPONENT_REPOSITORY_UI_ENABLED=true;
             export KEYCLOAK_ENABLED=true;
-            npm run app-install cms;
             npm run build --production;
           name: npm-build
         - sh: export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml

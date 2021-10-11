@@ -1,0 +1,33 @@
+.AssetAttributeField {
+  &__selected-info {
+    padding: 10px;
+    border: 1px solid $color-vertical-grey;
+  }
+
+  &__img-preview {
+    width: 130px;
+  }
+
+  &__attach-preview {
+    width: 130px;
+    padding: 10px;
+    font-size: 64px;
+  }
+
+  &__lbl {
+    font-weight: bold;
+  }
+
+  &__inf {
+    word-break: break-all;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+
+    &--inner.form-control { // sass-lint:disable-line class-name-format force-element-nesting
+      z-index: initial;
+    }
+  }
+}

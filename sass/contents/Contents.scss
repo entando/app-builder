@@ -1,0 +1,83 @@
+.Contents {
+  &__body {
+    margin-top: 15px;
+    // padding-bottom: 90px;
+  }
+
+  &__main-action-button {
+    margin-left: 10px;
+    padding-top: 5px;
+    float: right;
+    font-family: "Open Sans";
+    font-size: 12px;
+  }
+
+  &__main-tab-bar {
+    display: inline-block;
+    padding-top: 5px;
+  }
+
+  &__select-all {
+    display: table-cell;
+    margin: 0 auto;
+    text-align: center;
+
+    label {
+      padding-top: 2px;
+      vertical-align: bottom;
+    }
+  }
+
+  &__name-td {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__table {
+    font-family: "Open Sans";
+    font-size: 12px;
+    @media (min-width: 991px) {
+      overflow: visible;
+    }
+
+    &-element.table { // sass-lint:disable-line force-element-nesting class-name-format
+      margin-bottom: 0;
+    }
+
+    & .disabled { // sass-lint:disable-line class-name-format
+      pointer-events: none;
+    }
+  }
+
+  &__selected-contents {
+    padding: 10px 8px;
+    background-color: $color-ultra-grey-border;
+    font-family: "Open Sans";
+    font-size: 13px;
+
+    > button {
+      margin-right: 5px;
+      margin-left: 5px;
+
+      &:first-child { // sass-lint:disable-line nesting-depth
+        margin-left: 15px;
+      }
+    }
+  }
+
+  &__tablerow-tooltip {
+    // sass-lint:disable class-name-format nesting-depth no-qualifying-elements
+    .tooltip-inner {
+      max-width: none;
+
+      tr:first-child {
+        th,
+        td {
+          border-top: 0;
+        }
+      }
+    }
+    // sass-lint:enable class_name-format nesting-depth no-qualifying-elements
+  }
+}

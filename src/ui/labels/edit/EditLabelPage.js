@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/labels/edit/EditFormContainer';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const EditLabelPageBody = () => (
   <InternalPage className="EditLabelsPage">
@@ -48,4 +48,4 @@ export const EditLabelPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(EditLabelPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(EditLabelPageBody);

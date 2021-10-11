@@ -9,7 +9,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import DataModelFormContainer from 'ui/data-models/edit/EditDataModelFormContainer';
 import { ROUTE_DATA_MODEL_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const EditDataModelPageBody = () => (
   <InternalPage className="EditDataModelPage">
@@ -43,4 +43,4 @@ export const EditDataModelPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(EditDataModelPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(EditDataModelPageBody);

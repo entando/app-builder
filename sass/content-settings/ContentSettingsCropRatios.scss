@@ -1,0 +1,19 @@
+.ContentSettingsCropRatios {
+  &__heading {
+    font-weight: 300;
+  }
+
+  &__form-title {
+    margin-left: 28px;
+    font-weight: bold;
+  }
+
+  & > hr {
+    border-color: $color-ecr-list-icon-active;
+  }
+
+  &__row {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+}

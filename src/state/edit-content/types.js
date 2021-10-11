@@ -1,0 +1,16 @@
+export const WORK_MODE_ADD = 'work-mode-add';
+export const WORK_MODE_EDIT = 'work-mode-edit';
+export const SET_CONTENT_ENTRY = 'edit-content/set-content-entry';
+export const SET_OWNER_GROUP_DISABLE = 'edit-content/set-owner-group-disable';
+export const SET_WORK_MODE = 'edit-content/set-work-mode';
+export const JOIN_CATEGORY = 'edit-content/join-category';
+export const UNJOIN_CATEGORY = 'edit-content/unjoin-category';
+export const GET_LANGUAGE = 'edit-content/get-language';
+export const SET_JOINED_CATEGORIES = 'edit-content/set-joined-categories';
+export const SET_NEW_CONTENTS_TYPE = 'edit-content/set-new-contents-type';
+export const CLEAR_EDIT_CONTENT_FORM = 'edit-content/clear-edit-content-form';
+export const REGULAR_SAVE_TYPE = 'edit-content/save-type-regular';
+export const APPROVE_SAVE_TYPE = 'edit-content/save-type-approve';
+export const CONTINUE_SAVE_TYPE = 'edit-content/save-type-continue';
+export const SET_MISSING_TRANSLATIONS = 'edit-content/set-missing-translations';
+export const SET_SAVE_TYPE = 'edit-content/set-save-type';

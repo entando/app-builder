@@ -6,7 +6,7 @@ import RenderTextInput from 'ui/common/form/RenderTextInput';
 const LinkConfigAttributes = () => (
   <div>
     <h2>
-      <FormattedMessage id="linkconfig.attributes.heading" defaultMessage="Additional Attributes" />
+      <FormattedMessage id="cms.linkconfig.attributes.heading" defaultMessage="Additional Attributes" />
     </h2>
     <Field
       component={RenderTextInput}

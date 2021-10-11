@@ -8,7 +8,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DatabaseListTableContainer from 'ui/database/list/DatabaseListTableContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { ROUTE_DATABASE_ADD } from 'app-init/router';
 
 export const DatabaseListPageBody = () => (
@@ -52,4 +52,4 @@ export const DatabaseListPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(DatabaseListPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(DatabaseListPageBody);

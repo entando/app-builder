@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/labels/add/AddFormContainer';
 import { ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const AddLabelPageBody = () => (
   <InternalPage className="AddLabelPage">
@@ -49,4 +49,4 @@ export const AddLabelPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(AddLabelPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(AddLabelPageBody);

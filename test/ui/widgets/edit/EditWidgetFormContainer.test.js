@@ -37,6 +37,7 @@ jest.mock('state/page-config/selectors', () => ({
 filterWidgetList.mockReturnValue([]);
 
 jest.mock('state/groups/selectors', () => ({
+  getGroupsMap: jest.fn(),
   getGroupsList: jest.fn(),
 }));
 

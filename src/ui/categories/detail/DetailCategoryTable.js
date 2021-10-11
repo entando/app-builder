@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 import { routeConverter, formatDate } from '@entando/utils';
 import { Collapse } from 'react-bootstrap';
-import { ROUTE_CMS_EDIT_CONTENT, ROUTE_CMS_DIGITAL_ASSETS } from 'app-init/router';
+import { ROUTE_CMS_EDIT_CONTENT, ROUTE_CMS_ASSETS_LIST } from 'app-init/router';
 
 import GenericRefsTable from 'ui/common/references/GenericRefsTable';
 
@@ -56,7 +56,7 @@ const REFERENCE_TABLE_COLUMNS = {
       label: { id: 'category.reference.table.name', defaultMessage: 'Name' },
       render: descr => (
         <Link
-          to={routeConverter(ROUTE_CMS_DIGITAL_ASSETS)}
+          to={routeConverter(ROUTE_CMS_ASSETS_LIST)}
         >
           {descr}
         </Link>),

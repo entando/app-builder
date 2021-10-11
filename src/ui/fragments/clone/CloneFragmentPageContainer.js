@@ -5,7 +5,7 @@ import CloneFragmentPage from 'ui/fragments/clone/CloneFragmentPage';
 import { fetchFragment } from 'state/fragments/actions';
 import { FORM_MODE_CLONE } from 'state/fragments/const';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = (state, { match: { params } }) => (
   {
@@ -21,4 +21,4 @@ export const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withPermissions(ROLE_SUPERUSER)(CloneFragmentPage)));
+)(withPermissions(SUPERUSER_PERMISSION)(CloneFragmentPage)));

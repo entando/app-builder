@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import EditFormContainer from 'ui/profile-types/edit/EditFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const EditProfileTypesPage = () => (
   <InternalPage className="EditProfileTypesPage">
@@ -41,4 +41,4 @@ const EditProfileTypesPage = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(EditProfileTypesPage);
+export default withPermissions(SUPERUSER_PERMISSION)(EditProfileTypesPage);

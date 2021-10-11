@@ -10,7 +10,7 @@ import GroupListTableContainer from 'ui/groups/list/GroupListTableContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_GROUP_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ListGroupPageBody = () => (
   <InternalPage className="ListGroupPage">
@@ -64,4 +64,4 @@ export const ListGroupPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(ListGroupPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ListGroupPageBody);

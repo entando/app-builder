@@ -10,7 +10,7 @@ import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContaine
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ListFilesPageBody = () => (
   <InternalPage className="ListFilesPage">
@@ -53,4 +53,4 @@ export const ListFilesPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(ListFilesPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ListFilesPageBody);

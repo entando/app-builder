@@ -1,0 +1,19 @@
+.JoinCategoriesModal {
+
+  &__info-box {
+    border: 1px solid $color-mid-grey;
+    background-color: $color-ultra-grey-border;
+  }
+
+  &__info-icon {
+    padding: 15px;
+    font-size: 20px;
+  }
+
+  &__info-text {
+    display: inline-block;
+    padding: 10px;
+    font-family: "Open Sans";
+    font-size: 13px;
+  }
+}

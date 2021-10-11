@@ -12,6 +12,7 @@ export const getPagesMap = state => state.pages.map;
 export const getChildrenMap = state => state.pages.childrenMap;
 export const getStatusMap = state => state.pages.statusMap;
 export const getTitlesMap = state => state.pages.titlesMap;
+export const getViewPages = state => state.pages.viewPages;
 export const getSelectedPage = state => state.pages.selected;
 export const getSearchPagesRaw = state => state.pages.search;
 

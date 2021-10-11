@@ -7,7 +7,7 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ReloadConfigContainer from 'ui/reload-configuration/ReloadConfigContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ReloadConfigPageBody = () => (
 
@@ -39,4 +39,4 @@ export const ReloadConfigPageBody = () => (
 );
 
 
-export default withPermissions(ROLE_SUPERUSER)(ReloadConfigPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ReloadConfigPageBody);

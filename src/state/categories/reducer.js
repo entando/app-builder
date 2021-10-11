@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {
   SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
   SET_CATEGORY_LOADED, SET_SELECTED_CATEGORY, REMOVE_CATEGORY,
-  SET_REFERENCES,
+  SET_REFERENCES, SET_CATEGORY_TREE_FETCHED,
 } from 'state/categories/types';
 
 const toMap = (array, propKey) => array.reduce((acc, category) => {
@@ -67,6 +67,19 @@ const childrenMap = (state = {}, action = {}) => {
       return newState;
     }
     default: return state;
+  }
+};
+
+const treeFetched = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_CATEGORY_TREE_FETCHED: {
+      return {
+        ...state,
+        status: action.payload,
+      };
+    }
+    default:
+      return state;
   }
 };
 
@@ -160,4 +173,5 @@ export default combineReducers({
   titlesMap,
   statusMap,
   selected,
+  treeFetched,
 });

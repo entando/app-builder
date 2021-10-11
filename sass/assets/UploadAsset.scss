@@ -1,0 +1,73 @@
+.UploadAsset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: $color-ultra-grey-border;
+  font-family: Open Sans;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+  text-align: center;
+  cursor: pointer;
+
+  &__upload-icon.fa.fa-cloud-upload { //sass-lint:disable-line force-element-nesting class-name-format
+    color: $color-space-grey;
+    font-size: 59px;
+  }
+
+  &__upload-description-browse {
+    color: $color-mid-blue;
+  }
+
+  &--button-version {
+    display: inline-block;
+  }
+}
+
+.UploadAssetModal {
+  &__file-container {
+    margin-bottom: 10px;
+  }
+
+  &__file {
+    position: relative;
+    min-height: 45px;
+    padding: 10px;
+    background-color: $color-ultra-grey-border;
+  }
+
+  &__remove-file-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    > button > span {
+      margin-right: 5px;
+      text-transform: uppercase;
+    }
+  }
+
+  &__file-info {
+    display: flex;
+    margin-bottom: 10px;
+
+    > div + div {
+      padding-left: 10px;
+    }
+  }
+
+  &__file-preview {
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+  &__file + &__file {
+    margin-top: 10px;
+  }
+
+  &__upload-modal-buttons {
+    text-align: right;
+  }
+}

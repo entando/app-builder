@@ -10,7 +10,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import { ROUTE_DATA_MODEL_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const DataModelListPage = () => (
   <InternalPage className="DataModelListPage">
@@ -59,4 +59,4 @@ const DataModelListPage = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(DataModelListPage);
+export default withPermissions(SUPERUSER_PERMISSION)(DataModelListPage);

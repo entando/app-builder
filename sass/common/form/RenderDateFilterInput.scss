@@ -1,0 +1,13 @@
+.RenderDateFilterInput {
+  &__toggle-btn {
+    &.btn { // sass-lint:disable-line nesting-depth class-name-format
+      display: flex;
+      align-items: center;
+      height: 48px;
+    }
+
+    & .extra { // sass-lint:disable-line nesting-depth class-name-format
+      margin-left: 10px;
+    }
+  }
+}

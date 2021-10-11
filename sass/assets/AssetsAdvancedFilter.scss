@@ -1,0 +1,91 @@
+.AssetsAdvancedFilter {
+  margin-top: 30px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: white;
+  border: $color-ultra-grey-border 1px solid;
+  overflow: visible;
+
+  & > div > div > .input-group { // sass-lint:disable-line class-name-format
+    display: block;
+  }
+
+  &__left-column {
+    padding-right: 5px;
+    @media (max-width: 768px) {
+      padding-left: 0;
+    }
+  }
+
+  &__advanced-filters-text {
+    margin-bottom: 15px;
+    outline: 0;
+    font-family: "Open Sans";
+    font-size: 13px;
+    cursor: pointer;
+
+    &:focus {
+      outline: $color-pf-blue auto 1px;
+      background-color: $color-row-selected;
+    }
+  }
+
+  &__advanced-icon {
+    min-width: 10px;
+    margin-right: 5px;
+  }
+
+  &__advanced-filters {
+    clear: both;
+
+    .form-group { // sass-lint:disable-line class-name-format
+      clear: both;
+    }
+  }
+
+  &__advanced-filter {
+    margin-top: 10px;
+    overflow: visible;
+
+    &--close {
+      margin-top: -10px;
+    }
+
+    // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+    .react-datepicker-wrapper {
+      width: 98%;
+
+      // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
+      .react-datepicker__input-container {
+        width: 100%;
+
+        input { // sass-lint:disable-line nesting-depth
+          width: 100%;
+        }
+      }
+    }
+
+    .calendar-icon {
+      padding-left: 12px;
+      box-shadow: none;
+    }
+  }
+
+  &__search-button {
+    width: 10rem;
+    margin-top: 1rem;
+    font-family: "Open Sans";
+    font-weight: normal;
+  }
+}
+
+.RenderDatePickerInput__container > div {
+  display: inline-block;
+  width: 90%;
+}
+
+@media (min-width: 768px) and (max-width: 854px) {
+  .RenderDatePickerInput__container > div {
+    width: 85%;
+  }
+}

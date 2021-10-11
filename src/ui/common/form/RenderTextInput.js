@@ -2,77 +2,91 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, ControlLabel } from 'patternfly-react';
 
-const RenderTextInput = ({
-  input, append, label, labelSize, inputSize, alignClass, tourClass, placeholder,
-  meta: { touched, error }, help, disabled, type, disallowedInput, forceLowerCase, readOnly,
+export const RenderTextInputBody = ({
+  input,
+  append,
+  label,
+  labelSize,
+  inputSize,
+  alignClass,
+  placeholder,
+  meta: { touched, error },
+  help,
+  disabled,
+  type,
+  hasLabel,
+  xsClass,
+  forwardedRef,
+  endButtons,
+  ...others
 }) => {
-  let inputProps = { ...input, readOnly };
-  const { onChange } = input;
-
-  if (disallowedInput || forceLowerCase) {
-    inputProps = {
-      ...input,
-      onChange: (event) => {
-        const { value } = event.target;
-        let transformedValue = value;
-        if (disallowedInput) {
-          transformedValue = transformedValue.replace(disallowedInput, '');
-        }
-        if (forceLowerCase) {
-          transformedValue = transformedValue.toLowerCase();
-        }
-
-        onChange(transformedValue);
-      },
-    };
-  }
-
+  const { restProps } = others;
   return (
-    <div className={(touched && error) ? `form-group has-error ${tourClass}` : `form-group ${tourClass}`}>
-      {
-        labelSize > 0 ? (
-          <Col xs={labelSize} className={alignClass}>
-            <ControlLabel htmlFor={input.name}>
-              {label} {help}
-            </ControlLabel>
-          </Col>
-        ) : ''
-      }
-      <Col xs={inputSize || 12 - labelSize}>
-        <input
-          {...inputProps}
-          type={type}
-          id={input.name}
-          placeholder={placeholder}
-          className="form-control RenderTextInput"
-          disabled={disabled}
-        />
+    <div className={touched && error ? 'form-group has-error' : 'form-group'}>
+      {hasLabel && labelSize > 0 && (
+        <Col xs={12} sm={labelSize} className={`${alignClass} ${xsClass}`}>
+          <ControlLabel htmlFor={input.name}>
+            {label} {help}
+          </ControlLabel>
+        </Col>
+      )}
+      <Col xs={12} sm={inputSize || 12 - labelSize}>
+        <div className="RenderTextInput__input-body">
+          <input
+            {...input}
+            type={type}
+            id={input.name}
+            ref={forwardedRef}
+            placeholder={placeholder}
+            className="form-control RenderTextInput"
+            disabled={disabled}
+            {...restProps}
+          />
+          {endButtons && (
+            <div className="RenderTextAreaInput__endbuttons">
+              {endButtons}
+            </div>
+          )}
+        </div>
         {append && <span className="AppendedLabel">{append}</span>}
-        {touched && ((error && <span className="help-block">{error}</span>))}
+        {touched && (error && <span className="help-block">{error}</span>)}
       </Col>
     </div>
   );
 };
 
-RenderTextInput.propTypes = {
-  input: PropTypes.shape({}),
+RenderTextInputBody.propTypes = {
+  input: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  forwardedRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
   label: PropTypes.node,
   placeholder: PropTypes.string,
-  meta: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.shape({}),
+  }),
   help: PropTypes.node,
   disabled: PropTypes.bool,
   type: PropTypes.string,
   labelSize: PropTypes.number,
   inputSize: PropTypes.number,
   append: PropTypes.string,
+  mainGroup: PropTypes.string,
+  langCode: PropTypes.string,
   alignClass: PropTypes.string,
-  tourClass: PropTypes.string,
-  disallowedInput: PropTypes.instanceOf(RegExp),
-  forceLowerCase: PropTypes.bool,
-  readOnly: PropTypes.bool,
+  xsClass: PropTypes.string,
+  hasLabel: PropTypes.bool,
+  endButtons: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
-RenderTextInput.defaultProps = {
+RenderTextInputBody.defaultProps = {
   input: {},
   label: '',
   placeholder: '',
@@ -83,10 +97,15 @@ RenderTextInput.defaultProps = {
   labelSize: 2,
   inputSize: null,
   append: '',
-  tourClass: '',
+  mainGroup: '',
+  langCode: '',
   alignClass: 'text-right',
-  disallowedInput: null,
-  forceLowerCase: false,
-  readOnly: false,
+  hasLabel: true,
+  xsClass: 'mobile-left',
+  forwardedRef: null,
+  endButtons: null,
 };
-export default RenderTextInput;
+
+export default React.forwardRef((props, ref) => (
+  <RenderTextInputBody {...props} forwardedRef={ref} />
+));

@@ -4,7 +4,7 @@ import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messag
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettings, putPage, putPageStatus, getSearchPages,
+  getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
 } from 'api/pages';
 import {
@@ -17,7 +17,7 @@ import {
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
 import {
-  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT,
+  ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT, SET_VIEWPAGES,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
 } from 'state/pages/types';
@@ -48,6 +48,11 @@ export const addPages = pages => ({
   payload: {
     pages,
   },
+});
+
+export const setViewPages = pages => ({
+  type: SET_VIEWPAGES,
+  payload: pages,
 });
 
 export const setSearchPages = pages => ({
@@ -167,6 +172,19 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 export const fetchPage = wrapApiCall(getPage);
 export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
+
+export const fetchViewPages = () => dispatch => new Promise((resolve) => {
+  getViewPages().then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        dispatch(setViewPages(json.payload));
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  }).catch(() => {});
+});
 
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {

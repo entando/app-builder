@@ -9,7 +9,7 @@ import NewUserWidgetFormContainer from 'ui/widgets/newUserWidget/NewUserWidgetFo
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const NewUserWidgetPageBody = () => (
   <InternalPage className="AddWidgetPage">
@@ -44,4 +44,4 @@ export const NewUserWidgetPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(NewUserWidgetPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(NewUserWidgetPageBody);

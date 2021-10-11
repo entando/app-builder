@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import SettingsFragmentFormContainer from 'ui/fragments/list/SettingsFragmentFormContainer';
 import FragmentListContent from 'ui/fragments/list/FragmentListContent';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const TAB_LIST = 'list';
 const TAB_SETTINGS = 'settings';
@@ -82,4 +82,4 @@ export class ListFragmentPageBody extends Component {
   }
 }
 
-export default withPermissions(ROLE_SUPERUSER)(ListFragmentPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(ListFragmentPageBody);

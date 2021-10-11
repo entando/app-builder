@@ -11,7 +11,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { ROUTE_FILE_BROWSER, ROUTE_FILE_BROWSER_UPLOAD } from 'app-init/router';
 
 
@@ -110,4 +110,4 @@ UploadFileBrowserPageBody.propTypes = {
   }).isRequired,
 };
 
-export default withPermissions(ROLE_SUPERUSER)(UploadFileBrowserPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(UploadFileBrowserPageBody);

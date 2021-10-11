@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import DetailRoleTableContainer from 'ui/roles/detail/DetailRoleTableContainer';
 import { ROUTE_ROLE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const DetailRolePageBody = () => (
   <InternalPage className="DetailRolePage">
@@ -45,4 +45,4 @@ export const DetailRolePageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(DetailRolePageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(DetailRolePageBody);

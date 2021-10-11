@@ -1,0 +1,14 @@
+.ContentSettingsGeneral {
+  &__form-group {
+    margin: 60px 0 80px;
+  }
+
+  &__editor-switch {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &__last-reload-remark {
+    line-height: 3rem;
+  }
+}

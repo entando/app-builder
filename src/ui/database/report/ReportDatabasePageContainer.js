@@ -5,7 +5,7 @@ import { fetchDatabaseReportBackup } from 'state/database/actions';
 import { getDatabaseReportBackup } from 'state/database/selectors';
 import ReportDatabasePage from 'ui/database/report/ReportDatabasePage';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = state => ({
   report: getDatabaseReportBackup(state),
@@ -23,4 +23,4 @@ const ReportDatabasePageContainer = withRouter(connect(
   mapDispatchToProps,
 )(ReportDatabasePage));
 
-export default withPermissions(ROLE_SUPERUSER)(ReportDatabasePageContainer);
+export default withPermissions(SUPERUSER_PERMISSION)(ReportDatabasePageContainer);

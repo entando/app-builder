@@ -14,14 +14,14 @@ import { sendPostWidgets } from 'state/widgets/actions';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 import { getMyGroupPermissions } from 'state/permissions/selectors';
-import { MANAGE_PAGES_PERMISSION, ROLE_SUPERUSER } from 'state/permissions/const';
+import { MANAGE_PAGES_PERMISSION, SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
 
 export const mapStateToProps = (state) => {
   const userPreferences = getUserPreferences(state);
   const groupWithPagePermission = getMyGroupPermissions(state)
     .find(({ permissions }) => (
-      permissions.includes(ROLE_SUPERUSER) || permissions.includes(MANAGE_PAGES_PERMISSION)
+      permissions.includes(SUPERUSER_PERMISSION) || permissions.includes(MANAGE_PAGES_PERMISSION)
     ));
   const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
     || (groupWithPagePermission && groupWithPagePermission.group);

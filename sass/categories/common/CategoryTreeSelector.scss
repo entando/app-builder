@@ -30,3 +30,75 @@
   }
 
 }
+
+.ExtCategoryTreeSelector {
+  margin-bottom: 0;
+
+  &__row:focus {
+    outline: $color-primary solid 1px;
+    background-color: $color-row-selected;
+    box-shadow: 0 0 1px 2px $color-primary;
+  }
+
+  &__expand-area {
+    display: table-cell;
+    outline: 0;
+  }
+
+  &__select-area {
+    display: table-cell;
+    width: 100%;
+    outline: 0;
+  }
+
+  &__column-td--empty {
+    .TreeNodeExpandedIcon {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &__category-name,
+  .TreeNodeExpandedIcon,
+  .TreeNodeFolderIcon,
+  .RowSpinner {
+    margin-left: 10px;
+  }
+
+  .TreeNodeFolderIcon {
+    color: $color-pf-light-blue-400;
+  }
+
+  &__join-mark {
+    cursor: pointer;
+
+    &:hover {
+      color: $color-join-mark-hovered;
+    }
+  }
+
+  &__action {
+    margin-left: 4em;
+    cursor: pointer;
+  }
+
+  &__action-icon {
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+
+  &__tag {
+    margin-right: 6px;
+    background-color: $color-category-tag;
+
+    span:first-child {
+      margin-right: 5px;
+    }
+  }
+
+  &__tag-container {
+    margin-top: 20px;
+    padding-left: 0;
+    list-style: none;
+  }
+}

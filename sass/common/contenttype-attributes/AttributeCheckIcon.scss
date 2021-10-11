@@ -1,0 +1,11 @@
+.ContTypeAttributeCheckIcon {
+  font-family: FontAwesome;
+}
+
+.ContTypeAttributeCheckIcon--checked:before {
+  content: $fa-check-square-o;
+}
+
+.ContTypeAttributeCheckIcon--unchecked:before {
+  content: $fa-square-o;
+}

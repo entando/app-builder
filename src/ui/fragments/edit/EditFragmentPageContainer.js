@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import EditFragmentPage from 'ui/fragments/edit/EditFragmentPage';
 import { fetchFragment } from 'state/fragments/actions';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const mapStateToProps = (state, { match: { params } }) => (
   {
@@ -20,4 +20,4 @@ export const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withPermissions(ROLE_SUPERUSER)(EditFragmentPage)));
+)(withPermissions(SUPERUSER_PERMISSION)(EditFragmentPage)));

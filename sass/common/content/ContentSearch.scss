@@ -1,0 +1,140 @@
+// sass-lint:disable class-name-format
+.ContentSearch {
+  margin-top: 30px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  background-color: $color-ultra-grey-border;
+  overflow: auto;
+
+  & > div > div > .input-group {
+    display: block;
+  }
+
+  &__quick-filter-type {
+    display: block;
+    width: 100%;
+
+    div {
+      width: 100%;
+
+      button { // sass-lint:disable-line nesting-depth
+        width: 100%;
+        font-family: "Open Sans";
+        font-size: 13px;
+        font-weight: bold;
+        text-align: left;
+
+        span { // sass-lint:disable-line nesting-depth
+          float: right;
+          vertical-align: middle;
+        }
+
+        span:before { // sass-lint:disable-line nesting-depth
+          position: relative;
+        }
+      }
+    }
+  }
+
+  &__quick-filter {
+    padding-top: 20px;
+  }
+
+  &__left-column {
+    padding-right: 5px;
+    @media (max-width: 768px) {
+      padding-left: 0;
+    }
+  }
+
+  &__right-column {
+    @media (max-width: 768px) {
+      margin-top: 10px;
+    }
+  }
+
+  &__advanced-filters-text {
+    margin-bottom: 15px;
+    outline: 0;
+    font-family: "Open Sans";
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  &__advanced-icon {
+    min-width: 10px;
+    margin-right: 5px;
+  }
+
+  &__advanced-filters {
+    clear: both;
+  }
+
+  &__advanced-filter {
+    margin-top: 10px;
+
+    &--close {
+      margin-top: -10px;
+    }
+
+    & .text-right {
+      padding-right: 0;
+
+      & ~ div {
+        padding-left: 10px;
+      }
+    }
+  }
+
+  &__item-cb {
+    display: table-cell;
+    padding-right: 10px;
+    vertical-align: middle;
+
+    &--responsive {
+      @media (max-width: 768px) {
+        display: block;
+        padding-left: 13px;
+      }
+    }
+  }
+
+  &__status {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    border-radius: 50%;
+
+    &--published {
+      background: $color-published;
+    }
+
+    &--review {
+      background: $color-review;
+    }
+
+    &--unpublished {
+      background: $color-unpublish;
+    }
+
+    &--draft {
+      background: $color-mid-grey;
+    }
+  }
+
+  &__access-icon {
+    margin-right: 5px;
+  }
+
+  &__search-button {
+    width: 80%;
+    font-family: "Open Sans";
+    font-weight: normal;
+  }
+
+  & .form-group {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}

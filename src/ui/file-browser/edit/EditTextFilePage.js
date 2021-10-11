@@ -8,7 +8,7 @@ import PageTitle from 'ui/internal-page/PageTitle';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
 import EditTextFileFormContainer from 'ui/file-browser/edit/EditTextFileFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
-import { ROLE_SUPERUSER } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const EditTextFilePageBody = () => (
   <InternalPage className="EditTextFilePage">
@@ -53,4 +53,4 @@ export const EditTextFilePageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(ROLE_SUPERUSER)(EditTextFilePageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(EditTextFilePageBody);

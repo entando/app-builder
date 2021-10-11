@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
+import { Col, Icon, ControlLabel } from 'patternfly-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
@@ -12,40 +12,77 @@ class RenderDatePickerInput extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    const { onDidMount, ...otherProps } = this.props;
+    onDidMount(otherProps);
   }
 
   handleChange(date) {
-    const value = !isNull(date) ? date.format(this.props.dateFormat) : '';
-    this.props.input.onChange(value);
+    const {
+      dateFormat, input, onPickDate, maxDate, minDate,
+    } = this.props;
+    const value = !isNull(date) ? date.format(dateFormat) : '';
+    const dateValue = moment(value, dateFormat);
+    if (maxDate && dateValue > maxDate) return;
+    if (minDate && dateValue < minDate) return;
+    input.onChange(value);
+    onPickDate(value);
   }
 
   render() {
     const {
-      input, name, label, help, locale, dateFormat, placeholder, meta: { touched, error },
+      input,
+      name,
+      label,
+      help,
+      locale,
+      dateFormat,
+      alignClass,
+      placeholder,
+      meta: { touched, error },
+      isClearable,
+      hasCalendarIcon,
+      hasLabel,
+      labelSize,
+      inputSize,
+      xsClass,
+      maxDate,
+      minDate,
     } = this.props;
 
+    const errorblock = touched ? error : '';
+    const calendar = hasCalendarIcon ? (
+      <span className="calendar-icon" type="submit">
+        <Icon name="calendar" />
+      </span>
+    ) : null;
+    const dateLimitProps = { ...(maxDate && { maxDate }), ...(minDate && { minDate }) };
     return (
-      <div className="form-group" >
-        <label htmlFor={name} className="col-xs-2 control-label">
-          {label} {help}
-        </label>
-        <Col xs={10}>
+      <div className={`RenderDatePickerInput ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
+        {hasLabel && (
+        <Col xs={12} sm={labelSize} className={`${alignClass} ${xsClass}`}>
+          <ControlLabel htmlFor={name}>
+            {label} {help}
+          </ControlLabel>
+        </Col>
+        )}
+        <Col xs={12} sm={inputSize || 12 - labelSize} className="RenderDatePickerInput__container">
           <DatePicker
             {...input}
+            {...dateLimitProps}
             placeholder={placeholder}
-            selected={input.value ? moment(input.value, this.props.dateFormat) : null}
+            selected={input.value ? moment(input.value, dateFormat) : null}
             onChange={this.handleChange}
             disabledKeyboardNavigation
             locale={locale}
+            autoComplete="off"
             dateFormat={dateFormat}
-            isClearable
+            isClearable={isClearable}
             calendarClassName="RenderDatePickerInput__calendar"
+            style={{ after: 'fa fa-calendar', display: 'inline-block' }}
           />
-          <div className="help-block help-block-error">
-            {touched ? error : ''}
-          </div>
+          {calendar}
+          <div className="help-block help-block-error">{errorblock}</div>
         </Col>
       </div>
     );
@@ -53,26 +90,36 @@ class RenderDatePickerInput extends Component {
 }
 
 RenderDatePickerInput.propTypes = {
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool,
-    error: PropTypes.bool,
+    error: PropTypes.shape({}),
   }),
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  alignClass: PropTypes.string,
+  xsClass: PropTypes.string,
   label: PropTypes.node,
   help: PropTypes.node,
   language: PropTypes.string,
   dateFormat: PropTypes.string,
   locale: PropTypes.string,
+  isClearable: PropTypes.bool,
+  hasLabel: PropTypes.bool,
+  hasCalendarIcon: PropTypes.bool,
+  labelSize: PropTypes.number,
+  inputSize: PropTypes.number,
+  onPickDate: PropTypes.func,
+  maxDate: PropTypes.objectOf({}),
+  minDate: PropTypes.objectOf({}),
 };
 
 RenderDatePickerInput.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   name: '',
   placeholder: '',
   label: '',
@@ -81,5 +128,15 @@ RenderDatePickerInput.defaultProps = {
   dateFormat: 'DD/MM/YYYY',
   locale: 'en',
   meta: {},
+  isClearable: true,
+  hasLabel: true,
+  alignClass: '',
+  hasCalendarIcon: false,
+  labelSize: 2,
+  inputSize: null,
+  xsClass: 'mobile-left',
+  onPickDate: () => {},
+  maxDate: null,
+  minDate: null,
 };
 export default RenderDatePickerInput;

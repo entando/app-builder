@@ -11,7 +11,7 @@ import { logoutUser } from '@entando/apimanager';
 import { ROUTE_DASHBOARD } from 'app-init/router';
 import {
   ADMINISTRATION_AREA_PERMISSION,
-  ROLE_SUPERUSER,
+  SUPERUSER_PERMISSION,
 } from 'state/permissions/const';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
 
@@ -19,7 +19,7 @@ const injectPermissionValues = WrappedComponent => (props) => {
   // eslint-disable-next-line react/prop-types
   const { userPermissions, ...otherProps } = props;
 
-  const isSuperuser = hasAccess(ROLE_SUPERUSER, userPermissions || []);
+  const isSuperuser = hasAccess(SUPERUSER_PERMISSION, userPermissions || []);
 
   const newProps = {
     ...otherProps,
