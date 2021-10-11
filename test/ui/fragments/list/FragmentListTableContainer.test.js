@@ -47,6 +47,7 @@ describe('FragmentListTableContainer', () => {
       page: TEST_STATE.pagination.global.page,
       totalItems: TEST_STATE.pagination.global.totalItems,
       pageSize: TEST_STATE.pagination.global.pageSize,
+      lastPage: TEST_STATE.pagination.global.lastPage,
     });
   });
 
