@@ -141,8 +141,8 @@ export const mapDispatchToProps = (dispatch, {
     }));
   },
   onAdvancedFilterSearch: () => {
-    dispatch(fetchContentsPaged({ status: '&status=published', ownerGroup, joinGroups }));
     dispatch(resetAuthorStatus());
+    dispatch(fetchContentsPaged({ status: '&status=published', ownerGroup, joinGroups }));
   },
   onSetCurrentColumnsShow: columnOrder => dispatch(setColumnOrder(columnOrder, 'contentFilterBrowser')),
   onSetContentType: contentType => dispatch(setContentType(contentType)),

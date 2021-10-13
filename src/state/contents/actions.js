@@ -191,13 +191,13 @@ export const fetchContentsWithFilters = (
     const contentType = getContentType(state);
     const group = getGroup(state);
     const filteringCategories = getFilteringCategories(state);
-    const status = getStatusChecked(state);
+    const status = getStatusChecked(state) || getCurrentStatusShow(state);
     const access = getAccessChecked(state);
-    const author = getAuthorChecked(state);
+    const author = getAuthorChecked(state) || getCurrentAuthorShow(state);
     const statusValue = status === 'draft' ? ['new', 'draft'] : status;
     if (contentType) filters.push({ att: 'typeCode', value: contentType });
     if (group) filters.push({ att: 'mainGroup', value: group });
-    if (status) filters.push({ att: 'status', value: statusValue, operator: like });
+    if (status && status !== 'all') filters.push({ att: 'status', value: statusValue, operator: like });
     if (access) filters.push({ att: 'restriction', value: access === 'free' ? 'OPEN' : 'RESTRICTED' });
     if (author && author !== 'all') filters.push({ att: 'firstEditor', value: author });
     if (filteringCategories && filteringCategories.length) filters.push({ att: 'categories', value: filteringCategories });
