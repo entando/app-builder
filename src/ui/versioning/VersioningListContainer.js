@@ -16,13 +16,14 @@ const noPage = { page: 1, pageSize: 0 };
 
 export const mapStateToProps = (state) => {
   const {
-    page, totalItems, pageSize,
+    page, totalItems, pageSize, lastPage,
   } = getPagination(state, NAMESPACE_VERSIONING);
   return {
     loading: getLoading(state).versionings,
     page,
     totalItems,
     pageSize,
+    lastPage,
     contentTypes: getContentTypeList(state),
     versioningList: getVersioningList(state),
     columnOrder: getColumnOrder(state, 'versioningList'),
