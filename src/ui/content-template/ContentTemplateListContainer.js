@@ -17,7 +17,7 @@ import { MODAL_ID } from 'ui/content-template/DeleteContentTemplateModal';
 
 export const mapStateToProps = (state) => {
   const {
-    page, totalItems, pageSize,
+    page, totalItems, pageSize, lastPage,
   } = getPagination(state, NAMESPACE_CONTENT_TEMPLATES);
   return {
     contentTemplates: getContentTemplateList(state),
@@ -25,6 +25,7 @@ export const mapStateToProps = (state) => {
     page,
     totalItems,
     pageSize,
+    lastPage,
     filters: getContentTemplateFilters(state),
     columnOrder: getColumnOrder(state, 'contentTemplates'),
   };
