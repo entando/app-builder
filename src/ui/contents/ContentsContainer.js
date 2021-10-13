@@ -46,11 +46,11 @@ const paramsForStatusAndAuthor = (status, author) => {
   const eq = FILTER_OPERATORS.EQUAL;
 
   const formValues = {
-    ...(!published && { status }),
+    ...((!published && status !== 'all') && { status }),
     ...(!all && { author }),
   };
   const operators = {
-    ...(!published && { status: eq }),
+    ...((!published && status !== 'all') && { status: eq }),
     ...(!all && { author: eq }),
   };
   const query = `${convertToQueryString({
@@ -123,8 +123,8 @@ export const mapDispatchToProps = (dispatch, { intl, history }) => ({
     }));
   },
   onAdvancedFilterSearch: () => {
-    dispatch(fetchContentsPaged());
     dispatch(resetAuthorStatus());
+    dispatch(fetchContentsPaged());
   },
   onSetCurrentColumnsShow: columnOrder => dispatch(setColumnOrder(columnOrder, 'contentListPage')),
   onSetContentType: contentType => dispatch(setContentType(contentType)),
