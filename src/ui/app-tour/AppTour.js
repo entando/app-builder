@@ -411,7 +411,7 @@ class AppTour extends React.Component {
     return (
       <Tour
         steps={this.generateSteps()}
-        isOpen
+        isOpen={wizardEnabled}
         showNumber={false}
         showNavigationNumber={false}
         showNavigation={false}
@@ -420,7 +420,6 @@ class AppTour extends React.Component {
         disableDotsNavigation={false}
         onRequestClose={() => {}}
         startAt={appTourLastStep}
-        goToStep={appTourLastStep}
         disableFocusLock
         highlightedMaskClassName="AppTourHighlight"
         onAfterOpen={lockBodyScroll && scrollLock ? this.disableBody : null}
