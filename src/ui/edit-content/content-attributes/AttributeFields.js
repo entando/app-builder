@@ -21,18 +21,21 @@ import {
   TYPE_CHECKBOX,
   TYPE_THREESTATE,
   TYPE_LINK,
+  TYPE_DATE,
 } from 'state/content-type/const';
-import { getDateTimeObjFromStr } from 'helpers/attrUtils';
+import { getDateTimeObjFromStr, getTodayDateValue } from 'helpers/attrUtils';
 import { listRequired, compositeOneOfExists } from 'helpers/attrValidation';
 
 const toFieldValue = (attrValue, type) => {
   switch (type) {
     case TYPE_TIMESTAMP:
-      return getDateTimeObjFromStr(attrValue);
+      return getDateTimeObjFromStr(attrValue === null ? getTodayDateValue() : attrValue);
     case TYPE_BOOLEAN:
     case TYPE_CHECKBOX:
     case TYPE_THREESTATE:
       return attrValue === null ? 'none' : `${attrValue}`;
+    case TYPE_DATE:
+      return attrValue === null ? getTodayDateValue() : attrValue;
     default:
       return attrValue;
   }
