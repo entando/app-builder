@@ -11,6 +11,8 @@ const createObjFromArr = (keyArr, value) => (
   keyArr.reduce((accObj, key) => ({ ...accObj, [key]: value }), {})
 );
 
+export const getTodayDateValue = () => moment().format('DD/MM/YYYY');
+
 export const getAttrInitialValue = (attr, langCodes = ['en']) => {
   const { type, code, compositeAttributes = [] } = attr;
   const initialValue = { code };
@@ -30,7 +32,7 @@ export const getAttrInitialValue = (attr, langCodes = ['en']) => {
       break;
     case TYPE_DATE:
     case TYPE_TIMESTAMP:
-      initialValue.value = moment().format('DD/MM/YYYY');
+      initialValue.value = getTodayDateValue();
       break;
     case TYPE_BOOLEAN:
     case TYPE_CHECKBOX:
