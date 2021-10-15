@@ -17,7 +17,10 @@ import {
 
 const TEST_STATE = {
   contents: {
-    sortingColumns: { name: { direction: 'ASC', position: 0 } },
+    sortingColumns: {
+      default: { direction: 'ASC', attribute: 'cho' },
+      yomams: { direction: 'DESC', attribute: 'mam' },
+    },
     contents: ['a', 'b'],
     currentQuickFilter: { name: 'code', value: 'new2' },
     filteringCategories: [{ code: 'a' }],
@@ -94,12 +97,12 @@ it('verify getCurrentStatusShow selector', () => {
 
 it('verify getSortingColumns selector', () => {
   const sort = getSortingColumns(TEST_STATE);
-  expect(sort).toEqual({ name: { direction: 'ASC', position: 0 } });
+  expect(sort).toEqual(TEST_STATE.contents.sortingColumns.default);
 });
 
-it('verify getSortingColumns selector', () => {
-  const sort = getSortingColumns(TEST_STATE);
-  expect(sort).toEqual({ name: { direction: 'ASC', position: 0 } });
+it('verify getSortingColumns selector with given group', () => {
+  const sort = getSortingColumns(TEST_STATE, 'yomams');
+  expect(sort).toEqual(TEST_STATE.contents.sortingColumns.yomams);
 });
 
 it('verify getSelectedRows selector', () => {

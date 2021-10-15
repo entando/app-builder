@@ -66,6 +66,9 @@ export const mapStateToProps = (state) => {
   const {
     page, lastPage, totalItems, pageSize,
   } = getPagination(state, NAMESPACE_CONTENTS);
+  const currentAuthorShow = getCurrentAuthorShow(state);
+  const currentStatusShow = getCurrentStatusShow(state);
+  const sortingColumns = getSortingColumns(state, `${currentAuthorShow}_${currentStatusShow}`);
   return ({
     loading: getLoading(state).contents,
     language: getLocale(state),
@@ -78,14 +81,14 @@ export const mapStateToProps = (state) => {
     statusChecked: getStatusChecked(state),
     accessChecked: getAccessChecked(state),
     authorChecked: getAuthorChecked(state),
-    currentAuthorShow: getCurrentAuthorShow(state),
-    currentStatusShow: getCurrentStatusShow(state),
+    currentAuthorShow,
+    currentStatusShow,
     currentColumnsShow: getColumnOrder(state, 'contentFilterBrowser'),
     page,
     lastPage,
     totalItems,
     pageSize,
-    sortingColumns: getSortingColumns(state),
+    sortingColumns,
     selectedRows: getSelectedRows(state),
     currentUsername: getUsername(state),
     users: getUserList(state),

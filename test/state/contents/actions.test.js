@@ -208,8 +208,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -231,8 +233,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
       });
@@ -254,8 +258,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -277,8 +283,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
       });
@@ -300,8 +308,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -321,8 +331,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
       });
@@ -344,8 +356,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -381,8 +395,10 @@ describe('state/contents/actions', () => {
           contents: [],
           currentQuickFilter: { id: 'id', value: 'test' },
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -404,8 +420,10 @@ describe('state/contents/actions', () => {
         contents: {
           contents: [],
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
           currentQuickFilter: { id: 'id', value: '' },
           filteringCategories: ['a', 'b'],
@@ -434,8 +452,10 @@ describe('state/contents/actions', () => {
         contents: {
           contents: [],
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
           currentQuickFilter: { id: 'id', value: '' },
           filteringCategories: ['a', 'b'],
@@ -461,8 +481,10 @@ describe('state/contents/actions', () => {
         contents: {
           contents: [],
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
           accessChecked: 'administrators',
           currentQuickFilter: { id: 'id', value: '' },
@@ -503,8 +525,10 @@ describe('state/contents/actions', () => {
           currentQuickFilter: { id: 'id', value: '' },
           currentStatusShow: 'published',
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -532,8 +556,10 @@ describe('state/contents/actions', () => {
           currentAuthorShow: 'all',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
           tabSearchEnabled: true,
         },
@@ -560,8 +586,10 @@ describe('state/contents/actions', () => {
           currentStatusShow: 'draft',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
           tabSearchEnabled: true,
         },
@@ -590,8 +618,10 @@ describe('state/contents/actions', () => {
           statusChecked: 'published',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -618,8 +648,10 @@ describe('state/contents/actions', () => {
           statusChecked: 'published',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -646,8 +678,10 @@ describe('state/contents/actions', () => {
           statusChecked: 'published',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },
@@ -674,8 +708,10 @@ describe('state/contents/actions', () => {
           statusChecked: 'draft',
           currentQuickFilter: {},
           sortingColumns: {
-            attribute: 'created',
-            direction: 'ASC',
+            default: {
+              attribute: 'created',
+              direction: 'ASC',
+            },
           },
         },
         pagination: { global: { page: 1, pageSize: 10 } },

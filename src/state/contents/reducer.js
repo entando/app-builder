@@ -27,8 +27,10 @@ const defaultState = {
   filteringCategories: [],
   joiningCategories: [],
   sortingColumns: {
-    attribute: 'lastModified',
-    direction: TABLE_SORT_DIRECTION.DESC,
+    default: {
+      attribute: 'lastModified',
+      direction: TABLE_SORT_DIRECTION.DESC,
+    },
   },
   contents: [],
   statusChecked: '',
@@ -120,9 +122,13 @@ const reducer = (state = defaultState, action = {}) => {
       };
     }
     case SET_SORT: {
+      const { attribute, direction, group } = action.payload;
       return {
         ...state,
-        sortingColumns: action.payload,
+        sortingColumns: {
+          ...state.sortingColumns,
+          [group || 'default']: { attribute, direction },
+        },
       };
     }
     case SELECT_SINGLE_ROW: {
