@@ -45,9 +45,19 @@ const AVAILABLE_COLUMN_CODES = [
 ];
 
 class Contents extends Component {
+  constructor(props) {
+    super(props);
+    this.onSortChanged = this.onSortChanged.bind(this);
+  }
+
   componentDidMount() {
     const { onDidMount } = this.props;
     onDidMount();
+  }
+
+  onSortChanged(sortParams) {
+    const { currentAuthorShow, currentStatusShow, onSetSort } = this.props;
+    onSetSort({ ...sortParams, group: `${currentAuthorShow}_${currentStatusShow}` });
   }
 
   render() {
@@ -55,7 +65,7 @@ class Contents extends Component {
       page, totalItems, pageSize, contents, lastPage, currentQuickFilter,
       onSetQuickFilter, onFilteredSearch, intl, onSetCurrentColumnsShow,
       contentTypes, currentColumnsShow, onSetContentType, sortingColumns,
-      onSetSort, selectedRows, onAdvancedFilterSearch, onContentSelect,
+      selectedRows, onAdvancedFilterSearch, onContentSelect,
       selectedContent,
     } = this.props;
 
@@ -84,7 +94,7 @@ class Contents extends Component {
             contents={contents}
             sortingColumns={sortingColumns}
             activeColumns={currentColumnsShow}
-            onSetSort={onSetSort}
+            onSetSort={this.onSortChanged}
             onSetCurrentColumnsShow={onSetCurrentColumnsShow}
             selectedRows={selectedRows}
             onFilteredSearch={onFilteredSearch}
@@ -111,6 +121,8 @@ Contents.propTypes = {
   onFilteredSearch: PropTypes.func.isRequired,
   contents: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  currentAuthorShow: PropTypes.string.isRequired,
+  currentStatusShow: PropTypes.string.isRequired,
   currentColumnsShow: PropTypes.arrayOf(PropTypes.string),
   onSetCurrentColumnsShow: PropTypes.func,
   onSetContentType: PropTypes.func.isRequired,

@@ -107,8 +107,8 @@ describe('state/contents/reducer', () => {
   describe('after action setSort', () => {
     let newState;
     it('should correctly update sort state field', () => {
-      newState = reducer(state, setSort({ name: { direction: 'ASC', position: 0 } }));
-      expect(newState.sortingColumns).toEqual({ name: { direction: 'ASC', position: 0 } });
+      newState = reducer(state, setSort({ direction: 'ASC', attribute: 'cho' }));
+      expect(newState.sortingColumns).toEqual({ default: { direction: 'ASC', attribute: 'cho' } });
     });
   });
   describe('after action selectRow', () => {

@@ -83,6 +83,7 @@ class Contents extends Component {
         defaultMessage: 'You have selected {number} content(s), you can',
       },
     });
+    this.onSortChanged = this.onSortChanged.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +96,11 @@ class Contents extends Component {
     onWillUnmount();
   }
 
+  onSortChanged(sortParams) {
+    const { currentAuthorShow, currentStatusShow, onSetSort } = this.props;
+    onSetSort({ ...sortParams, group: `${currentAuthorShow}_${currentStatusShow}` });
+  }
+
   render() {
     const {
       page, totalItems, pageSize, contents, lastPage, loading,
@@ -103,7 +109,7 @@ class Contents extends Component {
       onCheckStatus, onCheckAccess, accessChecked, onCheckAuthor, authorChecked,
       currentAuthorShow, currentStatusShow, currentColumnsShow,
       onSetCurrentAuthorShow, onSetCurrentStatusShow, onSetCurrentColumnsShow,
-      onSetContentType, onSetGroup, sortingColumns, onSetSort, selectedRows,
+      onSetContentType, onSetGroup, sortingColumns, selectedRows,
       onSelectRows, onSelectAllRows, onEditContent, onClickDelete, onClickPublish,
       onClickAddContent, onClickJoinCategories, currentUsername, onClickClone,
       onAdvancedFilterSearch, users, userPermissions, groupFilter,
@@ -199,7 +205,7 @@ class Contents extends Component {
                 contents={contents}
                 sortingColumns={sortingColumns}
                 activeColumns={currentColumnsShow}
-                onSetSort={onSetSort}
+                onSetSort={this.onSortChanged}
                 selectedRows={selectedRows}
                 onSelectRows={onSelectRows}
                 onSelectAllRows={onSelectAllRows}

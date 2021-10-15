@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 
 export const getContentsState = state => state.contents;
 
@@ -62,10 +63,14 @@ export const getCurrentStatusShow = createSelector(
   contents => contents.currentStatusShow,
 );
 
-export const getSortingColumns = createSelector(
+export const getSortingColumns = (state, group = 'default') => createSelector(
   getContentsState,
-  contents => contents.sortingColumns,
-);
+  contents => get(
+    contents,
+    `sortingColumns.${group}`,
+    contents.sortingColumns.default,
+  ),
+)(state);
 
 export const getSelectedRows = createSelector(
   getContentsState,
