@@ -269,41 +269,62 @@ class AppTour extends React.Component {
       },
       {
         step: 12,
-        onNext: () => onAddLogo(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(13, goTo);
+          onAddLogo(tourCreatedPageCode);
+        },
         onBack: () => onBackToAddPage(tourCreatedPageCode),
         stepInteraction: true,
       },
       {
         step: 13,
-        onNext: () => onAddNavBarWidget(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(14, goTo);
+          onAddNavBarWidget(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(12, goTo),
         stepInteraction: true,
       },
       {
         step: 14,
-        onNext: () => onAddSearchWidget(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(15, goTo);
+          onAddSearchWidget(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(13, goTo),
         stepInteraction: true,
       },
       {
         step: 15,
-        onNext: () => onAddLoginWidget(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(16, goTo);
+          onAddLoginWidget(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(14, goTo),
         stepInteraction: true,
       },
       {
         step: 16,
-        onNext: () => onAddBannerWidget(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(17, goTo);
+          onAddBannerWidget(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(15, goTo),
       },
       {
         step: 17,
-        onNext: () => onAddContentListWidget(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(18, goTo);
+          onAddContentListWidget(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(16, goTo),
       },
       {
         step: 18,
-        onNext: () => onAddSitemapMenu(tourCreatedPageCode),
+        onNext: ({ goTo }) => {
+          this.onNextStep(19, goTo);
+          onAddSitemapMenu(tourCreatedPageCode);
+        },
         onBack: ({ goTo }) => this.onNextStep(17, goTo),
       },
       {
@@ -411,7 +432,7 @@ class AppTour extends React.Component {
     return (
       <Tour
         steps={this.generateSteps()}
-        isOpen
+        isOpen={wizardEnabled}
         showNumber={false}
         showNavigationNumber={false}
         showNavigation={false}
@@ -420,7 +441,6 @@ class AppTour extends React.Component {
         disableDotsNavigation={false}
         onRequestClose={() => {}}
         startAt={appTourLastStep}
-        goToStep={appTourLastStep}
         disableFocusLock
         highlightedMaskClassName="AppTourHighlight"
         onAfterOpen={lockBodyScroll && scrollLock ? this.disableBody : null}
