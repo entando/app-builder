@@ -17,7 +17,7 @@ import { RECOVER_RESOURCE_MODAL_ID } from 'ui/versioning/common/RecoverResourceM
 
 export const mapStateToProps = (state) => {
   const {
-    page, totalItems, pageSize,
+    page, totalItems, pageSize, lastPage,
   } = getPagination(state, NAMESPACE_VERSIONING);
 
   return {
@@ -26,6 +26,7 @@ export const mapStateToProps = (state) => {
       page,
       pageSize,
     },
+    lastPage,
     totalItems,
     images: getResourceVersioningList(state),
     domain: getDomain(state),
