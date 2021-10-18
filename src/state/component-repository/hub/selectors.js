@@ -22,7 +22,12 @@ export const getBundleGroups = createSelector(
   hub => hub.bundleGroups,
 );
 
-export const getDeployedBundles = createSelector(
+export const getSelectedBundleStatus = createSelector(
   getHub,
-  hub => hub.deployedBundles,
+  hub => hub.selectedBundleStatus,
+);
+
+export const getBundleStatuses = createSelector(
+  getHub,
+  hub => hub.bundleStatuses,
 );

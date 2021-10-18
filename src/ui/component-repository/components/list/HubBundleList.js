@@ -1,21 +1,20 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
-
 import { useSelector, useDispatch } from 'react-redux';
 
-import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
-import ComponentListListView from 'ui/component-repository/components/list/ComponentListListView';
 import HubBundleManagementModal, { HUB_BUNDLE_MANAGEMENT_MODAL_ID } from 'ui/component-repository/components/list/HubBundleManagementModal';
-
 import { ECR_COMPONENTS_GRID_VIEW } from 'state/component-repository/components/const';
 import paginatorMessages from 'ui/paginatorMessages';
 import { getCurrentPage, getPageSize, getTotalItems } from 'state/pagination/selectors';
 import { getECRComponentListViewMode } from 'state/component-repository/components/selectors';
 import { fetchBundlesFromRegistry, fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
 import { getLoading } from 'state/loading/selectors';
-import { getBundlesFromRegistry, getDeployedBundles, getSelectedRegistry } from 'state/component-repository/hub/selectors';
+import { getBundlesFromRegistry, getBundleStatuses, getSelectedRegistry } from 'state/component-repository/hub/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
+import BundleListGridView from 'ui/component-repository/components/list/BundleListGridView';
+import BundleListListView from 'ui/component-repository/components/list/BundleListListView';
+import { getVisibleModal } from 'state/modal/selectors';
 
 
 const HubBundleList = ({
@@ -23,7 +22,6 @@ const HubBundleList = ({
 }) => {
   const dispatch = useDispatch();
   const activeRegistry = useSelector(getSelectedRegistry);
-  const deployedBundles = useSelector(getDeployedBundles);
   const loading = useSelector(getLoading)[FETCH_BUNDLES_LOADING_STATE];
   const page = useSelector(getCurrentPage);
   const perPage = useSelector(getPageSize);
@@ -35,6 +33,8 @@ const HubBundleList = ({
     perPageOptions: [5, 10, 15, 25, 50],
   };
   const bundles = useSelector(getBundlesFromRegistry);
+  const bundleStatuses = useSelector(getBundleStatuses);
+  const openedModal = useSelector(getVisibleModal);
 
   useEffect(
     () => { dispatch(fetchBundlesFromRegistry(activeRegistry.url)); },
@@ -57,28 +57,22 @@ const HubBundleList = ({
     dispatch(setVisibleModal(HUB_BUNDLE_MANAGEMENT_MODAL_ID));
   };
 
-  const filteredBundles = useMemo(
-    // @TODO change bundleId to id/code when payload is changed to ECR
-    () => bundles.filter(bundle => !deployedBundles.find(dBundle =>
-      dBundle.bundleId === bundle.bundleId)),
-    [bundles, deployedBundles],
-  );
-
-
   const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
-    ? (<ComponentListGridView
-      components={filteredBundles}
+    ? (<BundleListGridView
+      bundles={bundles}
       locale={intl.locale}
       openComponentManagementModal={openComponentManagementModal}
+      bundleStatuses={bundleStatuses}
     />)
-    : (<ComponentListListView
-      components={filteredBundles}
+    : (<BundleListListView
+      bundles={bundles}
       locale={intl.locale}
       openComponentManagementModal={openComponentManagementModal}
+      bundleStatuses={bundleStatuses}
     />);
 
-  const components = (!filteredBundles
-    || filteredBundles.length === 0)
+  const components = (!bundles
+    || bundles.length === 0)
     ?
     (
       <Alert type="info">
@@ -102,7 +96,7 @@ const HubBundleList = ({
           onPerPageSelect={changePageSize}
           messages={messages}
         />
-        <HubBundleManagementModal />
+        {openedModal === HUB_BUNDLE_MANAGEMENT_MODAL_ID && <HubBundleManagementModal />}
       </Spinner>
     </div>
   );

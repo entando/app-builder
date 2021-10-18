@@ -1683,5 +1683,9 @@ export default {
     'app.deployed': 'Deployed',
     'app.undeploy': 'Undeploy',
     'app.undeployed': 'Undeployed',
+    'hub.bundle.status': 'Status',
+    'hub.bundle.refresh': 'Refresh',
+    'hub.bundle.NOT_FOUND': 'UNDEPLOYED',
+    'hub.bundle.INSTALLED': 'INSTALLED',
   },
 };

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Row, Col } from 'patternfly-react';
-import { useSelector } from 'react-redux';
+import { Row, Col, Button } from 'patternfly-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import { getSelectedRegistry } from 'state/component-repository/hub/selectors';
-import { getECRSearchFilterType } from 'state/component-repository/components/selectors';
 
 import SidebarContainer from 'ui/component-repository/SidebarContainer';
 import SearchBarContainer from 'ui/component-repository/components/SearchBarContainer';
@@ -14,36 +13,43 @@ import ComponentListViewModeSwitcherContainer from 'ui/component-repository/comp
 import ExtraTabBarFilterContainer from 'ui/component-repository/ExtraTabBarFilterContainer';
 import HubRegistrySwitcher from 'ui/component-repository/components/list/HubRegistrySwitcher';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
-import BundleGroupAutoComplete from 'ui/component-repository/components/BundleGroupAutoComplete';
+import BundleGroupAutoCompleteContainer from 'ui/component-repository/components/BundleGroupAutoCompleteContainer';
 import HubBundleList from 'ui/component-repository/components/list/HubBundleList';
+import { getLoading } from 'state/loading/selectors';
+import { fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
+import { getCurrentPage, getPageSize } from 'state/pagination/selectors';
 
-export const BUNDLE_GROUP_ID = 'bundleGroup';
-
-const HUB_FILTER_TYPES = [
-  {
-    id: 'name',
-    title: 'Name',
-    filterType: 'text',
-  },
-  {
-    id: 'organizationName',
-    title: 'Organization Name',
-    filterType: 'text',
-  },
-  {
-    id: BUNDLE_GROUP_ID,
-    title: 'Bundle Group',
-    filterType: 'text',
-  },
-];
+export const BUNDLE_GROUP_FILTER_ID = 'bundleGroup';
 
 const ComponentListWrapper = () => {
+  const dispatch = useDispatch();
   const activeRegistry = useSelector(getSelectedRegistry);
-  const filterType = useSelector(getECRSearchFilterType);
   const isLocalRegistry = activeRegistry.name === ECR_LOCAL_REGISTRY_NAME;
+  const loading = useSelector(getLoading)[FETCH_BUNDLES_LOADING_STATE];
+  const page = useSelector(getCurrentPage);
+  const perPage = useSelector(getPageSize);
+  const handleRefreshBundles = () => {
+    dispatch(fetchBundlesFromRegistryWithFilters(activeRegistry.url, { page, pageSize: perPage }));
+  };
   return (
     <div className="ComponentListPage__body">
       <HubRegistrySwitcher />
+      {
+        !isLocalRegistry && (
+          <Button
+            key="bundleRefetchButton"
+            type="button"
+            bsStyle="primary"
+            disabled={loading}
+            className="ComponentListPage__refresh-button"
+            onClick={handleRefreshBundles}
+          >
+            <FormattedMessage id="hub.bundle.refresh" />
+            <i className="fa fa-refresh ComponentListPage__refresh-icon" />
+          </Button>
+        )
+      }
+      <Row />
       <Row>
         {
           isLocalRegistry && (
@@ -60,19 +66,30 @@ const ComponentListWrapper = () => {
               </div>
               <div className="ComponentListPage__container-header-actionbar">
                 <div>
-                  <FilterTypeContainer {...(!isLocalRegistry &&
-                    { filterTypes: HUB_FILTER_TYPES })}
-                  />
                   {
-                    filterType.id === BUNDLE_GROUP_ID ? (
-                      <BundleGroupAutoComplete />
-                    ) : (
+                    isLocalRegistry ? <FilterTypeContainer /> : (
+                      <Button
+                        key={BUNDLE_GROUP_FILTER_ID}
+                        eventKey={BUNDLE_GROUP_FILTER_ID}
+                        className="active"
+                      >
+                        <FormattedMessage id="app.filterTypesSelect.bundleGroup" />
+                      </Button>
+                      )
+                  }
+
+                  {
+                    isLocalRegistry ? (
                       <SearchBarContainer />
+                    ) : (
+                      <BundleGroupAutoCompleteContainer />
                     )
                   }
                 </div>
                 <div>
-                  <ExtraTabBarFilterContainer />
+                  {
+                    isLocalRegistry && <ExtraTabBarFilterContainer />
+                  }
                 </div>
                 <div>
                   <ComponentListViewModeSwitcherContainer />

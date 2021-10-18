@@ -50,8 +50,8 @@ import {
 } from 'state/component-repository/components/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
-import { updateAllActions } from './reducer';
-import { setDeployedBundles } from '../hub/actions';
+import { fetchBundleStatuses } from 'state/component-repository/hub/actions';
+import { updateAllActions } from 'state/component-repository/components/reducer';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
 
@@ -451,8 +451,8 @@ export const fetchECRComponents = (paginationMetadata = {
     getECRComponents(paginationMetadata, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(fetchBundleStatuses(data.payload.map(component => component.code)));
           dispatch(setECRComponents(data.payload));
-          dispatch(setDeployedBundles(data.payload));
           dispatch(setPage(data.metaData));
 
           if (data.payload.length) {

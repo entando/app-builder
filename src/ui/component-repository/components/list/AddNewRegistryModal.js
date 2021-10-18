@@ -43,6 +43,8 @@ const AddNewRegistryModalForm = ({
     });
   };
 
+  const handleCancel = () => dispatch(destroy(NewRegistryFormId));
+
   const buttons = [
     <Button bsStyle="primary" id="InstallationPlanModal__button-ok" disabled={invalid || loading} onClick={handleSave}>
       <FormattedMessage id="app.save" />
@@ -60,6 +62,7 @@ const AddNewRegistryModalForm = ({
       modalTitle={modalTitle}
       modalClassName="InstallationPlanModal"
       closeLabel="app.cancel"
+      modalCloseCleanup={handleCancel}
     >
       <form className="form-horizontal">
         <fieldset className="no-padding">

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { DEPLOY_BUNDLE, SET_ACTIVE_REGISTRY, SET_DEPLOYED_BUNDLES, SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS, SET_FETCHED_REGISTRIES, UNDEPLOY_BUNDLE } from 'state/component-repository/hub/types';
+import { SET_ACTIVE_REGISTRY, SET_BUNDLE_STATUSES, SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS, SET_FETCHED_REGISTRIES, SET_SELECTED_BUNDLE_STATUS } from 'state/component-repository/hub/types';
 
 export const ECR_LOCAL_REGISTRY_NAME = 'Local Registry';
 
@@ -27,21 +27,6 @@ const bundles = (state = [], action = {}) => {
   }
 };
 
-const deployedBundles = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_DEPLOYED_BUNDLES: {
-      return action.payload.bundles;
-    }
-    case DEPLOY_BUNDLE: {
-      return [...state, action.payload.bundle];
-    }
-    case UNDEPLOY_BUNDLE: {
-      return state.filter(bundle => bundle.id !== action.payload.bundle.id);
-    }
-    default: return state;
-  }
-};
-
 const registries = (state = [], action = {}) => {
   switch (action.type) {
     case SET_FETCHED_REGISTRIES: {
@@ -59,10 +44,29 @@ const bundleGroups = (state = [], action = {}) => {
   }
 };
 
+const bundleStatuses = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_BUNDLE_STATUSES: {
+      return action.payload.bundleStatuses;
+    }
+    default: return state;
+  }
+};
+
+const selectedBundleStatus = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_BUNDLE_STATUS: {
+      return action.payload.bundleStatuses[0];
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   bundles,
   registries,
   bundleGroups,
-  deployedBundles,
+  bundleStatuses,
+  selectedBundleStatus,
 });

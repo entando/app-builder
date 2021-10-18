@@ -98,6 +98,12 @@
     font-style: normal;
     font-weight: bold;
     line-height: 16px;
+  }
+}
 
+.HubBundleManagement {
+  &__modal-footer {
+    display: flex;
+    justify-content: flex-end;
   }
 }

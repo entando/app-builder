@@ -2,8 +2,12 @@ import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messag
 
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
-import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle } from 'api/component-repository/hub';
-import { DEPLOY_BUNDLE, SET_ACTIVE_REGISTRY, SET_DEPLOYED_BUNDLES, SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS, SET_FETCHED_REGISTRIES, UNDEPLOY_BUNDLE } from 'state/component-repository/hub/types';
+import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses } from 'api/component-repository/hub';
+import {
+  SET_ACTIVE_REGISTRY,
+  SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS,
+  SET_FETCHED_REGISTRIES, SET_BUNDLE_STATUSES, SET_SELECTED_BUNDLE_STATUS,
+} from 'state/component-repository/hub/types';
 
 export const FETCH_BUNDLES_LOADING_STATE = 'component-repository/hub/list/bundles';
 const FETCH_REGISTRIES_LOADING_STATE = 'component-repository/hub/list/registries';
@@ -35,26 +39,52 @@ export const setFetchedBundleGroups = bundleGroups => ({
   },
 });
 
-export const setDeployedBundles = bundles => ({
-  type: SET_DEPLOYED_BUNDLES,
+export const setBundleStatuses = bundleStatuses => ({
+  type: SET_BUNDLE_STATUSES,
   payload: {
-    bundles,
+    bundleStatuses,
   },
 });
 
-export const setDeployBundle = bundle => ({
-  type: DEPLOY_BUNDLE,
+export const setSelectedBundleStatus = bundleStatuses => ({
+  type: SET_SELECTED_BUNDLE_STATUS,
   payload: {
-    bundle,
+    bundleStatuses,
   },
 });
 
-export const setUndeployBundle = bundle => ({
-  type: UNDEPLOY_BUNDLE,
-  payload: {
-    bundle,
-  },
-});
+export const fetchBundleStatuses = bundleIds => dispatch => (
+  new Promise((resolve) => {
+    getBundleStatuses(bundleIds).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setBundleStatuses(data.payload.bundlesStatuses));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
+export const fetchSelectedBundleStatus = bundleId => dispatch => (
+  new Promise((resolve) => {
+    getBundleStatuses([bundleId]).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(setSelectedBundleStatus(data.payload.bundlesStatuses));
+        } else {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        resolve();
+      });
+    });
+  })
+);
+
 
 export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
@@ -62,6 +92,7 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
     getBundlesFromRegistry(url, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
           dispatch(setFetchedBundlesFromRegistry(data.payload));
           dispatch(setPage(data.metaData));
         } else {
@@ -114,10 +145,13 @@ export const fetchBundleGroups = (url, page, params = '') => dispatch => (
 
 export const fetchBundlesFromRegistryWithFilters = (url, page, params = '') => dispatch => (
   new Promise((resolve) => {
+    dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
     getBundleGroups(url, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
           dispatch(setFetchedBundleGroups(data.payload));
+          dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -125,6 +159,7 @@ export const fetchBundlesFromRegistryWithFilters = (url, page, params = '') => d
         resolve();
       });
     }).finally(() => {
+      dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
     });
   })
 );
@@ -173,7 +208,6 @@ export const sendAddRegistry = registryObject => dispatch => (
 
 export const sendDeployBundle = bundle => dispatch => (
   new Promise((resolve) => {
-    // @TODO replace bundleId with id/code once changed
     dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
     deployBundle(bundle).then((response) => {
       response.json().then((data) => {
@@ -182,7 +216,7 @@ export const sendDeployBundle = bundle => dispatch => (
             { id: 'app.deployed', values: { type: 'bundle', code: bundle.name } },
             TOAST_SUCCESS,
           ));
-          dispatch(setDeployBundle(bundle));
+          dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -190,7 +224,6 @@ export const sendDeployBundle = bundle => dispatch => (
         resolve();
       });
     }).finally(() => {
-      // @TODO replace bundleId with id/code once changed
       dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
     });
   })
@@ -207,7 +240,6 @@ export const sendUndeployBundle = bundle => dispatch => (
             { id: 'app.undeployed', values: { type: 'bundle', code: bundle.name } },
             TOAST_SUCCESS,
           ));
-          dispatch(setUndeployBundle(bundle));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

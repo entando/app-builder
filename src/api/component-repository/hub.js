@@ -1,4 +1,7 @@
-import { LIST_BUNDLES_FROM_REGISTRY_OK, LIST_REGISTRIES_OK, LIST_BUNDLE_GROUPS_OK } from 'test/mocks/component-repository/hub';
+import {
+  LIST_BUNDLES_FROM_REGISTRY_OK, LIST_REGISTRIES_OK,
+  LIST_BUNDLE_GROUPS_OK, LIST_BUNDLE_STATUSES_OK,
+} from 'test/mocks/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const NO_PAGE = { page: 1, pageSize: 0 };
@@ -32,7 +35,7 @@ export const getRegistries = (params = '') => (
 export const getBundleGroups = (url, page, params = '') => (
   makeRequest(
     {
-      uri: `/api/bundlegroups//${params}`,
+      uri: `/api/bundlegroups/${params}`,
       domain: url,
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
@@ -83,4 +86,20 @@ export const undeployBundle = bundle => (
     useAuthentication: true,
     body: bundle,
   })
+);
+
+export const getBundleStatuses = bundleIds => (
+  makeRequest(
+    {
+      uri: '/components/status/query',
+      domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+      method: METHODS.POST,
+      mockResponse: LIST_BUNDLE_STATUSES_OK,
+      useAuthentication: true,
+      body: {
+        ids: bundleIds,
+      },
+    },
+    NO_PAGE,
+  )
 );

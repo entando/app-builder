@@ -5,9 +5,12 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Icon } from 'patternfly-react';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
-import { BUNDLE_GROUP_ID } from 'ui/component-repository/components/list/ComponentListWrapper';
+import { BUNDLE_GROUP_FILTER_ID } from 'ui/component-repository/components/list/ComponentListWrapper';
 import { fetchBundleGroups } from 'state/component-repository/hub/actions';
 import { getBundleGroups, getSelectedRegistry } from 'state/component-repository/hub/selectors';
+import { getCurrentPage, getPageSize } from 'state/pagination/selectors';
+
+export const FORM_NAME = 'hubBundleGroupSearchForm';
 
 const msgs = defineMessages({
   chooseAnOption: {
@@ -16,19 +19,22 @@ const msgs = defineMessages({
   },
 });
 
-const BundleGroupAutoCompleteBody = ({ intl, handleSubmit }) => {
+const BundleGroupAutoCompleteBody = (props) => {
+  const { intl, handleSubmit, onSubmit } = props;
   const dispatch = useDispatch();
   const activeRegistry = useSelector(getSelectedRegistry);
   const bundlegroups = useSelector(getBundleGroups);
+  const page = useSelector(getCurrentPage);
+  const pageSize = useSelector(getPageSize);
   useEffect(
     () => { dispatch(fetchBundleGroups(activeRegistry.url)); },
     [activeRegistry.url, dispatch],
   );
   return (
-    <form className="SearchForm__container" onSubmit={handleSubmit}>
+    <form className="SearchForm__container" onSubmit={handleSubmit(values => onSubmit(values, activeRegistry.url, { page, pageSize }))}>
       <Field
         component={RenderDropdownTypeaheadInput}
-        name={BUNDLE_GROUP_ID}
+        name={BUNDLE_GROUP_FILTER_ID}
         options={bundlegroups}
         labelKey="name"
         valueKey="bundleGroupId"
@@ -51,10 +57,11 @@ const BundleGroupAutoCompleteBody = ({ intl, handleSubmit }) => {
 BundleGroupAutoCompleteBody.propTypes = {
   intl: intlShape.isRequired,
   handleSubmit: PropTypes.isRequired,
+  onSubmit: PropTypes.isRequired,
 };
 
 const BundleGroupAutoComplete = reduxForm({
-  form: 'hubBundleGroupSearchForm',
+  form: FORM_NAME,
 })(BundleGroupAutoCompleteBody);
 
 export default injectIntl(BundleGroupAutoComplete);
