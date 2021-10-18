@@ -104,7 +104,7 @@ class RichTextEditor extends Component {
   }
 
   componentDidMount() {
-    const { attrCode, langCode } = this.props;
+    const { attrCode, langCode, input: { value: inputValue } } = this.props;
 
     if (this.attachQuillRefs()) {
       this.handlers = {
@@ -118,7 +118,10 @@ class RichTextEditor extends Component {
       };
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({ editorToolbarId: `editor-toolbar_${langCode}_${attrCode}` });
-      this.timeout = window.setTimeout(() => this.setState({ editorCanWrite: true }), 100);
+      this.timeout = window.setTimeout(() => {
+        this.txtArea.value = inputValue;
+        this.setState({ editorCanWrite: true });
+      }, 100);
     }
   }
 
@@ -203,7 +206,9 @@ class RichTextEditor extends Component {
   }
 
   handleViewSource() {
+    console.log('handleViewSource', this.txtArea, this.txtArea.style.display);
     if (this.txtArea.style.display === '') {
+      console.log('handleViewSource choo', this.txtArea.value);
       const html = this.txtArea.value;
       this.quill.clipboard.dangerouslyPasteHTML(html);
     }
@@ -254,6 +259,7 @@ RichTextEditor.propTypes = {
     name: PropTypes.string,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
+    value: PropTypes.string,
   }).isRequired,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
