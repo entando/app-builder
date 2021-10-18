@@ -206,9 +206,7 @@ class RichTextEditor extends Component {
   }
 
   handleViewSource() {
-    console.log('handleViewSource', this.txtArea, this.txtArea.style.display);
     if (this.txtArea.style.display === '') {
-      console.log('handleViewSource choo', this.txtArea.value);
       const html = this.txtArea.value;
       this.quill.clipboard.dangerouslyPasteHTML(html);
     }
