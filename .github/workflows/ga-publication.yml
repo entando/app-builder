@@ -1,0 +1,57 @@
+name: GA Publication
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  ENTANDO_OPT_USE_PPL_TAG: "v1.1.0"
+  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
+  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
+  ENTANDO_OPT_REPO_BOM_URL: "${{ secrets.ENTANDO_OPT_REPO_BOM_URL }}"
+  PPL_CONTEXT: ${{ toJson(github) }}
+  GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
+  GIT_USER_EMAIL: "${{ secrets.GIT_USER_EMAIL }}"
+  LOCAL_CLONE_DIR: "local-checkout"
+
+jobs:
+  ga-publish:
+    env:
+      ENTANDO_OPT_MAVEN_REPO_GA: ${{ secrets.ENTANDO_OPT_MAVEN_REPO_GA }}
+      ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "PR PIPELINE START"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run status-report
+      - name: "Checkout"
+        run: |
+          ~/ppl-run checkout-branch base \
+            --id "CHECKOUT FOR GA PUBLICATION" \
+            --lcd "$LOCAL_CLONE_DIR"
+      - name: "Cache Maven packages"
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: "Configure GA Repository"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: maven-central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: "Publish package to GA"
+        run: |
+          ~/ppl-run mvn GA-PUBLICATION \
+            --id "GA-PUBLICATION" \
+            --lcd "$LOCAL_CLONE_DIR"
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}

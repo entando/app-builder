@@ -1,0 +1,142 @@
+name: PR-CYCLE
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches: 
+      - develop
+
+env:
+  ENTANDO_OPT_USE_PPL_TAG: "v1.1.0"
+  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
+  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
+  ENTANDO_OPT_REPO_BOM_URL: "${{ secrets.ENTANDO_OPT_REPO_BOM_URL }}"
+  PPL_CONTEXT: ${{ toJson(github) }}
+  GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
+  GIT_USER_EMAIL: "${{ secrets.GIT_USER_EMAIL }}"
+  LOCAL_CLONE_DIR: "local-checkout"
+  SNYK_ORG: "entando-ixc"
+
+jobs:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # PREPARE
+  
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      SCAN_MATRIX: ${{ steps.START.outputs.SCAN_MATRIX }}
+    steps:
+      #~
+      - name: "PR PIPELINE START"
+        id: START
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run \
+            .. status-report \
+            .. @checkout-branch pr --lcd "$LOCAL_CLONE_DIR" \
+            .. @pr-labels remove "prepared" --id "REMOVE-LABEL-PREPARED" \
+            .. @setup-feature-flags "PR_PREFLIGHT_CHECKS" "BOM_CHECK" "BOM" \
+            .. @setup-features-list "SCAN_MATRIX" true SCAN-NPM-LINT SCAN-NPM-SASS SCAN-NPM-COVERAGE \
+          ;
+      - name: "PR preflight checks"
+        if: steps.START.outputs.PR_PREFLIGHT_CHECKS != 'false'
+        id: pr-preflight-checks
+        run: |
+          ~/ppl-run pr-preflight-checks --lcd "$LOCAL_CLONE_DIR"
+      # BOM
+      - name: "entando-core-bom check"
+        if: steps.START.outputs.BOM_CHECK != 'false' && steps.START.outputs.BOM == 'true'
+        id: pr-bom-check
+        run: |
+          ~/ppl-run @pr-labels add "prepared" --id "ADD-LABEL-PREPARED"
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # FULL-BUILD
+  
+  full-build:
+    needs: [ 'prepare' ]
+    runs-on: ubuntu-latest
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run checkout-branch pr \
+            --lcd "$LOCAL_CLONE_DIR" \
+            --token "${{ secrets.ENTANDO_BOT_TOKEN }}" \
+          ;
+      #~ NODE
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+      #~ BUILD CACHE
+      - name: "Cache Build Dir"
+        id: build-cache
+        uses: actions/cache@v2
+        with:
+          path:  "${{ env.LOCAL_CLONE_DIR }}/build/"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #~ BUILD
+      - name: "FULL BUILD"
+        run: |
+          ~/ppl-run \
+            .. npm FULL-BUILD --lcd "$LOCAL_CLONE_DIR" \
+            .. release tag-snapshot-version --lcd "$LOCAL_CLONE_DIR" \
+          ;
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # SCANS
+  scans:
+    env:
+      CI: true
+    needs: [ 'prepare', 'full-build' ]
+    runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.SCAN_MATRIX != '' }}
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        scan-type: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
+      
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run checkout-branch pr --lcd "$LOCAL_CLONE_DIR"
+      #~ NODE
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+      #~ BUILD CACHE
+      - name: "Cache Build Dir"
+        id: build-cache
+        uses: actions/cache@v2
+        with:
+          path:  "${{ env.LOCAL_CLONE_DIR }}/build/"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #~ SCAN
+      - name: "Run the Scan"
+        run: |
+          SCAN_TYPE="${{ matrix.scan-type }}"
+          ~/ppl-run generic "$SCAN_TYPE" mvn --id "$SCAN_TYPE" --lcd "$LOCAL_CLONE_DIR"

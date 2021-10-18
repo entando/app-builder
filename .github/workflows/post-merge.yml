@@ -1,0 +1,36 @@
+name: Post-Merge
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  ENTANDO_OPT_USE_PPL_TAG: "v1.1.0"
+  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
+  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
+  ENTANDO_OPT_REPO_BOM_URL: "${{ secrets.ENTANDO_OPT_REPO_BOM_URL }}"
+  PPL_CONTEXT: ${{ toJson(github) }}
+  GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
+  GIT_USER_EMAIL: "${{ secrets.GIT_USER_EMAIL }}"
+  LOCAL_CLONE_DIR: "local-checkout"
+
+
+jobs:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # TAG
+  add-release-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "ADD RELEASE TAG"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+
+          ~/ppl-run pr-status-report \
+          .. checkout-branch base \
+                --id "CHECKOUT-BASE" \
+                --lcd "$LOCAL_CLONE_DIR" \
+                --token "${{ secrets.ENTANDO_BOT_TOKEN }}" \
+          .. release tag-snapshot-version \
+                --id "TAG-RELEASE" \
+                --lcd "$LOCAL_CLONE_DIR"
