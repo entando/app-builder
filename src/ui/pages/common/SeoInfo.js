@@ -23,7 +23,7 @@ const SeoInfo = ({
   formId,
 }) =>
   (languages && languages.length ? (
-    <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo" mountOnEnter unmountOnExit>
+    <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo">
       {
       languages.map((lang, i) => (
         <Tab key={lang.code} eventKey={i} title={`${lang.code.toUpperCase()}${i === 0 ? '*' : ''}`} >
