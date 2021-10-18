@@ -92,7 +92,6 @@ class AttachmentsList extends React.Component {
             onPerPageSelect={this.changePageSize}
             onFirstPage={() => this.changePage(1)}
             onPreviousPage={() => this.changePage(page - 1)}
-            onPageInput={this.onPageInput}
             onNextPage={() => this.changePage(page + 1)}
             onLastPage={() => this.changePage(lastPage)}
             messages={messages}
