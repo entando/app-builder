@@ -21,12 +21,32 @@ const SeoInfo = ({
   onChangeDefaultTitle,
   readOnly,
   formId,
-}) =>
-  (languages && languages.length ? (
-    <Tabs id="basic-tabs" defaultActiveKey={0} className="SeoInfo" mountOnEnter unmountOnExit>
+}) => {
+  const [touchedTabs, setTouchedTabs] = React.useState([]);
+
+  const defaultLang = React.useMemo(
+    () => languages.find(lang => lang.isDefault) || {}
+    , [languages],
+  );
+
+  const handleSelect = (key) => {
+    if (!touchedTabs.includes(key)) {
+      setTouchedTabs([...touchedTabs, key]);
+    }
+  };
+
+  const createRequiredArray = React.useCallback((key) => {
+    if (touchedTabs.includes(key) || defaultLang.code === key) {
+      return [required, maxLength70];
+    }
+    return [];
+  }, [defaultLang.code, touchedTabs]);
+
+  return (languages && languages.length ? (
+    <Tabs id="basic-tabs" defaultActiveKey={defaultLang ? defaultLang.code : undefined} className="SeoInfo" onSelect={handleSelect}>
       {
       languages.map((lang, i) => (
-        <Tab key={lang.code} eventKey={i} title={`${lang.code.toUpperCase()}${i === 0 ? '*' : ''}`} >
+        <Tab key={lang.code} eventKey={lang.code} title={`${lang.code.toUpperCase()}${lang.code === defaultLang.code ? '*' : ''}`} >
           <div className="tab-content margin-large-bottom ">
             <div className="tab-pane SeoInfo__section fade in active">
               <Field
@@ -36,7 +56,7 @@ const SeoInfo = ({
                 data-testid={`titles.${lang.code}`}
                 tourClass="app-tour-step-6"
                 label={<FormLabel helpId="app.pages.titleHelp" labelId="app.pages.title" required />}
-                validate={[required, maxLength70]}
+                validate={createRequiredArray(lang.code)}
                 inputSize={9}
                 onChange={(ev) => {
                   if (onChangeDefaultTitle && lang.isDefault) {
@@ -156,6 +176,8 @@ const SeoInfo = ({
     }
     </Tabs>
   ) : '');
+};
+
 
 SeoInfo.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
