@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Spinner,
   ListView,
-  Paginator,
+  PaginationRow,
 } from 'patternfly-react';
 import { injectIntl, intlShape } from 'react-intl';
 import ImagesListItem from 'ui/versioning/images/ImagesListItem';
@@ -47,11 +47,21 @@ class ImagesList extends React.Component {
         pageSize,
       },
       totalItems,
+      lastPage,
       onSubmit,
       removeImage,
       recoverImage,
       domain,
     } = this.props;
+
+    const pagination = {
+      page,
+      perPage: pageSize,
+      perPageOptions,
+    };
+
+    const itemsStart = totalItems === 0 ? 0 : ((page - 1) * pageSize) + 1;
+    const itemsEnd = Math.min(page * pageSize, totalItems);
 
     const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
       { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
@@ -70,16 +80,20 @@ class ImagesList extends React.Component {
               domain={domain}
             />
           ))}
-          <Paginator
-            pagination={{
-              page,
-              perPage: pageSize,
-              perPageOptions,
-            }}
-            viewType="list"
+          <PaginationRow
             itemCount={totalItems}
+            itemsStart={itemsStart}
+            itemsEnd={itemsEnd}
+            viewType="list"
+            pagination={pagination}
+            amountOfPages={lastPage}
+            pageInputValue={page}
             onPageSet={this.changePage}
             onPerPageSelect={this.changePageSize}
+            onFirstPage={() => this.changePage(1)}
+            onPreviousPage={() => this.changePage(page - 1)}
+            onNextPage={() => this.changePage(page + 1)}
+            onLastPage={() => this.changePage(lastPage)}
             messages={messages}
           />
         </ListView>
@@ -104,6 +118,7 @@ ImagesList.propTypes = {
   removeImage: PropTypes.func,
   recoverImage: PropTypes.func,
   totalItems: PropTypes.number,
+  lastPage: PropTypes.number.isRequired,
   domain: PropTypes.string,
 };
 

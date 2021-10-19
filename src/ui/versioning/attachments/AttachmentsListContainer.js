@@ -16,7 +16,7 @@ import AttachmentsList from 'ui/versioning/attachments/AttachmentsList';
 
 export const mapStateToProps = (state) => {
   const {
-    page, totalItems, pageSize,
+    page, totalItems, pageSize, lastPage,
   } = getPagination(state, NAMESPACE_VERSIONING);
   return {
     loading: getLoading(state).versionings,
@@ -24,6 +24,7 @@ export const mapStateToProps = (state) => {
       page,
       pageSize,
     },
+    lastPage,
     totalItems,
     attachments: getResourceVersioningList(state),
     domain: getDomain(state),
