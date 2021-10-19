@@ -39,7 +39,7 @@ const SeoInfo = ({
     if (touchedTabs.includes(key) || defaultLang.code === key) {
       return [required, maxLength70];
     }
-    return false;
+    return [];
   }, [defaultLang.code, touchedTabs]);
 
   return (languages && languages.length ? (
