@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -17,6 +17,15 @@ import {
 } from 'state/fragments/const';
 
 const maxLength50 = maxLength(50);
+
+const fragmentCode = value => (
+  value && /^[0-9a-zA-Z_\-.]+$/i.test(value) ?
+    undefined :
+    <FormattedMessage
+      id="validateForm.fragmentCode"
+    />
+);
+
 
 export const renderDefaultGuiCodeField = (field) => {
   const { input } = field;
@@ -128,7 +137,7 @@ export const FragmentFormBody = (props) => {
                 <FormLabel labelId="app.code" helpId="app.help.code" required />
               }
               placeholder={intl.formatMessage(msgs.codePlaceholder)}
-              validate={[required, code, maxLength50]}
+              validate={[required, fragmentCode, maxLength50]}
               disabled={mode === FORM_MODE_EDIT}
             />
             {widgetTypeField}

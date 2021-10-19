@@ -381,6 +381,7 @@ export default {
     'validateForm.passwordNotMatch': 'Il valore di Conferma non coincide col valore della Password',
     'validateForm.code.max10digits': 'Il codice contiene caratteri non validi o ha raggiunto i requisiti massimi. Sono ammessi solo 10 o meno caratteri numerici.',
     'validateForm.code': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici o l\'undescore \'_\'.',
+    'validateForm.fragmentCode': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici, l\'undescore \'_\' o lo trattino.',
     'validateForm.widgetJSON.formatInvalid': 'Config UI deve essere un formato JSON valido',
     'validateForm.widgetJSON.noCustomElement': 'Configurazione non valida: manca la proprietà "customElement"',
     'validateForm.widgetJSON.customElementString': 'Configurazione non valida: la proprietà "customElement" deve essere una stringa',

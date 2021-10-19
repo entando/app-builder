@@ -381,6 +381,7 @@ export default {
     'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',
     'validateForm.code.max10digits': 'Code contains invalid characters or has reached the maximum. Only 10 or less numeric characters are allowed.',
     'validateForm.code': 'Code contains invalid characters. Only alphanumeric characters and the underscore are allowed.',
+    'validateForm.fragmentCode': 'Code contains invalid characters. Only alphanumeric characters, the underscore, and the dash are allowed.',
     'validateForm.widgetJSON.formatInvalid': 'Config UI must be a valid JSON Format',
     'validateForm.widgetJSON.noCustomElement': 'Invalid Configuration: "customElement" property is missing',
     'validateForm.widgetJSON.customElementString': 'Invalid Configuration: "customElement" property must be a string',
