@@ -26,6 +26,7 @@ import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
 import { toggleLoading } from 'state/loading/actions';
+import { getDefaultLanguage } from 'state/languages/selectors';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
@@ -493,8 +494,22 @@ export const sendPatchPage = pageData => async (dispatch, getState) => {
   }
 };
 
-export const fetchPageForm = pageCode => dispatch => fetchPageInfo(pageCode)(dispatch)
-  .then(response => dispatch(initialize('pageEdit', response.payload)))
+export const fetchPageForm = pageCode => (dispatch, getState) => fetchPageInfo(pageCode)(dispatch)
+  .then((response) => {
+    const { seoData: { seoDataByLang }, titles } = response.payload;
+    const deflang = getDefaultLanguage(getState());
+    const languages = Object.keys(seoDataByLang).filter(lang => lang !== deflang);
+    languages.forEach((lang) => {
+      if (!titles[lang]) {
+        titles[lang] = titles[deflang];
+      }
+    });
+    const formValues = {
+      ...response.payload,
+      titles,
+    };
+    dispatch(initialize('pageEdit', formValues));
+  })
   .catch(() => {});
 
 export const loadSelectedPage = pageCode => dispatch =>
