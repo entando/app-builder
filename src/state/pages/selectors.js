@@ -189,8 +189,8 @@ export const getSelectedPagePreviewURI = createSelector(
 );
 
 export const getSelectedPublishedPageURI = createSelector(
-  getSelectedPage, getDomain, getLocale,
-  (selectedPage, domain, locale) => (
-    `${domain}/${locale}/${selectedPage.code}.page`
+  getSelectedPage, getDomain, getLocale, getDefaultLanguage,
+  (selectedPage, domain, locale, defaultLang) => (
+    `${domain}/${defaultLang || locale}/${selectedPage.code}.page`
   ),
 );
