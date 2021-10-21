@@ -246,7 +246,7 @@ const VerticalMenu = ({
         )
       }
         {
-        hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
+        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
           <Item
             id="menu-ux-pattern"
             onClick={() => {}}
