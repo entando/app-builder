@@ -17,6 +17,7 @@ import {
   CLEAR_TREE,
   BATCH_TOGGLE_EXPANDED,
   COLLAPSE_ALL,
+  SET_DASHBOARD_PAGES,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -276,6 +277,14 @@ export const search = (state = [], action = {}) => {
   }
 };
 
+export const dashboard = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_DASHBOARD_PAGES:
+      return action.payload.pages;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map: reducer,
   childrenMap,
@@ -285,4 +294,5 @@ export default combineReducers({
   freePages,
   selected,
   search,
+  dashboard,
 });

@@ -15,6 +15,7 @@ export const getTitlesMap = state => state.pages.titlesMap;
 export const getViewPages = state => state.pages.viewPages;
 export const getSelectedPage = state => state.pages.selected;
 export const getSearchPagesRaw = state => state.pages.search;
+export const getDashboardPages = state => state.pages.dashboard;
 
 export const getSearchPages = createSelector(
   [getSearchPagesRaw, getChildrenMap],
