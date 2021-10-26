@@ -19,7 +19,6 @@ export const mapDispatchToProps = dispatch => ({
         direction: 'DESC',
       },
     });
-    // todo here
     dispatch(fetchDashboardPages({ page, pageSize }, queryString));
   },
   onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'dashboardPageList')),
