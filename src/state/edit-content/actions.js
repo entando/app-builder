@@ -1,7 +1,7 @@
 import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 import { initialize, formValueSelector, change } from 'redux-form';
 import moment from 'moment';
-import { pickBy, isObject, cloneDeep } from 'lodash';
+import _, { pickBy, isObject, cloneDeep } from 'lodash';
 
 import { getContent, postAddContent, putUpdateContent } from 'api/editContent';
 
@@ -232,7 +232,7 @@ const toDateFormat = 'YYYY-MM-DD';
 
 const convertDateValue = (item) => {
   const { value } = item;
-  if (value.includes('-')) return item;
+  if (value.includes('-') || _.isEmpty(value)) return item;
 
   return {
     ...item,
