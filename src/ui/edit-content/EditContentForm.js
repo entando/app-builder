@@ -450,10 +450,6 @@ export class EditContentFormBody extends React.Component {
           buttonsList={modalButtons}
           modalTitleText={intl.formatMessage({ id: 'cms.contents.modal.missingTranslations.title' })}
           contentText={intl.formatMessage({ id: 'cms.contents.modal.missingTranslations.content' })}
-          invalid={invalid}
-          submitting={submitting}
-          onSave={onSave}
-          onDiscard={onDiscard}
         />
       </Spinner>
     );

@@ -145,8 +145,8 @@ export const mapDispatchToProps = (dispatch, { intl, history, match: { params } 
         }
       }
     }).catch((missingTranslation) => {
-      dispatch(setVisibleModal(TranslationWarningModalID));
       dispatch(setMissingTranslations(missingTranslation));
+      dispatch(setVisibleModal(TranslationWarningModalID));
       dispatch(setSaveType(saveType));
     });
   },
