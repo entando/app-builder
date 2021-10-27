@@ -14,7 +14,7 @@ const TEST_STATE = {
     dashboardPageList: [],
   },
   pages: {
-    search: [],
+    dashboard: [],
   },
   locale: 'en',
 };
@@ -23,7 +23,7 @@ describe('PagesListContainer', () => {
   const stateProps = mapStateToProps(TEST_STATE);
 
   it('maps the pages property', () => {
-    expect(stateProps).toHaveProperty('pages', TEST_STATE.pages.search);
+    expect(stateProps).toHaveProperty('pages', TEST_STATE.pages.dashboard);
   });
 
   it('maps the page property', () => {

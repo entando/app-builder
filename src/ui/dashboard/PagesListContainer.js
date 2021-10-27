@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { convertToQueryString } from '@entando/utils';
 
 import PagesList from 'ui/dashboard/PagesList';
-import { fetchSearchPages } from 'state/pages/actions';
-import { getSearchPages } from 'state/pages/selectors';
+import { fetchDashboardPages } from 'state/pages/actions';
+import { getDashboardPages } from 'state/pages/selectors';
 import { setColumnOrder } from 'state/table-column-order/actions';
 import { getColumnOrder } from 'state/table-column-order/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
@@ -19,14 +19,14 @@ export const mapDispatchToProps = dispatch => ({
         direction: 'DESC',
       },
     });
-    dispatch(fetchSearchPages({ page, pageSize }, queryString));
+    dispatch(fetchDashboardPages({ page, pageSize }, queryString));
   },
   onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'dashboardPageList')),
 });
 
 export const mapStateToProps = state => (
   {
-    pages: getSearchPages(state),
+    pages: getDashboardPages(state),
     page: getCurrentPage(state),
     totalItems: getTotalItems(state),
     pageSize: getPageSize(state),

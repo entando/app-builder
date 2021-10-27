@@ -20,6 +20,7 @@ import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT, SET_VIEWPAGES,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
+  SET_DASHBOARD_PAGES,
 } from 'state/pages/types';
 import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
@@ -154,6 +155,13 @@ export const setBatchExpanded = pageCodes => ({
 
 export const collapseAll = () => ({
   type: COLLAPSE_ALL,
+});
+
+export const setDashboardPages = pages => ({
+  type: SET_DASHBOARD_PAGES,
+  payload: {
+    pages,
+  },
 });
 
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
@@ -596,4 +604,20 @@ export const fetchPageTreeAll = () => (dispatch, getState) => {
         dispatch(fetchPageTreeAll());
       }
     });
+};
+
+export const fetchDashboardPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
+  try {
+    const response = await getSearchPages(page, params);
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setDashboardPages(json.payload));
+      dispatch(setPage(json.metaData));
+    } else {
+      dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    }
+  } catch (e) {
+    // do nothing
+  }
 };

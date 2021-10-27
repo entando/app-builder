@@ -8,7 +8,7 @@ import {
 import {
   addPages, setPageParentSync, movePageSync, setPageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
-  setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded,
+  setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded, setDashboardPages,
 } from 'state/pages/actions';
 
 import { HOMEPAGE_CODE } from 'state/pages/const';
@@ -334,6 +334,17 @@ describe('state/pages/reducer', () => {
       newState = reducer(state, setBatchExpanded([HOMEPAGE_CODE, 'dashboard']));
       expect(newState.statusMap.homepage.expanded).toBe(true);
       expect(newState.statusMap.dashboard.expanded).toBe(true);
+    });
+  });
+
+  describe('SET_DASHBOARD_PAGES', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer(state);
+    });
+    it('should update dashboard pages', () => {
+      const newState = reducer(state, setDashboardPages(PAGES));
+      expect(newState).toHaveProperty('dashboard', PAGES);
     });
   });
 });
