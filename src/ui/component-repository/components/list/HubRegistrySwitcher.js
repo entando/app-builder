@@ -1,25 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Row, Col, DropdownKebab, MenuItem, Icon } from 'patternfly-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { fetchRegistries, setActiveRegistry } from 'state/component-repository/hub/actions';
+import { fetchRegistries, setActiveRegistry, setFetchedBundleGroups, setFetchedBundlesFromRegistry } from 'state/component-repository/hub/actions';
 import { getRegistries, getSelectedRegistry } from 'state/component-repository/hub/selectors';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { ADD_NEW_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/AddNewRegistryModal';
 import { DELETE_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/DeleteRegistryModal';
 
+const DEFAULT_ECR_REGISTRY = {
+  name: ECR_LOCAL_REGISTRY_NAME,
+  url: '',
+};
+
 const HubRegistrySwitcher = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const registries = useSelector(getRegistries);
   const dispatch = useDispatch();
 
-  const handleRegistryChange = ((registry) => {
+  const handleRegistryChange = useCallback((registry) => {
     if (registry.name !== activeRegistry.name) {
+      dispatch(setFetchedBundleGroups([]));
+      dispatch(setFetchedBundlesFromRegistry([]));
       dispatch(setActiveRegistry(registry));
     }
-  });
+  }, [activeRegistry.name, dispatch]);
 
   const handleNewRegistryClick = () => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
@@ -29,10 +36,16 @@ const HubRegistrySwitcher = () => {
   const handleDeleteRegistry = (registry) => {
     if (activeRegistry.id === registry.id) return;
     dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
-    dispatch(setInfo({ type: 'Registry', code: registry.name }));
+    dispatch(setInfo({ type: 'Registry', code: registry.name, id: registry.id }));
   };
 
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
+
+  useEffect(() => {
+    handleRegistryChange(DEFAULT_ECR_REGISTRY);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Row className="HubRegistrySwitcher">
       <Col md={12}>

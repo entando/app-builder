@@ -53,7 +53,7 @@ import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanMod
 import { fetchBundleStatuses } from 'state/component-repository/hub/actions';
 import { updateAllActions } from 'state/component-repository/components/reducer';
 
-const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 3; // 3 minutes
+const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 5; // 5 minutes
 
 export const setSelectedECRComponent = componentRepositoryComponent => ({
   type: SET_SELECTED_ECR_COMPONENT,
@@ -451,7 +451,7 @@ export const fetchECRComponents = (paginationMetadata = {
     getECRComponents(paginationMetadata, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(fetchBundleStatuses(data.payload.map(component => component.code)));
+          dispatch(fetchBundleStatuses(data.payload.map(component => component.repoUrl)));
           dispatch(setECRComponents(data.payload));
           dispatch(setPage(data.metaData));
 
@@ -487,12 +487,13 @@ export const fetchECRComponentDetail = code => dispatch => (
         if (response.ok) {
           dispatch(setSelectedECRComponent(json.payload));
         } else {
+          dispatch(setSelectedECRComponent({}));
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => dispatch(setSelectedECRComponent({})));
   })
 );
 

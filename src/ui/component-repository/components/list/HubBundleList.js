@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,35 +27,38 @@ const HubBundleList = ({
   const perPage = useSelector(getPageSize);
   const totalItems = useSelector(getTotalItems);
   const viewMode = useSelector(getECRComponentListViewMode);
-  const pagination = {
+  const pagination = useMemo(() => ({
     page,
     perPage,
     perPageOptions: [5, 10, 15, 25, 50],
-  };
+  }), [page, perPage]);
   const bundles = useSelector(getBundlesFromRegistry);
   const bundleStatuses = useSelector(getBundleStatuses);
   const openedModal = useSelector(getVisibleModal);
 
   useEffect(
     () => { dispatch(fetchBundlesFromRegistry(activeRegistry.url)); },
-    [activeRegistry.url, dispatch, page, perPage],
+    [activeRegistry.url, dispatch],
   );
 
-  const changePage = useCallback(() => {
-    dispatch(fetchBundlesFromRegistryWithFilters(activeRegistry.url, { page, pageSize: perPage }));
-  }, [activeRegistry.url, dispatch, page, perPage]);
-
-  const changePageSize = useCallback(() => {
+  const changePage = useCallback((newPage) => {
     dispatch(fetchBundlesFromRegistryWithFilters(
       activeRegistry.url,
-      { page: 1, pageSize: perPage },
+      { page: newPage, pageSize: perPage },
     ));
   }, [activeRegistry.url, dispatch, perPage]);
 
-  const openComponentManagementModal = (component) => {
+  const changePageSize = useCallback((newPageSize) => {
+    dispatch(fetchBundlesFromRegistryWithFilters(
+      activeRegistry.url,
+      { page: 1, pageSize: newPageSize },
+    ));
+  }, [activeRegistry.url, dispatch]);
+
+  const openComponentManagementModal = useCallback((component) => {
     dispatch(setInfo({ type: 'Component', payload: component }));
     dispatch(setVisibleModal(HUB_BUNDLE_MANAGEMENT_MODAL_ID));
-  };
+  }, [dispatch]);
 
   const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
     ? (<BundleListGridView
@@ -90,6 +93,7 @@ const HubBundleList = ({
       <Spinner loading={!!loading} >
         {components}
         <Paginator
+          viewType="table"
           pagination={pagination}
           itemCount={totalItems}
           onPageSet={changePage}

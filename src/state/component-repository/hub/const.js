@@ -1,0 +1,5 @@
+export const INSTALLED = 'INSTALLED';
+export const DEPLOYED = 'DEPLOYED';
+export const INSTALLED_NOT_DEPLOYED = 'INSTALLED_NOT_DEPLOYED';
+export const NOT_FOUND = 'NOT_FOUND';
+export const INVALID_REPO_URL = 'INVALID_REPO_URL';

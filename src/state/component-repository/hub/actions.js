@@ -4,10 +4,13 @@ import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
 import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses } from 'api/component-repository/hub';
 import {
-  SET_ACTIVE_REGISTRY,
+  SET_ACTIVE_REGISTRY, SET_BUNDLE_GROUP_ID_FILTER,
   SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS,
   SET_FETCHED_REGISTRIES, SET_BUNDLE_STATUSES, SET_SELECTED_BUNDLE_STATUS,
 } from 'state/component-repository/hub/types';
+import { getBundleFilters } from './selectors';
+import { getECRComponentList } from '../components/selectors';
+import { setECRComponents } from '../components/actions';
 
 export const FETCH_BUNDLES_LOADING_STATE = 'component-repository/hub/list/bundles';
 const FETCH_REGISTRIES_LOADING_STATE = 'component-repository/hub/list/registries';
@@ -46,12 +49,20 @@ export const setBundleStatuses = bundleStatuses => ({
   },
 });
 
-export const setSelectedBundleStatus = bundleStatuses => ({
+export const setSelectedBundleStatus = bundleStatus => ({
   type: SET_SELECTED_BUNDLE_STATUS,
   payload: {
-    bundleStatuses,
+    bundleStatus,
   },
 });
+
+export const setBundleGroupIdFilter = value => ({
+  type: SET_BUNDLE_GROUP_ID_FILTER,
+  payload: {
+    value,
+  },
+});
+
 
 export const fetchBundleStatuses = bundleIds => dispatch => (
   new Promise((resolve) => {
@@ -59,7 +70,7 @@ export const fetchBundleStatuses = bundleIds => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setBundleStatuses(data.payload.bundlesStatuses));
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
@@ -74,7 +85,7 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
     getBundleStatuses([bundleId]).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(setSelectedBundleStatus(data.payload.bundlesStatuses));
+          dispatch(setSelectedBundleStatus(data.payload.bundlesStatuses[0]));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -92,15 +103,21 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
     getBundlesFromRegistry(url, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
-          dispatch(setFetchedBundlesFromRegistry(data.payload));
-          dispatch(setPage(data.metaData));
+          if (data.payload) {
+            dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
+            dispatch(setFetchedBundlesFromRegistry(data.payload));
+          }
+          if (data.metadata) {
+            dispatch(setPage(data.metadata));
+          }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
+    }).catch(() => {
+      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
     }).finally(() => {
       dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
     });
@@ -120,13 +137,16 @@ export const fetchRegistries = (params = '') => dispatch => (
         }
         resolve();
       });
-    }).finally(() => {
-      dispatch(toggleLoading(FETCH_REGISTRIES_LOADING_STATE));
-    });
+    }).catch(() => {
+      dispatch(addToast('Failed to fetch registries from CM', TOAST_ERROR));
+    })
+      .finally(() => {
+        dispatch(toggleLoading(FETCH_REGISTRIES_LOADING_STATE));
+      });
   })
 );
 
-export const fetchBundleGroups = (url, page, params = '') => dispatch => (
+export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params = '') => dispatch => (
   new Promise((resolve) => {
     getBundleGroups(url, page, params).then((response) => {
       response.json().then((data) => {
@@ -143,24 +163,30 @@ export const fetchBundleGroups = (url, page, params = '') => dispatch => (
   })
 );
 
-export const fetchBundlesFromRegistryWithFilters = (url, page, params = '') => dispatch => (
+export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, getState) => (
   new Promise((resolve) => {
+    const state = getState();
+    const filters = getBundleFilters(state);
+    const params = `?${Object.keys(filters).map(k => (filters[k] ? `${k}=${filters[k]}` : ''))}`;
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundleGroups(url, page, params).then((response) => {
+    getBundlesFromRegistry(url, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
-          dispatch(setFetchedBundleGroups(data.payload));
-          dispatch(setPage(data.metaData));
+          dispatch(setFetchedBundlesFromRegistry(data.payload));
+          dispatch(setPage(data.metadata));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
-    }).finally(() => {
-      dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    });
+    }).catch(() => {
+      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
+    })
+      .finally(() => {
+        dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
+      });
   })
 );
 
@@ -206,9 +232,9 @@ export const sendAddRegistry = registryObject => dispatch => (
   })
 );
 
-export const sendDeployBundle = bundle => dispatch => (
+export const sendDeployBundle = bundle => (dispatch, getState) => (
   new Promise((resolve) => {
-    dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
+    dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
     deployBundle(bundle).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -217,22 +243,26 @@ export const sendDeployBundle = bundle => dispatch => (
             TOAST_SUCCESS,
           ));
           dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress));
+          const state = getState();
+          const components = getECRComponentList(state);
+          dispatch(setECRComponents([...components, data.payload]));
         } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(addToast(data.message, TOAST_ERROR));
         }
         resolve();
       });
-    }).finally(() => {
-      dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
-    });
+    }).catch((err) => {
+      dispatch(addToast(err.message, TOAST_ERROR));
+    })
+      .finally(() => {
+        dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
+      });
   })
 );
 
 export const sendUndeployBundle = bundle => dispatch => (
   new Promise((resolve) => {
-    // @TODO replace bundleId with id/code once changed
-    dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
+    dispatch(toggleLoading(`undeployBundle${bundle.gitRepoAddress}`));
     undeployBundle(bundle).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -240,15 +270,14 @@ export const sendUndeployBundle = bundle => dispatch => (
             { id: 'app.undeployed', values: { type: 'bundle', code: bundle.name } },
             TOAST_SUCCESS,
           ));
+          // @TODO do same as above when deploying is done
         } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          dispatch(addToast(data.message, TOAST_ERROR));
         }
         resolve();
       });
     }).finally(() => {
-      // @TODO replace bundleId with id/code once changed
-      dispatch(toggleLoading(`deployBundle${bundle.bundleId}`));
+      dispatch(toggleLoading(`undeployBundle${bundle.gitRepoAddress}`));
     });
   })
 );

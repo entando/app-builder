@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Button, Icon } from 'patternfly-react';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import { BUNDLE_GROUP_FILTER_ID } from 'ui/component-repository/components/list/ComponentListWrapper';
-import { fetchBundleGroups } from 'state/component-repository/hub/actions';
+import { fetchBundleGroups, setBundleGroupIdFilter } from 'state/component-repository/hub/actions';
 import { getBundleGroups, getSelectedRegistry } from 'state/component-repository/hub/selectors';
 import { getCurrentPage, getPageSize } from 'state/pagination/selectors';
 
@@ -30,13 +30,27 @@ const BundleGroupAutoCompleteBody = (props) => {
     () => { dispatch(fetchBundleGroups(activeRegistry.url)); },
     [activeRegistry.url, dispatch],
   );
+
+  const submitHandler = handleSubmit(values => onSubmit(
+    values, activeRegistry.url,
+    { page, pageSize },
+  ));
+
+  const clearSearch = () => {
+    const { reset } = props;
+    reset();
+    dispatch(setBundleGroupIdFilter());
+    submitHandler();
+  };
+
   return (
-    <form className="SearchForm__container" onSubmit={handleSubmit(values => onSubmit(values, activeRegistry.url, { page, pageSize }))}>
+    <form className="SearchForm__container" onSubmit={submitHandler}>
       <Field
         component={RenderDropdownTypeaheadInput}
         name={BUNDLE_GROUP_FILTER_ID}
         options={bundlegroups}
         labelKey="name"
+        onChange={value => dispatch(setBundleGroupIdFilter(value))}
         valueKey="bundleGroupId"
         labelSize={0}
         tourClass="BundleGroupAutoComplete"
@@ -50,14 +64,23 @@ const BundleGroupAutoCompleteBody = (props) => {
           <Icon name="search" />
         </Button>
       </div>
+      <div className="SearchForm__button-wrapper">
+        <Button
+          className="btn-transparent SearchForm__button-close"
+          onClick={clearSearch}
+        >
+          <Icon name="close" />
+        </Button>
+      </div>
     </form>
   );
 };
 
 BundleGroupAutoCompleteBody.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.isRequired,
-  onSubmit: PropTypes.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
 };
 
 const BundleGroupAutoComplete = reduxForm({

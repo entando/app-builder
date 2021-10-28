@@ -13,7 +13,7 @@ const DeleteRegistryModal = ({
   onConfirmDelete, info,
 }) => {
   const onDelete = () => {
-    onConfirmDelete(info.code);
+    onConfirmDelete(info.id);
   };
 
   const buttons = [
@@ -45,6 +45,7 @@ DeleteRegistryModal.propTypes = {
   onConfirmDelete: PropTypes.func,
   info: PropTypes.shape({
     code: PropTypes.string,
+    id: PropTypes.string,
     type: PropTypes.string,
   }),
 };

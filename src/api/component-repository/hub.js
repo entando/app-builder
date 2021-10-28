@@ -9,7 +9,7 @@ export const NO_PAGE = { page: 1, pageSize: 0 };
 export const getBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/api/bundles/${params}`,
+      uri: `/bundles/${params}`,
       domain: url,
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
@@ -23,7 +23,7 @@ export const getRegistries = (params = '') => (
   makeRequest(
     {
       uri: `/registries/${params}`,
-      domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_REGISTRIES_OK,
       useAuthentication: true,
@@ -35,7 +35,7 @@ export const getRegistries = (params = '') => (
 export const getBundleGroups = (url, page, params = '') => (
   makeRequest(
     {
-      uri: `/api/bundlegroups/${params}`,
+      uri: `/bundlegroups/${params}`,
       domain: url,
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
@@ -47,8 +47,8 @@ export const getBundleGroups = (url, page, params = '') => (
 
 export const deleteRegistry = registryId => (
   makeRequest({
-    uri: `/registry/${registryId}`,
-    domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+    uri: `/registries/${registryId}`,
+    domain: '/digital-exchange',
     method: METHODS.DELETE,
     mockResponse: LIST_REGISTRIES_OK,
     useAuthentication: true,
@@ -58,7 +58,7 @@ export const deleteRegistry = registryId => (
 export const addRegistry = registryObject => (
   makeRequest({
     uri: '/registries',
-    domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+    domain: '/digital-exchange',
     method: METHODS.POST,
     mockResponse: LIST_REGISTRIES_OK,
     useAuthentication: true,
@@ -68,8 +68,8 @@ export const addRegistry = registryObject => (
 
 export const deployBundle = bundle => (
   makeRequest({
-    uri: '/bundles', // @TODO-hub set it correctly after having real API
-    domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+    uri: '/components',
+    domain: '/digital-exchange',
     method: METHODS.POST,
     mockResponse: LIST_REGISTRIES_OK,
     useAuthentication: true,
@@ -92,7 +92,7 @@ export const getBundleStatuses = bundleIds => (
   makeRequest(
     {
       uri: '/components/status/query',
-      domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
+      domain: '/digital-exchange',
       method: METHODS.POST,
       mockResponse: LIST_BUNDLE_STATUSES_OK,
       useAuthentication: true,

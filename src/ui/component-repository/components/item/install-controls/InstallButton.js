@@ -53,7 +53,7 @@ const InstallButton = ({
   const showVersionDropdown = Array.isArray(component.versions) && component.versions.length > 1;
   const label = `componentRepository.components.${update ? 'update' : 'install'}`;
 
-  if (update && component.versions && component.versions.length <= 1) {
+  if (update && component.versions && component.versions.length < 1) {
     return null;
   }
 

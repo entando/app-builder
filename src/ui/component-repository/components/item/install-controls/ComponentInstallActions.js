@@ -115,6 +115,7 @@ const ComponentInstallActions = ({
         {renderedButton}
       </Spinner>
       <ConfirmUninstallModal
+        modalId="confirmComponentUninstallModal"
         info={{
           code: component.code,
           name: component.title,

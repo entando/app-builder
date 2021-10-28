@@ -86,6 +86,7 @@ class ComponentList extends Component {
         <Spinner loading={!!loading} >
           {components}
           <Paginator
+            viewType="table"
             pagination={pagination}
             itemCount={totalItems}
             onPageSet={this.changePage}
@@ -111,11 +112,11 @@ ComponentList.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   openComponentManagementModal: PropTypes.func,
-  bundleStatuses: PropTypes.arrayOf({
+  bundleStatuses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     status: PropTypes.string,
     installedVersion: PropTypes.string,
-  }),
+  })),
   openedModal: PropTypes.string,
 };
 

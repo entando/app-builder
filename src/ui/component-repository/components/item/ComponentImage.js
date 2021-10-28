@@ -1,7 +1,5 @@
 import React from 'react';
-
-import { componentType } from 'models/component-repository/components';
-
+import PropTypes from 'prop-types';
 
 const ComponentImage = ({ component }) => {
   if (component.thumbnail) {
@@ -18,8 +16,10 @@ const ComponentImage = ({ component }) => {
 };
 
 ComponentImage.propTypes = {
-  component: componentType.isRequired,
+  component: PropTypes.shape({
+    thumbnail: PropTypes.string,
+    title: PropTypes.string,
+  }).isRequired,
 };
-
 
 export default ComponentImage;

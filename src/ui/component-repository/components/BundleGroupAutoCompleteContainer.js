@@ -9,10 +9,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (values, url, page) => {
-    const params = values && values[BUNDLE_GROUP_FILTER_ID] ? `?bundleGroupId=${values[BUNDLE_GROUP_FILTER_ID]}` : '';
-    return dispatch(fetchBundlesFromRegistryWithFilters(url, page, params));
-  },
+  onSubmit: (_, url, page) => dispatch(fetchBundlesFromRegistryWithFilters(url, page)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {

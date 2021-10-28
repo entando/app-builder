@@ -13,7 +13,7 @@ const BundlePreview = ({
   <div className="BundlePreview">
     <div className="BundlePreview__info">
       <div className="BundlePreview__image">
-        <ComponentImage component={{ thumbnail: descriptionImage, title: name }} />
+        <ComponentImage component={{ thumbnail: descriptionImage, title: name, code: name }} />
       </div>
       <div className="BundlePreview__meta">
         <div className="BundlePreview__bundle-name">

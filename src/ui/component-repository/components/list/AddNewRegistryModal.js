@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal } from 'patternfly-react';
-import { Field, reduxForm, destroy } from 'redux-form';
+import { Field, reduxForm, destroy, submit, Form } from 'redux-form';
 import PropTypes from 'prop-types';
 import { required } from '@entando/utils';
 
@@ -20,7 +20,7 @@ const NewRegistryFormId = 'NewRegistryFormId';
 export const isUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
 
 const AddNewRegistryModalForm = ({
-  invalid,
+  invalid, handleSubmit,
 }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -46,7 +46,13 @@ const AddNewRegistryModalForm = ({
   const handleCancel = () => dispatch(destroy(NewRegistryFormId));
 
   const buttons = [
-    <Button bsStyle="primary" id="InstallationPlanModal__button-ok" disabled={invalid || loading} onClick={handleSave}>
+    <Button
+      bsStyle="primary"
+      type="submit"
+      id="InstallationPlanModal__button-ok"
+      disabled={invalid || loading}
+      onClick={() => dispatch(submit(NewRegistryFormId))}
+    >
       <FormattedMessage id="app.save" />
     </Button>,
   ];
@@ -64,7 +70,7 @@ const AddNewRegistryModalForm = ({
       closeLabel="app.cancel"
       modalCloseCleanup={handleCancel}
     >
-      <form className="form-horizontal">
+      <Form className="form-horizontal" onSubmit={handleSubmit(values => handleSave(values))}>
         <fieldset className="no-padding">
           <Field
             label={<FormLabel labelId="hub.newRegistry.name" required />}
@@ -81,13 +87,14 @@ const AddNewRegistryModalForm = ({
             validate={validateUrl}
           />
         </fieldset>
-      </form>
+      </Form>
     </GenericModalContainer>
   );
 };
 
 AddNewRegistryModalForm.propTypes = {
   invalid: PropTypes.bool,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 AddNewRegistryModalForm.defaultProps = {

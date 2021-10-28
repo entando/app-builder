@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 
-import { SET_ACTIVE_REGISTRY, SET_BUNDLE_STATUSES, SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS, SET_FETCHED_REGISTRIES, SET_SELECTED_BUNDLE_STATUS } from 'state/component-repository/hub/types';
+import {
+  SET_ACTIVE_REGISTRY, SET_BUNDLE_STATUSES, SET_FETCHED_BUNDLES,
+  SET_FETCHED_BUNDLE_GROUPS, SET_FETCHED_REGISTRIES,
+  SET_SELECTED_BUNDLE_STATUS, SET_BUNDLE_GROUP_ID_FILTER,
+} from 'state/component-repository/hub/types';
 
 export const ECR_LOCAL_REGISTRY_NAME = 'Local Registry';
 
@@ -49,14 +53,27 @@ const bundleStatuses = (state = [], action = {}) => {
     case SET_BUNDLE_STATUSES: {
       return action.payload.bundleStatuses;
     }
+    case SET_SELECTED_BUNDLE_STATUS: {
+      const filteredBundles = state.filter(b => b.id !== action.payload.bundleStatus.id);
+      return [...filteredBundles, action.payload.bundleStatus];
+    }
     default: return state;
   }
 };
 
-const selectedBundleStatus = (state = [], action = {}) => {
+const selectedBundleStatus = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_BUNDLE_STATUS: {
-      return action.payload.bundleStatuses[0];
+      return action.payload.bundleStatus;
+    }
+    default: return state;
+  }
+};
+
+const bundleFilters = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_BUNDLE_GROUP_ID_FILTER: {
+      return { bundleGroupId: action.payload.value };
     }
     default: return state;
   }
@@ -69,4 +86,5 @@ export default combineReducers({
   bundleGroups,
   bundleStatuses,
   selectedBundleStatus,
+  bundleFilters,
 });

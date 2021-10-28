@@ -106,4 +106,13 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  &__action-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__deploy-action {
+    margin-left: 10px;
+  }
 }

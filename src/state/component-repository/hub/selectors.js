@@ -31,3 +31,8 @@ export const getBundleStatuses = createSelector(
   getHub,
   hub => hub.bundleStatuses,
 );
+
+export const getBundleFilters = createSelector(
+  getHub,
+  hub => hub.bundleFilters,
+);

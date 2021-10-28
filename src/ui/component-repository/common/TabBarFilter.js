@@ -18,10 +18,10 @@ class TabBarFilter extends Component {
       onSelect(value);
     };
 
-    const buttons = filterTabs.map((filterTab, index) => (
+    const buttons = filterTabs.map(filterTab => (
       <Button
         key={filterTab.value}
-        eventKey={index}
+        // eventKey={index}
         onClick={() => { handleSelect(filterTab.value); }}
         className={filterTab.value === selectedFilterTab && 'active'}
       >
