@@ -45,6 +45,7 @@
     "file-loader": "^1.1.11",
     "flat": "^4.1.0",
     "flux-standard-action": "^2.0.1",
+    "formik": "^2.2.9",
     "fs-extra": "3.0.1",
     "history": "^4.9.0",
     "html-webpack-plugin": "^3.2.0",
@@ -110,7 +111,8 @@
     "webpack": "^4.28.3",
     "webpack-dev-server": "^3.8.2",
     "webpack-manifest-plugin": "^2.0.3",
-    "whatwg-fetch": "2.0.4"
+    "whatwg-fetch": "2.0.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "node scripts/start.js",

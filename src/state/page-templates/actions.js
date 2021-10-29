@@ -152,7 +152,8 @@ export const initPageTemplateForm = (pageTemplateCode, mode = FORM_MODE_EDIT) =>
       } : {}),
     };
     pageTemplate.configuration = JSON.stringify(pageTemplate.configuration, null, 2);
-    dispatch(initialize('pageTemplate', pageTemplate));
+    dispatch(setSelectedPageTemplate(pageTemplate));
+    return pageTemplate;
   }).catch(() => {})
 );
 

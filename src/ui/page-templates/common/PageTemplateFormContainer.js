@@ -4,8 +4,8 @@ import { clearErrors } from '@entando/messages';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
-import { getPageTemplateFormCellMap, getPageTemplateFormErrors } from 'state/page-templates/selectors';
-import { initPageTemplateForm, updatePageTemplate, createPageTemplate } from 'state/page-templates/actions';
+import { getSelectedPageTemplate, getPageTemplateFormCellMap, getPageTemplateFormErrors } from 'state/page-templates/selectors';
+import { initPageTemplateForm, updatePageTemplate, createPageTemplate, setSelectedPageTemplate } from 'state/page-templates/actions';
 import { FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/page-templates/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
@@ -13,7 +13,14 @@ import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 
 import PageTemplateForm from 'ui/page-templates/common/PageTemplateForm';
 
+const defaultFormValues = {
+  code: '',
+  descr: '',
+  configuration: '{\n  "frames": []\n}',
+};
+
 export const mapStateToProps = state => ({
+  initialValues: getSelectedPageTemplate(state) || defaultFormValues,
   previewCellMap: getPageTemplateFormCellMap(state),
   previewErrors: getPageTemplateFormErrors(state),
 });
@@ -35,9 +42,7 @@ export const mapDispatchToProps = (dispatch, { mode, match: { params }, history 
     if ([FORM_MODE_EDIT, FORM_MODE_CLONE].includes(mode)) {
       dispatch(initPageTemplateForm(params.pageTemplateCode, mode));
     } else {
-      dispatch(initialize('pageTemplate', {
-        configuration: '{\n  "frames": []\n}',
-      }));
+      dispatch(setSelectedPageTemplate(defaultFormValues));
     }
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('pageTemplate')); },
