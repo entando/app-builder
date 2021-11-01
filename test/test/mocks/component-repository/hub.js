@@ -320,3 +320,127 @@ export const LIST_BUNDLE_GROUPS_OK = [
     bundleGroupId: '74',
   },
 ];
+
+export const DELETE_REGISTRY_OK = {
+  name: 'deleted registry name',
+};
+
+export const ADD_REGISTRY_OK = {
+  id: 'registry id',
+  name: 'registry name',
+  url: 'registry url',
+};
+
+export const DEPLOY_BUNDLE_OK = {
+  code: 'veniam dolore Excepteur',
+  title: 'fugiat dolore',
+  description: 'Ut laboris adipisicing consequat',
+  bundleType: 'SYSTEM_LEVEL_BUNDLE',
+  thumbnail: 'sed ',
+  componentTypes: [
+    'aute dolore proident',
+    'sunt ut irure mollit',
+  ],
+  installedJob: {
+    id: 'urn:uuid:c5b3ebf1-4508-7790-c655-4ec8d6b0bf80',
+    componentId: 'nostrud dolore consectetur in',
+    componentName: 'aliquip dolor reprehenderit ex anim',
+    componentVersion: 'in deserunt cillum reprehend',
+    progress: -39829744.483160436,
+    startedAt: '1972-02-25T02:36:03.813Z',
+    finishedAt: '1970-01-25T12:59:05.818Z',
+    status: 'UNINSTALL_CREATED',
+    installErrorCode: -15181523,
+    installErrorMessage: 'elit fugiat in',
+    rollbackErrorCode: -80903621,
+    rollbackErrorMessage: 'cupidatat cillum et Excepteur exercitation',
+    componentJobs: [
+      {
+        id: 'f10e8de0-2ff4-2a40-36ae-8436d7cefaa9',
+        type: 'WIDGET',
+        componentId: 'consequat labore dolor',
+        checksum: 'dolor adipisicing',
+        status: 'INSTALL_ROLLBACK_IN_PROGRESS',
+        startedAt: '1976-01-22T10:31:27.309Z',
+        finishedAt: '1992-10-25T22:15:37.364Z',
+        installErrorCode: 79939585,
+        installErrorMessage: 'nostrud ',
+        rollbackErrorCode: -80637336,
+        rollbackErrorMessage: 'dolore',
+      },
+      {
+        id: '22f278d0-594d-6be8-30a1-dea05b687b9d',
+        type: 'PLUGIN',
+        componentId: 'non aute anim',
+        checksum: 'ut Excepteur aute cupidatat consectetur',
+        status: 'INSTALL_ROLLBACK_ERROR',
+        startedAt: '1981-03-27T20:39:53.382Z',
+        finishedAt: '1957-02-15T10:58:20.795Z',
+        installErrorCode: -60158303,
+        installErrorMessage: 'reprehenderit in deserunt quis',
+        rollbackErrorCode: -92977055,
+        rollbackErrorMessage: 'irure',
+      },
+    ],
+  },
+  lastJob: {
+    id: '19c7f779-b261-339e-8541-248369470b73',
+    componentId: 'veniam ut ad ea tempor',
+    componentName: 'id sit dolore incididunt',
+    componentVersion: 'consectetur anim',
+    progress: -34989267.51930105,
+    startedAt: '2016-08-10T04:21:14.247Z',
+    finishedAt: '1943-02-15T06:11:36.938Z',
+    status: 'INSTALL_COMPLETED',
+    installErrorCode: 56285108,
+    installErrorMessage: 'in aliquip eiusmod',
+    rollbackErrorCode: -6601547,
+    rollbackErrorMessage: 'Excepteur mollit',
+    componentJobs: [
+      {
+        id: '0bfd6e5f-5e09-1a88-d96a-c94b2ad2f55b',
+        type: 'LABEL',
+        componentId: 'ex ullamco aliqua dolor',
+        checksum: 'do quis culpa consequat',
+        status: 'INSTALL_IN_PROGRESS',
+        startedAt: '1973-03-07T18:01:05.041Z',
+        finishedAt: '1987-08-27T21:55:33.423Z',
+        installErrorCode: 96967859,
+        installErrorMessage: 'in culpa Except',
+        rollbackErrorCode: -58475155,
+        rollbackErrorMessage: 'eiusmod cupidatat enim in Excepteur',
+      },
+      {
+        id: 'urn:uuid:bfb409a4-a49f-61b5-3f83-d95fe8960440',
+        type: 'DIRECTORY',
+        componentId: 'qui magna proident',
+        checksum: 'ut enim cillum sint',
+        status: 'UNINSTALL_ERROR',
+        startedAt: '1951-04-23T15:32:13.974Z',
+        finishedAt: '2012-07-08T09:19:52.433Z',
+        installErrorCode: -39883082,
+        installErrorMessage: 'est ipsum occaecat labore',
+        rollbackErrorCode: -49336951,
+        rollbackErrorMessage: 'dolore aliqua labore aute',
+      },
+    ],
+  },
+  customInstallation: false,
+  latestVersion: {
+    version: 'irure anim elit aute',
+  },
+  versions: [
+    {
+      version: 'incididunt eu elit',
+    },
+    {
+      version: 'sint Excepteur laborum esse',
+    },
+  ],
+  installed: true,
+};
+
+
+export const UNDEPLOY_BUNDLE_OK = {
+  code: 'undeployed bundle code probably',
+};

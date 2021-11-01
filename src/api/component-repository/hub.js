@@ -1,6 +1,8 @@
 import {
   LIST_BUNDLES_FROM_REGISTRY_OK, LIST_REGISTRIES_OK,
   LIST_BUNDLE_GROUPS_OK, LIST_BUNDLE_STATUSES_OK,
+  DELETE_REGISTRY_OK, ADD_REGISTRY_OK, DEPLOY_BUNDLE_OK,
+  UNDEPLOY_BUNDLE_OK,
 } from 'test/mocks/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -32,7 +34,7 @@ export const getRegistries = (params = '') => (
   )
 );
 
-export const getBundleGroups = (url, page, params = '') => (
+export const getBundleGroups = (url, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
       uri: `/bundlegroups/${params}`,
@@ -50,7 +52,7 @@ export const deleteRegistry = registryId => (
     uri: `/registries/${registryId}`,
     domain: '/digital-exchange',
     method: METHODS.DELETE,
-    mockResponse: LIST_REGISTRIES_OK,
+    mockResponse: DELETE_REGISTRY_OK,
     useAuthentication: true,
   })
 );
@@ -60,7 +62,7 @@ export const addRegistry = registryObject => (
     uri: '/registries',
     domain: '/digital-exchange',
     method: METHODS.POST,
-    mockResponse: LIST_REGISTRIES_OK,
+    mockResponse: ADD_REGISTRY_OK,
     useAuthentication: true,
     body: registryObject,
   })
@@ -71,20 +73,19 @@ export const deployBundle = bundle => (
     uri: '/components',
     domain: '/digital-exchange',
     method: METHODS.POST,
-    mockResponse: LIST_REGISTRIES_OK,
+    mockResponse: DEPLOY_BUNDLE_OK,
     useAuthentication: true,
     body: bundle,
   })
 );
 
-export const undeployBundle = bundle => (
+export const undeployBundle = bundleId => (
   makeRequest({
-    uri: '/bundles', // @TODO-hub set it correctly after having real API
-    domain: '/digital-exchange', // @TODO-hub set it correctly after having real API
-    method: METHODS.POST,
-    mockResponse: LIST_REGISTRIES_OK,
+    uri: `/components/${bundleId}`,
+    domain: '/digital-exchange',
+    method: METHODS.DELETE, // @TODO-hub set it correctly after having real API
+    mockResponse: UNDEPLOY_BUNDLE_OK,
     useAuthentication: true,
-    body: bundle,
   })
 );
 
