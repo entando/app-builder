@@ -70,7 +70,6 @@ const ComponentListWrapper = () => {
                     isLocalRegistry ? <FilterTypeContainer /> : (
                       <Button
                         key={BUNDLE_GROUP_FILTER_ID}
-                        // eventKey={BUNDLE_GROUP_FILTER_ID}
                         className="active"
                       >
                         <FormattedMessage id="app.filterTypesSelect.bundleGroup" />

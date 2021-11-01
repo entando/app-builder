@@ -91,12 +91,6 @@ const HubBundleManagementModal = () => {
     </Button>
   );
 
-  // const undeployButton = (
-  //   <Button bsStyle="danger" id="InstallationPlanModal__button-ok" disabled={loading}>
-  //     <FormattedMessage id="app.undeploy" />
-  //   </Button>
-  // );
-
   const renderHubActions = () => {
     switch (selectedBundleStatus.status) {
       case DEPLOYED: {
