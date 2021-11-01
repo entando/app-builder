@@ -1,7 +1,6 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import moment from 'moment';
 
 import { LIST_ECR_COMPONENTS_OK } from 'test/mocks/component-repository/components';
 import ComponentListGridView from 'ui/component-repository/components/list/ComponentListGridView';
@@ -35,12 +34,6 @@ describe('ComponentListGridView', () => {
     it('does not render the date when lastUpdate isn ot passed', () => {
       const date = deComponents.first().find('.ComponentList__date');
       expect(date).toHaveLength(0);
-    });
-
-    it('renders the latest version', () => {
-      const version = deComponents.find('.ComponentList__version').first();
-      expect(version).toHaveLength(1);
-      expect(version.text()).toEqual(LIST_ECR_COMPONENTS_OK[0].latestVersion.version);
     });
 
     it('renders the image', () => {

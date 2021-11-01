@@ -8,6 +8,10 @@ import { getLoading } from 'state/loading/selectors';
 const TEST_STATE = {
   componentRepositoryComponents: { list: LIST_ECR_COMPONENTS_OK },
   pagination: { global: {} },
+  hub: {
+    bundleStatuses: [],
+  },
+  modal: {},
 };
 
 jest.mock('state/component-repository/components/actions', () => ({
@@ -26,6 +30,13 @@ describe('ComponentListContainer', () => {
   it('maps componentRepositoryComponents property state in ComponentListContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       componentRepositoryComponents: TEST_STATE.componentRepositoryComponents.list,
+      loading: undefined,
+      openedModal: undefined,
+      page: undefined,
+      pageSize: undefined,
+      totalItems: undefined,
+      viewMode: undefined,
+      bundleStatuses: [],
     });
   });
 
