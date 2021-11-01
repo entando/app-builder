@@ -8,7 +8,7 @@ import {
 
 export const ECR_LOCAL_REGISTRY_NAME = 'Local Registry';
 
-const ECR_LOCAL_REGISTRY = {
+export const ECR_LOCAL_REGISTRY = {
   name: ECR_LOCAL_REGISTRY_NAME,
   url: '',
 };
