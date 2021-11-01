@@ -1,78 +1,62 @@
 import {
-  LIST_ECR_COMPONENTS_OK,
-  COMPONENT_INSTALLATION_IN_PROGRESS,
-  COMPONENT_USAGE_LIST,
-} from 'test/mocks/component-repository/components';
+  getBundlesFromRegistry,
+  getRegistries,
+  getSelectedRegistry,
+  getBundleGroups,
+  getBundleStatuses,
+  getSelectedBundleStatus,
+  getBundleFilters,
+} from 'state/component-repository/hub/selectors';
+import { ECR_LOCAL_REGISTRY } from 'state/component-repository/hub/reducer';
 import {
-  getECRComponents, getECRComponentSelected,
-  getECRComponentList, getECRComponentInstallationStatus,
-  getECRComponentUninstallStatus, getComponentUsageList,
-  getInstallUninstallProgress,
-} from 'state/component-repository/components/selectors';
-import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
-
-const list = LIST_ECR_COMPONENTS_OK;
-const installation = {
-  [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-};
-
-const uninstallation = {
-  [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
-};
+  LIST_BUNDLES_FROM_REGISTRY_OK, LIST_REGISTRIES_OK,
+  LIST_BUNDLE_GROUPS_OK, LIST_BUNDLE_STATUSES_OK,
+} from 'test/mocks/component-repository/hub';
 
 const MOCK_STATE = {
-  componentRepositoryComponents: {
-    list,
-    selected: list[0],
-    installation,
-    uninstallation,
-    usageList: COMPONENT_USAGE_LIST,
-    progressStatus: 0.3,
+  hub: {
+    bundles: LIST_BUNDLES_FROM_REGISTRY_OK,
+    selected: ECR_LOCAL_REGISTRY,
+    registries: LIST_REGISTRIES_OK,
+    bundleGroups: LIST_BUNDLE_GROUPS_OK,
+    bundleStatuses: LIST_BUNDLE_STATUSES_OK.bundlesStatuses,
+    selectedBundleStatus: LIST_BUNDLE_STATUSES_OK.bundlesStatuses[0],
+    bundleFilters: { bundleGroupId: '1' },
   },
 };
 
-describe('state/component-repository/components/selectors', () => {
-  it('getECRComponents(state) returns the componentRepositoryComponents object', () => {
-    const componentRepositoryComponents = getECRComponents(MOCK_STATE);
-    expect(componentRepositoryComponents).toBe(MOCK_STATE.componentRepositoryComponents);
+describe('state/component-repository/hub/selectors', () => {
+  it('getBundlesFromRegistry(state) returns the bundles array', () => {
+    const bundles = getBundlesFromRegistry(MOCK_STATE);
+    expect(bundles).toBe(MOCK_STATE.hub.bundles);
   });
 
-  it('getECRComponentSelected(state) returns the selected object', () => {
-    const selected = getECRComponentSelected(MOCK_STATE);
-    expect(selected).toBe(MOCK_STATE.componentRepositoryComponents.selected);
+  it('getRegistries(state) returns the registries array', () => {
+    const selected = getRegistries(MOCK_STATE);
+    expect(selected).toBe(MOCK_STATE.hub.registries);
   });
 
-  it('verify getECRComponentList selector', () => {
-    expect(getECRComponentList(MOCK_STATE)).toEqual(MOCK_STATE.componentRepositoryComponents.list);
+  it('verify getSelectedRegistry selector', () => {
+    expect(getSelectedRegistry(MOCK_STATE)).toEqual(ECR_LOCAL_REGISTRY);
   });
 
-  it('verify getInstallUninstallProgress selector', () => {
-    expect(getInstallUninstallProgress(MOCK_STATE))
-      .toEqual(MOCK_STATE.componentRepositoryComponents.progressStatus);
+  it('verify getBundleGroups selector', () => {
+    expect(getBundleGroups(MOCK_STATE))
+      .toEqual(MOCK_STATE.hub.bundleGroups);
   });
 
-  it('verify getECRComponentInstallationStatus selector', () => {
-    const props = {
-      component: {
-        code: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
-      },
-    };
-    const installationStatus = getECRComponentInstallationStatus(MOCK_STATE, props);
-    expect(installationStatus).toEqual(ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+  it('verify getBundleStatuses selector', () => {
+    expect(getBundleStatuses(MOCK_STATE))
+      .toEqual(MOCK_STATE.hub.bundleStatuses);
   });
 
-  it('verify getECRComponentUninstallStatus selector', () => {
-    const props = {
-      component: {
-        code: COMPONENT_INSTALLATION_IN_PROGRESS.componentId,
-      },
-    };
-    const uninstallStatus = getECRComponentUninstallStatus(MOCK_STATE, props);
-    expect(uninstallStatus).toEqual(ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+  it('verify getSelectedBundleStatus selector', () => {
+    expect(getSelectedBundleStatus(MOCK_STATE))
+      .toEqual(MOCK_STATE.hub.selectedBundleStatus);
   });
 
-  it('verify getComponentUsageList', () => {
-    const usageList = getComponentUsageList(MOCK_STATE);
-    expect(usageList).toEqual(MOCK_STATE.componentRepositoryComponents.usageList);
+  it('verify getBundleFilters selector', () => {
+    expect(getBundleFilters(MOCK_STATE))
+      .toEqual(MOCK_STATE.hub.bundleFilters);
   });
 });
