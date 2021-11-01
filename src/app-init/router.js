@@ -4,9 +4,7 @@ export const history = createBrowserHistory({
   basename: process.env.PUBLIC_URL,
 });
 
-// export const ROUTE_HOME = '/dbg-app-builder/';
 export const ROUTE_HOME = '/';
-// export const ROUTE_DASHBOARD = '/dbg-app-builder/dashboard/';
 export const ROUTE_DASHBOARD = '/dashboard/';
 // page
 export const ROUTE_PAGE_ADD = '/page/add';
@@ -87,7 +85,6 @@ export const ROUTE_FILE_BROWSER_CREATE_FOLDER = '/file-browser/create-folder';
 export const ROUTE_FILE_BROWSER_CREATE_TEXT_FILE = '/file-browser/create-text-file';
 export const ROUTE_FILE_BROWSER_EDIT_TEXT_FILE = '/file-browser/edit/:filename';
 // component repository
-// export const ROUTE_ECR_COMPONENT_LIST = '/dbg-app-builder/component-repository';
 export const ROUTE_ECR_COMPONENT_LIST = '/component-repository';
 export const ROUTE_ECR_CONFIG_LIST = '/component-repository/configuration';
 export const ROUTE_ECR_CONFIG_EDIT = '/component-repository/configuration/edit/:server';

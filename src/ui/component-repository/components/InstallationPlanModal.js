@@ -73,7 +73,6 @@ const InstallationPlanModal = () => {
       modalTitle={modalTitle}
       modalClassName="InstallationPlanModal"
       {...(readOnly && { closeLabel: 'app.ok' })}
-      // closeLabel={readOnly && 'app.ok'}
     >
       <h2 className="InstallationPlanModal__title">{selectedComponent.title}</h2>
       <div>
