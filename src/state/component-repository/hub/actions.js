@@ -211,7 +211,7 @@ export const sendDeleteRegistry = registryId => dispatch => (
   })
 );
 
-export const sendAddRegistry = registryObject => dispatch => (
+export const sendPostRegistry = registryObject => dispatch => (
   new Promise((resolve) => {
     addRegistry(registryObject).then((response) => {
       response.json().then((data) => {

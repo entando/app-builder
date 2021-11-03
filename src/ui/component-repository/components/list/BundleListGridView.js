@@ -24,11 +24,11 @@ const BundleListGridView =
               md={6}
               xs={6}
               key={`${bundle.gitRepoAddress}-${bundle.bundleId}`}
-              className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--odd', 'no-padding')}
+              className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--even', 'no-padding')}
             >
               <div
                 role="button"
-                tabIndex={-1 * i}
+                tabIndex={-1}
                 className="ComponentList__component-wrapper"
                 onClick={() => openComponentManagementModal(bundle)}
                 onKeyDown={() => openComponentManagementModal(bundle)}
@@ -47,9 +47,7 @@ const BundleListGridView =
                 <div className="ComponentList__component-body">
                   <div className="ComponentList__component-content">
                     <p className="ComponentList__component-category">
-                      <React.Fragment>
-                        <FormattedMessage id="componentRepository.categories.bundle" />
-                      </React.Fragment>
+                      <FormattedMessage id="componentRepository.categories.bundle" />
                     </p>
                     <h1>{bundle.name}</h1>
                     <p className="ComponentList__description">{bundle.description}</p>

@@ -14,7 +14,7 @@ const ComponentListListView =
   components, onClickInstallPlan, openComponentManagementModal, bundleStatuses,
 }) => (
   <div className="ComponentListListView">
-    {components.map((component, i) => {
+    {components.map((component) => {
       const bundleStatus = bundleStatuses.find(b => b.id === component.repoUrl);
       return (
         <div
@@ -25,7 +25,7 @@ const ComponentListListView =
             <div
               className="ComponentList__component-image-wrapper"
               role="button"
-              tabIndex={-1 * i}
+              tabIndex={-1}
               onClick={() => openComponentManagementModal(component)}
               onKeyDown={() => openComponentManagementModal(component)}
             >
@@ -35,7 +35,7 @@ const ComponentListListView =
               <div
                 className="ComponentList__component-content"
                 role="button"
-                tabIndex={-1 * i}
+                tabIndex={-1}
                 onClick={() => openComponentManagementModal(component)}
                 onKeyDown={() => openComponentManagementModal(component)}
               >

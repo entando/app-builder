@@ -22,7 +22,7 @@ const ComponentListGridView =
           md={6}
           xs={6}
           key={component.code}
-          className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--odd', 'no-padding')}
+          className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--even', 'no-padding')}
         >
           <div
             key={component.code}
@@ -32,7 +32,7 @@ const ComponentListGridView =
             <div
               className="ComponentList__component-image-wrapper"
               role="button"
-              tabIndex={-1 * i}
+              tabIndex={-1}
               onClick={() => openComponentManagementModal(component)}
               onKeyDown={() => openComponentManagementModal(component)}
             >
@@ -43,7 +43,7 @@ const ComponentListGridView =
               <div
                 className="ComponentList__component-content"
                 role="button"
-                tabIndex={-1 * i}
+                tabIndex={-1}
                 onClick={() => openComponentManagementModal(component)}
                 onKeyDown={() => openComponentManagementModal(component)}
               >

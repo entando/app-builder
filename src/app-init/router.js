@@ -5,7 +5,7 @@ export const history = createBrowserHistory({
 });
 
 export const ROUTE_HOME = '/';
-export const ROUTE_DASHBOARD = '/dashboard/';
+export const ROUTE_DASHBOARD = '/dashboard';
 // page
 export const ROUTE_PAGE_ADD = '/page/add';
 export const ROUTE_PAGE_EDIT = '/page/edit/:pageCode';

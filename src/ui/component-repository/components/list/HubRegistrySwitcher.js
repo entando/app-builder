@@ -28,16 +28,16 @@ const HubRegistrySwitcher = () => {
     }
   }, [activeRegistry.name, dispatch]);
 
-  const handleNewRegistryClick = () => {
+  const handleNewRegistryClick = useCallback(() => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry' }));
-  };
+  }, [dispatch]);
 
-  const handleDeleteRegistry = (registry) => {
+  const handleDeleteRegistry = useCallback((registry) => {
     if (activeRegistry.id === registry.id) return;
     dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry', code: registry.name, id: registry.id }));
-  };
+  }, [activeRegistry.id, dispatch]);
 
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
 
@@ -74,7 +74,7 @@ const HubRegistrySwitcher = () => {
                     >
                       <div
                         role="button"
-                        tabIndex={-2}
+                        tabIndex={-1}
                         onClick={() => handleRegistryChange(reg)}
                         onKeyDown={() => handleDeleteRegistry(reg)}
                         className="HubRegistrySwitcher__action-label"

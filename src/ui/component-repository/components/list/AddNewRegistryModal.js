@@ -10,14 +10,14 @@ import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { getRegistries } from 'state/component-repository/hub/selectors';
-import { sendAddRegistry } from 'state/component-repository/hub/actions';
+import { sendPostRegistry } from 'state/component-repository/hub/actions';
 import { setVisibleModal } from 'state/modal/actions';
 
 export const ADD_NEW_REGISTRY_MODAL_ID = 'AddNewRegistryModal';
 
 const NewRegistryFormId = 'NewRegistryFormId';
 
-export const isUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
+export const mustBeUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
 
 const AddNewRegistryModalForm = ({
   invalid, handleSubmit,
@@ -30,12 +30,12 @@ const AddNewRegistryModalForm = ({
   const names = useMemo(() => existingRegistries.map(reg => reg.name), [existingRegistries]);
   const urls = useMemo(() => existingRegistries.map(reg => reg.url), [existingRegistries]);
 
-  const validateName = useMemo(() => [required, isUnique(names, 'name')], [names]);
-  const validateUrl = useMemo(() => [required, isUnique(urls, 'url')], [urls]);
+  const validateName = useMemo(() => [required, mustBeUnique(names, 'name')], [names]);
+  const validateUrl = useMemo(() => [required, mustBeUnique(urls, 'url')], [urls]);
 
   const handleSave = (values) => {
     setLoading(true);
-    dispatch(sendAddRegistry(values)).then(() => {
+    dispatch(sendPostRegistry(values)).then(() => {
       dispatch(setVisibleModal(''));
       dispatch(destroy(NewRegistryFormId));
     }).catch(() => {

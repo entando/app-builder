@@ -17,7 +17,7 @@ import {
   fetchBundleGroups,
   fetchBundlesFromRegistryWithFilters,
   sendDeleteRegistry,
-  sendAddRegistry,
+  sendPostRegistry,
   sendDeployBundle,
 } from 'state/component-repository/hub/actions';
 
@@ -399,7 +399,7 @@ describe('state/component-repository/component-repositories/actions', () => {
     });
   });
 
-  describe('sendAddRegistry', () => {
+  describe('sendPostRegistry', () => {
     it('calls getRegistries and appropriate actions', (done) => {
       addRegistry.mockImplementationOnce(mockApi({
         errors: false,
@@ -409,7 +409,7 @@ describe('state/component-repository/component-repositories/actions', () => {
         errors: false,
         payload: LIST_REGISTRIES_OK,
       }));
-      store.dispatch(sendAddRegistry({ name: 'id1', url: 'url' })).then(() => {
+      store.dispatch(sendPostRegistry({ name: 'id1', url: 'url' })).then(() => {
         expect(addRegistry).toHaveBeenCalledWith({ name: 'id1', url: 'url' });
         expect(getRegistries).toHaveBeenCalledWith('');
         const actions = store.getActions();
@@ -423,7 +423,7 @@ describe('state/component-repository/component-repositories/actions', () => {
 
     it('should dispatch toastError when it errors', (done) => {
       addRegistry.mockImplementationOnce(mockApi({ errors: true }));
-      store.dispatch(sendAddRegistry()).then(() => {
+      store.dispatch(sendPostRegistry()).then(() => {
         expect(addRegistry).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(2);

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Spinner, Alert, Paginator } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,11 +27,11 @@ const HubBundleList = ({
   const perPage = useSelector(getPageSize);
   const totalItems = useSelector(getTotalItems);
   const viewMode = useSelector(getECRComponentListViewMode);
-  const pagination = useMemo(() => ({
+  const pagination = {
     page,
     perPage,
     perPageOptions: [5, 10, 15, 25, 50],
-  }), [page, perPage]);
+  };
   const bundles = useSelector(getBundlesFromRegistry);
   const bundleStatuses = useSelector(getBundleStatuses);
   const openedModal = useSelector(getVisibleModal);
