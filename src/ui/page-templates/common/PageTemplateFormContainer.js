@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { initialize, submit } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
@@ -17,6 +16,7 @@ const defaultFormValues = {
   code: '',
   descr: '',
   configuration: '{\n  "frames": []\n}',
+  template: '',
 };
 
 export const mapStateToProps = state => ({
@@ -45,7 +45,7 @@ export const mapDispatchToProps = (dispatch, { mode, match: { params }, history 
       dispatch(setSelectedPageTemplate(defaultFormValues));
     }
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('pageTemplate')); },
+  onHideCancelModal: () => dispatch(setVisibleModal('')),
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PAGE_TEMPLATE_LIST)); },
 });

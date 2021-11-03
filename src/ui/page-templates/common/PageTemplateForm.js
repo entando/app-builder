@@ -1,12 +1,12 @@
 import React, { Component, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { Field, reduxForm } from 'redux-form';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import * as Yup from 'yup';
 
+import { convertPageTemplateForm, getCellMap } from 'state/page-templates/selectors';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
@@ -59,7 +59,16 @@ export class PageTemplateFormBody extends Component {
   constructor(props) {
     super(props);
     this.formShape = null;
+    this.state = {
+      cellMap: getCellMap(convertPageTemplateForm({
+        code: '',
+        descr: '',
+        configuration: '{\n  "frames": []\n}',
+        template: '',
+      })),
+    };
     this.validatePreviewErrors = this.validatePreviewErrors.bind(this);
+    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
   }
 
   componentDidMount() {
@@ -77,19 +86,16 @@ export class PageTemplateFormBody extends Component {
         .max(50, intl.formatMessage(msgs.maxLength, { max: 50 })),
       configuration: Yup.string()
         .required(intl.formatMessage(msgs.required))
-        .test({
-          name: 'validateJson',
-          test: (value) => {
-            try {
-              JSON.parse(value);
-              return true;
-            } catch (e) {
-              return this.createError({
-                message: `Invalid JSON format: ${e.message}`,
-                path: 'configuration',
-              });
-            }
-          },
+        .test('validateJson', (value, { createError, path }) => {
+          try {
+            JSON.parse(value);
+            return true;
+          } catch (e) {
+            return createError({
+              message: `Invalid JSON format: ${e.message}`,
+              path,
+            });
+          }
         })
         .test({
           name: 'validatePreviewErrors',
@@ -99,7 +105,7 @@ export class PageTemplateFormBody extends Component {
     });
   }
 
-  validatePreviewErrors() {
+  validatePreviewErrors(value, { createError, path }) {
     const { intl, previewErrors } = this.props;
     if (previewErrors.length) {
       const errors = previewErrors.map(({ id, values }) => {
@@ -109,18 +115,26 @@ export class PageTemplateFormBody extends Component {
         return intl.formatMessage(errMsgs.err, values);
         // return <div key={message}>{message}</div>;
       });
-      return this.createError({
+      return createError({
         message: errors.join(', '),
-        path: 'configuration',
+        path,
       });
     }
     return true;
   }
 
+  handleSubmitButtonClick(formikProps, submitType) {
+    const { onSubmit } = this.props;
+    const { values, setSubmitting, submitForm } = formikProps;
+    submitForm();
+    onSubmit(values, submitType);
+    setSubmitting(false);
+  }
+
   render() {
     const {
-      intl, mode, previewCellMap, previewErrors,
-      onSubmit, onCancel, onDiscard, onSave, initialValues,
+      intl, mode, previewErrors,
+      onCancel, onDiscard, onHideCancelModal, initialValues,
     } = this.props;
 
     const isEditMode = mode === FORM_MODE_EDIT;
@@ -130,20 +144,25 @@ export class PageTemplateFormBody extends Component {
         enableReinitialize
         validationSchema={this.formShape}
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        initialTouched={isEditMode ? {
+          descr: true, configuration: true, template: true,
+        } : {}}
       >
-        {({
-          values,
-          dirty,
-          isSubmitting: submitting,
-          isValid,
-          handleSubmit,
-        }) => {
+        {(formikProps) => {
+          const {
+            values,
+            dirty,
+            isSubmitting: submitting,
+            isValid,
+          } = formikProps;
+
           useEffect(() => {
-            console.log('valchange:', values);
+            const cellMap = getCellMap(convertPageTemplateForm(values));
+            this.setState({ cellMap });
           }, [values]);
 
           const invalid = !isValid;
+
           const handleCancelClick = () => {
             if (dirty) {
               onCancel();
@@ -205,7 +224,7 @@ export class PageTemplateFormBody extends Component {
                   <FormattedMessage id="pageTemplates.templatePreview" />
                 </label>
                 <Col xs={10}>
-                  <PageConfigGrid cellMap={previewCellMap} />
+                  <PageConfigGrid cellMap={this.state.cellMap} />
                 </Col>
               </Row>
               <Row>
@@ -225,13 +244,11 @@ export class PageTemplateFormBody extends Component {
                       id="saveopts"
                       className="FragmentForm__saveDropdown"
                     >
-                      {/* <MenuItem
+                      <MenuItem
                         id="regularSaveButton"
                         eventKey={REGULAR_SAVE_TYPE}
                         disabled={invalid || submitting}
-                        onClick={handleSubmit(val => onSubmit({
-                        ...val,
-                      }, REGULAR_SAVE_TYPE))}
+                        onClick={() => this.handleSubmitButtonClick(formikProps, REGULAR_SAVE_TYPE)}
                       >
                         <FormattedMessage id="app.save" />
                       </MenuItem>
@@ -239,18 +256,19 @@ export class PageTemplateFormBody extends Component {
                         id="continueSaveButton"
                         eventKey={CONTINUE_SAVE_TYPE}
                         disabled={invalid || submitting}
-                        onClick={handleSubmit(val => onSubmit({
-                        ...val,
-                      }, CONTINUE_SAVE_TYPE))}
+                        onClick={() => this.handleSubmitButtonClick(formikProps, CONTINUE_SAVE_TYPE)}
                       >
                         <FormattedMessage id="app.saveAndContinue" />
-                      </MenuItem> */}
+                      </MenuItem>
                     </DropdownButton>
                     <ConfirmCancelModalContainer
                       contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
                       invalid={invalid}
                       submitting={submitting}
-                      onSave={onSave}
+                      onSave={() => {
+                        onHideCancelModal();
+                        this.handleSubmitButtonClick(formikProps);
+                      }}
                       onDiscard={onDiscard}
                     />
                   </div>
@@ -267,31 +285,21 @@ export class PageTemplateFormBody extends Component {
 PageTemplateFormBody.propTypes = {
   intl: intlShape.isRequired,
   initialValues: PropTypes.shape({}).isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   onWillMount: PropTypes.func,
-  previewCellMap: PropTypes.shape({}),
   previewErrors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     values: PropTypes.shape({}),
   })).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  dirty: PropTypes.bool,
-  onSave: PropTypes.func.isRequired,
+  onHideCancelModal: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
 PageTemplateFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
   mode: FORM_MODE_ADD,
   onWillMount: null,
-  previewCellMap: null,
-  dirty: false,
 };
-
-// const PageTemplateForm = addFormik(PageTemplateFormBody);
 
 export default injectIntl(PageTemplateFormBody);

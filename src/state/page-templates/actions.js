@@ -170,7 +170,10 @@ export const updatePageTemplate = (pageTemplate, saveType) => dispatch => new Pr
         { id: 'app.updated', values: { type: 'page template', code: pageTemplate.code } },
         TOAST_SUCCESS,
       ));
-      dispatch(setSelectedPageTemplate(pageTemplate));
+      dispatch(setSelectedPageTemplate({
+        ...pageTemplate,
+        configuration: JSON.stringify(pageTemplate.configuration),
+      }));
       if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_PAGE_TEMPLATE_LIST);
       resolve();
     }

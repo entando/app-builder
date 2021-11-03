@@ -156,7 +156,7 @@ const fixMissingSketch = (frames) => {
   });
 };
 
-const getCellMap = (pageTemplate) => {
+export const getCellMap = (pageTemplate) => {
   if (!pageTemplate || !pageTemplate.configuration || !pageTemplate.configuration.frames) {
     return null;
   }
@@ -255,20 +255,22 @@ export const getSelectedPageTemplateDefaultConfig = createSelector(
   },
 );
 
+export const convertPageTemplateForm = (pageTemplateForm) => {
+  if (!pageTemplateForm) {
+    return null;
+  }
+  const pageTemplate = cloneDeep(pageTemplateForm);
+  try {
+    pageTemplate.configuration = JSON.parse(pageTemplate.configuration);
+  } catch (e) {
+    pageTemplate.configuration = { frames: [] };
+  }
+  return pageTemplate;
+};
+
 export const getFormPageTemplate = createSelector(
   [getPageTemplateForm],
-  (pageTemplateForm) => {
-    if (!pageTemplateForm) {
-      return null;
-    }
-    const pageTemplate = cloneDeep(pageTemplateForm);
-    try {
-      pageTemplate.configuration = JSON.parse(pageTemplate.configuration);
-    } catch (e) {
-      pageTemplate.configuration = { frames: [] };
-    }
-    return pageTemplate;
-  },
+  pageTemplateForm => convertPageTemplateForm(pageTemplateForm),
 );
 
 export const getPageTemplateFormCellMap = createSelector(
