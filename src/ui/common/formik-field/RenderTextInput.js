@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, ControlLabel } from 'patternfly-react';
+import { getTouchErrorByField } from 'helpers/formikUtils';
 
 export const RenderTextInputBody = ({
-  input,
+  field,
   append,
   label,
   labelSize,
   inputSize,
   alignClass,
   placeholder,
-  meta: { touched, error },
+  form,
   help,
   disabled,
   type,
@@ -21,11 +22,12 @@ export const RenderTextInputBody = ({
   ...others
 }) => {
   const { restProps } = others;
+  const { touched, error } = getTouchErrorByField(field.name, form);
   return (
     <div className={touched && error ? 'form-group has-error' : 'form-group'}>
       {hasLabel && labelSize > 0 && (
         <Col xs={12} sm={labelSize} className={`${alignClass} ${xsClass}`}>
-          <ControlLabel htmlFor={input.name}>
+          <ControlLabel htmlFor={field.name}>
             {label} {help}
           </ControlLabel>
         </Col>
@@ -33,9 +35,9 @@ export const RenderTextInputBody = ({
       <Col xs={12} sm={inputSize || 12 - labelSize}>
         <div className="RenderTextInput__input-body">
           <input
-            {...input}
+            {...field}
             type={type}
-            id={input.name}
+            id={field.name}
             ref={forwardedRef}
             placeholder={placeholder}
             className="form-control RenderTextInput"
@@ -56,7 +58,7 @@ export const RenderTextInputBody = ({
 };
 
 RenderTextInputBody.propTypes = {
-  input: PropTypes.shape({
+  field: PropTypes.shape({
     name: PropTypes.string,
   }),
   forwardedRef: PropTypes.oneOfType([
@@ -65,9 +67,9 @@ RenderTextInputBody.propTypes = {
   ]),
   label: PropTypes.node,
   placeholder: PropTypes.string,
-  meta: PropTypes.shape({
-    touched: PropTypes.bool,
-    error: PropTypes.shape({}),
+  form: PropTypes.shape({
+    touched: PropTypes.shape({}),
+    errors: PropTypes.shape({}),
   }),
   help: PropTypes.node,
   disabled: PropTypes.bool,
@@ -87,10 +89,9 @@ RenderTextInputBody.propTypes = {
 };
 
 RenderTextInputBody.defaultProps = {
-  input: {},
+  field: {},
   label: '',
   placeholder: '',
-  meta: {},
   help: null,
   disabled: false,
   type: 'text',
@@ -104,6 +105,7 @@ RenderTextInputBody.defaultProps = {
   xsClass: 'mobile-left',
   forwardedRef: null,
   endButtons: null,
+  form: {},
 };
 
 export default React.forwardRef((props, ref) => (

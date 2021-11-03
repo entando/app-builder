@@ -8,9 +8,9 @@ import * as Yup from 'yup';
 
 import { validateJson } from 'helpers/formikValidations';
 import { convertPageTemplateForm, getCellMap, validateFrames } from 'state/page-templates/helpers';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
-import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import JsonCodeEditorRenderer from 'ui/common/formik-field/JsonCodeEditorRenderer';
+import HtmlCodeEditorRenderer from 'ui/common/formik-field/HtmlCodeEditorRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
