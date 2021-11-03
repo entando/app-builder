@@ -9,3 +9,9 @@ export const CELL_TYPE = {
   ROW: 'row',
   COL: 'col',
 };
+export const DEFAULT_FORM_VALUES = {
+  code: '',
+  descr: '',
+  configuration: '{\n  "frames": []\n}',
+  template: '',
+};

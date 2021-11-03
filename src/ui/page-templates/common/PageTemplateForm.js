@@ -6,7 +6,8 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import * as Yup from 'yup';
 
-import { convertPageTemplateForm, getCellMap } from 'state/page-templates/selectors';
+import { validateJson } from 'helpers/formikValidations';
+import { convertPageTemplateForm, getCellMap, validateFrames } from 'state/page-templates/helpers';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
 import HtmlCodeEditorRenderer from 'ui/common/form/HtmlCodeEditorRenderer';
@@ -17,16 +18,8 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import {
   FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE,
   REGULAR_SAVE_TYPE, CONTINUE_SAVE_TYPE,
+  DEFAULT_FORM_VALUES,
 } from 'state/page-templates/const';
-
-export const validateJson = (value) => {
-  try {
-    JSON.parse(value);
-    return undefined;
-  } catch (e) {
-    return `Invalid JSON format: ${e.message}`;
-  }
-};
 
 const msgs = defineMessages({
   appCode: {
@@ -60,21 +53,16 @@ export class PageTemplateFormBody extends Component {
     super(props);
     this.formShape = null;
     this.state = {
-      cellMap: getCellMap(convertPageTemplateForm({
-        code: '',
-        descr: '',
-        configuration: '{\n  "frames": []\n}',
-        template: '',
-      })),
+      cellMap: getCellMap(convertPageTemplateForm(DEFAULT_FORM_VALUES)),
     };
-    this.validatePreviewErrors = this.validatePreviewErrors.bind(this);
+    this.validateJSONPreviewErrors = this.validateJSONPreviewErrors.bind(this);
     this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
   }
 
   componentDidMount() {
-    const { onWillMount, intl } = this.props;
-    if (onWillMount) {
-      onWillMount(this.props);
+    const { onDidMount, intl } = this.props;
+    if (onDidMount) {
+      onDidMount(this.props);
     }
 
     this.formShape = Yup.object().shape({
@@ -86,37 +74,29 @@ export class PageTemplateFormBody extends Component {
         .max(50, intl.formatMessage(msgs.maxLength, { max: 50 })),
       configuration: Yup.string()
         .required(intl.formatMessage(msgs.required))
-        .test('validateJson', (value, { createError, path }) => {
-          try {
-            JSON.parse(value);
-            return true;
-          } catch (e) {
-            return createError({
-              message: `Invalid JSON format: ${e.message}`,
-              path,
-            });
-          }
-        })
-        .test({
-          name: 'validatePreviewErrors',
-          test: this.validatePreviewErrors,
-        }),
-      template: Yup.string().required(intl.formatMessage(msgs.required)),
+        .test('validateJSONPreviewErrors', this.validateJSONPreviewErrors),
+      template: Yup.string()
+        .required(intl.formatMessage(msgs.required)),
     });
   }
 
-  validatePreviewErrors(value, { createError, path }) {
-    const { intl, previewErrors } = this.props;
+  validateJSONPreviewErrors(value, yupProps) {
+    const { intl } = this.props;
+    const { createError, path } = yupProps;
+    const jsonTest = validateJson(value, yupProps);
+    if (jsonTest !== true) {
+      return jsonTest;
+    }
+    const previewErrors = validateFrames(JSON.parse(value).frames);
     if (previewErrors.length) {
       const errors = previewErrors.map(({ id, values }) => {
         const errMsgs = defineMessages({
           err: { id },
         });
         return intl.formatMessage(errMsgs.err, values);
-        // return <div key={message}>{message}</div>;
       });
       return createError({
-        message: errors.join(', '),
+        message: errors.join('; '),
         path,
       });
     }
@@ -133,8 +113,8 @@ export class PageTemplateFormBody extends Component {
 
   render() {
     const {
-      intl, mode, previewErrors,
-      onCancel, onDiscard, onHideCancelModal, initialValues,
+      intl, mode, onCancel,
+      onDiscard, onHideCancelModal, initialValues,
     } = this.props;
 
     const isEditMode = mode === FORM_MODE_EDIT;
@@ -202,7 +182,6 @@ export class PageTemplateFormBody extends Component {
                       name="configuration"
                       label={<FormLabel labelId="pageTemplates.jsonConfiguration" required />}
                       placeholder={intl.formatMessage(msgs.pageConfig)}
-                      previewErrors={previewErrors}
                     />
                   </FormGroup>
                 </Col>
@@ -256,7 +235,9 @@ export class PageTemplateFormBody extends Component {
                         id="continueSaveButton"
                         eventKey={CONTINUE_SAVE_TYPE}
                         disabled={invalid || submitting}
-                        onClick={() => this.handleSubmitButtonClick(formikProps, CONTINUE_SAVE_TYPE)}
+                        onClick={() => (
+                          this.handleSubmitButtonClick(formikProps, CONTINUE_SAVE_TYPE)
+                        )}
                       >
                         <FormattedMessage id="app.saveAndContinue" />
                       </MenuItem>
@@ -286,11 +267,7 @@ PageTemplateFormBody.propTypes = {
   intl: intlShape.isRequired,
   initialValues: PropTypes.shape({}).isRequired,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
-  onWillMount: PropTypes.func,
-  previewErrors: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    values: PropTypes.shape({}),
-  })).isRequired,
+  onDidMount: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   onHideCancelModal: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
@@ -299,7 +276,7 @@ PageTemplateFormBody.propTypes = {
 
 PageTemplateFormBody.defaultProps = {
   mode: FORM_MODE_ADD,
-  onWillMount: null,
+  onDidMount: null,
 };
 
 export default injectIntl(PageTemplateFormBody);
