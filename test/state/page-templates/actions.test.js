@@ -1,5 +1,4 @@
 import { isFSA } from 'flux-standard-action';
-import { initialize } from 'redux-form';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -313,12 +312,10 @@ describe('state/page-templates/actions', () => {
       getPageTemplate.mockImplementation(mockApi({ payload: PAGE_TEMPLATE }));
       store.dispatch(initPageTemplateForm(PAGE_TEMPLATE_CODE)).then(() => {
         expect(getPageTemplate).toHaveBeenCalled();
-        expect(initialize).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
         done();
       }).catch(done.fail);
     });
@@ -355,7 +352,7 @@ describe('state/page-templates/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE_TEMPLATE);
-        expect(actions[1]).toHaveProperty('payload.pageTemplate', PAGE_TEMPLATE);
+        expect(actions[1]).toHaveProperty('payload.pageTemplate', { ...PAGE_TEMPLATE, configuration: JSON.stringify(PAGE_TEMPLATE.configuration) });
         expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TEMPLATE_LIST);
         done();
       }).catch(done.fail);

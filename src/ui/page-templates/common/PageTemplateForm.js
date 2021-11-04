@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
@@ -18,7 +18,6 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import {
   FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE,
   REGULAR_SAVE_TYPE, CONTINUE_SAVE_TYPE,
-  DEFAULT_FORM_VALUES,
 } from 'state/page-templates/const';
 
 const msgs = defineMessages({
@@ -48,40 +47,21 @@ const msgs = defineMessages({
   },
 });
 
-export class PageTemplateFormBody extends Component {
-  constructor(props) {
-    super(props);
-    this.formShape = null;
-    this.state = {
-      cellMap: getCellMap(convertPageTemplateForm(DEFAULT_FORM_VALUES)),
-    };
-    this.validateJSONPreviewErrors = this.validateJSONPreviewErrors.bind(this);
-    this.handleSubmitButtonClick = this.handleSubmitButtonClick.bind(this);
-  }
+const PageTemplateForm = ({
+  intl,
+  initialValues,
+  mode,
+  onDidMount,
+  onSubmit,
+  onCancel,
+  onDiscard,
+  onHideCancelModal,
+}) => {
+  useEffect(() => {
+    onDidMount();
+  }, []);
 
-  componentDidMount() {
-    const { onDidMount, intl } = this.props;
-    if (onDidMount) {
-      onDidMount(this.props);
-    }
-
-    this.formShape = Yup.object().shape({
-      code: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .max(40, intl.formatMessage(msgs.maxLength, { max: 40 })),
-      descr: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .max(50, intl.formatMessage(msgs.maxLength, { max: 50 })),
-      configuration: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .test('validateJSONPreviewErrors', this.validateJSONPreviewErrors),
-      template: Yup.string()
-        .required(intl.formatMessage(msgs.required)),
-    });
-  }
-
-  validateJSONPreviewErrors(value, yupProps) {
-    const { intl } = this.props;
+  const validateJSONPreviewErrors = (value, yupProps) => {
     const { createError, path } = yupProps;
     const jsonTest = validateJson(value, yupProps);
     if (jsonTest !== true) {
@@ -101,169 +81,180 @@ export class PageTemplateFormBody extends Component {
       });
     }
     return true;
-  }
+  };
 
-  handleSubmitButtonClick(formikProps, submitType) {
-    const { onSubmit } = this.props;
-    const { values, setSubmitting, submitForm } = formikProps;
-    submitForm();
-    onSubmit(values, submitType);
-    setSubmitting(false);
-  }
+  const formShape = Yup.object().shape({
+    code: Yup.string()
+      .required(intl.formatMessage(msgs.required))
+      .max(40, intl.formatMessage(msgs.maxLength, { max: 40 })),
+    descr: Yup.string()
+      .required(intl.formatMessage(msgs.required))
+      .max(50, intl.formatMessage(msgs.maxLength, { max: 50 })),
+    configuration: Yup.string()
+      .required(intl.formatMessage(msgs.required))
+      .test('validateJSONPreviewErrors', validateJSONPreviewErrors),
+    template: Yup.string()
+      .required(intl.formatMessage(msgs.required)),
+  });
 
-  render() {
+  const handleSubmit = (formikProps, submitType) => {
     const {
-      intl, mode, onCancel,
-      onDiscard, onHideCancelModal, initialValues,
-    } = this.props;
+      values,
+      setSubmitting,
+      submitForm,
+      resetForm,
+    } = formikProps;
+    submitForm();
+    onSubmit(values, submitType).then((res) => {
+      setSubmitting(false);
+      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+        resetForm();
+      }
+    });
+  };
 
-    const isEditMode = mode === FORM_MODE_EDIT;
+  const isEditMode = mode === FORM_MODE_EDIT;
 
-    return (
-      <Formik
-        enableReinitialize
-        validationSchema={this.formShape}
-        initialValues={initialValues}
-        initialTouched={isEditMode ? {
-          descr: true, configuration: true, template: true,
-        } : {}}
-      >
-        {(formikProps) => {
-          const {
-            values,
-            dirty,
-            isSubmitting: submitting,
-            isValid,
-          } = formikProps;
+  return (
+    <Formik
+      enableReinitialize
+      validationSchema={formShape}
+      initialValues={initialValues}
+      initialTouched={isEditMode ? {
+        descr: true, configuration: true, template: true,
+      } : {}}
+      onSubmit={() => {}}
+    >
+      {(formikProps) => {
+        const {
+          values,
+          dirty,
+          isSubmitting: submitting,
+          isValid,
+        } = formikProps;
 
-          useEffect(() => {
-            const cellMap = getCellMap(convertPageTemplateForm(values));
-            this.setState({ cellMap });
-          }, [values]);
+        const invalid = !isValid;
 
-          const invalid = !isValid;
+        const handleCancelClick = () => {
+          if (dirty) {
+            onCancel();
+          } else {
+            onDiscard();
+          }
+        };
 
-          const handleCancelClick = () => {
-            if (dirty) {
-              onCancel();
-            } else {
-              onDiscard();
-            }
-          };
-
-          return (
-            <Form className="PageTemplateForm form-horizontal">
-              <Row>
-                <Col xs={12}>
-                  <fieldset>
-                    <Field
-                      component={RenderTextInput}
-                      name="code"
-                      label={<FormLabel labelId="app.code" helpId="pageTemplates.code.help" required />}
-                      placeholder={intl.formatMessage(msgs.appCode)}
-                      disabled={isEditMode}
-                    />
-                  </fieldset>
-                  <fieldset>
-                    <Field
-                      component={RenderTextInput}
-                      name="descr"
-                      label={<FormLabel labelId="app.name" helpId="pageTemplates.name.help" required />}
-                      placeholder={intl.formatMessage(msgs.appName)}
-                    />
-                  </fieldset>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={12}>
-                  <FormGroup>
-                    <Field
-                      component={JsonCodeEditorRenderer}
-                      name="configuration"
-                      label={<FormLabel labelId="pageTemplates.jsonConfiguration" required />}
-                      placeholder={intl.formatMessage(msgs.pageConfig)}
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={12}>
-                  <FormGroup>
-                    <Field
-                      component={HtmlCodeEditorRenderer}
-                      name="template"
-                      label={<FormLabel labelId="pageTemplates.template" required />}
-                      placeholder={intl.formatMessage(msgs.pageTemplate)}
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <label className="col-xs-2 control-label">
-                  <FormattedMessage id="pageTemplates.templatePreview" />
-                </label>
-                <Col xs={10}>
-                  <PageConfigGrid cellMap={this.state.cellMap} />
-                </Col>
-              </Row>
-              <Row>
-                <br />
-                <Col xs={12}>
-                  <div className="btn-toolbar pull-right FragmentForm__dropdown">
-                    <Button
-                      className="pull-right UserForm__action-button"
-                      bsStyle="default"
-                      onClick={handleCancelClick}
+        return (
+          <Form className="PageTemplateForm form-horizontal">
+            <Row>
+              <Col xs={12}>
+                <fieldset>
+                  <Field
+                    component={RenderTextInput}
+                    name="code"
+                    label={<FormLabel labelId="app.code" helpId="pageTemplates.code.help" required />}
+                    placeholder={intl.formatMessage(msgs.appCode)}
+                    disabled={isEditMode}
+                  />
+                </fieldset>
+                <fieldset>
+                  <Field
+                    component={RenderTextInput}
+                    name="descr"
+                    label={<FormLabel labelId="app.name" helpId="pageTemplates.name.help" required />}
+                    placeholder={intl.formatMessage(msgs.appName)}
+                  />
+                </fieldset>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <FormGroup>
+                  <Field
+                    component={JsonCodeEditorRenderer}
+                    name="configuration"
+                    label={<FormLabel labelId="pageTemplates.jsonConfiguration" required />}
+                    placeholder={intl.formatMessage(msgs.pageConfig)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <FormGroup>
+                  <Field
+                    component={HtmlCodeEditorRenderer}
+                    name="template"
+                    label={<FormLabel labelId="pageTemplates.template" required />}
+                    placeholder={intl.formatMessage(msgs.pageTemplate)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <label className="col-xs-2 control-label">
+                <FormattedMessage id="pageTemplates.templatePreview" />
+              </label>
+              <Col xs={10}>
+                <PageConfigGrid cellMap={getCellMap(convertPageTemplateForm(values))} />
+              </Col>
+            </Row>
+            <Row>
+              <br />
+              <Col xs={12}>
+                <div className="btn-toolbar pull-right FragmentForm__dropdown">
+                  <Button
+                    className="pull-right UserForm__action-button"
+                    bsStyle="default"
+                    onClick={handleCancelClick}
+                  >
+                    <FormattedMessage id="app.cancel" />
+                  </Button>
+                  <DropdownButton
+                    title={intl.formatMessage({ id: 'app.save' })}
+                    bsStyle="primary"
+                    id="saveopts"
+                    className="FragmentForm__saveDropdown"
+                  >
+                    <MenuItem
+                      id="regularSaveButton"
+                      eventKey={REGULAR_SAVE_TYPE}
+                      disabled={(!isEditMode && !dirty) || invalid || submitting}
+                      onClick={() => handleSubmit(formikProps, REGULAR_SAVE_TYPE)}
                     >
-                      <FormattedMessage id="app.cancel" />
-                    </Button>
-                    <DropdownButton
-                      title={intl.formatMessage({ id: 'app.save' })}
-                      bsStyle="primary"
-                      id="saveopts"
-                      className="FragmentForm__saveDropdown"
+                      <FormattedMessage id="app.save" />
+                    </MenuItem>
+                    <MenuItem
+                      id="continueSaveButton"
+                      eventKey={CONTINUE_SAVE_TYPE}
+                      disabled={(!isEditMode && !dirty) || invalid || submitting}
+                      onClick={() => (
+                        handleSubmit(formikProps, CONTINUE_SAVE_TYPE)
+                      )}
                     >
-                      <MenuItem
-                        id="regularSaveButton"
-                        eventKey={REGULAR_SAVE_TYPE}
-                        disabled={invalid || submitting}
-                        onClick={() => this.handleSubmitButtonClick(formikProps, REGULAR_SAVE_TYPE)}
-                      >
-                        <FormattedMessage id="app.save" />
-                      </MenuItem>
-                      <MenuItem
-                        id="continueSaveButton"
-                        eventKey={CONTINUE_SAVE_TYPE}
-                        disabled={invalid || submitting}
-                        onClick={() => (
-                          this.handleSubmitButtonClick(formikProps, CONTINUE_SAVE_TYPE)
-                        )}
-                      >
-                        <FormattedMessage id="app.saveAndContinue" />
-                      </MenuItem>
-                    </DropdownButton>
-                    <ConfirmCancelModalContainer
-                      contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                      invalid={invalid}
-                      submitting={submitting}
-                      onSave={() => {
-                        onHideCancelModal();
-                        this.handleSubmitButtonClick(formikProps);
-                      }}
-                      onDiscard={onDiscard}
-                    />
-                  </div>
-                </Col>
-              </Row>
-            </Form>
-          );
-        }}
-      </Formik>
-    );
-  }
-}
+                      <FormattedMessage id="app.saveAndContinue" />
+                    </MenuItem>
+                  </DropdownButton>
+                  <ConfirmCancelModalContainer
+                    contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                    invalid={invalid}
+                    submitting={submitting}
+                    onSave={() => {
+                      onHideCancelModal();
+                      handleSubmit(formikProps);
+                    }}
+                    onDiscard={onDiscard}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
 
-PageTemplateFormBody.propTypes = {
+PageTemplateForm.propTypes = {
   intl: intlShape.isRequired,
   initialValues: PropTypes.shape({}).isRequired,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
@@ -274,9 +265,9 @@ PageTemplateFormBody.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
-PageTemplateFormBody.defaultProps = {
+PageTemplateForm.defaultProps = {
   mode: FORM_MODE_ADD,
   onDidMount: null,
 };
 
-export default injectIntl(PageTemplateFormBody);
+export default injectIntl(PageTemplateForm);

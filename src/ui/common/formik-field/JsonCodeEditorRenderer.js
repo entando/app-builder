@@ -55,6 +55,7 @@ JsonCodeEditorRenderer.propTypes = {
   field: PropTypes.shape({
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
+    value: PropTypes.string,
   }),
 };
 

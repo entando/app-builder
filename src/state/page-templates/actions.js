@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
@@ -163,7 +162,7 @@ export const updatePageTemplate = (pageTemplate, saveType) => dispatch => new Pr
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
         data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        resolve();
+        resolve({ errors: true });
       });
     } else {
       dispatch(addToast(
@@ -186,7 +185,7 @@ export const createPageTemplate = (pageTemplate, saveType) => dispatch => new Pr
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
         data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        resolve();
+        resolve({ errors: true });
       });
     } else {
       dispatch(addToast(
