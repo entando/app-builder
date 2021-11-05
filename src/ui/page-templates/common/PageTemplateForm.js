@@ -120,9 +120,7 @@ const PageTemplateForm = ({
       enableReinitialize
       validationSchema={formShape}
       initialValues={initialValues}
-      initialTouched={isEditMode ? {
-        descr: true, configuration: true, template: true,
-      } : {}}
+      isInitialValid={isEditMode}
       onSubmit={() => {}}
     >
       {(formikProps) => {
@@ -218,7 +216,7 @@ const PageTemplateForm = ({
                     <MenuItem
                       id="regularSaveButton"
                       eventKey={REGULAR_SAVE_TYPE}
-                      disabled={(!isEditMode && !dirty) || invalid || submitting}
+                      disabled={invalid || submitting}
                       onClick={() => handleSubmit(formikProps, REGULAR_SAVE_TYPE)}
                     >
                       <FormattedMessage id="app.save" />
@@ -226,7 +224,7 @@ const PageTemplateForm = ({
                     <MenuItem
                       id="continueSaveButton"
                       eventKey={CONTINUE_SAVE_TYPE}
-                      disabled={(!isEditMode && !dirty) || invalid || submitting}
+                      disabled={invalid || submitting}
                       onClick={() => (
                         handleSubmit(formikProps, CONTINUE_SAVE_TYPE)
                       )}
