@@ -90,6 +90,9 @@ export const copyAttributeEngValue = (attribute, attributeType) => (dispatch, ge
     case TYPE_EMAIL:
     case TYPE_IMAGE:
     case TYPE_LINK: {
+      if (!attribute.values) {
+        return attribute;
+      }
       const { [deflang]: mainlangvalue } = attribute.values;
       const newValues = otherLanguages.reduce((acc, key) => (
         { ...acc, [key]: isObject(mainlangvalue) ? cloneDeep(mainlangvalue) : mainlangvalue }
