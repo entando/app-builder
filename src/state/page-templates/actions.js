@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
@@ -152,7 +151,8 @@ export const initPageTemplateForm = (pageTemplateCode, mode = FORM_MODE_EDIT) =>
       } : {}),
     };
     pageTemplate.configuration = JSON.stringify(pageTemplate.configuration, null, 2);
-    dispatch(initialize('pageTemplate', pageTemplate));
+    dispatch(setSelectedPageTemplate(pageTemplate));
+    return pageTemplate;
   }).catch(() => {})
 );
 
@@ -162,14 +162,17 @@ export const updatePageTemplate = (pageTemplate, saveType) => dispatch => new Pr
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
         data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        resolve();
+        resolve({ errors: true });
       });
     } else {
       dispatch(addToast(
         { id: 'app.updated', values: { type: 'page template', code: pageTemplate.code } },
         TOAST_SUCCESS,
       ));
-      dispatch(setSelectedPageTemplate(pageTemplate));
+      dispatch(setSelectedPageTemplate({
+        ...pageTemplate,
+        configuration: JSON.stringify(pageTemplate.configuration),
+      }));
       if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_PAGE_TEMPLATE_LIST);
       resolve();
     }
@@ -182,7 +185,7 @@ export const createPageTemplate = (pageTemplate, saveType) => dispatch => new Pr
       response.json().then((data) => {
         dispatch(addErrors(data.errors.map(err => err.message)));
         data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        resolve();
+        resolve({ errors: true });
       });
     } else {
       dispatch(addToast(

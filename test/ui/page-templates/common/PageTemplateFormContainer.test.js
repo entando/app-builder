@@ -1,16 +1,13 @@
-import { initialize } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 
 import {
   mapStateToProps,
   mapDispatchToProps,
 } from 'ui/page-templates/common/PageTemplateFormContainer';
-import { FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE, CONTINUE_SAVE_TYPE } from 'state/page-templates/const';
+import { FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE, CONTINUE_SAVE_TYPE, DEFAULT_FORM_VALUES } from 'state/page-templates/const';
+
 import {
-  getPageTemplateFormCellMap,
-  getPageTemplateFormErrors,
-} from 'state/page-templates/selectors';
-import {
+  setSelectedPageTemplate,
   initPageTemplateForm,
   updatePageTemplate,
   createPageTemplate,
@@ -30,25 +27,17 @@ const routerProps = {
   },
 };
 
-const ERRORS = [{ id: 'err' }];
-const CELL_MAP = { some: 'value' };
 const dispatch = jest.fn(() => new Promise(r => r()));
 
 describe('PageTemplateFormContainer', () => {
   describe('mapStateToProps', () => {
     let props;
     beforeEach(() => {
-      getPageTemplateFormCellMap.mockReturnValue(CELL_MAP);
-      getPageTemplateFormErrors.mockReturnValue(ERRORS);
       props = mapStateToProps(null); // state is useless since we're using mocked selectors
     });
 
-    it('maps "previewCellMap" prop', () => {
-      expect(props).toHaveProperty('previewCellMap', CELL_MAP);
-    });
-
-    it('maps "previewErrors" prop', () => {
-      expect(props).toHaveProperty('previewErrors', ERRORS);
+    it('maps "initialValues" prop', () => {
+      expect(props).toHaveProperty('initialValues', DEFAULT_FORM_VALUES);
     });
   });
 
@@ -73,13 +62,11 @@ describe('PageTemplateFormContainer', () => {
       }, CONTINUE_SAVE_TYPE);
     });
 
-    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
-      initialize.mockReturnValue('initialize_result');
-      props.onWillMount();
+    it('onDidMount dispatches', () => {
+      setSelectedPageTemplate.mockReturnValue('initialize_result');
+      props.onDidMount();
       expect(dispatch).toHaveBeenCalledWith('initialize_result');
-      expect(initialize).toHaveBeenCalledWith('pageTemplate', {
-        configuration: '{\n  "frames": []\n}',
-      });
+      expect(setSelectedPageTemplate).toHaveBeenCalledWith(DEFAULT_FORM_VALUES);
       expect(clearErrors).toHaveBeenCalled();
     });
   });
@@ -105,9 +92,9 @@ describe('PageTemplateFormContainer', () => {
       }, CONTINUE_SAVE_TYPE);
     });
 
-    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
+    it('onDidMount dispatches', () => {
       initPageTemplateForm.mockReturnValue('initPageTemplateForm_result');
-      props.onWillMount();
+      props.onDidMount();
       expect(dispatch).toHaveBeenCalledWith('initPageTemplateForm_result');
       expect(initPageTemplateForm).toHaveBeenCalledWith('pageTemplateCode', FORM_MODE_EDIT);
       expect(clearErrors).toHaveBeenCalled();
@@ -135,9 +122,9 @@ describe('PageTemplateFormContainer', () => {
       }, CONTINUE_SAVE_TYPE);
     });
 
-    it('onWillMount dispatches redux-form initialize action and clearErrors', () => {
+    it('onDidMount dispatches redux-form initialize action and clearErrors', () => {
       initPageTemplateForm.mockReturnValue('initPageTemplateForm_result');
-      props.onWillMount();
+      props.onDidMount();
       expect(dispatch).toHaveBeenCalledWith('initPageTemplateForm_result');
       expect(initPageTemplateForm).toHaveBeenCalledWith('pageTemplateCode', FORM_MODE_CLONE);
       expect(clearErrors).toHaveBeenCalled();

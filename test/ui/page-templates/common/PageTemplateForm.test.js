@@ -1,177 +1,116 @@
 
 import React from 'react';
-import 'test/enzyme-init';
-import { shallow } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, within, queryByAttribute } from '@testing-library/react';
 
-import { PageTemplateFormBody as PageTemplateForm, validateJson } from 'ui/page-templates/common/PageTemplateForm';
-import { mockIntl } from 'test/legacyTestUtils';
+import PageTemplateForm from 'ui/page-templates/common/PageTemplateForm';
+import { FORM_MODE_ADD, FORM_MODE_EDIT, DEFAULT_FORM_VALUES } from 'state/page-templates/const';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
-const ON_SUBMIT = jest.fn();
-const HANDLE_SUBMIT = jest.fn();
-const ON_WILL_MOUNT = jest.fn();
+
+const getById = queryByAttribute.bind(null, 'id');
+
+jest.unmock('react-redux');
+
+const props = {
+  onDidMount: jest.fn(),
+  onSubmit: jest.fn(),
+  initialValues: DEFAULT_FORM_VALUES,
+  mode: FORM_MODE_ADD,
+  onHideCancelModal: jest.fn(),
+  onDiscard: jest.fn(),
+  onCancel: jest.fn(),
+};
 
 describe('PageTemplateForm', () => {
-  beforeEach(jest.clearAllMocks);
+  let container;
+
+  const renderForm = (formValues = {}, addProps = {}) => {
+    const initialValues = { ...DEFAULT_FORM_VALUES, ...formValues };
+    const formProps = { ...props, ...addProps, initialValues };
+    const result = render(mockRenderWithIntlAndStore(
+      <PageTemplateForm {...formProps} />,
+      { modal: { visibleModal: '', info: {} } },
+    ));
+    // eslint-disable-next-line prefer-destructuring
+    container = result.container;
+
+    // for codemirror
+    document.createRange = () => {
+      const range = new Range();
+      range.getBoundingClientRect = jest.fn();
+      range.getClientRects = () => ({
+        item: () => null,
+        length: 0,
+        [Symbol.iterator]: jest.fn(),
+      });
+      return range;
+    };
+  };
+
+  beforeEach(() => jest.clearAllMocks);
 
   describe('basic rendering', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          intl={mockIntl}
-        />
-      ));
-    });
-
-    it('renders without crashing', () => {
-      expect(component).toExist();
-    });
-
+    beforeEach(renderForm);
     it('has class PageTemplateForm', () => {
-      expect(component).toHaveClassName('PageTemplateForm');
+      expect(screen.getByTestId('common_PageTemplateForm_Form')).toBeInTheDocument();
     });
-
 
     it('renders the "code" Field', () => {
-      expect(component.find('Field[name="code"]')).toExist();
+      const codeInput = screen.getByPlaceholderText('Code');
+      expect(codeInput).toBeInTheDocument();
+      expect(codeInput.getAttribute('name')).toEqual('code');
     });
 
     it('renders the "descr" Field', () => {
-      expect(component.find('Field[name="descr"]')).toExist();
+      const descrInput = screen.getByPlaceholderText('Name');
+      expect(descrInput).toBeInTheDocument();
+      expect(descrInput.getAttribute('name')).toEqual('descr');
     });
 
     it('renders the "configuration" Field', () => {
-      expect(component.find('Field[name="configuration"]')).toExist();
+      const configLabel = screen.getByText('JSON configuration');
+      expect(configLabel).toBeInTheDocument();
+      const codeLines = within(configLabel.closest('.form-group')).queryAllByRole('presentation');
+      expect(codeLines.length).toBeGreaterThan(0);
     });
 
     it('renders the "template" Field', () => {
-      expect(component.find('Field[name="template"]')).toExist();
+      const templateLabel = screen.getByText('Template');
+      expect(templateLabel).toBeInTheDocument();
+      const codeLines = within(templateLabel.closest('.form-group')).queryAllByRole('presentation');
+      expect(codeLines.length).toBeGreaterThan(0);
     });
 
     it('renders a PageConfigGrid to show the template preview', () => {
-      expect(component.find('PageConfigGrid')).toExist();
+      expect(screen.getByTestId('config_PageConfigGrid_div')).toBeInTheDocument();
     });
   });
 
-  describe('with onWillMount callback', () => {
-    beforeEach(() => {
-      shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          onWillMount={ON_WILL_MOUNT}
-          intl={mockIntl}
-        />
-      ));
-    });
-
-    it('calls onWillMount', () => {
-      expect(ON_WILL_MOUNT).toHaveBeenCalled();
+  describe('with onDidMount callback', () => {
+    it('calls onDidMount', () => {
+      renderForm();
+      expect(props.onDidMount).toHaveBeenCalled();
     });
   });
 
   describe('if form is invalid', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          invalid
-          intl={mockIntl}
-        />
-      ));
-    });
     it('Save buttons are disabled', () => {
-      const regularSaveButton = component.find('#regularSaveButton');
-      expect(regularSaveButton.prop('disabled')).toEqual(true);
-      const continueSaveButton = component.find('#continueSaveButton');
-      expect(continueSaveButton.prop('disabled')).toEqual(true);
+      renderForm();
+      const regularSaveButton = getById(container, 'regularSaveButton').closest('li');
+      expect(regularSaveButton).toHaveClass('disabled');
+      const continueSaveButton = getById(container, 'continueSaveButton').closest('li');
+      expect(continueSaveButton).toHaveClass('disabled');
     });
   });
 
-  describe('if form is submitting', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          submitting
-          intl={mockIntl}
-        />
-      ));
-    });
-    it('Save buttons are disabled', () => {
-      const regularSaveButton = component.find('#regularSaveButton');
-      expect(regularSaveButton.prop('disabled')).toEqual(true);
-      const continueSaveButton = component.find('#continueSaveButton');
-      expect(continueSaveButton.prop('disabled')).toEqual(true);
-    });
-  });
-
-  describe('if form is valid', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          invalid={false}
-          intl={mockIntl}
-        />
-      ));
-    });
+  describe('if form is valid can submit', () => {
     it('Save buttons are enabled', () => {
-      const regularSaveButton = component.find('#regularSaveButton');
-      expect(regularSaveButton.prop('disabled')).toEqual(false);
-      const continueSaveButton = component.find('#continueSaveButton');
-      expect(continueSaveButton.prop('disabled')).toEqual(false);
-    });
-  });
-
-  describe('validateJson function', () => {
-    it('returns undefined if the string is in a valid JSON format', () => {
-      expect(validateJson('{ "value": 4 }')).toBeUndefined();
-    });
-
-    it('returns an error string if the string is not in a valid JSON format', () => {
-      expect(validateJson('this is not valid json!')).toMatch(/^Invalid JSON format/);
-    });
-  });
-
-  describe('validatePreviewErrors function', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageTemplateForm
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          previewErrors={[]}
-          invalid={false}
-          intl={mockIntl}
-        />
-      ));
-    });
-    it('returns undefined if previewErrors are empty', () => {
-      const result = component.instance()
-        .validatePreviewErrors(null, null, { previewErrors: [] });
-      expect(result).toBeUndefined();
-    });
-
-    it('returns an array of react elements if preview errors is not empty', () => {
-      const result = component.instance()
-        .validatePreviewErrors(null, null, {
-          previewErrors: [{ id: 'some_err' }],
-        });
-      expect(result).toBeInstanceOf(Array);
+      renderForm({ code: 'abc', descr: 'def', template: '<h1>olleh</h1>' }, { mode: FORM_MODE_EDIT });
+      const regularSaveButton = getById(container, 'regularSaveButton').closest('li');
+      expect(regularSaveButton).not.toHaveClass('disabled');
+      const continueSaveButton = getById(container, 'continueSaveButton').closest('li');
+      expect(continueSaveButton).not.toHaveClass('disabled');
     });
   });
 });
