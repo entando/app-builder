@@ -26,7 +26,7 @@ const HypertextAttributeField = ({
   const attrInput = {
     ...input,
     name,
-    value: inputValue || '',
+    value: inputValue.trim() || '',
     onChange: (data) => {
       const value = data.target ? data.target.value : data;
       inputOnChange(value);

@@ -151,7 +151,7 @@ class RichTextEditor extends Component {
     const { input: { name } } = this.props;
     this.quill.id = name;
     const quillCont = this.quill.container;
-    const htmlEditor = quillCont.querySelector('.ql-custom') || this.quill.addContainer('ql-custom');
+    const htmlEditor = quillCont.querySelector('.ql-srccode') || this.quill.addContainer('ql-srccode');
     htmlEditor.appendChild(this.txtArea);
     return true;
   }
@@ -211,6 +211,12 @@ class RichTextEditor extends Component {
       this.quill.clipboard.dangerouslyPasteHTML(html);
     }
     this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none';
+    const parentTxtarea = this.txtArea.closest('.ql-srccode');
+    if (parentTxtarea.classList.contains('active')) {
+      parentTxtarea.classList.remove('active');
+    } else {
+      parentTxtarea.classList.add('active');
+    }
   }
 
   render() {
