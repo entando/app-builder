@@ -2,37 +2,46 @@
   // duplicate base class selector to increase specificity
   &.RenderRichTextEditor__content--maximize {
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 1100;
     padding: 0;
+    z-index: 1100;
 
     .ql-toolbar { // sass-lint:disable-line class-name-format nesting-depth
-      background: #FFFFFF;
+      background: $color-white;
     }
 
     .ql-editor { // sass-lint:disable-line class-name-format nesting-depth
-      background: #FFFFFF;
       height: calc(100vh - 40px);
+      background: $color-white;
     }
   }
 
-  .html-editor { // sass-lint:disable-line class-name-format
-    box-sizing: border-box;
+  .ql-srccode.active { // sass-lint:disable-line class-name-format force-element-nesting
+    position: absolute;
+    top: 0;
+    right: 0;
     bottom: 0;
+    left: 0;
+  }
+
+  .html-editor { // sass-lint:disable-line class-name-format
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 20px;
     border: 0;
-    color: #363636;
+    outline: none;
+    color: $color-inactive-dark;
     font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
     font-size: 15px;
     line-height: 24px;
-    margin: 0;
-    outline: none;
-    padding: 20px;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    box-sizing: border-box;
   }
 
   .ql-specialChar { // sass-lint:disable-line class-name-format
