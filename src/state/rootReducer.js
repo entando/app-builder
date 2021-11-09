@@ -48,6 +48,7 @@ import versioning from 'state/versioning/reducer';
 import tableColumns from 'state/table-columns/reducer';
 
 import entandoApps from 'entando-apps';
+import hub from 'state/component-repository/hub/reducer';
 
 const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
 
@@ -101,6 +102,7 @@ const reducerDef = {
   contents,
   versioning,
   tableColumns,
+  hub,
 };
 
 // app root reducer

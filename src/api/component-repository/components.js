@@ -11,9 +11,9 @@ import {
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
-export const getECRComponent = code => (
+export const getECRComponent = base64EncodedUrl => (
   makeRequest({
-    uri: `/components/${code}`,
+    uri: `/components/repoUrl=${base64EncodedUrl}`,
     domain: '/digital-exchange',
     method: METHODS.GET,
     mockResponse: GET_ECR_COMPONENT_OK,

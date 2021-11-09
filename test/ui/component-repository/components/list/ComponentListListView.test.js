@@ -26,9 +26,6 @@ describe('ComponentListListView', () => {
         expect(componentImageWrapper.html()).toContain(componentData.image);
       }
 
-      // Checking if provided version is rendered.
-      expect(component.find('.ComponentList__version').at(index).text()).toContain(componentData.latestVersion.version);
-
       // Checking if provided description is rendered.
       expect(component.find('.ComponentList__description').at(index).text()).toEqual(componentData.description);
     });
