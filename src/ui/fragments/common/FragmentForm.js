@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
 import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+
+import { validateCodeField } from 'helpers/formikValidations';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import {
@@ -111,7 +114,7 @@ export const FragmentFormBody = (props) => {
   }
 
   return (
-    <form className="form-horizontal">
+    <Form className="form-horizontal">
       <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
@@ -215,7 +218,7 @@ export const FragmentFormBody = (props) => {
           />
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 
@@ -239,8 +242,30 @@ FragmentFormBody.defaultProps = {
   dirty: false,
 };
 
-const FragmentForm = reduxForm({
-  form: 'fragment',
+const FragmentForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validationSchema: ({ intl }) => (
+    Yup.object().shape({ // validate={[required, code, maxLength50]}
+      code: Yup.string()
+        .required(intl.formatMessage(msgs.required))
+        .max(40, intl.formatMessage(msgs.maxLength, { max: 50 }))
+        .test(
+          'validateCodeField',
+          validateCodeField(intl),
+        ),
+      guiCode: Yup.string()
+        .required(intl.formatMessage(msgs.required)),
+    })
+  ),
+  handleSubmit: (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 1000);
+  },
+
+  displayName: 'fragmentForm',
 })(FragmentFormBody);
 
 export default injectIntl(FragmentForm);
