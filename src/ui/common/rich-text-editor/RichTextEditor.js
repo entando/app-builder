@@ -211,12 +211,7 @@ class RichTextEditor extends Component {
       this.quill.clipboard.dangerouslyPasteHTML(html);
     }
     this.txtArea.style.display = this.txtArea.style.display === 'none' ? '' : 'none';
-    const parentTxtarea = this.txtArea.closest('.ql-srccode');
-    if (parentTxtarea.classList.contains('active')) {
-      parentTxtarea.classList.remove('active');
-    } else {
-      parentTxtarea.classList.add('active');
-    }
+    this.txtArea.closest('.ql-srccode').classList.toggle('active');
   }
 
   render() {
