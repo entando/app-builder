@@ -17,6 +17,7 @@ import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalConta
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 
 class PageTree extends Component {
@@ -35,7 +36,7 @@ class PageTree extends Component {
   componentDidMount() {
     const { columnOrder, onSetColumnOrder } = this.props;
     if (!columnOrder.length) {
-      onSetColumnOrder(['title', 'status', 'displayedInMenu']);
+      onSetColumnOrder(['title', 'pageModel', 'status', 'displayedInMenu']);
     }
   }
 
@@ -76,7 +77,7 @@ class PageTree extends Component {
         ),
         attributes: {
           className: 'PageTree__thead-title',
-          style: { width: '70%' },
+          style: { width: '65%' },
         },
         Cell: ({ row: { original: page, index } }) => {
           const onClickExpand = () => {
@@ -110,6 +111,20 @@ class PageTree extends Component {
           return { className: className.join(' ') };
         },
       },
+      pageModel: {
+        Header: <FormattedMessage id="pageTree.pageType" />,
+        attributes: {
+          className: 'text-center PageTree__thead',
+          style: { width: '5%', verticalAlign: 'middle' },
+        },
+        Cell: ({ value }) => (
+          <FormattedMessage id={`pageTree.${value !== NEXT_PAGE_TEMPLATE_CODE ? 'nt' : 'nx'}`} />
+        ),
+        cellAttributes: {
+          className: 'text-center',
+          style: { verticalAlign: 'middle' },
+        },
+      },
       status: {
         Header: <FormattedMessage id="pageTree.status" />,
         attributes: {
@@ -132,6 +147,7 @@ class PageTree extends Component {
         Cell: ({ value }) => <FormattedMessage id={value ? 'app.yes' : 'app.no'} />,
         cellAttributes: {
           className: 'text-center',
+          style: { verticalAlign: 'middle' },
         },
       },
     };
@@ -166,6 +182,7 @@ class PageTree extends Component {
         onClickPreview={this.props.onClickPreview}
         locale={this.props.locale}
         domain={this.props.domain}
+        showDeleteAction={page.pageModel !== NEXT_PAGE_TEMPLATE_CODE}
       />
     );
   }
@@ -230,6 +247,7 @@ PageTree.propTypes = {
     code: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     displayedInMenu: PropTypes.bool.isRequired,
+    pageModel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     depth: PropTypes.number.isRequired,
     expanded: PropTypes.bool.isRequired,
@@ -267,7 +285,7 @@ PageTree.defaultProps = {
   onExpandAll: () => {},
   onCollapseAll: () => {},
   onSetColumnOrder: () => {},
-  columnOrder: ['title', 'status', 'displayedInMenu'],
+  columnOrder: ['title', 'pageModel', 'status', 'displayedInMenu'],
 };
 
 export default PageTree;
