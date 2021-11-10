@@ -22,6 +22,7 @@ import {
   TYPE_THREESTATE,
   TYPE_LINK,
   TYPE_DATE,
+  TYPE_IMAGE,
 } from 'state/content-type/const';
 import { getDateTimeObjFromStr, getTodayDateValue } from 'helpers/attrUtils';
 import { listRequired, compositeOneOfExists } from 'helpers/attrValidation';
@@ -77,7 +78,7 @@ const renderField = (
   // the attribute should not be mandatory for non-default languages
   const newAttribute = {
     ...attribute,
-    mandatory: type === TYPE_LINK ? mandatory : defaultAndMandatory,
+    mandatory: type === TYPE_LINK || type === TYPE_IMAGE ? mandatory : defaultAndMandatory,
   };
 
   const validate = [];
@@ -185,6 +186,7 @@ const AttributeFields = ({
         groups: joinGroups,
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields, attributes, typeCode, mainGroup, joinGroups, content]);
 
   return fields.map((name, idx) => renderField(

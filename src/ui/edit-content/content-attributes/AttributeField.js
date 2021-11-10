@@ -7,7 +7,7 @@ import { isObject } from 'lodash';
 import ContentFormFieldCollapse from 'ui/common/content/ContentFormFieldCollapse';
 import FormLabel from 'ui/common/form/FormLabel';
 import attributeShape from 'ui/edit-content/content-attributes/attributeShape';
-import { getAttrValidators, linkValidate, noTagsOnly } from 'helpers/attrValidation';
+import { getAttrValidators, linkValidate, noTagsOnly, imageValidate } from 'helpers/attrValidation';
 import {
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
@@ -144,6 +144,7 @@ const AttributeField = ({
     case TYPE_IMAGE:
       AttributeFieldComp = ImageAttributeFieldContainer;
       actualName = `${name}.values`;
+      validate.push(imageValidate(defaultLang, mandatory));
       break;
     case TYPE_LINK:
       AttributeFieldComp = LinkAttributeField;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { memoize, isNull, isBoolean } from 'lodash';
+import { memoize, isNull, isNil, isEmpty, isBoolean } from 'lodash';
 import { maxLength, minLength } from '@entando/utils';
 
 export const EMPTY_SYMBOLIC_DEST = '#!!#';
@@ -202,3 +202,12 @@ export const linkValidate = memoize((langCode, required = false) => input => (
 export const listRequired = value => (
   !value || !value.length ? <FormattedMessage id="validateForm.required" /> : undefined
 );
+
+export const imageValidate = memoize((langCode, required = false) => input => (
+  (required && !input && !input.values
+    && isEmpty(input.values)
+    && isNil(input.values[langCode])
+    && !input.values[langCode].name)
+    ? (<FormattedMessage id="validateForm.required" />)
+    : undefined
+), (...args) => JSON.stringify(args));
