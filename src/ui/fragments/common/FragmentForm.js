@@ -4,7 +4,6 @@ import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import { validateCodeField } from 'helpers/formikValidations';
@@ -19,11 +18,9 @@ import {
   FORM_MODE_CLONE,
 } from 'state/fragments/const';
 
-const maxLength50 = maxLength(50);
-
-export const renderDefaultGuiCodeField = (field) => {
-  const { input } = field;
-  if (!input.value) {
+export const renderDefaultGuiCodeField = (fieldProp) => {
+  const { field } = fieldProp;
+  if (!field.value) {
     return (
       <Alert type="info">
         <FormattedMessage id="app.alert.notAvailable" />
@@ -32,7 +29,7 @@ export const renderDefaultGuiCodeField = (field) => {
   }
   return (
     <Panel>
-      <Panel.Body><pre className="PageTemplateDetailTable__template">{input.value}</pre></Panel.Body>
+      <Panel.Body><pre className="PageTemplateDetailTable__template">{field.value}</pre></Panel.Body>
     </Panel>
   );
 };
@@ -44,16 +41,19 @@ const defaultGuiCodeField = (
   />
 );
 
-export const renderStaticField = (field) => {
-  const { input, label, name } = field;
-  const fieldValue = (input.value.title) ? input.value.title : input.value.code;
-  if (!input.value || fieldValue === null) {
+export const renderStaticField = (fieldProps) => {
+  const { field, label } = fieldProps;
+  if (!field.value) {
+    return null;
+  }
+  const fieldValue = (field.value.title) ? field.value.title : field.value.code;
+  if (fieldValue === null) {
     return null;
   }
 
   return (
     <div className="form-group">
-      <label htmlFor={name} className="control-label col-xs-2">
+      <label htmlFor={field.name} className="control-label col-xs-2">
         {label}
       </label>
       <Col xs={10}>
@@ -64,6 +64,14 @@ export const renderStaticField = (field) => {
 };
 
 const msgs = defineMessages({
+  required: {
+    id: 'validateForm.required',
+    defaultMessage: 'Required',
+  },
+  maxLength: {
+    id: 'validateForm.maxLength',
+    deaultMessage: 'Maximum of {max} characters only.',
+  },
   codePlaceholder: {
     id: 'fragment.code.placeholder',
     defaultMessage: 'Code',
@@ -80,9 +88,22 @@ const msgs = defineMessages({
 
 export const FragmentFormBody = (props) => {
   const {
-    intl, handleSubmit, invalid, submitting, mode,
+    intl, isValid, submitting, mode,
     dirty, onCancel, onDiscard, onSave, onSubmit,
+    submitForm, resetForm, values, setSubmitting,
   } = props;
+
+  const invalid = !isValid;
+
+  const handleSubmitClick = (submitType) => {
+    submitForm();
+    onSubmit(values, submitType).then((res) => {
+      setSubmitting(false);
+      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+        resetForm();
+      }
+    });
+  };
 
   const handleCancelClick = () => {
     if (dirty) {
@@ -131,7 +152,6 @@ export const FragmentFormBody = (props) => {
                 <FormLabel labelId="app.code" helpId="app.help.code" required />
               }
               placeholder={intl.formatMessage(msgs.codePlaceholder)}
-              validate={[required, code, maxLength50]}
               disabled={mode === FORM_MODE_EDIT}
             />
             {widgetTypeField}
@@ -156,7 +176,6 @@ export const FragmentFormBody = (props) => {
                           cols="50"
                           rows="8"
                           className="form-control"
-                          validate={[required]}
                         />
                       </div>
                     </div>
@@ -184,9 +203,7 @@ export const FragmentFormBody = (props) => {
                 id="regularSaveButton"
                 eventKey={REGULAR_SAVE_TYPE}
                 disabled={invalid || submitting}
-                onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, REGULAR_SAVE_TYPE))}
+                onClick={() => handleSubmitClick(REGULAR_SAVE_TYPE)}
               >
                 <FormattedMessage id="app.save" />
               </MenuItem>
@@ -194,9 +211,9 @@ export const FragmentFormBody = (props) => {
                 id="continueSaveButton"
                 eventKey={CONTINUE_SAVE_TYPE}
                 disabled={invalid || submitting}
-                onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, CONTINUE_SAVE_TYPE))}
+                onClick={() => (
+                  handleSubmitClick(CONTINUE_SAVE_TYPE)
+                )}
               >
                 <FormattedMessage id="app.saveAndContinue" />
               </MenuItem>
@@ -224,8 +241,7 @@ export const FragmentFormBody = (props) => {
 
 FragmentFormBody.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
+  isValid: PropTypes.bool,
   submitting: PropTypes.bool,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   dirty: PropTypes.bool,
@@ -233,10 +249,14 @@ FragmentFormBody.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  values: PropTypes.shape({}).isRequired,
+  submitForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  setSubmitting: PropTypes.func.isRequired,
 };
 
 FragmentFormBody.defaultProps = {
-  invalid: false,
+  isValid: false,
   submitting: false,
   mode: FORM_MODE_ADD,
   dirty: false,
@@ -246,7 +266,7 @@ const FragmentForm = withFormik({
   enableReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
   validationSchema: ({ intl }) => (
-    Yup.object().shape({ // validate={[required, code, maxLength50]}
+    Yup.object().shape({
       code: Yup.string()
         .required(intl.formatMessage(msgs.required))
         .max(40, intl.formatMessage(msgs.maxLength, { max: 50 }))
@@ -256,15 +276,11 @@ const FragmentForm = withFormik({
         ),
       guiCode: Yup.string()
         .required(intl.formatMessage(msgs.required)),
+      widgetType: Yup.string(),
+      pluginCode: Yup.string(),
     })
   ),
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
-  },
-
+  handleSubmit: () => {},
   displayName: 'fragmentForm',
 })(FragmentFormBody);
 
