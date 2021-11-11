@@ -144,7 +144,9 @@ const AttributeField = ({
     case TYPE_IMAGE:
       AttributeFieldComp = ImageAttributeFieldContainer;
       actualName = `${name}.values`;
-      validate.push(imageValidate(defaultLang, mandatory));
+      if (mandatory) {
+        validate.push(imageValidate(defaultLang));
+      }
       break;
     case TYPE_LINK:
       AttributeFieldComp = LinkAttributeField;
