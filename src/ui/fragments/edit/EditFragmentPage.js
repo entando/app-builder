@@ -18,6 +18,10 @@ class EditFragmentPage extends Component {
     this.props.onWillMount(this.props);
   }
 
+  componentWillUnmount() {
+    this.props.onWillUnmount();
+  }
+
   render() {
     return (
       <InternalPage className="EditFragmentPage">
@@ -55,10 +59,12 @@ class EditFragmentPage extends Component {
 
 EditFragmentPage.propTypes = {
   onWillMount: PropTypes.func,
+  onWillUnmount: PropTypes.func,
 };
 
 EditFragmentPage.defaultProps = {
   onWillMount: () => {},
+  onWillUnmount: () => {},
 };
 
 export default EditFragmentPage;

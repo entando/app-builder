@@ -376,6 +376,7 @@ export default {
     'validateForm.maxValue': 'Must be at most {max}.',
     'validateForm.regex': 'Must match this regex: {regex}',
     'validateForm.email': 'Invalid email address.',
+    'validateForm.invalidJson': 'Invalid JSON format: {msg}',
     'validateForm.alphaNumeric': 'Alphanumeric characters only.',
     'validateForm.widgetCode': '{name} contains invalid characters. Only alphanumeric characters and the underscore are allowed',
     'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',

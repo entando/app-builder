@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import FragmentForm from 'ui/fragments/common/FragmentForm';
 import { sendPostFragment } from 'state/fragments/actions';
 import { DEFAULT_FORM_VALUES } from 'state/fragments/const';
-import { submit } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { setVisibleModal } from 'state/modal/actions';
@@ -15,7 +14,7 @@ export const mapStateToProps = () => ({
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onSubmit: (fragment, saveType) => dispatch(sendPostFragment(fragment, saveType)),
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('fragment')); },
+  onHideCancelModal: () => { dispatch(setVisibleModal('')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_FRAGMENT_LIST)); },
 });

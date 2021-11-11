@@ -4,7 +4,13 @@ import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
 import { getSelectedPageTemplate } from 'state/page-templates/selectors';
-import { initPageTemplateForm, updatePageTemplate, createPageTemplate, setSelectedPageTemplate } from 'state/page-templates/actions';
+import {
+  initPageTemplateForm,
+  updatePageTemplate,
+  createPageTemplate,
+  setSelectedPageTemplate,
+  removeSelectedPageTemplate,
+} from 'state/page-templates/actions';
 import { FORM_MODE_CLONE, FORM_MODE_EDIT, DEFAULT_FORM_VALUES } from 'state/page-templates/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
@@ -36,6 +42,7 @@ export const mapDispatchToProps = (dispatch, { mode, match: { params }, history 
       dispatch(setSelectedPageTemplate(DEFAULT_FORM_VALUES));
     }
   },
+  onWillUnmount: () => dispatch(removeSelectedPageTemplate()),
   onHideCancelModal: () => dispatch(setVisibleModal('')),
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PAGE_TEMPLATE_LIST)); },

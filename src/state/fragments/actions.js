@@ -24,6 +24,13 @@ export const setSelectedFragment = fragment => ({
   },
 });
 
+export const clearSelectedFragment = () => ({
+  type: SET_SELECTED,
+  payload: {
+    fragment: {},
+  },
+});
+
 export const setFragments = fragments => ({
   type: SET_FRAGMENTS,
   payload: {
@@ -199,6 +206,7 @@ export const sendPostFragment = (fragment, saveType) => async (dispatch) => {
       { id: 'fragment.created' },
       TOAST_SUCCESS,
     ));
+    dispatch(clearSelectedFragment());
     if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_FRAGMENT_LIST);
     else {
       history.push(routeConverter(

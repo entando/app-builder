@@ -12,6 +12,7 @@ import { FORM_MODE_EDIT, FORM_MODE_CLONE, CONTINUE_SAVE_TYPE } from 'state/page-
 import {
   SET_PAGE_TEMPLATES, SET_SELECTED_PAGE_TEMPLATE, REMOVE_PAGE_TEMPLATE,
   SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS, SET_PAGE_TEMPLATES_TOTAL,
+  REMOVE_SELECTED_PAGE_TEMPLATE,
 } from 'state/page-templates/types';
 import { history, ROUTE_PAGE_TEMPLATE_EDIT, ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 
@@ -35,6 +36,10 @@ export const setSelectedPageTemplate = pageTemplate => ({
   payload: {
     pageTemplate,
   },
+});
+
+export const removeSelectedPageTemplate = () => ({
+  type: REMOVE_SELECTED_PAGE_TEMPLATE,
 });
 
 export const removePageTemplateSync = pageTemplateCode => ({

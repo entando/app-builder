@@ -3,7 +3,7 @@ import 'test/enzyme-init';
 import { FragmentFormBody, renderDefaultGuiCodeField, renderStaticField } from 'ui/fragments/common/FragmentForm';
 import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 
-const handleSubmit = jest.fn();
+const onSubmit = jest.fn();
 
 describe('FragmentForm', () => {
   let fragmentForm;
@@ -18,7 +18,7 @@ describe('FragmentForm', () => {
     const props = {
       submitting,
       invalid,
-      handleSubmit,
+      onSubmit,
       mode,
       intl: mockIntl,
     };
@@ -50,18 +50,18 @@ describe('FragmentForm', () => {
   });
 
   it('root component does not render widgetType Field if its value is null', () => {
-    const input = { name: 'widgetType', value: '' };
+    const field = { name: 'widgetType', value: '' };
     const name = 'widgetType';
     const label = <label htmlFor={name}>widgetType</label>;
-    const element = renderStaticField({ input, label, name });
+    const element = renderStaticField({ field, label, name });
     expect(element).toEqual(null);
   });
 
   it('root component renders widgetType Field if its value is not null', () => {
-    const input = { name: 'widgetType', value: 'widgetType' };
+    const field = { name: 'widgetType', value: 'widgetType' };
     const name = 'widgetType';
     const label = <label htmlFor={name}>widgetType</label>;
-    const element = renderStaticField({ input, label, name });
+    const element = renderStaticField({ field, label, name });
     const widgetType = shallowWithIntl(element);
     expect(widgetType.find('.form-group').exists()).toEqual(true);
   });
@@ -73,15 +73,15 @@ describe('FragmentForm', () => {
   });
 
   it('root component renders an Alert if defaultGuiCode is undefined', () => {
-    const input = { name: 'defaultGuiCode', value: '' };
-    const element = renderDefaultGuiCodeField({ input });
+    const field = { name: 'defaultGuiCode', value: '' };
+    const element = renderDefaultGuiCodeField({ field });
     const defaultGuiCode = shallowWithIntl(element);
     expect(defaultGuiCode.find('.alert.alert-info').exists()).toEqual(true);
   });
 
   it('root component renders a Panel if defaultGuiCode is defined on edit mode', () => {
-    const input = { name: 'defaultGuiCode', value: '<p>Default Gui Code</p>' };
-    const element = renderDefaultGuiCodeField({ input });
+    const field = { name: 'defaultGuiCode', value: '<p>Default Gui Code</p>' };
+    const element = renderDefaultGuiCodeField({ field });
     const defaultUi = shallowWithIntl(element);
     expect(defaultUi.find('Panel PanelBody pre').exists()).toEqual(true);
   });
@@ -102,12 +102,5 @@ describe('FragmentForm', () => {
     expect(regularSaveButton.prop('disabled')).toEqual(true);
     const continueSaveButton = fragmentForm.find('#continueSaveButton');
     expect(continueSaveButton.prop('disabled')).toEqual(true);
-  });
-
-  it('on form submit calls handleSubmit', () => {
-    fragmentForm = buildFragmentForm();
-    const preventDefault = jest.fn();
-    fragmentForm.find('form').simulate('submit', { preventDefault });
-    expect(handleSubmit).toHaveBeenCalled();
   });
 });

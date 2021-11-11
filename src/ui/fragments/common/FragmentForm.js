@@ -88,8 +88,8 @@ const msgs = defineMessages({
 
 export const FragmentFormBody = (props) => {
   const {
-    intl, isValid, submitting, mode,
-    dirty, onCancel, onDiscard, onSave, onSubmit,
+    intl, isValid, isSubmitting: submitting, mode,
+    dirty, onCancel, onDiscard, onHideCancelModal, onSubmit,
     submitForm, resetForm, values, setSubmitting,
   } = props;
 
@@ -230,7 +230,10 @@ export const FragmentFormBody = (props) => {
             contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
             invalid={invalid}
             submitting={submitting}
-            onSave={onSave}
+            onSave={() => {
+              onHideCancelModal();
+              handleSubmitClick(REGULAR_SAVE_TYPE);
+            }}
             onDiscard={onDiscard}
           />
         </Col>
@@ -242,12 +245,12 @@ export const FragmentFormBody = (props) => {
 FragmentFormBody.propTypes = {
   intl: intlShape.isRequired,
   isValid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onHideCancelModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.shape({}).isRequired,
   submitForm: PropTypes.func.isRequired,
@@ -257,7 +260,7 @@ FragmentFormBody.propTypes = {
 
 FragmentFormBody.defaultProps = {
   isValid: false,
-  submitting: false,
+  isSubmitting: false,
   mode: FORM_MODE_ADD,
   dirty: false,
 };
@@ -265,6 +268,17 @@ FragmentFormBody.defaultProps = {
 const FragmentForm = withFormik({
   enableReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
+  mapPropsToErrors: ({ mode }) => {
+    switch (mode) {
+      default:
+      case FORM_MODE_ADD:
+        return { code: '', guiCode: '' };
+      case FORM_MODE_CLONE:
+        return { code: '' };
+      case FORM_MODE_EDIT:
+        return {};
+    }
+  },
   validationSchema: ({ intl }) => (
     Yup.object().shape({
       code: Yup.string()
@@ -276,8 +290,14 @@ const FragmentForm = withFormik({
         ),
       guiCode: Yup.string()
         .required(intl.formatMessage(msgs.required)),
-      widgetType: Yup.string(),
-      pluginCode: Yup.string(),
+      widgetType: Yup.object().shape({
+        code: Yup.string().nullable(true),
+        title: Yup.string().nullable(true),
+      }).nullable(true),
+      pluginCode: Yup.object().shape({
+        code: Yup.string(),
+        title: Yup.string(),
+      }).nullable(true),
     })
   ),
   handleSubmit: () => {},
