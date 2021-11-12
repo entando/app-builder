@@ -283,7 +283,7 @@ const FragmentForm = withFormik({
     Yup.object().shape({
       code: Yup.string()
         .required(intl.formatMessage(msgs.required))
-        .max(40, intl.formatMessage(msgs.maxLength, { max: 50 }))
+        .max(50, intl.formatMessage(msgs.maxLength, { max: 50 }))
         .test(
           'validateCodeField',
           validateCodeField(intl),
