@@ -236,11 +236,12 @@ const toDateFormat = 'YYYY-MM-DD';
 
 const convertDateValue = (item) => {
   const { value } = item;
-  if (value.includes('-') || isEmpty(value)) return item;
+  if (value.includes('-')) return item;
 
   return {
     ...item,
-    value: `${moment(value, fromDateFormat).format(toDateFormat)} 00:00:00`,
+    // api is expecting null instead of empty string
+    value: isEmpty(value) ? null : `${moment(value, fromDateFormat).format(toDateFormat)} 00:00:00`,
   };
 };
 
