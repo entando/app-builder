@@ -1,4 +1,13 @@
-// eslint-disable-next-line import/prefer-default-export
+export const formatMessageRequired = {
+  id: 'validateForm.required',
+  defaultMessage: 'Required',
+};
+
+export const formatMessageMaxLength = {
+  id: 'validateForm.maxLength',
+  deaultMessage: 'Maximum of {max} characters only.',
+};
+
 export const validateJson = intl => (value, yupProps) => {
   const { createError, path } = yupProps;
   try {

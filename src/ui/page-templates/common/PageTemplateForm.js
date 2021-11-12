@@ -6,7 +6,7 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import * as Yup from 'yup';
 
-import { validateJson } from 'helpers/formikValidations';
+import { validateJson, formatMessageRequired, formatMessageMaxLength } from 'helpers/formikValidations';
 import { convertPageTemplateForm, getCellMap, validateFrames } from 'state/page-templates/helpers';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import JsonCodeEditorRenderer from 'ui/common/formik-field/JsonCodeEditorRenderer';
@@ -243,13 +243,13 @@ const PageTemplateForm = withFormik({
   validationSchema: ({ intl }) => (
     Yup.object().shape({
       code: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .max(40, intl.formatMessage(msgs.maxLength, { max: 40 })),
+        .required(intl.formatMessage(formatMessageRequired))
+        .max(40, intl.formatMessage(formatMessageMaxLength, { max: 40 })),
       descr: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .max(50, intl.formatMessage(msgs.maxLength, { max: 50 })),
+        .required(intl.formatMessage(formatMessageRequired))
+        .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 })),
       configuration: Yup.string()
-        .required(intl.formatMessage(msgs.required))
+        .required(intl.formatMessage(formatMessageRequired))
         .test('validateJSONPreviewErrors', (value, yupProps) => {
           const { createError, path } = yupProps;
           const jsonTest = validateJson(intl)(value, yupProps);
@@ -272,7 +272,7 @@ const PageTemplateForm = withFormik({
           return true;
         }),
       template: Yup.string()
-        .required(intl.formatMessage(msgs.required)),
+        .required(intl.formatMessage(formatMessageRequired)),
     })
   ),
   handleSubmit: () => {},

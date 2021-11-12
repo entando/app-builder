@@ -6,7 +6,11 @@ import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'pa
 import { Panel } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
-import { validateCodeField } from 'helpers/formikValidations';
+import {
+  validateCodeField,
+  formatMessageRequired,
+  formatMessageMaxLength,
+} from 'helpers/formikValidations';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
@@ -64,14 +68,6 @@ export const renderStaticField = (fieldProps) => {
 };
 
 const msgs = defineMessages({
-  required: {
-    id: 'validateForm.required',
-    defaultMessage: 'Required',
-  },
-  maxLength: {
-    id: 'validateForm.maxLength',
-    deaultMessage: 'Maximum of {max} characters only.',
-  },
   codePlaceholder: {
     id: 'fragment.code.placeholder',
     defaultMessage: 'Code',
@@ -282,14 +278,14 @@ const FragmentForm = withFormik({
   validationSchema: ({ intl }) => (
     Yup.object().shape({
       code: Yup.string()
-        .required(intl.formatMessage(msgs.required))
-        .max(50, intl.formatMessage(msgs.maxLength, { max: 50 }))
+        .required(intl.formatMessage(formatMessageRequired))
+        .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 }))
         .test(
           'validateCodeField',
           validateCodeField(intl),
         ),
       guiCode: Yup.string()
-        .required(intl.formatMessage(msgs.required)),
+        .required(intl.formatMessage(formatMessageRequired)),
       widgetType: Yup.object().shape({
         code: Yup.string().nullable(true),
         title: Yup.string().nullable(true),
