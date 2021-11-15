@@ -39,7 +39,6 @@ const DateAttributeField = ({
       meta={meta}
       alignClass="text-right"
       dateFormat={dateFormat}
-      isClearable={false}
       {...rest}
     />
   );
