@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage,
+  deleteWebuiPage, postWebuiPage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -331,6 +331,12 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
+      if (pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+        await postWebuiPage({
+          ...pageData,
+          ...seoPayload,
+        });
+      }
       resolve(response);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
