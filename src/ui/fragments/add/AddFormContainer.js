@@ -14,7 +14,7 @@ export const mapStateToProps = () => ({
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onSubmit: (fragment, saveType) => dispatch(sendPostFragment(fragment, saveType)),
-  onHideCancelModal: () => { dispatch(setVisibleModal('')); },
+  onHideModal: () => { dispatch(setVisibleModal('')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_FRAGMENT_LIST)); },
 });

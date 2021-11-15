@@ -85,7 +85,7 @@ const msgs = defineMessages({
 export const FragmentFormBody = (props) => {
   const {
     intl, isValid, isSubmitting: submitting, mode,
-    dirty, onCancel, onDiscard, onHideCancelModal, onSubmit,
+    dirty, onCancel, onDiscard, onHideModal, onSubmit,
     submitForm, resetForm, values, setSubmitting,
   } = props;
 
@@ -227,7 +227,7 @@ export const FragmentFormBody = (props) => {
             invalid={invalid}
             submitting={submitting}
             onSave={() => {
-              onHideCancelModal();
+              onHideModal();
               handleSubmitClick(REGULAR_SAVE_TYPE);
             }}
             onDiscard={onDiscard}
@@ -246,7 +246,7 @@ FragmentFormBody.propTypes = {
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onHideCancelModal: PropTypes.func.isRequired,
+  onHideModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.shape({}).isRequired,
   submitForm: PropTypes.func.isRequired,

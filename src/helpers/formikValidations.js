@@ -5,7 +5,7 @@ export const formatMessageRequired = {
 
 export const formatMessageMaxLength = {
   id: 'validateForm.maxLength',
-  deaultMessage: 'Maximum of {max} characters only.',
+  defaultMessage: 'Maximum of {max} characters only.',
 };
 
 export const validateJson = intl => (value, yupProps) => {
