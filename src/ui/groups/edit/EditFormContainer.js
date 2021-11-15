@@ -25,7 +25,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillUnmount: () => {
     dispatch(clearSelectedGroup());
   },
-  onHideCancelModal: () => dispatch(setVisibleModal('')),
+  onHideModal: () => dispatch(setVisibleModal('')),
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_GROUP_LIST)); },
 });

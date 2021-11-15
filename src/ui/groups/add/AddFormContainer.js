@@ -14,7 +14,7 @@ export const mapStateToProps = () => ({
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onSubmit: values => dispatch(sendPostGroup(values)),
-  onHideCancelModal: () => dispatch(setVisibleModal('')),
+  onHideModal: () => dispatch(setVisibleModal('')),
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_GROUP_LIST)); },
 });

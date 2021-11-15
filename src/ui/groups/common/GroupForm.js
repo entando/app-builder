@@ -26,12 +26,13 @@ const msgs = defineMessages({
 export const GroupFormBody = (props) => {
   const {
     intl, isValid, isSubmitting: submitting, mode, submitForm,
-    dirty, onCancel, onDiscard, onHideCancelModal, values, onDidMount,
+    dirty, onCancel, onDiscard, onHideModal, values, onDidMount,
     setFieldValue, setFieldTouched, onWillUnmount,
   } = props;
   useEffect(() => {
     onDidMount(props);
     return () => onWillUnmount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isEdit = mode === EDIT_MODE;
@@ -41,6 +42,7 @@ export const GroupFormBody = (props) => {
       setFieldValue('code', values.name.replace(/\W/g, '_').toLowerCase());
       setFieldTouched('code', true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.name]);
 
   const invalid = !isValid;
@@ -86,7 +88,7 @@ export const GroupFormBody = (props) => {
             invalid={invalid}
             submitting={submitting}
             onSave={() => {
-              onHideCancelModal();
+              onHideModal();
               submitForm();
             }}
             onDiscard={onDiscard}
@@ -126,7 +128,7 @@ GroupFormBody.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
   dirty: PropTypes.bool,
-  onHideCancelModal: PropTypes.func.isRequired,
+  onHideModal: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
