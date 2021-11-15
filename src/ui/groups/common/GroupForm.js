@@ -23,7 +23,7 @@ const msgs = defineMessages({
   },
 });
 
-const GroupFormBody = (props) => {
+export const GroupFormBody = (props) => {
   const {
     intl, isValid, isSubmitting: submitting, mode, submitForm,
     dirty, onCancel, onDiscard, onHideCancelModal, values, onDidMount,

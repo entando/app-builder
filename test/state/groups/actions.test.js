@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { initialize } from 'redux-form';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import {
@@ -28,7 +27,6 @@ import {
 } from 'api/groups';
 
 import { LIST_GROUPS_OK, BODY_OK } from 'test/mocks/groups';
-import { LIST_MY_GROUP_PERMISSIONS_OK } from 'test/mocks/permissions';
 
 import {
   SET_GROUPS,
@@ -51,7 +49,6 @@ const UPDATED_GROUP = {
   code: LIST_GROUPS_OK[0].code,
   name: 'new_group_name',
 };
-const INITIALIZE_TYPE = '@@redux-form/INITIALIZE';
 
 jest.mock('api/groups', () => ({
   getGroups: jest.fn(),
@@ -243,15 +240,14 @@ describe('state/groups/actions', () => {
   });
 
   describe('fetchGroup()', () => {
-    it('when getGroup succeeds, should dispatch inizialize', (done) => {
+    it('when getGroup succeeds, should dispatch selected group', (done) => {
       getGroup.mockReturnValueOnce(new Promise(resolve => resolve(GET_GROUP_PROMISE)));
       store.dispatch(fetchGroup(GROUP_CODE)).then(() => {
         expect(getGroup).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', INITIALIZE_TYPE);
-        expect(actions[0]).toHaveProperty('payload', LIST_GROUPS_OK[0]);
-        expect(initialize).toHaveBeenCalled();
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_GROUP);
+        expect(actions[0]).toHaveProperty('payload', { group: LIST_GROUPS_OK[0] });
         done();
       }).catch(done.fail);
     });
