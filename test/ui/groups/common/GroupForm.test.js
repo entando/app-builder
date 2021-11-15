@@ -1,13 +1,14 @@
 import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
+import { DEFAULT_FORM_VALUES } from 'state/groups/const';
 import { GroupFormBody } from 'ui/groups/common/GroupForm';
 import { mockIntl } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
 const onSubmit = jest.fn();
 const onWillMount = jest.fn();
-const changeEvent = { currentTarget: { value: 'changed_name' } };
+
 
 describe('GroupForm', () => {
   let groupForm;
@@ -29,6 +30,7 @@ describe('GroupForm', () => {
       onSubmit,
       mode,
       intl: mockIntl,
+      values: DEFAULT_FORM_VALUES,
     };
 
     return shallow(<GroupFormBody {...props} />);
@@ -54,37 +56,6 @@ describe('GroupForm', () => {
   });
 
   describe('test buttons and handlers', () => {
-    it('on name change calls onChangeName if defined on props', () => {
-      const onChangeName = jest.fn();
-      groupForm = buildGroupForm();
-      groupForm.setProps({ onChangeName });
-      const field = groupForm.find('Field[name="name"]').at(0);
-      field.simulate('change', changeEvent);
-      expect(onChangeName).toHaveBeenCalled();
-    });
-
-    it('on name change do nothing if onChangeName is not defined on props', () => {
-      const onChangeName = jest.fn();
-      groupForm = buildGroupForm();
-      groupForm.find('Field[name="name"]').at(0).simulate('change', changeEvent);
-      expect(onChangeName).not.toHaveBeenCalled();
-    });
-
-    it('on focus code calls onFocus if defined on props', () => {
-      const onFocus = jest.fn();
-      groupForm = buildGroupForm();
-      groupForm.setProps({ onFocus });
-      groupForm.find('Field[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
-      expect(onFocus).toHaveBeenCalled();
-    });
-
-    it('on focus code calls onFocus if defined on props', () => {
-      const onFocus = jest.fn();
-      groupForm = buildGroupForm();
-      groupForm.find('Field[name="code"]').simulate('focus', { currentTarget: { name: 'code' } });
-      expect(onFocus).not.toHaveBeenCalled();
-    });
-
     it('disables submit button while submitting', () => {
       submitting = true;
       groupForm = buildGroupForm();
@@ -97,13 +68,6 @@ describe('GroupForm', () => {
       groupForm = buildGroupForm();
       const submitButton = groupForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
-    });
-
-    it('on form submit calls handleSubmit', () => {
-      groupForm = buildGroupForm();
-      const preventDefault = jest.fn();
-      groupForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
     });
   });
 });

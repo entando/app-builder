@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 
 import {
@@ -41,6 +40,13 @@ export const setSelectedGroup = group => ({
   type: SET_SELECTED_GROUP,
   payload: {
     group,
+  },
+});
+
+export const clearSelectedGroup = () => ({
+  type: SET_SELECTED_GROUP,
+  payload: {
+    group: {},
   },
 });
 
@@ -103,7 +109,7 @@ export const fetchGroup = groupCode => dispatch => (
     getGroup(groupCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(initialize('group', data.payload));
+          dispatch(setSelectedGroup(data.payload));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

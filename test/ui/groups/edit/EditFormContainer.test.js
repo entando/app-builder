@@ -6,6 +6,10 @@ jest.mock('state/groups/actions', () => ({
   fetchGroup: jest.fn().mockReturnValue('fetchGroup_result'),
 }));
 
+jest.mock('state/groups/selectors', () => ({
+  getSelectedGroup: jest.fn().mockReturnValue('getGroup_result'),
+}));
+
 const dispatchMock = jest.fn();
 
 const TEST_STATE = {
@@ -13,6 +17,7 @@ const TEST_STATE = {
   form: {
     group: '',
   },
+  initialValues: 'getGroup_result',
 };
 
 const ownProps = {
@@ -48,9 +53,9 @@ describe('EditFormContainer', () => {
       expect(dispatchMock).toHaveBeenCalledWith('sendPutGroup_result');
     });
 
-    it('verify that "onWillMount" is defined by and dispatch fetchGroup', () => {
-      expect(props.onWillMount).toBeDefined();
-      props.onWillMount({ groupCode: 'group_code' });
+    it('verify that "onDidMount" is defined by and dispatch fetchGroup', () => {
+      expect(props.onDidMount).toBeDefined();
+      props.onDidMount({ groupCode: 'group_code' });
       expect(dispatchMock).toHaveBeenCalledWith('fetchGroup_result');
     });
   });
