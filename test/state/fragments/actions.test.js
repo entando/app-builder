@@ -171,7 +171,9 @@ describe('state/fragments/actions', () => {
 
       it('if API response ok, initializes fragment information', (done) => {
         store.dispatch(fetchFragment(FRAGMENT_CODE)).then(() => {
-          expect(initialize).toHaveBeenCalledWith('fragment', GET_FRAGMENT_OK);
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED);
           done();
         }).catch(done.fail);
       });

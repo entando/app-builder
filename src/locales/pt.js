@@ -363,6 +363,7 @@ export default {
     'validateForm.maxValue': 'Deve ter no máximo {max}',
     'validateForm.regex': 'Deve corresponder a este regex: {regex}',
     'validateForm.email': 'Endereço de email inválido',
+    'validateForm.invalidJson': 'Formato JSON inválido: {msg}',
     'validateForm.alphaNumeric': 'Somente caracteres alfanuméricos',
     'validateForm.widgetCode': '{name} contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado _ são permitidos',
     'validateForm.passwordNotMatch': 'A confirmação de senha não confere com a senha digitada',

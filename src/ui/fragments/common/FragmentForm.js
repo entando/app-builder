@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
 import { Button, Tabs, Tab, Row, Col, Alert, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+
+import {
+  validateCodeField,
+  formatMessageRequired,
+  formatMessageMaxLength,
+} from 'helpers/formikValidations';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import {
@@ -16,11 +22,9 @@ import {
   FORM_MODE_CLONE,
 } from 'state/fragments/const';
 
-const maxLength50 = maxLength(50);
-
-export const renderDefaultGuiCodeField = (field) => {
-  const { input } = field;
-  if (!input.value) {
+export const renderDefaultGuiCodeField = (fieldProp) => {
+  const { field } = fieldProp;
+  if (!field.value) {
     return (
       <Alert type="info">
         <FormattedMessage id="app.alert.notAvailable" />
@@ -29,7 +33,7 @@ export const renderDefaultGuiCodeField = (field) => {
   }
   return (
     <Panel>
-      <Panel.Body><pre className="PageTemplateDetailTable__template">{input.value}</pre></Panel.Body>
+      <Panel.Body><pre className="PageTemplateDetailTable__template">{field.value}</pre></Panel.Body>
     </Panel>
   );
 };
@@ -41,16 +45,19 @@ const defaultGuiCodeField = (
   />
 );
 
-export const renderStaticField = (field) => {
-  const { input, label, name } = field;
-  const fieldValue = (input.value.title) ? input.value.title : input.value.code;
-  if (!input.value || fieldValue === null) {
+export const renderStaticField = (fieldProps) => {
+  const { field, label } = fieldProps;
+  if (!field.value) {
+    return null;
+  }
+  const fieldValue = (field.value.title) ? field.value.title : field.value.code;
+  if (fieldValue === null) {
     return null;
   }
 
   return (
     <div className="form-group">
-      <label htmlFor={name} className="control-label col-xs-2">
+      <label htmlFor={field.name} className="control-label col-xs-2">
         {label}
       </label>
       <Col xs={10}>
@@ -77,9 +84,22 @@ const msgs = defineMessages({
 
 export const FragmentFormBody = (props) => {
   const {
-    intl, handleSubmit, invalid, submitting, mode,
-    dirty, onCancel, onDiscard, onSave, onSubmit,
+    intl, isValid, isSubmitting: submitting, mode,
+    dirty, onCancel, onDiscard, onHideModal, onSubmit,
+    submitForm, resetForm, values, setSubmitting,
   } = props;
+
+  const invalid = !isValid;
+
+  const handleSubmitClick = (submitType) => {
+    submitForm();
+    onSubmit(values, submitType).then((res) => {
+      setSubmitting(false);
+      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+        resetForm();
+      }
+    });
+  };
 
   const handleCancelClick = () => {
     if (dirty) {
@@ -111,7 +131,7 @@ export const FragmentFormBody = (props) => {
   }
 
   return (
-    <form className="form-horizontal">
+    <Form className="form-horizontal">
       <Row>
         <Col xs={12}>
           <fieldset className="no-padding">
@@ -128,7 +148,6 @@ export const FragmentFormBody = (props) => {
                 <FormLabel labelId="app.code" helpId="app.help.code" required />
               }
               placeholder={intl.formatMessage(msgs.codePlaceholder)}
-              validate={[required, code, maxLength50]}
               disabled={mode === FORM_MODE_EDIT}
             />
             {widgetTypeField}
@@ -153,7 +172,6 @@ export const FragmentFormBody = (props) => {
                           cols="50"
                           rows="8"
                           className="form-control"
-                          validate={[required]}
                         />
                       </div>
                     </div>
@@ -181,9 +199,7 @@ export const FragmentFormBody = (props) => {
                 id="regularSaveButton"
                 eventKey={REGULAR_SAVE_TYPE}
                 disabled={invalid || submitting}
-                onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, REGULAR_SAVE_TYPE))}
+                onClick={() => handleSubmitClick(REGULAR_SAVE_TYPE)}
               >
                 <FormattedMessage id="app.save" />
               </MenuItem>
@@ -191,9 +207,9 @@ export const FragmentFormBody = (props) => {
                 id="continueSaveButton"
                 eventKey={CONTINUE_SAVE_TYPE}
                 disabled={invalid || submitting}
-                onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                }, CONTINUE_SAVE_TYPE))}
+                onClick={() => (
+                  handleSubmitClick(CONTINUE_SAVE_TYPE)
+                )}
               >
                 <FormattedMessage id="app.saveAndContinue" />
               </MenuItem>
@@ -210,37 +226,78 @@ export const FragmentFormBody = (props) => {
             contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
             invalid={invalid}
             submitting={submitting}
-            onSave={onSave}
+            onSave={() => {
+              onHideModal();
+              handleSubmitClick(REGULAR_SAVE_TYPE);
+            }}
             onDiscard={onDiscard}
           />
         </Col>
       </Row>
-    </form>
+    </Form>
   );
 };
 
 FragmentFormBody.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   mode: PropTypes.oneOf([FORM_MODE_ADD, FORM_MODE_CLONE, FORM_MODE_EDIT]),
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onHideModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  values: PropTypes.shape({}).isRequired,
+  submitForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  setSubmitting: PropTypes.func.isRequired,
 };
 
 FragmentFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   mode: FORM_MODE_ADD,
   dirty: false,
 };
 
-const FragmentForm = reduxForm({
-  form: 'fragment',
+const FragmentForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  mapPropsToErrors: ({ mode }) => {
+    switch (mode) {
+      default:
+      case FORM_MODE_ADD:
+        return { code: '', guiCode: '' };
+      case FORM_MODE_CLONE:
+        return { code: '' };
+      case FORM_MODE_EDIT:
+        return {};
+    }
+  },
+  validationSchema: ({ intl }) => (
+    Yup.object().shape({
+      code: Yup.string()
+        .required(intl.formatMessage(formatMessageRequired))
+        .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 }))
+        .test(
+          'validateCodeField',
+          validateCodeField(intl),
+        ),
+      guiCode: Yup.string()
+        .required(intl.formatMessage(formatMessageRequired)),
+      widgetType: Yup.object().shape({
+        code: Yup.string().nullable(true),
+        title: Yup.string().nullable(true),
+      }).nullable(true),
+      pluginCode: Yup.object().shape({
+        code: Yup.string(),
+        title: Yup.string(),
+      }).nullable(true),
+    })
+  ),
+  handleSubmit: () => {},
+  displayName: 'fragmentForm',
 })(FragmentFormBody);
 
 export default injectIntl(FragmentForm);

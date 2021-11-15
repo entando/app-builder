@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import {
   SET_PAGE_TEMPLATES,
   SET_SELECTED_PAGE_TEMPLATE,
+  REMOVE_SELECTED_PAGE_TEMPLATE,
   REMOVE_PAGE_TEMPLATE,
   SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS,
   SET_PAGE_TEMPLATES_TOTAL,
@@ -50,6 +51,9 @@ const selected = (state = null, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_PAGE_TEMPLATE: {
       return { ...state, ...action.payload.pageTemplate };
+    }
+    case REMOVE_SELECTED_PAGE_TEMPLATE: {
+      return null;
     }
     case SET_SELECTED_PAGE_TEMPLATE_PAGE_REFS: {
       return { ...state, pageReferences: action.payload.references };
