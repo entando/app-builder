@@ -19,6 +19,7 @@ import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
+import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -51,7 +52,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave, form,
+      onChangeOwnerGroup, readOnly, stayOnSave, form, editingPageTemplate,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -60,10 +61,16 @@ export class PageFormBody extends Component {
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
 
-    const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED;
+    const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED ||
+    ((isEditMode || isCloneMode) && editingPageTemplate.code === NEXT_PAGE_TEMPLATE_CODE);
 
     const pageTemplatesWithEmpty =
       [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
+
+    const filteredPageTemplates = (isEditMode || isCloneMode) &&
+    editingPageTemplate.code !== NEXT_PAGE_TEMPLATE_CODE ?
+      pageTemplatesWithEmpty.filter(pT => pT.code !== NEXT_PAGE_TEMPLATE_CODE) :
+      pageTemplatesWithEmpty;
 
     const parentPageComponent = parentCode ?
       <span>{parentTitle}</span> :
@@ -174,7 +181,7 @@ export class PageFormBody extends Component {
                       />
                     }
                     onChange={e => onChangePageTemplate(e.target.value, appTourProgress)}
-                    options={pageTemplatesWithEmpty}
+                    options={filteredPageTemplates}
                     optionValue="code"
                     optionDisplayName="descr"
                     disabled={readOnly || pageTemplateDisabled}
@@ -434,6 +441,10 @@ PageFormBody.propTypes = {
   onChangeOwnerGroup: PropTypes.func,
   readOnly: PropTypes.bool,
   stayOnSave: PropTypes.bool,
+  editingPageTemplate: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    descr: PropTypes.string.isRequired,
+  }),
 };
 
 PageFormBody.defaultProps = {
@@ -453,6 +464,10 @@ PageFormBody.defaultProps = {
   onChangeOwnerGroup: () => {},
   readOnly: false,
   stayOnSave: false,
+  editingPageTemplate: {
+    code: '',
+    descr: '',
+  },
 };
 
 const PageForm = reduxForm({
