@@ -13,6 +13,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import { TEST_ID_USER_FORM } from 'ui/test-const/user-test-const';
+import { userPassCharsValid } from 'helpers/formikValidations';
 
 const msgs = defineMessages({
   username: {
@@ -45,17 +46,6 @@ const renderStaticField = (fieldProps) => {
       </Col>
     </div>
   );
-};
-
-const userPassCharsValid = (value, { createError, path }) => {
-  if (!/^[0-9a-zA-Z_.]+$/i.test(value)) {
-    return createError({
-      message: <FormattedMessage id="user.validate.text" />,
-      path,
-    });
-  }
-
-  return true;
 };
 
 const addFormSchema = Yup.object().shape({
