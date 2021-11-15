@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS, makeMockRequest } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
