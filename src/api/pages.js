@@ -161,6 +161,13 @@ export const deletePage = page => makeRequest({
   useAuthentication: true,
 });
 
+export const deleteWebuiPage = page => makeRequest({
+  uri: `/api/pages/${page.code}`, // @TODO adjust this once BE is implemented
+  method: METHODS.DELETE,
+  mockResponse: { code: `${page.code}` },
+  useAuthentication: true,
+});
+
 export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
