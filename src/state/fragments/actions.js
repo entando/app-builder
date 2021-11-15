@@ -24,6 +24,13 @@ export const setSelectedFragment = fragment => ({
   },
 });
 
+export const clearSelectedFragment = () => ({
+  type: SET_SELECTED,
+  payload: {
+    fragment: {},
+  },
+});
+
 export const setFragments = fragments => ({
   type: SET_FRAGMENTS,
   payload: {
@@ -58,7 +65,7 @@ export const fetchFragment = (fragmentCode, mode = FORM_MODE_EDIT) => dispatch =
     getFragment(fragmentCode).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('fragment', {
+          dispatch(setSelectedFragment({
             ...json.payload,
             ...(mode === FORM_MODE_CLONE ? {
               code: '',

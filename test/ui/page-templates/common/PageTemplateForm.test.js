@@ -14,6 +14,7 @@ jest.unmock('react-redux');
 
 const props = {
   onDidMount: jest.fn(),
+  onWillUnmount: jest.fn(),
   onSubmit: jest.fn(),
   initialValues: DEFAULT_FORM_VALUES,
   mode: FORM_MODE_ADD,

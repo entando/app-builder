@@ -376,6 +376,7 @@ export default {
     'validateForm.maxValue': 'Deve essre maggiore {max}',
     'validateForm.regex': 'Deve corrispondere a questa regex: {regex}',
     'validateForm.email': 'Indirizzo email non valido!',
+    'validateForm.invalidJson': 'Formato JSON non valido: {msg}',
     'validateForm.alphaNumeric': 'Solo caratteri alfanumerici',
     'validateForm.widgetCode': '{name} contiene caratteri non consentiti. Usare solo caratteri alfanumerici o undescore _',
     'validateForm.passwordNotMatch': 'Il valore di Conferma non coincide col valore della Password',
