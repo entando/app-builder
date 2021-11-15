@@ -182,6 +182,19 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   ),
 });
 
+export const putWebuiPageStatus = (pageCode, status) => makeMockRequest({
+  uri: `/api/pages/${pageCode}/status`, // @TODO adjust this once BE is implemented
+  body: { status },
+  method: METHODS.PUT,
+  mockResponse: { ...fetchPageResponseMap.homepage, status },
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
+});
+
 export const getFreePages = () => makeRequest({
   uri: '/api/pages/search/group/free',
   method: METHODS.GET,

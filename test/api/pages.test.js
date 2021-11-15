@@ -3,7 +3,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
   getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
   getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings, deleteWebuiPage,
-  postWebuiPage,
+  postWebuiPage, putWebuiPageStatus,
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
@@ -355,6 +355,22 @@ describe('api/pages', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${pageCode}/references/${referenceKey}`,
         method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putWebuiPageStatus', () => {
+    it('returns a promise', () => {
+      expect(putWebuiPageStatus(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      putWebuiPageStatus('code1', 'published');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages/code1/status',
+        body: { status: 'published' },
+        method: METHODS.PUT,
         useAuthentication: true,
       }));
     });

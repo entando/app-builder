@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, postWebuiPage,
+  deleteWebuiPage, postWebuiPage, putWebuiPageStatus,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -563,6 +563,9 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
     dispatch(setPageLoading(page.code));
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
+        if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+          putWebuiPageStatus(page.code, status);
+        }
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
