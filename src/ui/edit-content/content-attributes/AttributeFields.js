@@ -21,7 +21,6 @@ import {
   TYPE_CHECKBOX,
   TYPE_THREESTATE,
   TYPE_LINK,
-  TYPE_DATE,
   TYPE_IMAGE,
 } from 'state/content-type/const';
 import { getDateTimeObjFromStr, getTodayDateValue } from 'helpers/attrUtils';
@@ -35,8 +34,6 @@ const toFieldValue = (attrValue, type) => {
     case TYPE_CHECKBOX:
     case TYPE_THREESTATE:
       return attrValue === null ? 'none' : `${attrValue}`;
-    case TYPE_DATE:
-      return attrValue === null ? getTodayDateValue() : attrValue;
     default:
       return attrValue;
   }
