@@ -33,9 +33,9 @@ const ComponentListGridView =
             <div
               className="ComponentList__component-image-wrapper"
               role="button"
-              tabIndex={-1}
+              tabIndex={0}
               onClick={() => openComponentManagementModal(component)}
-              onKeyDown={() => openComponentManagementModal(component)}
+              onKeyDown={() => {}}
             >
               <ComponentImage component={component} />
             </div>
@@ -44,9 +44,9 @@ const ComponentListGridView =
               <div
                 className="ComponentList__component-content"
                 role="button"
-                tabIndex={-1}
+                tabIndex={0}
                 onClick={() => openComponentManagementModal(component)}
-                onKeyDown={() => openComponentManagementModal(component)}
+                onKeyDown={() => {}}
               >
                 <p className="ComponentList__component-category">
                   {component.componentTypes

@@ -21,10 +21,10 @@ const BundleListListView =
           <div
             key={`${bundle.gitRepoAddress}-${bundle.id}`}
             role="button"
-            tabIndex={-1}
+            tabIndex={0}
             className="ComponentList__list-item"
             onClick={() => openComponentManagementModal(bundle)}
-            onKeyDown={() => openComponentManagementModal(bundle)}
+            onKeyDown={() => {}}
           >
             <div key={`${bundle.gitRepoAddress}-${bundle.id}`} className="equal">
               <div className="ComponentList__component-image-wrapper">

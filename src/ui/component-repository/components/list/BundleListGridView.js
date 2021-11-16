@@ -28,10 +28,10 @@ const BundleListGridView =
             >
               <div
                 role="button"
-                tabIndex={-1}
+                tabIndex={0}
                 className="ComponentList__component-wrapper"
                 onClick={() => openComponentManagementModal(bundle)}
-                onKeyDown={() => openComponentManagementModal(bundle)}
+                onKeyDown={() => {}}
               >
 
                 <div className="ComponentList__component-image-wrapper">
