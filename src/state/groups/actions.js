@@ -1,4 +1,4 @@
-import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
   getGroups,
@@ -126,6 +126,10 @@ export const sendPutGroup = groupData => dispatch => (
     putGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(addToast(
+            { id: 'app.updated', values: { type: 'group', code: groupData.code } },
+            TOAST_SUCCESS,
+          ));
           history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
@@ -143,6 +147,10 @@ export const sendPostGroup = groupData => dispatch => (
     postGroup(groupData).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
+          dispatch(addToast(
+            { id: 'app.created', values: { type: 'group', code: groupData.code } },
+            TOAST_SUCCESS,
+          ));
           history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
@@ -161,6 +169,10 @@ export const sendDeleteGroup = groupCode => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removeGroupSync(groupCode));
+          dispatch(addToast(
+            { id: 'app.deleted', values: { type: 'group', code: groupCode } },
+            TOAST_SUCCESS,
+          ));
           resolve();
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
