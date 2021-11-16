@@ -3,29 +3,6 @@ import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 import { getTouchErrorByField } from 'helpers/formikUtils';
 
-const switchField = (
-  field, form, switchValue, trueValue,
-  falseValue, onToggleValue, dataTestId,
-) => {
-  const handleChange = (el, val) => {
-    const returnVal = val ? trueValue : falseValue;
-    form.setFieldValue(field.name, returnVal);
-    if (onToggleValue) {
-      onToggleValue(returnVal);
-    }
-  };
-
-  return (
-    <div data-testid={dataTestId} aria-labelledby={`switch-${field.name}`}>
-      <Switch
-        {...field}
-        value={switchValue}
-        onChange={handleChange}
-      />
-    </div>
-  );
-};
-
 const SwitchInput = ({
   field, form, append, label, labelSize, inputSize, alignClass,
   help, trueValue, falseValue, disabled, onToggleValue,
@@ -33,6 +10,14 @@ const SwitchInput = ({
   const switchValue = field.value === 'true' || field.value === true || field.value === trueValue;
   const dataTestId = `${field.name}-switchField`;
   const { touched, error } = getTouchErrorByField(field.name, form);
+
+  const handleChange = (el, val) => {
+    const returnVal = val ? trueValue : falseValue;
+    form.setFieldValue(field.name, returnVal);
+    if (onToggleValue) {
+      onToggleValue(returnVal);
+    }
+  };
 
   if (label) {
     return (
@@ -43,19 +28,29 @@ const SwitchInput = ({
           </ControlLabel>
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
-          {switchField(
-              { ...field, disabled }, form, switchValue, trueValue, falseValue,
-              onToggleValue, dataTestId,
-          )}
+          <div data-testid={dataTestId} aria-labelledby={`switch-${field.name}`}>
+            <Switch
+              {...field}
+              disabled={disabled}
+              value={switchValue}
+              onChange={handleChange}
+            />
+          </div>
           {append && <span className="AppendedLabel">{append}</span>}
           {touched && ((error && <span role="alert" className="help-block">{error}</span>))}
         </Col>
       </div>);
   }
 
-  return switchField(
-    { ...field, disabled }, form, switchValue, trueValue, falseValue,
-    onToggleValue, dataTestId,
+  return (
+    <div data-testid={dataTestId} aria-labelledby={`switch-${field.name}`}>
+      <Switch
+        {...field}
+        disabled={disabled}
+        value={switchValue}
+        onChange={handleChange}
+      />
+    </div>
   );
 };
 
