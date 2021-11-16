@@ -10,7 +10,7 @@ import { getCurrentPage, getPageSize, getTotalItems } from 'state/pagination/sel
 import { getECRComponentListViewMode } from 'state/component-repository/components/selectors';
 import { fetchBundlesFromRegistry, fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
 import { getLoading } from 'state/loading/selectors';
-import { getBundlesFromRegistry, getBundleStatuses, getSelectedRegistry } from 'state/component-repository/hub/selectors';
+import { getBundlesFromRegistry, getBundleStatuses, getSelectedRegistry, getBundleGroups } from 'state/component-repository/hub/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import BundleListGridView from 'ui/component-repository/components/list/BundleListGridView';
 import BundleListListView from 'ui/component-repository/components/list/BundleListListView';
@@ -35,6 +35,7 @@ const HubBundleList = ({
   const bundles = useSelector(getBundlesFromRegistry);
   const bundleStatuses = useSelector(getBundleStatuses);
   const openedModal = useSelector(getVisibleModal);
+  const bundleGroups = useSelector(getBundleGroups);
 
   useEffect(
     () => { dispatch(fetchBundlesFromRegistry(activeRegistry.url)); },
@@ -66,12 +67,14 @@ const HubBundleList = ({
       locale={intl.locale}
       openComponentManagementModal={openComponentManagementModal}
       bundleStatuses={bundleStatuses}
+      bundleGroups={bundleGroups}
     />)
     : (<BundleListListView
       bundles={bundles}
       locale={intl.locale}
       openComponentManagementModal={openComponentManagementModal}
       bundleStatuses={bundleStatuses}
+      bundleGroups={bundleGroups}
     />);
 
   const components = (!bundles
