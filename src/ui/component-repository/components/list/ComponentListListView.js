@@ -16,6 +16,7 @@ const ComponentListListView =
   <div className="ComponentListListView">
     {components.map((component) => {
       const bundleStatus = bundleStatuses.find(b => b.id === component.repoUrl);
+      const { installed, installedJob } = component;
       return (
         <div
           key={component.code}
@@ -68,7 +69,11 @@ const ComponentListListView =
                     </div>
                 }
                 <p className="ComponentList__description">{component.description}</p>
-                <InstalledVersion version={(component.latestVersion || {}).version} />
+                <InstalledVersion
+                  version={(installedJob || {}).componentVersion ||
+                  (component.latestVersion || {}).version}
+                  installed={installed}
+                />
                 <DeploymentStatus bundleStatus={bundleStatus} />
               </div>
               <div className="ComponentList__component-footer" style={{ display: 'none' }}>
