@@ -294,7 +294,7 @@ describe('state/groups/actions', () => {
       store.dispatch(sendDeleteGroup(GROUP_CODE)).then(() => {
         expect(deleteGroup).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', REMOVE_GROUP);
         expect(actions[0].payload).toHaveProperty('groupCode', LIST_GROUPS_OK[0].code);
         done();
