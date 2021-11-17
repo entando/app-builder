@@ -8,9 +8,10 @@ import {
   SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS,
   SET_FETCHED_REGISTRIES, SET_BUNDLE_STATUSES, SET_SELECTED_BUNDLE_STATUS,
 } from 'state/component-repository/hub/types';
-import { getBundleFilters } from './selectors';
-import { getECRComponentList } from '../components/selectors';
-import { setECRComponents } from '../components/actions';
+import { setVisibleModal } from 'state/modal/actions';
+import { getBundleFilters } from 'state/component-repository/hub/selectors';
+import { getECRComponentList } from 'state/component-repository/components/selectors';
+import { setECRComponents } from 'state/component-repository/components/actions';
 
 export const FETCH_BUNDLES_LOADING_STATE = 'component-repository/hub/list/bundles';
 const FETCH_REGISTRIES_LOADING_STATE = 'component-repository/hub/list/registries';
@@ -260,17 +261,24 @@ export const sendDeployBundle = bundle => (dispatch, getState) => (
   })
 );
 
-export const sendUndeployBundle = bundle => dispatch => (
+export const sendUndeployBundle = bundle => (dispatch, getState) => (
   new Promise((resolve) => {
     dispatch(toggleLoading(`undeployBundle${bundle.gitRepoAddress}`));
-    undeployBundle(bundle).then((response) => {
+    undeployBundle(bundle.componentCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
             { id: 'app.undeployed', values: { type: 'bundle', code: bundle.name } },
             TOAST_SUCCESS,
           ));
-          // @TODO do same as above when deploying is done
+          dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress || bundle.componentUrl));
+          const state = getState();
+          const components = getECRComponentList(state);
+          dispatch(setECRComponents([...components.filter(c => c.code !== bundle.componentCode)]));
+          // if we are undeploying from ECR we need to close modal
+          if (bundle.triggeredFromLocal) {
+            dispatch(setVisibleModal(''));
+          }
         } else {
           dispatch(addToast(data.message, TOAST_ERROR));
         }
@@ -281,3 +289,10 @@ export const sendUndeployBundle = bundle => dispatch => (
     });
   })
 );
+
+export const fetchSelectedBundleStatusWithCode = componentCode => (dispatch, getState) => {
+  const state = getState();
+  const components = getECRComponentList(state);
+  const component = components.find(c => c.code === componentCode) || {};
+  return dispatch(fetchSelectedBundleStatus(component.repoUrl || ''));
+};

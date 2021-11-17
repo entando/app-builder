@@ -79,11 +79,11 @@ export const deployBundle = bundle => (
   })
 );
 
-export const undeployBundle = bundleId => (
+export const undeployBundle = componentCode => (
   makeRequest({
-    uri: `/components/${bundleId}`,
+    uri: `/components/${componentCode}`,
     domain: '/digital-exchange',
-    method: METHODS.DELETE, // @TODO-hub set it correctly after having real API
+    method: METHODS.DELETE,
     mockResponse: UNDEPLOY_BUNDLE_OK,
     useAuthentication: true,
   })
@@ -100,6 +100,19 @@ export const getBundleStatuses = bundleIds => (
       body: {
         ids: bundleIds,
       },
+    },
+    NO_PAGE,
+  )
+);
+
+export const getBundleStatusWithCode = componentCode => (
+  makeRequest(
+    {
+      uri: `/components/status/${componentCode}`,
+      domain: '/digital-exchange',
+      method: METHODS.GET,
+      mockResponse: LIST_BUNDLE_STATUSES_OK.bundlesStatuses[0],
+      useAuthentication: true,
     },
     NO_PAGE,
   )
