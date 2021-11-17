@@ -158,6 +158,7 @@ export const fetchContentsWithFilters = (
   quickFilterStatusParam = '',
   quickFilterOwnerGroup,
   joinGroupsToParse,
+  mode = 'full',
 ) => (dispatch, getState) => {
   const state = getState();
   const pagination = newPagination || getPagination(state, NAMESPACE_CONTENTS);
@@ -222,7 +223,7 @@ export const fetchContentsWithFilters = (
     return null;
   });
   query = `${convertToQueryString({ formValues, operators, sorting })}${categories}${quickFilterStatusParam || published}${ownerGroupQuery}${joinGroupsQuery}`;
-  return dispatch(fetchContents(pagination, query, NAMESPACE_CONTENTS, 'full'));
+  return dispatch(fetchContents(pagination, query, NAMESPACE_CONTENTS, mode));
 };
 
 export const fetchContentsWithTabs = (
@@ -230,6 +231,7 @@ export const fetchContentsWithTabs = (
   newSort,
   ownerGroup,
   joinGroupsToParse,
+  mode = 'full',
 ) => (dispatch, getState) => {
   const state = getState();
   const pagination = page || getPagination(state, NAMESPACE_CONTENTS);
@@ -264,19 +266,19 @@ export const fetchContentsWithTabs = (
   const joinGroupsQuery = (joinGroups && joinGroups.length > 0)
     ? joinGroups.reduce((acc, curr, index) => `${acc}&forLinkingWithExtraGroups[${index}]=${curr}`, '') : '';
   const params = `${query}${ownerGroupQuery}${joinGroupsQuery}`;
-  return dispatch(fetchContents(pagination, params, NAMESPACE_CONTENTS, 'full'));
+  return dispatch(fetchContents(pagination, params, NAMESPACE_CONTENTS, mode));
 };
 
 export const fetchContentsPaged = ({
   params, page, sort, tabSearch,
-  status, ownerGroup, joinGroups,
+  status, ownerGroup, joinGroups, mode,
 } = {}) => (dispatch) => {
   if (tabSearch) {
-    return dispatch(fetchContentsWithTabs(page, sort, ownerGroup, joinGroups));
+    return dispatch(fetchContentsWithTabs(page, sort, ownerGroup, joinGroups, mode));
   }
   return dispatch(fetchContentsWithFilters(
     params, page, sort,
-    status, ownerGroup, joinGroups,
+    status, ownerGroup, joinGroups, mode,
   ));
 };
 

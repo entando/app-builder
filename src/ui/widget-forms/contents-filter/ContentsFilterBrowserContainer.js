@@ -95,6 +95,8 @@ export const mapStateToProps = (state) => {
   });
 };
 
+const mode = 'list';
+
 export const mapDispatchToProps = (dispatch, {
   compatibility: { ownerGroup, joinGroups } = {},
   fetchOnMount,
@@ -102,7 +104,9 @@ export const mapDispatchToProps = (dispatch, {
   onDidMount: () => {
     dispatch(setCurrentStatusShow('published'));
     if (fetchOnMount) {
-      dispatch(fetchContentsPaged({ status: '&status=published', ownerGroup, joinGroups }));
+      dispatch(fetchContentsPaged({
+        status: '&status=published', ownerGroup, joinGroups, mode,
+      }));
     }
     dispatch(fetchCategoryTree());
     dispatch(fetchContentTypeListPaged(noPage));
@@ -117,6 +121,7 @@ export const mapDispatchToProps = (dispatch, {
     status: STATUS_PUBLISHED,
     ownerGroup,
     joinGroups,
+    mode,
   })),
   onSetTabSearch: tabSearch => dispatch(setTabSearch(tabSearch)),
   onCheckStatus: status => dispatch(checkStatus(status)),
@@ -131,6 +136,7 @@ export const mapDispatchToProps = (dispatch, {
       status: STATUS_PUBLISHED,
       ownerGroup,
       joinGroups,
+      mode,
     }));
   },
   onSetCurrentStatusShow: (status, author) => {
@@ -141,11 +147,14 @@ export const mapDispatchToProps = (dispatch, {
       status: '&status=published',
       ownerGroup,
       joinGroups,
+      mode,
     }));
   },
   onAdvancedFilterSearch: () => {
     dispatch(resetAuthorStatus());
-    dispatch(fetchContentsPaged({ status: '&status=published', ownerGroup, joinGroups }));
+    dispatch(fetchContentsPaged({
+      status: '&status=published', ownerGroup, joinGroups, mode,
+    }));
   },
   onSetCurrentColumnsShow: columnOrder => dispatch(setColumnOrder(columnOrder, 'contentFilterBrowser')),
   onSetContentType: contentType => dispatch(setContentType(contentType)),
