@@ -5,7 +5,7 @@ import { clearErrors, addToast, TOAST_SUCCESS } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 import { getContentTemplateList } from 'state/content-template/selectors';
 import ContentConfigForm, { MultipleContentsConfigContainerId, ContentConfigFormBody } from 'ui/widget-forms/ContentConfigFormBody';
-import { fetchContentTemplateListPaged } from 'state/content-template/actions';
+import { fetchContentTemplateList } from 'state/content-template/actions';
 import { fetchContentType } from 'state/content-type/actions';
 import { NoDefaultWarningModalId } from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 import { fetchSearchPages, fetchPage } from 'state/pages/actions';
@@ -46,7 +46,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
     onDidMount: () => {
-      dispatch(fetchContentTemplateListPaged({ page: 1, pageSize: 0 }));
+      dispatch(fetchContentTemplateList({ page: 1, pageSize: 0 }));
       dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
       dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
       dispatch(fetchPage(ownProps.pageCode, PAGE_STATUS_DRAFT)).then((res) => {
