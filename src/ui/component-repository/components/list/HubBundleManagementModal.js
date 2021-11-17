@@ -53,14 +53,10 @@ const HubBundleManagementModal = () => {
 
   const component = ecrComponent || selectedECRComponent;
 
-  const bundleGroupNames = useMemo(() => {
-    const bundleGroupIds = payload.bundleGroups;
-    if (!bundleGroupIds) return [];
-    const bundleGroups = bundleGroupIds.map((id) => {
-      const group = bundlegroups.find(bg => bg.bundleGroupId === id);
-      return group && group.name;
-    });
-    return bundleGroups;
+  const belongingBundleGroup = useMemo(() => {
+    const belongingBundleGroups = bundlegroups
+      .filter(bg => payload.bundleGroups.includes(bg.bundleGroupId));
+    return belongingBundleGroups[0] || {};
   }, [bundlegroups, payload.bundleGroups]);
 
   const handleDeploy = () => {
@@ -145,7 +141,7 @@ const HubBundleManagementModal = () => {
           descriptionImage: payload.descriptionImage || payload.thumbnail,
         }}
         hubName={activeRegistry.name}
-        bundleGroupNames={bundleGroupNames}
+        bundleGroup={belongingBundleGroup}
       />
     </GenericModalContainer>
   );

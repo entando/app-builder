@@ -5,10 +5,10 @@ import ComponentImage from 'ui/component-repository/components/item/ComponentIma
 
 const BundlePreview = ({
   bundle: {
-    name, description, descriptionImage,
+    name, descriptionImage,
   },
   hubName,
-  bundleGroupNames,
+  bundleGroup,
 }) => (
   <div className="BundlePreview">
     <div className="BundlePreview__info">
@@ -23,7 +23,7 @@ const BundlePreview = ({
           {hubName}
         </div>
         <div className="BundlePreview__hub-name">
-          {bundleGroupNames.join(', ')}
+          {(bundleGroup || {}).name || ''}
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@ const BundlePreview = ({
         <FormattedMessage id="app.filterTypesSelect.description" />
       </div>
       <div className="BundlePreview__description-body">
-        {description}
+        {(bundleGroup || {}).description || ''}
       </div>
     </div>
   </div>
@@ -41,11 +41,13 @@ const BundlePreview = ({
 BundlePreview.propTypes = {
   bundle: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    description: PropTypes.string,
     descriptionImage: PropTypes.string,
   }).isRequired,
   hubName: PropTypes.string.isRequired,
-  bundleGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  bundleGroup: PropTypes.PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
 };
 
 export default BundlePreview;

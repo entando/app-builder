@@ -12,12 +12,17 @@ import InstalledVersion from 'ui/component-repository/components/item/hub/Instal
 import { getECRComponentList } from 'state/component-repository/components/selectors';
 
 const BundleListGridView =
-({ bundles, openComponentManagementModal, bundleStatuses }) => {
+({
+  bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
+}) => {
   const components = useSelector(getECRComponentList);
   return (
     <div className="ComponentListGridView equal">
       {bundles.map((bundle, i) => {
           const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
+          const belongingBundleGroups = bundleGroups
+          .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
+          const belongingBundleGroup = belongingBundleGroups[0] || {};
           const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
           return (
             <Col
@@ -48,6 +53,9 @@ const BundleListGridView =
                   <div className="ComponentList__component-content">
                     <p className="ComponentList__component-category">
                       <FormattedMessage id="componentRepository.categories.bundle" />
+                    </p>
+                    <p className="ComponentList__component-category">
+                      { belongingBundleGroup.name }
                     </p>
                     <h1>{bundle.name}</h1>
                     <p className="ComponentList__description">{bundle.description}</p>
@@ -87,11 +95,17 @@ BundleListGridView.propTypes = {
     status: PropTypes.string,
     installedVersion: PropTypes.string,
   })),
+  bundleGroups: PropTypes.arrayOf(PropTypes.shape({
+    bundleGroupId: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+  })),
 };
 
 BundleListGridView.defaultProps = {
   openComponentManagementModal: () => {},
   bundleStatuses: [],
+  bundleGroups: [],
 };
 
 export default BundleListGridView;

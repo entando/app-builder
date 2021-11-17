@@ -10,13 +10,18 @@ import { getECRComponentList } from 'state/component-repository/components/selec
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 
 const BundleListListView =
-({ bundles, openComponentManagementModal, bundleStatuses }) => {
+({
+  bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
+}) => {
   const components = useSelector(getECRComponentList);
   return (
     <div className="ComponentListListView">
       {bundles.map((bundle) => {
         const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
         const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
+        const belongingBundleGroups = bundleGroups
+        .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
+        const belongingBundleGroup = belongingBundleGroups[0] || {};
         return (
           <div
             key={`${bundle.gitRepoAddress}-${bundle.id}`}
@@ -40,6 +45,9 @@ const BundleListListView =
                 <div className="ComponentList__component-content">
                   <p className="ComponentList__component-category">
                     <FormattedMessage id="componentRepository.categories.bundle" />
+                  </p>
+                  <p className="ComponentList__component-category">
+                    { belongingBundleGroup.name }
                   </p>
                   <h1>{bundle.name}</h1>
                   <p className="ComponentList__description">{bundle.description}</p>
@@ -78,11 +86,17 @@ BundleListListView.propTypes = {
     status: PropTypes.string,
     installedVersion: PropTypes.string,
   })),
+  bundleGroups: PropTypes.arrayOf(PropTypes.shape({
+    bundleGroupId: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+  })),
 };
 
 BundleListListView.defaultProps = {
   openComponentManagementModal: () => {},
   bundleStatuses: [],
+  bundleGroups: [],
 };
 
 export default BundleListListView;
