@@ -1,8 +1,7 @@
 import moment from 'moment';
 
 import {
-  TYPE_COMPOSITE, TYPE_LIST, TYPE_MONOLIST,
-  TYPE_DATE, TYPE_TIMESTAMP, TYPE_BOOLEAN,
+  TYPE_COMPOSITE, TYPE_LIST, TYPE_MONOLIST, TYPE_BOOLEAN,
   TYPE_CHECKBOX, TYPE_THREESTATE, TYPE_TEXT,
   TYPE_LONGTEXT, TYPE_HYPERTEXT, TYPE_LINK,
 } from 'state/content-type/const';
@@ -29,10 +28,6 @@ export const getAttrInitialValue = (attr, langCodes = ['en']) => {
       break;
     case TYPE_MONOLIST:
       initialValue.elements = [];
-      break;
-    case TYPE_DATE:
-    case TYPE_TIMESTAMP:
-      initialValue.value = getTodayDateValue();
       break;
     case TYPE_BOOLEAN:
     case TYPE_CHECKBOX:
