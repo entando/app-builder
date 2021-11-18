@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { DataTable } from '@entando/datatable';
 import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMenuActions';
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
 import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
@@ -15,54 +16,85 @@ const msgs = defineMessages({
   },
 });
 
-class ProfileTypeListTable extends Component {
-  constructor(props) {
-    super(props);
+const ProfileTypeListTable = ({
+  profiletypes, intl, page, pageSize, totalItems,
+  loading, onDidMount, removeProfileType, reloadProfileType,
+}) => {
+  useEffect(() => {
+    onDidMount();
+  }, []);
 
-    this.changePage = this.changePage.bind(this);
-    this.changePageSize = this.changePageSize.bind(this);
-  }
+  const changePage = pagenum => (
+    onDidMount({ page: pagenum, pageSize })
+  );
 
-  componentWillMount() {
-    this.props.onWillMount();
-  }
+  const changePageSize = size => (
+    onDidMount({ page: 1, pageSize: size })
+  );
 
-  changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
-  }
+  const getColumnDefs = () => {
+    const columnDefs = {
+      name: {
+        Header: <FormattedMessage id="app.name" />,
+      },
+      code: {
+        Header: <FormattedMessage id="app.code" />,
+        attributes: {
+          className: 'ProfileTypeListTable__th-xs text-center',
+        },
+        cellAttributes: {
+          className: 'text-center',
+        },
+      },
+      status: {
+        Header: <FormattedMessage id="profileType.table.status" />,
+        attributes: {
+          className: 'ProfileTypeListTable__th-xs text-center',
+        },
+        cellAttributes: {
+          className: 'text-center',
+        },
+        Cell: (cellprops) => {
+          const { row: { original: { status } } } = cellprops;
+          return (
+            <ProfileTypeStatusIcon
+              status={status}
+              title={intl.formatMessage(msgs.profileStatus)}
+            />
+          );
+        },
+      },
+    };
 
-  changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
-  }
+    return ['name', 'code', 'status'].map(column => ({
+      ...columnDefs[column],
+      accessor: column,
+    }));
+  };
 
-  renderTableRows() {
-    const { intl, profiletypes } = this.props;
-    return profiletypes.map(profiletype => (
-      <tr key={profiletype.name}>
-        <td className="ProfileTypeListRow__td">{profiletype.name}</td>
-        <td className="ProfileTypeListRow__td text-center">{profiletype.code}</td>
-        <td className="ProfileTypeListRow__td text-center">
-          <ProfileTypeStatusIcon
-            status={profiletype.status}
-            title={intl.formatMessage(msgs.profileStatus)}
-          />
-        </td>
-        <td className="ProfileTypeListRow__td text-center">
-          <ProfileTypeListMenuActions
-            code={profiletype.code}
-            onClickDelete={this.props.removeProfileType}
-            onClickReload={this.props.reloadProfileType}
-          />
-        </td>
-      </tr>
-    ));
-  }
+  const columns = getColumnDefs() || [];
 
-  renderTable() {
-    const {
-      profiletypes, page, pageSize, intl,
-    } = this.props;
+  const rowAction = {
+    Header: <FormattedMessage id="app.actions" />,
+    attributes: {
+      className: 'ProfileTypeListTable__th-xs text-center',
+    },
+    cellAttributes: {
+      className: 'text-center',
+    },
+    Cell: (cellprops) => {
+      const { values: { code } } = cellprops;
+      return (
+        <ProfileTypeListMenuActions
+          code={code}
+          onClickDelete={removeProfileType}
+          onClickReload={reloadProfileType}
+        />
+      );
+    },
+  };
 
+  const renderTable = () => {
     if (profiletypes.length > 0) {
       const pagination = {
         page,
@@ -77,31 +109,21 @@ class ProfileTypeListTable extends Component {
       return (
         <Col xs={12}>
           <ProfileTypeReferenceStatusContainer />
-          <table className="ProfileTypeListTable__table table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th><FormattedMessage id="app.name" /></th>
-                <th className="ProfileTypeListTable__th-sm text-center">
-                  <FormattedMessage id="app.code" />
-                </th>
-                <th className="ProfileTypeListTable__th-xs text-center">
-                  <FormattedMessage id="profileType.table.status" />
-                </th>
-                <th className="ProfileTypeListTable__th-xs text-center">
-                  <FormattedMessage id="app.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderTableRows()}
-            </tbody>
-          </table>
+          <DataTable
+            columns={columns}
+            data={profiletypes}
+            rowAction={rowAction}
+            classNames={{
+              table: 'ProfileTypeListTable__table table table-striped',
+              cell: 'ProfileTypeListRow__td',
+            }}
+          />
           <Paginator
             pagination={pagination}
             viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
+            itemCount={totalItems}
+            onPageSet={changePage}
+            onPerPageSelect={changePageSize}
             messages={messages}
           />
         </Col>
@@ -114,23 +136,21 @@ class ProfileTypeListTable extends Component {
         </Alert>
       </Col>
     );
-  }
+  };
 
-  render() {
-    return (
-      <Spinner loading={!!this.props.loading} >
-        <div className="ProfileTypeListTable">
-          {this.renderTable()}
-          <ProfileTypesDeleteModalContainer />
-        </div>
-      </Spinner>
-    );
-  }
-}
+  return (
+    <Spinner loading={!!loading} >
+      <div className="ProfileTypeListTable">
+        {renderTable()}
+        <ProfileTypesDeleteModalContainer />
+      </div>
+    </Spinner>
+  );
+};
 
 ProfileTypeListTable.propTypes = {
   intl: intlShape.isRequired,
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   loading: PropTypes.bool,
   profiletypes: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -145,7 +165,7 @@ ProfileTypeListTable.propTypes = {
 };
 
 ProfileTypeListTable.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   loading: false,
   profiletypes: [],
 };
