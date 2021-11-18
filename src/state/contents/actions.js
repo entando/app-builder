@@ -12,6 +12,7 @@ import {
   getStatusChecked, getAccessChecked, getAuthorChecked, getCurrentQuickFilter,
   getSortingColumns, getCurrentAuthorShow, getCurrentStatusShow,
 } from 'state/contents/selectors';
+import { MODE_FULL } from 'state/contents/const';
 import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
 import {
   SET_CONTENTS, SET_QUICK_FILTER, SET_CONTENT_CATEGORY_FILTER,
@@ -158,7 +159,7 @@ export const fetchContentsWithFilters = (
   quickFilterStatusParam = '',
   quickFilterOwnerGroup,
   joinGroupsToParse,
-  mode = 'full',
+  mode = MODE_FULL,
 ) => (dispatch, getState) => {
   const state = getState();
   const pagination = newPagination || getPagination(state, NAMESPACE_CONTENTS);
@@ -184,7 +185,7 @@ export const fetchContentsWithFilters = (
       ...(qfValue && { [id]: FILTER_OPERATORS.LIKE }),
     };
     query = `${convertToQueryString({ formValues, operators, sorting })}&${params}${quickFilterStatusParam}${ownerGroupQuery}${joinGroupsQuery}`;
-    return dispatch(fetchContents(pagination, query, NAMESPACE_CONTENTS, 'full'));
+    return dispatch(fetchContents(pagination, query, NAMESPACE_CONTENTS, mode));
   }
   if (qfValue) {
     filters.push({ att: id, value: qfValue, operator: FILTER_OPERATORS.LIKE });
@@ -231,7 +232,7 @@ export const fetchContentsWithTabs = (
   newSort,
   ownerGroup,
   joinGroupsToParse,
-  mode = 'full',
+  mode = MODE_FULL,
 ) => (dispatch, getState) => {
   const state = getState();
   const pagination = page || getPagination(state, NAMESPACE_CONTENTS);

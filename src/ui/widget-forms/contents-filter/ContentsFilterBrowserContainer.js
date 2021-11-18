@@ -12,6 +12,7 @@ import {
   setTabSearch,
   leaveContentsPage,
 } from 'state/contents/actions';
+import { MODE_LIST } from 'state/contents/const';
 import { getPagination } from 'state/pagination/selectors';
 import { NAMESPACE_CONTENTS } from 'state/pagination/const';
 import { getLoading } from 'state/loading/selectors';
@@ -95,8 +96,6 @@ export const mapStateToProps = (state) => {
   });
 };
 
-const mode = 'list';
-
 export const mapDispatchToProps = (dispatch, {
   compatibility: { ownerGroup, joinGroups } = {},
   fetchOnMount,
@@ -105,7 +104,7 @@ export const mapDispatchToProps = (dispatch, {
     dispatch(setCurrentStatusShow('published'));
     if (fetchOnMount) {
       dispatch(fetchContentsPaged({
-        status: '&status=published', ownerGroup, joinGroups, mode,
+        status: '&status=published', ownerGroup, joinGroups, MODE_LIST,
       }));
     }
     dispatch(fetchCategoryTree());
@@ -121,7 +120,7 @@ export const mapDispatchToProps = (dispatch, {
     status: STATUS_PUBLISHED,
     ownerGroup,
     joinGroups,
-    mode,
+    MODE_LIST,
   })),
   onSetTabSearch: tabSearch => dispatch(setTabSearch(tabSearch)),
   onCheckStatus: status => dispatch(checkStatus(status)),
@@ -136,7 +135,7 @@ export const mapDispatchToProps = (dispatch, {
       status: STATUS_PUBLISHED,
       ownerGroup,
       joinGroups,
-      mode,
+      MODE_LIST,
     }));
   },
   onSetCurrentStatusShow: (status, author) => {
@@ -147,13 +146,13 @@ export const mapDispatchToProps = (dispatch, {
       status: '&status=published',
       ownerGroup,
       joinGroups,
-      mode,
+      MODE_LIST,
     }));
   },
   onAdvancedFilterSearch: () => {
     dispatch(resetAuthorStatus());
     dispatch(fetchContentsPaged({
-      status: '&status=published', ownerGroup, joinGroups, mode,
+      status: '&status=published', ownerGroup, joinGroups, MODE_LIST,
     }));
   },
   onSetCurrentColumnsShow: columnOrder => dispatch(setColumnOrder(columnOrder, 'contentFilterBrowser')),
