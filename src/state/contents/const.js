@@ -4,3 +4,6 @@ export const SORT_ATTRIBUTE_REPLACES = {
   onLine: 'status',
   code: 'id',
 };
+
+export const MODE_FULL = 'full';
+export const MODE_LIST = 'list';
