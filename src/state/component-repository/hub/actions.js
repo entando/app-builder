@@ -274,7 +274,7 @@ export const sendUndeployBundle = bundle => (dispatch, getState) => (
           dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress || bundle.componentUrl));
           const state = getState();
           const components = getECRComponentList(state);
-          dispatch(setECRComponents([...components.filter(c => c.code !== bundle.componentCode)]));
+          dispatch(setECRComponents(components.filter(c => c.code !== bundle.componentCode)));
           // if we are undeploying from ECR we need to close modal
           if (bundle.triggeredFromLocal) {
             dispatch(setVisibleModal(''));
