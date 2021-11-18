@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 import {
   NO_PAGE, getBundlesFromRegistry, getRegistries, getBundleGroups,
   deleteRegistry, addRegistry, deployBundle, undeployBundle,
-  getBundleStatuses,
+  getBundleStatuses, getBundleStatusWithCode,
 } from 'api/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
@@ -45,6 +45,27 @@ describe('api/component-repository/hub', () => {
           useAuthentication: false,
         },
         DEFAULT_PAGE,
+      );
+    });
+  });
+
+  describe('getBundleStatusWithCode', () => {
+    it('returns a promise', () => {
+      expect(getBundleStatusWithCode('code')).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const code = 'code';
+      getBundleStatusWithCode(code);
+      expect(makeRequest).toHaveBeenCalledWith(
+        {
+          uri: `/components/status/${code}`,
+          domain: '/digital-exchange',
+          method: METHODS.GET,
+          mockResponse: LIST_BUNDLE_STATUSES_OK.bundlesStatuses[0],
+          useAuthentication: true,
+        },
+        NO_PAGE,
       );
     });
   });

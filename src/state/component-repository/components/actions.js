@@ -50,7 +50,7 @@ import {
 } from 'state/component-repository/components/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
-import { fetchBundleStatuses } from 'state/component-repository/hub/actions';
+import { fetchBundleStatuses, fetchSelectedBundleStatusWithCode } from 'state/component-repository/hub/actions';
 import { updateAllActions } from 'state/component-repository/components/reducer';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 5; // 5 minutes
@@ -212,6 +212,7 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
       .then((res) => {
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentInstallation(componentCode, res.payload));
+          dispatch(fetchSelectedBundleStatusWithCode(componentCode));
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.installErrorMessage) {
@@ -386,6 +387,7 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
       }) => {
         if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentUninstall(componentCode));
+          dispatch(fetchSelectedBundleStatusWithCode(componentCode));
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }

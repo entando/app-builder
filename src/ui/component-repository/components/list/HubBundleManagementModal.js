@@ -5,7 +5,7 @@ import { Button, Modal, Spinner } from 'patternfly-react';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import BundlePreview from 'ui/component-repository/components/item/hub/BundlePreview';
 import { getInfo } from 'state/modal/selectors';
-import { sendDeployBundle, fetchSelectedBundleStatus, setSelectedBundleStatus } from 'state/component-repository/hub/actions';
+import { sendDeployBundle, fetchSelectedBundleStatus, setSelectedBundleStatus, sendUndeployBundle } from 'state/component-repository/hub/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getBundleGroups, getSelectedRegistry, getSelectedBundleStatus } from 'state/component-repository/hub/selectors';
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
@@ -13,8 +13,13 @@ import {
   fetchECRComponentDetail,
   setSelectedECRComponent,
 } from 'state/component-repository/components/actions';
-import { getECRComponentList, getECRComponentSelected } from 'state/component-repository/components/selectors';
+import {
+  getECRComponentList, getECRComponentSelected, getECRComponentInstallationStatus,
+  getECRComponentUninstallStatus,
+} from 'state/component-repository/components/selectors';
 import { INSTALLED, INSTALLED_NOT_DEPLOYED, DEPLOYED, NOT_FOUND, INVALID_REPO_URL } from 'state/component-repository/hub/const';
+import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
+import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
 export const HUB_BUNDLE_MANAGEMENT_MODAL_ID = 'HubBundleManagementModalId';
 
@@ -42,7 +47,9 @@ const HubBundleManagementModal = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const bundlegroups = useSelector(getBundleGroups);
   const selectedBundleStatus = useSelector(getSelectedBundleStatus);
-  const loading = useSelector(getLoading)[`deployBundle${payload && payload.gitRepoAddress}`];
+  const loadingDeploy = useSelector(getLoading)[`deployBundle${payload && payload.gitRepoAddress}`];
+  const loadingUndeploy = useSelector(getLoading)[`undeployBundle${payload && payload.gitRepoAddress}`];
+  const loading = loadingDeploy || loadingUndeploy;
   const selectedECRComponent = useSelector(getECRComponentSelected);
   const ecrComponents = useSelector(getECRComponentList);
 
@@ -52,6 +59,16 @@ const HubBundleManagementModal = () => {
   );
 
   const component = ecrComponent || selectedECRComponent;
+  const isComponentInstalling =
+  useSelector(state => getECRComponentInstallationStatus(state, {
+    component:
+    { code: component.code },
+  })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
+  const isComponentUninstalling =
+  useSelector(state => getECRComponentUninstallStatus(state, {
+    component:
+    { code: component.code },
+  })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
 
   const belongingBundleGroup = useMemo(() => {
     const belongingBundleGroups = bundlegroups
@@ -64,16 +81,27 @@ const HubBundleManagementModal = () => {
     dispatch(sendDeployBundle({ name, gitRepoAddress, descriptionImage }));
   };
 
+  const handleUndeploy = () => {
+    const { name, gitRepoAddress, descriptionImage } = payload;
+    dispatch(sendUndeployBundle({
+      name,
+      gitRepoAddress,
+      descriptionImage,
+      componentCode: component.code,
+      componentUrl: component.repoUrl,
+      triggeredFromLocal: activeRegistry.name === ECR_LOCAL_REGISTRY_NAME,
+    }));
+  };
+
   const handleCloseModal = () => {
     dispatch(setSelectedBundleStatus({}));
     dispatch(setSelectedECRComponent({}));
   };
 
   const bundleDeployedOrInstalled = INSTALLED_OR_DEPLOYED.includes(selectedBundleStatus.status);
-
   useEffect(() => {
     dispatch(fetchSelectedBundleStatus(payload.gitRepoAddress || payload.repoUrl));
-  }, [dispatch, payload.gitRepoAddress, payload.repoUrl]);
+  }, [dispatch, payload, payload.gitRepoAddress, payload.repoUrl]);
 
   useEffect(() => {
     if (selectedBundleStatus.status) {
@@ -87,10 +115,17 @@ const HubBundleManagementModal = () => {
     </Button>
   );
 
+  const undeployButton = (
+    <Button bsStyle="danger" id="InstallationPlanModal__button-ok" disabled={loading} onClick={handleUndeploy}>
+      <FormattedMessage id="app.undeploy" />
+    </Button>
+  );
+
   const renderHubActions = () => {
     switch (selectedBundleStatus.status) {
       case DEPLOYED: {
-        return null;
+        if (isComponentInstalling || isComponentUninstalling) return null;
+        return undeployButton;
       }
       case INSTALLED: {
         return null;

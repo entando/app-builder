@@ -19,6 +19,7 @@ import {
   sendDeleteRegistry,
   sendPostRegistry,
   sendDeployBundle,
+  sendUndeployBundle,
 } from 'state/component-repository/hub/actions';
 
 import {
@@ -33,6 +34,7 @@ import {
   LIST_BUNDLES_FROM_REGISTRY_OK, LIST_REGISTRIES_OK,
   LIST_BUNDLE_GROUPS_OK, LIST_BUNDLE_STATUSES_OK,
   DELETE_REGISTRY_OK, ADD_REGISTRY_OK, DEPLOY_BUNDLE_OK,
+  UNDEPLOY_BUNDLE_OK,
 } from 'test/mocks/component-repository/hub';
 
 import { mockApi } from 'test/testUtils';
@@ -45,6 +47,7 @@ import {
   deleteRegistry,
   addRegistry,
   deployBundle,
+  undeployBundle,
 } from 'api/component-repository/hub';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -464,6 +467,43 @@ describe('state/component-repository/component-repositories/actions', () => {
       deployBundle.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(sendDeployBundle({ gitRepoAddress: 'address' })).then(() => {
         expect(deployBundle).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(3);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendUndeployBundle', () => {
+    it('calls undeployBundle and appropriate actions', (done) => {
+      undeployBundle.mockImplementationOnce(mockApi({
+        errors: false,
+        payload: UNDEPLOY_BUNDLE_OK,
+      }));
+      getBundleStatuses.mockImplementationOnce(mockApi({
+        errors: false,
+        payload: LIST_BUNDLE_STATUSES_OK,
+      }));
+      store.dispatch(sendUndeployBundle({ name: 'id1', gitRepoAddress: 'url', componentCode: 'code' })).then(() => {
+        expect(undeployBundle).toHaveBeenCalledWith('code');
+        const actions = store.getActions();
+        expect(actions).toHaveLength(4);
+        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[2].payload).toHaveProperty('type', TOAST_SUCCESS);
+        expect(actions[3]).toHaveProperty('type', SET_ECR_COMPONENTS);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should dispatch toastError when it errors', (done) => {
+      undeployBundle.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendUndeployBundle({ gitRepoAddress: 'address', name: 'comp1', componentCode: 'code' })).then(() => {
+        expect(undeployBundle).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
