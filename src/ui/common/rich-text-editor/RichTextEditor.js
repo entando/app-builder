@@ -69,6 +69,8 @@ function entable(value) {
   }
 }
 
+const handleEmpty = html => (html === '<p><br></p>' ? '' : html);
+
 class RichTextEditor extends Component {
   constructor() {
     super();
@@ -227,7 +229,7 @@ class RichTextEditor extends Component {
         <ReactQuill
           {...input}
           ref={this.reactQuill}
-          onBlur={(_, __, editor) => input.onBlur(editor.getHTML())}
+          onBlur={(_, __, editor) => input.onBlur(handleEmpty(editor.getHTML()))}
           onChange={this.handleOnChange}
           placeholder={placeholder}
           disabled={disabled}
