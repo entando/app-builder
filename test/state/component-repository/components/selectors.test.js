@@ -7,13 +7,15 @@ import {
   getECRComponents, getECRComponentSelected,
   getECRComponentList, getECRComponentInstallationStatus,
   getECRComponentUninstallStatus, getComponentUsageList,
-  getInstallUninstallProgress,
+  getInstallUninstallProgress, getECRComponentInstallationVersion,
+  getECRComponentInstallationHasConflictingVersion,
 } from 'state/component-repository/components/selectors';
 import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
 const list = LIST_ECR_COMPONENTS_OK;
 const installation = {
   [COMPONENT_INSTALLATION_IN_PROGRESS.componentId]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+  selectedVersion: 'v1.0.0',
 };
 
 const uninstallation = {
@@ -28,6 +30,9 @@ const MOCK_STATE = {
     uninstallation,
     usageList: COMPONENT_USAGE_LIST,
     progressStatus: 0.3,
+    installConflicts: {
+      hasConflictingVersion: true,
+    },
   },
 };
 
@@ -74,5 +79,17 @@ describe('state/component-repository/components/selectors', () => {
   it('verify getComponentUsageList', () => {
     const usageList = getComponentUsageList(MOCK_STATE);
     expect(usageList).toEqual(MOCK_STATE.componentRepositoryComponents.usageList);
+  });
+
+  it('verify getECRComponentInstallationVersion', () => {
+    const selectedVersion = getECRComponentInstallationVersion(MOCK_STATE);
+    expect(selectedVersion)
+      .toEqual(MOCK_STATE.componentRepositoryComponents.installation.selectedVersion);
+  });
+
+  it('verify getECRComponentInstallationHasConflictingVersion', () => {
+    const hasConflict = getECRComponentInstallationHasConflictingVersion(MOCK_STATE);
+    expect(hasConflict)
+      .toEqual(MOCK_STATE.componentRepositoryComponents.installConflicts.hasConflictingVersion);
   });
 });

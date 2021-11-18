@@ -9,6 +9,8 @@ import {
   fetchComponentUsage,
   fetchECRComponentDetail,
   setInstallUninstallProgress,
+  setSelectedComponentInstallVersion,
+  setInstallHasConflictingVersion,
 } from 'state/component-repository/components/actions';
 import {
   getECRComponentLastInstallStatus,
@@ -16,6 +18,8 @@ import {
   getECRComponentUninstallStatus,
   getComponentUsageList,
   getInstallUninstallProgress,
+  getECRComponentInstallationVersion,
+  getECRComponentInstallationHasConflictingVersion,
 } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
@@ -27,6 +31,8 @@ export const mapStateToProps = (state, props) => ({
   installUninstallLoading: !!getLoading(state)[`deComponentInstallUninstall-${props.component.code}`],
   componentUsageList: getComponentUsageList(state),
   progress: getInstallUninstallProgress(state),
+  selectedVersion: getECRComponentInstallationVersion(state) || '',
+  isConflictVersion: getECRComponentInstallationHasConflictingVersion(state),
 });
 
 export const mapDispatchToProps = (dispatch) => {
@@ -51,6 +57,8 @@ export const mapDispatchToProps = (dispatch) => {
       componentCode => dispatch(pollECRComponentInstallStatus(componentCode, pollStepFunction)),
     recheckUninstallStatus:
       componentCode => dispatch(pollECRComponentUninstallStatus(componentCode, pollStepFunction)),
+    setSelectedVersion: version => dispatch(setSelectedComponentInstallVersion(version)),
+    setIsConflictVersion: hasConflict => dispatch(setInstallHasConflictingVersion(hasConflict)),
   });
 };
 

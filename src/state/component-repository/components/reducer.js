@@ -20,6 +20,8 @@ import {
   TOGGLE_CONFLICTS_MODAL,
   UPDATE_INSTALL_PLAN,
   UPDATE_ALL_INSTALL_PLAN,
+  SET_SELECTED_INSTALL_VERSION,
+  SET_INSTALL_HAS_CONFLICTING_VERSION,
 } from 'state/component-repository/components/types';
 
 import {
@@ -269,6 +271,9 @@ const installation = (state = {}, action = {}) => {
     case COMPONENT_INSTALLATION_FAILED: {
       return { ...omit(state, action.payload.code) };
     }
+    case SET_SELECTED_INSTALL_VERSION: {
+      return { ...state, selectedVersion: action.payload.version };
+    }
     default: return state;
   }
 };
@@ -371,6 +376,9 @@ const installConflicts = (state = initialInstallConflictsState, action = {}) => 
         ...state,
         installPlan: updateAllActions(installPlan, type),
       };
+    }
+    case SET_INSTALL_HAS_CONFLICTING_VERSION: {
+      return { ...state, hasConflictingVersion: action.payload.hasConflictingVersion };
     }
     default: return state;
   }

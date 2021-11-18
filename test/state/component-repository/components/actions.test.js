@@ -20,6 +20,8 @@ import {
   fetchComponentUsage,
   setComponentUsageList,
   setInstallUninstallProgress,
+  setSelectedComponentInstallVersion,
+  setInstallHasConflictingVersion,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
@@ -51,6 +53,8 @@ import {
   COMPONENT_UNINSTALLATION_FAILED,
   SET_COMPONENT_USAGE_LIST,
   SET_INSTALL_UNINSTALL_PROGRESS,
+  SET_SELECTED_INSTALL_VERSION,
+  SET_INSTALL_HAS_CONFLICTING_VERSION,
 } from 'state/component-repository/components/types';
 
 import { TOGGLE_LOADING, SET_LOADING } from 'state/loading/types';
@@ -88,6 +92,26 @@ describe('state/component-repository/components/actions', () => {
       expect(action).toHaveProperty('type', START_COMPONENT_INSTALLATION);
       expect(action).toHaveProperty('payload');
       expect(action).toHaveProperty('payload.code', 'my-component');
+    });
+  });
+
+  describe('setSelectedComponentInstallVersion', () => {
+    it('returns the correct object', () => {
+      const version = 'v1.0.0';
+      action = setSelectedComponentInstallVersion(version);
+      expect(action).toHaveProperty('type', SET_SELECTED_INSTALL_VERSION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.version', version);
+    });
+  });
+
+  describe('setInstallHasConflictingVersion', () => {
+    it('returns the correct object', () => {
+      const hasConflictingVersion = true;
+      action = setInstallHasConflictingVersion(hasConflictingVersion);
+      expect(action).toHaveProperty('type', SET_INSTALL_HAS_CONFLICTING_VERSION);
+      expect(action).toHaveProperty('payload');
+      expect(action).toHaveProperty('payload.hasConflictingVersion', hasConflictingVersion);
     });
   });
 
