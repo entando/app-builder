@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, Button, Alert } from 'patternfly-react';
@@ -13,40 +13,33 @@ const msgs = defineMessages({
   },
 });
 
-class UserAuthorityTable extends Component {
-  constructor(props) {
-    super(props);
-    this.onClickAdd = this.onClickAdd.bind(this);
-    this.group = null;
-    this.role = null;
-  }
+const UserAuthorityTable = ({
+  push, remove,
+  groupRolesCombo, onCloseModal,
+  intl, groups, roles, onAddNewClicked,
+}) => {
+  const setGroupRef = useRef(null);
+  const setRoleRef = useRef(null);
 
-  onClickAdd() {
-    const { fields, groupRolesCombo, onCloseModal } = this.props;
-
+  const onClickAdd = () => {
+    const group = setGroupRef.current;
+    const role = setRoleRef.current;
     const isPresent = Boolean(groupRolesCombo
-      .find(item => (this.group.value === '' || item.group.code === this.group.value) &&
-        (this.role.value === '' || item.role.code === this.role.value)));
-
+      .find(item => (group.value === '' || item.group.code === group.value) &&
+        (role.value === '' || item.role.code === role.value)));
     if (!isPresent) {
-      fields.push({
-        group: this.group.value || null,
-        role: this.role.value || null,
+      console.log('toadd', { group: group.value || null,
+        role: role.value || null })
+      push({
+        group: group.value || null,
+        role: role.value || null,
       });
     }
     onCloseModal();
-  }
+  };
 
-  setGroupRef = (group) => {
-    this.group = group;
-  }
-
-  setRoleRef = (role) => {
-    this.role = role;
-  }
-
-  renderTable(renderRow) {
-    if (this.props.groupRolesCombo.length === 0) {
+  const renderTable = (renderRow) => {
+    if (groupRolesCombo.length === 0) {
       return (
         <div>
           <Alert type="info">
@@ -76,65 +69,60 @@ class UserAuthorityTable extends Component {
         </tbody>
       </table>
     );
-  }
+  };
 
-  render() {
-    const {
-      intl, groupRolesCombo, groups, roles, fields, onAddNewClicked,
-    } = this.props;
-    const groupsWithEmpty =
-          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
-    const rolesWithEmpty =
-          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(roles);
-    const groupOptions =
-        groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
-    const rolesOptions =
-        rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.code}>{rl.name}</option>));
+  const groupsWithEmpty =
+        [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
+  const rolesWithEmpty =
+        [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(roles);
+  const groupOptions =
+      groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
+  const rolesOptions =
+      rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.code}>{rl.name}</option>));
 
-    const renderRow = groupRolesCombo.map((item, index) => (
-      <tr key={`groupRole-${parseInt(index, 10)}`}>
-        <td className="UserAuthorityTable__td">{item.group.name || <i className="fa fa-minus" />}</td>
-        <td className="UserAuthorityTable__td text-center">{item.role.name || <i className="fa fa-minus" />}</td>
-        <td className="UserAuthorityTable__td text-center">
+  const renderRow = groupRolesCombo.map((item, index) => (
+    <tr key={`groupRole-${parseInt(index, 10)}`}>
+      <td className="UserAuthorityTable__td">{item.group.name || <i className="fa fa-minus" />}</td>
+      <td className="UserAuthorityTable__td text-center">{item.role.name || <i className="fa fa-minus" />}</td>
+      <td className="UserAuthorityTable__td text-center">
+        <Button
+          bsStyle="link"
+          className="UserAuthorityTable__delete-tag-btn"
+          onClick={() => remove(index)}
+          data-testid={TEST_ID_USER_AUTHORITY_TABLE.DELETE_BUTTON}
+        >
+          <i className="fa fa-trash-o" />
+        </Button>
+      </td>
+    </tr>
+  ));
+
+  return (
+    <div className="UserAuthorityTable" >
+      <Row>
+        <Col xs={12} style={{ paddingBottom: 15 }}>
           <Button
-            bsStyle="link"
-            className="UserAuthorityTable__delete-tag-btn"
-            onClick={() => fields.remove(index)}
-            data-testid={TEST_ID_USER_AUTHORITY_TABLE.DELETE_BUTTON}
+            type="button"
+            bsStyle="primary"
+            className="pull-right UserAuthorityTable__addNew"
+            onClick={onAddNewClicked}
+            data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
           >
-            <i className="fa fa-trash-o" />
-          </Button>
-        </td>
-      </tr>
-    ));
-
-    return (
-      <div className="UserAuthorityTable" >
-        <Row>
-          <Col xs={12} style={{ paddingBottom: 15 }}>
-            <Button
-              type="button"
-              bsStyle="primary"
-              className="pull-right UserAuthorityTable__addNew"
-              onClick={onAddNewClicked}
-              data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
-            >
               Add new Authorization
-            </Button>
-          </Col>
-        </Row>
-        {this.renderTable(renderRow)}
-        <AddAuthorityModal
-          groupOptions={groupOptions}
-          rolesOptions={rolesOptions}
-          onClickAdd={this.onClickAdd}
-          setGroupRef={this.setGroupRef}
-          setRoleRef={this.setRoleRef}
-        />
-      </div>
-    );
-  }
-}
+          </Button>
+        </Col>
+      </Row>
+      {renderTable(renderRow)}
+      <AddAuthorityModal
+        groupOptions={groupOptions}
+        rolesOptions={rolesOptions}
+        onClickAdd={onClickAdd}
+        setGroupRef={setGroupRef}
+        setRoleRef={setRoleRef}
+      />
+    </div>
+  );
+};
 
 UserAuthorityTable.propTypes = {
   intl: intlShape.isRequired,
@@ -146,16 +134,14 @@ UserAuthorityTable.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
   })),
-  fields: PropTypes.shape({
-    push: PropTypes.func,
-    remove: PropTypes.func,
-  }).isRequired,
   groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
     role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
   })),
   onAddNewClicked: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 };
 
 UserAuthorityTable.defaultProps = {
