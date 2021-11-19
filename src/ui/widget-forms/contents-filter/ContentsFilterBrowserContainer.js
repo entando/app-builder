@@ -104,7 +104,7 @@ export const mapDispatchToProps = (dispatch, {
     dispatch(setCurrentStatusShow('published'));
     if (fetchOnMount) {
       dispatch(fetchContentsPaged({
-        status: '&status=published', ownerGroup, joinGroups, MODE_LIST,
+        status: '&status=published', ownerGroup, joinGroups, mode: MODE_LIST,
       }));
     }
     dispatch(fetchCategoryTree());
@@ -120,7 +120,7 @@ export const mapDispatchToProps = (dispatch, {
     status: STATUS_PUBLISHED,
     ownerGroup,
     joinGroups,
-    MODE_LIST,
+    mode: MODE_LIST,
   })),
   onSetTabSearch: tabSearch => dispatch(setTabSearch(tabSearch)),
   onCheckStatus: status => dispatch(checkStatus(status)),
@@ -135,7 +135,7 @@ export const mapDispatchToProps = (dispatch, {
       status: STATUS_PUBLISHED,
       ownerGroup,
       joinGroups,
-      MODE_LIST,
+      mode: MODE_LIST,
     }));
   },
   onSetCurrentStatusShow: (status, author) => {
@@ -146,13 +146,13 @@ export const mapDispatchToProps = (dispatch, {
       status: '&status=published',
       ownerGroup,
       joinGroups,
-      MODE_LIST,
+      mode: MODE_LIST,
     }));
   },
   onAdvancedFilterSearch: () => {
     dispatch(resetAuthorStatus());
     dispatch(fetchContentsPaged({
-      status: '&status=published', ownerGroup, joinGroups, MODE_LIST,
+      status: '&status=published', ownerGroup, joinGroups, mode: MODE_LIST,
     }));
   },
   onSetCurrentColumnsShow: columnOrder => dispatch(setColumnOrder(columnOrder, 'contentFilterBrowser')),
