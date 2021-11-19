@@ -11,6 +11,8 @@ import EditAssetFormModalContainer from 'ui/assets/EditAssetFormModalContainer';
 import DeleteAssetModalContainer from 'ui/assets/DeleteAssetModalContainer';
 import AssetsAdvancedSearchContainer from 'ui/assets/AssetsAdvancedSearchContainer';
 import CloneAssetModalContainer from 'ui/assets/modals/clone-asset/CloneAssetModalContainer';
+import withPermissions from 'ui/auth/withPermissions';
+import { MANAGE_RESOURCES_PERMISSION } from 'state/permissions/const';
 
 const AssetsListPage = () => (
   <InternalPage>
@@ -64,4 +66,4 @@ const AssetsListPage = () => (
   </InternalPage>
 );
 
-export default AssetsListPage;
+export default withPermissions(MANAGE_RESOURCES_PERMISSION)(AssetsListPage);
