@@ -105,7 +105,7 @@ const HubBundleManagementModal = () => {
 
   useEffect(() => {
     if (selectedBundleStatus.status) {
-      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl).toString('base64')));
+      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64')));
     }
   }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status]);
 
