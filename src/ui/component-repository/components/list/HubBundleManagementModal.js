@@ -72,7 +72,7 @@ const HubBundleManagementModal = () => {
 
   const belongingBundleGroup = useMemo(() => {
     const belongingBundleGroups = bundlegroups
-      .filter(bg => payload.bundleGroups.includes(bg.bundleGroupId));
+      .filter(bg => (payload.bundleGroups || []).includes(bg.bundleGroupId));
     return belongingBundleGroups[0] || {};
   }, [bundlegroups, payload.bundleGroups]);
 
