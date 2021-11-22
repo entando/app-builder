@@ -36,12 +36,12 @@ const NO_INFO_ATTRIBUTE = [
 ];
 
 export class MonolistAttributeFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
+  componentDidMount() {
+    this.props.onDidMount(this.props);
   }
   render() {
     const {
-      attributeCode, selectedAttributeType, isIndexable, type, invalid,
+      attributeCode, selectedAttribute, selectedAttributeType, isIndexable, type, invalid,
       submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
       compositeAttributes,
     } = this.props;
@@ -106,12 +106,12 @@ export class MonolistAttributeFormBody extends Component {
         );
         case TYPE_ENUMERATOR: return (
           <AttributeEnumSettings
-            enumeratorExtractorBeans={selectedAttributeType.enumeratorExtractorBeans}
+            enumeratorExtractorBeans={selectedAttribute.enumeratorExtractorBeans}
           />
         );
         case TYPE_ENUMERATOR_MAP: return (
           <AttributeEnumMapSettings
-            enumeratorMapExtractorBeans={selectedAttributeType.enumeratorMapExtractorBeans}
+            enumeratorMapExtractorBeans={selectedAttribute.enumeratorMapExtractorBeans}
           />
         );
         case TYPE_COMPOSITE: {
@@ -180,7 +180,7 @@ export class MonolistAttributeFormBody extends Component {
 }
 
 MonolistAttributeFormBody.propTypes = {
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onAddAttribute: PropTypes.func,
@@ -188,6 +188,7 @@ MonolistAttributeFormBody.propTypes = {
   onMove: PropTypes.func,
   type: PropTypes.string,
   attributeCode: PropTypes.string,
+  selectedAttribute: PropTypes.shape({}),
   selectedAttributeType: PropTypes.string,
   mode: PropTypes.string,
   attributesList: PropTypes.arrayOf(PropTypes.string),
@@ -206,13 +207,14 @@ MonolistAttributeFormBody.defaultProps = {
   isIndexable: false,
   type: '',
   attributeCode: '',
+  selectedAttribute: {},
   selectedAttributeType: TYPE_MONOLIST,
   mode: '',
   attributesList: [],
 };
 
 const MonolistAttributeForm = reduxForm({
-  form: 'monoListAttribute',
+  form: 'attribute',
 })(MonolistAttributeFormBody);
 
 export default MonolistAttributeForm;
