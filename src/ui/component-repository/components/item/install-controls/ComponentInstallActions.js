@@ -80,7 +80,7 @@ const ComponentInstallActions = ({
     );
   }
 
-  const renderedButton = (component.installed && uninstallStatus === '')
+  const renderedButton = (component.installed && !uninstallStatus)
     ? (
       <div className="ComponentList__buttons-container">
         <InstallButton
