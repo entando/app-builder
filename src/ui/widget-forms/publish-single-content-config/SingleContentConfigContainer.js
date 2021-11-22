@@ -5,7 +5,7 @@ import { injectIntl } from 'react-intl';
 import { routeConverter } from '@entando/utils';
 import { getContentTemplateList } from 'state/content-template/selectors';
 import SingleContentConfigForm, { SingleContentConfigFormBody, SingleContentConfigContainerId } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigFormBody';
-import { fetchContentTemplateListPaged } from 'state/content-template/actions';
+import { fetchContentTemplateList } from 'state/content-template/actions';
 import { sendPutWidgetConfig } from 'state/page-config/actions';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG, ROUTE_CMS_ADD_CONTENT } from 'app-init/router';
 import { formValueSelector, submit, change } from 'redux-form';
@@ -52,7 +52,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
     onDidMount: () => {
-      dispatch(fetchContentTemplateListPaged({ page: 1, pageSize: 0 }));
+      dispatch(fetchContentTemplateList({ page: 1, pageSize: 0 }));
       dispatch(fetchPage(ownProps.pageCode, PAGE_STATUS_DRAFT)).then((res) => {
         const { ownerGroup, joinGroups } = res.payload || {};
         dispatch(change(formToUse, putPrefixField('ownerGroup'), ownerGroup));
