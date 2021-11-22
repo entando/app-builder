@@ -14,6 +14,13 @@ export const TYPE_LONGTEXT = 'Longtext';
 export const TYPE_TEXT = 'Text';
 export const TYPE_ATTACH = 'Attach';
 export const TYPE_IMAGE = 'Image';
-export const TYPE_LINK = 'Link';
 export const TYPE_MONOTEXT = 'Monotext';
 export const TYPE_EMAIL = 'Email';
+
+export const MODE_ADD = 'add';
+export const MODE_EDIT = 'edit';
+export const MODE_EDIT_COMPOSITE = 'editComposite';
+export const MODE_ADD_COMPOSITE = 'addComposite';
+export const MODE_ADD_ATTRIBUTE_COMPOSITE = 'addAttributeComposite';
+export const MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE = 'addMonolistAttributeComposite';
+export const MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE = 'addSubAttributeMonolistComposite';

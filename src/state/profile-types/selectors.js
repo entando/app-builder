@@ -4,25 +4,7 @@ import {
   TYPE_MONOLIST,
   TYPE_LIST,
   TYPE_COMPOSITE,
-  TYPE_HYPERTEXT,
-  TYPE_LONGTEXT,
-  TYPE_TEXT,
-  TYPE_ATTACH,
-  TYPE_LINK,
-  TYPE_IMAGE,
 } from 'state/profile-types/const';
-
-const NO_ATTRIBUTE_FOR_TYPE_LIST = [
-  TYPE_ATTACH,
-  TYPE_LINK,
-  TYPE_IMAGE,
-  TYPE_TEXT,
-  TYPE_LONGTEXT,
-  TYPE_HYPERTEXT,
-  TYPE_MONOLIST,
-  TYPE_LIST,
-  TYPE_COMPOSITE,
-];
 
 const NO_ATTRIBUTE_FOR_TYPE_MONOLIST = [TYPE_LIST, TYPE_MONOLIST];
 
@@ -60,7 +42,6 @@ export const getProfileTypeSelectedAttributeAllowedRoleCodeList = createSelector
 const getList = (type, list) => {
   switch (type) {
     case TYPE_LIST:
-      return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_LIST.includes(f));
     case TYPE_MONOLIST:
     case TYPE_COMPOSITE:
       return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));

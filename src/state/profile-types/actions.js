@@ -1,4 +1,5 @@
 import { initialize } from 'redux-form';
+import { METHODS } from '@entando/apimanager';
 import { routeConverter } from '@entando/utils';
 import moment from 'moment';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
@@ -42,13 +43,30 @@ import {
   SET_SELECTED_PROFILE_TYPE,
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
+  PUSH_PARENT_SELECTED_ATTRIBUTE,
+  POP_PARENT_SELECTED_ATTRIBUTE,
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_PROFILE_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_SELECTED_NESTED_ATTRIBUTE,
 } from 'state/profile-types/types';
 
-const TYPE_MONOLIST = 'Monolist';
-const TYPE_LIST = 'List';
+import {
+  TYPE_MONOLIST,
+  TYPE_COMPOSITE,
+  TYPE_LIST,
+  TYPE_DATE,
+  MODE_EDIT,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
+} from 'state/content-type/const';
 
 // Profile type
 export const setProfileTypes = profileTypes => ({
@@ -102,6 +120,24 @@ export const setSelectedAttribute = attribute => ({
   },
 });
 
+export const setSelectedNestedAttribute = attribute => ({
+  type: SET_SELECTED_NESTED_ATTRIBUTE,
+  payload: {
+    attribute,
+  },
+});
+
+export const pushParentSelectedAttribute = attribute => ({
+  type: PUSH_PARENT_SELECTED_ATTRIBUTE,
+  payload: {
+    attribute,
+  },
+});
+
+export const popParentSelectedAttribute = () => ({
+  type: POP_PARENT_SELECTED_ATTRIBUTE,
+});
+
 export const setProfileTypeAttributes = attributes => ({
   type: SET_ATTRIBUTES,
   payload: {
@@ -127,6 +163,36 @@ export const moveAttributeDownSync = ({ entityCode, attributeCode, attributeInde
   },
 });
 
+export const setActionMode = actionMode => ({
+  type: SET_ACTION_MODE,
+  payload: {
+    actionMode,
+  },
+});
+
+export const removeAttributeFromComposite = (attributeCode, isMonolistComposite = false) => ({
+  type: REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    attributeCode,
+    isMonolistComposite,
+  },
+});
+
+export const moveAttributeFromComposite = (fromIndex, toIndex, isMonolistComposite = false) => ({
+  type: MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  payload: {
+    fromIndex,
+    toIndex,
+    isMonolistComposite,
+  },
+});
+
+export const setNewAttributeComposite = attributeData => ({
+  type: SET_NEW_ATTRIBUTE_COMPOSITE,
+  payload: {
+    attributeData,
+  },
+});
 
 // thunk
 
@@ -464,6 +530,172 @@ export const fetchProfileTypeAttribute = (
     }).catch(() => {});
   })
 );
+
+const convertDate = date => `${date
+  .split('/')
+  .reverse()
+  .join('-')} 00:00:00`;
+
+const convertDateValidationRules = (validationRules) => {
+  const rules = {};
+  if (validationRules) {
+    const {
+      rangeStartDate,
+      rangeEndDate,
+      equalDate,
+      rangeStartDateAttribute,
+      rangeEndDateAttribute,
+      equalDateAttribute,
+    } = validationRules;
+
+    rules.rangeStartDate = rangeStartDate && convertDate(rangeStartDate);
+    rules.rangeEndDate = rangeEndDate && convertDate(rangeEndDate);
+    rules.equalDate = equalDate && convertDate(equalDate);
+    rules.rangeStartDateAttribute = rangeStartDateAttribute
+    && convertDate(rangeStartDateAttribute);
+    rules.rangeEndDateAttribute = rangeEndDateAttribute
+    && convertDate(rangeEndDateAttribute);
+    rules.equalDateAttribute = equalDateAttribute
+    && convertDate(equalDateAttribute);
+  }
+  return rules;
+};
+
+const getPayloadFromTypeAttribute = (values, allowedRoles) => {
+  const { nestedAttribute } = values;
+  const nestedAttributeType = values.listNestedType || (nestedAttribute && nestedAttribute.type);
+  let payload = {
+    ...values,
+    code: values.code,
+    type: values.type,
+    roles: values.joinRoles
+      ? values.joinRoles.map(roleId => ({ code: roleId, descr: allowedRoles[roleId] }))
+      : [],
+    nestedAttribute: {
+      ...nestedAttribute,
+      type: nestedAttributeType,
+      code: values.code,
+      enumeratorStaticItems: 'default',
+      enumeratorStaticItemsSeparator: ',',
+    },
+  };
+  if (payload.type === TYPE_DATE) {
+    payload = {
+      ...payload,
+      validationRules: convertDateValidationRules(payload.validationRules),
+    };
+  }
+  return payload;
+};
+
+const getPayloadFromTypeAttributeComposite = (composite, childAttribute) => ({
+  ...composite,
+  compositeAttributes: Array.isArray(childAttribute) ? childAttribute : [childAttribute],
+});
+
+const getPayloadFromTypeMonolistAttributeComposite = (composite, childAttribute) => ({
+  ...composite,
+  nestedAttribute: {
+    ...composite.nestedAttribute,
+    compositeAttributes: Array.isArray(childAttribute) ? childAttribute : [childAttribute],
+  },
+});
+
+export const handlerAttributeFromContentType = (
+  action,
+  values,
+  allowedRoles,
+  mode,
+  entityCode,
+  history = globalHistory,
+) => (dispatch, getState) => {
+  let payload = getPayloadFromTypeAttribute(values, allowedRoles);
+  const isMonolistComposite = payload.type === TYPE_MONOLIST
+  && payload.nestedAttribute.type === TYPE_COMPOSITE;
+  if (action === METHODS.POST) {
+    const attributeSelected = getAttributeSelectFromProfileType(getState()) || '';
+    if (attributeSelected.type === TYPE_COMPOSITE && mode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+      dispatch(setActionMode(MODE_ADD_COMPOSITE));
+      dispatch(sendPostAttributeFromProfileType(attributeSelected, entityCode, history));
+    } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
+      dispatch(setActionMode(MODE_ADD_COMPOSITE));
+      dispatch(setNewAttributeComposite(payload));
+      if (isMonolistComposite) {
+        dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
+        const selectedAttr = getProfileTypeSelectedAttribute(getState());
+        dispatch(pushParentSelectedAttribute(selectedAttr));
+        history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
+          entityCode,
+          attributeCode: payload.code,
+        }));
+      }
+    } else {
+      const newAttributeComposite = getNewAttributeComposite(getState());
+      if (!isUndefined(newAttributeComposite)) {
+        const compositeAttributes = [...getSelectedCompositeAttributes(getState()), payload];
+        payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, compositeAttributes);
+      }
+      if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+        dispatch(setSelectedProfileTypeAttribute(payload));
+        const parentAttr = getParentSelectedAttribute(getState());
+        dispatch(popParentSelectedAttribute());
+        dispatch(setSelectedAttributeRef(parentAttr));
+        dispatch(handlerAttributeFromProfileType(
+          action,
+          payload,
+          allowedRoles,
+          mode,
+          entityCode,
+          history,
+        ));
+      } else if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
+        payload = getPayloadFromTypeMonolistAttributeComposite(
+          newAttributeComposite,
+          [
+            ...getSelectedCompositeAttributes(getState()),
+            getPayloadFromTypeAttribute(values, allowedRoles),
+          ],
+        );
+        dispatch(setSelectedProfileTypeAttribute(payload));
+        const parentAttr = getParentSelectedAttribute(getState());
+        dispatch(popParentSelectedAttribute());
+        dispatch(setSelectedAttributeRef(parentAttr));
+        dispatch(handlerAttributeFromProfileType(
+          action,
+          payload,
+          allowedRoles,
+          mode,
+          entityCode,
+          history,
+        ));
+      } else {
+        dispatch(sendPostAttributeFromProfileType(payload, entityCode, history));
+      }
+    }
+  } else {
+    dispatch(setActionMode(MODE_EDIT));
+    const isComposite = values.type === TYPE_COMPOSITE
+    || payload.type === TYPE_COMPOSITE || isMonolistComposite;
+    if (isComposite) {
+      if (mode === MODE_EDIT_COMPOSITE) {
+        dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, history));
+      }
+      dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+    } else {
+      if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+        const compositeData = getAttributeSelectFromProfileType(getState());
+        if (getIsMonolistCompositeAttributeType(getState())) {
+          compositeData.nestedAttribute.compositeAttributes.push(payload);
+        } else {
+          compositeData.compositeAttributes.push(payload);
+        }
+        payload = compositeData;
+        dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+      }
+      dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, history));
+    }
+  }
+};
 
 export const sendMoveAttributeUp = ({ entityCode, attributeCode, attributeIndex }) =>
   dispatch => (
