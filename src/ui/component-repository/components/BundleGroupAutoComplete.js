@@ -43,6 +43,11 @@ const BundleGroupAutoCompleteBody = (props) => {
     submitHandler();
   };
 
+  const handleChange = (value) => {
+    dispatch(setBundleGroupIdFilter(value));
+    submitHandler();
+  };
+
   return (
     <form className="SearchForm__container" onSubmit={submitHandler}>
       <Field
@@ -50,7 +55,7 @@ const BundleGroupAutoCompleteBody = (props) => {
         name={BUNDLE_GROUP_FILTER_ID}
         options={bundlegroups}
         labelKey="name"
-        onChange={value => dispatch(setBundleGroupIdFilter(value))}
+        onChange={value => handleChange(value)}
         valueKey="bundleGroupId"
         labelSize={0}
         tourClass="BundleGroupAutoComplete"

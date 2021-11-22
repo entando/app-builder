@@ -490,8 +490,10 @@ export const fetchECRComponentDetail = code => dispatch => (
           dispatch(setSelectedECRComponent(json.payload));
         } else {
           dispatch(setSelectedECRComponent({}));
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          if (json.errors) {
+            dispatch(addErrors(json.errors.map(err => err.message)));
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          }
         }
         resolve();
       });

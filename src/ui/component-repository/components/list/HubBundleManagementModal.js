@@ -72,7 +72,7 @@ const HubBundleManagementModal = () => {
 
   const belongingBundleGroup = useMemo(() => {
     const belongingBundleGroups = bundlegroups
-      .filter(bg => payload.bundleGroups.includes(bg.bundleGroupId));
+      .filter(bg => (payload.bundleGroups || []).includes(bg.bundleGroupId));
     return belongingBundleGroups[0] || {};
   }, [bundlegroups, payload.bundleGroups]);
 
@@ -105,7 +105,7 @@ const HubBundleManagementModal = () => {
 
   useEffect(() => {
     if (selectedBundleStatus.status) {
-      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl).toString('base64')));
+      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64')));
     }
   }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status]);
 
