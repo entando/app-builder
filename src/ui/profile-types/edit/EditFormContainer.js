@@ -8,6 +8,7 @@ import {
   fetchProfileTypeAttribute,
   sendMoveAttributeUp,
   sendMoveAttributeDown,
+  setSelectedAttribute,
 } from 'state/profile-types/actions';
 import {
   getSelectedProfileTypeAttributes,
@@ -39,6 +40,7 @@ export const mapStateToProps = (state, { match: { params } }) => (
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ profileTypeCode }) => {
+    dispatch(setSelectedAttribute({}));
     dispatch(fetchProfileType(profileTypeCode));
     dispatch(fetchProfileTypeAttributes());
   },

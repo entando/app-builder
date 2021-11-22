@@ -52,6 +52,17 @@ const STATE_ATTRIBUTES = {
   },
 };
 
+const STATE_ATTRIBUTES_NO_LIST = {
+  profileTypes: {
+    selected: {
+      attributeSelected: {},
+    },
+    attributes: {
+      selected: {},
+    },
+  },
+};
+
 describe('state/users/selectors', () => {
   it('getProfileTypes(state) returns the users object', () => {
     const selected = getProfileTypes(TEST_STATE);
@@ -82,7 +93,7 @@ describe('state/users/selectors', () => {
     expect(getProfileTypeAttributes(TEST_STATE)).toBeDefined();
   });
   it('verify getProfileTypeAttributesIdList selector is undefined', () => {
-    expect(getProfileTypeAttributesIdList(TEST_STATE)).toBeUndefined();
+    expect(getProfileTypeAttributesIdList(STATE_ATTRIBUTES_NO_LIST)).toBeUndefined();
   });
   it('verify getProfileTypeAttributesIdList selector is defined', () => {
     expect(getProfileTypeAttributesIdList(STATE_ATTRIBUTES)).toBeDefined();

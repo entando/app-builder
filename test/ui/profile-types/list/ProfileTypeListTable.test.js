@@ -4,7 +4,7 @@ import { PROFILE_TYPES_OK_PAGE_1 } from 'test/mocks/profileTypes';
 
 
 import ProfileTypeListTable from 'ui/profile-types/list/ProfileTypeListTable';
-import { shallowWithIntl } from 'test/legacyTestUtils';
+import { shallowWithIntl, mountWithIntl } from 'test/legacyTestUtils';
 
 const profileTypes = PROFILE_TYPES_OK_PAGE_1.payload;
 
@@ -59,11 +59,11 @@ describe('ProfileTypeListTable', () => {
 
   describe('test table component', () => {
     beforeEach(() => {
-      component = shallowWithIntl(<ProfileTypeListTable
+      component = mountWithIntl(<ProfileTypeListTable
         page={1}
         pageSize={1}
         totalItems={1}
-      />).dive();
+      />);
     });
 
     it('has an Alert', () => {
