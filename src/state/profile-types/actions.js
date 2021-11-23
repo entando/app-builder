@@ -2,6 +2,7 @@ import { initialize } from 'redux-form';
 import { METHODS } from '@entando/apimanager';
 import { routeConverter } from '@entando/utils';
 import moment from 'moment';
+import { isUndefined } from 'lodash';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
@@ -26,14 +27,24 @@ import {
 } from 'api/profileTypes';
 import {
   getProfileTypeAttributesIdList,
+  getAttributeSelectFromProfileType,
   getProfileTypeSelectedAttributeType,
   getSelectedProfileType,
+  getProfileTypeSelectedAttribute,
+  getNewAttributeComposite,
+  getSelectedCompositeAttributes,
+  getParentSelectedAttribute,
+  getIsMonolistCompositeAttributeType,
+  getMonolistAttributeType,
+  getFormTypeValue,
+  getActionModeProfileTypeSelectedAttribute,
 } from 'state/profile-types/selectors';
 import {
   history,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 import {
   SET_PROFILE_TYPES,
@@ -58,7 +69,6 @@ import {
 import {
   TYPE_MONOLIST,
   TYPE_COMPOSITE,
-  TYPE_LIST,
   TYPE_DATE,
   MODE_EDIT,
   MODE_ADD_COMPOSITE,
@@ -66,7 +76,7 @@ import {
   MODE_ADD_ATTRIBUTE_COMPOSITE,
   MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
   MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
-} from 'state/content-type/const';
+} from 'state/profile-types/const';
 
 // Profile type
 export const setProfileTypes = profileTypes => ({
@@ -407,6 +417,7 @@ export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) =>
 export const sendPostAttributeFromProfileType = (
   attributeObject,
   entityCode,
+  globalHistory = history,
 ) => (dispatch, getState) => (
   new Promise((resolve) => {
     const list = getProfileTypeSelectedAttributeType(getState());
@@ -415,7 +426,7 @@ export const sendPostAttributeFromProfileType = (
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list) {
-          history.push(routeConverter(
+          globalHistory.push(routeConverter(
             ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
             {
               entityCode,
@@ -431,41 +442,76 @@ export const sendPostAttributeFromProfileType = (
   })
 );
 
-export const sendPutAttributeFromProfileType = (attributeObject, entityCode) => dispatch => (
-  new Promise((resolve) => {
-    putAttributeFromProfileType(entityCode, attributeObject).then((response) => {
-      response.json().then((json) => {
-        if (!response.ok) {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        } else if (json.payload.type === TYPE_MONOLIST || json.payload.type === TYPE_LIST) {
-          history.push(routeConverter(
-            ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
-            {
-              entityCode,
-              attributeCode: attributeObject.code,
-            },
-          ));
-        } else {
-          history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
-
-export const sendPutAttributeFromProfileTypeMonolist = (
+export const sendPutAttributeFromProfileType = (
   attributeObject,
   entityCode,
+  mode,
+  globalHistory = history,
+) => (dispatch, getState) => new Promise((resolve) => {
+  const list = getProfileTypeSelectedAttributeType(getState());
+  putAttributeFromProfileType(entityCode, attributeObject).then((response) => {
+    response.json().then((json) => {
+      if (!response.ok) {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      } else if (list || (
+        json.payload.type === TYPE_MONOLIST
+          && !getIsMonolistCompositeAttributeType(getState())
+      )) {
+        globalHistory.push(routeConverter(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
+          entityCode,
+          attributeCode: attributeObject.code,
+        }));
+      } else {
+        dispatch(setSelectedAttributeProfileType(json.payload));
+        const { type, code } = attributeObject;
+        if (type === TYPE_COMPOSITE || (
+          type === TYPE_MONOLIST
+          && getIsMonolistCompositeAttributeType(getState())
+        )) {
+          dispatch(initialize('attribute', {
+            ...json.payload,
+            compositeAttributeType: TYPE_COMPOSITE,
+          }));
+          if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE
+            || mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE
+          ) {
+            globalHistory.push(routeConverter(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, {
+              entityCode,
+              attributeCode: code,
+            }));
+          } else {
+            globalHistory.push(routeConverter(
+              ROUTE_PROFILE_TYPE_EDIT,
+              { profiletypeCode: entityCode },
+            ));
+          }
+        } else {
+          globalHistory.push(routeConverter(
+            ROUTE_PROFILE_TYPE_EDIT,
+            { profiletypeCode: entityCode },
+          ));
+        }
+      }
+      resolve();
+    });
+  }).catch(() => {});
+});
+
+export const sendPostAttributeFromProfileTypeMonolist = (
+  attributeObject,
+  entityCode,
+  globalHistory = history,
 ) => dispatch => (
   new Promise((resolve) => {
-    putAttributeFromProfileType(entityCode, attributeObject).then((response) => {
+    postAttributeFromProfileType(entityCode, attributeObject).then((response) => {
       response.json().then((json) => {
         if (!response.ok) {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         } else {
-          history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: entityCode }));
+          globalHistory.push(routeConverter(
+            ROUTE_PROFILE_TYPE_EDIT,
+            { profiletypeCode: entityCode },
+          ));
         }
         resolve();
       });
@@ -513,23 +559,69 @@ export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, para
 );
 
 export const fetchProfileTypeAttribute = (
-  ProfileTypeCode,
-  ProfileTypeAttributeCode,
-) => dispatch => (
-  new Promise((resolve) => {
-    getProfileTypeAttribute(ProfileTypeCode, ProfileTypeAttributeCode).then((response) => {
+  profileTypeCode,
+  profileTypeAttributeCode,
+  routeFunc,
+  selectedAttributeType = '',
+  formName,
+) => (dispatch, getState) => new Promise((resolve) => {
+  let typeAttribute = profileTypeAttributeCode;
+
+  const checkCompositeSubAttribute = selectedAttributeType === TYPE_COMPOSITE
+    || (selectedAttributeType === TYPE_MONOLIST
+      && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
+
+  if (checkCompositeSubAttribute) {
+    typeAttribute = getFormTypeValue(getState(), formName);
+    dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
+    const selectedAttr = getProfileTypeSelectedAttribute(getState());
+    dispatch(pushParentSelectedAttribute(selectedAttr));
+  }
+  const actionMode = getActionModeProfileTypeSelectedAttribute(getState());
+  if (typeAttribute === TYPE_COMPOSITE && actionMode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+    resolve();
+  } else {
+    getProfileTypeAttribute(profileTypeCode, typeAttribute).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
+          switch (actionMode) {
+            case MODE_ADD_ATTRIBUTE_COMPOSITE: {
+              dispatch(initialize(formName, {
+                type: json.payload.code,
+                compositeAttributeType: TYPE_COMPOSITE,
+                code: '',
+                name: '',
+              }));
+              break;
+            }
+            case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
+              dispatch(initialize(formName, { type: json.payload.code }));
+              break;
+            }
+            case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
+              const nestedAttribute = {
+                ...json.payload,
+                type: json.payload.code,
+                compositeAttributeType: TYPE_COMPOSITE,
+              };
+              dispatch(initialize(formName, { nestedAttribute }));
+              break;
+            }
+            default:
+              break;
+          }
+          if (routeFunc && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+            routeFunc();
+          }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
         resolve();
       });
     }).catch(() => {});
-  })
-);
+  }
+});
 
 const convertDate = date => `${date
   .split('/')
@@ -560,6 +652,38 @@ const convertDateValidationRules = (validationRules) => {
   }
   return rules;
 };
+
+export const sendPutAttributeFromProfileTypeMonolist = (
+  attributeObject,
+  entityCode,
+  globalHistory = history,
+) => dispatch => new Promise((resolve) => {
+  const { nestedAttribute } = attributeObject;
+  const payload = {
+    ...attributeObject,
+    nestedAttribute: {
+      ...nestedAttribute,
+      ...(nestedAttribute.type === TYPE_DATE ? ({
+        validationRules: convertDateValidationRules(nestedAttribute.validationRules),
+      }) : {}),
+    },
+  };
+  putAttributeFromProfileType(entityCode, payload)
+    .then((response) => {
+      response.json().then((json) => {
+        if (!response.ok) {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+        } else {
+          globalHistory.push(routeConverter(
+            ROUTE_PROFILE_TYPE_EDIT,
+            { profiletypeCode: entityCode },
+          ));
+        }
+        resolve();
+      });
+    })
+    .catch(() => {});
+});
 
 const getPayloadFromTypeAttribute = (values, allowedRoles) => {
   const { nestedAttribute } = values;
@@ -601,22 +725,22 @@ const getPayloadFromTypeMonolistAttributeComposite = (composite, childAttribute)
   },
 });
 
-export const handlerAttributeFromContentType = (
+export const handlerAttributeFromProfileType = (
   action,
   values,
   allowedRoles,
   mode,
   entityCode,
-  history = globalHistory,
+  globalHistory = history,
 ) => (dispatch, getState) => {
   let payload = getPayloadFromTypeAttribute(values, allowedRoles);
   const isMonolistComposite = payload.type === TYPE_MONOLIST
-  && payload.nestedAttribute.type === TYPE_COMPOSITE;
+    && payload.nestedAttribute.type === TYPE_COMPOSITE;
   if (action === METHODS.POST) {
     const attributeSelected = getAttributeSelectFromProfileType(getState()) || '';
     if (attributeSelected.type === TYPE_COMPOSITE && mode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
       dispatch(setActionMode(MODE_ADD_COMPOSITE));
-      dispatch(sendPostAttributeFromProfileType(attributeSelected, entityCode, history));
+      dispatch(sendPostAttributeFromProfileType(attributeSelected, entityCode, globalHistory));
     } else if (payload.type === TYPE_COMPOSITE || isMonolistComposite) {
       dispatch(setActionMode(MODE_ADD_COMPOSITE));
       dispatch(setNewAttributeComposite(payload));
@@ -624,7 +748,7 @@ export const handlerAttributeFromContentType = (
         dispatch(setActionMode(MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE));
         const selectedAttr = getProfileTypeSelectedAttribute(getState());
         dispatch(pushParentSelectedAttribute(selectedAttr));
-        history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
+        globalHistory.push(routeConverter(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
           entityCode,
           attributeCode: payload.code,
         }));
@@ -636,17 +760,17 @@ export const handlerAttributeFromContentType = (
         payload = getPayloadFromTypeAttributeComposite(newAttributeComposite, compositeAttributes);
       }
       if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
-        dispatch(setSelectedProfileTypeAttribute(payload));
+        dispatch(setSelectedAttributeProfileType(payload));
         const parentAttr = getParentSelectedAttribute(getState());
         dispatch(popParentSelectedAttribute());
-        dispatch(setSelectedAttributeRef(parentAttr));
+        dispatch(setSelectedAttribute(parentAttr));
         dispatch(handlerAttributeFromProfileType(
           action,
           payload,
           allowedRoles,
           mode,
           entityCode,
-          history,
+          globalHistory,
         ));
       } else if (mode === MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE) {
         payload = getPayloadFromTypeMonolistAttributeComposite(
@@ -656,20 +780,20 @@ export const handlerAttributeFromContentType = (
             getPayloadFromTypeAttribute(values, allowedRoles),
           ],
         );
-        dispatch(setSelectedProfileTypeAttribute(payload));
+        dispatch(setSelectedAttributeProfileType(payload));
         const parentAttr = getParentSelectedAttribute(getState());
         dispatch(popParentSelectedAttribute());
-        dispatch(setSelectedAttributeRef(parentAttr));
+        dispatch(setSelectedAttribute(parentAttr));
         dispatch(handlerAttributeFromProfileType(
           action,
           payload,
           allowedRoles,
           mode,
           entityCode,
-          history,
+          globalHistory,
         ));
       } else {
-        dispatch(sendPostAttributeFromProfileType(payload, entityCode, history));
+        dispatch(sendPostAttributeFromProfileType(payload, entityCode, globalHistory));
       }
     }
   } else {
@@ -678,7 +802,7 @@ export const handlerAttributeFromContentType = (
     || payload.type === TYPE_COMPOSITE || isMonolistComposite;
     if (isComposite) {
       if (mode === MODE_EDIT_COMPOSITE) {
-        dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, history));
+        dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, globalHistory));
       }
       dispatch(setActionMode(MODE_EDIT_COMPOSITE));
     } else {
@@ -692,7 +816,7 @@ export const handlerAttributeFromContentType = (
         payload = compositeData;
         dispatch(setActionMode(MODE_EDIT_COMPOSITE));
       }
-      dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, history));
+      dispatch(sendPutAttributeFromProfileType(payload, entityCode, mode, globalHistory));
     }
   }
 };

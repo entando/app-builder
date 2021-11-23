@@ -1,31 +1,48 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
+import { METHODS } from '@entando/apimanager';
+import { formValueSelector, submit } from 'redux-form';
+import { routeConverter } from '@entando/utils';
+
 import {
+  setActionMode,
   fetchAttributeFromProfileType,
-  sendPutAttributeFromProfileType,
   fetchProfileTypeAttributes,
   fetchProfileTypeAttribute,
+  handlerAttributeFromProfileType,
+  removeAttributeFromComposite,
+  moveAttributeFromComposite,
 } from 'state/profile-types/actions';
-import { formValueSelector } from 'redux-form';
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
-  getSelectedAttributeType,
+  getAttributeTypeSelectFromProfileType,
+  getActionModeProfileTypeSelectedAttribute,
   getProfileTypeAttributesIdList,
   getProfileTypeSelectedAttributeIndexable,
   getProfileTypeSelectedAttributeSearchable,
   getProfileTypeSelectedAttributeAllowedRoles,
   getProfileTypeSelectedAttributeRoleChoices,
+  getSelectedCompositeAttributes,
+  getIsMonolistCompositeAttributeType,
 } from 'state/profile-types/selectors';
-
-const converDate = date => `${date.split('/').reverse().join('-')} 00:00:00`;
+import { MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/profile-types/const';
+import {
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+  ROUTE_PROFILE_TYPE_EDIT,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+} from 'app-init/router';
+import { setVisibleModal } from 'state/modal/actions';
+import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 export const mapStateToProps = (state, { match: { params } }) => {
   const joinAllowedOptions = formValueSelector('attribute')(state, 'joinRoles') || [];
   return {
+    mode: getActionModeProfileTypeSelectedAttribute(state) || 'edit',
     attributeCode: params.attributeCode,
     profileTypeAttributeCode: params.entityCode,
     joinAllowedOptions,
-    selectedAttributeType: getSelectedAttributeType(state),
+    selectedAttributeType: getAttributeTypeSelectFromProfileType(state),
     attributesList: getProfileTypeAttributesIdList(state),
     allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
     allowedRoles: getProfileTypeSelectedAttributeRoleChoices(
@@ -34,55 +51,65 @@ export const mapStateToProps = (state, { match: { params } }) => {
     )(state),
     isSearchable: getProfileTypeSelectedAttributeSearchable(state),
     isIndexable: getProfileTypeSelectedAttributeIndexable(state),
+    compositeAttributes: getSelectedCompositeAttributes(state),
+    isMonolistCompositeType: getIsMonolistCompositeAttributeType(state),
   };
 };
 
-export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
-  onWillMount: ({ profileTypeAttributeCode, attributeCode }) => {
+export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
+  onDidMount: ({ profileTypeAttributeCode, attributeCode }) => {
     dispatch(fetchAttributeFromProfileType(profileTypeAttributeCode, attributeCode));
     dispatch(fetchProfileTypeAttributes());
+  },
+  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('attribute')); },
+  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
+  onDiscard: (mode) => {
+    dispatch(setVisibleModal(''));
+    if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE) {
+      dispatch(setActionMode(MODE_EDIT_COMPOSITE));
+      history.push(routeConverter(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT, {
+        entityCode: params.entityCode,
+        attributeCode: params.attributeCode,
+      }));
+    } else {
+      history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { code: params.entityCode }));
+    }
   },
   fetchAttributeDetails: (selectedAttributeType) => {
     dispatch(fetchProfileTypeAttribute(params.entityCode, selectedAttributeType));
   },
-  onSubmit: (values, allowedRoles) => {
-    let {
-      rangeStartDate, rangeEndDate, equalDate,
-      rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
-    } = values.validationRules;
-    rangeStartDate = rangeStartDate && converDate(rangeStartDate);
-    rangeEndDate = rangeEndDate && converDate(rangeEndDate);
-    equalDate = equalDate && converDate(equalDate);
-    rangeStartDateAttribute = rangeStartDateAttribute && converDate(rangeStartDateAttribute);
-    rangeEndDateAttribute = rangeEndDateAttribute && converDate(rangeEndDateAttribute);
-    equalDateAttribute = equalDateAttribute && converDate(equalDateAttribute);
-    const payload = {
-      ...values,
-      validationRules: {
-        ...values.validationRules,
-        rangeStartDate,
-        rangeEndDate,
-        equalDate,
-        rangeStartDateAttribute,
-        rangeEndDateAttribute,
-        equalDateAttribute,
-      },
-      code: values.code,
-      type: values.type,
-      roles: values.joinRoles
-        ? values.joinRoles.map(roleId => ({ code: roleId, descr: allowedRoles[roleId] }))
-        : [],
-      nestedAttribute: {
-        ...values.nestedAttribute,
-        code: values.code,
-        enumeratorStaticItems: 'default',
-        enumeratorStaticItemsSeparator: ',',
-      },
-    };
-    dispatch(sendPutAttributeFromProfileType(payload, params.entityCode));
+  onSubmit: (values, allowedRoles, mode) => {
+    dispatch(handlerAttributeFromProfileType(
+      METHODS.PUT,
+      values,
+      allowedRoles,
+      mode,
+      params.entityCode,
+      history,
+    ));
+  },
+  onAddAttribute: (props) => {
+    const { attributeCode, profileTypeAttributeCode, selectedAttributeType } = props;
+    dispatch(fetchProfileTypeAttribute(
+      profileTypeAttributeCode,
+      attributeCode,
+      () => history.push(routeConverter(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, {
+        entityCode: profileTypeAttributeCode,
+      })),
+      selectedAttributeType,
+      'attribute',
+    ));
+  },
+  onClickDelete: (attributeCode, isMonolistCompositeType) => {
+    dispatch(removeAttributeFromComposite(attributeCode, isMonolistCompositeType));
+  },
+  onMove: (fromIndex, toIndex, isMonolistCompositeType) => {
+    dispatch(moveAttributeFromComposite(fromIndex, toIndex, isMonolistCompositeType));
   },
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
+const EditAttributeFormContainer = connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(EditAttributeForm));
+})(EditAttributeForm);
+
+export default injectIntl(withRouter(EditAttributeFormContainer));

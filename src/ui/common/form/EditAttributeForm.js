@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
@@ -14,6 +14,7 @@ import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoLis
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 import {
   MODE_ADD_COMPOSITE,
@@ -31,11 +32,11 @@ import {
   TYPE_NUMBER,
   TYPE_THREESTATE,
   TYPE_TIMESTAMP,
-} from 'state/data-types/const';
+} from 'state/profile-types/const';
 
 export class EditAttributeFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
+  componentDidMount() {
+    this.props.onDidMount(this.props);
   }
 
   componentDidUpdate(prevProps) {
@@ -49,7 +50,8 @@ export class EditAttributeFormBody extends Component {
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
-      nestedAttributeComposite, isSearchable, isIndexable,
+      nestedAttributeComposite, isSearchable, isIndexable, onSubmit, onCancel, onDiscard,
+      onSave, dirty, submitting, intl, invalid,
     } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
     const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
@@ -65,6 +67,14 @@ export class EditAttributeFormBody extends Component {
           mode={mode}
         />
     );
+
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard(mode);
+      }
+    };
 
     const renderSelectedAttribute = () => {
       switch (attributeType) {
@@ -152,7 +162,7 @@ export class EditAttributeFormBody extends Component {
     return (
       <form
         onSubmit={this.props.handleSubmit(values => (
-           this.props.onSubmit(values, this.props.allowedRoles, mode)
+           onSubmit(values, this.props.allowedRoles, mode)
          ))}
         className="form-horizontal"
       >
@@ -184,6 +194,21 @@ export class EditAttributeFormBody extends Component {
               !isComposite ? <FormattedMessage id="app.continue" /> : <FormattedMessage id="app.save" />
               }
             </Button>
+            <Button
+              onClick={handleCancelClick}
+              className="pull-right ContentTypeAttributeForm__cancel-btn"
+              type="reset"
+              disabled={submitting}
+            >
+              <FormattedMessage id="cms.label.cancel" />
+            </Button>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={() => onDiscard(mode)}
+            />
           </Col>
         </Row>
       </form>
@@ -192,8 +217,10 @@ export class EditAttributeFormBody extends Component {
 }
 
 EditAttributeFormBody.propTypes = {
-  onWillMount: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
@@ -210,6 +237,9 @@ EditAttributeFormBody.propTypes = {
   nestedAttributeComposite: PropTypes.string.isRequired,
   isSearchable: PropTypes.bool,
   isIndexable: PropTypes.bool,
+  onDiscard: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  dirty: PropTypes.bool,
   fetchAttributeDetails: PropTypes.func,
 };
 
@@ -222,6 +252,7 @@ EditAttributeFormBody.defaultProps = {
   allowedRoles: [],
   isSearchable: false,
   isIndexable: false,
+  dirty: false,
   fetchAttributeDetails: () => {},
 };
 

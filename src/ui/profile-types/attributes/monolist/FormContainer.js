@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchAttributeFromProfileType, sendPutAttributeFromProfileTypeMonolist } from 'state/profile-types/actions';
-import { getSelectedAttribute } from 'state/profile-types/selectors';
+import { getAttributeSelectFromProfileType } from 'state/profile-types/selectors';
 import MonolistAttributeForm from 'ui/common/form/MonolistAttributeForm';
 import { formValueSelector } from 'redux-form';
 
@@ -10,7 +10,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   profileTypeCode: params.entityCode,
   isIndexable: formValueSelector('attribute')(state, 'nestedAttribute.indexable'),
   type: formValueSelector('attribute')(state, 'nestedAttribute.type'),
-  selectedAttribute: getSelectedAttribute(state),
+  selectedAttribute: getAttributeSelectFromProfileType(state),
   selectedAttributeType: formValueSelector('attribute')(state, 'type'),
 });
 

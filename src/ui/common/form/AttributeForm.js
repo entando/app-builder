@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { Button, Row, Col } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
@@ -14,6 +14,7 @@ import AttributeMonoListMonoSettings from 'ui/common/attributes/AttributeMonoLis
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 
 import {
   MODE_ADD_COMPOSITE, MODE_EDIT_COMPOSITE,
@@ -29,18 +30,34 @@ import {
   TYPE_NUMBER,
   TYPE_THREESTATE,
   TYPE_TIMESTAMP,
-} from 'state/data-types/const';
+} from 'state/profile-types/const';
 
 export class AttributeFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
   render() {
-    const { selectedAttributeType, dataTypeAttributeCode, mode } = this.props;
+    const {
+      selectedAttributeType,
+      profileTypeAttributeCode,
+      mode,
+      attributesList,
+      handleSubmit,
+      onCancel,
+      onSubmit,
+      allowedRoles,
+      invalid,
+      submitting,
+      intl,
+      onDiscard,
+      onSave,
+      dirty,
+    } = this.props;
     const isComposite = mode === MODE_ADD_COMPOSITE;
     const isEditComposite = mode === MODE_EDIT_COMPOSITE;
     const isAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
+    const labelsubmit = isEditComposite || isAddAttributeComposite ? 'cms.label.save' : 'cms.label.continue';
 
     const renderAttributeInfo = () => (
       isComposite ?
@@ -55,6 +72,14 @@ export class AttributeFormBody extends Component {
       !isComposite ? <AttributeRole {...this.props} /> : null
     );
 
+    const handleCancelClick = () => {
+      if (dirty) {
+        onCancel();
+      } else {
+        onDiscard(mode);
+      }
+    };
+
     const renderSelectedAttribute = () => {
       switch (selectedAttributeType.code) {
         case TYPE_BOOLEAN: return null;
@@ -65,14 +90,14 @@ export class AttributeFormBody extends Component {
           return (
             <AttributeMonoListMonoSettings
               attributeType={selectedAttributeType.code}
-              attributesList={this.props.attributesList}
+              attributesList={attributesList}
             />
           );
         case TYPE_LIST:
           return (
             <AttributeMonoListMonoSettings
               attributeType={selectedAttributeType.code}
-              attributesList={this.props.attributesList}
+              attributesList={attributesList}
             />
           );
         case TYPE_NUMBER: return (
@@ -98,7 +123,7 @@ export class AttributeFormBody extends Component {
         case TYPE_COMPOSITE: {
           return isComposite ?
             <AttributeListTableComposite
-              entityCode={dataTypeAttributeCode}
+              entityCode={profileTypeAttributeCode}
               {...this.props}
             /> : null;
         }
@@ -119,8 +144,8 @@ export class AttributeFormBody extends Component {
 
     return (
       <form
-        onSubmit={this.props.handleSubmit(values => (
-            this.props.onSubmit(values, this.props.allowedRoles, mode)
+        onSubmit={handleSubmit(values => (
+            onSubmit(values, allowedRoles, mode)
           ))}
         className="form-horizontal"
       >
@@ -141,12 +166,25 @@ export class AttributeFormBody extends Component {
               className="pull-right AttributeForm__continue--btn"
               type="submit"
               bsStyle="primary"
-              disabled={this.props.invalid || this.props.submitting}
+              disabled={invalid || submitting}
             >
-              {
-                isEditComposite || isAddAttributeComposite ? <FormattedMessage id="app.save" /> : <FormattedMessage id="app.continue" />
-              }
+              <FormattedMessage id={labelsubmit} />
             </Button>
+            <Button
+              onClick={handleCancelClick}
+              className="pull-right ContentTypeAttributeForm__cancel-btn"
+              type="reset"
+              disabled={submitting}
+            >
+              <FormattedMessage id="cms.label.cancel" />
+            </Button>
+            <ConfirmCancelModalContainer
+              contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
+              invalid={invalid}
+              submitting={submitting}
+              onSave={onSave}
+              onDiscard={() => onDiscard(mode)}
+            />
           </Col>
         </Row>
       </form>
@@ -155,7 +193,9 @@ export class AttributeFormBody extends Component {
 }
 
 AttributeFormBody.propTypes = {
-  onWillMount: PropTypes.func,
+  intl: intlShape.isRequired,
+  onDidMount: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
@@ -190,11 +230,13 @@ AttributeFormBody.propTypes = {
   mode: PropTypes.string.isRequired,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-
+  onDiscard: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  dirty: PropTypes.bool,
 };
 
 AttributeFormBody.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
@@ -207,6 +249,7 @@ AttributeFormBody.defaultProps = {
   }),
   allowedRoles: [],
   compositeAttributes: [],
+  dirty: false,
 };
 
 const AttributeForm = reduxForm({

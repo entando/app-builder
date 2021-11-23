@@ -43,7 +43,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 });
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
-  onWillMount: ({ dataTypeAttributeCode, attributeCode }) => {
+  onDidMount: ({ dataTypeAttributeCode, attributeCode }) => {
     dispatch(clearErrors());
     dispatch(fetchAttributeFromDataType('attribute', dataTypeAttributeCode, attributeCode));
     dispatch(fetchDataTypeAttributes());
