@@ -14,8 +14,9 @@ import {
 } from 'app-init/router';
 
 class MonolistPage extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
+  componentDidMount() {
+    const { onDidMount, ...otherProps } = this.props;
+    onDidMount(otherProps);
   }
 
   render() {
@@ -78,7 +79,7 @@ class MonolistPage extends Component {
 }
 
 MonolistPage.propTypes = {
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   profileTypeCode: PropTypes.string,
   attributeCode: PropTypes.string,
   selectedAttribute: PropTypes.string,
@@ -86,7 +87,7 @@ MonolistPage.propTypes = {
 };
 
 MonolistPage.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   profileTypeCode: '',
   attributeCode: '',
   selectedAttribute: '',

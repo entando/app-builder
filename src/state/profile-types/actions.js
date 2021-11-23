@@ -29,6 +29,7 @@ import {
   getProfileTypeAttributesIdList,
   getAttributeSelectFromProfileType,
   getProfileTypeSelectedAttributeType,
+  getAttributeTypeSelectFromProfileType,
   getSelectedProfileType,
   getProfileTypeSelectedAttribute,
   getNewAttributeComposite,
@@ -361,59 +362,6 @@ export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '')
   })
 );
 
-const fmtDateDDMMYYY = (date) => {
-  let d = new Date(date);
-  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
-};
-
-export const fetchAttributeFromProfileType = (profileTypeCode, attributeCode) => dispatch => (
-  new Promise((resolve) => {
-    getAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setSelectedAttributeProfileType(json.payload));
-          const joinRoles = json.payload.roles ? json.payload.roles.map(role => role.code) : [];
-          if (json.payload.code === 'Date') {
-            let {
-              rangeStartDate, rangeEndDate, equalDate,
-              rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
-            } = json.payload.validationRules;
-            rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
-            rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
-            equalDate = equalDate && fmtDateDDMMYYY(equalDate);
-            rangeStartDateAttribute =
-            rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
-            rangeEndDateAttribute =
-            rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
-            equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
-            const payload = {
-              ...json.payload,
-              validationRules: {
-                rangeStartDate,
-                rangeEndDate,
-                equalDate,
-                rangeStartDateAttribute,
-                rangeEndDateAttribute,
-                equalDateAttribute,
-              },
-              joinRoles,
-            };
-            dispatch(initialize('attribute', payload));
-          } else {
-            dispatch(initialize('attribute', { ...json.payload, joinRoles }));
-          }
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
-
-
 export const sendPostAttributeFromProfileType = (
   attributeObject,
   entityCode,
@@ -621,6 +569,92 @@ export const fetchProfileTypeAttribute = (
       });
     }).catch(() => {});
   }
+});
+
+export const fetchNestedAttribute = (profileTypeCode, typeAttribute) => dispatch => (
+  new Promise((resolve) => {
+    getProfileTypeAttribute(profileTypeCode, typeAttribute)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setSelectedNestedAttribute(json.payload));
+            resolve();
+          }
+        });
+      }).catch(() => resolve());
+  })
+);
+
+const fmtDateDDMMYYY = (date) => {
+  let d = new Date(date);
+  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
+};
+
+export const fetchAttributeFromProfileType = (formName, profileTypeCode, attributeCode) => (
+  dispatch,
+  getState,
+) => new Promise((resolve) => {
+  getAttributeFromProfileType(profileTypeCode, attributeCode).then((response) => {
+    response.json().then((json) => {
+      if (response.ok) {
+        const joinRoles = json.payload.roles ? json.payload.roles.map(role => role.code) : [];
+        let payload = {
+          ...json.payload,
+          joinRoles,
+          joinAllowedOptions: joinRoles,
+          compositeAttributeType: TYPE_COMPOSITE,
+        };
+        const { type, nestedAttribute } = payload;
+        const nestedAttributeType = nestedAttribute && nestedAttribute.type;
+        if (type === TYPE_DATE || nestedAttributeType === TYPE_DATE) {
+          let {
+            rangeStartDate, rangeEndDate, equalDate,
+            rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
+          } = nestedAttributeType ? nestedAttribute.validationRules : payload.validationRules;
+          rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
+          rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
+          equalDate = equalDate && fmtDateDDMMYYY(equalDate);
+          rangeStartDateAttribute =
+          rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
+          rangeEndDateAttribute =
+          rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
+          equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
+          const validationRules = {
+            rangeStartDate,
+            rangeEndDate,
+            equalDate,
+            rangeStartDateAttribute,
+            rangeEndDateAttribute,
+            equalDateAttribute,
+          };
+          payload = {
+            ...payload,
+            ...(nestedAttributeType ? {
+              nestedAttribute: {
+                ...nestedAttribute,
+                validationRules,
+              },
+            } : {
+              validationRules,
+            }),
+          };
+        }
+        const actionMode = getActionModeProfileTypeSelectedAttribute(getState());
+        if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
+          dispatch(initialize(formName, payload));
+          dispatch(setSelectedAttributeProfileType(json.payload));
+          dispatch(fetchProfileTypeAttribute(
+            profileTypeCode,
+            getAttributeTypeSelectFromProfileType(getState()),
+          ));
+        }
+      } else {
+        dispatch(addErrors(json.errors.map(err => err.message)));
+      }
+      resolve();
+    });
+  }).catch(() => {});
 });
 
 const convertDate = date => `${date

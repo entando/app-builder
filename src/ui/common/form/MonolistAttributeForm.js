@@ -37,13 +37,22 @@ const NO_INFO_ATTRIBUTE = [
 
 export class MonolistAttributeFormBody extends Component {
   componentDidMount() {
-    this.props.onDidMount(this.props);
+    const { onDidMount, ...allprops } = this.props;
+    onDidMount(allprops);
   }
+
+  componentDidUpdate(prevProps) {
+    const { type, onFetchNestedAttribute } = this.props;
+    if (type && type !== prevProps.type) {
+      onFetchNestedAttribute(this.props);
+    }
+  }
+
   render() {
     const {
       attributeCode, selectedAttribute, selectedAttributeType, isIndexable, type, invalid,
       submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
-      compositeAttributes,
+      compositeAttributes, handleSubmit,
     } = this.props;
     const isMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
     const attributeType = isMonoListComposite ? TYPE_COMPOSITE : type;
@@ -148,7 +157,10 @@ export class MonolistAttributeFormBody extends Component {
           {attributeCode}&nbsp;
            ({isMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
         </Alert>
-        <form onSubmit={this.props.handleSubmit(onSubmit)} className="form-horizontal">
+        <form
+          onSubmit={handleSubmit(values => onSubmit(values, mode, selectedAttribute))}
+          className="form-horizontal"
+        >
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -196,6 +208,7 @@ MonolistAttributeFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  onFetchNestedAttribute: PropTypes.func,
 };
 
 MonolistAttributeFormBody.defaultProps = {
@@ -211,6 +224,7 @@ MonolistAttributeFormBody.defaultProps = {
   selectedAttributeType: TYPE_MONOLIST,
   mode: '',
   attributesList: [],
+  onFetchNestedAttribute: () => {},
 };
 
 const MonolistAttributeForm = reduxForm({
