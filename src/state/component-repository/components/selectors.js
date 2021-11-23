@@ -82,3 +82,5 @@ export const getInstallPlan = state => get(state, 'componentRepositoryComponents
 export const getComponent = state => get(state, 'componentRepositoryComponents.installConflicts.component', {});
 export const getComponentVersion = state => get(state, 'componentRepositoryComponents.installConflicts.version', null);
 export const isReadOnly = state => get(state, 'componentRepositoryComponents.installConflicts.readOnly', false);
+export const getECRComponentInstallationVersion = state => get(state, 'componentRepositoryComponents.installation.selectedVersion', '');
+export const getECRComponentInstallationHasConflictingVersion = state => get(state, 'componentRepositoryComponents.installConflicts.hasConflictingVersion', false);
