@@ -25,6 +25,8 @@ import {
   TOGGLE_CONFLICTS_MODAL,
   UPDATE_INSTALL_PLAN,
   UPDATE_ALL_INSTALL_PLAN,
+  SET_SELECTED_INSTALL_VERSION,
+  SET_INSTALL_HAS_CONFLICTING_VERSION,
 } from 'state/component-repository/components/types';
 import pollApi from 'helpers/pollApi';
 import {
@@ -189,6 +191,20 @@ export const updateAllInstallPlan = action => ({
   type: UPDATE_ALL_INSTALL_PLAN,
   payload: {
     action,
+  },
+});
+
+export const setSelectedComponentInstallVersion = version => ({
+  type: SET_SELECTED_INSTALL_VERSION,
+  payload: {
+    version,
+  },
+});
+
+export const setInstallHasConflictingVersion = hasConflictingVersion => ({
+  type: SET_INSTALL_HAS_CONFLICTING_VERSION,
+  payload: {
+    hasConflictingVersion,
   },
 });
 

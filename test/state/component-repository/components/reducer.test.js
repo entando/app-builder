@@ -10,6 +10,8 @@ import {
   finishComponentUninstall,
   setComponentUsageList,
   setInstallUninstallProgress,
+  setSelectedComponentInstallVersion,
+  setInstallHasConflictingVersion,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
@@ -346,6 +348,15 @@ describe('Component repository reducer', () => {
         expect(state).not.toHaveProperty('installation.testing');
       });
     });
+
+    describe('after the setSelectedComponentInstallVersion action', () => {
+      it('should remove the component object if one is found', () => {
+        const version = 'v1.0.0';
+        state = reducer(state, setSelectedComponentInstallVersion(version));
+        expect(state).toHaveProperty('installation');
+        expect(state).toHaveProperty('installation.selectedVersion', version);
+      });
+    });
   });
 });
 
@@ -396,5 +407,14 @@ describe('usageList reducer', () => {
   it('should have new state equal to action payload', () => {
     state = reducer(state, setComponentUsageList(COMPONENT_USAGE_LIST));
     expect(state).toHaveProperty('usageList', COMPONENT_USAGE_LIST);
+  });
+});
+
+describe('installConflicts reducer', () => {
+  let state = reducer();
+
+  it('should have new state equal to action payload', () => {
+    state = reducer(state, setInstallHasConflictingVersion(true));
+    expect(state).toHaveProperty('installConflicts.hasConflictingVersion', true);
   });
 });

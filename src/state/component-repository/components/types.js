@@ -18,3 +18,5 @@ export const SET_INSTALL_UNINSTALL_PROGRESS = 'component-repository/components/s
 export const TOGGLE_CONFLICTS_MODAL = 'component-repository/components/toggle-install-plan';
 export const UPDATE_INSTALL_PLAN = 'component-repository/components/update-install-plan';
 export const UPDATE_ALL_INSTALL_PLAN = 'component-repository/components/update-all-install-plan';
+export const SET_SELECTED_INSTALL_VERSION = 'component-repository/components/set-selected-install-version';
+export const SET_INSTALL_HAS_CONFLICTING_VERSION = 'component-repository/components/set-install-has-conflicting-version';

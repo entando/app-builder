@@ -17,7 +17,7 @@ import BundleGroupAutoCompleteContainer from 'ui/component-repository/components
 import HubBundleList from 'ui/component-repository/components/list/HubBundleList';
 import { getLoading } from 'state/loading/selectors';
 import { fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
-import { getCurrentPage, getPageSize } from 'state/pagination/selectors';
+import { getPageSize } from 'state/pagination/selectors';
 
 export const BUNDLE_GROUP_FILTER_ID = 'bundleGroup';
 
@@ -26,10 +26,12 @@ const ComponentListWrapper = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const isLocalRegistry = activeRegistry.name === ECR_LOCAL_REGISTRY_NAME;
   const loading = useSelector(getLoading)[FETCH_BUNDLES_LOADING_STATE];
-  const page = useSelector(getCurrentPage);
   const perPage = useSelector(getPageSize);
   const handleRefreshBundles = () => {
-    dispatch(fetchBundlesFromRegistryWithFilters(activeRegistry.url, { page, pageSize: perPage }));
+    dispatch(fetchBundlesFromRegistryWithFilters(
+      activeRegistry.url,
+      { page: 1, pageSize: perPage },
+    ));
   };
   return (
     <div className="ComponentListPage__body">

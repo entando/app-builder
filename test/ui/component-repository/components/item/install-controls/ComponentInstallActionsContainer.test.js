@@ -41,6 +41,9 @@ describe('ComponentInstallActionsContainer', () => {
       uninstallStatus: getECRComponentUninstallStatus(MOCK_STATE, MOCK_PROPS),
       installUninstallLoading: false,
       componentUsageList: [],
+      isConflictVersion: false,
+      progress: undefined,
+      selectedVersion: '',
     });
   });
 

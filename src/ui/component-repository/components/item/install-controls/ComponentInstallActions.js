@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
 import { injectIntl } from 'react-intl';
@@ -34,12 +34,13 @@ const ComponentInstallActions = ({
   onRecheckStatus,
   onRetryAction,
   progress,
+  selectedVersion,
+  setSelectedVersion,
+  isConflictVersion,
+  setIsConflictVersion,
 }) => {
   const dispatch = useDispatch();
   const latestVersion = (component.latestVersion || {}).version;
-
-  const [selectedVersion, setSelectedVersion] = useState(latestVersion);
-  const [isConflictVersion, setIsConflictVersion] = useState(false);
 
   const handleInstall = (componentToInstall, version) => {
     setSelectedVersion(version || latestVersion);
@@ -151,6 +152,10 @@ ComponentInstallActions.propTypes = {
     usage: PropTypes.number.isRequired,
   })).isRequired,
   progress: PropTypes.number,
+  selectedVersion: PropTypes.string.isRequired,
+  setSelectedVersion: PropTypes.func.isRequired,
+  isConflictVersion: PropTypes.bool.isRequired,
+  setIsConflictVersion: PropTypes.func.isRequired,
 };
 
 ComponentInstallActions.defaultProps = {
