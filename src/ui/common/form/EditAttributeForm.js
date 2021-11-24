@@ -39,19 +39,11 @@ export class EditAttributeFormBody extends Component {
     this.props.onDidMount(this.props);
   }
 
-  componentDidUpdate(prevProps) {
-    const { selectedAttributeType, fetchAttributeDetails } = this.props;
-    if (selectedAttributeType !== prevProps.selectedAttributeType) {
-      fetchAttributeDetails(selectedAttributeType);
-    }
-  }
-
-
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
       nestedAttributeComposite, isSearchable, isIndexable, onSubmit, onCancel, onDiscard,
-      onSave, dirty, submitting, intl, invalid,
+      onSave, dirty, submitting, intl, invalid, profileTypeAttributeCode,
     } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
     const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
@@ -83,6 +75,7 @@ export class EditAttributeFormBody extends Component {
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
         case TYPE_MONOLIST:
+        case TYPE_LIST:
           return isComposite ?
             <AttributeListTableComposite {...this.props} /> :
             <AttributeMonoListMonoSettings
@@ -90,14 +83,6 @@ export class EditAttributeFormBody extends Component {
               attributeType={selectedAttributeType}
               attributesList={this.props.attributesList}
             />;
-        case TYPE_LIST:
-          return (
-            <AttributeMonoListMonoSettings
-              {...this.props}
-              attributeType={selectedAttributeType}
-              attributesList={this.props.attributesList}
-            />
-          );
         case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
@@ -114,9 +99,13 @@ export class EditAttributeFormBody extends Component {
         case TYPE_ENUMERATOR_MAP: return (
           <AttributeEnumMapSettings />
         );
-        case TYPE_COMPOSITE:
-          return isComposite ? <AttributeListTableComposite {...this.props} /> : null;
-
+        case TYPE_COMPOSITE: {
+          return isComposite ?
+            <AttributeListTableComposite
+              entityCode={profileTypeAttributeCode}
+              {...this.props}
+            /> : null;
+        }
         default: return (
           <FormSection name="validationRules">
             <AttributeHypeLongMonoTextSettings {...this.props} />
@@ -137,7 +126,7 @@ export class EditAttributeFormBody extends Component {
     );
 
     const header = () => {
-      switch (selectedAttributeType) {
+      switch (attributeType) {
         case TYPE_COMPOSITE:
           return (
             <Alert type="info">
@@ -145,6 +134,7 @@ export class EditAttributeFormBody extends Component {
             </Alert>
           );
         case TYPE_MONOLIST:
+        case TYPE_LIST:
           return (
             mode === MODE_EDIT_COMPOSITE ?
               <Alert type="info">
@@ -152,7 +142,7 @@ export class EditAttributeFormBody extends Component {
                 {TYPE_COMPOSITE},&nbsp;
                 <FormattedMessage id="app.element.of" />&nbsp;
                 { isComposite ? attributeCode : nestedAttributeComposite }&nbsp;
-                ({TYPE_MONOLIST})
+                ({attributeType})
               </Alert>
               : null);
         default: return null;
@@ -223,6 +213,7 @@ EditAttributeFormBody.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
+  profileTypeAttributeCode: PropTypes.string,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   selectedAttributeType: PropTypes.string,
@@ -247,6 +238,7 @@ EditAttributeFormBody.defaultProps = {
   invalid: false,
   submitting: false,
   dataTypeAttributeCode: '',
+  profileTypeAttributeCode: '',
   selectedAttributeType: '',
   selectedAttributeTypeForAddComposite: '',
   allowedRoles: [],

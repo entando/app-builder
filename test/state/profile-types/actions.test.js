@@ -3,12 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
-import {
-  history,
-  ROUTE_PROFILE_TYPE_LIST,
-  ROUTE_PROFILE_TYPE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
-} from 'app-init/router';
+import { history, ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -77,6 +72,9 @@ const INITIAL_STATE = {};
 jest.mock('state/profile-types/selectors', () => ({
   getProfileTypeAttributesIdList: jest.fn(),
   getProfileTypeSelectedAttributeType: jest.fn(),
+  getActionModeProfileTypeSelectedAttribute: jest.fn(),
+  getIsMonolistCompositeAttributeType: jest.fn(),
+  getAttributeTypeSelectFromProfileType: jest.fn(),
   getSelectedProfileType: jest.fn().mockReturnValue({ code: 'profileType_code' }),
 }));
 
@@ -311,22 +309,22 @@ describe('state/profile-types/actions ', () => {
 
     describe('fetchAttributeFromProfileType', () => {
       it('fetchAttributeFromProfileType calls setSelectedAttributeProfileType', (done) => {
-        store.dispatch(fetchAttributeFromProfileType('AAA', 'Date')).then(() => {
+        store.dispatch(fetchAttributeFromProfileType('attribute', 'AAA', 'Date')).then(() => {
           expect(getAttributeFromProfileType).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
+          expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
           done();
         }).catch(done.fail);
       });
 
       it('fetchAttributeFromProfileType calls ADD_ERROR actions', (done) => {
         getAttributeFromProfileType.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(fetchAttributeFromProfileType('AAA')).then(() => {
+        store.dispatch(fetchAttributeFromProfileType('attribute', 'AAA', 'Date')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -395,7 +393,7 @@ describe('state/profile-types/actions ', () => {
     describe('sendPutAttributeFromProfileTypeMonolist', () => {
       it('sendPutAttributeFromProfileTypeMonolist calls history.push ROUTE_PROFILE_TYPE_EDIT', (done) => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ payload: { type: 'Monolist' } }));
-        store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA' }, 'Monolist')).then(() => {
+        store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA', nestedAttribute: { type: 'Text' } }, 'Monolist')).then(() => {
           expect(putAttributeFromProfileType).toHaveBeenCalled();
           expect(history.push).toHaveBeenCalledWith('/profiletype/edit/Monolist');
           done();
@@ -404,11 +402,10 @@ describe('state/profile-types/actions ', () => {
 
       it('sendPutAttributeFromProfileTypeMonolist calls ADD_ERROR actions', (done) => {
         putAttributeFromProfileType.mockImplementationOnce(mockApi({ errors: true }));
-        store.dispatch(sendPutAttributeFromProfileTypeMonolist('AAA')).then(() => {
+        store.dispatch(sendPutAttributeFromProfileTypeMonolist({ code: 'AAA', nestedAttribute: { type: 'Text' } })).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });
@@ -503,9 +500,8 @@ describe('state/profile-types/actions ', () => {
         getProfileTypeAttribute.mockImplementationOnce(mockApi({ errors: true }));
         store.dispatch(fetchProfileTypeAttribute()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

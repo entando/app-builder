@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, FormSection } from 'redux-form';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Button, Row, Col } from 'patternfly-react';
+import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
 import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
 import AttributeRole from 'ui/common/attributes/AttributeRole';
@@ -41,7 +41,10 @@ export class AttributeFormBody extends Component {
     const {
       selectedAttributeType,
       profileTypeAttributeCode,
+      nestedAttributeComposite,
       mode,
+      isSearchable,
+      isIndexable,
       attributesList,
       handleSubmit,
       onCancel,
@@ -63,8 +66,9 @@ export class AttributeFormBody extends Component {
       isComposite ?
         <AttributeInfoComposite /> :
         <AttributeInfo
-          isSearchable={selectedAttributeType.searchableOptionSupported}
-          isIndexable={selectedAttributeType.indexableOptionSupported}
+          isSearchable={isSearchable}
+          isIndexable={isIndexable}
+          mode={mode}
         />
     );
 
@@ -87,19 +91,14 @@ export class AttributeFormBody extends Component {
         case TYPE_THREESTATE: return null;
         case TYPE_TIMESTAMP: return null;
         case TYPE_MONOLIST:
-          return (
-            <AttributeMonoListMonoSettings
-              attributeType={selectedAttributeType.code}
-              attributesList={attributesList}
-            />
-          );
         case TYPE_LIST:
-          return (
+          return isComposite ?
+            <AttributeListTableComposite {...this.props} /> :
             <AttributeMonoListMonoSettings
-              attributeType={selectedAttributeType.code}
+              {...this.props}
+              attributeType={selectedAttributeType}
               attributesList={attributesList}
-            />
-          );
+            />;
         case TYPE_NUMBER: return (
           <FormSection name="validationRules">
             <AttributesNumber {...this.props} />
@@ -142,6 +141,30 @@ export class AttributeFormBody extends Component {
         </FormSection> : null
     );
 
+    const header = () => {
+      switch (selectedAttributeType) {
+        case TYPE_COMPOSITE:
+          return (
+            <Alert type="info">
+              <FormattedMessage id="app.working" /> {profileTypeAttributeCode}
+            </Alert>
+          );
+        case TYPE_MONOLIST:
+        case TYPE_LIST:
+          return (
+            mode === MODE_EDIT_COMPOSITE ?
+              <Alert type="info">
+                <FormattedMessage id="app.working" />
+                {TYPE_COMPOSITE},&nbsp;
+                <FormattedMessage id="app.element.of" />&nbsp;
+                { isComposite ? profileTypeAttributeCode : nestedAttributeComposite }&nbsp;
+                ({TYPE_MONOLIST})
+              </Alert>
+              : null);
+        default: return null;
+      }
+    };
+
     return (
       <form
         onSubmit={handleSubmit(values => (
@@ -149,6 +172,11 @@ export class AttributeFormBody extends Component {
           ))}
         className="form-horizontal"
       >
+        <Row>
+          <Col xs={12}>
+            {header()}
+          </Col>
+        </Row>
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
@@ -230,6 +258,9 @@ AttributeFormBody.propTypes = {
   mode: PropTypes.string.isRequired,
   compositeAttributes: PropTypes.arrayOf(PropTypes.shape({})),
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  nestedAttributeComposite: PropTypes.string.isRequired,
+  isSearchable: PropTypes.bool,
+  isIndexable: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   dirty: PropTypes.bool,
@@ -248,6 +279,8 @@ AttributeFormBody.defaultProps = {
     regex: '',
   }),
   allowedRoles: [],
+  isSearchable: false,
+  isIndexable: false,
   compositeAttributes: [],
   dirty: false,
 };

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { METHODS } from '@entando/apimanager';
 import { formValueSelector, submit } from 'redux-form';
+import { clearErrors } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
 import {
@@ -16,6 +17,7 @@ import {
 } from 'state/profile-types/actions';
 import EditAttributeForm from 'ui/common/form/EditAttributeForm';
 import {
+  getProfileTypeSelectedAttribute,
   getAttributeTypeSelectFromProfileType,
   getActionModeProfileTypeSelectedAttribute,
   getProfileTypeAttributesIdList,
@@ -43,6 +45,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
     profileTypeAttributeCode: params.entityCode,
     joinAllowedOptions,
     selectedAttributeType: getAttributeTypeSelectFromProfileType(state),
+    selectedAttributeTypeForAddComposite: getProfileTypeSelectedAttribute(state),
     attributesList: getProfileTypeAttributesIdList(state),
     allRoles: getProfileTypeSelectedAttributeAllowedRoles(state),
     allowedRoles: getProfileTypeSelectedAttributeRoleChoices(
@@ -53,13 +56,15 @@ export const mapStateToProps = (state, { match: { params } }) => {
     isIndexable: getProfileTypeSelectedAttributeIndexable(state),
     compositeAttributes: getSelectedCompositeAttributes(state),
     isMonolistCompositeType: getIsMonolistCompositeAttributeType(state),
+    nestedAttributeComposite: formValueSelector('attribute')(state, 'nestedAttribute.type') || '',
   };
 };
 
 export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
   onDidMount: ({ profileTypeAttributeCode, attributeCode }) => {
-    dispatch(fetchAttributeFromProfileType(profileTypeAttributeCode, attributeCode));
+    dispatch(clearErrors());
     dispatch(fetchProfileTypeAttributes());
+    dispatch(fetchAttributeFromProfileType('attribute', profileTypeAttributeCode, attributeCode));
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('attribute')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
@@ -72,11 +77,8 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
         attributeCode: params.attributeCode,
       }));
     } else {
-      history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { code: params.entityCode }));
+      history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: params.entityCode }));
     }
-  },
-  fetchAttributeDetails: (selectedAttributeType) => {
-    dispatch(fetchProfileTypeAttribute(params.entityCode, selectedAttributeType));
   },
   onSubmit: (values, allowedRoles, mode) => {
     dispatch(handlerAttributeFromProfileType(

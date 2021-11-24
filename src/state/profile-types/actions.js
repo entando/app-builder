@@ -71,6 +71,7 @@ import {
   TYPE_MONOLIST,
   TYPE_COMPOSITE,
   TYPE_DATE,
+  TYPE_LIST,
   MODE_EDIT,
   MODE_ADD_COMPOSITE,
   MODE_EDIT_COMPOSITE,
@@ -402,7 +403,7 @@ export const sendPutAttributeFromProfileType = (
       if (!response.ok) {
         dispatch(addErrors(json.errors.map(err => err.message)));
       } else if (list || (
-        json.payload.type === TYPE_MONOLIST
+        [TYPE_MONOLIST, TYPE_LIST].includes(json.payload.type)
           && !getIsMonolistCompositeAttributeType(getState())
       )) {
         globalHistory.push(routeConverter(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD, {
@@ -413,7 +414,7 @@ export const sendPutAttributeFromProfileType = (
         dispatch(setSelectedAttributeProfileType(json.payload));
         const { type, code } = attributeObject;
         if (type === TYPE_COMPOSITE || (
-          type === TYPE_MONOLIST
+          [TYPE_MONOLIST, TYPE_LIST].includes(json.payload.type)
           && getIsMonolistCompositeAttributeType(getState())
         )) {
           dispatch(initialize('attribute', {
@@ -516,7 +517,7 @@ export const fetchProfileTypeAttribute = (
   let typeAttribute = profileTypeAttributeCode;
 
   const checkCompositeSubAttribute = selectedAttributeType === TYPE_COMPOSITE
-    || (selectedAttributeType === TYPE_MONOLIST
+    || ([TYPE_MONOLIST, TYPE_LIST].includes(selectedAttributeType)
       && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
   if (checkCompositeSubAttribute) {
@@ -768,7 +769,7 @@ export const handlerAttributeFromProfileType = (
   globalHistory = history,
 ) => (dispatch, getState) => {
   let payload = getPayloadFromTypeAttribute(values, allowedRoles);
-  const isMonolistComposite = payload.type === TYPE_MONOLIST
+  const isMonolistComposite = [TYPE_MONOLIST, TYPE_LIST].includes(payload.type)
     && payload.nestedAttribute.type === TYPE_COMPOSITE;
   if (action === METHODS.POST) {
     const attributeSelected = getAttributeSelectFromProfileType(getState()) || '';

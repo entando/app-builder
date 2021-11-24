@@ -17,6 +17,8 @@ import {
   getProfileTypeSelectedAttribute,
   getProfileTypeSelectedAttributeCode,
   getProfileTypeAttributesIdList,
+  getProfileTypeSelectedAttributeIndexable,
+  getProfileTypeSelectedAttributeSearchable,
   getProfileTypeSelectedAttributeAllowedRoles,
   getProfileTypeSelectedAttributeRoleChoices,
   getSelectedCompositeAttributes,
@@ -43,11 +45,14 @@ export const mapStateToProps = (state, { match: { params } }) => {
       params.attributeCode,
       joinAllowedOptions,
     )(state),
+    isSearchable: getProfileTypeSelectedAttributeSearchable(state),
+    isIndexable: getProfileTypeSelectedAttributeIndexable(state),
     initialValues: {
       type: getProfileTypeSelectedAttributeCode(state),
       compositeAttributeType: TYPE_COMPOSITE,
     },
     compositeAttributes: getSelectedCompositeAttributes(state),
+    nestedAttributeComposite: formValueSelector('addAttribute')(state, 'nestedAttribute.type') || '',
   };
 };
 
@@ -58,7 +63,7 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
   },
   onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('addAttribute')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
-  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { code: params.entityCode })); },
+  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PROFILE_TYPE_EDIT, { profiletypeCode: params.entityCode })); },
   onSubmit: (values, allowedRoles, mode) => {
     dispatch(handlerAttributeFromProfileType(
       METHODS.POST,

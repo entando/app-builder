@@ -56,7 +56,8 @@ export const getSelectedCompositeAttributes = createSelector(
       return [];
     }
     const { type, nestedAttribute, compositeAttributes } = attributeSelected;
-    const isMonolistComposite = type === TYPE_MONOLIST && nestedAttribute.type === TYPE_COMPOSITE;
+    const isMonolistComposite = [TYPE_MONOLIST, TYPE_LIST].includes(type)
+      && nestedAttribute.type === TYPE_COMPOSITE;
     return isMonolistComposite ? nestedAttribute.compositeAttributes : compositeAttributes || [];
   },
 );
@@ -65,15 +66,16 @@ const getList = (type, list) => {
   switch (type) {
     case TYPE_LIST:
     case TYPE_MONOLIST:
-    case TYPE_COMPOSITE:
       return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
+    case TYPE_COMPOSITE:
+      return list.filter(f => ![...NO_ATTRIBUTE_FOR_TYPE_MONOLIST, TYPE_COMPOSITE].includes(f));
     default:
       return list;
   }
 };
 
 export const getProfileTypeAttributesIdList = createSelector(
-  [getProfileTypeAttributes, getAttributeSelectFromProfileType],
+  [getProfileTypeAttributes, getAttributeTypeSelectFromProfileType],
   (attributes, attributeSelectedType) => {
     const {
       list,
@@ -153,14 +155,14 @@ export const getNewAttributeComposite = createSelector(
 
 export const getMonolistAttributeType = createSelector(
   [getAttributeSelectFromProfileType],
-  attributeSelected => (attributeSelected.type === TYPE_MONOLIST ? attributeSelected.nestedAttribute.type : ''),
+  attributeSelected => ([TYPE_MONOLIST, TYPE_LIST].includes(attributeSelected.type) ? attributeSelected.nestedAttribute.type : ''),
 );
 
 export const getIsMonolistCompositeAttributeType = createSelector(
   [getAttributeSelectFromProfileType],
   attributeSelected => !!(
     attributeSelected
-      && attributeSelected.type === TYPE_MONOLIST
+      && [TYPE_MONOLIST, TYPE_LIST].includes(attributeSelected.type)
       && attributeSelected.nestedAttribute.type === TYPE_COMPOSITE
   ),
 );
