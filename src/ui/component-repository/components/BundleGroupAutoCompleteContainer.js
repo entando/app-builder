@@ -9,7 +9,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (_, url, page) => dispatch(fetchBundlesFromRegistryWithFilters(url, page)),
+  onSubmit: (_, url, page) => dispatch(fetchBundlesFromRegistryWithFilters(
+    url,
+    { page: 1, pageSize: page.pageSize },
+  )),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
