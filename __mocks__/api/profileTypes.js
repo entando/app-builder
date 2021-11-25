@@ -12,3 +12,5 @@ export const getAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const postAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const putAttributeFromProfileType = jest.fn(mockApi({ payload: {} }));
 export const postRefreshProfileType = jest.fn(mockApi({ payload: {} }));
+export const moveAttributeUp = jest.fn(mockApi({ payload: {} }));
+export const moveAttributeDown = jest.fn(mockApi({ payload: {} }));

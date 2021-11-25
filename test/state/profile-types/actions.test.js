@@ -1,7 +1,9 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
+import { createMockHistory } from 'test/legacyTestUtils';
 import thunk from 'redux-thunk';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
+import { METHODS } from '@entando/apimanager';
 
 import { history, ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import { mockApi } from 'test/testUtils';
@@ -16,10 +18,26 @@ import {
   SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE,
   SET_SELECTED_ATTRIBUTE,
   REMOVE_ATTRIBUTE,
+  SET_SELECTED_NESTED_ATTRIBUTE,
+  SET_ACTION_MODE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
+  MOVE_ATTRIBUTE_UP,
+  MOVE_ATTRIBUTE_DOWN,
 } from 'state/profile-types/types';
+import {
+  TYPE_TEXT,
+  MODE_EDIT,
+  MODE_ADD_COMPOSITE,
+  MODE_EDIT_COMPOSITE,
+  MODE_ADD_ATTRIBUTE_COMPOSITE,
+  MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+} from 'state/profile-types/const';
 import {
   getProfileTypeAttributesIdList,
   getProfileTypeSelectedAttributeType,
+  getNewAttributeComposite,
+  getAttributeSelectFromProfileType,
 } from 'state/profile-types/selectors';
 import {
   sendPostProfileType,
@@ -27,6 +45,10 @@ import {
   sendDeleteProfileType,
   setProfileTypes,
   removeProfileType,
+  setSelectedNestedAttribute,
+  setActionMode,
+  removeAttributeFromComposite,
+  setNewAttributeComposite,
   fetchProfileType,
   fetchProfileTypes,
   fetchAttributeFromProfileType,
@@ -40,6 +62,9 @@ import {
   fetchProfileTypeAttributes,
   fetchProfileTypeAttribute,
   sendPostRefreshProfileType,
+  handlerAttributeFromProfileType,
+  sendMoveAttributeUp,
+  sendMoveAttributeDown,
 } from 'state/profile-types/actions';
 import {
   postProfileType,
@@ -54,12 +79,19 @@ import {
   getProfileTypeAttributes,
   getProfileTypeAttribute,
   postRefreshProfileType,
+  moveAttributeUp,
+  moveAttributeDown,
 } from 'api/profileTypes';
 import {
+  PROFILE_TYPE,
   PROFILE_TYPES,
   PROFILE_TYPES_OK_PAGE_1,
   PROFILE_TYPES_ATTRIBUTES,
   PROFILE_TYPE_ATTRIBUTE,
+  ATTRIBUTE_MOVE_UP,
+  ATTRIBUTE_MOVE_DOWN,
+  ATTRIBUTE_COMPOSITE,
+  ATTRIBUTE_MONOLIST_COMPOSITE,
 } from 'test/mocks/profileTypes';
 
 const middlewares = [thunk];
@@ -71,11 +103,14 @@ const INITIAL_STATE = {};
 
 jest.mock('state/profile-types/selectors', () => ({
   getProfileTypeAttributesIdList: jest.fn(),
+  getProfileTypeSelectedAttribute: jest.fn(),
   getProfileTypeSelectedAttributeType: jest.fn(),
   getActionModeProfileTypeSelectedAttribute: jest.fn(),
   getIsMonolistCompositeAttributeType: jest.fn(),
   getAttributeTypeSelectFromProfileType: jest.fn(),
   getSelectedProfileType: jest.fn().mockReturnValue({ code: 'profileType_code' }),
+  getAttributeSelectFromProfileType: jest.fn(),
+  getNewAttributeComposite: jest.fn(),
 }));
 
 history.push = jest.fn();
@@ -146,6 +181,51 @@ describe('state/profile-types/actions ', () => {
       expect(action).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
     });
   });
+  describe('setSelectedNestedAttribute', () => {
+    beforeEach(() => {
+      action = setSelectedNestedAttribute(PROFILE_TYPE_ATTRIBUTE);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setSelectedNestedAttribute action sets the correct type', () => {
+      expect(action.type).toBe(SET_SELECTED_NESTED_ATTRIBUTE);
+    });
+  });
+  describe('setActionMode', () => {
+    beforeEach(() => {
+      action = setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(SET_ACTION_MODE);
+    });
+  });
+  describe('removeAttributeFromComposite', () => {
+    beforeEach(() => {
+      action = removeAttributeFromComposite('code');
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(REMOVE_ATTRIBUTE_FROM_COMPOSITE);
+    });
+  });
+  describe('setNewAttributeComposite', () => {
+    beforeEach(() => {
+      action = setNewAttributeComposite(PROFILE_TYPE);
+    });
+    it('is FSA compliant', () => {
+      expect(isFSA(action)).toBe(true);
+    });
+    it('test setActionMode action sets the correct type', () => {
+      expect(action.type).toBe(SET_NEW_ATTRIBUTE_COMPOSITE);
+    });
+  });
+
 
   describe('thunk', () => {
     describe('sendPostProfileType', () => {
@@ -504,6 +584,240 @@ describe('state/profile-types/actions ', () => {
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
           done();
         }).catch(done.fail);
+      });
+    });
+
+    describe('sendMoveAttributeUp', () => {
+      it('sendMoveAttributeUp calls moveAttributeUpSync actions', (done) => {
+        moveAttributeUp.mockImplementationOnce(mockApi({ payload: ATTRIBUTE_MOVE_UP }));
+        store
+          .dispatch(sendMoveAttributeUp('attributeCode'))
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', MOVE_ATTRIBUTE_UP);
+            done();
+          })
+          .catch(done.fail);
+      });
+
+      it('sendMoveAttributeUp calls ADD_ERROR actions', (done) => {
+        moveAttributeUp.mockImplementationOnce(mockApi({ errors: true }));
+        store
+          .dispatch(sendMoveAttributeUp({ attributeCode: 'attr_code', attributeIndex: 1 }))
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions).toHaveLength(2);
+            expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+            done();
+          })
+          .catch(done.fail);
+      });
+    });
+
+    describe('sendMoveAttributeDown', () => {
+      it('sendMoveAttributeDown calls moveAttributeUpSync actions', (done) => {
+        moveAttributeDown.mockImplementationOnce(mockApi({ payload: ATTRIBUTE_MOVE_DOWN }));
+        store
+          .dispatch(sendMoveAttributeDown('attributeCode'))
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', MOVE_ATTRIBUTE_DOWN);
+            done();
+          })
+          .catch(done.fail);
+      });
+
+      it('sendMoveAttributeDown calls ADD_ERROR actions', (done) => {
+        moveAttributeDown.mockImplementationOnce(mockApi({ errors: true }));
+        store
+          .dispatch(sendMoveAttributeDown({ attributeCode: 'attr_code', attributeIndex: 1 }))
+          .then(() => {
+            const actions = store.getActions();
+            expect(actions).toHaveLength(2);
+            expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+            done();
+          })
+          .catch(done.fail);
+      });
+    });
+
+    describe('handlerAttributeFromProfileType', () => {
+      const { allowedRoles } = PROFILE_TYPE_ATTRIBUTE;
+
+      describe('action POST', () => {
+        it('default action', (done) => {
+          postAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(TYPE_TEXT);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.POST,
+            PROFILE_TYPE_ATTRIBUTE,
+            allowedRoles,
+          ));
+          expect(getNewAttributeComposite).toHaveBeenCalled();
+          done();
+        });
+
+        it('action POST with type date', () => {
+          const rangeStartDate = '2018-06-15 00:00:00';
+          const rangeEndDate = '2019-10-15 00:00:00';
+          const equalDate = '2019-09-17 00:00:00';
+          const ATTRIBUTE_TYPE_DATE = {
+            code: 'mlstc',
+            type: 'Date',
+            name: 'Just a date',
+            joinRoles: [{ code: 'roleCode1' }],
+            disablingCodes: [],
+            mandatory: true,
+            listFilter: false,
+            indexable: false,
+            enumeratorStaticItems: null,
+            enumeratorStaticItemsSeparator: null,
+            enumeratorExtractorBean: null,
+            validationRules: {
+              rangeStartDate,
+              rangeEndDate,
+              equalDate,
+              rangeStartDateAttribute: rangeStartDate,
+              rangeEndDateAttribute: rangeEndDate,
+              equalDateAttribute: equalDate,
+            },
+          };
+          postAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.POST,
+            ATTRIBUTE_TYPE_DATE,
+            allowedRoles,
+          ));
+          expect(getNewAttributeComposite).toHaveBeenCalled();
+        });
+
+        it('action add sub attribute to Composite attribute', (done) => {
+          postAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.POST,
+            PROFILE_TYPE_ATTRIBUTE,
+            allowedRoles,
+            MODE_ADD_COMPOSITE,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+          done();
+        });
+
+        it('action new Composite attribute', () => {
+          postAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(PROFILE_TYPE_ATTRIBUTE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.POST,
+            ATTRIBUTE_COMPOSITE,
+            allowedRoles,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+          expect(actions[1]).toHaveProperty('type', SET_NEW_ATTRIBUTE_COMPOSITE);
+        });
+
+        it('action new Monolist Composite attribute', () => {
+          const hist = createMockHistory();
+          postAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(PROFILE_TYPE_ATTRIBUTE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.POST,
+            ATTRIBUTE_MONOLIST_COMPOSITE,
+            allowedRoles,
+            'addComposite',
+            'Monolist',
+            hist,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(4);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_COMPOSITE });
+          expect(actions[1]).toHaveProperty('type', SET_NEW_ATTRIBUTE_COMPOSITE);
+          expect(actions[2]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[2]).toHaveProperty('payload', {
+            actionMode: MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
+          });
+        });
+      });
+
+      describe('action PUT', () => {
+        it('default action', (done) => {
+          putAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValue(TYPE_TEXT);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.PUT,
+            PROFILE_TYPE_ATTRIBUTE,
+            allowedRoles,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+          expect(putAttributeFromProfileType).toHaveBeenCalled();
+          done();
+        });
+
+        it('Composite attribute', (done) => {
+          getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.PUT,
+            ATTRIBUTE_COMPOSITE,
+            allowedRoles,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+          expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+          done();
+        });
+
+        it('Composite attribute is mode is MODE_EDIT_COMPOSITE call sendPutAttributeFromContentType', (done) => {
+          putAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.PUT,
+            ATTRIBUTE_COMPOSITE,
+            allowedRoles,
+            MODE_EDIT_COMPOSITE,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+          expect(putAttributeFromProfileType).toHaveBeenCalled();
+          expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+          done();
+        });
+
+        it('if mode MODE_ADD_ATTRIBUTE_COMPOSITE dispatch setActionMode and sendPutAttributeFromContentType', (done) => {
+          putAttributeFromProfileType.mockImplementationOnce(mockApi({}));
+          getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
+          store.dispatch(handlerAttributeFromProfileType(
+            METHODS.PUT,
+            PROFILE_TYPE_ATTRIBUTE,
+            allowedRoles,
+            MODE_ADD_ATTRIBUTE_COMPOSITE,
+          ));
+          const actions = store.getActions();
+          expect(actions).toHaveLength(2);
+          expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_EDIT });
+          expect(actions[1]).toHaveProperty('type', SET_ACTION_MODE);
+          expect(actions[1]).toHaveProperty('payload', { actionMode: MODE_EDIT_COMPOSITE });
+          expect(putAttributeFromProfileType).toHaveBeenCalled();
+          done();
+        });
       });
     });
   });
