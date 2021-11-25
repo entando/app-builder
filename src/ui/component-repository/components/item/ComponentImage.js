@@ -7,11 +7,12 @@ const ComponentImage = ({ component }) => {
       <img
         alt={component.title}
         src={component.thumbnail}
+        style={{ width: '100%', objectFit: 'contain' }}
       />);
   }
 
   return (
-    <img src="images/image-unavailable.png" alt="" />
+    <img src="images/image-unavailable.png" alt="unavailable" />
   );
 };
 
