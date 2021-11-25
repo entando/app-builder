@@ -781,7 +781,7 @@ describe('state/profile-types/actions ', () => {
           done();
         });
 
-        it('Composite attribute is mode is MODE_EDIT_COMPOSITE call sendPutAttributeFromContentType', (done) => {
+        it('Composite attribute is mode is MODE_EDIT_COMPOSITE call sendPutAttributeFromProfileType', (done) => {
           putAttributeFromProfileType.mockImplementationOnce(mockApi({}));
           getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
           store.dispatch(handlerAttributeFromProfileType(
@@ -800,7 +800,7 @@ describe('state/profile-types/actions ', () => {
           done();
         });
 
-        it('if mode MODE_ADD_ATTRIBUTE_COMPOSITE dispatch setActionMode and sendPutAttributeFromContentType', (done) => {
+        it('if mode MODE_ADD_ATTRIBUTE_COMPOSITE dispatch setActionMode and sendPutAttributeFromProfileType', (done) => {
           putAttributeFromProfileType.mockImplementationOnce(mockApi({}));
           getAttributeSelectFromProfileType.mockReturnValueOnce(ATTRIBUTE_COMPOSITE);
           store.dispatch(handlerAttributeFromProfileType(

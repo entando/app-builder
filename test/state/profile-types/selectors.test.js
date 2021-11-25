@@ -159,7 +159,7 @@ describe('state/users/selectors', () => {
     };
     expect(getSelectedCompositeAttributes(noCompAttr)).toEqual([]);
   });
-  it('test #2 on verifying getContentTypeAttributesIdList returning list except selected attribute', () => {
+  it('test #2 on verifying getProfileTypeAttributesIdList returning list except selected attribute', () => {
     const LIST_SELECTED2 = {
       profileTypes: {
         list: PROFILE_TYPES_OK_PAGE_1,
