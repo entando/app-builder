@@ -84,7 +84,7 @@ export const PROFILE_TYPES = {
 
   name: 'firstProfileType',
   code: 'AAA',
-  attributes: [],
+  attributes: [PROFILE_TYPE],
   viewPage: null,
   listModel: null,
   defaultModel: null,
