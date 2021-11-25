@@ -1,12 +1,21 @@
 import { createSelector } from 'reselect';
-import { get, isEmpty, difference, xor, union } from 'lodash';
+import { formValueSelector } from 'redux-form';
+import { get, isEmpty, difference, xor, union, isUndefined } from 'lodash';
+import {
+  TYPE_MONOLIST,
+  TYPE_LIST,
+  TYPE_COMPOSITE,
+} from 'state/profile-types/const';
+
+const NO_ATTRIBUTE_FOR_TYPE_MONOLIST = [TYPE_LIST, TYPE_MONOLIST];
 
 export const getProfileTypes = state => state.profileTypes;
 export const getProfileTypesIdList = state => state.profileTypes.list;
 export const getProfileTypesMap = state => state.profileTypes.map;
 export const getSelectedProfileType = state => state.profileTypes.selected;
+export const getProfileTypeParentSelectedAttribute = state => state
+  .profileTypes.attributes.parentSelected;
 export const getProfileTypeAttributes = state => state.profileTypes.attributes;
-export const getProfileTypeAttributesIdList = state => get(state.profileTypes.attributes, 'list');
 export const getProfileTypeSelectedAttribute = state => state.profileTypes.attributes.selected;
 export const getProfileTypeSelectedAttributeType = state =>
   state.profileTypes.attributes.selected.listAttribute;
@@ -22,7 +31,8 @@ export const getProfileTypeSelectedAttributeallowedDisablingCodes = state =>
   state.profileTypes.attributes.selected.allowedDisablingCodes;
 export const getProfileTypeSelectedAttributeIsList = state => get(state.profileTypes.attributes.selected, 'listAttribute');
 export const getSelectedProfileTypeAttributes = state => get(state.profileTypes.selected, 'attributes');
-export const getSelectedAttributeType = state => get(state.profileTypes.selected, 'attributeSelected.type');
+export const getAttributeSelectFromProfileType = state => get(state.profileTypes.selected, 'attributeSelected');
+export const getAttributeTypeSelectFromProfileType = state => get(state.profileTypes.selected, 'attributeSelected.type');
 export const getSelectedAttributeNestedType = state => get(state.profileTypes.selected, 'attributeSelected.nestedAttribute.type');
 export const getSelectedValidationRules = state => get(state.profileTypes.selected, 'attributeSelected.validationRules');
 export const getProfileTypeSelectedAttributeCode = state => get(state.profileTypes.attributes.selected, 'code');
@@ -30,6 +40,52 @@ export const getProfileTypeSelectedAttributeCode = state => get(state.profileTyp
 export const getProfileTypeSelectedAttributeAllowedRoleCodeList = createSelector(
   getProfileTypeSelectedAttributeAllowedRoles,
   allRoles => allRoles.map(role => role.code),
+);
+
+export const getParentSelectedAttribute = createSelector(
+  [getProfileTypeParentSelectedAttribute],
+  parentSelected => (
+    parentSelected.length ? parentSelected[parentSelected.length - 1] : {}
+  ),
+);
+
+export const getSelectedCompositeAttributes = createSelector(
+  [getAttributeSelectFromProfileType],
+  (attributeSelected) => {
+    if (isUndefined(attributeSelected)) {
+      return [];
+    }
+    const { type, nestedAttribute, compositeAttributes } = attributeSelected;
+    const isMonolistComposite = [TYPE_MONOLIST, TYPE_LIST].includes(type)
+      && nestedAttribute.type === TYPE_COMPOSITE;
+    return isMonolistComposite ? nestedAttribute.compositeAttributes : compositeAttributes || [];
+  },
+);
+
+const getList = (type, list) => {
+  switch (type) {
+    case TYPE_LIST:
+    case TYPE_MONOLIST:
+      return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
+    case TYPE_COMPOSITE:
+      return list.filter(f => ![...NO_ATTRIBUTE_FOR_TYPE_MONOLIST, TYPE_COMPOSITE].includes(f));
+    default:
+      return list;
+  }
+};
+
+export const getProfileTypeAttributesIdList = createSelector(
+  [getProfileTypeAttributes, getAttributeTypeSelectFromProfileType],
+  (attributes, attributeSelectedType) => {
+    const {
+      list,
+      selected: { code },
+    } = attributes;
+    if (isUndefined(attributeSelectedType)) {
+      return getList(code, list);
+    }
+    return getList(attributeSelectedType, list);
+  },
 );
 
 export const getProfileTypeSelectedAttributeAssignedRolesList = attributeCode => (
@@ -86,6 +142,32 @@ export const getProfileTypesOptions = createSelector(
     text: profileTypesMap[id].name,
   })),
 );
+
+export const getActionModeProfileTypeSelectedAttribute = createSelector(
+  [getSelectedProfileType],
+  sel => sel.actionMode,
+);
+
+export const getNewAttributeComposite = createSelector(
+  [getSelectedProfileType],
+  sel => sel.newAttributeComposite,
+);
+
+export const getMonolistAttributeType = createSelector(
+  [getAttributeSelectFromProfileType],
+  attributeSelected => ([TYPE_MONOLIST, TYPE_LIST].includes(attributeSelected.type) ? attributeSelected.nestedAttribute.type : ''),
+);
+
+export const getIsMonolistCompositeAttributeType = createSelector(
+  [getAttributeSelectFromProfileType],
+  attributeSelected => !!(
+    attributeSelected
+      && [TYPE_MONOLIST, TYPE_LIST].includes(attributeSelected.type)
+      && attributeSelected.nestedAttribute.type === TYPE_COMPOSITE
+  ),
+);
+
+export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');
 
 const getProfileTypeReferences = state => state.profileTypes.references;
 

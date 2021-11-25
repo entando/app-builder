@@ -8,6 +8,7 @@ import {
   fetchProfileTypeAttribute,
   sendMoveAttributeUp,
   sendMoveAttributeDown,
+  setSelectedAttribute,
 } from 'state/profile-types/actions';
 import {
   getSelectedProfileTypeAttributes,
@@ -39,16 +40,17 @@ export const mapStateToProps = (state, { match: { params } }) => (
 
 export const mapDispatchToProps = dispatch => ({
   onWillMount: ({ profileTypeCode }) => {
+    dispatch(setSelectedAttribute({}));
     dispatch(fetchProfileType(profileTypeCode));
     dispatch(fetchProfileTypeAttributes());
   },
   onAddAttribute: ({ attributeCode, profileTypeCode }) => {
-    dispatch(fetchProfileTypeAttribute(profileTypeCode, attributeCode)).then(() => {
+    dispatch(fetchProfileTypeAttribute(profileTypeCode, attributeCode, () => (
       history.push(routeConverter(
         ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
         { entityCode: profileTypeCode },
-      ));
-    });
+      ))
+    )));
   },
   onMoveUp: (entityCode, attributeCode, attributeIndex) => {
     dispatch(sendMoveAttributeUp({ entityCode, attributeCode, attributeIndex }));

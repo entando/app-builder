@@ -19,7 +19,7 @@ export const mapStateToProps = state => (
 );
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = { page: 1, pageSize: 10 }) => {
+  onDidMount: (page = { page: 1, pageSize: 10 }) => {
     dispatch(fetchProfileTypes(page, '?sort=name'));
   },
   removeProfileType: (code) => {

@@ -3,7 +3,7 @@ import { routeConverter } from '@entando/utils';
 import { formValueSelector, submit } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-import { fetchProfileTypeAttributes, sendPostProfileType } from 'state/profile-types/actions';
+import { fetchProfileTypeAttributes, sendPostProfileType, setSelectedAttribute } from 'state/profile-types/actions';
 import { getProfileTypeAttributesIdList } from 'state/profile-types/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
@@ -19,6 +19,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
   onWillMount: () => {
+    dispatch(setSelectedAttribute({}));
     dispatch(fetchProfileTypeAttributes());
   },
   onSubmit: (values) => {

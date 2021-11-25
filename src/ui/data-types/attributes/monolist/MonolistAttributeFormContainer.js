@@ -41,7 +41,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
-  onWillMount: ({ attributeCode, dataTypeCode, mode }) => {
+  onDidMount: ({ attributeCode, dataTypeCode, mode }) => {
     dispatch(clearErrors());
     if (mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE) {
       dispatch(fetchDataTypeAttribute(

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { cloneDeep, set } from 'lodash';
 import {
   SET_PROFILE_TYPES,
   REMOVE_PROFILE_TYPE,
@@ -10,6 +11,13 @@ import {
   MOVE_ATTRIBUTE_UP,
   MOVE_ATTRIBUTE_DOWN,
   SET_PROFILE_TYPE_REFERENCE_STATUS,
+  SET_ACTION_MODE,
+  PUSH_PARENT_SELECTED_ATTRIBUTE,
+  POP_PARENT_SELECTED_ATTRIBUTE,
+  REMOVE_ATTRIBUTE_FROM_COMPOSITE,
+  MOVE_ATTRIBUTE_FROM_COMPOSITE,
+  SET_NEW_ATTRIBUTE_COMPOSITE,
+  SET_SELECTED_NESTED_ATTRIBUTE,
 } from 'state/profile-types/types';
 
 import { swapItems } from 'state/attributes/utils';
@@ -90,15 +98,79 @@ export const selectedProfileType = (state = {}, action = {}) => {
         state.attributes.filter(f => f.code !== attributeCode);
       return { ...state, attributes };
     }
+    case SET_ACTION_MODE: {
+      return { ...state, actionMode: action.payload.actionMode };
+    }
+    case REMOVE_ATTRIBUTE_FROM_COMPOSITE: {
+      const { attributeCode, isMonolistComposite } = action.payload;
+      const { compositeAttributes } = isMonolistComposite
+        ? state.attributeSelected.nestedAttribute
+        : state.attributeSelected;
+      const newComposite = compositeAttributes.filter(f => f.code !== attributeCode);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        set(newState, 'attributeSelected.nestedAttribute.compositeAttributes', newComposite);
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newComposite);
+      }
+      return newState;
+    }
+    case MOVE_ATTRIBUTE_FROM_COMPOSITE: {
+      const { fromIndex, toIndex, isMonolistComposite } = action.payload;
+      const { compositeAttributes } = isMonolistComposite
+        ? state.attributeSelected.nestedAttribute
+        : state.attributeSelected;
+      const newCompositeAttribute = [...compositeAttributes];
+      const from = newCompositeAttribute.splice(toIndex, 1)[0];
+      newCompositeAttribute.splice(fromIndex, 0, from);
+      const newState = cloneDeep(state);
+      if (isMonolistComposite) {
+        set(
+          newState,
+          'attributeSelected.nestedAttribute.compositeAttributes',
+          newCompositeAttribute,
+        );
+      } else {
+        set(newState, 'attributeSelected.compositeAttributes', newCompositeAttribute);
+      }
+      return newState;
+    }
+    case SET_NEW_ATTRIBUTE_COMPOSITE: {
+      return { ...state, newAttributeComposite: action.payload.attributeData };
+    }
     default: return state;
   }
 };
+
 export const selectedAttribute = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_ATTRIBUTE: {
       return action.payload.attribute;
     }
     default: return state;
+  }
+};
+
+export const selectedNestedAttribute = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_NESTED_ATTRIBUTE: {
+      return action.payload.attribute;
+    }
+    default:
+      return state;
+  }
+};
+
+export const parentSelectedAttribute = (state = [], action = {}) => {
+  switch (action.type) {
+    case PUSH_PARENT_SELECTED_ATTRIBUTE: {
+      return [...state, action.payload.attribute];
+    }
+    case POP_PARENT_SELECTED_ATTRIBUTE: {
+      return state.slice(0, -1);
+    }
+    default:
+      return state;
   }
 };
 
@@ -118,6 +190,8 @@ export default combineReducers({
   attributes: combineReducers({
     list: attributeList,
     selected: selectedAttribute,
+    selectedNested: selectedNestedAttribute,
+    parentSelected: parentSelectedAttribute,
   }),
   references: combineReducers({
     status,
