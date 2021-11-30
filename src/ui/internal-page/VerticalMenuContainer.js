@@ -51,10 +51,7 @@ const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
 const renderCmsMenuItems = (intl, history, userPermissions) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
-  const hasMenuAssetsAccess = hasAccess(
-    [MANAGE_RESOURCES_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
-    userPermissions,
-  );
+  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
   const hasMenuContentTypeAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
   const hasMenuContentTemplatesAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
   const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
