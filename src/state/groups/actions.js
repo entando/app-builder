@@ -142,7 +142,7 @@ export const sendPutGroup = groupData => dispatch => (
   })
 );
 
-export const sendPostGroup = groupData => dispatch => (
+export const sendPostGroup = groupData => (dispatch, getState) => (
   new Promise((resolve) => {
     postGroup(groupData).then((response) => {
       response.json().then((data) => {
@@ -151,6 +151,9 @@ export const sendPostGroup = groupData => dispatch => (
             { id: 'app.created', values: { type: 'group', code: groupData.code } },
             TOAST_SUCCESS,
           ));
+          // update store with new group
+          const { groups } = getState();
+          dispatch(setGroups([...groups.groupEntries, groupData]));
           history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
