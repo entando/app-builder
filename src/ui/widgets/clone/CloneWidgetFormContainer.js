@@ -19,7 +19,7 @@ import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
-import { convertConfigObject } from 'helpers/conversion';
+import { convertConfigObject, stringifyMultiContentsConfigArray } from 'helpers/conversion';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import { MULTIPLE_CONTENTS_CONFIG } from 'ui/widget-forms/const';
@@ -73,7 +73,10 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       ...values,
       config: parentType !== MULTIPLE_CONTENTS_CONFIG
         ? convertConfigObject(configFields)
-        : { ...configFields, contents: JSON.stringify(configFields.contents) },
+        : {
+          ...convertConfigObject(configFields),
+          contents: stringifyMultiContentsConfigArray(configFields.contents),
+        },
       configUi: values.configUi ? JSON.parse(values.configUi) : null,
     };
     dispatch(clearErrors());
