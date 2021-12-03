@@ -123,6 +123,7 @@ const INITIAL_STATE = {
     map: {},
     selected: {},
     total: 0,
+    groupEntries: [],
   },
 };
 
@@ -220,6 +221,12 @@ describe('state/groups/actions', () => {
     it('when postGroup succeeds, should call router', (done) => {
       postGroup.mockReturnValueOnce(new Promise(resolve => resolve(POST_GROUP_PROMISE)));
       store.dispatch(sendPostGroup(BODY_OK)).then(() => {
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0].payload).toHaveProperty('type', 'success');
+        expect(actions[1]).toHaveProperty('type', SET_GROUPS);
+        expect(actions[1].payload).toHaveProperty('groups', [BODY_OK]);
         expect(postGroup).toHaveBeenCalled();
         expect(history.push).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
         done();
