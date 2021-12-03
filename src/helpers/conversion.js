@@ -54,3 +54,19 @@ export const convertConfigObject = configFields => (
     };
   }, {})
 );
+
+/**
+ * Modifies an array of objects to a multi-contents config string format.
+ * @example
+ * const contents = [
+ *   {contentDescription: "Sample 1", contentId: "SAM1"},
+ *   {contentDescription: "Sample 2", contentId: "SAM2"}
+ * ];
+ * stringifyMultiContentsConfigArray(contents);
+ * // [{contentDescription=Sample 1,contentId=SAM1},{contentDescription=Sample 2,contentId=SAM2}]
+ */
+export const stringifyMultiContentsConfigArray = contents => (
+  `[${contents.map(content => (
+    `{${Object.keys(content).map(ck => `${ck}=${content[ck]}`).join(',')}}`
+  )).join(',')}]`
+);
