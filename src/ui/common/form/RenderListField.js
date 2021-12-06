@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'redux-form';
+import { TYPE_COMPOSITE } from 'state/data-types/const';
 import { getComponentType } from 'helpers/entities';
+import { CompositeField } from 'ui/user-profile/common/UserProfileField';
 import { Button, ButtonGroup, Col, FormGroup } from 'patternfly-react';
 import Panel from 'react-bootstrap/lib/Panel';
 
@@ -47,7 +49,7 @@ class RenderListField extends Component {
   render() {
     const {
       attributeType, fields, options, optionValue,
-      optionDisplayName, label,
+      optionDisplayName, label, nestedAttribute, intl,
     } = this.props;
 
     return (
@@ -84,15 +86,24 @@ class RenderListField extends Component {
                   </div>
                 </Panel.Heading>
                 <Panel.Body>
-                  <Field
-                    name={name}
-                    type="text"
-                    component={getComponentType(attributeType)}
-                    label={index + 1}
-                    options={options}
-                    optionValue={optionValue}
-                    optionDisplayName={optionDisplayName}
-                  />
+                  {attributeType === TYPE_COMPOSITE ? (
+                    <CompositeField
+                      fieldName={name}
+                      attribute={nestedAttribute}
+                      intl={intl}
+                      noLabel
+                    />
+                  ) : (
+                    <Field
+                      name={name}
+                      type="text"
+                      component={getComponentType(attributeType)}
+                      label={index + 1}
+                      options={options}
+                      optionValue={optionValue}
+                      optionDisplayName={optionDisplayName}
+                    />
+                  )}
                 </Panel.Body>
               </Panel>
             ))}
@@ -110,12 +121,14 @@ RenderListField.propTypes = {
     remove: PropTypes.func,
     length: PropTypes.number,
   }).isRequired,
+  nestedAttribute: PropTypes.shape({}).isRequired,
   attributeType: PropTypes.string.isRequired,
   label: PropTypes.node,
   options: PropTypes.arrayOf(PropTypes.shape({
     optionDisplayName: PropTypes.string,
     value: PropTypes.string,
   })),
+  intl: PropTypes.shape({}).isRequired,
   optionValue: PropTypes.string,
   optionDisplayName: PropTypes.string,
 };
