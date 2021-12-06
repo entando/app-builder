@@ -16,7 +16,7 @@ import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer'
 import BundleGroupAutoCompleteContainer from 'ui/component-repository/components/BundleGroupAutoCompleteContainer';
 import HubBundleList from 'ui/component-repository/components/list/HubBundleList';
 import { getLoading } from 'state/loading/selectors';
-import { fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
+import { fetchBundlesFromRegistryWithFilters, fetchBundleGroups, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
 import { getPageSize } from 'state/pagination/selectors';
 
 export const BUNDLE_GROUP_FILTER_ID = 'bundleGroup';
@@ -32,6 +32,7 @@ const ComponentListWrapper = () => {
       activeRegistry.url,
       { page: 1, pageSize: perPage },
     ));
+    dispatch(fetchBundleGroups(activeRegistry.url));
   };
   return (
     <div className="ComponentListPage__body">
