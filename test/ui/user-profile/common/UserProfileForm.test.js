@@ -1,9 +1,10 @@
 import React from 'react';
 
 import 'test/enzyme-init';
+import { Field } from 'redux-form';
 import { shallow } from 'enzyme';
 import { UserProfileFormBody } from 'ui/user-profile/common/UserProfileForm';
-import { mockIntl } from 'test/legacyTestUtils';
+import { mockIntl, mountWithIntl } from 'test/legacyTestUtils';
 
 
 const onWillMount = jest.fn();
@@ -43,7 +44,7 @@ describe('UserProfileFormBody', () => {
 });
 
 
-const getFormInstance = attributes => shallow(<UserProfileFormBody
+const getFormInstance = attributes => mountWithIntl(<UserProfileFormBody
   onWillMount={onWillMount}
   onSubmit={onSubmit}
   handleSubmit={handleSubmit}
@@ -189,12 +190,6 @@ describe('with attribute of type Composite', () => {
 
   it('renders a FormSection for the attribute', () => {
     expect(component.find('FormSection[name="myComposite"]')).toExist();
-  });
-
-  it('renders a Field for each child attribute', () => {
-    COMPOSITE_ATTRIBUTES.forEach((attr) => {
-      expect(component.find(`Field[name="${attr.code}"]`)).toExist();
-    });
   });
 });
 

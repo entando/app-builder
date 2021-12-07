@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import RegexParser from 'regex-parser';
-import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
+import { reduxForm, Field, FieldArray } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
-import { required, minLength, maxLength, minValue, maxValue } from '@entando/utils';
-import Panel from 'react-bootstrap/lib/Panel';
+import { required } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
-import { getComponentType } from 'helpers/entities';
+import UserProfileField, { CompositeField } from 'ui/user-profile/common/UserProfileField';
 
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/form/RenderListField';
@@ -77,9 +75,6 @@ const getHelpMessage = (validationRules, intl) => {
   }
   return null;
 };
-
-const readOnlyFields = ['profilepicture'];
-
 export class UserProfileFormBody extends Component {
   componentWillMount() {
     this.props.onWillMount(this.props);
@@ -87,71 +82,6 @@ export class UserProfileFormBody extends Component {
 
   componentWillUnmount() {
     this.props.onWillUnmount();
-  }
-
-  generateValidatorFunc(
-    value, validatorFuncName, validatorFunc,
-    validatorArray, parseValueFunc, customErrorId,
-  ) {
-    if (value === null || value === undefined) {
-      return;
-    }
-    const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
-    this.validators = this.validators || {};
-    this.validators[validatorFuncName] = this.validators[validatorFuncName] || {};
-    if (!this.validators[validatorFuncName][value]) {
-      this.validators[validatorFuncName] = {
-        ...this.validators[validatorFuncName],
-        [value]: validatorFunc(parsedValue, customErrorId),
-      };
-    }
-    validatorArray.push(this.validators[validatorFuncName][value]);
-  }
-
-  renderField(attribute) {
-    const { intl } = this.props;
-    const { validationRules } = attribute || {};
-    const {
-      minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
-    } = validationRules || {};
-    const validateArray = [...(attribute.mandatory ? [required] : [])];
-    this.generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
-    this.generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
-    this.generateValidatorFunc(
-      regex, 'regex', matchRegex, validateArray, RegexParser,
-      attribute.type === 'Email' && 'validateForm.email',
-    );
-    this.generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
-    this.generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
-
-    return (<Field
-      key={attribute.code}
-      component={getComponentType(attribute.type)}
-      name={attribute.code}
-      rows={3}
-      toggleElement={getComponentOptions(attribute.type, intl)}
-      options={getEnumeratorOptions(
-        attribute.type,
-        attribute.enumeratorStaticItems,
-        attribute.enumeratorStaticItemsSeparator,
-        attribute.mandatory,
-        intl,
-      )}
-      optionValue="value"
-      optionDisplayName="optionDisplayName"
-      label={<FormLabel
-        labelText={attribute.name}
-        helpText={getHelpMessage(attribute.validationRules, intl)}
-        required={attribute.mandatory}
-      />}
-      validate={validateArray}
-      readOnly={readOnlyFields.includes(attribute.code)}
-      data-testid={`UserProfileForm__${attribute.code}Field`}
-    />);
-  }
-
-  renderCompositeAttribute(compositeAttributes) {
-    return compositeAttributes.map(attribute => this.renderField(attribute));
   }
 
   render() {
@@ -164,6 +94,7 @@ export class UserProfileFormBody extends Component {
       key={attributeCode}
       component={component}
       attributeType={attribute.nestedAttribute.type}
+      nestedAttribute={attribute.nestedAttribute}
       name={attributeCode}
       rows={3}
       toggleElement={getComponentOptions(attribute.type, intl)}
@@ -183,6 +114,7 @@ export class UserProfileFormBody extends Component {
       />}
       defaultLanguage={defaultLanguage}
       languages={languages}
+      intl={intl}
       language={language && language.code}
     />);
 
@@ -190,24 +122,11 @@ export class UserProfileFormBody extends Component {
       profileTypesAttributes.map((attribute) => {
         if (attribute.type === TYPE_COMPOSITE) {
           return (
-            <Row key={attribute.code}>
-              <label className="control-label col-xs-2">
-                <FormLabel
-                  labelText={attribute.name}
-                  helpText={getHelpMessage(attribute.validationRules, intl)}
-                  required={attribute.mandatory}
-                />
-              </label>
-              <Col xs={10}>
-                <Panel>
-                  <Panel.Body>
-                    <FormSection name={attribute.code}>
-                      { this.renderCompositeAttribute(attribute.compositeAttributes)}
-                    </FormSection>
-                  </Panel.Body>
-                </Panel>
-              </Col>
-            </Row>
+            <CompositeField
+              key={attribute.name}
+              attribute={attribute}
+              intl={intl}
+            />
           );
         }
         if (attribute.type === TYPE_LIST) {
@@ -226,7 +145,7 @@ export class UserProfileFormBody extends Component {
             </Row>
           );
         }
-        return this.renderField(attribute);
+        return <UserProfileField key={attribute.name} attribute={attribute} intl={intl} />;
       })
     );
 
