@@ -64,9 +64,9 @@ export const getSelectedCompositeAttributes = createSelector(
 
 const getList = (type, list) => {
   switch (type) {
-    case TYPE_LIST:
     case TYPE_MONOLIST:
       return list.filter(f => !NO_ATTRIBUTE_FOR_TYPE_MONOLIST.includes(f));
+    case TYPE_LIST:
     case TYPE_COMPOSITE:
       return list.filter(f => ![...NO_ATTRIBUTE_FOR_TYPE_MONOLIST, TYPE_COMPOSITE].includes(f));
     default:
