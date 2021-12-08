@@ -63,6 +63,7 @@ const AssetAttributeFieldInfo = ({
                         name={nameField.name}
                         onChange={onFieldChangeEvent}
                         defaultValue={nameField.value || ''}
+                        value={nameField.value}
                         className="AssetAttributeField__input--inner"
                       />
                     </InputGroup>
@@ -81,6 +82,7 @@ const AssetAttributeFieldInfo = ({
                         name={tf.name}
                         onChange={onFieldChangeEvent}
                         defaultValue={tf.value || ''}
+                        value={tf.value}
                         className="AssetAttributeField__input--inner"
                       />
                     </InputGroup>

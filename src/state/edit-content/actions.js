@@ -89,6 +89,7 @@ export const copyAttributeEngValue = (attribute, attributeType) => (dispatch, ge
     case TYPE_LONGTEXT:
     case TYPE_EMAIL:
     case TYPE_IMAGE:
+    case TYPE_ATTACH:
     case TYPE_LINK: {
       if (!attribute.values) {
         return attribute;
