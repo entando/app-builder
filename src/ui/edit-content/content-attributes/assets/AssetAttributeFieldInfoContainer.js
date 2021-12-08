@@ -15,7 +15,7 @@ export const mapStateToProps = (state, { input, langCode }) => {
     name: {
       name: 'name',
       label: 'Text',
-      value: assetInfo.name || assetInfo.description,
+      value: get(assetInfo, 'name', assetInfo.description),
     },
   };
 
