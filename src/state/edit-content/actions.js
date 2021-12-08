@@ -309,12 +309,23 @@ export const saveContent = (values, ignoreWarnings, oldAttributes) => (dispatch,
     const { values: attrValues = {}, code } = attribute;
     if (attrValues[defaultLanguage.code]) {
       otherLanguages.forEach((lang) => {
-        if ((attrValues[lang.code] === undefined || attrValues[lang.code].length === 0)
-        || (oldAttributes
-        && attrValues[defaultLanguage.code] !== oldAttributes[index].values[defaultLanguage.code]
-        && attrValues[lang.code] === oldAttributes[index].values[lang.code]
-        && oldAttributes[index].values[lang.code] !== undefined)) {
-          // translation does not exist or is missing ammendments
+        const imageAndNoMetadataTranslations = attrValues[lang.code]
+          && attrValues[lang.code].type === 'image'
+          && (
+            Object.keys(attrValues[defaultLanguage.code].metadata).length
+            !== Object.keys(attrValues[lang.code].metadata).length
+          );
+
+        const noTranslationValues = attrValues[lang.code] === undefined
+          || attrValues[lang.code].length === 0
+          || imageAndNoMetadataTranslations;
+
+        const translationsOutdated = oldAttributes
+          && attrValues[defaultLanguage.code] !== oldAttributes[index].values[defaultLanguage.code]
+          && attrValues[lang.code] === oldAttributes[index].values[lang.code]
+          && oldAttributes[index].values[lang.code] !== undefined;
+
+        if (noTranslationValues || translationsOutdated) {
           let attributePath = `attributes[${index}]`;
           if (i !== undefined) {
             attributePath = `${attributePath}.compositeelements[${i}]`;
