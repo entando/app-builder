@@ -199,18 +199,20 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
-    const response = await deletePage(page);
+    let response = null;
+    if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+      response = await deleteWebuiPage(page);
+    } else {
+      response = await deletePage(page);
+    }
     const json = await response.json();
-    if (response.ok) {
-      if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-        deleteWebuiPage(page);
-      }
+    if (response && response.ok) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
-    } else {
+    } else if (json && json.errors) {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (e) {

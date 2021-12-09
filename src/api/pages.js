@@ -165,6 +165,7 @@ export const deleteWebuiPage = page => makeRequest({
   uri: `/api/pages/${page.code}`, // @TODO adjust this once BE is implemented
   method: METHODS.DELETE,
   mockResponse: { code: `${page.code}` },
+  domain: 'http://localhost:8085',
   useAuthentication: true,
 });
 
