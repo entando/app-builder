@@ -1,4 +1,4 @@
-import { makeRequest, METHODS, makeMockRequest } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -294,10 +294,11 @@ export const postClonePage = (pageCode, pageObject) => makeRequest({
   useAuthentication: true,
 });
 
-export const postWebuiPage = pageObject => makeMockRequest({
+export const postWebuiPage = pageObject => makeRequest({
   uri: '/api/pages', // @TODO change this to webui API standards once BE is implemented
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},
+  domain: 'http://localhost:8085',
   useAuthentication: true,
 });
