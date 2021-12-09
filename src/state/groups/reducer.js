@@ -85,6 +85,10 @@ export const groupEntries = (state = [], action = {}) => {
   switch (action.type) {
     case SET_GROUP_ENTRIES:
       return action.payload.groups;
+    case REMOVE_GROUP: {
+      const { groupCode } = action.payload;
+      return state.filter(group => group.code !== groupCode);
+    }
     default:
       return state;
   }
