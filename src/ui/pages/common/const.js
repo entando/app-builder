@@ -45,4 +45,4 @@ export const TEMPLATE_THUMBNAIL = {
   custom: `${publicUrl}/images/custom-template.svg`,
 };
 
-export const NEXT_PAGE_TEMPLATE_CODE = 'nextPageTemplateCode';
+export const NEXT_PAGE_TEMPLATE_CODE = 'nx-page-template';
