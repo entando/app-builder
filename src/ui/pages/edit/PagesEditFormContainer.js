@@ -31,7 +31,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   pageCode: params.pageCode,
   form: FORM_ID,
   keepDirtyOnReinitialize: true,
-  editingPageTemplate: formValueSelector(FORM_ID, 'pageModel')(state),
+  editingPageTemplateCode: formValueSelector(FORM_ID)(state, 'pageModel'),
 });
 
 

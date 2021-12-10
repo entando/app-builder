@@ -52,7 +52,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave, form, editingPageTemplate,
+      onChangeOwnerGroup, readOnly, stayOnSave, form, editingPageTemplateCode,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -62,13 +62,13 @@ export class PageFormBody extends Component {
     const isCloneMode = mode === 'clone';
 
     const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED ||
-    ((isEditMode || isCloneMode) && editingPageTemplate.code === NEXT_PAGE_TEMPLATE_CODE);
+    ((isEditMode || isCloneMode) && editingPageTemplateCode === NEXT_PAGE_TEMPLATE_CODE);
 
     const pageTemplatesWithEmpty =
       [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
 
     const filteredPageTemplates = (isEditMode || isCloneMode) &&
-    editingPageTemplate.code !== NEXT_PAGE_TEMPLATE_CODE ?
+    editingPageTemplateCode !== NEXT_PAGE_TEMPLATE_CODE ?
       pageTemplatesWithEmpty.filter(pT => pT.code !== NEXT_PAGE_TEMPLATE_CODE) :
       pageTemplatesWithEmpty;
 
@@ -192,7 +192,7 @@ export class PageFormBody extends Component {
                     className="PageForm__find_template"
                     bsStyle="primary"
                     onClick={onFindTemplateClick}
-                    disabled={readOnly}
+                    disabled={readOnly || pageTemplateDisabled}
                   >
                     <FormattedMessage id="pages.pageForm.findTemplate" />
                   </Button>
@@ -441,10 +441,7 @@ PageFormBody.propTypes = {
   onChangeOwnerGroup: PropTypes.func,
   readOnly: PropTypes.bool,
   stayOnSave: PropTypes.bool,
-  editingPageTemplate: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    descr: PropTypes.string.isRequired,
-  }),
+  editingPageTemplateCode: PropTypes.string,
 };
 
 PageFormBody.defaultProps = {
@@ -464,10 +461,7 @@ PageFormBody.defaultProps = {
   onChangeOwnerGroup: () => {},
   readOnly: false,
   stayOnSave: false,
-  editingPageTemplate: {
-    code: '',
-    descr: '',
-  },
+  editingPageTemplateCode: '',
 };
 
 const PageForm = reduxForm({
