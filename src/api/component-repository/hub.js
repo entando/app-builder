@@ -37,7 +37,7 @@ export const getRegistries = (params = '') => (
 export const getBundleGroups = (url, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/bundlegroups/${params}`,
+      uri: `/bundlegroups/?statuses=PUBLISHED&${params}`,
       domain: url,
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,

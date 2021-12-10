@@ -100,7 +100,7 @@ describe('api/component-repository/hub', () => {
       getBundleGroups(url);
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          uri: '/bundlegroups/',
+          uri: '/bundlegroups/?statuses=PUBLISHED&',
           domain: url,
           method: METHODS.GET,
           mockResponse: LIST_BUNDLE_GROUPS_OK,
