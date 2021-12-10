@@ -108,8 +108,7 @@ export const mapStateToProps = (state) => {
     languages,
     groups,
     allGroups,
-    // @TODO remove this once core provides proper id for a template
-    pageTemplates: [...getPageTemplatesList(state), { code: 'nextPageTemplateCode', descr: 'NextGen Page' }],
+    pageTemplates: getPageTemplatesList(state),
     charsets: getCharsets(state),
     contentTypes: getContentTypes(state),
     seoMode: SEO_ENABLED,
