@@ -6,6 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
+  deleteWebuiPage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -32,6 +33,7 @@ import { getDefaultLanguage } from 'state/languages/selectors';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
+import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 const RESET_FOR_CLONE = {
   code: '',
@@ -197,15 +199,20 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
-    const response = await deletePage(page);
+    let response = null;
+    if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+      response = await deleteWebuiPage(page);
+    } else {
+      response = await deletePage(page);
+    }
     const json = await response.json();
-    if (response.ok) {
+    if (response && response.ok) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
-    } else {
+    } else if (json && json.errors) {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (e) {
