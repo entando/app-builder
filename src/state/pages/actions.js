@@ -564,6 +564,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
     putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+          // irakli change this to one call only
           putWebuiPageStatus(page.code, status);
         }
         dispatch(setSelectedPage(newPage));
