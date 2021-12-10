@@ -182,7 +182,6 @@ class PageTree extends Component {
         onClickPreview={this.props.onClickPreview}
         locale={this.props.locale}
         domain={this.props.domain}
-        showDeleteAction={page.pageModel !== NEXT_PAGE_TEMPLATE_CODE}
       />
     );
   }

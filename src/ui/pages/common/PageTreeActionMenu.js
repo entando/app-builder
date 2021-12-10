@@ -28,7 +28,7 @@ class PageTreeActionMenu extends Component {
     const {
       page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
-      onClickViewPublishedPage, onClickPreview, showDeleteAction,
+      onClickViewPublishedPage, onClickPreview,
     } = this.props;
 
     let disabled = false;
@@ -79,7 +79,7 @@ class PageTreeActionMenu extends Component {
         </MenuItem>
       );
 
-    const renderDeleteItem = () => (showDeleteAction ? (
+    const renderDeleteItem = () => (
       <MenuItem
         disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED}
         className="PageTreeActionMenuButton__menu-item-delete"
@@ -87,7 +87,7 @@ class PageTreeActionMenu extends Component {
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>
-    ) : null);
+    );
 
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
@@ -159,7 +159,6 @@ PageTreeActionMenu.propTypes = {
   onClickPreview: PropTypes.func,
   domain: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  showDeleteAction: PropTypes.bool,
 };
 
 PageTreeActionMenu.defaultProps = {
@@ -173,7 +172,6 @@ PageTreeActionMenu.defaultProps = {
   onClickUnpublish: null,
   onClickViewPublishedPage: null,
   onClickPreview: null,
-  showDeleteAction: true,
 };
 
 export default PageTreeActionMenu;
