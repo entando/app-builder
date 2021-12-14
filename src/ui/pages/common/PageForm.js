@@ -20,6 +20,9 @@ import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContain
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
 import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const { WEBUI_ENABLED } = getRuntimeEnv();
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -62,7 +65,8 @@ export class PageFormBody extends Component {
     const isCloneMode = mode === 'clone';
 
     const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED ||
-    ((isEditMode || isCloneMode) && editingPageTemplateCode === NEXT_PAGE_TEMPLATE_CODE);
+    (WEBUI_ENABLED && (isEditMode || isCloneMode) &&
+    editingPageTemplateCode === NEXT_PAGE_TEMPLATE_CODE);
 
     const pageTemplatesWithEmpty =
       [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
