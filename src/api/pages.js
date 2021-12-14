@@ -1,4 +1,4 @@
-import { makeRequest, METHODS, makeMockRequest } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -11,6 +11,10 @@ import {
 } from 'test/mocks/pageConfig';
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
+
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const { WEBUI_APP_MANAGEMENT_URL } = getRuntimeEnv();
 
 /*
  * - homepage
@@ -165,7 +169,7 @@ export const deleteWebuiPage = page => makeRequest({
   uri: `/api/pages/${page.code}`,
   method: METHODS.DELETE,
   mockResponse: { code: `${page.code}` },
-  domain: 'http://localhost:8085', // @TODO adjust this once BE is implemented
+  domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
 });
 
@@ -182,12 +186,13 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   ),
 });
 
-export const putWebuiPageStatus = (pageCode, status) => makeMockRequest({
-  uri: `/api/pages/${pageCode}/status`, // @TODO adjust this once BE is implemented
+export const putWebuiPageStatus = (pageCode, status) => makeRequest({
+  uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
   mockResponse: { ...fetchPageResponseMap.homepage, status },
   useAuthentication: true,
+  domain: WEBUI_APP_MANAGEMENT_URL,
   errors: () => (
     fetchPageResponseMap[pageCode] ?
       [] :
@@ -312,6 +317,6 @@ export const postWebuiPage = pageObject => makeRequest({
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},
-  domain: 'http://localhost:8085', // @TODO change this to webui API standards once BE is implemented
+  domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
 });

@@ -35,6 +35,10 @@ import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const { WEBUI_ENABLED } = getRuntimeEnv();
+
 const RESET_FOR_CLONE = {
   code: '',
   titles: '',
@@ -200,7 +204,7 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
     let response = null;
-    if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+    if (WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
       response = await deleteWebuiPage(page);
     } else {
       response = await deletePage(page);
@@ -325,7 +329,7 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
     let response = { json: () => {} };
     let json = { errors: [] };
-    if (pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+    if (WEBUI_ENABLED && pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
       response = await postWebuiPage({
         ...pageData,
         ...seoPayload,
@@ -340,12 +344,6 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
-      if (pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-        await postWebuiPage({
-          ...pageData,
-          ...seoPayload,
-        });
-      }
       resolve(response);
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
@@ -561,19 +559,19 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
       status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
     };
     dispatch(setPageLoading(page.code));
-    putPageStatus(page.code, status).then((response) => {
+    const pageStatusApiCall = WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE ?
+      putWebuiPageStatus : putPageStatus;
+    pageStatusApiCall(page.code, status).then((response) => {
       if (response.ok) {
-        if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-          // irakli change this to one call only
-          putWebuiPageStatus(page.code, status);
-        }
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
         if (status === PAGE_STATUS_PUBLISHED) {
           const draftConfig = makeGetSelectedPageConfig(page.code)(getState());
           dispatch(setPublishedPageConfig(newPage.code, draftConfig));
+          dispatch(addToast({ id: 'pages.status.published' }, TOAST_SUCCESS));
         } else {
           dispatch(setPublishedPageConfig(newPage.code, null));
+          dispatch(addToast({ id: 'pages.status.unpublished' }, TOAST_SUCCESS));
         }
       } else {
         response.json().then((json) => {
