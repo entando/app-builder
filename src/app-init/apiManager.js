@@ -81,8 +81,15 @@ const ApiManager = ({
 };
 
 ApiManager.propTypes = {
-  store: PropTypes.shape({}).isRequired,
-  auth: PropTypes.shape({}).isRequired,
+  store: PropTypes.shape({
+    dispatch: PropTypes.func.isRequired,
+  }).isRequired,
+  auth: PropTypes.shape({
+    logout: PropTypes.func.isRequired,
+    enabled: PropTypes.bool,
+    toRefreshToken: PropTypes.bool,
+    setToRefreshToken: PropTypes.func.isRequired,
+  }).isRequired,
   intl: intlShape.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

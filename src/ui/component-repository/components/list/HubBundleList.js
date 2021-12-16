@@ -63,18 +63,18 @@ const HubBundleList = ({
 
   const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
     ? (<BundleListGridView
-      bundles={bundles}
-      locale={intl.locale}
-      openComponentManagementModal={openComponentManagementModal}
-      bundleStatuses={bundleStatuses}
-      bundleGroups={bundleGroups}
+        bundles={bundles}
+        locale={intl.locale}
+        openComponentManagementModal={openComponentManagementModal}
+        bundleStatuses={bundleStatuses}
+        bundleGroups={bundleGroups}
     />)
     : (<BundleListListView
-      bundles={bundles}
-      locale={intl.locale}
-      openComponentManagementModal={openComponentManagementModal}
-      bundleStatuses={bundleStatuses}
-      bundleGroups={bundleGroups}
+        bundles={bundles}
+        locale={intl.locale}
+        openComponentManagementModal={openComponentManagementModal}
+        bundleStatuses={bundleStatuses}
+        bundleGroups={bundleGroups}
     />);
 
   const components = (!bundles

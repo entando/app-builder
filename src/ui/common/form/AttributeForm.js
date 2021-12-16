@@ -234,6 +234,7 @@ AttributeFormBody.propTypes = {
     type: PropTypes.string.isRequired,
   }),
   selectedAttributeType: PropTypes.shape({
+    code: PropTypes.string,
     simple: PropTypes.bool,
     searchableOptionSupported: PropTypes.bool,
     indexableOptionSupported: PropTypes.bool,

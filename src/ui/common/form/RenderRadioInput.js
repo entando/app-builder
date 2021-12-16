@@ -54,10 +54,19 @@ RenderRadioInput.propTypes = {
     id: PropTypes.string,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   })),
-  input: PropTypes.shape({}).isRequired,
+  input: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   alignClass: PropTypes.string,
   labelSize: PropTypes.number,
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
+  append: PropTypes.string,
+  help: PropTypes.node,
+  label: PropTypes.node,
 };
 RenderRadioInput.defaultProps = {
   toggleElement: [{
@@ -67,6 +76,10 @@ RenderRadioInput.defaultProps = {
   defaultValue: '',
   alignClass: 'text-right',
   labelSize: 2,
+  meta: {},
+  append: '',
+  help: null,
+  label: null,
 };
 
 export default RenderRadioInput;

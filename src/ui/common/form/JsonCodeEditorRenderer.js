@@ -38,9 +38,13 @@ const JsonCodeEditorRenderer = ({
 JsonCodeEditorRenderer.propTypes = {
   name: PropTypes.string,
   label: PropTypes.node,
-  meta: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   help: PropTypes.node,
   input: PropTypes.shape({
+    value: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,

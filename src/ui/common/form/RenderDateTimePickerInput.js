@@ -105,6 +105,7 @@ RenderDateTimePickerInput.propTypes = {
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool,

@@ -43,6 +43,7 @@ DataTypeReferenceStatus.propTypes = {
   onReload: PropTypes.func.isRequired,
   status: PropTypes.shape({
     status: PropTypes.string,
+    count: PropTypes.number,
     type: PropTypes.string,
     dataTypesCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,

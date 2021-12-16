@@ -119,7 +119,7 @@ class UserAuthorityTable extends Component {
               onClick={onAddNewClicked}
               data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
             >
-                Add new Authorization
+              Add new Authorization
             </Button>
           </Col>
         </Row>
@@ -146,7 +146,10 @@ UserAuthorityTable.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
   })),
-  fields: PropTypes.shape({}).isRequired,
+  fields: PropTypes.shape({
+    push: PropTypes.func,
+    remove: PropTypes.func,
+  }).isRequired,
   groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
     role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),

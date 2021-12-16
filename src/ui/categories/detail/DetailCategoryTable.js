@@ -172,6 +172,7 @@ DetailCategoryTable.propTypes = {
   onPageChange: PropTypes.func.isRequired,
   category: PropTypes.shape({
     code: PropTypes.string,
+    titles: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
   referenceList: PropTypes.arrayOf(PropTypes.string),
   referenceMap: PropTypes.shape({}),

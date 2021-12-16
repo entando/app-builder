@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 const FormSectionTitle = ({ titleId, requireFields }) => (
-  <legend role="heading">
+  <legend role="heading" aria-level="1">
     <FormattedMessage id={titleId} />
     {
       requireFields && (
         <div className="FormSectionTitle__required-fields text-right">
-        * <FormattedMessage id="app.fieldsRequired" />
+          * <FormattedMessage id="app.fieldsRequired" />
         </div>
       )
     }

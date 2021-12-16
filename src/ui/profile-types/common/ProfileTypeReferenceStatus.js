@@ -58,6 +58,7 @@ ProfileTypeReferenceStatus.propTypes = {
   status: PropTypes.shape({
     status: PropTypes.string,
     type: PropTypes.string,
+    count: PropTypes.number,
     profileTypeCodes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 };

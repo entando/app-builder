@@ -30,7 +30,9 @@ class PluginConfigPage extends PureComponent {
 PluginConfigPage.propTypes = {
   getOrFetchPlugin: PropTypes.func.isRequired,
   savePluginConfig: PropTypes.func.isRequired,
-  plugin: PropTypes.shape({}).isRequired,
+  plugin: PropTypes.shape({
+    schema: PropTypes.shape({}),
+  }).isRequired,
 };
 
 export default PluginConfigPage;

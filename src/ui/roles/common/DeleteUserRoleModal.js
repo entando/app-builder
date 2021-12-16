@@ -174,7 +174,7 @@ DeleteRoleModal.propTypes = {
   onCloseModal: PropTypes.func.isRequired,
   pagination: PropTypes.shape({
     page: PropTypes.number,
-    perPage: PropTypes.number,
+    pageSize: PropTypes.number,
     totalItems: PropTypes.number,
   }).isRequired,
   onPageChange: PropTypes.func,

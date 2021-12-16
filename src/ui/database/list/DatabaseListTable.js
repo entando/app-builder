@@ -10,7 +10,6 @@ import DeleteDatabaseModalContainer from 'ui/database/common/DeleteDatabaseModal
 class DatabaseListTable extends Component {
   constructor(props) {
     super(props);
-    // this.databases = null;
     this.onClickDelete = this.onClickDelete.bind(this);
   }
 
@@ -23,7 +22,7 @@ class DatabaseListTable extends Component {
   }
 
   renderTableRows() {
-    return this.props.databases.map((database, i) => (
+    return this.props.databases.map(database => (
       <tr key={`${database.code}-${database.date}`}>
         <td className="DatabaseListRow__td">{database.code}</td>
         <td className="DatabaseListRow__td">

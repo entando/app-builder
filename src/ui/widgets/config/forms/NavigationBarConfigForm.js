@@ -182,7 +182,9 @@ NavigationBarConfigForm.propTypes = {
   onAddNewExpression: PropTypes.func.isRequired,
   addConfig: PropTypes.shape({}),
   expressions: PropTypes.arrayOf(PropTypes.shape({})),
-  initialValues: PropTypes.shape({}).isRequired,
+  initialValues: PropTypes.shape({
+    navSpec: PropTypes.string,
+  }).isRequired,
   fetchExpressions: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onSpecificPageChoose: PropTypes.func.isRequired,

@@ -231,6 +231,7 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
         exact
         key={AppRoute.path}
         path={AppRoute.path}
+        // eslint-disable-next-line react/jsx-pascal-case
         render={() => <InternalPage><AppRoute.component /></InternalPage>}
       />
     )),
@@ -468,7 +469,7 @@ class App extends Component {
 App.propTypes = {
   currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
-  auth: PropTypes.shape({ enabled: PropTypes.bool }),
+  auth: PropTypes.shape({ enabled: PropTypes.bool, authenticated: PropTypes.bool }),
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
   fetchUserPreferences: PropTypes.func,

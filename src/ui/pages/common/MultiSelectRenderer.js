@@ -101,7 +101,10 @@ export class MultiSelectRendererBody extends Component {
 
 MultiSelectRendererBody.propTypes = {
   intl: intlShape.isRequired,
-  fields: PropTypes.shape({}).isRequired,
+  fields: PropTypes.shape({
+    push: PropTypes.func,
+    remove: PropTypes.func,
+  }).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedValues: PropTypes.arrayOf(PropTypes.string),
   valueKey: PropTypes.string,

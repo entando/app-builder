@@ -146,6 +146,11 @@ class PageTreeActionMenu extends Component {
 PageTreeActionMenu.propTypes = {
   page: PropTypes.shape({
     status: PropTypes.string.isRequired,
+    isEmpty: PropTypes.bool,
+    expanded: PropTypes.bool,
+    hasPublishedChildren: PropTypes.bool,
+    code: PropTypes.string,
+    parentStatus: PropTypes.string,
   }).isRequired,
   onClickAdd: PropTypes.func,
   onClickEdit: PropTypes.func,

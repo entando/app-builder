@@ -23,12 +23,6 @@ import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const { WEBUI_ENABLED } = getRuntimeEnv();
 class PageTree extends Component {
-  static actionMapping = {
-    [DDTable.DROP_MEDIUM]: PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
-    [DDTable.DROP_HIGH]: PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING,
-    [DDTable.DROP_LOW]: PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING,
-  }
-
   constructor(props) {
     super(props);
     this.handleDrop = this.handleDrop.bind(this);
@@ -163,6 +157,11 @@ class PageTree extends Component {
     }));
   }
 
+  static actionMapping = {
+    [DDTable.DROP_MEDIUM]: PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
+    [DDTable.DROP_HIGH]: PAGE_MOVEMENT_OPTIONS.ABOVE_SIBLING,
+    [DDTable.DROP_LOW]: PAGE_MOVEMENT_OPTIONS.BELOW_SIBLING,
+  }
 
   handleDrop(dropType, sourcePage, targetPage) {
     const { onDropPage } = this.props;

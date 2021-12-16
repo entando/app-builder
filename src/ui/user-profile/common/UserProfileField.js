@@ -140,6 +140,15 @@ const basicAttributeShape = PropTypes.shape({
   type: PropTypes.string,
   mandatory: PropTypes.bool,
   code: PropTypes.string,
+  name: PropTypes.string,
+  enumeratorStaticItems: PropTypes.string,
+  enumeratorStaticItemsSeparator: PropTypes.string,
+  validationRules: PropTypes.shape({
+    ognlValidation: PropTypes.shape({
+      helpMessage: PropTypes.string,
+      keyForHelpMessage: PropTypes.string,
+    }),
+  }),
 });
 
 UserProfileField.propTypes = {
@@ -183,8 +192,25 @@ export const CompositeField = ({
 
 CompositeField.propTypes = {
   attribute: PropTypes.shape({
+    code: PropTypes.string,
     name: PropTypes.string,
-    compositeAttributes: PropTypes.arrayOf(basicAttributeShape),
+    mandatory: PropTypes.bool,
+    enumeratorStaticItems: PropTypes.string,
+    enumeratorStaticItemsSeparator: PropTypes.string,
+    validationRules: PropTypes.shape({
+      ognlValidation: PropTypes.shape({
+        helpMessage: PropTypes.string,
+        keyForHelpMessage: PropTypes.string,
+      }),
+    }),
+    compositeAttributes: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+      enumeratorStaticItems: PropTypes.string,
+      enumeratorStaticItemsSeparator: PropTypes.string,
+      mandatory: PropTypes.bool,
+      name: PropTypes.string,
+      type: PropTypes.string,
+    })),
   }).isRequired,
   intl: intlShape.isRequired,
   fieldName: PropTypes.string,

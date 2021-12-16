@@ -388,7 +388,9 @@ const VerticalMenu = ({
 
 VerticalMenu.propTypes = {
   intl: intlShape.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   onNextStep: PropTypes.func.isRequired,
   onStartTutorial: PropTypes.func.isRequired,

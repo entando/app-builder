@@ -20,6 +20,7 @@ const CategoryTypeaheadFilter = ({
 }) => {
   useEffect(() => {
     onDidMount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onChange = (category) => {
     const selected = category.map(catId => (

@@ -31,7 +31,7 @@ class GroupDetailTable extends React.Component {
             </div>
           </div>
         </div>
-        <GroupDetailTabs references={group.references} keyList={group.referenceKeyList} />
+        <GroupDetailTabs />
       </div>);
   }
 }
