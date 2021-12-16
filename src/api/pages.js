@@ -1,4 +1,4 @@
-import { makeRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -314,6 +314,16 @@ export const postClonePage = (pageCode, pageObject) => makeRequest({
 
 export const postWebuiPage = pageObject => makeRequest({
   uri: '/api/pages',
+  method: METHODS.POST,
+  body: pageObject,
+  mockResponse: {},
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+});
+
+export const postWebuiClonePage = (pageCode, pageObject) => makeMockRequest({
+  // @TODO remove this once BE API exists
+  uri: `/api/pages/${pageCode}/clone`, // @TODO double check this
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},

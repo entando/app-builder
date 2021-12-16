@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, postWebuiPage, putWebuiPageStatus,
+  deleteWebuiPage, postWebuiPage, putWebuiPageStatus, postWebuiClonePage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -370,7 +370,9 @@ export const sendClonePage = (pageCode, pageData) => dispatch => new Promise(asy
       titles,
     };
 
-    const response = await postClonePage(pageCode, requestBody);
+    const cloneApi = WEBUI_ENABLED ? postWebuiClonePage : postClonePage;
+
+    const response = await cloneApi(pageCode, requestBody);
 
     const json = await response.json();
     if (response.ok) {
