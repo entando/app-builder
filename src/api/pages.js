@@ -12,10 +12,6 @@ import {
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
-
-const { WEBUI_APP_MANAGEMENT_URL } = getRuntimeEnv();
-
 /*
  * - homepage
  *   |- dashboard
@@ -179,20 +175,6 @@ export const putPageStatus = (pageCode, status) => makeRequest({
   method: METHODS.PUT,
   mockResponse: { ...fetchPageResponseMap.homepage, status },
   useAuthentication: true,
-  errors: () => (
-    fetchPageResponseMap[pageCode] ?
-      [] :
-      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
-  ),
-});
-
-export const putWebuiPageStatus = (pageCode, status) => makeRequest({
-  uri: `/api/pages/${pageCode}/status`,
-  body: { status },
-  method: METHODS.PUT,
-  mockResponse: { ...fetchPageResponseMap.homepage, status },
-  useAuthentication: true,
-  domain: WEBUI_APP_MANAGEMENT_URL,
   errors: () => (
     fetchPageResponseMap[pageCode] ?
       [] :

@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, putWebuiPageStatus,
+  deleteWebuiPage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -34,10 +34,6 @@ import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
-
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
-
-const { WEBUI_ENABLED } = getRuntimeEnv();
 
 const RESET_FOR_CLONE = {
   code: '',
@@ -204,7 +200,7 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
     let response = null;
-    if (WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+    if (page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
       response = await deleteWebuiPage(page);
     } else {
       response = await deletePage(page);
@@ -550,9 +546,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
       status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
     };
     dispatch(setPageLoading(page.code));
-    const pageStatusApiCall = WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE ?
-      putWebuiPageStatus : putPageStatus;
-    pageStatusApiCall(page.code, status).then((response) => {
+    putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
