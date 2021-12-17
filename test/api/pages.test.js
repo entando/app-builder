@@ -3,7 +3,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
   getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
   getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings, deleteWebuiPage,
-  postWebuiPage, putWebuiPageStatus,
+  putWebuiPageStatus,
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
@@ -93,22 +93,6 @@ describe('api/pages', () => {
 
     it('makes the correct request', () => {
       postPage(CONTACTS_PAYLOAD);
-      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-        uri: '/api/pages',
-        body: CONTACTS_PAYLOAD,
-        method: METHODS.POST,
-        useAuthentication: true,
-      }));
-    });
-  });
-
-  describe('postWebuiPage', () => {
-    it('returns a promise', () => {
-      expect(postWebuiPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
-    });
-
-    it('makes the correct request', () => {
-      postWebuiPage(CONTACTS_PAYLOAD);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/pages',
         body: CONTACTS_PAYLOAD,

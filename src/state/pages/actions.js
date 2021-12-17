@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, postWebuiPage, putWebuiPageStatus,
+  deleteWebuiPage, putWebuiPageStatus,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -327,20 +327,11 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       },
     } : {};
     const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
-    let response = { json: () => {} };
-    let json = { errors: [] };
-    if (WEBUI_ENABLED && pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-      response = await postWebuiPage({
-        ...pageData,
-        ...seoPayload,
-      });
-    } else {
-      response = await postPageCall({
-        ...pageData,
-        ...seoPayload,
-      });
-    }
-    json = await response.json();
+    const response = await postPageCall({
+      ...pageData,
+      ...seoPayload,
+    });
+    const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));

@@ -166,10 +166,10 @@ export const deletePage = page => makeRequest({
 });
 
 export const deleteWebuiPage = page => makeRequest({
-  uri: `/api/pages/${page.code}`,
+  uri: `/api/pages/${page.code}`, // @TODO adjust this once BE is implemented
   method: METHODS.DELETE,
   mockResponse: { code: `${page.code}` },
-  domain: WEBUI_APP_MANAGEMENT_URL,
+  domain: 'http://localhost:8085',
   useAuthentication: true,
 });
 
@@ -309,14 +309,5 @@ export const postClonePage = (pageCode, pageObject) => makeRequest({
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},
-  useAuthentication: true,
-});
-
-export const postWebuiPage = pageObject => makeRequest({
-  uri: '/api/pages',
-  method: METHODS.POST,
-  body: pageObject,
-  mockResponse: {},
-  domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
 });
