@@ -6,7 +6,6 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, postWebuiPage, putWebuiPageStatus,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -33,11 +32,6 @@ import { getDefaultLanguage } from 'state/languages/selectors';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
-
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
-
-const { WEBUI_ENABLED } = getRuntimeEnv();
 
 const RESET_FOR_CLONE = {
   code: '',
@@ -203,20 +197,15 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
-    let response = null;
-    if (WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-      response = await deleteWebuiPage(page);
-    } else {
-      response = await deletePage(page);
-    }
+    const response = await deletePage(page);
     const json = await response.json();
-    if (response && response.ok) {
+    if (response) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
-    } else if (json && json.errors) {
+    } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
     }
   } catch (e) {
@@ -327,20 +316,11 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       },
     } : {};
     const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
-    let response = { json: () => {} };
-    let json = { errors: [] };
-    if (WEBUI_ENABLED && pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
-      response = await postWebuiPage({
-        ...pageData,
-        ...seoPayload,
-      });
-    } else {
-      response = await postPageCall({
-        ...pageData,
-        ...seoPayload,
-      });
-    }
-    json = await response.json();
+    const response = await postPageCall({
+      ...pageData,
+      ...seoPayload,
+    });
+    const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
@@ -559,9 +539,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
       status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
     };
     dispatch(setPageLoading(page.code));
-    const pageStatusApiCall = WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE ?
-      putWebuiPageStatus : putPageStatus;
-    pageStatusApiCall(page.code, status).then((response) => {
+    putPageStatus(page.code, status).then((response) => {
       if (response.ok) {
         dispatch(setSelectedPage(newPage));
         dispatch(updatePage(newPage));
