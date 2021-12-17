@@ -10,7 +10,6 @@ import {
   ROUTE_PAGE_TEMPLATE_CLONE,
   ROUTE_PAGE_TEMPLATE_DETAIL,
 } from 'app-init/router';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 
 const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
@@ -43,16 +42,12 @@ const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
     >
       <FormattedMessage id="app.details" />
     </MenuItem>
-    {
-      code !== NEXT_PAGE_TEMPLATE_CODE && (
-        <MenuItem
-          className="PageTemplateListMenuActions__menu-item-delete"
-          onClick={onClickDelete}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
-      )
-    }
+    <MenuItem
+      className="PageTemplateListMenuActions__menu-item-delete"
+      onClick={onClickDelete}
+    >
+      <FormattedMessage id="app.delete" />
+    </MenuItem>
   </DropdownKebab>
 );
 

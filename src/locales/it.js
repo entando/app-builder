@@ -1700,8 +1700,5 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Gruppo',
     'componentRepository.components.installedVersion': 'Versione installata',
-    'pageTree.pageType': 'Tipo',
-    'pageTree.nx': 'NX',
-    'pageTree.nt': 'NT',
   },
 };

@@ -17,11 +17,7 @@ import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalConta
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
-
-const { WEBUI_ENABLED } = getRuntimeEnv();
 class PageTree extends Component {
   static actionMapping = {
     [DDTable.DROP_MEDIUM]: PAGE_MOVEMENT_OPTIONS.INTO_PARENT,
@@ -38,8 +34,7 @@ class PageTree extends Component {
   componentDidMount() {
     const { columnOrder, onSetColumnOrder } = this.props;
     if (!columnOrder.length) {
-      onSetColumnOrder(WEBUI_ENABLED ? ['title', 'pageModel', 'status', 'displayedInMenu'] :
-        ['title', 'status', 'displayedInMenu']);
+      onSetColumnOrder(['title', 'status', 'displayedInMenu']);
     }
   }
 
@@ -80,7 +75,7 @@ class PageTree extends Component {
         ),
         attributes: {
           className: 'PageTree__thead-title',
-          style: { width: '65%' },
+          style: { width: '70%' },
         },
         Cell: ({ row: { original: page, index } }) => {
           const onClickExpand = () => {
@@ -114,22 +109,6 @@ class PageTree extends Component {
           return { className: className.join(' ') };
         },
       },
-      ...(WEBUI_ENABLED && {
-        pageModel: {
-          Header: <FormattedMessage id="pageTree.pageType" />,
-          attributes: {
-            className: 'text-center PageTree__thead',
-            style: { width: '5%', verticalAlign: 'middle' },
-          },
-          Cell: ({ value }) => (
-            <FormattedMessage id={`pageTree.${value !== NEXT_PAGE_TEMPLATE_CODE ? 'nt' : 'nx'}`} />
-          ),
-          cellAttributes: {
-            className: 'text-center',
-            style: { verticalAlign: 'middle' },
-          },
-        },
-      }),
       status: {
         Header: <FormattedMessage id="pageTree.status" />,
         attributes: {
@@ -251,7 +230,6 @@ PageTree.propTypes = {
     code: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     displayedInMenu: PropTypes.bool.isRequired,
-    pageModel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     depth: PropTypes.number.isRequired,
     expanded: PropTypes.bool.isRequired,
@@ -289,8 +267,7 @@ PageTree.defaultProps = {
   onExpandAll: () => {},
   onCollapseAll: () => {},
   onSetColumnOrder: () => {},
-  columnOrder: WEBUI_ENABLED ? ['title', 'pageModel', 'status', 'displayedInMenu'] :
-    ['title', 'status', 'displayedInMenu'],
+  columnOrder: ['title', 'status', 'displayedInMenu'],
 };
 
 export default PageTree;
