@@ -44,5 +44,3 @@ export const TEMPLATE_THUMBNAIL = {
   '1-column': `${publicUrl}/images/1-column.svg`,
   custom: `${publicUrl}/images/custom-template.svg`,
 };
-
-export const NEXT_PAGE_TEMPLATE_CODE = 'nx-page-template';
