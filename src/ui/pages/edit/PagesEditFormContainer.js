@@ -14,6 +14,7 @@ import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
+import { formValueSelector } from 'redux-form';
 
 export const FORM_ID = 'pageEdit';
 
@@ -30,6 +31,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   pageCode: params.pageCode,
   form: FORM_ID,
   keepDirtyOnReinitialize: true,
+  editingPageTemplateCode: formValueSelector(FORM_ID)(state, 'pageModel'),
 });
 
 

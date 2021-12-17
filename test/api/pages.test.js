@@ -2,7 +2,8 @@ import 'test/enzyme-init';
 import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
   getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
-  getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings,
+  getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings, deleteWebuiPage,
+  postWebuiPage, putWebuiPageStatus,
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
@@ -101,6 +102,22 @@ describe('api/pages', () => {
     });
   });
 
+  describe('postWebuiPage', () => {
+    it('returns a promise', () => {
+      expect(postWebuiPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      postWebuiPage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages',
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.POST,
+        useAuthentication: true,
+      }));
+    });
+  });
+
   fdescribe('patchPage', () => {
     const jsonPatch = [
       {
@@ -151,6 +168,22 @@ describe('api/pages', () => {
 
     it('makes the correct request', () => {
       deletePage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
+        method: METHODS.DELETE,
+        mockResponse: { code: CONTACTS_PAYLOAD.code },
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('deleteWebuiPage', () => {
+    it('returns a promise', () => {
+      expect(deleteWebuiPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      deleteWebuiPage(CONTACTS_PAYLOAD);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
         method: METHODS.DELETE,
@@ -322,6 +355,22 @@ describe('api/pages', () => {
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${pageCode}/references/${referenceKey}`,
         method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putWebuiPageStatus', () => {
+    it('returns a promise', () => {
+      expect(putWebuiPageStatus(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      putWebuiPageStatus('code1', 'published');
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages/code1/status',
+        body: { status: 'published' },
+        method: METHODS.PUT,
         useAuthentication: true,
       }));
     });

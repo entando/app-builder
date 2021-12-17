@@ -12,6 +12,10 @@ import {
 
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const { WEBUI_APP_MANAGEMENT_URL } = getRuntimeEnv();
+
 /*
  * - homepage
  *   |- dashboard
@@ -161,12 +165,34 @@ export const deletePage = page => makeRequest({
   useAuthentication: true,
 });
 
+export const deleteWebuiPage = page => makeRequest({
+  uri: `/api/pages/${page.code}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: `${page.code}` },
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+});
+
 export const putPageStatus = (pageCode, status) => makeRequest({
   uri: `/api/pages/${pageCode}/status`,
   body: { status },
   method: METHODS.PUT,
   mockResponse: { ...fetchPageResponseMap.homepage, status },
   useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
+});
+
+export const putWebuiPageStatus = (pageCode, status) => makeRequest({
+  uri: `/api/pages/${pageCode}/status`,
+  body: { status },
+  method: METHODS.PUT,
+  mockResponse: { ...fetchPageResponseMap.homepage, status },
+  useAuthentication: true,
+  domain: WEBUI_APP_MANAGEMENT_URL,
   errors: () => (
     fetchPageResponseMap[pageCode] ?
       [] :
@@ -283,5 +309,14 @@ export const postClonePage = (pageCode, pageObject) => makeRequest({
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},
+  useAuthentication: true,
+});
+
+export const postWebuiPage = pageObject => makeRequest({
+  uri: '/api/pages',
+  method: METHODS.POST,
+  body: pageObject,
+  mockResponse: {},
+  domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
 });
