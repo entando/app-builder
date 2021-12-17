@@ -11,7 +11,6 @@ import {
   ROUTE_PAGE_TEMPLATE_DETAIL,
 } from 'app-init/router';
 
-
 const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
   <DropdownKebab
     className="PageTemplateListMenuActions"
