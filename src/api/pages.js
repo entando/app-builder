@@ -1,4 +1,4 @@
-import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import {
   HOMEPAGE_PAYLOAD, LOGIN_PAYLOAD, SERVICE_PAYLOAD, CONTACTS_PAYLOAD,
   NOTFOUND_PAYLOAD, ERROR_PAYLOAD, DASHBOARD_PAYLOAD, FREE_PAGES_PAYLOAD,
@@ -321,12 +321,25 @@ export const postWebuiPage = pageObject => makeRequest({
   useAuthentication: true,
 });
 
-export const postWebuiClonePage = (pageCode, pageObject) => makeMockRequest({
-  // @TODO remove this once BE API exists
-  uri: `/api/pages/${pageCode}/clone`, // @TODO double check this
+export const postWebuiClonePage = (pageCode, pageObject) => makeRequest({
+  uri: `/api/pages/${pageCode}/clone`,
   method: METHODS.POST,
   body: pageObject,
   mockResponse: {},
   domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
+});
+
+export const putWebuiPage = pageObject => makeRequest({
+  uri: `/api/pages/${pageObject.code}`,
+  body: pageObject,
+  method: METHODS.PUT,
+  mockResponse: { ...pageObject },
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
+  ),
 });

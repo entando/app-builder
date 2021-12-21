@@ -10,10 +10,8 @@ import {
   ROUTE_PAGE_TEMPLATE_CLONE,
   ROUTE_PAGE_TEMPLATE_DETAIL,
 } from 'app-init/router';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
-
-const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
+const PageTemplateListMenuActions = ({ onClickDelete, code, locked }) => (
   <DropdownKebab
     className="PageTemplateListMenuActions"
     id={`${code}-actions`}
@@ -44,7 +42,7 @@ const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
       <FormattedMessage id="app.details" />
     </MenuItem>
     {
-      code !== NEXT_PAGE_TEMPLATE_CODE && (
+      !locked && (
         <MenuItem
           className="PageTemplateListMenuActions__menu-item-delete"
           onClick={onClickDelete}
@@ -59,6 +57,7 @@ const PageTemplateListMenuActions = ({ onClickDelete, code }) => (
 PageTemplateListMenuActions.propTypes = {
   onClickDelete: PropTypes.func,
   code: PropTypes.string.isRequired,
+  locked: PropTypes.bool.isRequired,
 };
 
 PageTemplateListMenuActions.defaultProps = {

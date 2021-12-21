@@ -6,7 +6,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
   getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
-  deleteWebuiPage, postWebuiPage, putWebuiPageStatus, postWebuiClonePage,
+  deleteWebuiPage, postWebuiPage, putWebuiPageStatus, postWebuiClonePage, putWebuiPage,
 } from 'api/pages';
 import {
   getStatusMap,
@@ -33,7 +33,6 @@ import { getDefaultLanguage } from 'state/languages/selectors';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
@@ -204,7 +203,7 @@ export const fetchViewPages = () => dispatch => new Promise((resolve) => {
 export const sendDeletePage = (page, successRedirect = true) => async (dispatch) => {
   try {
     let response = null;
-    if (WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+    if (WEBUI_ENABLED) {
       response = await deleteWebuiPage(page);
     } else {
       response = await deletePage(page);
@@ -212,12 +211,14 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
     const json = await response.json();
     if (response && response.ok) {
       dispatch(removePage(page));
+      dispatch(addToast({ id: 'app.deleted', values: { type: 'page', code: page.code } }, TOAST_SUCCESS));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
     } else if (json && json.errors) {
       dispatch(addErrors(json.errors.map(e => e.message)));
+      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
   } catch (e) {
     // do nothing
@@ -329,7 +330,7 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     const postPageCall = SEO_ENABLED ? postPageSEO : postPage;
     let response = { json: () => {} };
     let json = { errors: [] };
-    if (WEBUI_ENABLED && pageData.pageModel === NEXT_PAGE_TEMPLATE_CODE) {
+    if (WEBUI_ENABLED) {
       response = await postWebuiPage({
         ...pageData,
         ...seoPayload,
@@ -475,7 +476,8 @@ export const sendPutPage = pageData => dispatch =>
           useExtraTitles: seo,
         },
       } : {};
-      const response = await putPageFunc({
+      const putApiCall = WEBUI_ENABLED ? putWebuiPage : putPageFunc;
+      const response = await putApiCall({
         ...pageData,
         ...seoPayload,
       });
@@ -561,7 +563,7 @@ const putSelectedPageStatus = status => (dispatch, getState) =>
       status: status === PAGE_STATUS_DRAFT ? PAGE_STATUS_UNPUBLISHED : status,
     };
     dispatch(setPageLoading(page.code));
-    const pageStatusApiCall = WEBUI_ENABLED && page.pageModel === NEXT_PAGE_TEMPLATE_CODE ?
+    const pageStatusApiCall = WEBUI_ENABLED ?
       putWebuiPageStatus : putPageStatus;
     pageStatusApiCall(page.code, status).then((response) => {
       if (response.ok) {
