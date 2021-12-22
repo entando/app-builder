@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -106,7 +107,7 @@ class PageTreeActionMenu extends Component {
               <FormattedMessage id="app.edit" />
             </MenuItem>
           )}
-          {onClickConfigure && (
+          {onClickConfigure && page.pageModel !== NEXT_PAGE_TEMPLATE_CODE && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-configure"
               onSelect={this.handleClick(onClickConfigure)}
@@ -130,12 +131,16 @@ class PageTreeActionMenu extends Component {
             </MenuItem>
           )}
           {renderDeleteItem()}
-          <MenuItem
-            className="PageTreeActionMenuButton__menu-item-preview"
-            onClick={this.handleClickPreview(onClickPreview)}
-          >
-            <FormattedMessage id="app.preview" />
-          </MenuItem>
+          {
+            page.pageModel !== NEXT_PAGE_TEMPLATE_CODE && (
+              <MenuItem
+                className="PageTreeActionMenuButton__menu-item-preview"
+                onClick={this.handleClickPreview(onClickPreview)}
+              >
+                <FormattedMessage id="app.preview" />
+              </MenuItem>
+            )
+          }
           {viewPublishedPage}
         </DropdownKebab>
       </div>

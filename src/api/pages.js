@@ -320,3 +320,26 @@ export const postWebuiPage = pageObject => makeRequest({
   domain: WEBUI_APP_MANAGEMENT_URL,
   useAuthentication: true,
 });
+
+export const postWebuiClonePage = (pageCode, pageObject) => makeRequest({
+  uri: `/api/pages/${pageCode}/clone`,
+  method: METHODS.POST,
+  body: pageObject,
+  mockResponse: {},
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+});
+
+export const putWebuiPage = pageObject => makeRequest({
+  uri: `/api/pages/${pageObject.code}`,
+  body: pageObject,
+  method: METHODS.PUT,
+  mockResponse: { ...pageObject },
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+  errors: () => (
+    fetchPageResponseMap[pageObject.code] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
+  ),
+});

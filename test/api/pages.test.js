@@ -3,7 +3,7 @@ import {
   getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
   getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
   getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings, deleteWebuiPage,
-  postWebuiPage, putWebuiPageStatus,
+  postWebuiPage, putWebuiPageStatus, postWebuiClonePage, putWebuiPage,
 } from 'api/pages';
 
 import { CONTACTS_PAYLOAD, FREE_PAGES_PAYLOAD, PAGE_SETTINGS_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
@@ -111,6 +111,22 @@ describe('api/pages', () => {
       postWebuiPage(CONTACTS_PAYLOAD);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: '/api/pages',
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.POST,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('postWebuiClonePage', () => {
+    it('returns a promise', () => {
+      expect(postWebuiClonePage('contacts', CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      postWebuiPage('contacts', CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages/contacts/clone',
         body: CONTACTS_PAYLOAD,
         method: METHODS.POST,
         useAuthentication: true,
@@ -371,6 +387,23 @@ describe('api/pages', () => {
         uri: '/api/pages/code1/status',
         body: { status: 'published' },
         method: METHODS.PUT,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('putWebuiPage', () => {
+    it('returns a promise', () => {
+      expect(putWebuiPage(CONTACTS_PAYLOAD)).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      putWebuiPage(CONTACTS_PAYLOAD);
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: `/api/pages/${CONTACTS_PAYLOAD.code}`,
+        body: CONTACTS_PAYLOAD,
+        method: METHODS.PUT,
+        errors: expect.any(Function),
         useAuthentication: true,
       }));
     });
