@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - develop
+      - epic/*
+      - release/*
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.1.0"
+  ENTANDO_OPT_USE_PPL_TAG: "v1.2.0"
   ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
   ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
   ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
@@ -19,11 +21,13 @@ env:
 
 jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # TAG
-  add-release-tag:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # SNAPSHOT TAG
+  
+  add-snapshot-tag:
     runs-on: ubuntu-latest
     steps:
-      - name: "ADD RELEASE TAG"
+      - name: "ADD SNAPSHOT TAG"
         run: |
           ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
 
@@ -33,5 +37,5 @@ jobs:
                 --lcd "$LOCAL_CLONE_DIR" \
                 --token "${{ secrets.ENTANDO_BOT_TOKEN }}" \
           .. release tag-snapshot-version \
-                --id "TAG-RELEASE" \
+                --id "TAG-SNAPSHOT" \
                 --lcd "$LOCAL_CLONE_DIR"
