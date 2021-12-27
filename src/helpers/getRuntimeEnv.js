@@ -35,4 +35,5 @@ export default () => ({
   KEYCLOAK_JSON: getEnvVar('KEYCLOAK_JSON') || `${validateDomain(getEnvVar('DOMAIN'))}/keycloak.json`,
   WEBUI_ENABLED: getBooleanEnvVar('WEBUI_ENABLED'),
   WEBUI_APP_MANAGEMENT_URL: getEnvVar('WEBUI_APP_MANAGEMENT_URL'),
+  WEBUI_APP_URL: getEnvVar('WEBUI_APP_URL'),
 });

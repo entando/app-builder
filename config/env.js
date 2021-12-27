@@ -63,6 +63,7 @@ const RUNTIME_OVERRIDABLE_VARS = [
   'KEYCLOAK_JSON',
   'WEBUI_ENABLED',
   'WEBUI_APP_MANAGEMENT_URL',
+  'WEBUI_APP_URL',
 ];
 
 function getClientEnvironment(publicUrl) {
