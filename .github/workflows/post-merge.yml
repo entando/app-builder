@@ -24,7 +24,7 @@ jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # SNAPSHOT TAG
   
-  add-snapshot-tag:
+  add-version-tag:
     runs-on: ubuntu-latest
     steps:
       - name: "ADD SNAPSHOT TAG"
@@ -36,6 +36,6 @@ jobs:
                 --id "CHECKOUT-BASE" \
                 --lcd "$LOCAL_CLONE_DIR" \
                 --token "${{ secrets.ENTANDO_BOT_TOKEN }}" \
-          .. release tag-snapshot-version \
-                --id "TAG-SNAPSHOT" \
+          .. publication tag-git-version \
+                --id "TAG-VERSION" \
                 --lcd "$LOCAL_CLONE_DIR"
