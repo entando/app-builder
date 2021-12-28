@@ -6,6 +6,7 @@ import { Modal, Col, Row, Spinner, DropdownKebab, MenuItem, Button } from 'patte
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { ROUTE_PAGE_TEMPLATE_DETAIL } from 'app-init/router';
 import { TEMPLATE_THUMBNAIL } from 'ui/pages/common/const';
+import { openInNewTab } from 'helpers/urlUtils';
 
 export const MODAL_ID = 'FindTemplateModal';
 
@@ -61,7 +62,7 @@ const FindTemplateModal = ({
               onClick={() => {
               const templatePath = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', code);
               const link = `${global.location.href.split('/page')[0]}${templatePath}`;
-              window.open(link);
+              openInNewTab(link);
             }}
             >
               <FormattedMessage id="app.details" />

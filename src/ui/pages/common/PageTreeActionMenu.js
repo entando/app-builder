@@ -5,13 +5,9 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import { NEXT_PAGE_TYPE } from 'ui/pages/common/const';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { openInNewTab } from 'helpers/urlUtils';
 
 const { WEBUI_APP_URL } = getRuntimeEnv();
-
-const openInNewTab = (url) => {
-  const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-  if (newWindow) newWindow.opener = null;
-};
 
 class PageTreeActionMenu extends Component {
   constructor(props) {

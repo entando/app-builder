@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem, Button } from 'patternfly-react';
+import { openInNewTab } from 'helpers/urlUtils';
 
 const AssetsListGridView = ({
   assets,
@@ -25,7 +26,7 @@ const AssetsListGridView = ({
     const onEditClickHandle = () => onEditClicked(asset);
     const onClickDeleteHandle = () => onClickDelete(asset);
     const onDuplicateClickHandle = () => onDuplicateClicked(asset);
-    const onDownloadHandle = () => window.open(asset.downloadUrl);
+    const onDownloadHandle = () => openInNewTab(asset.downloadUrl);
     const onClickSelectHandle = () => onItemSelected(asset);
     return (
       <div className="AssetsListGridView__item" key={asset.id}>
