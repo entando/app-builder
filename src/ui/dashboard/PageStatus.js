@@ -96,6 +96,7 @@ PageStatus.propTypes = {
     draft: PropTypes.number,
     unpublished: PropTypes.number,
     published: PropTypes.number,
+    lastUpdate: PropTypes.string,
   }).isRequired,
 };
 

@@ -38,7 +38,10 @@ const RenderSearchFormInput = ({
 );
 
 RenderSearchFormInput.propTypes = {
-  input: PropTypes.shape({}),
+  input: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  }),
   meta: PropTypes.shape({}),
   onClear: PropTypes.func,
   intl: intlShape.isRequired,

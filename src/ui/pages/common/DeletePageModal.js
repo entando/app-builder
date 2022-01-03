@@ -46,6 +46,7 @@ DeletePageModal.propTypes = {
   info: PropTypes.shape({
     code: PropTypes.string,
     type: PropTypes.string,
+    successRedirect: PropTypes.bool,
   }),
   page: PropTypes.shape({}),
 };

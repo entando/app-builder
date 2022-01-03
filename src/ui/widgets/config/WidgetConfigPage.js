@@ -218,7 +218,9 @@ class WidgetConfigPage extends Component {
 WidgetConfigPage.propTypes = {
   onDidMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
-  widget: PropTypes.shape({}),
+  widget: PropTypes.shape({
+    readonlyDefaultConfig: PropTypes.bool,
+  }),
   widgetCode: PropTypes.string.isRequired,
   widgetConfig: PropTypes.shape({}),
   framePos: PropTypes.number.isRequired,

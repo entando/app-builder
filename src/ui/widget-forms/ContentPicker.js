@@ -63,7 +63,7 @@ class ContentPickerBody extends Component {
         onClick={this.handlePickContent}
         disabled={addButtonDisabled}
       >
-    +
+        +
       </Button>
     );
     return (

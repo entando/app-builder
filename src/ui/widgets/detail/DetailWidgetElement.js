@@ -80,7 +80,9 @@ const DetailWidgetElement = ({ widgetInfo }) => {
 };
 
 DetailWidgetElement.propTypes = {
-  widgetInfo: PropTypes.shape({}).isRequired,
+  widgetInfo: PropTypes.shape({
+    data: PropTypes.shape({}),
+  }).isRequired,
 };
 
 

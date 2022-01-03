@@ -50,12 +50,15 @@ JsonCodeEditorRenderer.propTypes = {
   form: PropTypes.shape({
     touched: PropTypes.shape({}),
     errors: PropTypes.shape({}),
+    setFieldTouched: PropTypes.func,
+    setFieldValue: PropTypes.func,
   }),
   help: PropTypes.node,
   field: PropTypes.shape({
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
     value: PropTypes.string,
+    name: PropTypes.string,
   }),
 };
 

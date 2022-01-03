@@ -32,10 +32,18 @@ const RenderFileInput = ({
 );
 
 RenderFileInput.propTypes = {
-  input: PropTypes.shape({}),
+  input: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
   label: PropTypes.node,
   placeholder: PropTypes.string,
-  meta: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   help: PropTypes.node,
   disabled: PropTypes.bool,
   labelSize: PropTypes.number,

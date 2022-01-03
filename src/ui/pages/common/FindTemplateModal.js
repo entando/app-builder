@@ -44,14 +44,12 @@ const FindTemplateModal = ({
           key={code}
           className={`FindTemplateModal__template-list-li ${selected === code ? 'FindTemplateModal__template-list-li--selected' : ''}`}
         >
-          {
-            <button className="FindTemplateModal__template-list-button" onClick={() => handleTemplateClick(code)}>
-              <img
-                src={TEMPLATE_THUMBNAIL[code] || TEMPLATE_THUMBNAIL.custom}
-                alt={descr}
-              />
-            </button>
-          }
+          <button className="FindTemplateModal__template-list-button" onClick={() => handleTemplateClick(code)}>
+            <img
+              src={TEMPLATE_THUMBNAIL[code] || TEMPLATE_THUMBNAIL.custom}
+              alt={descr}
+            />
+          </button>
           <DropdownKebab
             className="FindTemplateModal__dropdown-kebab"
             id={`${code}-actions`}

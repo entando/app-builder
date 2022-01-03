@@ -19,10 +19,10 @@ const WidgetIcon = ({
   return iconType === 'font-awesome'
     ? <span className={cx('fa', iconName, 'WidgetIcon', small && 'WidgetIcon--small', className)} />
     : <img
-      src={`${imageProvider}/${iconName}.svg`}
-      alt={`icon ${iconName}`}
-      className={cx('WidgetIcon', small && 'WidgetIcon--small', className)}
-      onError={(e) => { e.target.onerror = null; e.target.src = fallbackIcon; }}
+        src={`${imageProvider}/${iconName}.svg`}
+        alt={`icon ${iconName}`}
+        className={cx('WidgetIcon', small && 'WidgetIcon--small', className)}
+        onError={(e) => { e.target.onerror = null; e.target.src = fallbackIcon; }}
     />;
 };
 

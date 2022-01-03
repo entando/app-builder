@@ -106,7 +106,7 @@ export class ProfileTypeFormBody extends Component {
               <legend>
                 <FormattedMessage id="app.info" />
                 <div className="ProfileTypeForm__required-fields text-right">
-                   * <FormattedMessage id="app.fieldsRequired" />
+                  * <FormattedMessage id="app.fieldsRequired" />
                 </div>
               </legend>
               <Field

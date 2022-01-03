@@ -136,7 +136,9 @@ PageListSearchTable.propTypes = {
   locale: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   searchPages: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedPage: PropTypes.shape({}),
+  selectedPage: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,

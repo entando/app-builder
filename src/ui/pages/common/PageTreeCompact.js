@@ -188,7 +188,9 @@ PageTreeCompact.propTypes = {
     expanded: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
   })),
-  selectedPage: PropTypes.shape({}),
+  selectedPage: PropTypes.shape({
+    code: PropTypes.string,
+  }),
   onExpandPage: PropTypes.func,
   onClickClone: PropTypes.func.isRequired,
   onClickDelete: PropTypes.func.isRequired,

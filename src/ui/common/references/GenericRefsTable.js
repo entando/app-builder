@@ -123,8 +123,8 @@ GenericRefsTable.propTypes = {
   columns: PropTypes.shape({}),
   pagination: PropTypes.shape({
     page: PropTypes.number,
-    perPage: PropTypes.number,
     totalItems: PropTypes.number,
+    pageSize: PropTypes.number,
   }).isRequired,
 };
 

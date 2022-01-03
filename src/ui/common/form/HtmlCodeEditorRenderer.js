@@ -35,7 +35,10 @@ const HtmlCodeEditorRenderer = ({
 HtmlCodeEditorRenderer.propTypes = {
   name: PropTypes.string,
   label: PropTypes.node,
-  meta: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   help: PropTypes.node,
   input: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
