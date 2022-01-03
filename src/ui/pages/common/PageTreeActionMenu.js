@@ -95,6 +95,7 @@ class PageTreeActionMenu extends Component {
     );
 
     const handleDesignNextPage = () => openInNewTab(WEBUI_APP_URL);
+    const handlePreviewNextPage = () => openInNewTab(page.nextLink);
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
         <DropdownKebab pullRight id="WidgetListRow-dropown">
@@ -138,14 +139,14 @@ class PageTreeActionMenu extends Component {
           )}
           {renderDeleteItem()}
           {
-            page.type !== NEXT_PAGE_TYPE && (
-              <MenuItem
-                className="PageTreeActionMenuButton__menu-item-preview"
-                onClick={this.handleClickPreview(onClickPreview)}
-              >
-                <FormattedMessage id="app.preview" />
-              </MenuItem>
-            )
+
+            <MenuItem
+              className="PageTreeActionMenuButton__menu-item-preview"
+              onClick={page.type === NEXT_PAGE_TYPE ?
+                handlePreviewNextPage : this.handleClickPreview(onClickPreview)}
+            >
+              <FormattedMessage id="app.preview" />
+            </MenuItem>
           }
           {viewPublishedPage}
         </DropdownKebab>
