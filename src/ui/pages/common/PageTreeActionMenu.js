@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
-import { NEXT_PAGE_TEMPLATE_CODE } from 'ui/pages/common/const';
+import { NEXT_PAGE_TYPE } from 'ui/pages/common/const';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { openInNewTab } from 'helpers/urlUtils';
+
+const { WEBUI_APP_URL } = getRuntimeEnv();
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -90,6 +94,7 @@ class PageTreeActionMenu extends Component {
       </MenuItem>
     );
 
+    const handleDesignNextPage = () => openInNewTab(WEBUI_APP_URL);
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
         <DropdownKebab pullRight id="WidgetListRow-dropown">
@@ -107,10 +112,11 @@ class PageTreeActionMenu extends Component {
               <FormattedMessage id="app.edit" />
             </MenuItem>
           )}
-          {onClickConfigure && page.pageModel !== NEXT_PAGE_TEMPLATE_CODE && (
+          {onClickConfigure && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-configure"
-              onSelect={this.handleClick(onClickConfigure)}
+              onSelect={page.type === NEXT_PAGE_TYPE ?
+                handleDesignNextPage : this.handleClick(onClickConfigure)}
             >
               <FormattedMessage id="app.design" />
             </MenuItem>
@@ -132,7 +138,7 @@ class PageTreeActionMenu extends Component {
           )}
           {renderDeleteItem()}
           {
-            page.pageModel !== NEXT_PAGE_TEMPLATE_CODE && (
+            page.type !== NEXT_PAGE_TYPE && (
               <MenuItem
                 className="PageTreeActionMenuButton__menu-item-preview"
                 onClick={this.handleClickPreview(onClickPreview)}
