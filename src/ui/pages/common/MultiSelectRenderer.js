@@ -45,8 +45,10 @@ export class MultiSelectRendererBody extends Component {
 
   render() {
     const {
-      intl, options, selectedValues, labelKey, valueKey, emptyOptionTextId, disabled,
+      intl, options, selectedValues, labelKey, valueKey, emptyOptionTextId, disabled, fields,
     } = this.props;
+
+    const { name } = fields;
 
     const filteredOptions = options
       .filter(opt => !selectedValues.includes(opt[valueKey]))
@@ -77,6 +79,7 @@ export class MultiSelectRendererBody extends Component {
             className="form-control"
             ref={(select) => { this.select = select; }}
             disabled={disabled}
+            name={name}
           >
             {filteredOptions}
           </select>
@@ -86,13 +89,16 @@ export class MultiSelectRendererBody extends Component {
               bsStyle="primary"
               onClick={this.pushField}
               disabled={disabled}
+              data-testid={`${name}_button`}
             >
               <i className="fa fa-plus" />
             </Button>
           </span>
         </InputGroup>
         <br />
-        { this.renderTags() }
+        <div data-testid={`${name}_tags`}>
+          { this.renderTags() }
+        </div>
       </div>
     );
   }
@@ -104,6 +110,7 @@ MultiSelectRendererBody.propTypes = {
   fields: PropTypes.shape({
     push: PropTypes.func,
     remove: PropTypes.func,
+    name: PropTypes.string,
   }).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   selectedValues: PropTypes.arrayOf(PropTypes.string),
