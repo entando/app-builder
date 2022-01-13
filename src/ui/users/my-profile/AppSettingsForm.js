@@ -115,6 +115,7 @@ export class AppSettingsFormBody extends Component {
           className="pull-right"
           type="submit"
           bsStyle="primary"
+          data-testid="settings_saveBtn"
         >
           <FormattedMessage id="app.save" />
         </Button>
