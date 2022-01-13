@@ -95,7 +95,7 @@ class PageTreeActionMenu extends Component {
     );
 
     const handleDesignNextPage = () => openInNewTab(WEBUI_APP_URL);
-    const handlePreviewNextPage = () => openInNewTab(page.nextLink);
+    const handlePreviewNextPage = () => openInNewTab(`${WEBUI_APP_URL}/entando-de-app/en/${page.code}.page`);
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
         <DropdownKebab pullRight id="WidgetListRow-dropown">
