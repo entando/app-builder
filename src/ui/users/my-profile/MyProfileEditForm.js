@@ -249,6 +249,7 @@ export class MyProfileEditFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
+              data-testid="profile_saveBtn"
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -256,6 +257,7 @@ export class MyProfileEditFormBody extends Component {
               className="pull-right"
               onClick={this.handleCancelClick}
               style={{ marginRight: '12px' }}
+              data-testid="profile_cancelBtn"
             >
               <FormattedMessage id="app.cancel" />
             </Button>
@@ -265,6 +267,7 @@ export class MyProfileEditFormBody extends Component {
             className="pull-right"
             bsStyle="primary"
             onClick={this.handleEditClick}
+            data-testid="profile_editBtn"
           >
             <FormattedMessage id="app.edit" />
           </Button>
