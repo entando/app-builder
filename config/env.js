@@ -64,6 +64,7 @@ const RUNTIME_OVERRIDABLE_VARS = [
   'WEBUI_ENABLED',
   'WEBUI_APP_MANAGEMENT_URL',
   'WEBUI_APP_URL',
+  'WEBUI_DEV_WORKSPACE_URL',
 ];
 
 function getClientEnvironment(publicUrl) {

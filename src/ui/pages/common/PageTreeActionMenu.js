@@ -7,7 +7,7 @@ import { NEXT_PAGE_TYPE } from 'ui/pages/common/const';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { openInNewTab } from 'helpers/urlUtils';
 
-const { WEBUI_APP_URL } = getRuntimeEnv();
+const { WEBUI_APP_URL, WEBUI_DEV_WORKSPACE_URL } = getRuntimeEnv();
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -94,7 +94,7 @@ class PageTreeActionMenu extends Component {
       </MenuItem>
     );
 
-    const handleDesignNextPage = () => openInNewTab(WEBUI_APP_URL);
+    const handleDesignNextPage = () => openInNewTab(WEBUI_DEV_WORKSPACE_URL);
     const handlePreviewNextPage = () => openInNewTab(`${WEBUI_APP_URL}/entando-de-app/en/${page.code}.page`);
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
