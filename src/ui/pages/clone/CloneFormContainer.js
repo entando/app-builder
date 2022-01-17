@@ -13,6 +13,11 @@ import { sendClonePage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { setVisibleModal } from 'state/modal/actions';
 import getSearchParam from 'helpers/getSearchParam';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { openInNewTab } from 'helpers/urlUtils';
+import { NEXT_PAGE_TEMPLATE } from 'ui/pages/common/const';
+
+const { WEBUI_ENABLED, WEBUI_DEV_WORKSPACE_URL } = getRuntimeEnv();
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
@@ -47,7 +52,12 @@ export const mapDispatchToProps = dispatch => ({
           break;
         }
         case ACTION_SAVE_AND_CONFIGURE: {
-          history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+          if (WEBUI_ENABLED && data.pageModel === NEXT_PAGE_TEMPLATE) {
+            openInNewTab(WEBUI_DEV_WORKSPACE_URL);
+            history.push(ROUTE_PAGE_TREE);
+          } else {
+            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+          }
           break;
         }
         default: history.push(ROUTE_PAGE_TREE);
