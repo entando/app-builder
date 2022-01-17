@@ -46,3 +46,4 @@ export const TEMPLATE_THUMBNAIL = {
 };
 
 export const NEXT_PAGE_TYPE = 'NX';
+export const NEXT_PAGE_TEMPLATE = 'nx-page-template';
