@@ -28,8 +28,6 @@ const UserAuthorityTable = ({
       .find(item => (group.value === '' || item.group.code === group.value) &&
         (role.value === '' || item.role.code === role.value)));
     if (!isPresent) {
-      console.log('toadd', { group: group.value || null,
-        role: role.value || null })
       push({
         group: group.value || null,
         role: role.value || null,
@@ -108,7 +106,7 @@ const UserAuthorityTable = ({
             onClick={onAddNewClicked}
             data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
           >
-              Add new Authorization
+            <FormattedMessage id="user.authority.addNew" defaultMessage="New Authorization" />
           </Button>
         </Col>
       </Row>
