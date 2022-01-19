@@ -78,10 +78,10 @@ UserAuthorityPageFormBody.propTypes = {
   groupsMap: PropTypes.shape({}),
   rolesMap: PropTypes.shape({}),
   values: PropTypes.shape({
-    groupRolesCombo: {
-      group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
-      role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
-    },
+    groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
+      group: PropTypes.string,
+      role: PropTypes.string,
+    })),
   }),
   loading: PropTypes.bool,
 
@@ -102,7 +102,7 @@ UserAuthorityPageFormBody.defaultProps = {
 
 const UserAuthorityPageForm = withFormik({
   enableReinitialize: true,
-  initialValues: ({ initialValues }) => initialValues,
+  mapPropsToValues: ({ initialValues }) => initialValues,
   validationSchema: Yup.object().shape({
     groupRolesCombo: Yup.array().of(Yup.object().shape({
       group: Yup.string(),
