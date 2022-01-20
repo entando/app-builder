@@ -6,11 +6,12 @@ on:
       - 'v*'
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.1.0"
+  ENTANDO_OPT_USE_PPL_TAG: "v1.2.0"
   ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
   ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
   ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
   ENTANDO_OPT_REPO_BOM_URL: "${{ secrets.ENTANDO_OPT_REPO_BOM_URL }}"
+  ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
   PPL_CONTEXT: ${{ toJson(github) }}
   GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
   GIT_USER_EMAIL: "${{ secrets.GIT_USER_EMAIL }}"
@@ -18,26 +19,35 @@ env:
 
 
 jobs:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # INTERNAL PUBLICATION
   internal-publication:
+    env:
+      ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: "PR PIPELINE START"
         id: START
         run: |
           ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
-          ~/ppl-run status-report \
+          ~/ppl-run \
+            .. status-report \
             .. @setup-feature-flags "PR_FORMAT_CHECK" "BOM_CHECK" "BOM" \
-            .. @setup-features-list "SCAN_MATRIX" true SONAR_SCAN OWASP_SCAN SNYK_SCAN \
           ;
       #~ CHECKOUT
-      - name: "Checkout"
+      - name: "CHECKOUT"
+        id: CHECKOUT
         run: |
-          ~/ppl-run checkout-branch base \
-            --id "CHECKOUT FOR NEXUS PUBLICATION" \
+          ~/ppl-run \
+            .. checkout-branch --id "CHECKOUT FOR NEXUS PUBLICATION" \
             --lcd "$LOCAL_CLONE_DIR" \
+                  --token "$ENTANDO_BOT_TOKEN" \
+            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;
       #~ NODE
-      - uses: actions/setup-node@v2
+      - name: "Set up Node 14"
+        uses: actions/setup-node@v2
         with:
           node-version: 14.x
       #~ NPM CACHE
@@ -52,7 +62,7 @@ jobs:
         id: build-cache
         uses: actions/cache@v2
         with:
-          path:  "${{ env.LOCAL_CLONE_DIR }}/build/"
+          path: "${{ env.LOCAL_CLONE_DIR }}/build/"
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       #~ PUBLISH PACKAGE
       - name: "Publish package"
@@ -60,6 +70,18 @@ jobs:
           ~/ppl-run generic PUBLISH \
             --id "PUBLICATION" \
             --lcd "$LOCAL_CLONE_DIR"
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      #~ UPDATE THE BOM (if required)
+      - name: "BOM Update"
+        if: steps.CHECKOUT.outputs.BOM_UPDATE_FLAG == 'true' && steps.START.outputs.BOM == 'true'
+        run: |
+          ~/ppl-run bom update-bom \
+            --id "UPDATE-BOM" \
+            --lcd "$LOCAL_CLONE_DIR" \
+            --token "$ENTANDO_BOT_TOKEN" \
+          ;
       #~ PUBLISH TO DOCKER IMAGE
       - name: "Publish docker"
         env:
