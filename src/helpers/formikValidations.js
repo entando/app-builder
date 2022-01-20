@@ -1,6 +1,3 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 export const formatMessageRequired = {
   id: 'validateForm.required',
   defaultMessage: 'Required',
@@ -32,14 +29,3 @@ export const validateCodeField = intl => (value, { createError, path }) => (
       path,
     })
 );
-
-export const userPassCharsValid = (value, { createError, path }) => {
-  if (!/^[0-9a-zA-Z_.]+$/i.test(value)) {
-    return createError({
-      message: <FormattedMessage id="user.validate.text" />,
-      path,
-    });
-  }
-
-  return true;
-};
