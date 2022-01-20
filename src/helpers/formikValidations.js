@@ -1,6 +1,3 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
 export const formatMessageRequired = {
   id: 'validateForm.required',
   defaultMessage: 'Required',
