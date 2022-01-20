@@ -202,6 +202,7 @@ export const fetchUserAuthorities = username => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedUserAuthorities(username, json.payload));
+      dispatch(initialize('autorityForm', { groupRolesCombo: json.payload }));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

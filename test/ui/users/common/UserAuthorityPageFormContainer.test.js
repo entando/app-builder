@@ -12,15 +12,13 @@ import { LIST_ROLES_OK } from 'test/mocks/roles';
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
-  getGroupsMap: jest.fn(),
 }));
 jest.mock('state/roles/selectors', () => ({
   getRolesList: jest.fn(),
-  getRolesMap: jest.fn(),
 }));
 
 jest.mock('state/users/selectors', () => ({
-  getSelectedUserAuthoritiesList: jest.fn(),
+  getGroupRolesCombo: jest.fn(),
   getSelectedUserActionAuthorities: jest.fn(),
 }));
 
@@ -46,17 +44,15 @@ describe('UserAuthorityPageFormContainer', () => {
     expect(props).toHaveProperty('loading');
     expect(props).toHaveProperty('groups');
     expect(props).toHaveProperty('roles');
-    expect(props).toHaveProperty('groupsMap');
-    expect(props).toHaveProperty('rolesMap');
-    expect(props).toHaveProperty('initialValues');
+    expect(props).toHaveProperty('groupRolesCombo');
     expect(props).toHaveProperty('actionOnSave');
   });
 
   it('verify that onWillMount and onSubmit are defined in mapDispatchToProps', () => {
     const dispatchMock = jest.fn();
     const result = mapDispatchToProps(dispatchMock, ownProps);
-    expect(result.onDidMount).toBeDefined();
-    result.onDidMount();
+    expect(result.onWillMount).toBeDefined();
+    result.onWillMount();
     expect(dispatchMock).toHaveBeenCalled();
     expect(result.onSubmit).toBeDefined();
   });
