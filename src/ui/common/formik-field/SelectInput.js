@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Col, ControlLabel } from 'patternfly-react';
 import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
-const RenderSelectInputBody = ({
-  input,
+import { getTouchErrorByField } from 'helpers/formikUtils';
+
+const SelectInput = ({
+  field,
+  form,
   forwardedRef,
-  meta: { touched, error },
   labelSize,
   alignClass,
   label,
@@ -23,6 +25,8 @@ const RenderSelectInputBody = ({
   hasLabel,
   xsClass,
 }) => {
+  const { touched, error } = getTouchErrorByField(field.name, form);
+
   const containerClasses = touched && error ? 'form-group has-error' : 'form-group';
 
   let defaultOption = null;
@@ -43,23 +47,23 @@ const RenderSelectInputBody = ({
       </option>
     ));
 
-  const errorBox = touched && error ? <span className="help-block">{error}</span> : null;
+  const errorBox = touched && error ? <span role="alert" className="help-block">{error}</span> : null;
 
   return (
     <div className={containerClasses}>
       {hasLabel && (
         <Col xs={12} sm={labelSize} className={`${alignClass} ${xsClass}`}>
-          <ControlLabel htmlFor={input.name}>
+          <ControlLabel htmlFor={field.name}>
             {label} {help}
           </ControlLabel>
         </Col>
       )}
       <Col xs={12} sm={inputSize || 12 - labelSize}>
         <select
-          {...input}
-          id={input.name}
+          {...field}
+          id={field.name}
           size={size}
-          className="form-control RenderSelectInput"
+          className="form-control SelectInput"
           disabled={disabled}
           ref={forwardedRef}
         >
@@ -72,19 +76,19 @@ const RenderSelectInputBody = ({
   );
 };
 
-RenderSelectInputBody.propTypes = {
+SelectInput.propTypes = {
   intl: intlShape.isRequired,
-  input: PropTypes.shape({
-    name: PropTypes.string,
+  field: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  form: PropTypes.shape({
+    touched: PropTypes.shape({}),
+    errors: PropTypes.shape({}),
   }),
   forwardedRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
-  meta: PropTypes.shape({
-    touched: PropTypes.bool,
-    error: PropTypes.shape({}),
-  }),
   defaultOptionId: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -104,12 +108,8 @@ RenderSelectInputBody.propTypes = {
   hasLabel: PropTypes.bool,
 };
 
-RenderSelectInputBody.defaultProps = {
-  input: {},
-  meta: {
-    touched: false,
-    error: {},
-  },
+SelectInput.defaultProps = {
+  form: {},
   defaultOptionId: '',
   options: [],
   label: null,
@@ -127,8 +127,8 @@ RenderSelectInputBody.defaultProps = {
   forwardedRef: null,
 };
 
-const RenderSelectInput = injectIntl(RenderSelectInputBody);
+const IntlWrappedSelectInput = injectIntl(SelectInput);
 
 export default React.forwardRef((props, ref) => (
-  <RenderSelectInput {...props} forwardedRef={ref} />
+  <IntlWrappedSelectInput {...props} forwardedRef={ref} />
 ));
