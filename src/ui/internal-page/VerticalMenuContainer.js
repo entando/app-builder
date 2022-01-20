@@ -94,7 +94,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
       {
         hasCategoriesAccess && (
         <SecondaryItem
-          id="menu-category"
           title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
           onClick={() => history.push(ROUTE_CATEGORY_LIST)}
         />
@@ -103,7 +102,6 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
       {
         hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
         <SecondaryItem
-          id="menu-versioning"
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
           onClick={() => history.push(ROUTE_CMS_VERSIONING)}
         />
