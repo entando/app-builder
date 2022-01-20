@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Button, Row, Col, FormGroup } from 'patternfly-react';
-import {
-  required,
-  maxLength,
-  minLength,
-  matchPassword,
-  userFormText,
-  formatDate,
-} from '@entando/utils';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Button, Row, Col } from 'patternfly-react';
+import { formatDate } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import SelectInput from 'ui/common/formik-field/SelectInput';
+import SwitchInput from 'ui/common/formik-field/SwitchInput';
+
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import { TEST_ID_USER_FORM } from 'ui/test-const/user-test-const';
+import { userPassCharsValid } from 'helpers/formikValidations';
 
-const EDIT_MODE = 'edit';
-const NEW_MODE = 'new';
+const msgs = defineMessages({
+  username: {
+    id: 'user.username',
+  },
+  password: {
+    id: 'user.password',
+  },
+  passwordConfirm: {
+    id: 'user.passwordConfirm',
+  },
+});
 
-const minLength4 = minLength(4);
-const minLength8 = minLength(8);
-const maxLength20 = maxLength(20);
-const maxLength80 = maxLength(80);
-
-export const renderStaticField = (field) => {
-  const { input, label, name } = field;
-  let fieldValue = input.value.title || input.value;
-  if (!input.value) {
+const renderStaticField = (fieldProps) => {
+  const { field, label, name } = fieldProps;
+  let fieldValue = field.value && (field.value.title || field.value);
+  if (!field.value) {
     fieldValue = <i className="icon fa fa-minus" />;
   } else if (!Number.isNaN(Date.parse(fieldValue))) {
     fieldValue = formatDate(fieldValue);
@@ -48,227 +48,225 @@ export const renderStaticField = (field) => {
   );
 };
 
-const msgs = defineMessages({
-  username: {
-    id: 'user.table.username',
-    defaultMessage: 'Username',
-  },
-  password: {
-    id: 'user.password',
-    defaultMessage: 'Password',
-  },
-  passwordConfirm: {
-    id: 'user.passwordConfirm',
-    defaultMessage: 'Confirm Password',
-  },
+const addFormSchema = Yup.object().shape({
+  username: Yup.string()
+    .required(<FormattedMessage id="validateForm.required" />)
+    .min(4, <FormattedMessage id="validateForm.minLength" values={{ min: 4 }} />)
+    .max(80, <FormattedMessage id="validateForm.maxLength" values={{ max: 80 }} />)
+    .test('usernameCharsValid', userPassCharsValid),
+  password: Yup.string()
+    .required(<FormattedMessage id="validateForm.required" />)
+    .min(8, <FormattedMessage id="validateForm.minLength" values={{ min: 8 }} />)
+    .max(20, <FormattedMessage id="validateForm.maxLength" values={{ max: 20 }} />)
+    .test('passwordCharsValid', userPassCharsValid),
+  passwordConfirm: Yup.string()
+    .required(<FormattedMessage id="validateForm.required" />)
+    .oneOf([Yup.ref('password')], <FormattedMessage id="validateForm.passwordNotMatch" />),
+  profileType: Yup.string()
+    .required(<FormattedMessage id="validateForm.required" />),
+  status: Yup.string(),
 });
 
-export class UserFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
-  }
+const editFormSchema = Yup.object().shape({
+  username: Yup.string(),
+  password: Yup.string()
+    .min(8, <FormattedMessage id="validateForm.minLength" values={{ min: 8 }} />)
+    .max(20, <FormattedMessage id="validateForm.maxLength" values={{ max: 20 }} />)
+    .test('passwordCharsValid', userPassCharsValid),
+  passwordConfirm: Yup.string()
+    .when('password', (password, field) => (password ? (field
+      .required(<FormattedMessage id="validateForm.required" />)
+      .oneOf([Yup.ref('password')], <FormattedMessage id="validateForm.passwordNotMatch" />)
+    ) : field)),
+  registration: Yup.string(),
+  lastLogin: Yup.string().nullable(),
+  lastPasswordChange: Yup.string().nullable(),
+  reset: Yup.boolean(),
+  status: Yup.string(),
+});
 
-  render() {
-    const {
-      intl, onSubmit, handleSubmit, invalid, submitting, mode, profileTypes,
-      password, dirty, onCancel, onDiscard, onSave,
-    } = this.props;
+const getFormSchema = editing => (editing ? editFormSchema : addFormSchema);
 
-    const handleCancelClick = () => {
-      if (dirty) {
-        onCancel();
-      } else {
-        onDiscard();
-      }
-    };
+const UserForm = ({
+  intl, initialValues, profileTypes, onMount, onSubmit,
+  onCancel, onDiscard, onModalSave, editing,
+}) => {
+  useEffect(() => {
+    onMount();
+  }, [onMount]);
 
-    const showUsername = (
-      <Field
-        component={RenderTextInput}
-        name="username"
-        label={<FormLabel labelId="user.table.username" helpId="user.username.help" required />}
-        placeholder={intl.formatMessage(msgs.username)}
-        validate={mode !== EDIT_MODE ?
-          [required, minLength4, maxLength80, userFormText] : undefined}
-        disabled={mode === EDIT_MODE}
-        disallowedInput={/[^0-9a-zA-Z_.]/g}
-        forceLowerCase
-      />
-    );
-    const showEdit = () => {
-      if (mode === NEW_MODE) {
-        return null;
-      }
-      return (
-        <div className="UserForm__content-edit" >
-          <Field
-            name="registration"
-            component={renderStaticField}
-            label={<FormattedMessage id="user.registration" />}
-          />
-          <Field
-            name="lastLogin"
-            component={renderStaticField}
-            label={<FormattedMessage id="user.lastLogin" />}
-          />
-          <Field
-            name="lastPasswordChange"
-            component={renderStaticField}
-            label={<FormattedMessage id="user.lastPasswordChange" />}
-          />
-          <FormGroup>
-            <label htmlFor="reset" className="col-xs-2 control-label">
-              <FormattedMessage id="user.reset" />&nbsp;
-            </label>
-            <Col xs={4}>
-              <Field
-                component={SwitchRenderer}
-                name="reset"
-              />
-            </Col>
-          </FormGroup>
-        </div>
-      );
-    };
+  const handleSubmit = ({ submitType, ...values }) => onSubmit(values, submitType);
 
-    const showProfileType = (
-      mode !== EDIT_MODE ?
-        (<Field
-          component={RenderSelectInput}
-          options={profileTypes}
-          defaultOptionId="form.select.chooseOne"
-          label={<FormLabel labelId="user.profileType" required />}
-          name="profileType"
-          validate={required}
-        />) : null
-    );
+  const handleCancelClick = ({ dirty }) => {
+    if (dirty) {
+      onCancel();
+    } else {
+      onDiscard();
+    }
+  };
 
-    return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserForm form-horizontal">
-        <Row>
-          <Col xs={12}>
-            <fieldset className="no-padding">
-              <FormSectionTitle titleId="app.info" />
-              {showUsername}
-              <Field
-                component={RenderTextInput}
-                name="password"
-                type="password"
-                label={<FormLabel labelId="user.password" helpId="user.password.help" required={mode === NEW_MODE} />}
-                placeholder={intl.formatMessage(msgs.password)}
-                validate={[
-                  ...(mode === NEW_MODE ? [required] : []),
-                  ...(password ? [userFormText, minLength8, maxLength20] : []),
-                  ]}
-              />
-              <Field
-                component={RenderTextInput}
-                name="passwordConfirm"
-                type="password"
-                label={<FormLabel labelId="user.passwordConfirm" required={mode === NEW_MODE} />}
-                placeholder={intl.formatMessage(msgs.passwordConfirm)}
-                validate={[
-                  ...(mode === NEW_MODE ? [required] : []),
-                  ...(password ? [matchPassword] : []),
-                ]}
-              />
-              {/* Insert user info and reset button on EDIT */}
-              {showEdit()}
-              {showProfileType}
-              <FormGroup>
-                <label htmlFor="status" className="col-xs-2 control-label">
-                  <FormattedMessage id="user.status" />&nbsp;
-                </label>
-                <Col xs={4}>
+  const handleModalSave = ({ submitForm }) => {
+    onModalSave();
+    submitForm();
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={getFormSchema(editing)}
+      onSubmit={handleSubmit}
+      validateOnMount
+      enableReinitialize
+    >
+      {formik => (
+        <Form className="UserForm form-horizontal" aria-label="User Form">
+          <Row>
+            <Col xs={12}>
+              <fieldset className="no-padding">
+                <FormSectionTitle titleId="app.info" />
+                <Field
+                  component={RenderTextInput}
+                  name="username"
+                  label={<FormLabel labelId="user.username" helpId="user.username.help" required />}
+                  placeholder={intl.formatMessage(msgs.username)}
+                  disabled={editing}
+                />
+                <Field
+                  component={RenderTextInput}
+                  type="password"
+                  name="password"
+                  label={<FormLabel labelId="user.password" helpId="user.password.help" required={!editing} />}
+                  placeholder={intl.formatMessage(msgs.password)}
+                />
+                <Field
+                  component={RenderTextInput}
+                  type="password"
+                  name="passwordConfirm"
+                  label={<FormLabel labelId="user.passwordConfirm" required={!editing} />}
+                  placeholder={intl.formatMessage(msgs.passwordConfirm)}
+                />
+                {editing ? (
+                  <div className="UserForm__content-edit" >
+                    <Field
+                      name="registration"
+                      component={renderStaticField}
+                      label={<FormattedMessage id="user.registration" />}
+                    />
+                    <Field
+                      name="lastLogin"
+                      component={renderStaticField}
+                      label={<FormattedMessage id="user.lastLogin" />}
+                    />
+                    <Field
+                      name="lastPasswordChange"
+                      component={renderStaticField}
+                      label={<FormattedMessage id="user.lastPasswordChange" />}
+                    />
+                    <Field
+                      component={SwitchInput}
+                      name="reset"
+                      label={<FormLabel labelId="user.reset" />}
+                    />
+                  </div>
+                ) : (
                   <Field
-                    component={SwitchRenderer}
-                    name="status"
-                    trueValue="active"
-                    falseValue="inactive"
+                    component={SelectInput}
+                    name="profileType"
+                    label={<FormLabel labelId="user.profileType" required />}
+                    options={profileTypes}
+                    defaultOptionId="form.select.chooseOne"
                   />
-                </Col>
-              </FormGroup>
-            </fieldset>
-          </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col xs={12}>
-            <ConfirmCancelModalContainer
-              contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-              invalid={invalid}
-              submitting={submitting}
-              onSave={onSave}
-              onDiscard={onDiscard}
-            />
-            <Button
-              className="pull-right"
-              type="submit"
-              bsStyle="primary"
-              disabled={invalid || submitting}
-              data-testid={TEST_ID_USER_FORM.SAVE_BUTTON}
-            >
-              <FormattedMessage id="app.save" />
-            </Button>
-            {
-              mode !== EDIT_MODE && (
+                )}
+                <Field
+                  component={SwitchInput}
+                  name="status"
+                  label={<FormLabel labelId="user.status" />}
+                  trueValue="active"
+                  falseValue="inactive"
+                />
+              </fieldset>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <ConfirmCancelModalContainer
+                contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
+                invalid={!formik.isValid}
+                submitting={formik.isSubmitting}
+                onSave={() => handleModalSave(formik)}
+                onDiscard={onDiscard}
+              />
+              <Button
+                className="pull-right"
+                type="submit"
+                bsStyle="primary"
+                disabled={!formik.isValid || formik.isSubmitting}
+                data-testid={TEST_ID_USER_FORM.SAVE_BUTTON}
+                onClick={() => formik.setFieldValue('submitType', 'save')}
+              >
+                <FormattedMessage id="app.save" />
+              </Button>
+              {!editing && (
                 <Button
                   className="pull-right UserForm__action-button"
-                  disabled={invalid || submitting}
-                  onClick={handleSubmit(values => onSubmit({
-                  ...values,
-                  saveType: 'editProfile',
-                }))}
+                  type="submit"
+                  disabled={!formik.isValid || formik.isSubmitting}
+                  onClick={() => formik.setFieldValue('submitType', 'saveAndEditProfile')}
                 >
                   <FormattedMessage id="app.saveAndEditProfile" defaultMessage="Save and edit profile" />
                 </Button>
-              )
-            }
-            <Button
-              className="pull-right UserForm__action-button"
-              bsStyle="default"
-              onClick={handleCancelClick}
-            >
-              <FormattedMessage id="app.cancel" />
-            </Button>
-          </Col>
-        </Row>
-      </form>
-    );
-  }
-}
+              )}
+              <Button
+                className="pull-right UserForm__action-button"
+                bsStyle="default"
+                onClick={() => handleCancelClick(formik)}
+              >
+                <FormattedMessage id="app.cancel" />
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
-UserFormBody.propTypes = {
+UserForm.propTypes = {
   intl: intlShape.isRequired,
-  onWillMount: PropTypes.func,
-  handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
-  mode: PropTypes.string,
+  initialValues: PropTypes.shape({
+    username: PropTypes.string,
+    password: PropTypes.string,
+    passwordConfirm: PropTypes.string,
+    profileType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    status: PropTypes.string,
+    registration: PropTypes.string,
+    lastLogin: PropTypes.string,
+    lastPasswordChange: PropTypes.string,
+    reset: PropTypes.bool,
+  }),
   profileTypes: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    text: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
   })),
-  password: PropTypes.string,
-  dirty: PropTypes.bool,
-  onSave: PropTypes.func.isRequired,
-  onDiscard: PropTypes.func.isRequired,
+  onMount: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onDiscard: PropTypes.func.isRequired,
+  onModalSave: PropTypes.func.isRequired,
+  editing: PropTypes.bool,
 };
 
-UserFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
-  mode: NEW_MODE,
-  onWillMount: null,
+UserForm.defaultProps = {
+  initialValues: {
+    username: '',
+    password: '',
+    passwordConfirm: '',
+    profileType: '',
+    status: 'inactive',
+  },
   profileTypes: [],
-  password: '',
-  dirty: false,
+  onMount: () => {},
+  editing: false,
 };
-
-const UserForm = reduxForm({
-  form: 'user',
-})(UserFormBody);
 
 export default injectIntl(UserForm);
