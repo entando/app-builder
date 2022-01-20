@@ -595,6 +595,7 @@ export default {
     'user.authority.groups': 'Gruppo utenti',
     'user.authority.roles': 'Ruolo utenti',
     'user.authority.new': 'Nuove autorizzazioni',
+    'user.authority.addNew': 'Aggiungi nuova autorizzazione',
     'user.authority.noAuthYet': 'Non ci sono autorizzazione presenti',
     'user.username': 'Username',
     'user.password': 'Password',
