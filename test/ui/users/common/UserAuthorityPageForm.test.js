@@ -1,38 +1,34 @@
 import React from 'react';
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import 'test/enzyme-init';
 
-import UserAuthorityPageForm from 'ui/users/common/UserAuthorityPageForm';
-import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import { shallow } from 'enzyme';
+import { UserAuthorityPageFormBody } from 'ui/users/common/UserAuthorityPageForm';
 
 const props = {
-  onAddNewClicked: jest.fn(),
-  onCloseModal: jest.fn(),
-  loading: false,
-  onDidMount: jest.fn(),
-  initialValues: { groupRolesCombo: [] },
+  handleSubmit: jest.fn(),
+  onSubmit: jest.fn(),
+  onWillMount: jest.fn(),
 };
 
-jest.unmock('react-redux');
-
 describe('UserAuthorityPageForm', () => {
-  const renderForm = (initialValues = props.initialValues, addProps = {}) => {
-    const formProps = { ...props, ...addProps, initialValues };
-    render(mockRenderWithIntlAndStore(
-      <UserAuthorityPageForm {...formProps} />,
-      { modal: { visibleModal: '', info: {} } },
-    ));
-  };
+  let component;
   beforeEach(() => {
-    renderForm();
+    component = shallow(<UserAuthorityPageFormBody {...props} />);
   });
 
-  it('has class PageTemplateForm', () => {
-    expect(screen.getByTestId('common_UserAuthorityPageForm_Form')).toBeInTheDocument();
-  });
-
-  it('calls onDidMount', () => {
-    expect(props.onDidMount).toHaveBeenCalled();
+  it('renders without crashing', () => {
+    expect(component.exists()).toBe(true);
   });
 });
 
+describe('with onWillMount callback', () => {
+  beforeEach(() => {
+    shallow((
+      <UserAuthorityPageFormBody {...props} />
+    ));
+  });
+
+  it('calls onWillMount', () => {
+    expect(props.onWillMount).toHaveBeenCalled();
+  });
+});
