@@ -597,6 +597,8 @@ export default {
     'user.authority.new': 'New authorizations',
     'user.authority.addNew': 'Add new Authorization',
     'user.authority.noAuthYet': 'No authorizations yet',
+    'user.authority.added': 'New authorization ({groupname}, {rolename}) has been added',
+    'user.authority.success': 'Authorization has been updated',
     'user.username': 'Username',
     'user.password': 'Password',
     'user.passwordConfirm': 'Confirm password',

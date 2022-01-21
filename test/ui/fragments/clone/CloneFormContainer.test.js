@@ -4,6 +4,7 @@ import { FORM_MODE_CLONE } from 'state/fragments/const';
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/clone/CloneFormContainer';
 
 const TEST_STATE = {
+  initialValues: { code: '', defaultGuiCode: '', guiCode: '' },
   mode: FORM_MODE_CLONE,
 };
 

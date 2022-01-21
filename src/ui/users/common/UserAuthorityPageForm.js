@@ -14,7 +14,7 @@ export const UserAuthorityPageFormBody = ({
   groups, roles, values, loading,
   groupsMap, rolesMap,
   onDidMount, isValid, isSubmitting: submitting,
-  onAddNewClicked, onCloseModal,
+  onAddNewClicked, onCloseModal, onNewAuthAdded,
 }) => {
   useEffect(() => {
     onDidMount();
@@ -40,6 +40,7 @@ export const UserAuthorityPageFormBody = ({
                   roles={roles}
                   groupRolesCombo={groupRolesCombo}
                   onAddNewClicked={onAddNewClicked}
+                  onNewAuthAdded={onNewAuthAdded}
                   onCloseModal={onCloseModal}
                 />
               </Col>
@@ -65,6 +66,7 @@ export const UserAuthorityPageFormBody = ({
 UserAuthorityPageFormBody.propTypes = {
   onDidMount: PropTypes.func.isRequired,
   onAddNewClicked: PropTypes.func.isRequired,
+  onNewAuthAdded: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   isValid: PropTypes.bool,
   isSubmitting: PropTypes.bool,

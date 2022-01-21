@@ -569,6 +569,8 @@ export default {
     'user.authority.new': 'Novas autorizações',
     'user.authority.addNew': 'Adicionar nova autorização',
     'user.authority.noAuthYet': 'Nenhuma autorização ainda',
+    'user.authority.added': 'Nova autorização ({groupname}, {rolename}) foi adicionada',
+    'user.authority.success': 'A autorização foi atualizada',
     'user.username': 'Username',
     'user.password': 'Senha',
     'user.passwordConfirm': 'Confirme a senha',

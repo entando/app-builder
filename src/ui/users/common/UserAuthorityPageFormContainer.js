@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { addToast, TOAST_SUCCESS } from '@entando/messages';
 import { fetchAllGroupEntries } from 'state/groups/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getGroupsList, getGroupsMap } from 'state/groups/selectors';
@@ -41,6 +42,12 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     }
   },
   onAddNewClicked: () => dispatch(setVisibleModal('AddAuthorityModal')),
+  onNewAuthAdded: ({ group, role }) => {
+    dispatch(addToast(
+      { id: 'user.authority.added', values: { groupname: group, rolename: role } },
+      TOAST_SUCCESS,
+    ));
+  },
   onCloseModal: () => dispatch(setVisibleModal('')),
 });
 

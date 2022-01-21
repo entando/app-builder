@@ -17,6 +17,7 @@ const UserAuthorityTable = ({
   push, remove,
   groupRolesCombo, onCloseModal,
   intl, groups, roles, onAddNewClicked,
+  onNewAuthAdded,
 }) => {
   const setGroupRef = useRef(null);
   const setRoleRef = useRef(null);
@@ -32,6 +33,7 @@ const UserAuthorityTable = ({
         group: group.value || null,
         role: role.value || null,
       });
+      onNewAuthAdded({ group: group.value, role: role.value });
     }
     onCloseModal();
   };
@@ -137,6 +139,7 @@ UserAuthorityTable.propTypes = {
     role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
   })),
   onAddNewClicked: PropTypes.func.isRequired,
+  onNewAuthAdded: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   push: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
