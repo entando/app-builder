@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Col, Form, FormGroup, Button, ControlLabel, Spinner } from 'patternfly-react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Button, Spinner } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { isNumber } from '@entando/utils';
 
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import FormLabel from 'ui/common/form/FormLabel';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import SwitchInput from 'ui/common/formik-field/SwitchInput';
 
 export const montshSinceLogin = (value, allValues) => (
   (value > allValues.maxMonthsPasswordValid) ?
@@ -21,99 +22,118 @@ const msgs = defineMessages({
   },
 });
 
-export class RestrictionsFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
-  }
+const formSchema = Yup.object().shape({
+  enableGravatarIntegration: Yup.bool(),
+  passwordAlwaysActive: Yup.bool(),
+  restrictionsActive: Yup.bool(),
+  maxMonthsPasswordValid: Yup.number()
+    .nullable()
+    .integer(<FormattedMessage id="validateForm.number" />),
+  lastAccessPasswordExpirationMonths: Yup.number()
+    .nullable()
+    .integer(<FormattedMessage id="validateForm.number" />)
+    .max(Yup.ref('maxMonthsPasswordValid'), <FormattedMessage id="user.restrictions.form.monthsSinceLastLogin.error" />),
+});
 
-  render() {
-    const { passwordActive: disabled, intl } = this.props;
+const RestrictionsForm = ({
+  loading, onMount, intl, initialValues, onSubmit,
+}) => {
+  useEffect(() => {
+    onMount();
+  }, [onMount]);
 
-    return (
-      <Spinner loading={!!this.props.loading}>
+  const handleSubmit = (values) => {
+    onSubmit(values);
+  };
 
+  return (
+    <Spinner loading={!!loading}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={formSchema}
+        onSubmit={handleSubmit}
+        validateOnMount
+        enableReinitialize
+      >
+        {formik => (
+          <Form className="UserRestrictionsForm form-horizontal" aria-label="User Restrictions Form">
+            <legend>
+              <FormattedMessage id="user.restrictions.passwordSection" />
+            </legend>
+            <Field
+              component={SwitchInput}
+              name="passwordAlwaysActive"
+              label={<FormLabel labelId="user.restrictions.form.active" />}
+              labelSize={3}
+              alignClass="text-left"
+            />
+            <Field
+              label={<FormattedMessage id="user.restrictions.form.maxMonths" />}
+              labelSize={3}
+              component={RenderTextInput}
+              name="maxMonthsPasswordValid"
+              disabled={formik.values.passwordAlwaysActive}
+              alignClass="text-left"
+              append={intl.formatMessage(msgs.months)}
+            />
+            <Field
+              label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
+              labelSize={3}
+              component={RenderTextInput}
+              name="lastAccessPasswordExpirationMonths"
+              disabled={formik.values.passwordAlwaysActive}
+              alignClass="text-left"
+              append={intl.formatMessage(msgs.months)}
+            />
+            <legend>
+              <FormattedMessage id="user.restrictions.avatarSection" />
+            </legend>
+            <Field
+              component={SwitchInput}
+              name="enableGravatarIntegration"
+              label={<FormLabel labelId="user.restrictions.form.gravatar" />}
+              labelSize={3}
+              alignClass="text-left"
+            />
+            <Button
+              className="pull-right"
+              type="submit"
+              bsStyle="primary"
+              disabled={!formik.isValid}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Spinner>
+  );
+};
 
-        <Form onSubmit={this.props.handleSubmit} horizontal className="UserRestrictionsForm">
-          <legend>
-            <FormattedMessage id="user.restrictions.passwordSection" />
-          </legend>
-          <FormGroup controlId="passwordAlwaysActive">
-            <Col xs={3}>
-              <ControlLabel>
-                <FormattedMessage id="user.restrictions.form.active" />
-              </ControlLabel>
-            </Col>
-            <Col xs={9}>
-              <Field
-                component={SwitchRenderer}
-                name="passwordAlwaysActive"
-              />
-            </Col>
-          </FormGroup>
-          <Field
-            label={<FormattedMessage id="user.restrictions.form.maxMonths" />}
-            labelSize={3}
-            component={RenderTextInput}
-            name="maxMonthsPasswordValid"
-            disabled={disabled}
-            validate={isNumber}
-            alignClass="text-left"
-            append={intl.formatMessage(msgs.months)}
-          />
-          <Field
-            label={<FormattedMessage id="user.restrictions.form.monthsSinceLastLogin" />}
-            labelSize={3}
-            component={RenderTextInput}
-            name="lastAccessPasswordExpirationMonths"
-            disabled={disabled}
-            validate={[isNumber, montshSinceLogin]}
-            alignClass="text-left"
-            append={intl.formatMessage(msgs.months)}
-          />
-          <legend>
-            <FormattedMessage id="user.restrictions.avatarSection" />
-          </legend>
-          <FormGroup controlId="enableGravatarIntegration" disabled={false}>
-            <Col xs={3}>
-              <ControlLabel>
-                <FormattedMessage id="user.restrictions.form.gravatar" />
-              </ControlLabel>
-            </Col>
-            <Col xs={9}>
-              <Field
-                component={SwitchRenderer}
-                name="enableGravatarIntegration"
-              />
-            </Col>
-          </FormGroup>
-          <Button
-            className="pull-right"
-            type="submit"
-            bsStyle="primary"
-          >
-            <FormattedMessage id="app.save" />
-          </Button>
-        </Form>
-      </Spinner>
-    );
-  }
-}
-
-RestrictionsFormBody.propTypes = {
+RestrictionsForm.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  onWillMount: PropTypes.func.isRequired,
-  passwordActive: PropTypes.bool,
+  onMount: PropTypes.func,
   loading: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  initialValues: PropTypes.shape({
+    enableGravatarIntegration: PropTypes.bool,
+    lastAccessPasswordExpirationMonths: PropTypes.number,
+    maxMonthsPasswordValid: PropTypes.number,
+    passwordAlwaysActive: PropTypes.bool,
+    restrictionsActive: PropTypes.bool,
+  }),
 };
 
-RestrictionsFormBody.defaultProps = {
-  passwordActive: false,
+RestrictionsForm.defaultProps = {
+  onMount: () => {},
   loading: false,
+  initialValues: {
+    enableGravatarIntegration: false,
+    passwordAlwaysActive: false,
+    restrictionsActive: false,
+    maxMonthsPasswordValid: 0,
+    lastAccessPasswordExpirationMonths: 0,
+  },
 };
-
-const RestrictionsForm = reduxForm({
-  form: 'user-restrictions',
-})(RestrictionsFormBody);
 
 export default injectIntl(RestrictionsForm);
