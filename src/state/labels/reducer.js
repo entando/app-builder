@@ -1,6 +1,13 @@
 import { combineReducers } from 'redux';
 
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_LABEL_FILTERS } from 'state/labels/types';
+import {
+  SET_LABELS,
+  UPDATE_LABEL,
+  REMOVE_LABEL,
+  SET_ACTIVE_TAB,
+  SET_SELECTED_LABEL,
+  SET_LABEL_FILTERS,
+} from 'state/labels/types';
 
 const map = (state = {}, action = {}) => {
   switch (action.type) {
@@ -55,9 +62,19 @@ const filters = (state = null, action = {}) => {
   }
 };
 
+const selected = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_LABEL: {
+      return action.payload;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map,
   list,
   activeTab,
   filters,
+  selected,
 });

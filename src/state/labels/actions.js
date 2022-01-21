@@ -1,11 +1,10 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_LABEL_FILTERS } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_LABEL_FILTERS, SET_SELECTED_LABEL } from 'state/labels/types';
 import { history, ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 import { getLabelFilters } from 'state/labels/selectors';
 
@@ -43,6 +42,11 @@ export const setLabelFilters = filters => ({
   payload: filters,
 });
 
+export const setSelectedLabel = label => ({
+  type: SET_SELECTED_LABEL,
+  payload: label,
+});
+
 // thunks
 
 export const fetchLabels = (page = { page: 1, pageSize: 10 }) => (dispatch, getState) => (
@@ -77,7 +81,7 @@ export const fetchLabel = labelkey => dispatch => (
     getLabel(labelkey).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('label', json.payload));
+          dispatch(setSelectedLabel(json.payload));
         } else if (json && json.errors) {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

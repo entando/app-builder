@@ -5,6 +5,7 @@ export const getLabels = state => state.labels;
 export const getLabelsMap = state => state.labels.map;
 export const getLabelsIdList = state => state.labels.list;
 export const getLabelFilters = state => state.labels.filters;
+export const getSelectedLabel = state => state.labels.selected;
 
 export const getActiveTab = createSelector(
   getLabels,
