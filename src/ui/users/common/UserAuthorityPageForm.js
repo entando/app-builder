@@ -1,77 +1,73 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col, Button, Spinner } from 'patternfly-react';
-import { reduxForm, FieldArray } from 'redux-form';
+import { withFormik, Form } from 'formik';
+import { MultiField } from 'helpers/formikUtils';
+import { makeGroupRolesCombo } from 'state/users/selectors';
+import * as Yup from 'yup';
 import { FormattedMessage } from 'react-intl';
-import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
+import { ACTION_SAVE } from 'state/users/const';
 import UserAuthorityTable from 'ui/users/authority/UserAuthorityTable';
 import { TEST_ID_USER_AUTHORITY_PAGE_FORM } from 'ui/test-const/user-test-const';
 
-export class UserAuthorityPageFormBody extends Component {
-  constructor(props) {
-    super(props);
-    this.group = null;
-    this.role = null;
-  }
+export const UserAuthorityPageFormBody = ({
+  groups, roles, values, loading,
+  groupsMap, rolesMap,
+  onDidMount, isValid, isSubmitting: submitting,
+  onAddNewClicked, onCloseModal,
+}) => {
+  useEffect(() => {
+    onDidMount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  componentWillMount() {
-    this.props.onWillMount();
-  }
+  const invalid = !isValid;
+  const groupRolesCombo = makeGroupRolesCombo(values.groupRolesCombo, groupsMap, rolesMap);
 
-  render() {
-    const {
-      invalid, submitting, handleSubmit, onAddNewClicked, onCloseModal,
-    } = this.props;
-
-    return (
-      <Spinner loading={!!this.props.loading}>
-        <form
-          onSubmit={handleSubmit(values => this.props.onSubmit(values, this.props.actionOnSave))}
-          className="UserAuthorityPageForm form-horizontal"
-        >
+  return (
+    <Spinner loading={!!loading}>
+      <Form
+        className="UserAuthorityPageForm form-horizontal"
+      >
+        <Col xs={12}>
+          <Grid fluid>
+            <Row>
+              <Col xs={12}>
+                <MultiField
+                  name="groupRolesCombo"
+                  component={UserAuthorityTable}
+                  groups={groups}
+                  roles={roles}
+                  groupRolesCombo={groupRolesCombo}
+                  onAddNewClicked={onAddNewClicked}
+                  onCloseModal={onCloseModal}
+                />
+              </Col>
+            </Row>
+          </Grid>
           <Col xs={12}>
-            <Grid fluid>
-              <Row>
-                <Col xs={12}>
-                  <FieldArray
-                    name="groupRolesCombo"
-                    component={UserAuthorityTable}
-                    groups={this.props.groups}
-                    roles={this.props.roles}
-                    groupRolesCombo={this.props.groupRolesCombo}
-                    onAddNewClicked={onAddNewClicked}
-                    onCloseModal={onCloseModal}
-                  />
-                </Col>
-              </Row>
-            </Grid>
-            <Col xs={12}>
-              <Button
-                type="submit"
-                bsStyle="primary"
-                className="pull-right"
-                disabled={invalid || submitting}
-                data-testid={TEST_ID_USER_AUTHORITY_PAGE_FORM.SAVE_BUTTON}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-            </Col>
+            <Button
+              type="submit"
+              bsStyle="primary"
+              className="pull-right"
+              disabled={invalid || submitting}
+              data-testid={TEST_ID_USER_AUTHORITY_PAGE_FORM.SAVE_BUTTON}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
           </Col>
-        </form>
-      </Spinner>
-    );
-  }
-}
+        </Col>
+      </Form>
+    </Spinner>
+  );
+};
 
 UserAuthorityPageFormBody.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   onAddNewClicked: PropTypes.func.isRequired,
   onCloseModal: PropTypes.func.isRequired,
-  actionOnSave: PropTypes.oneOf([ACTION_SAVE, ACTION_UPDATE]),
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     code: PropTypes.string,
@@ -80,26 +76,52 @@ UserAuthorityPageFormBody.propTypes = {
     name: PropTypes.string,
     code: PropTypes.string,
   })),
-  groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
-    group: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
-    role: PropTypes.shape({ code: PropTypes.string, name: PropTypes.string }),
-  })),
+  groupsMap: PropTypes.shape({}),
+  rolesMap: PropTypes.shape({}),
+  values: PropTypes.shape({
+    groupRolesCombo: PropTypes.arrayOf(PropTypes.shape({
+      group: PropTypes.string,
+      role: PropTypes.string,
+    })),
+  }),
   loading: PropTypes.bool,
 
 };
 
 UserAuthorityPageFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   groups: [],
   roles: [],
-  groupRolesCombo: [],
-  actionOnSave: ACTION_SAVE,
+  groupsMap: {},
+  rolesMap: {},
+  values: {
+    groupRolesCombo: [],
+  },
   loading: false,
 };
 
-const UserAuthorityPageForm = reduxForm({
-  form: 'autorityForm',
+const UserAuthorityPageForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validationSchema: Yup.object().shape({
+    groupRolesCombo: Yup.array().of(Yup.object().shape({
+      group: Yup.string(),
+      role: Yup.string(),
+    })),
+  }),
+  handleSubmit: (
+    values,
+    {
+      props: { onSubmit, actionOnSave },
+      setSubmitting,
+    },
+  ) => {
+    onSubmit(values, actionOnSave || ACTION_SAVE).then(() => (
+      setSubmitting(false)
+    ));
+  },
+  displayName: 'autorityForm',
 })(UserAuthorityPageFormBody);
 
 export default UserAuthorityPageForm;
