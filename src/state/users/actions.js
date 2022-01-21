@@ -242,6 +242,11 @@ export const sendPutUserAuthorities = (authorities, username) => async (dispatch
     const json = await response.json();
     if (response.ok) {
       history.push(ROUTE_USER_LIST);
+      dispatch(addToast(
+        { id: 'user.authority.success' },
+        TOAST_SUCCESS,
+      ));
+      dispatch(clearErrors());
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
