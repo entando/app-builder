@@ -6,21 +6,28 @@ import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selector
 import { fetchLanguages } from 'state/languages/actions';
 import { getLoading } from 'state/loading/selectors';
 
-export const mapStateToProps = state => ({
-  locale: getLocale(state),
-  languages: getActiveLanguages(state),
-  defaultLanguage: getDefaultLanguage(state),
-  loadingLangs: getLoading(state).languages,
-
-});
+export const mapStateToProps = (state) => {
+  const languages = getActiveLanguages(state);
+  return {
+    locale: getLocale(state),
+    languages,
+    defaultLanguage: getDefaultLanguage(state),
+    loadingLangs: getLoading(state).languages,
+    initialValues: {
+      key: '',
+      ...languages.reduce((acc, curr) => ({
+        ...acc,
+        [`titles.${curr.code}`]: '',
+      }), {}),
+    },
+  };
+};
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
+  onDidMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
   },
-  onSubmit: (label) => {
-    dispatch(createLabel(label));
-  },
+  onSubmit: values => dispatch(createLabel(values)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
