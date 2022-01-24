@@ -58,7 +58,7 @@ const LabelsFormBody = ({
               {languages.map(language => (
                 <div key={language.code}>
                   <Field
-                    name={`titles.${language.code}`}
+                    name={`['titles.${language.code}']`}
                     component={RenderTextAreaInput}
                     label={
                       <span>
@@ -156,8 +156,14 @@ const LabelsForm = withFormik({
     }), {});
     return Yup.object().shape({ key, ...langFields });
   },
-  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
-    onSubmit(values).then(() => setSubmitting(false));
+  handleSubmit: ({ key, ...titles }, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit({
+      key,
+      titles: Object.keys(titles).reduce((acc, curr) => ({
+        ...acc,
+        [curr.slice(7)]: titles[curr],
+      }), {}),
+    }).then(() => setSubmitting(false));
   },
   displayName: 'labelForm',
 })(LabelsFormBody);
