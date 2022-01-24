@@ -78,7 +78,7 @@ const editFormSchema = Yup.object().shape({
       .required(<FormattedMessage id="validateForm.required" />)
       .oneOf([Yup.ref('password')], <FormattedMessage id="validateForm.passwordNotMatch" />)
     ) : field)),
-  registration: Yup.string(),
+  registration: Yup.string().nullable(),
   lastLogin: Yup.string().nullable(),
   lastPasswordChange: Yup.string().nullable(),
   reset: Yup.boolean(),
@@ -146,7 +146,7 @@ const UserForm = ({
                   placeholder={intl.formatMessage(msgs.passwordConfirm)}
                 />
                 {editing ? (
-                  <div className="UserForm__content-edit" >
+                  <div className="UserForm__content-edit">
                     <Field
                       name="registration"
                       component={renderStaticField}
