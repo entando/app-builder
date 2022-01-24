@@ -1,38 +1,77 @@
-import { formValueSelector } from 'redux-form';
-import { mapStateToProps, mapDispatchToProps } from 'ui/users/restrictions/RestrictionsFormContainer';
+import React from 'react';
+import * as reactRedux from 'react-redux';
 
-const dispatchMock = jest.fn();
+import { renderWithState } from 'test/testUtils';
+import RestrictionsFormContainer from 'ui/users/restrictions/RestrictionsFormContainer';
+import RestrictionsForm from 'ui/users/restrictions/RestrictionsForm';
 
-jest.unmock('react-intl');
+jest.unmock('react-redux');
 
-jest.mock('redux-form', () => ({
-  formValueSelector: jest.fn(() => jest.fn(() => false)),
-  reduxForm: jest.fn(() => jest.fn(ui => ui)),
+const useDispatchSpy = jest.spyOn(reactRedux, 'useDispatch');
+const mockDispatch = jest.fn();
+useDispatchSpy.mockReturnValue(mockDispatch);
+
+jest.mock('state/user-settings/actions', () => ({
+  fetchUserSettings: jest.fn(() => ({ type: 'fetchUserSettings_test' })),
+  updateUserSettings: jest.fn(payload => ({ type: 'updateUserSettings_test', payload })),
 }));
 
-jest.mock('state/loading/selectors', () => ({
-  getLoading: jest.fn().mockReturnValue({}),
-}));
+jest.mock('ui/users/restrictions/RestrictionsForm', () => jest.fn(mockProps => (
+  <div>
+    <button onClick={mockProps.onMount}>onMount</button>
+    <button onClick={() => mockProps.onSubmit({})}>onSubmit</button>
+  </div>
+)));
+
+const setupRestrictionsFormContainer = (state = { userSettings: {}, loading: {} }) => {
+  const utils = renderWithState(<RestrictionsFormContainer />, { state });
+  const simulateMount = () => utils.getByText('onMount').click();
+  const simulateSubmit = () => utils.getByText('onSubmit').click();
+
+  return {
+    ...utils,
+    simulateMount,
+    simulateSubmit,
+  };
+};
 
 describe('RestrictionsFormContainer', () => {
-  it('maps passwordActive', () => {
-    expect(mapStateToProps({})).toEqual({
-      passwordActive: false,
-    });
-    expect(formValueSelector).toHaveBeenCalledWith('user-restrictions');
+  afterEach(() => {
+    mockDispatch.mockClear();
   });
 
-  it('verify that onWillMount is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onWillMount).toBeDefined();
-    result.onWillMount();
-    expect(dispatchMock).toHaveBeenCalled();
+  it('passes initialValues to UserForm with the correct values', () => {
+    const state = {
+      userSettings: {
+        enableGravatarIntegration: false,
+        passwordAlwaysActive: false,
+        maxMonthsPasswordValid: 1,
+        lastAccessPasswordExpirationMonths: 1,
+      },
+      loading: {},
+    };
+    setupRestrictionsFormContainer(state);
+
+    expect(RestrictionsForm).toHaveBeenCalledWith(expect.objectContaining({
+      initialValues: state.userSettings,
+    }), {});
   });
 
-  it('verify that onSubmit is defined by mapDispatchToProps', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onSubmit).toBeDefined();
-    result.onSubmit({});
-    expect(dispatchMock).toHaveBeenCalled();
+  it('fetches user settings data when RestrictionsForm mounts', () => {
+    const { simulateMount } = setupRestrictionsFormContainer();
+
+    simulateMount();
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({ type: 'fetchUserSettings_test' });
+  });
+
+  it('calls the correct user settings action when RestrictionsForm is submitted', () => {
+    const { simulateSubmit } = setupRestrictionsFormContainer();
+
+    simulateSubmit();
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(mockDispatch).toHaveBeenCalledWith({ type: 'updateUserSettings_test', payload: expect.any(Object) });
   });
 });

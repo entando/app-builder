@@ -117,23 +117,15 @@ RestrictionsForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   initialValues: PropTypes.shape({
     enableGravatarIntegration: PropTypes.bool,
-    lastAccessPasswordExpirationMonths: PropTypes.number,
-    maxMonthsPasswordValid: PropTypes.number,
+    lastAccessPasswordExpirationMonths: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    maxMonthsPasswordValid: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     passwordAlwaysActive: PropTypes.bool,
-    restrictionsActive: PropTypes.bool,
-  }),
+  }).isRequired,
 };
 
 RestrictionsForm.defaultProps = {
   onMount: () => {},
   loading: false,
-  initialValues: {
-    enableGravatarIntegration: false,
-    passwordAlwaysActive: false,
-    restrictionsActive: false,
-    maxMonthsPasswordValid: 0,
-    lastAccessPasswordExpirationMonths: 0,
-  },
 };
 
 export default injectIntl(RestrictionsForm);
