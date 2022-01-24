@@ -1,6 +1,8 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { mount } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
@@ -9,7 +11,6 @@ const onMount = jest.fn();
 const onUnmount = jest.fn();
 
 jest.unmock('react-redux');
-jest.unmock('redux-form');
 
 describe('LabelSearchFormBody', () => {
   let labelSearchForm;
@@ -23,12 +24,11 @@ describe('LabelSearchFormBody', () => {
       />));
     });
     it('root component renders without crashing', () => {
-      expect(labelSearchForm.exists()).toEqual(true);
+      expect(labelSearchForm).toBeDefined();
     });
 
     it('root component renders language field', () => {
-      const text = labelSearchForm.find('.LabelSearchForm__text-field');
-      expect(text.exists()).toEqual(true);
+      expect(labelSearchForm.getByRole('textbox')).toBeDefined();
     });
   });
 
@@ -40,11 +40,12 @@ describe('LabelSearchFormBody', () => {
         onMount={onMount}
         onUnmount={onUnmount}
       />));
-    });
-
-    it('on form submit calls handleSubmit', () => {
-      labelSearchForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
+      const testValue = 'Test Label';
+      userEvent.type(form.getByRole('textbox'), testValue);
+      fireEvent.click(form.getByText('Search'));
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith({ key: testValue });
+      });
     });
   });
 });
