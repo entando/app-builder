@@ -9,13 +9,20 @@ import { fetchLanguages } from 'state/languages/actions';
 
 export const mapStateToProps = (state, { match: { params } }) => {
   const languages = getActiveLanguages(state);
+  const selectedLabel = getSelectedLabel(state);
   return {
     mode: 'edit',
     locale: getLocale(state),
     languages,
     defaultLanguage: getDefaultLanguage(state),
     labelCode: params.labelCode,
-    initialValues: getSelectedLabel(state),
+    initialValues: selectedLabel ? {
+      key: selectedLabel.key,
+      ...Object.keys(selectedLabel.titles).reduce((acc, curr) => ({
+        ...acc,
+        [`titles.${curr}`]: selectedLabel.titles[curr],
+      }), {}),
+    } : {},
   };
 };
 
