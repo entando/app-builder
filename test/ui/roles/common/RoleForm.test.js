@@ -4,31 +4,36 @@ import { shallow } from 'enzyme';
 import { RoleFormBody } from 'ui/roles/common/RoleForm';
 import { mockIntl } from 'test/legacyTestUtils';
 
-const handleSubmit = jest.fn();
-const onSubmit = jest.fn();
 const onWillMount = jest.fn();
+const submitForm = jest.fn();
+const setFieldValue = jest.fn();
+const handleChange = jest.fn();
 const changeEvent = { currentTarget: { value: 'changed_name' } };
 
 describe('RoleForm', () => {
   let roleForm;
-  let submitting;
-  let invalid;
+  let isSubmitting;
+  let isValid;
   let permissions;
+  let values;
 
   beforeEach(() => {
-    submitting = false;
-    invalid = false;
+    isSubmitting = false;
+    isValid = true;
+    values = {};
   });
   const buildRoleForm = (mode) => {
     const props = {
       permissions,
-      submitting,
-      invalid,
-      handleSubmit,
+      isSubmitting,
+      isValid,
       onWillMount,
-      onSubmit,
+      submitForm,
       mode,
+      setFieldValue,
+      handleChange,
       intl: mockIntl,
+      values,
     };
 
     return shallow(<RoleFormBody {...props} />);
@@ -62,14 +67,6 @@ describe('RoleForm', () => {
   });
 
   describe('test buttons and handlers', () => {
-    it('on name change calls onChangeName if defined on props', () => {
-      const onChangeName = jest.fn();
-      roleForm = buildRoleForm();
-      roleForm.setProps({ onChangeName });
-      roleForm.find('[name="name"]').simulate('change', changeEvent);
-      expect(onChangeName).toHaveBeenCalled();
-    });
-
     it('on name change do nothing if onChangeName is not defined on props', () => {
       const onChangeName = jest.fn();
       roleForm = buildRoleForm();
@@ -78,24 +75,17 @@ describe('RoleForm', () => {
     });
 
     it('disables submit button while submitting', () => {
-      submitting = true;
+      isSubmitting = true;
       roleForm = buildRoleForm();
       const submitButton = roleForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
     });
 
     it('disables submit button if form is invalid', () => {
-      invalid = true;
+      isValid = false;
       roleForm = buildRoleForm();
       const submitButton = roleForm.find('Button').first();
       expect(submitButton.prop('disabled')).toEqual(true);
-    });
-
-    it('on form submit calls handleSubmit', () => {
-      roleForm = buildRoleForm();
-      const preventDefault = jest.fn();
-      roleForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
     });
   });
 });

@@ -66,6 +66,7 @@ export const fetchRole = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(initialize('role', data.payload));
+          dispatch(setSelected(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
