@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { Col, Alert, Spinner } from 'patternfly-react';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import SwitchInput from 'ui/common/formik-field/SwitchInput';
 
 const PermissionGrid = ({
   permissions,
@@ -25,7 +25,7 @@ const PermissionGrid = ({
                 </label>
                 <Col xs={1}>
                   <Field
-                    component={SwitchRenderer}
+                    component={SwitchInput}
                     name={`permissions.${permission.code}`}
                     disabled={superuserToggled && !isSuperuser}
                     {...extraProps}
@@ -61,13 +61,14 @@ PermissionGrid.propTypes = {
     descr: PropTypes.string.isRequired,
   })),
   onToggleSuperuser: PropTypes.func.isRequired,
-  superuserToggled: PropTypes.bool.isRequired,
+  superuserToggled: PropTypes.bool,
   loading: PropTypes.bool,
 };
 
 PermissionGrid.defaultProps = {
   permissions: [],
   loading: false,
+  superuserToggled: false,
 };
 
 export default PermissionGrid;

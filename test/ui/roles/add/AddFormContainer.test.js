@@ -1,7 +1,21 @@
-import 'test/enzyme-init';
-import { change } from 'redux-form';
-import { mapStateToProps, mapDispatchToProps } from 'ui/roles/add/AddFormContainer';
-import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import { getPermissionsList } from 'state/permissions/selectors';
+import { getLoading } from 'state/loading/selectors';
+
+import AddFormContainer from 'ui/roles/add/AddFormContainer';
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(fn => fn()),
+  useDispatch: () => mockDispatch,
+}));
+
+jest.mock('state/permissions/selectors');
+jest.mock('state/loading/selectors');
 
 jest.mock('state/roles/actions', () => ({
   sendPostRole: jest.fn().mockReturnValue('sendPostRole_result'),
@@ -15,48 +29,43 @@ jest.mock('state/loading/actions', () => ({
   toggleLoading: jest.fn(),
 }));
 
-const dispatchProps = {
-  history: {},
-};
+
+const props = {};
 
 describe('AddFormContainer', () => {
-  const dispatchMock = jest.fn();
+  const renderForm = (initialValues = props.initialValues, addProps = {}) => {
+    const formProps = { ...props, ...addProps, initialValues };
+    return render(<IntlProvider locale="en" onError={() => {}}><AddFormContainer {...formProps} /></IntlProvider>);
+  };
 
-  describe('mapStateToProps', () => {
-    let props;
-    beforeEach(() => {
-      props = mapStateToProps(PERMISSIONS_NORMALIZED);
-    });
-
-    it('maps permissions and loading property', () => {
-      expect(props.permissions).toBeDefined();
-      expect(props.permissions).toHaveLength(PERMISSIONS_NORMALIZED.permissions.list.length);
-      expect(props).toHaveProperty('loading', false);
-    });
+  beforeEach(() => {
+    getPermissionsList.mockReturnValue([]);
+    getLoading.mockReturnValue({ permissions: false });
   });
 
-  describe('mapDispatchToProps', () => {
-    let props;
-    beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock, dispatchProps);
-    });
+  it('should render container without errors', () => {
+    renderForm();
+    expect(screen.getByText('app.name')).toBeInTheDocument();
+    expect(screen.getByText('app.code')).toBeInTheDocument();
+    expect(screen.getByText('permission.listEmpty')).toBeInTheDocument();
+  });
 
-    it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {
-      expect(props.onWillMount).toBeDefined();
-      props.onWillMount();
-      expect(dispatchMock).toHaveBeenCalledWith('fetchPermissions_result');
-    });
+  it('should render container with permissions', () => {
+    const mockPermissions = [
+      { code: 'editContents', descr: 'Content Editing' },
+      { code: 'editUserProfile', descr: 'User Profile Editing' },
+      { code: 'editUsers', descr: 'User Management' },
+    ];
+    getPermissionsList.mockReturnValue(mockPermissions);
+    renderForm();
 
-    it('maps the "onSubmit" prop a sendPostRole dispatch', () => {
-      expect(props.onSubmit).toBeDefined();
-      props.onSubmit();
-      expect(dispatchMock).toHaveBeenCalledWith('sendPostRole_result');
-    });
+    expect(screen.getByText(mockPermissions[0].descr)).toBeInTheDocument();
+    expect(screen.getByText(mockPermissions[1].descr)).toBeInTheDocument();
+    expect(screen.getByText(mockPermissions[2].descr)).toBeInTheDocument();
+  });
 
-    it('verify that onChangeName is defined by mapDispatchToProps', () => {
-      expect(props.onChangeName).toBeDefined();
-      props.onChangeName('Role Name');
-      expect(change).toHaveBeenCalledWith('role', 'code', 'role_name');
-    });
+  it('code input should be enabled', () => {
+    const { container } = renderForm();
+    expect(container.querySelector('input[name=code')).toBeEnabled();
   });
 });
