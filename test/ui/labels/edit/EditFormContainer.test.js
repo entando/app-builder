@@ -3,9 +3,10 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/edit/EditFormContainer';
 
 const dispatchMock = jest.fn();
+const languageList = [{ code: 'a' }, { code: 'b' }];
 
 jest.mock('state/languages/selectors', () => ({
-  getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
+  getActiveLanguages: jest.fn().mockReturnValue([{ code: 'a' }, { code: 'b' }]),
   getDefaultLanguage: jest.fn().mockReturnValue('getDefaultLanguage_result'),
 }));
 
@@ -18,7 +19,17 @@ jest.mock('state/labels/actions', () => ({
   updateLabel: jest.fn().mockReturnValue('updateLabel_result'),
 }));
 
-jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
+jest.mock('state/labels/selectors', () => ({
+  getSelectedLabel: jest.fn().mockReturnValue({
+    key: 'MOMO',
+    titles: {
+      a: 'momo a',
+      b: 'momo b',
+    },
+  }),
+}));
+
+jest.mock('state/locale/selectors', () => ({ getLocale: jest.fn().mockReturnValue('en') }));
 
 const ownProps = {
   match: {
@@ -37,7 +48,7 @@ describe('EditFormContainer', () => {
   it('maps languages property state in LabelsForm', () => {
     expect(props).toHaveProperty('mode', 'edit');
     expect(props).toHaveProperty('locale', 'en');
-    expect(props).toHaveProperty('languages', 'getActiveLanguages_result');
+    expect(props).toHaveProperty('languages', languageList);
     expect(props).toHaveProperty('defaultLanguage', 'getDefaultLanguage_result');
     expect(props).toHaveProperty('labelCode', 'getParams_result');
   });
@@ -49,9 +60,9 @@ describe('mapDispatchToProps', () => {
     props = mapDispatchToProps(dispatchMock);
   });
 
-  it('maps the "onWillMount" prop a "fetchLanguages" and "fetchLabel" dispatch', () => {
-    expect(props.onWillMount).toBeDefined();
-    props.onWillMount();
+  it('maps the "onDidMount" prop a "fetchLanguages" and "fetchLabel" dispatch', () => {
+    expect(props.onDidMount).toBeDefined();
+    props.onDidMount();
     expect(dispatchMock).toHaveBeenCalledWith('fetchLanguages_result');
     expect(dispatchMock).toHaveBeenCalledWith('fetchLabel_result');
   });
