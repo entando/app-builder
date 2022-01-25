@@ -1,14 +1,13 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { mount } from 'enzyme';
-import { LabelsFormBody as LabelsForm } from 'ui/labels/common/LabelsForm';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render } from '@testing-library/react';
+import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import LabelsForm from 'ui/labels/common/LabelsForm';
 import { LANGUAGES_LIST } from 'test/mocks/languages';
-import { mockRenderWithIntlAndStore, mockIntl } from 'test/legacyTestUtils';
 
 const ON_SUBMIT = jest.fn();
-const HANDLE_SUBMIT = jest.fn();
 const LANGUAGES = LANGUAGES_LIST;
-const ON_WILL_MOUNT = jest.fn();
+const ON_DID_MOUNT = jest.fn();
 
 jest.unmock('react-redux');
 
@@ -16,72 +15,42 @@ describe('LabelsForm', () => {
   beforeEach(jest.clearAllMocks);
 
   describe('basic rendering', () => {
-    let component;
     beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<LabelsForm
+      render(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
-        onWillMount={ON_WILL_MOUNT}
-        intl={mockIntl}
+        onDidMount={ON_DID_MOUNT}
       />));
     });
 
-    it('renders without crashing', () => {
-      expect(component.exists()).toBe(true);
-    });
-
-    it('has class LabelsForm', () => {
-      expect(component.exists('.LabelsForm')).toBe(true);
+    it('renders form without crashing', () => {
+      expect(screen.getByTestId('common_LabelsForm_Form')).toBeInTheDocument();
     });
   });
 
-  describe('with onWillMount callback', () => {
+  describe('with onDidMount callback', () => {
     beforeEach(() => {
-      mount(mockRenderWithIntlAndStore(<LabelsForm
+      render(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
-        onWillMount={ON_WILL_MOUNT}
-        intl={mockIntl}
+        onDidMount={ON_DID_MOUNT}
       />));
     });
 
-    it('calls onWillMount', () => {
-      expect(ON_WILL_MOUNT).toHaveBeenCalled();
+    it('calls onDidMount', () => {
+      expect(ON_DID_MOUNT).toHaveBeenCalled();
     });
   });
   describe('save button is disabled', () => {
-    let component;
     beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<LabelsForm
+      render(mockRenderWithIntlAndStore(<LabelsForm
         onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
         languages={LANGUAGES}
-        onWillMount={ON_WILL_MOUNT}
-        intl={mockIntl}
-        invalid
+        onDidMount={ON_DID_MOUNT}
       />));
     });
     it('Save button is disabled', () => {
-      expect(component.find('button.LabelsForm__save-btn')).toBeDisabled();
-    });
-  });
-  describe('save button submit', () => {
-    let component;
-    const preventDefault = jest.fn();
-    beforeEach(() => {
-      component = mount(mockRenderWithIntlAndStore(<LabelsForm
-        onSubmit={ON_SUBMIT}
-        handleSubmit={HANDLE_SUBMIT}
-        onWillMount={ON_WILL_MOUNT}
-        languages={LANGUAGES}
-        intl={mockIntl}
-      />));
-    });
-    it('on form submit calls handleSubmit', () => {
-      component.find('form').simulate('submit', { preventDefault });
-      expect(HANDLE_SUBMIT).toHaveBeenCalled();
+      expect(screen.getByTestId('common_LabelsForm_Button')).toBeDisabled();
     });
   });
 });
