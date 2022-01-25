@@ -1,55 +1,46 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { mount } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 import LanguageForm, { renderSelectOptions } from 'ui/labels/list/LanguageForm';
 
 import { LANGUAGES_LIST } from 'test/mocks/languages';
-
-jest.unmock('react-redux');
-jest.unmock('redux-form');
 
 const languages = LANGUAGES_LIST.filter(item => !item.isActive)
   .map(item => (
     { value: item.code, text: item.description }
   ));
 
-const handleSubmit = jest.fn();
-const onWillMount = jest.fn();
+jest.unmock('react-redux');
+
+const onSubmit = jest.fn();
 
 describe('LanguageFormBody', () => {
-  let languageForm;
-  let submitting;
-  let invalid;
-
   beforeEach(() => {
-    submitting = false;
-    invalid = false;
     jest.clearAllMocks();
   });
   const buildLanguageForm = () => {
     const props = {
-      onWillMount,
+      onSubmit,
       languages,
-      submitting,
-      invalid,
-      handleSubmit,
     };
-
-    return mount(mockRenderWithIntlAndStore(<LanguageForm {...props} />, { modal: {} }));
+    render(mockRenderWithIntlAndStore(
+      <LanguageForm {...props} />,
+      { modal: { visibleModal: '', info: {} } },
+    ));
   };
 
   describe('basic render tests', () => {
     beforeEach(() => {
-      languageForm = buildLanguageForm();
+      buildLanguageForm();
     });
     it('root component renders without crashing', () => {
-      expect(languageForm.exists()).toEqual(true);
+      expect(screen.getByTestId('list_LanguageForm_Form')).toBeInTheDocument();
     });
 
     it('root component renders language field', () => {
-      const language = languageForm.find('.LanguageForm__language-field');
-      expect(language.exists()).toEqual(true);
+      expect(screen.getByTestId('list_LanguageForm_Field')).toBeInTheDocument();
     });
 
     it('root component renders options for select input', () => {
@@ -59,14 +50,16 @@ describe('LanguageFormBody', () => {
   });
 
   describe('event handlers test', () => {
-    const preventDefault = jest.fn();
     beforeEach(() => {
-      languageForm = buildLanguageForm();
+      buildLanguageForm();
     });
 
-    it('on form submit calls handleSubmit', () => {
-      languageForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
+    it('on form submit calls handleSubmit', async () => {
+      userEvent.selectOptions(screen.getByTestId('list_LanguageForm_Field'), 'nl');
+      userEvent.click(screen.getByTestId('list_LanguageForm_Button'));
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalled();
+      });
     });
   });
 });
