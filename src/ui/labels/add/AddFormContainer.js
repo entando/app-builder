@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createLabel } from 'state/labels/actions';
+import { createLabel, setSelectedLabel } from 'state/labels/actions';
 import LabelsForm from 'ui/labels/common/LabelsForm';
 import { getLocale } from 'state/locale/selectors';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';

@@ -21,10 +21,11 @@ const msgs = defineMessages({
 
 const LabelsFormBody = ({
   intl, languages, labelCode, defaultLanguage, mode,
-  onDidMount, isValid, isSubmitting: submitting,
+  onDidMount, isValid, isSubmitting: submitting, onWillUnmount,
 }) => {
   useEffect(() => {
     onDidMount(labelCode);
+    return () => onWillUnmount();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,6 +100,7 @@ LabelsFormBody.propTypes = {
   intl: intlShape.isRequired,
   labelCode: PropTypes.string,
   onDidMount: PropTypes.func.isRequired,
+  onWillUnmount: PropTypes.func,
   isValid: PropTypes.bool,
   isSubmitting: PropTypes.bool,
   languages: PropTypes.arrayOf(PropTypes.shape({
@@ -121,6 +123,7 @@ LabelsFormBody.defaultProps = {
   })),
   defaultLanguage: '',
   mode: NEW_MODE,
+  onWillUnmount: () => {},
 };
 
 const LabelsForm = withFormik({
