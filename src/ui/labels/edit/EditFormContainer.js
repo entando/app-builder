@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateLabel, fetchLabel } from 'state/labels/actions';
+import { updateLabel, fetchLabel, setSelectedLabel } from 'state/labels/actions';
 import { getSelectedLabel } from 'state/labels/selectors';
 import LabelsForm from 'ui/labels/common/LabelsForm';
 import { getLocale } from 'state/locale/selectors';
@@ -31,6 +31,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchLabel(labelCode));
   },
+  onWillUnmount: () => dispatch(setSelectedLabel(null)),
   onSubmit: label => dispatch(updateLabel(label)),
 });
 
