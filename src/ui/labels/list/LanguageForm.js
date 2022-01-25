@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, Form, withFormik } from 'formik';
 import * as Yup from 'yup';
-import { formatMessageRequired } from 'helpers/formikValidations';
 import { Button, Col, FormGroup, InputGroup } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -84,13 +83,14 @@ LanguageFormBody.defaultProps = {
 
 const LanguageForm = withFormik({
   mapPropsToValues: () => ({ language: '' }),
-  validationSchema: ({ intl }) => (
-    Yup.object().shape({
-      language: Yup.string().required(intl.formatMessage(formatMessageRequired)),
-    })
-  ),
-  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
-    onSubmit(values).then(() => setSubmitting(false));
+  validationSchema: Yup.object().shape({
+    language: Yup.string(),
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm, props: { onSubmit } }) => {
+    onSubmit(values).then(() => {
+      setSubmitting(false);
+      resetForm();
+    });
   },
   displayName: 'languageForm',
 })(LanguageFormBody);
