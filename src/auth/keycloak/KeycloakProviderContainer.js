@@ -1,6 +1,7 @@
+import React from 'react';
 import { get } from 'lodash';
 import Keycloak from 'keycloak-js';
-import { KeycloakProvider } from 'react-keycloak';
+import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 import { fetchLoggedUserPermissions } from 'state/permissions/actions';
@@ -8,14 +9,16 @@ import { fetchWizardEnabled, clearAppTourProgress } from 'state/app-tour/actions
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const { KEYCLOAK_JSON } = getRuntimeEnv();
-const keycloak = new Keycloak(KEYCLOAK_JSON);
+export const keycloak = new Keycloak(KEYCLOAK_JSON);
 keycloak.enabled = true;
 keycloak.toRefreshToken = false;
 keycloak.setToRefreshToken = (val) => {
   keycloak.toRefreshToken = val;
 };
 
-export const mapStateToProps = () => ({ keycloak, initConfig: { onLoad: 'login-required' } });
+const Loading = <div>Loading...</div>;
+
+export const mapStateToProps = () => ({ authClient: keycloak, initConfig: { onLoad: 'login-required' }, LoadingComponent: Loading });
 
 export const mapDispatchToProps = dispatch => ({
   onEvent: (event) => {
@@ -28,7 +31,6 @@ export const mapDispatchToProps = dispatch => ({
       case 'onAuthSuccess':
         dispatch(clearAppTourProgress());
         dispatch(loginUser(username, token));
-        dispatch(fetchWizardEnabled(username));
         break;
       case 'onAuthRefreshSuccess':
         keycloak.setToRefreshToken(true);
@@ -39,8 +41,14 @@ export const mapDispatchToProps = dispatch => ({
       case 'onAuthRefreshError':
         keycloak.logout();
         break;
-      default:
+      case 'onReady':
+        if (!username) {
+          keycloak.login();
+        } else {
+          dispatch(loginUser(username, token));
+        }
         break;
+      default: break;
     }
   },
 });
@@ -48,4 +56,4 @@ export const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(KeycloakProvider);
+)(ReactKeycloakProvider);

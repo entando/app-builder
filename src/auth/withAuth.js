@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import { withKeycloak as withKeycloakRaw } from 'react-keycloak';
+import { withKeycloak as withKeycloakRaw } from '@react-keycloak/web';
 import withDefaultAuth from 'auth/default/withDefaultAuth';
 import keycloakEnabled from 'auth/keycloakEnabled';
 
@@ -12,6 +12,7 @@ const withKeycloakAdapter = WrappedComponent => (props) => {
       {...otherProps}
       isReady={keycloakInitialized}
       auth={keycloak}
+      authClient={keycloak}
     />
   );
 };
