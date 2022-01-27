@@ -15,9 +15,9 @@ export const mapStateToProps = (state) => {
     loadingLangs: getLoading(state).languages,
     initialValues: {
       key: '',
-      ...languages.reduce((acc, curr) => ({
+      titles: languages.reduce((acc, curr) => ({
         ...acc,
-        [`titles.${curr.code}`]: '',
+        [curr.code]: '',
       }), {}),
     },
   };
