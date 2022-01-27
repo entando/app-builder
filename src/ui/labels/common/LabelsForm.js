@@ -59,7 +59,7 @@ const LabelsFormBody = ({
               {languages.map(language => (
                 <div key={language.code}>
                   <Field
-                    name={`['titles.${language.code}']`}
+                    name={`titles.${language.code}`}
                     component={RenderTextAreaInput}
                     label={
                       <span>
@@ -133,13 +133,13 @@ const LabelsForm = withFormik({
     switch (mode) {
       default:
       case NEW_MODE: {
-        const langs = languages.reduce((acc, curr) => ({
+        const titles = languages.reduce((acc, curr) => ({
           ...acc,
-          [`titles.${curr.code}`]: '',
+          [curr.code]: '',
         }), {});
         return {
           key: '',
-          ...langs,
+          titles,
         };
       }
       case EDIT_MODE:
@@ -153,20 +153,14 @@ const LabelsForm = withFormik({
         'validateCodeField',
         validateCodeField(intl),
       );
-    const langFields = languages.reduce((acc, curr) => ({
+    const titles = Yup.object().shape(languages.reduce((acc, curr) => ({
       ...acc,
-      [`titles.${curr.code}`]: Yup.string().required(intl.formatMessage(formatMessageRequired)),
-    }), {});
-    return Yup.object().shape({ key, ...langFields });
+      [curr.code]: Yup.string().required(intl.formatMessage(formatMessageRequired)),
+    }), {}));
+    return Yup.object().shape({ key, titles });
   },
-  handleSubmit: ({ key, ...titles }, { setSubmitting, props: { onSubmit } }) => {
-    onSubmit({
-      key,
-      titles: Object.keys(titles).reduce((acc, curr) => ({
-        ...acc,
-        [curr.slice(7)]: titles[curr],
-      }), {}),
-    }).then(() => setSubmitting(false));
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values).then(() => setSubmitting(false));
   },
   displayName: 'labelForm',
 })(LabelsFormBody);

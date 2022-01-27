@@ -35,7 +35,7 @@ const RenderTextAreaInput = ({
           />
         </div>
         {append && <span className="AppendedLabel">{append}</span>}
-        {touched && ((error && <span className="help-block">{error}</span>))}
+        {touched && (error && <span role="alert" className="help-block">{error}</span>)}
       </Col>
     </div>
   );
