@@ -1,11 +1,12 @@
 import reducer, { initialState as smtpInitialState } from 'state/email-config/reducer';
-import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER, SET_SMTP_SERVER } from 'state/email-config/types';
+import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER, SET_SMTP_SERVER, SET_SELECTED_SENDER } from 'state/email-config/types';
 import { MOCK_EMAIL_SENDER_LIST, MOCK_SMTP_SERVER_SETTINGS } from '../../test/mocks/emailConfig';
 
 describe('state/email-config/reducer', () => {
   const initialState = {
     senders: [],
     smtpServer: { ...smtpInitialState },
+    selectedSender: {},
   };
 
   it('should return the initial state as the default returned object', () => {
@@ -43,6 +44,16 @@ describe('state/email-config/reducer', () => {
     expect(state).toEqual({
       ...initialState,
       smtpServer: { ...MOCK_SMTP_SERVER_SETTINGS },
+    });
+  });
+  it('should return the correct state when action is SET_SELECTED_SENDER', () => {
+    const state = reducer(initialState, {
+      type: SET_SELECTED_SENDER, payload: MOCK_EMAIL_SENDER_LIST[1],
+    });
+
+    expect(state).toEqual({
+      ...initialState,
+      selectedSender: MOCK_EMAIL_SENDER_LIST[1],
     });
   });
 });
