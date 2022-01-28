@@ -12,7 +12,7 @@ import {
   getEmailSender,
   putEmailSender,
 } from 'api/emailConfig';
-import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
+import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER, SET_SELECTED_SENDER } from 'state/email-config/types';
 import { history, ROUTE_EMAIL_CONFIG_SENDERS } from 'app-init/router';
 
 export const setEmailSenders = emailSenders => ({
@@ -23,6 +23,11 @@ export const setEmailSenders = emailSenders => ({
 export const removeEmailSender = code => ({
   type: REMOVE_EMAIL_SENDER,
   payload: code,
+});
+
+export const setSelectedSender = emailSender => ({
+  type: SET_SELECTED_SENDER,
+  payload: emailSender,
 });
 
 export const fetchSMTPServerSettings = () => async (dispatch) => {
@@ -139,7 +144,7 @@ export const fetchEmailSender = code => async (dispatch) => {
     const response = await getEmailSender(code);
     const json = await response.json();
     if (response.ok) {
-      dispatch(initialize('emailSender', json.payload));
+      dispatch(setSelectedSender(json.payload));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

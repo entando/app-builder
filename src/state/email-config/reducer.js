@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { REMOVE_EMAIL_SENDER, SET_EMAIL_SENDERS } from 'state/email-config/types';
+import { REMOVE_EMAIL_SENDER, SET_EMAIL_SENDERS, SET_SELECTED_SENDER } from 'state/email-config/types';
 
 const senders = (state = [], action = {}) => {
   switch (action.type) {
@@ -13,6 +13,16 @@ const senders = (state = [], action = {}) => {
   }
 };
 
+const selectedSender = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_SELECTED_SENDER:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   senders,
+  selectedSender,
 });
