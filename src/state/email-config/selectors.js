@@ -1,2 +1,2 @@
-// eslint-disable-next-line import/prefer-default-export
 export const getSmtpServer = state => state.emailConfig.smtpServer;
+export const getSelectedSender = state => state.emailConfig.selectedSender;
