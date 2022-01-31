@@ -23,7 +23,7 @@ const EditFormContainer = () => {
   const loading = useSelector(getLoading);
   const selectedRole = useSelector(getSelectedRole);
 
-  const handleWillMount = useCallback((roleCode) => {
+  const handleMount = useCallback((roleCode) => {
     dispatch(fetchPermissions());
     dispatch(fetchRole(roleCode));
   }, [dispatch]);
@@ -48,7 +48,7 @@ const EditFormContainer = () => {
 
 
   return (<RoleForm
-    onWillMount={handleWillMount}
+    onMount={handleMount}
     onSubmit={handleSubmit}
     onCancel={handleCancel}
     onDiscard={handleDiscard}

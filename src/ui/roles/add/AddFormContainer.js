@@ -20,7 +20,7 @@ const AddFormContainer = () => {
   const permissions = useSelector(getPermissionsList);
   const loading = useSelector(getLoading);
 
-  const handleWillMount = useCallback(() => {
+  const handleMount = useCallback(() => {
     dispatch(fetchPermissions());
   }, [dispatch]);
 
@@ -47,7 +47,7 @@ const AddFormContainer = () => {
   }), [permissions]);
 
   return (<RoleForm
-    onWillMount={handleWillMount}
+    onMount={handleMount}
     onSubmit={handleSubmit}
     onCancel={handleCancel}
     onDiscard={handleDiscard}

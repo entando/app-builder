@@ -26,7 +26,7 @@ const msgs = defineMessages({
 });
 
 export const RoleFormBody = ({
-  onWillMount,
+  onMount,
   submitForm,
   permissions,
   onDiscard,
@@ -47,8 +47,8 @@ export const RoleFormBody = ({
   const superuserToggled = values.permissions ? values.permissions.superuser : false;
 
   useEffect(() => {
-    onWillMount(roleCode);
-  }, [roleCode, onWillMount]);
+    onMount(roleCode);
+  }, [roleCode, onMount]);
 
   const handleCancelClick = () => {
     if (dirty) {
@@ -160,7 +160,7 @@ RoleFormBody.propTypes = {
   isSubmitting: PropTypes.bool,
   submitForm: PropTypes.func.isRequired,
   mode: PropTypes.string,
-  onWillMount: PropTypes.func,
+  onMount: PropTypes.func,
   permissions: PropTypes.arrayOf(PropTypes.shape({
     descr: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -185,7 +185,7 @@ RoleFormBody.defaultProps = {
   isValid: false,
   isSubmitting: false,
   mode: NEW_MODE,
-  onWillMount: null,
+  onMount: null,
   permissions: [],
   loading: false,
   dirty: false,
