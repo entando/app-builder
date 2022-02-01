@@ -2,15 +2,16 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
-import { Form, Button } from 'patternfly-react';
+import * as Yup from 'yup';
+import { withFormik, Form, Field } from 'formik';
+import { Button } from 'patternfly-react';
 import { required } from '@entando/utils';
 
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import FormLabel from 'ui/common/form/FormLabel';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderRadioInput from 'ui/common/form/RenderRadioInput';
+import SwitchInput from 'ui/common/formik-field/SwitchInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderRadioInput from 'ui/common/formik-field/RenderRadioInput';
 
 const msgs = defineMessages({
   formLabel: {
@@ -19,19 +20,19 @@ const msgs = defineMessages({
   },
 });
 
-const EmailConfigSmtpServerBody = ({
-  intl, handleSubmit, onTestConfig, onSendTestEmail, invalid, submitting,
+export const EmailConfigSmtpServerBody = ({
+  intl, handleSubmit, onTestConfig, onSendTestEmail, isValid, isSubmitting, values,
 }) => {
   const generalSettingsSection = (
     <Fragment>
       <FormSectionTitle titleId="emailConfig.smtpServer.generalSettings" />
       <Field
-        component={SwitchRenderer}
+        component={SwitchInput}
         name="active"
         label={<FormLabel labelId="emailConfig.smtpServer.active" />}
       />
       <Field
-        component={SwitchRenderer}
+        component={SwitchInput}
         name="debugMode"
         label={<FormLabel labelId="emailConfig.smtpServer.debugMode" />}
       />
@@ -63,7 +64,7 @@ const EmailConfigSmtpServerBody = ({
           ]}
       />
       <Field
-        component={SwitchRenderer}
+        component={SwitchInput}
         name="checkServerIdentity"
         label={<FormLabel labelId="emailConfig.smtpServer.checkServerIdentity" />}
       />
@@ -92,15 +93,15 @@ const EmailConfigSmtpServerBody = ({
     </Fragment>
   );
 
-  const btnsDisabled = invalid || submitting;
+  const btnsDisabled = !isValid || isSubmitting;
 
   const buttonToolbar = (
     <div>
       <div className="btn-toolbar pull-right">
         <Button
-          onClick={handleSubmit(onTestConfig)}
           bsStyle="success"
           disabled={btnsDisabled}
+          onClick={() => onTestConfig(values)}
         >
           <FormattedMessage id="emailConfig.smtpServer.testConfig" />
         </Button>
@@ -123,7 +124,7 @@ const EmailConfigSmtpServerBody = ({
   );
 
   return (
-    <Form aria-label={intl.formatMessage(msgs.formLabel)} onSubmit={handleSubmit} horizontal>
+    <Form aria-label={intl.formatMessage(msgs.formLabel)} onSubmit={handleSubmit} className="form-horizontal">
       <Panel>
         <Panel.Body>
           <FormattedMessage id="emailConfig.smtpServer.panelMsg" />
@@ -142,14 +143,33 @@ EmailConfigSmtpServerBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onTestConfig: PropTypes.func.isRequired,
   onSendTestEmail: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  values: PropTypes.object.isRequired,
 };
 
-const EmailConfigSmtpServer = injectIntl(reduxForm({
-  form: 'emailConfig',
+const EmailConfigSmtpServer = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validationSchema: () => (
+    Yup.object().shape({
+      host: Yup.string()
+        .required(<FormattedMessage id="validateForm.required" />),
+    })),
+  handleSubmit: (
+    values,
+    {
+      props: { onSubmit },
+      setSubmitting,
+    },
+  ) => {
+    onSubmit(values).then(() => (
+      setSubmitting(false)
+    ));
+  },
   enableReinitialize: true,
+  displayName: 'emailConfig',
   keepDirtyOnReinitialize: true,
-})(EmailConfigSmtpServerBody));
+})(EmailConfigSmtpServerBody);
 
-export default EmailConfigSmtpServer;
+export default injectIntl(EmailConfigSmtpServer);
