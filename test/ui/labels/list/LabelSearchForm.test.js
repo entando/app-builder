@@ -44,7 +44,7 @@ describe('LabelSearchFormBody', () => {
       userEvent.type(form.getByRole('textbox'), testValue);
       fireEvent.click(form.getByText('Search'));
       await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledWith({ key: testValue });
+        expect(onSubmit).toHaveBeenCalledWith({ key: testValue }, 10);
       });
     });
   });
