@@ -5,6 +5,16 @@ import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 
 const DEFAULT_PAGE = { page: 1, pageSize: 10 };
 
+export const mapStateToProps = (state) => {
+  const {
+    page, pageSize,
+  } = getPagination(state);
+  return ({
+    page,
+    pageSize,
+  });
+};
+
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => {
     dispatch(setLabelFilters({ keyword: values.key }));
@@ -19,7 +29,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 const LabelSearchFormContainer = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
   null,
   {
