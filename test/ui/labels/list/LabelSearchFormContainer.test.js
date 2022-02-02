@@ -11,8 +11,8 @@ const FIELD_OPERATORS = {
   key: FILTER_OPERATORS.LIKE,
 };
 
-const TEST_VALUE = { text: 'label text', key: 'testkey' };
-const page = { page: 1, pageSize: 10 };
+const TEST_VALUE = { text: 'label text' };
+const page = { page: 1, pageSize: undefined };
 const queryString = convertToQueryString({
   formValues: TEST_VALUE,
   operators: FIELD_OPERATORS,

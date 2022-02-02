@@ -11,9 +11,9 @@ const msgs = defineMessages({
   },
 });
 
-export const LabelSearchFormBody = ({ intl, onSubmit }) => {
+export const LabelSearchFormBody = ({ intl, onSubmit, pageSize }) => {
   const handleSubmit = (values) => {
-    onSubmit(values);
+    onSubmit(values, pageSize);
   };
 
   return (
@@ -64,6 +64,11 @@ export const LabelSearchFormBody = ({ intl, onSubmit }) => {
 LabelSearchFormBody.propTypes = {
   intl: intlShape.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  pageSize: PropTypes.number,
+};
+
+LabelSearchFormBody.defaultProps = {
+  pageSize: 10,
 };
 
 export default injectIntl(LabelSearchFormBody);
