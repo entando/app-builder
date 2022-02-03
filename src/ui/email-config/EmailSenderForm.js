@@ -18,48 +18,42 @@ const formSchema = Yup.object().shape({
 
 const EmailSenderForm = ({
   intl, titleId, editing, initialValues, onSubmit,
-}) => {
-  const handleSubmit = (values) => {
-    onSubmit(values);
-  };
-
-  return (
-    <div>
-      <PageTitle titleId={titleId} helpId="emailConfig.help" />
-      <Formik
-        initialValues={initialValues}
-        validationSchema={formSchema}
-        onSubmit={handleSubmit}
-        validateOnMount
-        enableReinitialize
-      >
-        {formik => (
-          <Form className="form-horizontal" aria-label={intl.formatMessage({ id: titleId })}>
-            <Field
-              component={RenderTextInput}
-              name="code"
-              label={<FormLabel labelId="app.code" required />}
-              disabled={editing}
-            />
-            <Field
-              component={RenderTextInput}
-              name="email"
-              label={<FormLabel labelId="emailConfig.senderMgmt.email" required />}
-            />
-            <Button
-              type="submit"
-              bsStyle="primary"
-              className="pull-right"
-              disabled={!formik.isValid || formik.isSubmitting}
-            >
-              <FormattedMessage id="app.save" />
-            </Button>
-          </Form>
+}) => (
+  <div>
+    <PageTitle titleId={titleId} helpId="emailConfig.help" />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={formSchema}
+      onSubmit={onSubmit}
+      validateOnMount
+      enableReinitialize
+    >
+      {formik => (
+        <Form className="form-horizontal" aria-label={intl.formatMessage({ id: titleId })}>
+          <Field
+            component={RenderTextInput}
+            name="code"
+            label={<FormLabel labelId="app.code" required />}
+            disabled={editing}
+          />
+          <Field
+            component={RenderTextInput}
+            name="email"
+            label={<FormLabel labelId="emailConfig.senderMgmt.email" required />}
+          />
+          <Button
+            type="submit"
+            bsStyle="primary"
+            className="pull-right"
+            disabled={!formik.isValid || formik.isSubmitting}
+          >
+            <FormattedMessage id="app.save" />
+          </Button>
+        </Form>
         )}
-      </Formik>
-    </div>
-  );
-};
+    </Formik>
+  </div>
+);
 
 EmailSenderForm.propTypes = {
   intl: intlShape.isRequired,
