@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getLabelFilters } from 'state/labels/selectors';
-=======
-import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getSelectedLabel } from 'state/labels/selectors';
->>>>>>> 7b71791a (ENG-3124 unit tests for label form updated + amended unmount state to remove selected label)
+import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getLabelFilters, getSelectedLabel, getSearchTerm } from 'state/labels/selectors';
 
 
 const LABELS_MAP = {
@@ -26,12 +22,14 @@ const LABELS_LIST = [
   'HELLO',
   'GOODBYE',
 ];
+const SEARCH_TERM = 'term';
 const STATE = {
   labels: {
     map: LABELS_MAP,
     list: LABELS_LIST,
     filters: { keyword: 'testkey' },
     selected: LABELS_MAP.HELLO,
+    searchTerm: SEARCH_TERM,
   },
 };
 
@@ -43,6 +41,10 @@ describe('state/labels/selectors', () => {
 
   it('getSelectedLabel returns the selected label', () => {
     expect(getSelectedLabel(STATE)).toEqual(STATE.labels.selected);
+  });
+
+  it('getSearchTerm returns the search term value', () => {
+    expect(getSearchTerm(STATE)).toEqual(SEARCH_TERM);
   });
 
   it('getLabelsIdList returns the labels id list', () => {
