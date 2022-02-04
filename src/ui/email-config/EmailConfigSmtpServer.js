@@ -155,6 +155,14 @@ const EmailConfigSmtpServer = withFormik({
     Yup.object().shape({
       host: Yup.string()
         .required(<FormattedMessage id="validateForm.required" />),
+      timeout: Yup.number()
+        .typeError(<FormattedMessage id="validateForm.number" />)
+        .nullable()
+        .integer(<FormattedMessage id="validateForm.number" />),
+      port: Yup.number()
+        .typeError(<FormattedMessage id="validateForm.number" />)
+        .nullable()
+        .integer(<FormattedMessage id="validateForm.number" />),
     })),
   handleSubmit: (
     values,
