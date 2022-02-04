@@ -1,5 +1,5 @@
 import { initialize } from 'redux-form';
-import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
+import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
   getRoles, getRole, postRole, putRole, deleteRole,
@@ -97,6 +97,10 @@ export const sendPostRole = rolesData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           history.push(ROUTE_ROLE_LIST);
+          dispatch(addToast(
+            { id: 'app.created', values: { type: 'role', code: data.payload.name } }
+            , TOAST_SUCCESS,
+          ));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
@@ -112,6 +116,10 @@ export const sendPutRole = rolesData => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           history.push(ROUTE_ROLE_LIST);
+          dispatch(addToast(
+            { id: 'app.updated', values: { type: 'role', code: data.payload.name } }
+            , TOAST_SUCCESS,
+          ));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
