@@ -3,7 +3,7 @@ import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_SELECTED_LABEL } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_SELECTED_LABEL, SET_SEARCH_TERM } from 'state/labels/types';
 import { history, ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
 
 export const setLabels = labels => ({
@@ -37,6 +37,13 @@ export const setActiveTab = activeTab => ({
 export const setSelectedLabel = label => ({
   type: SET_SELECTED_LABEL,
   payload: label,
+});
+
+export const setSearchTerm = searchTerm => ({
+  type: SET_SEARCH_TERM,
+  payload: {
+    searchTerm,
+  },
 });
 
 // thunks

@@ -5,9 +5,9 @@ import { ADD_ERRORS } from '@entando/messages';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
-  removeLabelSync, removeLabel, fetchLabel,
+  removeLabelSync, removeLabel, fetchLabel, setSearchTerm,
 } from 'state/labels/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_SELECTED_LABEL } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_SELECTED_LABEL, SET_SEARCH_TERM } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -70,6 +70,14 @@ jest.mock('state/labels/selectors', () => ({
 
 describe('state/labels/actions', () => {
   beforeEach(jest.clearAllMocks);
+
+  describe('setSearchTerm', () => {
+    it('test setGroups action sets the correct type', () => {
+      const action = setSearchTerm('term');
+      expect(action).toHaveProperty('type', SET_SEARCH_TERM);
+      expect(action).toHaveProperty('payload', { searchTerm: 'term' });
+    });
+  });
 
   describe('setLabels', () => {
     let action;

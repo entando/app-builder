@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { fetchLabels } from 'state/labels/actions';
+import { fetchLabels, setSearchTerm } from 'state/labels/actions';
 import { injectIntl } from 'react-intl';
 import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { getPagination } from 'state/pagination/selectors';
 
-const FIELD_OPERATORS = {
+export const FIELD_OPERATORS = {
   text: FILTER_OPERATORS.LIKE,
   key: FILTER_OPERATORS.LIKE,
 };
@@ -26,6 +26,7 @@ export const mapDispatchToProps = dispatch => ({
       formValues: values,
       operators: FIELD_OPERATORS,
     })));
+    dispatch(setSearchTerm(values.key));
   },
 });
 

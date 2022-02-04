@@ -28,11 +28,11 @@ class LabelsAndLanguagesPage extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    this.props.onWillMount({ page, pageSize: this.props.pageSize }, this.props.searchTerm);
   }
 
   changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
+    this.props.onWillMount({ page: 1, pageSize }, this.props.searchTerm);
   }
 
   render() {
@@ -161,6 +161,7 @@ LabelsAndLanguagesPage.propTypes = {
   loadingLabels: PropTypes.bool,
   loadingLangs: PropTypes.bool,
   activeTab: PropTypes.string,
+  searchTerm: PropTypes.string,
   onClickTab: PropTypes.func.isRequired,
 };
 
@@ -169,6 +170,7 @@ LabelsAndLanguagesPage.defaultProps = {
   loadingLabels: false,
   loadingLangs: false,
   activeTab: TAB_LANGUAGES,
+  searchTerm: '',
 };
 
 export default injectIntl(LabelsAndLanguagesPage);

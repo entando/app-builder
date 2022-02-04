@@ -20,6 +20,7 @@ const queryString = convertToQueryString({
 
 jest.mock('state/labels/actions', () => ({
   fetchLabels: jest.fn(),
+  setSearchTerm: jest.fn(),
 }));
 
 describe('mapDispatchToProps', () => {
