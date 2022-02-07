@@ -45,11 +45,22 @@ const publicUrl = process.env.PUBLIC_URL;
 
 const renderCmsMenuItems = (intl, userPermissions) => {
   const hasMenuContentsAccess = hasAccess([
-    CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
-  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
+    CRUD_CONTENTS_PERMISSION,
+    VALIDATE_CONTENTS_PERMISSION,
+  ], userPermissions);
+  const hasMenuAssetsAccess = hasAccess([
+    CRUD_CONTENTS_PERMISSION,
+    VALIDATE_CONTENTS_PERMISSION,
+    MANAGE_RESOURCES_PERMISSION,
+  ], userPermissions);
+  const hasVersioningAccess = hasMenuAssetsAccess;
   const hasMenuContentTypeAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
-  const hasMenuContentTemplatesAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
-  const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
+  const hasMenuContentTemplatesAccess = hasAccess([
+    SUPERUSER_PERMISSION, VALIDATE_CONTENTS_PERMISSION,
+  ], userPermissions);
+  const hasCategoriesAccess = hasAccess([
+    SUPERUSER_PERMISSION, MANAGE_CATEGORIES_PERMISSION,
+  ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
   return (
     <Item
@@ -96,7 +107,7 @@ const renderCmsMenuItems = (intl, userPermissions) => {
         )
       }
       {
-        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+        hasVersioningAccess && (
         <SecondaryItem
           id="menu-versioning"
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
@@ -258,15 +269,11 @@ const VerticalMenu = ({
               title={intl.formatMessage({ id: 'menu.widget', defaultMessage: 'Widget' })}
               onClick={() => history.push(ROUTE_WIDGET_LIST)}
             />
-            {
-            hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-              <SecondaryItem
-                id="menu-ux-pattern-fragments"
-                title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
-                onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-              />
-            )
-          }
+            <SecondaryItem
+              id="menu-ux-pattern-fragments"
+              title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
+              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+            />
           </Item>
         )
       }
@@ -274,6 +281,7 @@ const VerticalMenu = ({
           hasAccess([
             CRUD_CONTENTS_PERMISSION,
             MANAGE_RESOURCES_PERMISSION,
+            MANAGE_CATEGORIES_PERMISSION,
             VALIDATE_CONTENTS_PERMISSION,
           ], userPermissions) &&
           renderCmsMenuItems(intl, userPermissions)
