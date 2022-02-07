@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { initialize } from 'redux-form';
 import { ADD_ERRORS, ADD_TOAST, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -15,6 +14,7 @@ import {
   fetchEmailSender,
   updateEmailSender,
   setSelectedSender,
+  setSmtpServer,
 } from 'state/email-config/actions';
 import {
   getSMTPServerSettings,
@@ -109,7 +109,7 @@ describe('state/email-config/actions', () => {
       setupMockResponse(getSMTPServerSettings, MOCK_SMTP_SERVER_SETTINGS);
 
       const expectedActions = [
-        initialize('emailConfig', MOCK_SMTP_SERVER_SETTINGS),
+        setSmtpServer(MOCK_SMTP_SERVER_SETTINGS),
       ];
 
       dispatch(fetchSMTPServerSettings()).then(() => {
@@ -137,7 +137,6 @@ describe('state/email-config/actions', () => {
       setupMockResponseFromParams(putSMTPServerSettings);
 
       const expectedActions = [
-        initialize('emailConfig', MOCK_SMTP_SERVER_SETTINGS),
         { type: ADD_TOAST, payload: { message: { id: 'emailConfig.saveSuccessful' }, type: TOAST_SUCCESS } },
       ];
 

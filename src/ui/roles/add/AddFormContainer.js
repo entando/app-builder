@@ -1,7 +1,8 @@
-import { connect } from 'react-redux';
-import { change, formValueSelector, submit } from 'redux-form';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
 import { routeConverter } from '@entando/utils';
-import { withRouter } from 'react-router-dom';
 
 import { sendPostRole } from 'state/roles/actions';
 import { fetchPermissions } from 'state/permissions/actions';
@@ -13,36 +14,47 @@ import { ROUTE_ROLE_LIST } from 'app-init/router';
 
 import RoleForm from 'ui/roles/common/RoleForm';
 
+const AddFormContainer = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const permissions = useSelector(getPermissionsList);
+  const loading = useSelector(getLoading);
 
-export const mapStateToProps = state => ({
-  permissions: getPermissionsList(state),
-  loading: getLoading(state).permissions,
-  superuserToggled: formValueSelector('role')(state, 'permissions.superuser') || false,
-});
-
-export const mapDispatchToProps = (dispatch, { history }) => ({
-  onWillMount: () => {
+  const handleMount = useCallback(() => {
     dispatch(fetchPermissions());
-  },
-  onSubmit: values => dispatch(sendPostRole(values)),
-  onToggleSuperuser: ({ superuserToggled, permissions }) => {
-    if (superuserToggled) {
-      permissions.forEach((permission) => {
-        if (permission.code !== 'superuser') {
-          dispatch(change('role', `permissions.${permission.code}`, true));
-        }
-      });
-    }
-  },
-  onChangeName: name =>
-    dispatch(change('role', 'code', name.replace(/\W/g, '_').toLowerCase())),
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('role')); },
-  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
-  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_ROLE_LIST)); },
-});
+  }, [dispatch]);
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false,
-})(RoleForm);
+  const handleSubmit = useCallback((values) => {
+    dispatch(setVisibleModal(''));
+    dispatch(sendPostRole(values));
+  }, [dispatch]);
 
-export default withRouter(AddFormContainer);
+  const handleCancel = useCallback(() => {
+    dispatch(setVisibleModal(ConfirmCancelModalID));
+  }, [dispatch]);
+
+  const handleDiscard = useCallback(() => {
+    dispatch(setVisibleModal(''));
+    history.push(routeConverter(ROUTE_ROLE_LIST));
+  }, [dispatch, history]);
+
+  const initialValues = useMemo(() => ({
+    code: '',
+    name: '',
+    permissions: permissions.reduce((acc, perm) => ({
+      [perm.code]: false,
+    }), {}),
+  }), [permissions]);
+
+  return (<RoleForm
+    onMount={handleMount}
+    onSubmit={handleSubmit}
+    onCancel={handleCancel}
+    onDiscard={handleDiscard}
+    permissions={permissions}
+    loading={loading.permissions}
+    initialValues={initialValues}
+  />);
+};
+
+export default AddFormContainer;
