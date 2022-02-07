@@ -6,6 +6,7 @@ import {
   REMOVE_LABEL,
   SET_ACTIVE_TAB,
   SET_SELECTED_LABEL,
+  SET_SEARCH_TERM,
 } from 'state/labels/types';
 
 const map = (state = {}, action = {}) => {
@@ -61,9 +62,19 @@ const selected = (state = null, action = {}) => {
   }
 };
 
+const searchTerm = (state = null, action = {}) => {
+  switch (action.type) {
+    case SET_SEARCH_TERM: {
+      return action.payload.searchTerm;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map,
   list,
   activeTab,
   selected,
+  searchTerm,
 });

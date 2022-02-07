@@ -1,5 +1,5 @@
 
-import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getSelectedLabel } from 'state/labels/selectors';
+import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getSelectedLabel, getSearchTerm } from 'state/labels/selectors';
 
 
 const LABELS_MAP = {
@@ -22,11 +22,13 @@ const LABELS_LIST = [
   'HELLO',
   'GOODBYE',
 ];
+const SEARCH_TERM = 'term';
 const STATE = {
   labels: {
     map: LABELS_MAP,
     list: LABELS_LIST,
     selected: LABELS_MAP.HELLO,
+    searchTerm: SEARCH_TERM,
   },
 };
 
@@ -38,6 +40,10 @@ describe('state/labels/selectors', () => {
 
   it('getSelectedLabel returns the selected label', () => {
     expect(getSelectedLabel(STATE)).toEqual(STATE.labels.selected);
+  });
+
+  it('getSearchTerm returns the search term value', () => {
+    expect(getSearchTerm(STATE)).toEqual(SEARCH_TERM);
   });
 
   it('getLabelsIdList returns the labels id list', () => {

@@ -11,7 +11,7 @@ const FIELD_OPERATORS = {
 };
 
 const TEST_VALUE = { text: 'label text' };
-const page = { page: 1, pageSize: 10 };
+const page = { page: 1, pageSize: undefined };
 const queryString = convertToQueryString({
   formValues: TEST_VALUE,
   operators: FIELD_OPERATORS,
@@ -20,6 +20,7 @@ const queryString = convertToQueryString({
 
 jest.mock('state/labels/actions', () => ({
   fetchLabels: jest.fn(),
+  setSearchTerm: jest.fn(),
 }));
 
 describe('mapDispatchToProps', () => {

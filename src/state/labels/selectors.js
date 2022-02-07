@@ -11,6 +11,11 @@ export const getActiveTab = createSelector(
   labels => (labels.activeTab),
 );
 
+export const getSearchTerm = createSelector(
+  getLabels,
+  labels => (labels.searchTerm),
+);
+
 export const getLabelsList = createSelector(
   [getLabelsMap, getLabelsIdList],
   (map, idList) => idList.map(id => (map[id])),

@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import reducer from 'state/labels/reducer';
-import { setLabels, updateLabelSync, removeLabelSync, setSelectedLabel } from 'state/labels/actions';
+import { setLabels, updateLabelSync, removeLabelSync, setSelectedLabel, setSearchTerm } from 'state/labels/actions';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
@@ -43,6 +43,17 @@ describe('state/languages/reducer', () => {
       const label = { key: 'MOMO' };
       const state = reducer(INITIAL_STATE, setSelectedLabel(label));
       expect(state.selected).toBe(label);
+    });
+  });
+
+  describe('after action SET_SEARCH_TERM', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(INITIAL_STATE, setSearchTerm('term'));
+    });
+
+    it('should populate the searchTerm', () => {
+      expect(newState.searchTerm).toBe('term');
     });
   });
 
