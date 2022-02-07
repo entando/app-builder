@@ -8,12 +8,14 @@ import { Button } from 'patternfly-react';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import { emailValid } from 'helpers/formikValidations';
 
 const formSchema = Yup.object().shape({
   code: Yup.string()
     .required(<FormattedMessage id="validateForm.required" />),
   email: Yup.string()
-    .required(<FormattedMessage id="validateForm.required" />),
+    .required(<FormattedMessage id="validateForm.required" />)
+    .test('emailValid', emailValid),
 });
 
 const EmailSenderForm = ({
