@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { initialize } from 'redux-form';
 import { ADD_ERRORS, ADD_TOAST, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -14,6 +13,7 @@ import {
   addEmailSender,
   fetchEmailSender,
   updateEmailSender,
+  setSelectedSender,
   setSmtpServer,
 } from 'state/email-config/actions';
 import {
@@ -27,7 +27,7 @@ import {
   getEmailSender,
   putEmailSender,
 } from 'api/emailConfig';
-import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER } from 'state/email-config/types';
+import { SET_EMAIL_SENDERS, REMOVE_EMAIL_SENDER, SET_SELECTED_SENDER } from 'state/email-config/types';
 import { MOCK_SMTP_SERVER_SETTINGS, MOCK_EMAIL_SENDER_LIST, MOCK_EMAIL_SENDER } from 'test/mocks/emailConfig';
 import { mockApi } from 'test/testUtils';
 import { history } from 'app-init/router';
@@ -91,6 +91,15 @@ describe('state/email-config/actions', () => {
       expect(setEmailSenders(MOCK_EMAIL_SENDER_LIST)).toEqual({
         type: SET_EMAIL_SENDERS,
         payload: MOCK_EMAIL_SENDER_LIST,
+      });
+    });
+  });
+
+  describe('setSelectedSender', () => {
+    it('should create the correct action object', () => {
+      expect(setSelectedSender(MOCK_EMAIL_SENDER)).toEqual({
+        type: SET_SELECTED_SENDER,
+        payload: MOCK_EMAIL_SENDER,
       });
     });
   });
@@ -301,7 +310,7 @@ describe('state/email-config/actions', () => {
       setupMockResponse(getEmailSender, MOCK_EMAIL_SENDER);
 
       const expectedActions = [
-        initialize('emailSender', MOCK_EMAIL_SENDER),
+        { type: SET_SELECTED_SENDER, payload: MOCK_EMAIL_SENDER },
       ];
 
       dispatch(fetchEmailSender(MOCK_EMAIL_SENDER.code)).then(() => {
