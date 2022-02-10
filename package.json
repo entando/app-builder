@@ -57,7 +57,7 @@
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.22.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "object-assign": "4.1.1",
     "patternfly": "^3.59.4",
     "patternfly-react": "^1.19.1",
