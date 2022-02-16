@@ -364,14 +364,24 @@ class App extends Component {
       isReady,
       username,
     } = this.props;
+    console.log(
+      window.origin, window.location.href,
+      window.location.pathname, window.location.search,
+    );
     if (!username && currentRoute !== ROUTE_HOME) {
-      return <Redirect to={ROUTE_HOME} />;
+      console.log('11111 moving you to home', currentRoute);
+      // return <Redirect to={ROUTE_HOME} />;
+      return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
     }
+
+    const query = window.location.search;
+    const redirectUriRoute = query && query.split('redirect_uri=') && query.split('redirect_uri=')[1];
+    console.log('redirectUriRoute', query, redirectUriRoute, username, auth.authenticated);
 
     const readyDisplay = !auth.enabled || auth.authenticated
       ? getRouteComponent()
       : <LoginPage />;
-
+    console.log('2222 rendering conditionally');
     return (
       <DDProvider>
         <ToastsContainer />
