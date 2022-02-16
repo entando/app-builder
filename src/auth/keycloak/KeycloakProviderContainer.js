@@ -27,6 +27,7 @@ export const mapDispatchToProps = dispatch => ({
     }
     const username = get(keycloak, 'idTokenParsed.preferred_username');
     const { token } = keycloak;
+
     switch (event) {
       case 'onAuthSuccess':
         dispatch(clearAppTourProgress());

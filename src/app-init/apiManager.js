@@ -13,6 +13,7 @@ import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
 import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { keycloak } from 'auth/keycloak/KeycloakProviderContainer';
 
 const ApiManager = ({
   auth,
@@ -24,6 +25,10 @@ const ApiManager = ({
     try {
       store.dispatch(clearLoggedUserPermissions());
       store.dispatch(clearAppTourProgress());
+      if (keycloak) {
+        const { origin } = window.location;
+        keycloak.redirectUri = `${origin}${process.env.PUBLIC_URL || ''}${ROUTE_DASHBOARD}`;
+      }
       auth.logout(status);
     } catch (err) {
       // can occur when keycloak is still loading

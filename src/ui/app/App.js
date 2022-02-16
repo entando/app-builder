@@ -365,13 +365,12 @@ class App extends Component {
       username,
     } = this.props;
     if (!username && currentRoute !== ROUTE_HOME) {
-      return <Redirect to={ROUTE_HOME} />;
+      return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
     }
 
     const readyDisplay = !auth.enabled || auth.authenticated
       ? getRouteComponent()
       : <LoginPage />;
-
     return (
       <DDProvider>
         <ToastsContainer />
