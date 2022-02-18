@@ -15,52 +15,29 @@
     margin-top: 25px;
   }
 
-  &__content {
-    .PagesList__wrapper {
-      @media (max-width: 769px) {
-        width: 100%;
-        overflow-x: auto;
-      }
-    }
-
-    h2 {
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    .btn {
-      &.pull-right {
-        margin-bottom: 10px;
-      }
-    }
-
-    .PagesListTable__table {
-      margin: 2em 0 0 0;
-    }
-
-    &__bottom-link { // sass-lint:disable-line bem-depth
-      padding: 5px;
+  .PagesList__wrapper {
+    @media (max-width: 769px) {
+      width: 100%;
+      overflow-x: auto;
     }
   }
 
-  &__permissionNotice { // sass-lint:disable-line class-name-format
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  h2 {
+    font-size: 16px;
+    font-weight: 400;
   }
 
-  &__noPermission { // sass-lint:disable-line class-name-format
-    .PagesList__content { // sass-lint:disable-line nesting-depth
-      filter: blur(.5rem);
+  .btn {
+    &.pull-right {
+      margin-bottom: 10px;
     }
+  }
 
-    .PagesList__permissionNotice { // sass-lint:disable-line nesting-depth, class-name-format
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  .PagesListTable__table {
+    margin: 2em 0 0 0;
+  }
+
+  &__bottom-link { // sass-lint:disable-line bem-depth
+    padding: 5px;
   }
 }

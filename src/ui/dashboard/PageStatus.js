@@ -8,6 +8,8 @@ import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-i
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 const pageStatusMsgs = defineMessages({
   pages: {
     id: 'app.pages',
@@ -49,11 +51,9 @@ class PageStatus extends Component {
       { ...acc, [curr]: intl.formatMessage(pageStatusMsgs[curr]) }
     ), {});
 
-    const canView = hasAccess(MANAGE_PAGES_PERMISSION, userPermissions);
-
     return (
-      <div className={`PageStatus${!canView ? ' PageStatus__noPermission' : ''}`}>
-        <div className="PageStatus__content">
+      <div className="PageStatus">
+        <ViewPermissionNoticeOverlay viewPermissions={MANAGE_PAGES_PERMISSION}>
           <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
           <span>{lastUpdate}</span>
           <DonutChart
@@ -88,10 +88,7 @@ class PageStatus extends Component {
               </div>
             )
           }
-        </div>
-        <div className="PageStatus__permissionNotice">
-          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
-        </div>
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

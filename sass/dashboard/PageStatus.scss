@@ -5,39 +5,16 @@
   padding: 0 20px 0;
   border: $color-pf-black-300 solid 1px;
 
-  &__content {
-    h2 { // sass-lint:disable-line nesting-depth
-      margin-bottom: 0;
-      font-size: 16px;
-      font-weight: 400;
-    }
-
-    &__bottom-link { // sass-lint:disable-line nesting-depth, bem-depth, class-name-format
-      position: absolute;
-      right: 15px;
-      bottom: 0;
-      padding: 5px;
-    }
+  h2 {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
   }
 
-  &__permissionNotice { // sass-lint:disable-line class-name-format
-    display: none;
+  &__bottom-link {
     position: absolute;
-    top: 0;
-    right: 0;
+    right: 15px;
     bottom: 0;
-    left: 0;
-  }
-
-  &__noPermission { // sass-lint:disable-line class-name-format
-    .PageStatus__content { // sass-lint:disable-line nesting-depth
-      filter: blur(.5rem);
-    }
-
-    .PageStatus__permissionNotice { // sass-lint:disable-line nesting-depth, class-name-format
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    padding: 5px;
   }
 }

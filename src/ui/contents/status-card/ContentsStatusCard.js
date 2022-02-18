@@ -13,6 +13,8 @@ import {
   VALIDATE_CONTENTS_PERMISSION,
 } from 'state/permissions/const';
 
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 const contentStatusMsgs = defineMessages({
   contents: {
     id: 'cms.contents.title',
@@ -63,8 +65,6 @@ class ContentsStatusCard extends Component {
 
     const contentsAvailable = total > 0;
 
-    const canView = hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions);
-
     const renderBody = !contentsAvailable ? (
       <div>
         <FormattedMessage id="cms.contents.notFound" defaultMessage="No contents were found on system." />
@@ -92,8 +92,8 @@ class ContentsStatusCard extends Component {
     );
 
     return (
-      <div className={`ContentsStatusCard${!canView ? ' ContentsStatusCard__noPermission' : ''}`}>
-        <div className="ContentsStatusCard__content">
+      <div className="ContentsStatusCard">
+        <ViewPermissionNoticeOverlay viewPermissions={ADMINISTRATION_AREA_PERMISSION}>
           <h2 className="ContentsStatusCard__title">
             <FormattedMessage
               id="cms.contents.contentStatus"
@@ -117,10 +117,7 @@ class ContentsStatusCard extends Component {
               </div>
             )
           }
-        </div>
-        <div className="ContentsStatusCard__permissionNotice">
-          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
-        </div>
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

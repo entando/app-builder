@@ -1,0 +1,26 @@
+.ViewPermissionNoticeOverlay {
+  position: relative;
+
+  &__permissionNotice { // sass-lint:disable-line class-name-format
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__noPermission { // sass-lint:disable-line class-name-format
+    .ViewPermissionNoticeOverlay__content { // sass-lint:disable-line nesting-depth
+      filter: blur(.5rem);
+    }
+
+    .ViewPermissionNoticeOverlay__permissionNotice { // sass-lint:disable-line nesting-depth, class-name-format
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 20px;
+      text-align: center;
+    }
+  }
+}

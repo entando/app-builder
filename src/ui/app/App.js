@@ -371,7 +371,7 @@ class App extends Component {
     }
 
     if (!loggedUserPrefloading) {
-      return <RowSpinner loading={!loggedUserPrefloading} />;
+      return <div className="shell-preload"><RowSpinner loading /></div>;
     }
 
     const readyDisplay = !auth.enabled || auth.authenticated

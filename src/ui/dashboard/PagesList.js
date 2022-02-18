@@ -13,6 +13,8 @@ import { formatDate, hasAccess } from '@entando/utils';
 import paginatorMessages from 'ui/paginatorMessages';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 class PagesList extends Component {
   constructor(props) {
     super(props);
@@ -117,7 +119,6 @@ class PagesList extends Component {
       onSetColumnOrder,
       page,
       pageSize: perPage,
-      userPermissions,
     } = this.props;
     const pagination = {
       page,
@@ -132,11 +133,10 @@ class PagesList extends Component {
     ), {});
 
     const columns = this.getColumnDefs() || [];
-    const canView = hasAccess(MANAGE_PAGES_PERMISSION, userPermissions);
 
     return (
-      <div className={`PagesList${!canView ? ' PagesList__noPermission' : ''}`}>
-        <div className="PagesList__content">
+      <div className="PagesList">
+        <ViewPermissionNoticeOverlay viewPermissions={MANAGE_PAGES_PERMISSION}>
           <h2>
             <FormattedMessage id="app.pages" />
             <Button
@@ -169,10 +169,7 @@ class PagesList extends Component {
             messages={messages}
           />
           <Clearfix />
-        </div>
-        <div className="PagesList__permissionNotice">
-          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
-        </div>
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

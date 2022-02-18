@@ -14,6 +14,8 @@ import {
   VALIDATE_CONTENTS_PERMISSION,
 } from 'state/permissions/const';
 
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 import paginatorMessages from 'ui/common/paginatorMessages';
 
 class ContentListCard extends Component {
@@ -147,11 +149,9 @@ class ContentListCard extends Component {
 
     const columns = this.getColumnDefs() || [];
 
-    const canView = hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions);
-
     return (
-      <div className={`ContentListCard${!canView ? ' ContentListCard__noPermission' : ''}`}>
-        <div className="ContentListCard__content">
+      <div className="ContentListCard">
+        <ViewPermissionNoticeOverlay viewPermissions={[ADMINISTRATION_AREA_PERMISSION]}>
           <h2>
             <FormattedMessage id="dashboard.content.title" defaultMessage="Content" />
             {renderAddContentButton}
@@ -178,10 +178,7 @@ class ContentListCard extends Component {
             messages={messages}
           />
           <Clearfix />
-        </div>
-        <div className="ContentListCard__permissionNotice">
-          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
-        </div>
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

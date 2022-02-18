@@ -7,6 +7,7 @@ import { loginUser } from '@entando/apimanager';
 import { fetchLoggedUserPermissions } from 'state/permissions/actions';
 import { fetchWizardEnabled, clearAppTourProgress } from 'state/app-tour/actions';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import RowSpinner from 'ui/pages/common/RowSpinner';
 
 const { KEYCLOAK_JSON } = getRuntimeEnv();
 export const keycloak = new Keycloak(KEYCLOAK_JSON);
@@ -16,7 +17,7 @@ keycloak.setToRefreshToken = (val) => {
   keycloak.toRefreshToken = val;
 };
 
-const Loading = <div>Loading...</div>;
+const Loading = <div className="shell-preload"><RowSpinner loading /></div>;
 
 export const mapStateToProps = () => ({ authClient: keycloak, initConfig: { onLoad: 'login-required' }, LoadingComponent: Loading });
 

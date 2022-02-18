@@ -328,6 +328,7 @@ export default {
     'menu.emailConfig': 'Configuração de Email',
     'menu.apps': 'Apps',
     'menu.mail': 'Email',
+    'dashboard.cards.noPermission': 'Non hai il permesso di visualizzare questi datiVocê não tem permissão para visualizar esses dados',
     'dashboard.newUser': 'Novo Usuário',
     'dashboard.newWidget': 'Novo Widget',
     'dashboard.newPage': 'Adicionar Página',
