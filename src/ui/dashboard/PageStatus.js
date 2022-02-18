@@ -29,7 +29,10 @@ const pageStatusMsgs = defineMessages({
 
 class PageStatus extends Component {
   componentDidMount() {
-    this.props.onWillMount();
+    const { userPermissions, onWillMount } = this.props;
+    if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
+      onWillMount();
+    }
   }
 
   render() {
@@ -46,42 +49,49 @@ class PageStatus extends Component {
       { ...acc, [curr]: intl.formatMessage(pageStatusMsgs[curr]) }
     ), {});
 
+    const canView = hasAccess(MANAGE_PAGES_PERMISSION, userPermissions);
+
     return (
-      <div className="PageStatus">
-        <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
-        <span>{lastUpdate}</span>
-        <DonutChart
-          key={language}
-          data={{
-            colors: {
-              [msgs.published]: '#6CA100',
-              [msgs.draft]: '#F0AB00',
-              [msgs.unpublished]: '#72767B',
-            },
-            columns: [
-              [msgs.published, published],
-              [msgs.draft, draft],
-              [msgs.unpublished, unpublished],
-            ],
-            type: 'donut',
-          }}
-          title={{ type: 'total', secondary: msgs.pages }}
-          legend={{ show: true, position: 'right' }}
-          tooltip={{
-            format: {
-            value: v => v,
-            },
-          }}
-        />
-        {
-          hasAccess([SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION], userPermissions) && (
-            <div className="PageStatus__bottom-link">
-              <Link to={ROUTE_PAGE_TREE}>
-                <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />
-              </Link>
-            </div>
-          )
-        }
+      <div className={`PageStatus${!canView ? ' PageStatus__noPermission' : ''}`}>
+        <div className="PageStatus__content">
+          <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
+          <span>{lastUpdate}</span>
+          <DonutChart
+            key={language}
+            data={{
+              colors: {
+                [msgs.published]: '#6CA100',
+                [msgs.draft]: '#F0AB00',
+                [msgs.unpublished]: '#72767B',
+              },
+              columns: [
+                [msgs.published, published],
+                [msgs.draft, draft],
+                [msgs.unpublished, unpublished],
+              ],
+              type: 'donut',
+            }}
+            title={{ type: 'total', secondary: msgs.pages }}
+            legend={{ show: true, position: 'right' }}
+            tooltip={{
+              format: {
+              value: v => v,
+              },
+            }}
+          />
+          {
+            hasAccess([SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION], userPermissions) && (
+              <div className="PageStatus__bottom-link">
+                <Link to={ROUTE_PAGE_TREE}>
+                  <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />
+                </Link>
+              </div>
+            )
+          }
+        </div>
+        <div className="PageStatus__permissionNotice">
+          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
+        </div>
       </div>
     );
   }

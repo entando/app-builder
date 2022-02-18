@@ -9,8 +9,9 @@ import { DataTable } from '@entando/datatable';
 
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
-import { formatDate } from '@entando/utils';
+import { formatDate, hasAccess } from '@entando/utils';
 import paginatorMessages from 'ui/paginatorMessages';
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
 class PagesList extends Component {
   constructor(props) {
@@ -21,11 +22,18 @@ class PagesList extends Component {
   }
 
   componentDidMount() {
-    const { onWillMount, columnOrder, onSetColumnOrder } = this.props;
+    const {
+      onWillMount,
+      columnOrder,
+      onSetColumnOrder,
+      userPermissions,
+    } = this.props;
     if (!columnOrder.length) {
       onSetColumnOrder(['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified']);
     }
-    onWillMount();
+    if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
+      onWillMount();
+    }
   }
 
   getColumnDefs() {
@@ -109,6 +117,7 @@ class PagesList extends Component {
       onSetColumnOrder,
       page,
       pageSize: perPage,
+      userPermissions,
     } = this.props;
     const pagination = {
       page,
@@ -123,41 +132,47 @@ class PagesList extends Component {
     ), {});
 
     const columns = this.getColumnDefs() || [];
+    const canView = hasAccess(MANAGE_PAGES_PERMISSION, userPermissions);
 
     return (
-      <div className="PagesList">
-        <h2>
-          <FormattedMessage id="app.pages" />
-          <Button
-            bsStyle="primary"
-            className="pull-right"
-            componentClass={Link}
-            to={ROUTE_PAGE_ADD}
-          >
-            <FormattedMessage id="app.add" defaultMessage="Add" />
-          </Button>
-        </h2>
-        <div className="PagesList__wrapper">
-          <DataTable
-            columns={columns}
-            data={pages || []}
-            columnResizable
-            onColumnReorder={onSetColumnOrder}
-            classNames={{
-              table: 'PageTemplateListTable__table table-striped',
-              cell: 'FragmentListRow__td',
-            }}
+      <div className={`PagesList${!canView ? ' PagesList__noPermission' : ''}`}>
+        <div className="PagesList__content">
+          <h2>
+            <FormattedMessage id="app.pages" />
+            <Button
+              bsStyle="primary"
+              className="pull-right"
+              componentClass={Link}
+              to={ROUTE_PAGE_ADD}
+            >
+              <FormattedMessage id="app.add" defaultMessage="Add" />
+            </Button>
+          </h2>
+          <div className="PagesList__wrapper">
+            <DataTable
+              columns={columns}
+              data={pages || []}
+              columnResizable
+              onColumnReorder={onSetColumnOrder}
+              classNames={{
+                table: 'PageTemplateListTable__table table-striped',
+                cell: 'FragmentListRow__td',
+              }}
+            />
+          </div>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={this.props.totalItems}
+            onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
+          <Clearfix />
         </div>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={this.props.totalItems}
-          onPageSet={this.changePage}
-          onPerPageSelect={this.changePageSize}
-          messages={messages}
-        />
-        <Clearfix />
+        <div className="PagesList__permissionNotice">
+          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
+        </div>
       </div>
     );
   }
@@ -166,6 +181,7 @@ class PagesList extends Component {
 PagesList.propTypes = {
   intl: intlShape.isRequired,
   onWillMount: PropTypes.func.isRequired,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     fullTitles: PropTypes.shape({
@@ -186,6 +202,7 @@ PagesList.propTypes = {
 
 PagesList.defaultProps = {
   pages: [],
+  userPermissions: [],
   columnOrder: ['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified'],
   onSetColumnOrder: () => {},
 };

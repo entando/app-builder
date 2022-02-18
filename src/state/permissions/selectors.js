@@ -5,6 +5,9 @@ export const getPermissionsIdList = state => state.permissions.list;
 export const getPermissionsMap = state => state.permissions.map;
 export const getMyGroupPermissions = state => state.permissions.myGroupPermissions;
 
+export const getLoggedUserPermissionsLoaded = state => state.permissions
+  .loggedUserPermissionsLoaded;
+
 export const getPermissionsList = createSelector(
   [getPermissionsMap, getPermissionsIdList],
   (permissionsMap, idListPermissions) => idListPermissions.map(id => (permissionsMap[id])),
