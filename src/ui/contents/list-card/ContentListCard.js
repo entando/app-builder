@@ -7,7 +7,12 @@ import { formatDate, hasAccess } from '@entando/utils';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import { getContentStatusDetails } from 'ui/contents/ContentsTable';
-import { SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION } from 'state/permissions/const';
+import {
+  SUPERUSER_PERMISSION,
+  ADMINISTRATION_AREA_PERMISSION,
+  CRUD_CONTENTS_PERMISSION,
+  VALIDATE_CONTENTS_PERMISSION,
+} from 'state/permissions/const';
 
 import paginatorMessages from 'ui/common/paginatorMessages';
 
@@ -19,11 +24,18 @@ class ContentListCard extends Component {
   }
 
   componentDidMount() {
-    const { onDidMount, columnOrder, onSetColumnOrder } = this.props;
+    const {
+      onDidMount,
+      columnOrder,
+      onSetColumnOrder,
+      userPermissions,
+    } = this.props;
     if (!columnOrder.length) {
       onSetColumnOrder(['description', 'lastEditor', 'typeDescription', 'status', 'lastModified']);
     }
-    onDidMount();
+    if (hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions)) {
+      onDidMount();
+    }
   }
 
   getColumnDefs() {
@@ -135,34 +147,41 @@ class ContentListCard extends Component {
 
     const columns = this.getColumnDefs() || [];
 
+    const canView = hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions);
+
     return (
-      <div className="ContentListCard">
-        <h2>
-          <FormattedMessage id="dashboard.content.title" defaultMessage="Content" />
-          {renderAddContentButton}
-        </h2>
-        <div className="ContentListCardTable__wrapper">
-          <DataTable
-            columns={columns}
-            data={contents}
-            columnResizable
-            onColumnReorder={onSetColumnOrder}
-            classNames={{
-              table: 'table-striped ContentListCardTable__table',
-              row: 'VersioningListRow',
-              cell: 'VersioningListRow__td',
-            }}
+      <div className={`ContentListCard${!canView ? ' ContentListCard__noPermission' : ''}`}>
+        <div className="ContentListCard__content">
+          <h2>
+            <FormattedMessage id="dashboard.content.title" defaultMessage="Content" />
+            {renderAddContentButton}
+          </h2>
+          <div className="ContentListCardTable__wrapper">
+            <DataTable
+              columns={columns}
+              data={contents}
+              columnResizable
+              onColumnReorder={onSetColumnOrder}
+              classNames={{
+                table: 'table-striped ContentListCardTable__table',
+                row: 'VersioningListRow',
+                cell: 'VersioningListRow__td',
+              }}
+            />
+          </div>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={totalItems}
+            onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
+          <Clearfix />
         </div>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={totalItems}
-          onPageSet={this.changePage}
-          onPerPageSelect={this.changePageSize}
-          messages={messages}
-        />
-        <Clearfix />
+        <div className="ContentListCard__permissionNotice">
+          <strong><span className="fa fa-exclamation-triangle" /> You have no permission to visualise this data</strong>
+        </div>
       </div>
     );
   }

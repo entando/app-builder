@@ -1,6 +1,6 @@
 // sass-lint:disable class-name-format nesting-depth
 .ContentListCard {
-
+  position: relative;
   height: 275px;
   margin: 0 -10px;
   padding: 0 20px 20px;
@@ -14,24 +14,47 @@
     margin-top: 25px;
   }
 
-  h2 {
-    font-size: 16px;
-    font-weight: 400;
+  &__content {
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
 
-    .dropdown {
-      float: right;
-    }
-  }
-
-  .ContentListCardTable {
-    &__wrapper {
-      @media (max-width: 426px) {
-        overflow-x: auto;
+      .dropdown {
+        float: right;
       }
     }
 
-    &__table {
-      margin: 2em 0 0 0;
+    .ContentListCardTable {
+      &__wrapper {
+        @media (max-width: 426px) {
+          overflow-x: auto;
+        }
+      }
+
+      &__table {
+        margin: 2em 0 0 0;
+      }
+    }
+  }
+
+  &__permissionNotice { // sass-lint:disable-line class-name-format
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__noPermission { // sass-lint:disable-line class-name-format
+    .ContentListCard__content { // sass-lint:disable-line nesting-depth
+      filter: blur(.5rem);
+    }
+
+    .ContentListCard__permissionNotice { // sass-lint:disable-line nesting-depth, class-name-format
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

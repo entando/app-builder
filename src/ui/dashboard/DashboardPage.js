@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, CardGrid } from 'patternfly-react';
 import { compact } from 'lodash';
-import { hasAccess, PermissionCheck } from '@entando/utils';
+import { hasAccess } from '@entando/utils';
 import withPermissions from 'ui/auth/withPermissions';
 import InternalPage from 'ui/internal-page/InternalPage';
 import UserManagementContainer from 'ui/dashboard/UserManagementContainer';
@@ -36,10 +36,6 @@ export const DashboardPageBody = ({ userPermissions }) => {
   ));
   const lengthNum = compact(topWidgetPermissions).length;
   const tileLength = lengthNum ? (12 / lengthNum) : 12;
-  const canViewContentsStatus =
-  hasAccess([ADMINISTRATION_AREA_PERMISSION], userPermissions);
-  const canViewContentsList =
-  hasAccess([ADMINISTRATION_AREA_PERMISSION], userPermissions);
   return (
     <InternalPage className="DashboardPage">
       <CardGrid className="container-fluid">
@@ -65,10 +61,7 @@ export const DashboardPageBody = ({ userPermissions }) => {
             <PageStatusContainer />
           </Col>
           <Col md={6}>
-            {
-              (canViewContentsStatus && ContentsStatusCardContainer) ?
-                <ContentsStatusCardContainer /> : null
-            }
+            {ContentsStatusCardContainer ? <ContentsStatusCardContainer /> : null}
           </Col>
         </Row>
         <Row>
@@ -78,10 +71,7 @@ export const DashboardPageBody = ({ userPermissions }) => {
         </Row>
         <Row>
           <Col md={12}>
-            {
-              (canViewContentsList && ContentsListCardContainer) ?
-                <ContentsListCardContainer /> : null
-            }
+            {ContentsListCardContainer ? <ContentsListCardContainer /> : null}
           </Col>
         </Row>
         <AppTourContainer />
