@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
@@ -36,6 +36,8 @@ import InfoMenu from 'ui/internal-page/InfoMenu';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
 import useLocalStorage from 'helpers/useLocalStorage';
+import { getSystemReport } from 'state/system/selectors';
+import { fetchSystemReport } from 'state/system/actions';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -43,7 +45,7 @@ const {
 
 const publicUrl = process.env.PUBLIC_URL;
 
-const renderCmsMenuItems = (intl, userPermissions) => {
+const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION,
     VALIDATE_CONTENTS_PERMISSION,
@@ -62,6 +64,9 @@ const renderCmsMenuItems = (intl, userPermissions) => {
     SUPERUSER_PERMISSION, MANAGE_CATEGORIES_PERMISSION,
   ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
+
+  const { contentSchedulerPluginInstalled } = systemReport;
+
   return (
     <Item
       id="apps-cms"
@@ -116,6 +121,15 @@ const renderCmsMenuItems = (intl, userPermissions) => {
         )
       }
       {
+        hasMenuContentsAccess && contentSchedulerPluginInstalled && (
+          <SecondaryItem
+            id="menu-scheduler"
+            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Content Scheduler' })}
+            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
+          />
+        )
+      }
+      {
         hasMenuContentTypeAccess && (
         <SecondaryItem
           id="menu-content-type"
@@ -148,11 +162,18 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
   />) : '');
 
 const VerticalMenu = ({
-  userPermissions, intl, history, onNextStep, onStartTutorial,
+  userPermissions, intl, history, onNextStep, onStartTutorial, onMount,
 }) => {
   const [openPath, setOpenPath] = useState(null);
 
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
+
+  const systemReport = useSelector(getSystemReport);
+
+  useEffect(() => {
+    onMount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSecondaryCollapseBtnClick = () => {
     setOpenPath('/');
@@ -284,7 +305,7 @@ const VerticalMenu = ({
             MANAGE_CATEGORIES_PERMISSION,
             VALIDATE_CONTENTS_PERMISSION,
           ], userPermissions) &&
-          renderCmsMenuItems(intl, userPermissions)
+          renderCmsMenuItems(intl, userPermissions, systemReport)
         }
         {
 
@@ -405,6 +426,7 @@ VerticalMenu.propTypes = {
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   onNextStep: PropTypes.func.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 VerticalMenu.defaultProps = {
@@ -418,6 +440,9 @@ const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(clearAppTourProgress());
     dispatch(setWizardEnabled(true));
     dispatch(setAppTourLastStep(1));
+  },
+  onMount: () => {
+    dispatch(fetchSystemReport());
   },
 });
 
