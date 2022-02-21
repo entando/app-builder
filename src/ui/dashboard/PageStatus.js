@@ -8,6 +8,8 @@ import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-i
 import { ROUTE_PAGE_TREE } from 'app-init/router';
 import { SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 const pageStatusMsgs = defineMessages({
   pages: {
     id: 'app.pages',
@@ -29,7 +31,10 @@ const pageStatusMsgs = defineMessages({
 
 class PageStatus extends Component {
   componentDidMount() {
-    this.props.onWillMount();
+    const { userPermissions, onWillMount } = this.props;
+    if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
+      onWillMount();
+    }
   }
 
   render() {
@@ -48,40 +53,42 @@ class PageStatus extends Component {
 
     return (
       <div className="PageStatus">
-        <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
-        <span>{lastUpdate}</span>
-        <DonutChart
-          key={language}
-          data={{
-            colors: {
-              [msgs.published]: '#6CA100',
-              [msgs.draft]: '#F0AB00',
-              [msgs.unpublished]: '#72767B',
-            },
-            columns: [
-              [msgs.published, published],
-              [msgs.draft, draft],
-              [msgs.unpublished, unpublished],
-            ],
-            type: 'donut',
-          }}
-          title={{ type: 'total', secondary: msgs.pages }}
-          legend={{ show: true, position: 'right' }}
-          tooltip={{
-            format: {
-            value: v => v,
-            },
-          }}
-        />
-        {
-          hasAccess([SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION], userPermissions) && (
-            <div className="PageStatus__bottom-link">
-              <Link to={ROUTE_PAGE_TREE}>
-                <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />
-              </Link>
-            </div>
-          )
-        }
+        <ViewPermissionNoticeOverlay viewPermissions={MANAGE_PAGES_PERMISSION}>
+          <h2><FormattedMessage id="dashboard.pageStatus" /></h2>
+          <span>{lastUpdate}</span>
+          <DonutChart
+            key={language}
+            data={{
+              colors: {
+                [msgs.published]: '#6CA100',
+                [msgs.draft]: '#F0AB00',
+                [msgs.unpublished]: '#72767B',
+              },
+              columns: [
+                [msgs.published, published],
+                [msgs.draft, draft],
+                [msgs.unpublished, unpublished],
+              ],
+              type: 'donut',
+            }}
+            title={{ type: 'total', secondary: msgs.pages }}
+            legend={{ show: true, position: 'right' }}
+            tooltip={{
+              format: {
+              value: v => v,
+              },
+            }}
+          />
+          {
+            hasAccess([SUPERUSER_PERMISSION, MANAGE_PAGES_PERMISSION], userPermissions) && (
+              <div className="PageStatus__bottom-link">
+                <Link to={ROUTE_PAGE_TREE}>
+                  <FormattedMessage id="dashboard.pageList" defaultMessage="Page List" />
+                </Link>
+              </div>
+            )
+          }
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

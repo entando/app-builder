@@ -21,7 +21,7 @@ describe('LanguagesContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props).toHaveProperty('onWillMount', expect.any(Function));
+      expect(props).toHaveProperty('onDidMount', expect.any(Function));
     });
   });
 });

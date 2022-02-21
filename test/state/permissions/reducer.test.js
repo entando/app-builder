@@ -2,6 +2,7 @@ import reducer from 'state/permissions/reducer';
 import {
   setPermissions,
   setLoggedUserPermissions,
+  setLoggedUserPermissionsLoaded,
   clearLoggedUserPermissions,
 } from 'state/permissions/actions';
 import { getPermissionsList } from 'state/permissions/selectors';
@@ -17,6 +18,8 @@ describe('state/permssions/reducer', () => {
       expect(state).toHaveProperty('list');
       expect(state).toHaveProperty('map');
       expect(state).toHaveProperty('loggedUser');
+      expect(state).toHaveProperty('loggedUserGroup');
+      expect(state).toHaveProperty('loggedUserPermissionsLoaded');
       expect(state.loggedUser).toBe(null);
     });
   });
@@ -50,6 +53,11 @@ describe('state/permssions/reducer', () => {
     it('after action CLEAR_LOGGED_USER_PERMISSIONS', () => {
       state = reducer(state, clearLoggedUserPermissions());
       expect(state.loggedUser).toBe(null);
+    });
+
+    it('after action SET_LOGGED_USER_PERMISSIONS_LOADED', () => {
+      state = reducer(state, setLoggedUserPermissionsLoaded(true));
+      expect(state.loggedUserPermissionsLoaded).toEqual(true);
     });
   });
 });

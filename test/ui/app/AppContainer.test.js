@@ -9,6 +9,7 @@ const dispatchMock = jest.fn();
 
 const TEST_STATE = {
   currentUser: { username: 'admin' },
+  permissions: { loggedUserPermissionsLoaded: true },
 };
 
 const ownProps = {
@@ -23,6 +24,7 @@ describe('AppContainer', () => {
       expect(mapStateToProps(TEST_STATE, ownProps)).toEqual({
         username: 'admin',
         currentRoute: 'page',
+        loggedUserPrefloading: true,
       });
     });
   });

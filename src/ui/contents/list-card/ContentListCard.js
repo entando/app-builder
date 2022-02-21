@@ -7,7 +7,14 @@ import { formatDate, hasAccess } from '@entando/utils';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import { getContentStatusDetails } from 'ui/contents/ContentsTable';
-import { SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION } from 'state/permissions/const';
+import {
+  SUPERUSER_PERMISSION,
+  ADMINISTRATION_AREA_PERMISSION,
+  CRUD_CONTENTS_PERMISSION,
+  VALIDATE_CONTENTS_PERMISSION,
+} from 'state/permissions/const';
+
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
 
 import paginatorMessages from 'ui/common/paginatorMessages';
 
@@ -19,11 +26,18 @@ class ContentListCard extends Component {
   }
 
   componentDidMount() {
-    const { onDidMount, columnOrder, onSetColumnOrder } = this.props;
+    const {
+      onDidMount,
+      columnOrder,
+      onSetColumnOrder,
+      userPermissions,
+    } = this.props;
     if (!columnOrder.length) {
       onSetColumnOrder(['description', 'lastEditor', 'typeDescription', 'status', 'lastModified']);
     }
-    onDidMount();
+    if (hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions)) {
+      onDidMount();
+    }
   }
 
   getColumnDefs() {
@@ -137,32 +151,34 @@ class ContentListCard extends Component {
 
     return (
       <div className="ContentListCard">
-        <h2>
-          <FormattedMessage id="dashboard.content.title" defaultMessage="Content" />
-          {renderAddContentButton}
-        </h2>
-        <div className="ContentListCardTable__wrapper">
-          <DataTable
-            columns={columns}
-            data={contents}
-            columnResizable
-            onColumnReorder={onSetColumnOrder}
-            classNames={{
-              table: 'table-striped ContentListCardTable__table',
-              row: 'VersioningListRow',
-              cell: 'VersioningListRow__td',
-            }}
+        <ViewPermissionNoticeOverlay viewPermissions={[ADMINISTRATION_AREA_PERMISSION]}>
+          <h2>
+            <FormattedMessage id="dashboard.content.title" defaultMessage="Content" />
+            {renderAddContentButton}
+          </h2>
+          <div className="ContentListCardTable__wrapper">
+            <DataTable
+              columns={columns}
+              data={contents}
+              columnResizable
+              onColumnReorder={onSetColumnOrder}
+              classNames={{
+                table: 'table-striped ContentListCardTable__table',
+                row: 'VersioningListRow',
+                cell: 'VersioningListRow__td',
+              }}
+            />
+          </div>
+          <Paginator
+            pagination={pagination}
+            viewType="table"
+            itemCount={totalItems}
+            onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
+            messages={messages}
           />
-        </div>
-        <Paginator
-          pagination={pagination}
-          viewType="table"
-          itemCount={totalItems}
-          onPageSet={this.changePage}
-          onPerPageSelect={this.changePageSize}
-          messages={messages}
-        />
-        <Clearfix />
+          <Clearfix />
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

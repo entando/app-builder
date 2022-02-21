@@ -176,6 +176,7 @@ import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
+import RowSpinner from 'ui/pages/common/RowSpinner';
 import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
@@ -363,9 +364,14 @@ class App extends Component {
       auth,
       isReady,
       username,
+      loggedUserPrefloading,
     } = this.props;
     if (!username && currentRoute !== ROUTE_HOME) {
       return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
+    }
+
+    if (!loggedUserPrefloading) {
+      return <div className="shell-preload"><RowSpinner loading /></div>;
     }
 
     const readyDisplay = !auth.enabled || auth.authenticated
@@ -387,6 +393,7 @@ App.propTypes = {
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
   fetchUserPreferences: PropTypes.func,
+  loggedUserPrefloading: PropTypes.bool,
 };
 
 App.defaultProps = {
@@ -395,6 +402,7 @@ App.defaultProps = {
   fetchPlugins: () => {},
   fetchUserPreferences: () => {},
   isReady: false,
+  loggedUserPrefloading: false,
 };
 
 export default withAuth(App);

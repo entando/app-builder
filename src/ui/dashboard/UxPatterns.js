@@ -8,66 +8,79 @@ import {
   Icon,
   Button,
 } from 'patternfly-react';
+import { hasAccess } from '@entando/utils';
 import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
+import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+
 import { ROUTE_PAGE_TEMPLATE_LIST, ROUTE_WIDGET_ADD, ROUTE_WIDGET_LIST } from 'app-init/router';
 
 class UxPatterns extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    const { onDidMount, userPermissions } = this.props;
+    if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
+      onDidMount();
+    }
   }
 
   render() {
     const { isSuperuser } = this.props;
+
     return (
-      <Card accented>
-        <CardTitle>
-          <Icon size="lg" name="object-ungroup" />
-          <FormattedMessage id="menu.uxComponents" />
-          {isSuperuser && (
-            <Button
-              bsStyle="primary"
-              className="pull-right"
-              componentClass={Link}
-              to={ROUTE_WIDGET_ADD}
-            >
-              <FormattedMessage id="app.add" />
-            </Button>
-          )}
-          <Clearfix />
-        </CardTitle>
-        <CardBody>
-          <Icon size="lg" name="cube" />
-          <AggregateStatusCount>
-            <b>{this.props.widgets}</b>&nbsp;
-            <Link to={ROUTE_WIDGET_LIST}>
-              <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
-            </Link>
-          </AggregateStatusCount>
-          <span className="separator" />
-          <AggregateStatusCount>
-            <b>{this.props.pageTemplates}</b>&nbsp;
-            <Link to={ROUTE_PAGE_TEMPLATE_LIST}>
-              <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
-            </Link>
-          </AggregateStatusCount>
-        </CardBody>
+      <Card accented className="UxPatternsCard">
+        <ViewPermissionNoticeOverlay viewPermissions={[MANAGE_PAGES_PERMISSION]}>
+          <CardTitle>
+            <Icon size="lg" name="object-ungroup" />
+            <FormattedMessage id="menu.uxComponents" />
+            {isSuperuser && (
+              <Button
+                bsStyle="primary"
+                className="pull-right"
+                componentClass={Link}
+                to={ROUTE_WIDGET_ADD}
+              >
+                <FormattedMessage id="app.add" />
+              </Button>
+            )}
+            <Clearfix />
+          </CardTitle>
+          <CardBody>
+            <Icon size="lg" name="cube" />
+            <AggregateStatusCount>
+              <b>{this.props.widgets}</b>&nbsp;
+              <Link to={ROUTE_WIDGET_LIST}>
+                <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
+              </Link>
+            </AggregateStatusCount>
+            <span className="separator" />
+            <AggregateStatusCount>
+              <b>{this.props.pageTemplates}</b>&nbsp;
+              <Link to={ROUTE_PAGE_TEMPLATE_LIST}>
+                <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
+              </Link>
+            </AggregateStatusCount>
+          </CardBody>
+        </ViewPermissionNoticeOverlay>
       </Card>
     );
   }
 }
 
 UxPatterns.propTypes = {
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
   widgets: PropTypes.number.isRequired,
   pageTemplates: PropTypes.number.isRequired,
   isSuperuser: PropTypes.bool,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 
 UxPatterns.defaultProps = {
   isSuperuser: true,
+  userPermissions: [],
 };
 
 export default UxPatterns;

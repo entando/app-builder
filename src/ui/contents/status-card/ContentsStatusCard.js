@@ -6,7 +6,14 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import { ROUTE_CMS_CONTENTS } from 'app-init/router';
-import { SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION } from 'state/permissions/const';
+import {
+  SUPERUSER_PERMISSION,
+  ADMINISTRATION_AREA_PERMISSION,
+  CRUD_CONTENTS_PERMISSION,
+  VALIDATE_CONTENTS_PERMISSION,
+} from 'state/permissions/const';
+
+import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
 
 const contentStatusMsgs = defineMessages({
   contents: {
@@ -29,8 +36,10 @@ const contentStatusMsgs = defineMessages({
 
 class ContentsStatusCard extends Component {
   componentDidMount() {
-    const { onDidMount } = this.props;
-    onDidMount();
+    const { onDidMount, userPermissions } = this.props;
+    if (hasAccess(ADMINISTRATION_AREA_PERMISSION, userPermissions)) {
+      onDidMount();
+    }
   }
 
   render() {
@@ -84,29 +93,31 @@ class ContentsStatusCard extends Component {
 
     return (
       <div className="ContentsStatusCard">
-        <h2 className="ContentsStatusCard__title">
-          <FormattedMessage
-            id="cms.contents.contentStatus"
-            defaultMessage="Content Status"
-          />
-        </h2>
-        <span>
-          {(latestModificationDate && contentsAvailable)
-            ? formatDate(latestModificationDate) : null}
-        </span>
-        {renderBody}
-        {
-          hasAccess(
-            [SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
-            userPermissions,
-          ) && (
-            <div className="pull-right ContentsStatusCard__bottom-link">
-              <Link to={ROUTE_CMS_CONTENTS}>
-                <FormattedMessage id="dashboard.contents.link" defaultMessage="Content List" />
-              </Link>
-            </div>
-          )
-        }
+        <ViewPermissionNoticeOverlay viewPermissions={ADMINISTRATION_AREA_PERMISSION}>
+          <h2 className="ContentsStatusCard__title">
+            <FormattedMessage
+              id="cms.contents.contentStatus"
+              defaultMessage="Content Status"
+            />
+          </h2>
+          <span>
+            {(latestModificationDate && contentsAvailable)
+              ? formatDate(latestModificationDate) : null}
+          </span>
+          {renderBody}
+          {
+            hasAccess(
+              [SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
+              userPermissions,
+            ) && (
+              <div className="pull-right ContentsStatusCard__bottom-link">
+                <Link to={ROUTE_CMS_CONTENTS}>
+                  <FormattedMessage id="dashboard.contents.link" defaultMessage="Content List" />
+                </Link>
+              </div>
+            )
+          }
+        </ViewPermissionNoticeOverlay>
       </div>
     );
   }

@@ -337,6 +337,7 @@ export default {
     'menu.apps': 'Apps',
     'menu.settings': 'Administration',
     'menu.emailConfig': 'Email Configuration',
+    'dashboard.cards.noPermission': 'You have no permission to visualize this data',
     'dashboard.uxComponents.mfeWidgets': 'MFEs & Widgets',
     'dashboard.uxComponents.pageTemplates': 'Page Templates',
     'dashboard.pageStatus': 'Page Status',

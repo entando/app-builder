@@ -154,6 +154,14 @@ $fa-square-o: "\f096";
   padding: 0;
 }
 
+.shell-preload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
 // Use this on wrapper elements to make children's heights equal.
 .equal {
   display: flex;

@@ -102,25 +102,25 @@ jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
 
 const mountWithRoute = route => mountWithIntl((
   <MemoryRouter initialEntries={[route]}>
-    <App currentRoute={ROUTE_DASHBOARD} username="admin" />
+    <App currentRoute={ROUTE_DASHBOARD} username="admin" loggedUserPrefloading />
   </MemoryRouter>
 ));
 
 describe('App', () => {
   it('renders without crashing', () => {
-    const component = shallow(<App currentRoute={ROUTE_HOME} />);
+    const component = shallow(<App currentRoute={ROUTE_HOME} loggedUserPrefloading />);
     expect(component.exists()).toBe(true);
   });
 
   it('always contains the ToastsContainer', () => {
-    let component = shallow(<App currentRoute={ROUTE_HOME} />).dive();
+    let component = shallow(<App currentRoute={ROUTE_HOME} loggedUserPrefloading />).dive();
     expect(component.find(ToastsContainer).exists()).toBe(true);
-    component = shallow(<App currentRoute={ROUTE_DASHBOARD} username="admin" />).dive();
+    component = shallow(<App currentRoute={ROUTE_DASHBOARD} username="admin" loggedUserPrefloading />).dive();
     expect(component.find(ToastsContainer).exists()).toBe(true);
   });
 
   it('redirects to login page if the user is not logged in', () => {
-    const component = shallow(<App currentRoute={ROUTE_DASHBOARD} />).dive();
+    const component = shallow(<App currentRoute={ROUTE_DASHBOARD} loggedUserPrefloading />).dive();
     expect(component.contains(<DashboardPage />)).toBe(false);
   });
 

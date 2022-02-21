@@ -11,6 +11,7 @@ import {
   getPermissionsMap,
   getPermissionsList,
   getLoggedUserPermissions,
+  getLoggedUserPermissionsLoaded,
   getMyGroupPermissions,
 } from 'state/permissions/selectors';
 
@@ -38,6 +39,11 @@ describe('state/permissions/selectors', () => {
   it('verify getLoggedUserPermissions returns correct values', () => {
     const userAuthority = getLoggedUserPermissions(MYPERMISSIONS_STATE);
     expect(userAuthority).toEqual(MYPERMISSIONS_STATE.permissions.loggedUser);
+  });
+
+  it('verify getLoggedUserPermissionsLoaded returns correct values', () => {
+    const isLoaded = getLoggedUserPermissionsLoaded(MYPERMISSIONS_STATE);
+    expect(isLoaded).toEqual(MYPERMISSIONS_STATE.permissions.loggedUserPermissionsLoaded);
   });
 
   it('verify getMyGroupPermissions selector', () => {
