@@ -6,6 +6,7 @@ import {
   setPermissions,
   fetchPermissions,
   setLoggedUserPermissions,
+  setLoggedUserPermissionsLoaded,
   clearLoggedUserPermissions,
   fetchMyGroupPermissions,
 } from 'state/permissions/actions';
@@ -15,6 +16,7 @@ import { LIST_PERMISSIONS_OK, LIST_MY_GROUP_PERMISSIONS_OK } from 'test/mocks/pe
 import {
   SET_PERMISSIONS,
   SET_LOGGED_USER_PERMISSIONS,
+  SET_LOGGED_USER_PERMISSIONS_LOADED,
   CLEAR_LOGGED_USER_PERMISSIONS,
   SET_MY_GROUP_PERMISSIONS,
 } from 'state/permissions/types';
@@ -64,6 +66,14 @@ describe('state/permissions/actions', () => {
       const action = clearLoggedUserPermissions();
       expect(action).toHaveProperty('type', CLEAR_LOGGED_USER_PERMISSIONS);
       expect(action).not.toHaveProperty('payload');
+    });
+  });
+
+  describe('logged user permissions loaded', () => {
+    it('setLoggedUserPermissionsLoaded', () => {
+      const action = setLoggedUserPermissionsLoaded(true);
+      expect(action).toHaveProperty('type', SET_LOGGED_USER_PERMISSIONS_LOADED);
+      expect(action).toHaveProperty('payload', true);
     });
   });
 

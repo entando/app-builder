@@ -1,6 +1,4 @@
 .ViewPermissionNoticeOverlay {
-  position: relative;
-
   &__permissionNotice { // sass-lint:disable-line class-name-format
     display: none;
     position: absolute;
