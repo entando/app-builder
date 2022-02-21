@@ -322,3 +322,25 @@ export const putWebuiPage = pageObject => makeRequest({
       [{ code: 1, message: `no page with the code ${pageObject.code} could be found.` }]
   ),
 });
+
+export const putWebuiPageStatus = (pageCode, status) => makeRequest({
+  uri: `/api/pages/${pageCode}/status`,
+  body: { status },
+  method: METHODS.PUT,
+  mockResponse: { ...fetchPageResponseMap.homepage, status },
+  useAuthentication: true,
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  errors: () => (
+    fetchPageResponseMap[pageCode] ?
+      [] :
+      [{ code: 1, message: `no page with the code ${pageCode} could be found.` }]
+  ),
+});
+
+export const deleteWebuiPage = page => makeRequest({
+  uri: `/api/pages/${page.code}`,
+  method: METHODS.DELETE,
+  mockResponse: { code: `${page.code}` },
+  domain: WEBUI_APP_MANAGEMENT_URL,
+  useAuthentication: true,
+});
