@@ -56,7 +56,10 @@ const NavigatorBarOperator = ({
 NavigatorBarOperator.propTypes = {
   intl: intlShape.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
-  addConfig: PropTypes.shape({}).isRequired,
+  addConfig: PropTypes.shape({
+    spec: PropTypes.string,
+    targetCode: PropTypes.string,
+  }).isRequired,
   appTourProgress: PropTypes.string.isRequired,
 };
 

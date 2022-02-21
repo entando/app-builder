@@ -119,6 +119,7 @@ RenderListField.propTypes = {
     push: PropTypes.func,
     map: PropTypes.func,
     remove: PropTypes.func,
+    swap: PropTypes.func,
     length: PropTypes.number,
   }).isRequired,
   nestedAttribute: PropTypes.shape({}).isRequired,

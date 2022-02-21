@@ -18,7 +18,7 @@ import { updateUserPreferences } from 'state/user-preferences/actions';
 export const widgetNextSteps = {
   logo: 13,
   search_form: 15,
-  'keycloak-login': 16,
+  keycloak_login: 16,
 };
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
@@ -85,7 +85,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourLastStep(14));
     dispatch(updateConfiguredPageWidget(
       { navSpec: `code(${APP_TOUR_HOMEPAGE_CODEREF}) + code(${APP_TOUR_HOMEPAGE_CODEREF}).children` },
-      { pageCode, framePos: 1, widgetCode: 'navigation-menu' },
+      { pageCode, framePos: 1, widgetCode: 'navigation_menu' },
     )).then(() => dispatch(initConfigPage(pageCode)));
   },
   onAddSearchWidget: (pageCode) => {
@@ -93,7 +93,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourLastStep(15));
   },
   onAddLoginWidget: (pageCode) => {
-    dispatch(configOrUpdatePageWidget('keycloak-login', undefined, 3, pageCode));
+    dispatch(configOrUpdatePageWidget('keycloak_login', undefined, 3, pageCode));
     dispatch(setAppTourLastStep(16));
   },
   onAddBannerWidget: (pageCode) => {
@@ -126,7 +126,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourLastStep(19));
     dispatch(updateConfiguredPageWidget(
       { navSpec: 'code(sitemap)' },
-      { pageCode, framePos: 8, widgetCode: 'navigation-menu' },
+      { pageCode, framePos: 8, widgetCode: 'navigation_menu' },
     )).then(() => dispatch(initConfigPage(pageCode)));
   },
 });

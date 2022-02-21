@@ -14,7 +14,10 @@ const PluginsListItem = ({ plugin }) => (
 );
 
 PluginsListItem.propTypes = {
-  plugin: PropTypes.shape({}),
+  plugin: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 PluginsListItem.defaultProps = {

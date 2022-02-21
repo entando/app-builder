@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
@@ -8,6 +8,7 @@ import { routeConverter, hasAccess } from '@entando/utils';
 
 import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 
+import { adminConsoleUrl } from 'helpers/urlUtils';
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
@@ -16,7 +17,7 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
+  ROUTE_DASHBOARD, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
   ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
   ROUTE_EMAIL_CONFIG,
 } from 'app-init/router';
@@ -35,6 +36,8 @@ import InfoMenu from 'ui/internal-page/InfoMenu';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
 import useLocalStorage from 'helpers/useLocalStorage';
+import { getSystemReport } from 'state/system/selectors';
+import { fetchSystemReport } from 'state/system/actions';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -42,20 +45,28 @@ const {
 
 const publicUrl = process.env.PUBLIC_URL;
 
-const ROUTE_CMS_CONTENTTEMPLATE_LIST = '/cms/content-templates';
-const ROUTE_CMS_CONTENTTYPE_LIST = '/cms/content-types';
-const ROUTE_CMS_CONTENTS = '/cms/contents';
-const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
-const ROUTE_CMS_CONTENT_SETTINGS = '/cms/content-settings';
-
-const renderCmsMenuItems = (intl, history, userPermissions) => {
+const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
   const hasMenuContentsAccess = hasAccess([
-    CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION], userPermissions);
-  const hasMenuAssetsAccess = hasAccess(MANAGE_RESOURCES_PERMISSION, userPermissions);
+    CRUD_CONTENTS_PERMISSION,
+    VALIDATE_CONTENTS_PERMISSION,
+  ], userPermissions);
+  const hasMenuAssetsAccess = hasAccess([
+    CRUD_CONTENTS_PERMISSION,
+    VALIDATE_CONTENTS_PERMISSION,
+    MANAGE_RESOURCES_PERMISSION,
+  ], userPermissions);
+  const hasVersioningAccess = hasMenuAssetsAccess;
   const hasMenuContentTypeAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
-  const hasMenuContentTemplatesAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
-  const hasCategoriesAccess = hasAccess(MANAGE_CATEGORIES_PERMISSION, userPermissions);
+  const hasMenuContentTemplatesAccess = hasAccess([
+    SUPERUSER_PERMISSION, VALIDATE_CONTENTS_PERMISSION,
+  ], userPermissions);
+  const hasCategoriesAccess = hasAccess([
+    SUPERUSER_PERMISSION, MANAGE_CATEGORIES_PERMISSION,
+  ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
+
+  const { contentSchedulerPluginInstalled } = systemReport;
+
   return (
     <Item
       id="apps-cms"
@@ -69,7 +80,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
       <SecondaryItem
         id="menu-contents"
         title={intl.formatMessage({ id: 'cms.menu.contents', defaultMessage: 'Management' })}
-        onClick={() => history.push(ROUTE_CMS_CONTENTS)}
+        href={adminConsoleUrl('do/jacms/Content/list.action')}
       />
       )
       }
@@ -78,7 +89,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
         <SecondaryItem
           id="menu-assets"
           title={intl.formatMessage({ id: 'cms.assets.title', defaultMessage: 'Assets' })}
-          onClick={() => history.push(ROUTE_CMS_ASSETS_LIST)}
+          href={adminConsoleUrl('do/jacms/Resource/list.action?resourceTypeCode=Image')}
         />
         )
       }
@@ -87,24 +98,35 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
         <SecondaryItem
           id="menu-content-template"
           title={intl.formatMessage({ id: 'cms.menu.contenttemplates', defaultMessage: 'Templates' })}
-          onClick={() => history.push(ROUTE_CMS_CONTENTTEMPLATE_LIST)}
+          href={adminConsoleUrl('do/jacms/ContentModel/list.action')}
         />
         )
       }
       {
         hasCategoriesAccess && (
         <SecondaryItem
+          id="menu-category"
           title={intl.formatMessage({ id: 'menu.categories', defaultMessage: 'Categories' })}
-          onClick={() => history.push(ROUTE_CATEGORY_LIST)}
+          href={adminConsoleUrl('do/Category/viewTree.action')}
         />
         )
       }
       {
-        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+        hasVersioningAccess && (
         <SecondaryItem
+          id="menu-versioning"
           title={intl.formatMessage({ id: 'menu.versioning', defaultMessage: 'Versioning' })}
-          onClick={() => history.push(ROUTE_CMS_VERSIONING)}
+          href={adminConsoleUrl('do/jpversioning/Content/Versioning/list.action')}
         />
+        )
+      }
+      {
+        hasMenuContentsAccess && contentSchedulerPluginInstalled && (
+          <SecondaryItem
+            id="menu-scheduler"
+            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Content Scheduler' })}
+            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
+          />
         )
       }
       {
@@ -112,7 +134,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
         <SecondaryItem
           id="menu-content-type"
           title={intl.formatMessage({ id: 'cms.menu.contenttypes', defaultMessage: 'Types' })}
-          onClick={() => history.push(ROUTE_CMS_CONTENTTYPE_LIST)}
+          href={adminConsoleUrl('do/Entity/initViewEntityTypes.action?entityManagerName=jacmsContentManager')}
         />
         )
       }
@@ -121,7 +143,7 @@ const renderCmsMenuItems = (intl, history, userPermissions) => {
         <SecondaryItem
           id="menu-content-settings"
           title={intl.formatMessage({ id: 'cms.menu.contentsettings', defaultMessage: 'Settings' })}
-          onClick={() => history.push(ROUTE_CMS_CONTENT_SETTINGS)}
+          href={adminConsoleUrl('do/jacms/Content/Admin/openIndexProspect.action')}
         />
         )
       }
@@ -140,11 +162,18 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
   />) : '');
 
 const VerticalMenu = ({
-  userPermissions, intl, history, onNextStep, onStartTutorial,
+  userPermissions, intl, history, onNextStep, onStartTutorial, onMount,
 }) => {
   const [openPath, setOpenPath] = useState(null);
 
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
+
+  const systemReport = useSelector(getSystemReport);
+
+  useEffect(() => {
+    onMount();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSecondaryCollapseBtnClick = () => {
     setOpenPath('/');
@@ -169,7 +198,13 @@ const VerticalMenu = ({
         hiddenIcons={false}
         hideMasthead={false}
         hoverDisabled
-        onNavigate={e => e.onClick()}
+        onNavigate={({ href, onClick }) => {
+          if (href) {
+            window.location.href = href;
+          } else {
+            onClick();
+          }
+        }}
         pinnableMenus={false}
         hoverPath={openPath}
         onItemClick={handleItemClick}
@@ -255,15 +290,11 @@ const VerticalMenu = ({
               title={intl.formatMessage({ id: 'menu.widget', defaultMessage: 'Widget' })}
               onClick={() => history.push(ROUTE_WIDGET_LIST)}
             />
-            {
-            hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-              <SecondaryItem
-                id="menu-ux-pattern-fragments"
-                title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
-                onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-              />
-            )
-          }
+            <SecondaryItem
+              id="menu-ux-pattern-fragments"
+              title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
+              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+            />
           </Item>
         )
       }
@@ -271,9 +302,10 @@ const VerticalMenu = ({
           hasAccess([
             CRUD_CONTENTS_PERMISSION,
             MANAGE_RESOURCES_PERMISSION,
+            MANAGE_CATEGORIES_PERMISSION,
             VALIDATE_CONTENTS_PERMISSION,
           ], userPermissions) &&
-          renderCmsMenuItems(intl, history, userPermissions)
+          renderCmsMenuItems(intl, userPermissions, systemReport)
         }
         {
 
@@ -388,10 +420,13 @@ const VerticalMenu = ({
 
 VerticalMenu.propTypes = {
   intl: intlShape.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   onNextStep: PropTypes.func.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 VerticalMenu.defaultProps = {
@@ -405,6 +440,9 @@ const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(clearAppTourProgress());
     dispatch(setWizardEnabled(true));
     dispatch(setAppTourLastStep(1));
+  },
+  onMount: () => {
+    dispatch(fetchSystemReport());
   },
 });
 

@@ -2,8 +2,8 @@
   margin-top: 30px;
   padding-top: 40px;
   padding-bottom: 10px;
-  background-color: white;
   border: $color-ultra-grey-border 1px solid;
+  background-color: $color-white;
   overflow: visible;
 
   & > div > div > .input-group { // sass-lint:disable-line class-name-format

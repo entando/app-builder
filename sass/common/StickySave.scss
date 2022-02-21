@@ -21,9 +21,9 @@
     text-align: left;
 
     & > span { //sass-lint:disable-line class-name-format
-      float: right;
       margin-top: 6px;
       margin-right: -3px;
+      float: right;
     }
   }
 
@@ -46,8 +46,8 @@
   }
 
   .StickySave__btnlabel {
-    margin-right: 10px;
     display: inline-block;
+    margin-right: 10px;
     line-height: 2em;
     vertical-align: middle;
 

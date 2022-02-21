@@ -31,7 +31,7 @@ class TabBarFilter extends Component {
     return (
       <div className="TabBarFilter">
         <div>
-          <FormattedMessage id="componentRepository.filterTabs.filterBy" />{':'}
+          <FormattedMessage id="componentRepository.filterTabs.filterBy" />:
         </div>
         <ButtonGroup
           id={attributes.componentId}

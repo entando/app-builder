@@ -53,18 +53,18 @@ class ComponentList extends Component {
     };
     const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
       ? (<ComponentListGridView
-        components={componentRepositoryComponents}
-        locale={intl.locale}
-        onClickInstallPlan={getInstallPlan}
-        openComponentManagementModal={openComponentManagementModal}
-        bundleStatuses={bundleStatuses}
+          components={componentRepositoryComponents}
+          locale={intl.locale}
+          onClickInstallPlan={getInstallPlan}
+          openComponentManagementModal={openComponentManagementModal}
+          bundleStatuses={bundleStatuses}
       />)
       : (<ComponentListListView
-        components={componentRepositoryComponents}
-        locale={intl.locale}
-        onClickInstallPlan={getInstallPlan}
-        openComponentManagementModal={openComponentManagementModal}
-        bundleStatuses={bundleStatuses}
+          components={componentRepositoryComponents}
+          locale={intl.locale}
+          onClickInstallPlan={getInstallPlan}
+          openComponentManagementModal={openComponentManagementModal}
+          bundleStatuses={bundleStatuses}
       />);
 
     const components = (!componentRepositoryComponents

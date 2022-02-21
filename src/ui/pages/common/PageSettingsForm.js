@@ -266,8 +266,6 @@ PageSettingsFormBody.propTypes = {
 
 PageSettingsFormBody.defaultProps = {
   onWillMount: () => {},
-  invalid: false,
-  submitting: false,
   options: [],
   loading: false,
 };

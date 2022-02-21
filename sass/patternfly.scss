@@ -59,6 +59,7 @@ $color-extra-light-grey-border: #F4F4F4;
 $color-light-grey-background: #FAFAFA;
 $color-extra-dark-grey: #1D1D1D;
 $color-grey-description: #72767B;
+$color-dump-table-code: #f4f5f7;
 
 //FontAwesome icons
 $fa-check: "\f00c";
@@ -151,6 +152,14 @@ $fa-square-o: "\f096";
 
 .no-padding {
   padding: 0;
+}
+
+.shell-preload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
 }
 
 // Use this on wrapper elements to make children's heights equal.

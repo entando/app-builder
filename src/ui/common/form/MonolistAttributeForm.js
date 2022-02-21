@@ -82,7 +82,7 @@ export class MonolistAttributeFormBody extends Component {
           <legend>
             <FormattedMessage id="app.info" />
             <div className="MonolistAttributeForm__required-fields text-right">
-               * <FormattedMessage id="app.fieldsRequired" />
+              * <FormattedMessage id="app.fieldsRequired" />
             </div>
           </legend>
           <Field
@@ -155,7 +155,7 @@ export class MonolistAttributeFormBody extends Component {
           {type},&nbsp;
           <FormattedMessage id="app.element.of" />&nbsp;
           {attributeCode}&nbsp;
-           ({isMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
+          ({isMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
         </Alert>
         <form
           onSubmit={handleSubmit(values => onSubmit(values, mode, selectedAttribute))}
@@ -200,7 +200,13 @@ MonolistAttributeFormBody.propTypes = {
   onMove: PropTypes.func,
   type: PropTypes.string,
   attributeCode: PropTypes.string,
-  selectedAttribute: PropTypes.shape({}),
+  selectedAttribute: PropTypes.shape({
+    enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
+    enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+      descr: PropTypes.string,
+    })),
+  }),
   selectedAttributeType: PropTypes.string,
   mode: PropTypes.string,
   attributesList: PropTypes.arrayOf(PropTypes.string),

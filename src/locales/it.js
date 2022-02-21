@@ -337,6 +337,7 @@ export default {
     'menu.apps': 'App',
     'menu.settings': 'Amministrazione',
     'menu.emailConfig': 'Configurazione Email',
+    'dashboard.cards.noPermission': 'Non hai il permesso di visualizzare questi dati',
     'dashboard.uxComponents.mfeWidgets': 'MFE & Widget',
     'dashboard.uxComponents.pageTemplates': 'Template di Pagina',
     'dashboard.pageStatus': 'Stato Pagine',
@@ -1700,8 +1701,5 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Gruppo',
     'componentRepository.components.installedVersion': 'Versione installata',
-    'pageTree.pageType': 'Tipo',
-    'pageTree.nx': 'NX',
-    'pageTree.nt': 'NT',
   },
 };

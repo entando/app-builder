@@ -209,14 +209,14 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
       response = await deletePage(page);
     }
     const json = await response.json();
-    if (response && response.ok) {
+    if (response) {
       dispatch(removePage(page));
       dispatch(addToast({ id: 'app.deleted', values: { type: 'page', code: page.code } }, TOAST_SUCCESS));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
         history.push(ROUTE_PAGE_TREE);
       }
-    } else if (json && json.errors) {
+    } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }

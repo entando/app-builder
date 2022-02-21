@@ -95,6 +95,7 @@ export const BODY_ERROR =
 export const MYPERMISSIONS_STATE = {
   permissions: {
     loggedUser: ['role2', 'role1'],
+    loggedUserPermissionsLoaded: true,
   },
 };
 

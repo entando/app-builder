@@ -48,7 +48,7 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
           <legend>
             <FormattedMessage id="app.info" />
             <div className="DataTypeForm__required-fields text-right">
-            * <FormattedMessage id="app.fieldsRequired" />
+              * <FormattedMessage id="app.fieldsRequired" />
             </div>
           </legend>
           <Field

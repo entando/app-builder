@@ -411,6 +411,7 @@ WidgetFormBody.propTypes = {
   )),
   parentWidget: PropTypes.shape({
     code: PropTypes.string,
+    titles: PropTypes.shape({ en: PropTypes.string }),
   }),
   mode: PropTypes.string,
   defaultUIField: PropTypes.string,
@@ -423,10 +424,15 @@ WidgetFormBody.propTypes = {
   onReplaceSubmit: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   match: PropTypes.shape({
-    params: PropTypes.shape({}),
+    params: PropTypes.shape({
+      pageCode: PropTypes.string,
+      frameId: PropTypes.string,
+    }),
   }),
   noPortal: PropTypes.bool,
-  widget: PropTypes.shape({}),
+  widget: PropTypes.shape({
+    typology: PropTypes.string,
+  }),
   configUiRequired: PropTypes.bool,
 };
 

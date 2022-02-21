@@ -113,7 +113,10 @@ class RoleSelectRenderer extends Component {
 
 
 RoleSelectRenderer.propTypes = {
-  fields: PropTypes.shape({}).isRequired,
+  fields: PropTypes.shape({
+    push: PropTypes.func,
+    remove: PropTypes.func,
+  }).isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   allRoles: PropTypes.arrayOf(PropTypes.shape({})),
   selectedValues: PropTypes.arrayOf(PropTypes.string),

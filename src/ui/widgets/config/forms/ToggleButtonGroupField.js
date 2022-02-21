@@ -9,7 +9,9 @@ const ToggleButtonGroupField = ({ input, children }) => (
 );
 
 ToggleButtonGroupField.propTypes = {
-  input: PropTypes.shape({}).isRequired,
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, PropTypes.number]),
+  }).isRequired,
   children: PropTypes.node.isRequired,
 };
 

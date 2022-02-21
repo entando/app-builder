@@ -217,7 +217,9 @@ EditAttributeFormBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   selectedAttributeType: PropTypes.string,
-  selectedAttributeTypeForAddComposite: PropTypes.PropTypes.shape({}),
+  selectedAttributeTypeForAddComposite: PropTypes.PropTypes.shape({
+    code: PropTypes.string,
+  }),
   attributeCode: PropTypes.string.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,

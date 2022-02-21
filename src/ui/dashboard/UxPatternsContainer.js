@@ -13,7 +13,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: () => {
+  onDidMount: () => {
     dispatch(fetchWidgetsTotal());
     dispatch(fetchPageTemplatesTotal());
   },

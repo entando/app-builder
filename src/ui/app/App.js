@@ -50,10 +50,6 @@ import {
   ROUTE_LABEL_ADD,
   ROUTE_LABEL_EDIT,
   ROUTE_GROUP_DETAIL,
-  ROUTE_CATEGORY_LIST,
-  ROUTE_CATEGORY_ADD,
-  ROUTE_CATEGORY_EDIT,
-  ROUTE_CATEGORY_DETAIL,
   ROUTE_ROLE_LIST,
   ROUTE_ROLE_ADD,
   ROUTE_ROLE_EDIT,
@@ -94,23 +90,6 @@ import {
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
-  ROUTE_CMS_CONTENTTEMPLATE_LIST,
-  ROUTE_CMS_CONTENTTEMPLATE_ADD,
-  ROUTE_CMS_ADD_CONTENT,
-  ROUTE_CMS_EDIT_CONTENT,
-  ROUTE_CMS_CONTENTTEMPLATE_EDIT,
-  ROUTE_CMS_ASSETS_LIST,
-  ROUTE_CMS_CONTENTTYPE_LIST,
-  ROUTE_CMS_CONTENTTYPE_ADD,
-  ROUTE_CMS_CONTENTTYPE_EDIT,
-  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_ADD,
-  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT,
-  ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD,
-  ROUTE_CMS_CONTENT_SETTINGS,
-  ROUTE_CMS_CONTENTS,
-  ROUTE_CMS_VERSIONING,
-  ROUTE_CMS_VERSIONING_CONTENT_DETAIL,
-  ROUTE_CMS_VERSIONING_CONTENT_HISTORY,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -157,10 +136,6 @@ import AddLabelPage from 'ui/labels/add/AddLabelPage';
 import EditLabelPage from 'ui/labels/edit/EditLabelPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ListCategoryPage from 'ui/categories/list/ListCategoryPage';
-import AddCategoryPage from 'ui/categories/add/AddCategoryPage';
-import EditCategoryPage from 'ui/categories/edit/EditCategoryPage';
-import DetailCategoryPage from 'ui/categories/detail/DetailCategoryPage';
 import ListRolePage from 'ui/roles/list/ListRolePage';
 import AddRolePage from 'ui/roles/add/AddRolePage';
 import EditRolePage from 'ui/roles/edit/EditRolePage';
@@ -199,25 +174,9 @@ import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
-import ContentTemplateListPage from 'ui/content-template/ContentTemplateListPage';
-import AddContentTemplatePage from 'ui/content-template/AddContentTemplatePage';
-import AddContentPage from 'ui/add-content/AddContentPage';
-import EditContentPage from 'ui/edit-content/EditContentPage';
-import EditContentTemplatePage from 'ui/content-template/EditContentTemplatePage';
-import AssetsListPage from 'ui/assets/AssetsListPage';
-import ContentTypeListPage from 'ui/content-type/ContentTypeListPage';
-import AddContentTypePage from 'ui/content-type/AddContentTypePage';
-import EditContentTypePage from 'ui/content-type/EditContentTypePage';
-import AddContentTypeAttributePage from 'ui/content-type/attributes/AddContentTypeAttributePage';
-import EditContentTypeAttributePage from 'ui/content-type/attributes/EditContentTypeAttributePage';
-import ContentTypeMonolistPageContainer from 'ui/content-type/attributes/monolist/MonolistPageContainer';
-import ContentSettingsPage from 'ui/content-settings/ContentSettingsPage';
-import ContentsPage from 'ui/contents/ContentsPage';
-import VersioningListPage from 'ui/versioning/VersioningListPage';
-import ContentVersionDetailsPage from 'ui/versioning/details/ContentVersionDetailsPage';
-import SingleContentVersioningHistoryPage from 'ui/versioning/SingleContentVersioningHistoryPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
+import RowSpinner from 'ui/pages/common/RowSpinner';
 import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
@@ -231,6 +190,7 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
         exact
         key={AppRoute.path}
         path={AppRoute.path}
+        // eslint-disable-next-line react/jsx-pascal-case
         render={() => <InternalPage><AppRoute.component /></InternalPage>}
       />
     )),
@@ -279,44 +239,6 @@ const getRouteComponent = () => {
       <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
-      {/* cms */}
-      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_LIST} component={ContentTemplateListPage} />
-      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_ADD} component={AddContentTemplatePage} />
-      <Route exact path={ROUTE_CMS_ADD_CONTENT} component={AddContentPage} />
-      <Route exact path={ROUTE_CMS_CONTENTTEMPLATE_EDIT} component={EditContentTemplatePage} />
-      <Route exact path={ROUTE_CMS_CONTENTTYPE_LIST} component={ContentTypeListPage} />
-      <Route exact path={ROUTE_CMS_CONTENTTYPE_ADD} component={AddContentTypePage} />
-      <Route exact path={ROUTE_CMS_CONTENTTYPE_EDIT} component={EditContentTypePage} />
-      <Route
-        exact
-        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_ADD}
-        component={AddContentTypeAttributePage}
-      />
-      <Route
-        exact
-        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT}
-        component={EditContentTypeAttributePage}
-      />
-      <Route
-        exact
-        path={ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD}
-        component={ContentTypeMonolistPageContainer}
-      />
-      <Route exact path={ROUTE_CMS_EDIT_CONTENT} component={EditContentPage} />
-      <Route exact path={ROUTE_CMS_ASSETS_LIST} component={AssetsListPage} />
-      <Route exact path={ROUTE_CMS_CONTENT_SETTINGS} component={ContentSettingsPage} />
-      <Route exact path={ROUTE_CMS_CONTENTS} component={ContentsPage} />
-      <Route exact path={ROUTE_CMS_VERSIONING} component={VersioningListPage} />
-      <Route
-        exact
-        path={ROUTE_CMS_VERSIONING_CONTENT_DETAIL}
-        component={ContentVersionDetailsPage}
-      />
-      <Route
-        exact
-        path={ROUTE_CMS_VERSIONING_CONTENT_HISTORY}
-        component={SingleContentVersioningHistoryPage}
-      />
       {/* data models */}
       <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
       <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
@@ -346,11 +268,6 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
       <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
       <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
-      {/* categories */}
-      <Route exact path={ROUTE_CATEGORY_LIST} component={ListCategoryPage} />
-      <Route path={ROUTE_CATEGORY_ADD} component={AddCategoryPage} />
-      <Route path={ROUTE_CATEGORY_EDIT} component={EditCategoryPage} />
-      <Route path={ROUTE_CATEGORY_DETAIL} component={DetailCategoryPage} />
       {/* roles */}
       <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
       <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
@@ -447,15 +364,19 @@ class App extends Component {
       auth,
       isReady,
       username,
+      loggedUserPrefloading,
     } = this.props;
     if (!username && currentRoute !== ROUTE_HOME) {
-      return <Redirect to={ROUTE_HOME} />;
+      return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
+    }
+
+    if (!loggedUserPrefloading) {
+      return <div className="shell-preload"><RowSpinner loading /></div>;
     }
 
     const readyDisplay = !auth.enabled || auth.authenticated
       ? getRouteComponent()
       : <LoginPage />;
-
     return (
       <DDProvider>
         <ToastsContainer />
@@ -468,10 +389,11 @@ class App extends Component {
 App.propTypes = {
   currentRoute: PropTypes.string.isRequired,
   username: PropTypes.string,
-  auth: PropTypes.shape({ enabled: PropTypes.bool }),
+  auth: PropTypes.shape({ enabled: PropTypes.bool, authenticated: PropTypes.bool }),
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
   fetchUserPreferences: PropTypes.func,
+  loggedUserPrefloading: PropTypes.bool,
 };
 
 App.defaultProps = {
@@ -480,6 +402,7 @@ App.defaultProps = {
   fetchPlugins: () => {},
   fetchUserPreferences: () => {},
   isReady: false,
+  loggedUserPrefloading: false,
 };
 
 export default withAuth(App);

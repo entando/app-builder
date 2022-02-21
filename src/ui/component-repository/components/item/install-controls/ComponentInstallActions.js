@@ -73,10 +73,10 @@ const ComponentInstallActions = ({
       (lastInstallStatus === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS)
         ? <InProgressInstallState onRecheckStatus={onRecheckStatus} />
         : <FailedInstallState
-          component={component}
-          selectedVersion={selectedVersion}
-          setSelectedVersion={setSelectedVersion}
-          onRetryAction={onRetryAction}
+            component={component}
+            selectedVersion={selectedVersion}
+            setSelectedVersion={setSelectedVersion}
+            onRetryAction={onRetryAction}
         />
     );
   }

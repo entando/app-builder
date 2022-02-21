@@ -1,7 +1,7 @@
 .TourStart {
 
   &--dark {
-    background-color: rgba(41, 46, 52, 1);
+    background-color: rgba(41, 46, 52, 1); // sass-lint:disable-line variable-for-property
     color: $color-white;
   }
 
@@ -29,7 +29,7 @@
     font-family: "Open Sans";
 
     &--dark {
-      background-color: rgba(41, 46, 52, 1);
+      background-color: rgba(41, 46, 52, 1); // sass-lint:disable-line variable-for-property
       color: $color-white;
     }
 
@@ -76,7 +76,7 @@
 
     &--dark {
       margin-top: 20px;
-      background-color: rgba(77, 82, 88, 1);
+      background-color: rgba(77, 82, 88, 1); // sass-lint:disable-line variable-for-property
     }
   }
 
@@ -140,7 +140,7 @@
   &__footer--dark {
     padding-top: 14px;
     padding-bottom: 14px;
-    background-color: rgba(41, 46, 52, 1);
+    background-color: rgba(41, 46, 52, 1); // sass-lint:disable-line variable-for-property
     color: $color-white;
   }
 

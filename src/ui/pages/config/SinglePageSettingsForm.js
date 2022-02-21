@@ -102,7 +102,7 @@ export class SinglePageSettingsFormBody extends Component {
                   <legend>
                     <FormattedMessage id="singlePageSettings.pageTitle" />
                     <span className="SinglePageSettingsForm__required-fields pull-right">
-                    * <FormattedMessage id="app.fieldsRequired" />
+                      * <FormattedMessage id="app.fieldsRequired" />
                     </span>
                   </legend>
                   <FormSection name="titles">

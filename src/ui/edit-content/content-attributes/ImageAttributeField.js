@@ -91,6 +91,7 @@ const ImageAttributeField = ({
         });
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasValue, defaultLang, input]);
 
   return (

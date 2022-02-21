@@ -26,7 +26,7 @@ const ExtCategoryTreeSelector = ({
 
   const [selectedRow, setSelectedRow] = useState('');
 
-  const renderedTags = joinedCategories.map((value, i) => {
+  const renderedTags = joinedCategories.map((value) => {
     const countSlashes = (value.fullTitles[language].match(/\//g) || []).length;
     return (
       <li key={value.code}>

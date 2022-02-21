@@ -59,7 +59,9 @@ class DetailWidgetPage extends Component {
 
 DetailWidgetPage.propTypes = {
   onWillMount: PropTypes.func.isRequired,
-  widgetInfo: PropTypes.shape({}).isRequired,
+  widgetInfo: PropTypes.shape({
+    titles: PropTypes.shape({}),
+  }).isRequired,
   defaultLanguage: PropTypes.string.isRequired,
 };
 

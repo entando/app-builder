@@ -107,9 +107,15 @@ const IconUploader = ({
 };
 
 IconUploader.propTypes = {
-  input: PropTypes.shape({}),
+  input: PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+    name: PropTypes.string,
+  }),
   label: PropTypes.node,
-  meta: PropTypes.shape({}),
+  meta: PropTypes.shape({
+    touched: PropTypes.bool,
+    error: PropTypes.string,
+  }),
   help: PropTypes.node,
   disabled: PropTypes.bool,
   labelSize: PropTypes.number,

@@ -129,7 +129,7 @@ class ContentSettingsGeneral extends Component {
               </Button>{' '}
               {isReloadingReferences ? (
                 <span>
-                ({reloading}... <Icon title={`${reloading}...`} name="spinner" type="fa" />)
+                  ({reloading}... <Icon title={`${reloading}...`} name="spinner" type="fa" />)
                 </span>
               ) : (
                 <span>({intl.formatMessage(statuses.reference)})</span>
@@ -153,7 +153,7 @@ class ContentSettingsGeneral extends Component {
               </Button>{' '}
               {isReloadingIndexes ? (
                 <span>
-                ({reloading}... <Icon title={`${reloading}...`} name="spinner" type="fa" />)
+                  ({reloading}... <Icon title={`${reloading}...`} name="spinner" type="fa" />)
                 </span>
               ) : (
                 <span>({intl.formatMessage(statuses.indexes)})</span>

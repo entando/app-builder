@@ -328,6 +328,7 @@ export default {
     'menu.emailConfig': 'Configuração de Email',
     'menu.apps': 'Apps',
     'menu.mail': 'Email',
+    'dashboard.cards.noPermission': 'Non hai il permesso di visualizzare questi datiVocê não tem permissão para visualizar esses dados',
     'dashboard.newUser': 'Novo Usuário',
     'dashboard.newWidget': 'Novo Widget',
     'dashboard.newPage': 'Adicionar Página',
@@ -1009,8 +1010,5 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Grupo',
     'componentRepository.components.installedVersion': 'Versão Instalada',
-    'pageTree.pageType': 'Type',
-    'pageTree.nx': 'NX',
-    'pageTree.nt': 'NT',
   },
 };

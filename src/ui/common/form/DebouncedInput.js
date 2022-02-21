@@ -37,7 +37,7 @@ const DebouncedInput = ({ inputComponent: InputComponent, input, ...props }) => 
 DebouncedInput.propTypes = {
   inputComponent: PropTypes.elementType.isRequired,
   input: PropTypes.shape({
-    value: PropTypes.any.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
     onChange: PropTypes.func.isRequired,
   }).isRequired,
 };
