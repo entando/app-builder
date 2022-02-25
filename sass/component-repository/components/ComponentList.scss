@@ -98,8 +98,11 @@
   }
 
   &__failed-state {
-    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
     margin-left: 10px;
+    //sass-lint:disable no-misspelled-properties
+    gap: 20px;
   }
 
   &__image-placeholder {
@@ -158,7 +161,9 @@
   }
 
   &__status-danger {
-    background-color: $color-ecr-component-failed-button;
+    border: 0;
+    background-color: $color-white;
+    color: $color-ecr-error-text;
   }
 
   &__description {
@@ -193,8 +198,6 @@
 
   & .ComponentList__install-actions {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     width: 100%;
     height: 100%;
   }
@@ -230,4 +233,19 @@
       //sass-lint:enable class-name-format nesting-depth
     }
   }
+}
+
+//sass-lint:disable class-name-format
+.progress-bar {
+  height: 24px;
+  min-height: 24px;
+  padding-right: 20px;
+  padding-left: 20px;
+  line-height: 24px;
+}
+
+.progress {
+  height: 24px;
+  min-height: 24px;
+  line-height: 24px
 }
