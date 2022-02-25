@@ -370,7 +370,7 @@ class App extends Component {
       return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
     }
 
-    if (!loggedUserPrefloading) {
+    if (auth.enabled && !loggedUserPrefloading) {
       return <div className="shell-preload"><RowSpinner loading /></div>;
     }
 

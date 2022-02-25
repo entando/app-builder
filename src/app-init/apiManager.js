@@ -35,14 +35,13 @@ const ApiManager = ({
     }
   };
 
-  const state = store.getState();
-
-  const currentUserName = ((state || {}).currentUser || {}).username;
-
   const goHome = (opts) => {
     if (auth.enabled && auth.toRefreshToken) {
       auth.setToRefreshToken(false);
     } else {
+      const state = store.getState();
+      const currentUserName = ((state || {}).currentUser || {}).username;
+
       const { redirectUri, pathname } = opts;
       store.dispatch(fetchWizardEnabled(currentUserName));
       store.dispatch(fetchPermissions())
@@ -99,7 +98,7 @@ ApiManager.propTypes = {
     logout: PropTypes.func.isRequired,
     enabled: PropTypes.bool,
     toRefreshToken: PropTypes.bool,
-    setToRefreshToken: PropTypes.func.isRequired,
+    setToRefreshToken: PropTypes.func,
   }).isRequired,
   intl: intlShape.isRequired,
   children: PropTypes.oneOfType([
