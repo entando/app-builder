@@ -62,7 +62,6 @@ export const fetchPermissions = (page = { page: 1, pageSize: 0 }, params = '') =
 export const fetchLoggedUserPermissions = () => (dispatch, getState) => new Promise((resolve) => {
   dispatch(toggleLoading('loggedUserPermissions'));
   const allPermissions = getPermissionsIdList(getState());
-  dispatch(setLoggedUserPermissionsLoaded(false));
   getMyGroupPermissions().then((res) => {
     res.json().then((json) => {
       if (res.ok) {
