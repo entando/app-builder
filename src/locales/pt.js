@@ -368,6 +368,7 @@ export default {
     'validateForm.alphaNumeric': 'Somente caracteres alfanuméricos',
     'validateForm.widgetCode': '{name} contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado _ são permitidos',
     'validateForm.passwordNotMatch': 'A confirmação de senha não confere com a senha digitada',
+    'validateForm.fragmentCode': 'Código contém caracteres inválidos. Somente caracteres alfanuméricos, sublinhado \'_\' e hífen são permitidos.',
     'validateForm.code': 'Código contém caracteres inválidos. Somente caracteres alfanuméricos e sublinhado \'_\' são permitidos.',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Código',
