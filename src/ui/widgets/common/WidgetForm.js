@@ -5,7 +5,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { Field, reduxForm } from 'redux-form';
 import { Button, Tabs, Tab, Col, Alert, Spinner, ControlLabel, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
-import { required, widgetCode, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
@@ -24,6 +24,12 @@ const MODE_EDIT = 'edit';
 export const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
+
+export const validateWidgetCode = value => (
+  value && /^[0-9a-zA-Z_\-.]+$/i.test(value) ?
+    undefined :
+    <FormattedMessage id="validateForm.fragmentCode" />
+);
 
 const widgetFormName = 'widget';
 
@@ -184,8 +190,8 @@ export class WidgetFormBody extends Component {
               eventKey={REGULAR_SAVE_TYPE}
               disabled={invalid || submitting}
               onClick={handleSubmit(values => onSubmit({
-          ...values,
-        }, REGULAR_SAVE_TYPE))}
+                ...values,
+              }, REGULAR_SAVE_TYPE))}
             >
               <FormattedMessage id="app.save" />
             </MenuItem>
@@ -194,8 +200,8 @@ export class WidgetFormBody extends Component {
               eventKey={CONTINUE_SAVE_TYPE}
               disabled={invalid || submitting}
               onClick={handleSubmit(values => onSubmit({
-          ...values,
-        }, CONTINUE_SAVE_TYPE))}
+                ...values,
+              }, CONTINUE_SAVE_TYPE))}
             >
               <FormattedMessage id="app.saveAndContinue" />
             </MenuItem>
@@ -223,20 +229,22 @@ export class WidgetFormBody extends Component {
         component={RenderTextInput}
         name="code"
         label={
-          <FormLabel labelId="widget.page.create.code" helpId="app.help.code" required />
+          <FormLabel labelId="widget.page.create.code" helpId="app.help.codeWithDash" required />
         }
         placeholder={intl.formatMessage(msgs.codePlaceholder)}
-        validate={[required, widgetCode, maxLength30]}
+        validate={[required, validateWidgetCode, maxLength30]}
       />
     );
 
     let defaultUITab = (
       <Tab eventKey={3} title={intl.formatMessage(msgs.defaultUi)}>
         {
-          defaultUIField ? <pre className="WidgetForm__default-ui">{defaultUIField}</pre> :
-          <Alert type="info">
-            <FormattedMessage id="widget.page.alert.notAvailable" />
-          </Alert>
+          defaultUIField ?
+            <pre className="WidgetForm__default-ui">{defaultUIField}</pre>
+            :
+            <Alert type="info">
+              <FormattedMessage id="widget.page.alert.notAvailable" />
+            </Alert>
         }
       </Tab>
     );
@@ -287,41 +295,41 @@ export class WidgetFormBody extends Component {
                   </Tab>
 
                   {!!parentWidgetParameters.length && (
-                      (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
-                        <Tab eventKey={4} title={`${intl.formatMessage(msgs.config)} *`} >
-                          <fieldset className="no-padding">
+                    (mode === MODE_CLONE && !!NativeWidgetConfigForm) ? (
+                      <Tab eventKey={4} title={`${intl.formatMessage(msgs.config)} *`} >
+                        <fieldset className="no-padding">
+                          <Field
+                            name="config"
+                            component={NativeWidgetConfigForm}
+                            cloneMode
+                            widgetConfig={config}
+                            widgetCode={parentWidget.code}
+                            extFormName={widgetFormName}
+                            pageCode={params.pageCode}
+                            frameId={params.frameId}
+                            mode={mode}
+                          />
+                        </fieldset>
+                      </Tab>
+                    ) : (
+                      <Tab eventKey={4} title={`${intl.formatMessage(msgs.parameters)}`} >
+                        <fieldset className="no-padding">
+                          {parentWidgetParameters.map(param => (
                             <Field
-                              name="config"
-                              component={NativeWidgetConfigForm}
-                              cloneMode
-                              widgetConfig={config}
-                              widgetCode={parentWidget.code}
-                              extFormName={widgetFormName}
-                              pageCode={params.pageCode}
-                              frameId={params.frameId}
-                              mode={mode}
+                              key={param.code}
+                              component={RenderTextInput}
+                              name={`config.${param.code}`}
+                              label={<FormLabel
+                                labelText={param.code}
+                                helpText={param.description}
+                              />}
+                              disabled={isUserWidget}
                             />
-                          </fieldset>
-                        </Tab>
-                      ) : (
-                        <Tab eventKey={4} title={`${intl.formatMessage(msgs.parameters)}`} >
-                          <fieldset className="no-padding">
-                            {parentWidgetParameters.map(param => (
-                              <Field
-                                key={param.code}
-                                component={RenderTextInput}
-                                name={`config.${param.code}`}
-                                label={<FormLabel
-                                  labelText={param.code}
-                                  helpText={param.description}
-                                />}
-                                disabled={isUserWidget}
-                              />
-                            ))}
-                          </fieldset>
-                        </Tab>
-                        )
-                      )}
+                          ))}
+                        </fieldset>
+                      </Tab>
+                    )
+                  )}
 
                 </Tabs>
               </fieldset>

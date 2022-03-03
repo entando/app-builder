@@ -7,7 +7,7 @@ import { Panel } from 'react-bootstrap';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import {
-  validateCodeField,
+  validateFragmentCodeField,
   formatMessageRequired,
   formatMessageMaxLength,
 } from 'helpers/formikValidations';
@@ -282,7 +282,7 @@ const FragmentForm = withFormik({
         .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 }))
         .test(
           'validateCodeField',
-          validateCodeField(intl),
+          validateFragmentCodeField(intl),
         ),
       guiCode: Yup.string()
         .required(intl.formatMessage(formatMessageRequired)),
