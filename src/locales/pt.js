@@ -186,6 +186,7 @@ export default {
     'app.chooseAnOption': 'Escolha uma opção',
     'app.add.attribute.code': 'Você deve inserir 3 caracteres maiúsculos',
     'app.help.code': 'Você pode utilizar caracteres maiúsculos e minúsculos, números e caracteres especiais _',
+    'app.help.codeWithDash': 'Você pode utilizar caracteres maiúsculos e minúsculos, números e caracteres especiais _-',
     'app.help.name': 'Voce pode utilizar no máximo 50 caracteres maiúsculos e minúsculos, incluindo números e caracteres especiais _',
     'app.all': 'Todos',
     'app.reload': 'Recarregar',

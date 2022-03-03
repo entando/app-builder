@@ -192,6 +192,7 @@ export default {
     'app.noMatchOptions': 'No matches found',
     'app.add.attribute.code': 'You must insert 3 uppercase characters',
     'app.help.code': 'You can insert uppercase and lowercase letters, numbers and special characters _',
+    'app.help.codeWithDash': 'You can insert uppercase and lowercase letters, numbers and special characters _-',
     'app.help.name': 'You can insert a maximum of 50 characters, uppercase and lowercase letters, numbers and special characters.',
     'app.all': 'All',
     'app.reload': 'Reload',
