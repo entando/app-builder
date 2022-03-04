@@ -36,6 +36,7 @@ const AddNewRegistryModalForm = ({
   const handleSave = (values) => {
     setLoading(true);
     dispatch(sendPostRegistry(values)).then(() => {
+      setLoading(false);
       dispatch(setVisibleModal(''));
       dispatch(destroy(NewRegistryFormId));
     }).catch(() => {
