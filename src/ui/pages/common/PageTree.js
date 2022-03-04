@@ -17,6 +17,10 @@ import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalConta
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+import { NEXT_PAGE_TYPE } from 'ui/pages/common/const';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const { WEBUI_ENABLED } = getRuntimeEnv();
 
 class PageTree extends Component {
   constructor(props) {
@@ -28,7 +32,8 @@ class PageTree extends Component {
   componentDidMount() {
     const { columnOrder, onSetColumnOrder } = this.props;
     if (!columnOrder.length) {
-      onSetColumnOrder(['title', 'status', 'displayedInMenu']);
+      onSetColumnOrder(WEBUI_ENABLED ? ['title', 'type', 'status', 'displayedInMenu'] :
+        ['title', 'status', 'displayedInMenu']);
     }
   }
 
@@ -103,6 +108,22 @@ class PageTree extends Component {
           return { className: className.join(' ') };
         },
       },
+      ...(WEBUI_ENABLED && {
+        type: {
+          Header: <FormattedMessage id="pageTree.pageType" />,
+          attributes: {
+            className: 'text-center PageTree__thead',
+            style: { width: '5%', verticalAlign: 'middle' },
+          },
+          Cell: ({ value }) => (
+            <FormattedMessage id={`pageTree.${value !== NEXT_PAGE_TYPE ? 'nt' : 'nx'}`} />
+          ),
+          cellAttributes: {
+            className: 'text-center',
+            style: { verticalAlign: 'middle' },
+          },
+        },
+      }),
       status: {
         Header: <FormattedMessage id="pageTree.status" />,
         attributes: {
@@ -229,6 +250,7 @@ PageTree.propTypes = {
     code: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     displayedInMenu: PropTypes.bool.isRequired,
+    type: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     depth: PropTypes.number.isRequired,
     expanded: PropTypes.bool.isRequired,
@@ -266,7 +288,8 @@ PageTree.defaultProps = {
   onExpandAll: () => {},
   onCollapseAll: () => {},
   onSetColumnOrder: () => {},
-  columnOrder: ['title', 'status', 'displayedInMenu'],
+  columnOrder: WEBUI_ENABLED ? ['title', 'type', 'status', 'displayedInMenu'] :
+    ['title', 'status', 'displayedInMenu'],
 };
 
 export default PageTree;

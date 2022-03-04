@@ -41,7 +41,7 @@ jobs:
         run: |
           ~/ppl-run \
             .. checkout-branch --id "CHECKOUT FOR NEXUS PUBLICATION" \
-            --lcd "$LOCAL_CLONE_DIR" \
+                  --lcd "$LOCAL_CLONE_DIR" \
                   --token "$ENTANDO_BOT_TOKEN" \
             .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;

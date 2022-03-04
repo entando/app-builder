@@ -15,6 +15,7 @@ import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
+import { openInNewTab } from 'helpers/urlUtils';
 
 const msgs = defineMessages({
   appYes: {
@@ -107,7 +108,7 @@ class PageConfigPage extends Component {
 
   openLinkPublishedPage() {
     if (this.props.pageStatus !== PAGE_STATUS_UNPUBLISHED) {
-      window.open(this.props.publishedPageUri, '_blank');
+      openInNewTab(this.props.publishedPageUri);
     }
   }
 

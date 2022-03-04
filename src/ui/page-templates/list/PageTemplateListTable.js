@@ -81,6 +81,7 @@ class PageTemplateListTable extends Component {
       Cell: ({ values }) => (
         <PageTemplateListMenuActions
           code={values.code}
+          locked={values.locked}
           onClickDelete={() => removePageTemplate(values.code)}
         />
       ),

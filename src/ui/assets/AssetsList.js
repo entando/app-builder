@@ -27,6 +27,7 @@ import {
   SORTABLE_COLUMNS,
   ASSET_FILETYPES,
 } from 'state/assets/const';
+import { openInNewTab } from 'helpers/urlUtils';
 
 class AssetsList extends Component {
   constructor(props) {
@@ -281,7 +282,7 @@ class AssetsList extends Component {
             <MenuItem onClick={() => onDuplicateClicked(asset)}>
               <FormattedMessage id="cms.label.duplicate" defaultMessage="Duplicate" />
             </MenuItem>
-            <MenuItem onClick={() => window.open(asset.downloadUrl)}>
+            <MenuItem onClick={() => openInNewTab(asset.downloadUrl)}>
               <FormattedMessage id="cms.label.download" defaultMessage="Download" />
             </MenuItem>
             <MenuItem onClick={() => onClickDelete(asset)}>

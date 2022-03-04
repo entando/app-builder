@@ -26,6 +26,7 @@ import { getUserPreferences } from 'state/user-preferences/selectors';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
+import { openInNewTab } from 'helpers/urlUtils';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).pageTree,
@@ -72,10 +73,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearSearchPage());
   },
   onClickPreview: (page, domain) => {
-    window.open(`${domain}/${PREVIEW_NAMESPACE}?pageCode=${page.code}&token=${page.token}`, '_blank');
+    openInNewTab(`${domain}/${PREVIEW_NAMESPACE}?pageCode=${page.code}&token=${page.token}`);
   },
   onClickViewPublishedPage: (page, domain, locale) => {
-    window.open(`${domain}/${locale}/${page.code}.page`, '_blank');
+    openInNewTab(`${domain}/${locale}/${page.code}.page`);
   },
   onExpandAll: (currentPage) => {
     dispatch(fetchPageTreeAll());

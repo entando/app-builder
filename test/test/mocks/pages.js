@@ -87,6 +87,7 @@ export const SERVICE_PAYLOAD = {
   parentCode: 'homepage',
   seo: false,
   position: 3,
+  type: 'NX',
   titles: {
     it: 'Pagina di servizio',
     en: 'Service page',

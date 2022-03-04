@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { NEXT_PAGE_TYPE } from 'ui/pages/common/const';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { openInNewTab } from 'helpers/urlUtils';
+
+const { WEBUI_APP_URL, WEBUI_DEV_WORKSPACE_URL } = getRuntimeEnv();
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -89,6 +94,8 @@ class PageTreeActionMenu extends Component {
       </MenuItem>
     );
 
+    const handleDesignNextPage = () => openInNewTab(WEBUI_DEV_WORKSPACE_URL);
+    const handlePreviewNextPage = () => openInNewTab(`${WEBUI_APP_URL}/${this.props.locale}/${page.code}.page`);
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
         <DropdownKebab pullRight id="WidgetListRow-dropown">
@@ -109,7 +116,8 @@ class PageTreeActionMenu extends Component {
           {onClickConfigure && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-configure"
-              onSelect={this.handleClick(onClickConfigure)}
+              onSelect={page.type === NEXT_PAGE_TYPE ?
+                handleDesignNextPage : this.handleClick(onClickConfigure)}
             >
               <FormattedMessage id="app.design" />
             </MenuItem>
@@ -130,12 +138,16 @@ class PageTreeActionMenu extends Component {
             </MenuItem>
           )}
           {renderDeleteItem()}
-          <MenuItem
-            className="PageTreeActionMenuButton__menu-item-preview"
-            onClick={this.handleClickPreview(onClickPreview)}
-          >
-            <FormattedMessage id="app.preview" />
-          </MenuItem>
+          {
+
+            <MenuItem
+              className="PageTreeActionMenuButton__menu-item-preview"
+              onClick={page.type === NEXT_PAGE_TYPE ?
+                handlePreviewNextPage : this.handleClickPreview(onClickPreview)}
+            >
+              <FormattedMessage id="app.preview" />
+            </MenuItem>
+          }
           {viewPublishedPage}
         </DropdownKebab>
       </div>
@@ -151,6 +163,7 @@ PageTreeActionMenu.propTypes = {
     hasPublishedChildren: PropTypes.bool,
     code: PropTypes.string,
     parentStatus: PropTypes.string,
+    type: PropTypes.string,
   }).isRequired,
   onClickAdd: PropTypes.func,
   onClickEdit: PropTypes.func,

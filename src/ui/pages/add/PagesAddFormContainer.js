@@ -10,7 +10,7 @@ import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getSelectedPageLocaleTitle } from 'state/pages/selectors';
 import { sendPostPage, loadSelectedPage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
-import { PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
+import { NEXT_PAGE_TEMPLATE, PAGE_INIT_VALUES, SEO_DATA_BLANK, SEO_LANGDATA_BLANK } from 'ui/pages/common/const';
 import { getLocale } from 'state/locale/selectors';
 import getSearchParam from 'helpers/getSearchParam';
 import { setVisibleModal } from 'state/modal/actions';
@@ -23,6 +23,10 @@ import { getMyGroupPermissions } from 'state/permissions/selectors';
 import { fetchMyGroupPermissions } from 'state/permissions/actions';
 import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
 import { getGroupEntries, getGroupsList } from 'state/groups/selectors';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { openInNewTab } from 'helpers/urlUtils';
+
+const { WEBUI_ENABLED, WEBUI_DEV_WORKSPACE_URL } = getRuntimeEnv();
 
 export const getDefaultLanguage = (languages) => {
   const defaultLang = { code: 'en' };
@@ -194,7 +198,12 @@ export const mapDispatchToProps = dispatch => ({
               dispatch(setAppTourLastStep(12));
               dispatch(setTourCreatedPage(data));
             }
-            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+            if (WEBUI_ENABLED && data.pageModel === NEXT_PAGE_TEMPLATE) {
+              openInNewTab(WEBUI_DEV_WORKSPACE_URL);
+              history.push(ROUTE_PAGE_TREE);
+            } else {
+              history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: data.code }));
+            }
             break;
           }
           default: history.push(ROUTE_PAGE_TREE);
