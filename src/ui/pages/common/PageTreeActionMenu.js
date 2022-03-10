@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -81,7 +81,8 @@ class PageTreeActionMenu extends Component {
 
     const renderDeleteItem = () => (
       <MenuItem
-        disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED}
+        disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
+          page.status === PAGE_STATUS_DRAFT}
         className="PageTreeActionMenuButton__menu-item-delete"
         onSelect={this.handleClick(onClickDelete)}
       >
@@ -120,7 +121,7 @@ class PageTreeActionMenu extends Component {
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
-          { changePublishStatus }
+          {changePublishStatus}
           {onClickDetails && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-details"
