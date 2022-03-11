@@ -81,12 +81,13 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="pageTree.viewPublishedPage" />
           </MenuItem>
         );
+      const deletionDisabled = !page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
+        page.status === PAGE_STATUS_DRAFT;
       const renderDeleteItem = () => (
         <MenuItem
-          disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
-            page.status === PAGE_STATUS_DRAFT}
+          disabled={deletionDisabled}
           className="PageTreeActionMenuButton__menu-item-delete"
-          onClick={handleClick(onClickDelete, page)}
+          onClick={!deletionDisabled ? handleClick(onClickDelete, page) : undefined}
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>
