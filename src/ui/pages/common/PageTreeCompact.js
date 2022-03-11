@@ -5,7 +5,7 @@ import { DropdownKebab, MenuItem } from 'patternfly-react';
 import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
-import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 
 class PageTreeCompact extends Component {
   renderRows() {
@@ -81,11 +81,13 @@ class PageTreeCompact extends Component {
             <FormattedMessage id="pageTree.viewPublishedPage" />
           </MenuItem>
         );
+      const deletionDisabled = !page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
+        page.status === PAGE_STATUS_DRAFT;
       const renderDeleteItem = () => (
         <MenuItem
-          disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED}
+          disabled={deletionDisabled}
           className="PageTreeActionMenuButton__menu-item-delete"
-          onClick={handleClick(onClickDelete, page)}
+          onClick={!deletionDisabled ? handleClick(onClickDelete, page) : undefined}
         >
           <FormattedMessage id="app.delete" />
         </MenuItem>
@@ -105,24 +107,24 @@ class PageTreeCompact extends Component {
                 className="PageTreeCompact__icons-label"
                 style={{ marginLeft: page.depth * 16 }}
                 onClick={(e) => {
-                if (loadOnPageSelect && !page.isEmpty) e.stopPropagation();
-                onClickExpand();
-              }}
+                  if (loadOnPageSelect && !page.isEmpty) e.stopPropagation();
+                  onClickExpand();
+                }}
                 onKeyDown={onClickExpand}
               >
                 <TreeNodeExpandedIcon expanded={page.expanded} />
                 {!loadOnPageSelect && (
-                <span className="PageTreeCompact__page-name">
-                  { page.title }
-                </span>
-              )}
+                  <span className="PageTreeCompact__page-name">
+                    {page.title}
+                  </span>
+                )}
                 <RowSpinner loading={!!page.loading} />
               </span>
               {loadOnPageSelect && (
-              <span className="PageTreeCompact__page-name">
-                { page.title }
-              </span>
-            )}
+                <span className="PageTreeCompact__page-name">
+                  {page.title}
+                </span>
+              )}
             </div>
           </td>
           <td className="text-center PageTreeCompact__status-col">
@@ -172,7 +174,7 @@ class PageTreeCompact extends Component {
     return (
       <table className={`PageTreeCompact table table-hover ${className}`}>
         <tbody>
-          { this.renderRows() }
+          {this.renderRows()}
         </tbody>
       </table>
     );
