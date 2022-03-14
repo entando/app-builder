@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import { adminConsoleUrl } from 'helpers/urlUtils';
 import { fetchContentsStatus } from 'state/contents/actions';
 import { getContentsStatus } from 'state/contents/selectors';
 
@@ -16,6 +17,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
     dispatch(fetchContentsStatus());
+  },
+  onClickContentList: () => {
+    window.location.href = adminConsoleUrl('do/jacms/Content/list.action');
   },
 });
 

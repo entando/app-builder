@@ -3,6 +3,7 @@ import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import { routeConverter, convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { addToast, TOAST_SUCCESS } from '@entando/messages';
+import { adminConsoleUrl } from 'helpers/urlUtils';
 import {
   setQuickFilter, checkStatus, checkAccess, checkAuthor, sendCloneContent,
   setCurrentAuthorShow, setCurrentStatusShow, fetchContentsPaged,
@@ -23,7 +24,7 @@ import {
 } from 'state/contents/selectors';
 import { setColumnOrder } from 'state/table-column-order/actions';
 import { getColumnOrder } from 'state/table-column-order/selectors';
-import { ROUTE_CMS_EDIT_CONTENT, ROUTE_CMS_ADD_CONTENT } from 'app-init/router';
+import { ROUTE_CMS_EDIT_CONTENT } from 'app-init/router';
 import { getPagination } from 'state/pagination/selectors';
 import { NAMESPACE_CONTENTS } from 'state/pagination/const';
 import { getContentTypeList } from 'state/content-type/selectors';
@@ -152,7 +153,8 @@ export const mapDispatchToProps = (dispatch, { intl, history }) => ({
     dispatch(setWorkMode(WORK_MODE_ADD));
     dispatch(setCurrentStatusShow('all'));
     dispatch(setNewContentsType(contentType));
-    history.push(routeConverter(ROUTE_CMS_ADD_CONTENT, { contentType: contentType.typeCode }));
+    const newRoute = adminConsoleUrl(`do/jacms/Content/entryContent.action?contentOnSessionMarker=${contentType.typeCode}_newContent`);
+    window.location.href = newRoute;
   },
   onClickJoinCategories: (contents) => {
     dispatch(resetJoinContentCategories());
