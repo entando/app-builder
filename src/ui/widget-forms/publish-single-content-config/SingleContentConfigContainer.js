@@ -4,10 +4,11 @@ import { get, isUndefined, isNull } from 'lodash';
 import { injectIntl } from 'react-intl';
 import { routeConverter } from '@entando/utils';
 import { getContentTemplateList } from 'state/content-template/selectors';
+import { adminConsoleUrl } from 'helpers/urlUtils';
 import SingleContentConfigForm, { SingleContentConfigFormBody, SingleContentConfigContainerId } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigFormBody';
 import { fetchContentTemplateList } from 'state/content-template/actions';
 import { sendPutWidgetConfig } from 'state/page-config/actions';
-import { ROUTE_APP_BUILDER_PAGE_CONFIG, ROUTE_CMS_ADD_CONTENT } from 'app-init/router';
+import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 import { formValueSelector, submit, change } from 'redux-form';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
@@ -118,14 +119,11 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       }
     },
     onClickAddContent: (contentType) => {
-      const {
-        history, pageCode, widgetCode, frameId,
-      } = ownProps;
       dispatch(setWorkMode(WORK_MODE_ADD));
       dispatch(setCurrentStatusShow('all'));
       dispatch(setNewContentsType(contentType));
-      const newRoute = routeConverter(ROUTE_CMS_ADD_CONTENT, { contentType: contentType.typeCode });
-      history.push(`${newRoute}?callbackWidget=${widgetCode}&callbackPage=${pageCode}&callbackFrame=${frameId}`);
+      const newRoute = adminConsoleUrl(`do/jacms/Content/entryContent.action?contentOnSessionMarker=${contentType.typeCode}_newContent`);
+      window.location.href = newRoute;
     },
   };
 };
