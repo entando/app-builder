@@ -5,7 +5,6 @@ import { formatDate, hasAccess } from '@entando/utils';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import { ROUTE_CMS_CONTENTS } from 'app-init/router';
 import {
   SUPERUSER_PERMISSION,
   ADMINISTRATION_AREA_PERMISSION,
@@ -44,7 +43,7 @@ class ContentsStatusCard extends Component {
 
   render() {
     const {
-      intl, userPermissions, language, contentsStatus,
+      intl, userPermissions, language, contentsStatus, onClickContentList,
     } = this.props;
     const {
       unpublished, ready, published, total, latestModificationDate,
@@ -111,7 +110,7 @@ class ContentsStatusCard extends Component {
               userPermissions,
             ) && (
               <div className="pull-right ContentsStatusCard__bottom-link">
-                <Link to={ROUTE_CMS_CONTENTS}>
+                <Link onClick={onClickContentList}>
                   <FormattedMessage id="dashboard.contents.link" defaultMessage="Content List" />
                 </Link>
               </div>
@@ -127,6 +126,7 @@ ContentsStatusCard.propTypes = {
   intl: intlShape.isRequired,
   language: PropTypes.string.isRequired,
   onDidMount: PropTypes.func,
+  onClickContentList: PropTypes.func,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   contentsStatus: PropTypes.shape({
     published: PropTypes.number,
@@ -139,6 +139,7 @@ ContentsStatusCard.propTypes = {
 
 ContentsStatusCard.defaultProps = {
   onDidMount: () => {},
+  onClickContentList: () => {},
   userPermissions: [],
 };
 
