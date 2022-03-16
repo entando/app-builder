@@ -144,12 +144,8 @@ const HubBundleManagementModal = () => {
     <Modal.Footer className="HubBundleManagement__modal-footer">
       <Spinner loading={loading || !selectedBundleStatus.status}>
         <div className="HubBundleManagement__action-buttons">
-          {/* {
-            bundleDeployedOrInstalled && component &&
-            <ComponentInstallActionsContainer component={component} />
-          } */}
           {
-            component &&
+            bundleDeployedOrInstalled && component &&
             <ComponentInstallActionsContainer component={component} />
           }
           <div className="HubBundleManagement__deploy-action">
