@@ -50,7 +50,7 @@ export const mapDispatchToProps = (dispatch) => {
       dispatch(setVisibleModal(''));
       setTimeout(() => {
         const element = document.querySelector(`#component-modal-id-${componentCode}`);
-        console.log('finding element with code: ', componentCode, 'here is element: ', element);
+        console.log('finding element with code: ', componentCode, ', here is element: ', element);
         if (element) {
           simulateMouseClick(element);
           console.log('clicked on element');
