@@ -60,15 +60,15 @@ const HubBundleManagementModal = () => {
 
   const component = ecrComponent || selectedECRComponent;
   const isComponentInstalling =
-  useSelector(state => getECRComponentInstallationStatus(state, {
-    component:
-    { code: component.code },
-  })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
+    useSelector(state => getECRComponentInstallationStatus(state, {
+      component:
+        { code: component.code },
+    })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
   const isComponentUninstalling =
-  useSelector(state => getECRComponentUninstallStatus(state, {
-    component:
-    { code: component.code },
-  })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
+    useSelector(state => getECRComponentUninstallStatus(state, {
+      component:
+        { code: component.code },
+    })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
 
   const belongingBundleGroup = useMemo(() => {
     const belongingBundleGroups = bundlegroups
@@ -144,10 +144,14 @@ const HubBundleManagementModal = () => {
     <Modal.Footer className="HubBundleManagement__modal-footer">
       <Spinner loading={loading || !selectedBundleStatus.status}>
         <div className="HubBundleManagement__action-buttons">
-          {
+          {/* {
             bundleDeployedOrInstalled && component &&
-              <ComponentInstallActionsContainer component={component} />
-            }
+            <ComponentInstallActionsContainer component={component} />
+          } */}
+          {
+            component &&
+            <ComponentInstallActionsContainer component={component} />
+          }
           <div className="HubBundleManagement__deploy-action">
             {renderHubActions()}
           </div>

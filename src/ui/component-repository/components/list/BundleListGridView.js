@@ -12,18 +12,19 @@ import InstalledVersion from 'ui/component-repository/components/item/hub/Instal
 import { getECRComponentList } from 'state/component-repository/components/selectors';
 
 const BundleListGridView =
-({
-  bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
-}) => {
-  const components = useSelector(getECRComponentList);
-  return (
-    <div className="ComponentListGridView equal">
-      {bundles.map((bundle, i) => {
+  ({
+    bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
+  }) => {
+    const components = useSelector(getECRComponentList);
+    return (
+      <div className="ComponentListGridView equal">
+        {bundles.map((bundle, i) => {
           const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
           const belongingBundleGroups = bundleGroups
-          .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
+            .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
           const belongingBundleGroup = belongingBundleGroups[0] || {};
           const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
+          console.log('re rendered with component: ', component);
           return (
             <Col
               md={6}
@@ -35,6 +36,7 @@ const BundleListGridView =
                 role="button"
                 tabIndex={0}
                 className="ComponentList__component-wrapper"
+                id={`component-modal-id-${component.code}`}
                 onClick={() => openComponentManagementModal(bundle)}
                 onKeyDown={() => {}}
               >
@@ -42,9 +44,9 @@ const BundleListGridView =
                 <div className="ComponentList__component-image-wrapper">
                   <ComponentImage
                     component={{
-                    ...bundle,
-                    thumbnail: bundle.descriptionImage,
-                    title: bundle.name,
+                      ...bundle,
+                      thumbnail: bundle.descriptionImage,
+                      title: bundle.name,
                     }}
                   />
                 </div>
@@ -55,7 +57,7 @@ const BundleListGridView =
                       <FormattedMessage id="componentRepository.categories.bundle" />
                     </p>
                     <p className="ComponentList__component-category">
-                      { belongingBundleGroup.name }
+                      {belongingBundleGroup.name}
                     </p>
                     <h1>{bundle.name}</h1>
                     <p className="ComponentList__description">{bundle.description}</p>
@@ -77,9 +79,9 @@ const BundleListGridView =
             </Col>
           );
         })}
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
 BundleListGridView.propTypes = {
   bundles: PropTypes.arrayOf(PropTypes.shape({

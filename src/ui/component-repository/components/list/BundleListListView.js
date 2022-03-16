@@ -10,68 +10,70 @@ import { getECRComponentList } from 'state/component-repository/components/selec
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 
 const BundleListListView =
-({
-  bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
-}) => {
-  const components = useSelector(getECRComponentList);
-  return (
-    <div className="ComponentListListView">
-      {bundles.map((bundle) => {
-        const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
-        const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
-        const belongingBundleGroups = bundleGroups
-        .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
-        const belongingBundleGroup = belongingBundleGroups[0] || {};
-        return (
-          <div
-            key={`${bundle.gitRepoAddress}-${bundle.id}`}
-            role="button"
-            tabIndex={0}
-            className="ComponentList__list-item"
-            onClick={() => openComponentManagementModal(bundle)}
-            onKeyDown={() => {}}
-          >
-            <div key={`${bundle.gitRepoAddress}-${bundle.id}`} className="equal">
-              <div className="ComponentList__component-image-wrapper">
-                <ComponentImage
-                  component={{
-                  ...bundle,
-                  thumbnail: bundle.descriptionImage,
-                  title: bundle.name,
-                  }}
-                />
-              </div>
-              <div className="ComponentList__component-body">
-                <div className="ComponentList__component-content">
-                  <p className="ComponentList__component-category">
-                    <FormattedMessage id="componentRepository.categories.bundle" />
-                  </p>
-                  <p className="ComponentList__component-category">
-                    { belongingBundleGroup.name }
-                  </p>
-                  <h1>{bundle.name}</h1>
-                  <p className="ComponentList__description">{bundle.description}</p>
-                  <InstalledVersion
-                    installed
-                    version={bundleStatus && bundleStatus.installedVersion}
+  ({
+    bundles, openComponentManagementModal, bundleStatuses, bundleGroups,
+  }) => {
+    const components = useSelector(getECRComponentList);
+    return (
+      <div className="ComponentListListView">
+        {bundles.map((bundle) => {
+          const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
+          const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
+          const belongingBundleGroups = bundleGroups
+            .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
+          const belongingBundleGroup = belongingBundleGroups[0] || {};
+          console.log('re rendered with component: ', component);
+          return (
+            <div
+              key={`${bundle.gitRepoAddress}-${bundle.id}`}
+              role="button"
+              tabIndex={0}
+              className="ComponentList__list-item"
+              id={`component-modal-id-${component.code}`}
+              onClick={() => openComponentManagementModal(bundle)}
+              onKeyDown={() => {}}
+            >
+              <div key={`${bundle.gitRepoAddress}-${bundle.id}`} className="equal">
+                <div className="ComponentList__component-image-wrapper">
+                  <ComponentImage
+                    component={{
+                      ...bundle,
+                      thumbnail: bundle.descriptionImage,
+                      title: bundle.name,
+                    }}
                   />
-                  <DeploymentStatus bundleStatus={bundleStatus} />
                 </div>
-              </div>
-              {
-                component && (
-                  <div className="ComponentList__component-footer" style={{ display: 'none' }}>
-                    <ComponentInstallActionsContainer component={component} />
+                <div className="ComponentList__component-body">
+                  <div className="ComponentList__component-content">
+                    <p className="ComponentList__component-category">
+                      <FormattedMessage id="componentRepository.categories.bundle" />
+                    </p>
+                    <p className="ComponentList__component-category">
+                      {belongingBundleGroup.name}
+                    </p>
+                    <h1>{bundle.name}</h1>
+                    <p className="ComponentList__description">{bundle.description}</p>
+                    <InstalledVersion
+                      installed
+                      version={bundleStatus && bundleStatus.installedVersion}
+                    />
+                    <DeploymentStatus bundleStatus={bundleStatus} />
                   </div>
-                )
-              }
+                </div>
+                {
+                  component && (
+                    <div className="ComponentList__component-footer" style={{ display: 'none' }}>
+                      <ComponentInstallActionsContainer component={component} />
+                    </div>
+                  )
+                }
+              </div>
             </div>
-          </div>
           );
-      })}
-    </div>
-  );
-};
+        })}
+      </div>
+    );
+  };
 
 BundleListListView.propTypes = {
   bundles: PropTypes.arrayOf(PropTypes.shape({
