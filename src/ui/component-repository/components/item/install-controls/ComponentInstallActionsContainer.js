@@ -23,6 +23,7 @@ import {
 } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { setVisibleModal } from 'state/modal/actions';
+import { simulateMouseClick } from 'ui/app-tour/AppTour';
 
 export const mapStateToProps = (state, props) => ({
   lastInstallStatus: getECRComponentLastInstallStatus(state, props),
@@ -47,6 +48,16 @@ export const mapDispatchToProps = (dispatch) => {
     },
     onUninstall: (componentCode) => {
       dispatch(setVisibleModal(''));
+      setTimeout(() => {
+        const element = document.querySelector(`#component-modal-id-${componentCode}`);
+        console.log('finding element with code: ', componentCode, 'here is element: ', element);
+        if (element) {
+          simulateMouseClick(element);
+          console.log('clicked on element');
+        } else {
+          console.log('did nothing');
+        }
+      }, 500);
       return dispatch(uninstallECRComponent(componentCode, pollStepFunction));
     },
     onClickUninstall: (componentCode) => {

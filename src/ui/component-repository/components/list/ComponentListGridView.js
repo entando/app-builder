@@ -11,55 +11,56 @@ import DeploymentStatus from 'ui/component-repository/components/item/hub/Deploy
 import InstalledVersion from 'ui/component-repository/components/item/hub/InstalledVersion';
 
 const ComponentListGridView =
-({
-  components, onClickInstallPlan, openComponentManagementModal, bundleStatuses,
-}) => (
-  <div className="ComponentListGridView equal">
-    {components.map((component, i) => {
-      const bundleStatus = bundleStatuses.find(b => b.id === component.repoUrl);
-      const { installed, installedJob } = component;
-      return (
-        <Col
-          md={6}
-          xs={6}
-          key={component.code}
-          className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--even', 'no-padding')}
-        >
-          <div
+  ({
+    components, onClickInstallPlan, openComponentManagementModal, bundleStatuses,
+  }) => (
+    <div className="ComponentListGridView equal">
+      {components.map((component, i) => {
+        const bundleStatus = bundleStatuses.find(b => b.id === component.repoUrl);
+        const { installed, installedJob } = component;
+        return (
+          <Col
+            md={6}
+            xs={6}
             key={component.code}
-            className="ComponentList__component-wrapper"
+            className={cx('ComponentList__component', i % 2 === 0 && 'ComponentList__component--even', 'no-padding')}
           >
-
             <div
-              className="ComponentList__component-image-wrapper"
-              role="button"
-              tabIndex={0}
-              onClick={() => openComponentManagementModal(component)}
-              onKeyDown={() => {}}
+              key={component.code}
+              className="ComponentList__component-wrapper"
             >
-              <ComponentImage component={component} />
-            </div>
 
-            <div className="ComponentList__component-body">
               <div
-                className="ComponentList__component-content"
+                className="ComponentList__component-image-wrapper"
                 role="button"
+                id={`component-modal-id-${component.code}`}
                 tabIndex={0}
                 onClick={() => openComponentManagementModal(component)}
                 onKeyDown={() => {}}
               >
-                <p className="ComponentList__component-category">
-                  {component.componentTypes
-                    && component.componentTypes.map((category, x) => (
-                      <React.Fragment key={category}>
-                        <FormattedMessage id={`componentRepository.categories.${category}`} />
-                        { x < component.componentTypes.length - 1 && ', '}
-                      </React.Fragment>))
-                  }
-                </p>
-                <h1>{component.title}</h1>
-                {
-                  component.installed &&
+                <ComponentImage component={component} />
+              </div>
+
+              <div className="ComponentList__component-body">
+                <div
+                  className="ComponentList__component-content"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openComponentManagementModal(component)}
+                  onKeyDown={() => {}}
+                >
+                  <p className="ComponentList__component-category">
+                    {component.componentTypes
+                      && component.componentTypes.map((category, x) => (
+                        <React.Fragment key={category}>
+                          <FormattedMessage id={`componentRepository.categories.${category}`} />
+                          {x < component.componentTypes.length - 1 && ', '}
+                        </React.Fragment>))
+                    }
+                  </p>
+                  <h1>{component.title}</h1>
+                  {
+                    component.installed &&
                     <div>
                       <Button
                         bsStyle="link"
@@ -70,30 +71,30 @@ const ComponentListGridView =
                         {' '}
                         {
                           component.customInstallation
-                          ? <FormattedMessage id="componentRepository.components.showCustomInstallPlan" />
-                          : <FormattedMessage id="componentRepository.components.showInstallPlan" />
+                            ? <FormattedMessage id="componentRepository.components.showCustomInstallPlan" />
+                            : <FormattedMessage id="componentRepository.components.showInstallPlan" />
                         }
                       </Button>
                     </div>
-                }
-                <p className="ComponentList__description">{component.description}</p>
-                <InstalledVersion
-                  version={(installedJob || {}).componentVersion ||
-                  (component.latestVersion || {}).version}
-                  installed={installed}
-                />
-                <DeploymentStatus bundleStatus={bundleStatus} />
-              </div>
-              <div className="ComponentList__component-footer" style={{ display: 'none' }}>
-                <ComponentInstallActionsContainer component={component} />
+                  }
+                  <p className="ComponentList__description">{component.description}</p>
+                  <InstalledVersion
+                    version={(installedJob || {}).componentVersion ||
+                      (component.latestVersion || {}).version}
+                    installed={installed}
+                  />
+                  <DeploymentStatus bundleStatus={bundleStatus} />
+                </div>
+                <div className="ComponentList__component-footer" style={{ display: 'none' }}>
+                  <ComponentInstallActionsContainer component={component} />
+                </div>
               </div>
             </div>
-          </div>
-        </Col>
-      );
-    })}
-  </div>
-);
+          </Col>
+        );
+      })}
+    </div>
+  );
 
 ComponentListGridView.propTypes = {
   components: PropTypes.arrayOf(componentType).isRequired,
