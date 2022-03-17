@@ -36,7 +36,7 @@ const BundleListGridView =
                 role="button"
                 tabIndex={0}
                 className="ComponentList__component-wrapper"
-                id={`component-modal-id-${component.code}`}
+                id={`component-modal-id-${component ? component.code : i}`}
                 onClick={() => openComponentManagementModal(bundle)}
                 onKeyDown={() => {}}
               >

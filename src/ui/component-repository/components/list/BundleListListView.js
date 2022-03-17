@@ -16,7 +16,7 @@ const BundleListListView =
     const components = useSelector(getECRComponentList);
     return (
       <div className="ComponentListListView">
-        {bundles.map((bundle) => {
+        {bundles.map((bundle, i) => {
           const bundleStatus = bundleStatuses.find(b => b.id === bundle.gitRepoAddress);
           const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
           const belongingBundleGroups = bundleGroups
@@ -29,7 +29,7 @@ const BundleListListView =
               role="button"
               tabIndex={0}
               className="ComponentList__list-item"
-              id={`component-modal-id-${component.code}`}
+              id={`component-modal-id-${component ? component.code : i}`}
               onClick={() => openComponentManagementModal(bundle)}
               onKeyDown={() => {}}
             >
