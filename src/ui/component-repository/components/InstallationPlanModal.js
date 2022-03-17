@@ -57,12 +57,8 @@ const InstallationPlanModal = () => {
       dispatch(setVisibleModal(''));
       setTimeout(() => {
         const element = document.querySelector(`#component-modal-id-${selectedComponent.code}`);
-        console.log('finding element with code: ', selectedComponent.code, 'here is element: ', element);
         if (element) {
           simulateMouseClick(element);
-          console.log('clicked on element');
-        } else {
-          console.log('did nothing');
         }
       }, 500);
     }

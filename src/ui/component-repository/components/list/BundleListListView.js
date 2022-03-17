@@ -22,7 +22,7 @@ const BundleListListView =
           const belongingBundleGroups = bundleGroups
             .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
           const belongingBundleGroup = belongingBundleGroups[0] || {};
-          console.log('re rendered with component: ', component);
+
           return (
             <div
               key={`${bundle.gitRepoAddress}-${bundle.id}`}

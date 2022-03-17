@@ -24,7 +24,7 @@ const BundleListGridView =
             .filter(bg => bundle.bundleGroups.includes(bg.bundleGroupId));
           const belongingBundleGroup = belongingBundleGroups[0] || {};
           const component = components.find(c => c.repoUrl === bundle.gitRepoAddress);
-          console.log('re rendered with component: ', component);
+
           return (
             <Col
               md={6}
