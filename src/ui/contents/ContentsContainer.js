@@ -153,7 +153,7 @@ export const mapDispatchToProps = (dispatch, { intl, history }) => ({
     dispatch(setWorkMode(WORK_MODE_ADD));
     dispatch(setCurrentStatusShow('all'));
     dispatch(setNewContentsType(contentType));
-    const newRoute = adminConsoleUrl(`do/jacms/Content/entryContent.action?contentOnSessionMarker=${contentType.typeCode}_newContent`);
+    const newRoute = adminConsoleUrl(`do/jacms/Content/createNew.action?contentTypeCode=${contentType.typeCode}`);
     window.location.href = newRoute;
   },
   onClickJoinCategories: (contents) => {
