@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl';
 
 import { componentType } from 'models/component-repository/components';
 
-const UninstallButton = ({ component, onClickUninstall, installUninstallLoading }) => (
+const UninstallButton = ({ component, onClickUninstall, disabled }) => (
   <Button
     bsStyle="success"
-    disabled={installUninstallLoading}
+    disabled={disabled}
     onClick={() => onClickUninstall(component.code)}
   >
     <FormattedMessage id="componentRepository.components.uninstall" />
@@ -21,7 +21,7 @@ const UninstallButton = ({ component, onClickUninstall, installUninstallLoading 
 UninstallButton.propTypes = {
   component: componentType.isRequired,
   onClickUninstall: PropTypes.func.isRequired,
-  installUninstallLoading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default UninstallButton;

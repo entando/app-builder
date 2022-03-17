@@ -97,7 +97,7 @@ const ComponentInstallActions = ({
         <UninstallButton
           component={component}
           onClickUninstall={onClickUninstall}
-          installUninstallLoading={installUninstallLoading}
+          disabled={installationStatus === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS}
         />
       </div>
     )
