@@ -17,7 +17,7 @@ import { ContentsFilterModalID } from 'ui/widget-forms/contents-filter/ContentsF
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 import { fetchPage } from 'state/pages/actions';
 import { getContentTypeList, getSelectedContentType } from 'state/content-type/selectors';
-import { fetchContentType } from 'state/content-type/actions';
+import { fetchContentTypeListPaged, fetchContentType } from 'state/content-type/actions';
 import { setNewContentsType, setWorkMode } from 'state/edit-content/actions';
 import { setCurrentStatusShow } from 'state/contents/actions';
 import { WORK_MODE_ADD } from 'state/edit-content/types';
@@ -53,6 +53,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
     onDidMount: () => {
+      dispatch(fetchContentTypeListPaged({ page: 1, pageSize: 0 }));
       dispatch(fetchContentTemplateList({ page: 1, pageSize: 0 }));
       dispatch(fetchPage(ownProps.pageCode, PAGE_STATUS_DRAFT)).then((res) => {
         const { ownerGroup, joinGroups } = res.payload || {};
