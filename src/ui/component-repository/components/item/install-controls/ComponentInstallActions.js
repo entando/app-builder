@@ -72,11 +72,12 @@ const ComponentInstallActions = ({
     return (
       (lastInstallStatus === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS)
         ? <InProgressInstallState onRecheckStatus={onRecheckStatus} />
-        : <FailedInstallState
-            component={component}
-            selectedVersion={selectedVersion}
-            setSelectedVersion={setSelectedVersion}
-            onRetryAction={onRetryAction}
+        :
+        <FailedInstallState
+          component={component}
+          selectedVersion={selectedVersion}
+          setSelectedVersion={setSelectedVersion}
+          onRetryAction={onRetryAction}
         />
     );
   }
@@ -96,6 +97,7 @@ const ComponentInstallActions = ({
         <UninstallButton
           component={component}
           onClickUninstall={onClickUninstall}
+          disabled={installationStatus === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS}
         />
       </div>
     )

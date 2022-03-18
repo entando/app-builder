@@ -9,6 +9,7 @@ import { updateAllInstallPlan, installECRComponent, setInstallUninstallProgress 
 import { setVisibleModal } from 'state/modal/actions';
 
 import InstallationPlanTable from 'ui/component-repository/components/InstallationPlanTable';
+import { simulateMouseClick } from 'ui/app-tour/AppTour';
 
 export const MODAL_ID = 'InstallationPlanModal';
 const IGNORED_KEYS = ['version', 'conflictStrategy', 'hasConflicts'];
@@ -19,13 +20,14 @@ const normalizeList = installPlan =>
     .reduce((acc, category) => ([
       ...acc,
       ...Object.keys(installPlan[category])
-        .map(component =>
-          ({
+        .map(component => (
+          {
             category,
             component,
             status: installPlan[category][component].status,
             action: installPlan[category][component].action,
-          })),
+          }
+        )),
     ]), []);
 
 const InstallationPlanModal = () => {
@@ -53,6 +55,12 @@ const InstallationPlanModal = () => {
         installPlan,
       ));
       dispatch(setVisibleModal(''));
+      setTimeout(() => {
+        const element = document.querySelector(`#component-modal-id-${selectedComponent.code}`);
+        if (element) {
+          simulateMouseClick(element);
+        }
+      }, 500);
     }
   };
 

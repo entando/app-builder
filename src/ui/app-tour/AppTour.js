@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
-const simulateMouseClick = (element) => {
+export const simulateMouseClick = (element) => {
   mouseClickEvents.forEach(mouseEventType =>
     element.dispatchEvent(new MouseEvent(mouseEventType, {
       view: window,
@@ -385,13 +385,13 @@ class AppTour extends React.Component {
               </div>
               {
                 step.step !== TOTAL_STEPS + 1 && (
-                <Button
-                  className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
-                  bsStyle="default"
-                  onClick={() => args.goTo(0)}
-                >
-                  <FormattedMessage id="app.close" />
-                </Button>
+                  <Button
+                    className="pull-left TourStart__cancel-button TourStart__cancel-button--dark"
+                    bsStyle="default"
+                    onClick={() => args.goTo(0)}
+                  >
+                    <FormattedMessage id="app.close" />
+                  </Button>
                 )
               }
             </div>
