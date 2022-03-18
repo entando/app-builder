@@ -70,7 +70,11 @@ const PageTemplateFormBody = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const isEditMode = mode === FORM_MODE_EDIT;
+  const invalid = !isValid;
+
   const handleSubmit = (submitType) => {
+    if (invalid || submitting) return;
     submitForm();
     onSubmit(values, submitType).then((res) => {
       setSubmitting(false);
@@ -87,9 +91,6 @@ const PageTemplateFormBody = ({
       onDiscard();
     }
   };
-
-  const isEditMode = mode === FORM_MODE_EDIT;
-  const invalid = !isValid;
 
   return (
     <Form className="PageTemplateForm form-horizontal">
