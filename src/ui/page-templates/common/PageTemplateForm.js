@@ -71,13 +71,15 @@ const PageTemplateFormBody = ({
   }, []);
 
   const handleSubmit = (submitType) => {
-    submitForm();
-    onSubmit(values, submitType).then((res) => {
-      setSubmitting(false);
-      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
-        resetForm();
-      }
-    });
+    if (isValid) {
+      submitForm();
+      onSubmit(values, submitType).then((res) => {
+        setSubmitting(false);
+        if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+          resetForm();
+        }
+      });
+    }
   };
 
   const handleCancelClick = () => {
