@@ -56,7 +56,6 @@ const ComponentInstallActions = ({
       dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
     } else if (parseVersion(version) === parseVersion(component.installedJob.componentVersion)) {
       setSelectedVersion(version || latestVersion);
-      dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
       setIsConflictVersion(true);
     } else {
       handleInstall(componentToInstall, version);
