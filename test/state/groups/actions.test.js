@@ -102,14 +102,14 @@ const GET_REFERENCES_PROMISE = {
 
 
 const MOCK_RETURN_PROMISE_ERROR =
-  {
-    ok: false,
-    json: () => new Promise(err => err({
-      errors: [
-        { message: 'what went wrong' },
-      ],
-    })),
-  };
+{
+  ok: false,
+  json: () => new Promise(err => err({
+    errors: [
+      { message: 'what went wrong' },
+    ],
+  })),
+};
 
 getGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
 getMyGroups.mockReturnValue(new Promise(resolve => resolve(GET_GROUPS_PROMISE)));
@@ -225,7 +225,7 @@ describe('state/groups/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[0].payload).toHaveProperty('type', 'success');
-        expect(actions[1]).toHaveProperty('type', SET_GROUPS);
+        expect(actions[1]).toHaveProperty('type', SET_GROUP_ENTRIES);
         expect(actions[1].payload).toHaveProperty('groups', [BODY_OK]);
         expect(postGroup).toHaveBeenCalled();
         expect(history.push).toHaveBeenCalledWith(ROUTE_GROUP_LIST);

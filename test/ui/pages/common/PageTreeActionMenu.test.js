@@ -23,14 +23,19 @@ const locale = 'en';
 const PUBLISHED_PAGE = {
   code: 'publishedpage',
   status: 'published',
+  ownerGroup: 'free',
+  isEmpty: true,
 };
 const UNPUBLISHED_PAGE = {
   code: 'unpublishedpage',
   status: 'unpublished',
+  ownerGroup: 'administrators',
 };
 const DRAFT_PAGE = {
   code: 'draftpage',
   status: 'draft',
+  isEmpty: true,
+  ownerGroup: 'administrators',
 };
 
 describe('PageTreeActionMenu', () => {
@@ -42,6 +47,7 @@ describe('PageTreeActionMenu', () => {
         page={DRAFT_PAGE}
         domain={domain}
         locale={locale}
+        myGroupIds={['administrators', 'free']}
       />));
     expect(component.exists()).toEqual(true);
   });
@@ -52,6 +58,7 @@ describe('PageTreeActionMenu', () => {
         page={DRAFT_PAGE}
         domain={domain}
         locale={locale}
+        myGroupIds={['administrators', 'free']}
       />));
     component.find('.PageTreeActionMenuButton__menu-item-add').simulate('click', EVENT);
     expect(onClickAdd).not.toHaveBeenCalled();
@@ -65,6 +72,7 @@ describe('PageTreeActionMenu', () => {
           page={DRAFT_PAGE}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />));
     });
     it('renders the Publish menu item', () => {
@@ -91,6 +99,7 @@ describe('PageTreeActionMenu', () => {
           page={UNPUBLISHED_PAGE}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />));
     });
     it('renders the Publish menu item', () => {
@@ -118,6 +127,7 @@ describe('PageTreeActionMenu', () => {
           page={PUBLISHED_PAGE}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />));
     });
     it('renders the Unpublish menu item', () => {
@@ -153,6 +163,7 @@ describe('PageTreeActionMenu', () => {
           onClickPreview={onClickPreview}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />
       ));
     });
@@ -177,8 +188,7 @@ describe('PageTreeActionMenu', () => {
       expect(onClickClone).toHaveBeenCalled();
     });
     it('Delete calls onClickDelete', () => {
-      component.find('.PageTreeActionMenuButton__menu-item-delete').prop('onSelect')();
-      expect(onClickDelete).toHaveBeenCalled();
+      expect(component.find('.PageTreeActionMenuButton__menu-item-delete').prop('disabled')).toBe(true);
     });
     it('Publish calls onClickPublish', () => {
       component.find('.PageTreeActionMenuButton__menu-item-publish').prop('onSelect')();
@@ -195,6 +205,7 @@ describe('PageTreeActionMenu', () => {
           onClickUnpublish={onClickUnpublish}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />
       ));
       component.find('.PageTreeActionMenuButton__menu-item-unpublish').prop('onSelect')();
@@ -207,6 +218,7 @@ describe('PageTreeActionMenu', () => {
           onClickViewPublishedPage={onClickViewPublishedPage}
           domain={domain}
           locale={locale}
+          myGroupIds={['administrators', 'free']}
         />
       ));
       component.find('.PageTreeActionMenuButton__menu-item-viewPublishedPage').prop('onClick')();

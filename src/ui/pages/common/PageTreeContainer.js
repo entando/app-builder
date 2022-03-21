@@ -34,6 +34,7 @@ import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
+import { getGroupsIdList } from 'state/groups/selectors';
 
 export const mapStateToProps = state => ({
   locale: getLocale(state),
@@ -45,6 +46,7 @@ export const mapStateToProps = state => ({
   domain: getDomain(state),
   columnOrder: getColumnOrder(state, 'pageList'),
   pageSearchColumnOrder: getColumnOrder(state, 'pageSearch'),
+  myGroupIds: getGroupsIdList(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({

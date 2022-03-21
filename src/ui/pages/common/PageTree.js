@@ -89,7 +89,7 @@ class PageTree extends Component {
               <TreeNodeExpandedIcon expanded={page.expanded} />
               <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTree__page-name">
-                { page.title }
+                {page.title}
               </span>
               <RowSpinner loading={!!page.loading} />
             </span>
@@ -165,6 +165,7 @@ class PageTree extends Component {
         onClickPreview={this.props.onClickPreview}
         locale={this.props.locale}
         domain={this.props.domain}
+        myGroupIds={this.props.myGroupIds}
       />
     );
   }
@@ -256,6 +257,7 @@ PageTree.propTypes = {
   locale: PropTypes.string.isRequired,
   onSetColumnOrder: PropTypes.func,
   columnOrder: PropTypes.arrayOf(PropTypes.string),
+  myGroupIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 PageTree.defaultProps = {
@@ -267,6 +269,7 @@ PageTree.defaultProps = {
   onCollapseAll: () => {},
   onSetColumnOrder: () => {},
   columnOrder: ['title', 'status', 'displayedInMenu'],
+  myGroupIds: [],
 };
 
 export default PageTree;

@@ -15,6 +15,7 @@ const PAGES = [
     depth: 0,
     isEmpty: false,
     expanded: true,
+    ownerGroup: 'administrators',
   },
   {
     code: 'services',
@@ -24,6 +25,7 @@ const PAGES = [
     depth: 0,
     isEmpty: true,
     expanded: true,
+    ownerGroup: 'free',
   },
 ];
 
@@ -42,6 +44,7 @@ const props = {
   loading: false,
   pages: PAGES,
   locale: 'en',
+  myGroupIds: ['administrators', 'free'],
 };
 
 jest.unmock('react-redux');

@@ -153,7 +153,7 @@ export const sendPostGroup = groupData => (dispatch, getState) => (
           ));
           // update store with new group
           const { groups } = getState();
-          dispatch(setGroups([...groups.groupEntries, groupData]));
+          dispatch(setGroupEntries([...groups.groupEntries, groupData]));
           history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {
