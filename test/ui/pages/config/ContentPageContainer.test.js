@@ -2,6 +2,7 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentPage
 import { HOMEPAGE_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
 import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
 import { getUserPreferences } from 'state/user-preferences/selectors';
+import { getGroupsIdList } from 'state/groups/selectors';
 
 jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
@@ -19,10 +20,15 @@ jest.mock('state/user-preferences/selectors', () => ({
   getUserPreferences: jest.fn(),
 }));
 
+jest.mock('state/groups/selectors', () => ({
+  getGroupsIdList: jest.fn(),
+}));
+
 getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
 getSearchPages.mockReturnValue([SEARCH_PAGES]);
 getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
 getUserPreferences.mockReturnValue({});
+getGroupsIdList.mockReturnValue(['administrators', 'free']);
 
 describe('ContentPagesContainer', () => {
   describe('mapStateToProps', () => {
