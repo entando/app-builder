@@ -15,6 +15,7 @@ import {
   fetchReferences,
   removeGroupSync,
   fetchAllGroupEntries,
+  setMyGroups,
 } from 'state/groups/actions';
 import {
   putGroup,
@@ -35,6 +36,7 @@ import {
   SET_REFERENCES,
   REMOVE_GROUP,
   SET_GROUP_ENTRIES,
+  SET_MY_GROUPS,
 } from 'state/groups/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
@@ -124,6 +126,7 @@ const INITIAL_STATE = {
     selected: {},
     total: 0,
     groupEntries: [],
+    myGroupsList: [],
   },
 };
 
@@ -138,6 +141,13 @@ describe('state/groups/actions', () => {
     it('test setGroups action sets the correct type', () => {
       const action = setGroups(LIST_GROUPS_OK);
       expect(action).toHaveProperty('type', SET_GROUPS);
+    });
+  });
+
+  describe('setMyGroups', () => {
+    it('test setMyGroups action sets the correct type', () => {
+      const action = setMyGroups(LIST_GROUPS_OK);
+      expect(action).toHaveProperty('type', SET_MY_GROUPS);
     });
   });
 
@@ -162,7 +172,7 @@ describe('state/groups/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
-        expect(actions[1].type).toEqual(SET_GROUPS);
+        expect(actions[1].type).toEqual(SET_MY_GROUPS);
         expect(actions[2].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
@@ -225,7 +235,7 @@ describe('state/groups/actions', () => {
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[0].payload).toHaveProperty('type', 'success');
-        expect(actions[1]).toHaveProperty('type', SET_GROUP_ENTRIES);
+        expect(actions[1]).toHaveProperty('type', SET_GROUPS);
         expect(actions[1].payload).toHaveProperty('groups', [BODY_OK]);
         expect(postGroup).toHaveBeenCalled();
         expect(history.push).toHaveBeenCalledWith(ROUTE_GROUP_LIST);
