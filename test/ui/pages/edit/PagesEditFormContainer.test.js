@@ -1,5 +1,5 @@
 import { mapDispatchToProps, mapStateToProps } from 'ui/pages/edit/PagesEditFormContainer';
-import { getGroupsList, getGroupEntries } from 'state/groups/selectors';
+import { getGroupsList, getGroupEntries, getMyGroupsList } from 'state/groups/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
@@ -33,6 +33,7 @@ const GROUPS = [{ code: 'group', name: 'groupName' }];
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
   getGroupEntries: jest.fn(),
+  getMyGroupsList: jest.fn(),
 }));
 
 getGroupsList.mockReturnValue(GROUPS);
@@ -53,6 +54,7 @@ jest.mock('state/languages/selectors', () => ({
 }));
 
 getActiveLanguages.mockReturnValue(LANGUAGES);
+getMyGroupsList.mockReturnValue(['administrators', 'free']);
 
 const PAGE_CODE = 'page_code';
 const STATE = {};
