@@ -48,6 +48,7 @@ export const BODY_OK = {
 
 export const GROUPS_NORMALIZED = {
   groups: {
+    myGroupsList: ['administrators'],
     list: [
       'account_executive',
       'administrators',
@@ -192,13 +193,13 @@ export const CONTENT_REFERENCES = [
 ];
 
 export const RESOURCE_REFERENCES =
-[
-  {
-    code: 'sample-image-1',
-    name: 'Sample image 1',
-    type: 'Image',
-  },
-];
+  [
+    {
+      code: 'sample-image-1',
+      name: 'Sample image 1',
+      type: 'Image',
+    },
+  ];
 
 export const MOCK_REFERENCES = {
   jacmsContentManager: CONTENT_REFERENCES,

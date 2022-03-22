@@ -19,11 +19,19 @@ import {
   REMOVE_GROUP,
   SET_GROUPS_TOTAL,
   SET_GROUP_ENTRIES,
+  SET_MY_GROUPS,
 } from 'state/groups/types';
 import { history, ROUTE_GROUP_LIST } from 'app-init/router';
 
 export const setGroups = groups => ({
   type: SET_GROUPS,
+  payload: {
+    groups,
+  },
+});
+
+export const setMyGroups = groups => ({
+  type: SET_MY_GROUPS,
   payload: {
     groups,
   },
@@ -75,7 +83,7 @@ export const fetchMyGroups = ({ sort } = {}) => dispatch => new Promise((resolve
         if (sort) {
           groups.sort((a, b) => a[sort].localeCompare(b[sort]));
         }
-        dispatch(setGroups(groups));
+        dispatch(setMyGroups(groups));
         dispatch(toggleLoading('groups'));
         resolve();
       } else {
@@ -153,7 +161,7 @@ export const sendPostGroup = groupData => (dispatch, getState) => (
           ));
           // update store with new group
           const { groups } = getState();
-          dispatch(setGroupEntries([...groups.groupEntries, groupData]));
+          dispatch(setGroups([...groups.groupEntries, groupData]));
           history.push(ROUTE_GROUP_LIST);
           resolve();
         } else {

@@ -18,7 +18,7 @@ import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageMod
 import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 import { MODAL_ID as MOVE_MODAL_ID } from 'ui/pages/common/MovePageModal';
 import { history } from 'app-init/router';
-import { getGroupsIdList } from 'state/groups/selectors';
+import { getMyGroupsList } from 'state/groups/selectors';
 
 history.push = jest.fn();
 
@@ -53,10 +53,10 @@ jest.mock('state/pages/selectors', () => ({
 }));
 
 jest.mock('state/groups/selectors', () => ({
-  getGroupsIdList: jest.fn(),
+  getMyGroupsList: jest.fn(),
 }));
 
-getGroupsIdList.mockReturnValue(['administrators', 'free']);
+getMyGroupsList.mockReturnValue(['administrators', 'free']);
 getPageTreePages.mockReturnValue('pages');
 getSearchPages.mockReturnValue([]);
 

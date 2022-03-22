@@ -11,6 +11,7 @@ import {
   getGroupsMap,
   getGroupsList,
   getGroupEntries,
+  getMyGroupsList,
 } from 'state/groups/selectors';
 
 describe('state/groups/selectors', () => {
@@ -38,6 +39,10 @@ describe('state/groups/selectors', () => {
 
   it('verify getGroupsList selector', () => {
     expect(getGroupsList(GROUPS_NORMALIZED)).toEqual(LIST_GROUPS_OK);
+  });
+
+  it('verify getMyGroupsList selector', () => {
+    expect(getMyGroupsList(GROUPS_NORMALIZED)).toEqual(GROUPS_NORMALIZED.groups.myGroupsList);
   });
 
   it('verify getGroupEntries selector', () => {
