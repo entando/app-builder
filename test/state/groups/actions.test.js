@@ -170,10 +170,11 @@ describe('state/groups/actions', () => {
     it('fetchMyGroupscalls setGroups and setPage actions', (done) => {
       store.dispatch(fetchMyGroups()).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0].type).toEqual(TOGGLE_LOADING);
         expect(actions[1].type).toEqual(SET_MY_GROUPS);
-        expect(actions[2].type).toEqual(TOGGLE_LOADING);
+        expect(actions[2].type).toEqual(SET_GROUPS);
+        expect(actions[3].type).toEqual(TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

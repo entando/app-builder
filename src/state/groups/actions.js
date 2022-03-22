@@ -84,6 +84,7 @@ export const fetchMyGroups = ({ sort } = {}) => dispatch => new Promise((resolve
           groups.sort((a, b) => a[sort].localeCompare(b[sort]));
         }
         dispatch(setMyGroups(groups));
+        dispatch(setGroups(groups));
         dispatch(toggleLoading('groups'));
         resolve();
       } else {
