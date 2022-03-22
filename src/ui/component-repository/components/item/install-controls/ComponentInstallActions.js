@@ -43,9 +43,9 @@ const ComponentInstallActions = ({
   const latestVersion = (component.latestVersion || {}).version;
 
   const handleInstall = (componentToInstall, version) => {
+    dispatch(setVisibleModal(''));
     setSelectedVersion(version || latestVersion);
-    onInstall(componentToInstall, version);
-    setIsConflictVersion(false);
+    onInstall(componentToInstall, version).then(() => setIsConflictVersion(false));
   };
 
   const handleUpdate = (componentToInstall, version) => {
@@ -56,6 +56,7 @@ const ComponentInstallActions = ({
       dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
     } else if (parseVersion(version) === parseVersion(component.installedJob.componentVersion)) {
       setSelectedVersion(version || latestVersion);
+      dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
       setIsConflictVersion(true);
     } else {
       handleInstall(componentToInstall, version);

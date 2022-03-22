@@ -40,9 +40,8 @@ export const mapDispatchToProps = (dispatch) => {
   const pollStepFunction = progress => dispatch(setInstallUninstallProgress(progress));
 
   return ({
-    onInstall: (component, version) => {
-      dispatch(installECRComponent(component, version, pollStepFunction));
-    },
+    onInstall: (component, version) =>
+      dispatch(installECRComponent(component, version, pollStepFunction)),
     onClickInstallDropdown: (componentCode) => {
       dispatch(fetchECRComponentDetail(componentCode));
     },
