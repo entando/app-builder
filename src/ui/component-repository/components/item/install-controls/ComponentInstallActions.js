@@ -43,7 +43,6 @@ const ComponentInstallActions = ({
   const latestVersion = (component.latestVersion || {}).version;
 
   const handleInstall = (componentToInstall, version) => {
-    dispatch(setVisibleModal(''));
     setSelectedVersion(version || latestVersion);
     onInstall(componentToInstall, version).then(() => setIsConflictVersion(false));
   };
@@ -66,6 +65,11 @@ const ComponentInstallActions = ({
   const handleUninstall = () => {
     setSelectedVersion(component.installedJob.componentVersion);
     onUninstall(component.code);
+  };
+
+  const handleDowngrade = (componentToInstall, version) => {
+    dispatch(setVisibleModal(''));
+    handleInstall(componentToInstall, version);
   };
 
   if (lastInstallStatus) {
@@ -127,7 +131,7 @@ const ComponentInstallActions = ({
         onConfirmUninstall={handleUninstall}
       />
       <ConfirmDowngradeModal
-        onConfirm={handleInstall}
+        onConfirm={handleDowngrade}
         selectedVersion={selectedVersion}
         component={component}
         isConflictVersion={isConflictVersion}
