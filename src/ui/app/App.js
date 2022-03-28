@@ -181,6 +181,7 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -208,7 +209,7 @@ const getRouteComponent = () => {
           <LoginPage>
             <LoginFormContainer />
           </LoginPage>
-      )}
+        )}
       />
       <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
       {/* page */}
@@ -289,31 +290,31 @@ const getRouteComponent = () => {
         exact
         path={ROUTE_ECR_COMPONENT_LIST}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <ComponentListPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <ComponentListPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         exact
         path={ROUTE_ECR_CONFIG_LIST}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsListPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsListPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         path={ROUTE_ECR_CONFIG_EDIT}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsEditPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsEditPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         path={ROUTE_ECR_CONFIG_ADD}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsAddPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsAddPage /> : <ComponentListPageDisabled />
+        )}
       />
       {/* email config */}
       <Route path={ROUTE_EMAIL_CONFIG} component={EmailConfigPage} />
@@ -329,13 +330,15 @@ const getRouteComponent = () => {
       <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
       <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
       <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
-      { /* static routes */ }
+      { /* static routes */}
       <Route path={ROUTE_ABOUT} component={AboutPage} />
       <Route path={ROUTE_LICENSE} component={LicensePage} />
-      { /* app routes */ }
+      { /* app routes */}
       {appsRoutes}
       {/* 404 */}
       <Route component={PageNotFoundContainer} />
+      {/* 403 */}
+      <Route component={NoAccessPageContainer} />
     </Switch>
   );
 };
