@@ -49,14 +49,14 @@ export class PageFormBody extends Component {
   componentDidUpdate(prevProps) {
     const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } = prevProps;
     const {
-      enableGroupAccessControl, myGroups, redirectToPageList, pageOwnerGroup,
+      enableGroupAccessControl, myGroups, redirectToForbidden, pageOwnerGroup,
     } = this.props;
 
     if (enableGroupAccessControl) {
       if (myGroups != null && pageOwnerGroup && (prevMyGroups == null || !prevPageOwnerGroup)) {
         const redirectDueToLackOfGroupAccess = !myGroups.includes(pageOwnerGroup);
         if (redirectDueToLackOfGroupAccess) {
-          redirectToPageList();
+          redirectToForbidden();
         }
       }
     }
@@ -452,7 +452,7 @@ PageFormBody.propTypes = {
   stayOnSave: PropTypes.bool,
   enableGroupAccessControl: PropTypes.bool,
   myGroups: PropTypes.arrayOf(PropTypes.string),
-  redirectToPageList: PropTypes.func,
+  redirectToForbidden: PropTypes.func,
   pageOwnerGroup: PropTypes.string,
 };
 
@@ -475,7 +475,7 @@ PageFormBody.defaultProps = {
   stayOnSave: false,
   enableGroupAccessControl: false,
   myGroups: null,
-  redirectToPageList: () => {},
+  redirectToForbidden: () => {},
   pageOwnerGroup: '',
 };
 

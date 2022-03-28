@@ -11,7 +11,7 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages
 import { sendPutPage, fetchPageForm } from 'state/pages/actions';
 import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
-import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG, ROUTE_FORBIDDEN } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
 import { formValueSelector } from 'redux-form';
@@ -63,7 +63,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(fetchPageForm(pageCode));
   },
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
-  redirectToPageList: () => history.push(ROUTE_PAGE_TREE),
+  redirectToForbidden: () => history.push(ROUTE_FORBIDDEN),
 });
 
 

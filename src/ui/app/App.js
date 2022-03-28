@@ -90,6 +90,7 @@ import {
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
+  ROUTE_FORBIDDEN,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -335,10 +336,10 @@ const getRouteComponent = () => {
       <Route path={ROUTE_LICENSE} component={LicensePage} />
       { /* app routes */}
       {appsRoutes}
+      {/* 403 */}
+      <Route path={ROUTE_FORBIDDEN} component={NoAccessPageContainer} />
       {/* 404 */}
       <Route component={PageNotFoundContainer} />
-      {/* 403 */}
-      <Route component={NoAccessPageContainer} />
     </Switch>
   );
 };
