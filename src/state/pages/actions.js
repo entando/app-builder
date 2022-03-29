@@ -295,11 +295,10 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
     .filter(code => code !== pageCode);
   const newSiblingIndex = newSiblingChildren.indexOf(siblingCode);
   const newPosition = (moveAbove ? newSiblingIndex : newSiblingIndex + 1) + 1;
-  dispatch(setPageLoading(page.code));
+
   return setPagePosition(pageCode, newPosition, newParentCode)
     .then(() => {
       dispatch(movePageSync(pageCode, oldParentCode, newParentCode, newPosition));
-      dispatch(setPageLoaded(page.code));
     }).catch(() => {});
 };
 
