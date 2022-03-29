@@ -86,19 +86,24 @@ export const FragmentFormBody = (props) => {
   const {
     intl, isValid, isSubmitting: submitting, mode,
     dirty, onCancel, onDiscard, onHideModal, onSubmit,
-    submitForm, resetForm, values, setSubmitting,
+    submitForm, validateForm, resetForm, values, setSubmitting,
   } = props;
 
   const invalid = !isValid;
 
   const handleSubmitClick = (submitType) => {
     submitForm();
-    onSubmit(values, submitType).then((res) => {
-      setSubmitting(false);
-      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
-        resetForm();
-      }
-    });
+    validateForm()
+      .then((errors) => {
+        if (Object.keys(errors).length === 0) {
+          onSubmit(values, submitType).then((res) => {
+            setSubmitting(false);
+            if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+              resetForm();
+            }
+          });
+        }
+      });
   };
 
   const handleCancelClick = () => {
@@ -249,6 +254,7 @@ FragmentFormBody.propTypes = {
   onHideModal: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   values: PropTypes.shape({}).isRequired,
+  validateForm: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
   setSubmitting: PropTypes.func.isRequired,
