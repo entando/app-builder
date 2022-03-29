@@ -28,8 +28,10 @@ class PageTreeActionMenu extends Component {
     const {
       page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
-      onClickViewPublishedPage, onClickPreview,
+      onClickViewPublishedPage, onClickPreview, myGroupIds,
     } = this.props;
+
+    const disableDueToLackOfGroupAccess = !myGroupIds.includes(page.ownerGroup);
 
     let disabled = false;
     if (!page.isEmpty && page.status === PAGE_STATUS_PUBLISHED) {
@@ -38,23 +40,26 @@ class PageTreeActionMenu extends Component {
     if (page.expanded) {
       disabled = page.hasPublishedChildren;
     }
+
+    const disablePublishAction = (page.status === PAGE_STATUS_UNPUBLISHED &&
+      page.parentStatus === PAGE_STATUS_UNPUBLISHED)
+      || disableDueToLackOfGroupAccess;
     const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
-          disabled={disabled}
+          disabled={disabled || disableDueToLackOfGroupAccess}
           className="PageTreeActionMenuButton__menu-item-unpublish"
-          onSelect={this.handleClick(onClickUnpublish)}
+          onSelect={!(disabled || disableDueToLackOfGroupAccess)
+            ? this.handleClick(onClickUnpublish) : null}
         >
           <FormattedMessage id="app.unpublish" />
-        </MenuItem>
+        </MenuItem >
       ) :
       (
         <MenuItem
-          disabled={
-            page.status === PAGE_STATUS_UNPUBLISHED && page.parentStatus === PAGE_STATUS_UNPUBLISHED
-          }
+          disabled={disablePublishAction}
           className="PageTreeActionMenuButton__menu-item-publish"
-          onSelect={this.handleClick(onClickPublish)}
+          onSelect={!disablePublishAction ? this.handleClick(onClickPublish) : null}
         >
           <FormattedMessage id="app.publish" />
         </MenuItem>
@@ -79,12 +84,13 @@ class PageTreeActionMenu extends Component {
         </MenuItem>
       );
 
+    const disableDelete = !page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
+      page.status === PAGE_STATUS_DRAFT || disableDueToLackOfGroupAccess;
     const renderDeleteItem = () => (
       <MenuItem
-        disabled={!page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
-          page.status === PAGE_STATUS_DRAFT}
+        disabled={disableDelete}
         className="PageTreeActionMenuButton__menu-item-delete"
-        onSelect={this.handleClick(onClickDelete)}
+        onSelect={!disableDelete ? this.handleClick(onClickDelete) : null}
       >
         <FormattedMessage id="app.delete" />
       </MenuItem>
@@ -102,7 +108,8 @@ class PageTreeActionMenu extends Component {
           {onClickEdit && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-edit"
-              onSelect={this.handleClick(onClickEdit)}
+              onSelect={!disableDueToLackOfGroupAccess ? this.handleClick(onClickEdit) : null}
+              disabled={disableDueToLackOfGroupAccess}
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
@@ -110,14 +117,16 @@ class PageTreeActionMenu extends Component {
           {onClickConfigure && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-configure"
-              onSelect={this.handleClick(onClickConfigure)}
+              onSelect={!disableDueToLackOfGroupAccess ? this.handleClick(onClickConfigure) : null}
+              disabled={disableDueToLackOfGroupAccess}
             >
               <FormattedMessage id="app.design" />
             </MenuItem>
           )}
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-clone"
-            onSelect={this.handleClick(onClickClone)}
+            onSelect={!disableDueToLackOfGroupAccess ? this.handleClick(onClickClone) : null}
+            disabled={disableDueToLackOfGroupAccess}
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
@@ -152,6 +161,7 @@ PageTreeActionMenu.propTypes = {
     hasPublishedChildren: PropTypes.bool,
     code: PropTypes.string,
     parentStatus: PropTypes.string,
+    ownerGroup: PropTypes.string,
   }).isRequired,
   onClickAdd: PropTypes.func,
   onClickEdit: PropTypes.func,
@@ -165,6 +175,7 @@ PageTreeActionMenu.propTypes = {
   onClickPreview: PropTypes.func,
   domain: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
+  myGroupIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 PageTreeActionMenu.defaultProps = {
@@ -178,6 +189,7 @@ PageTreeActionMenu.defaultProps = {
   onClickUnpublish: null,
   onClickViewPublishedPage: null,
   onClickPreview: null,
+  myGroupIds: [],
 };
 
 export default PageTreeActionMenu;

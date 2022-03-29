@@ -4,22 +4,24 @@ import { routeConverter } from '@entando/utils';
 
 import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { getGroupEntries, getGroupsList } from 'state/groups/selectors';
+import { getGroupEntries, getGroupsList, getMyGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import { sendPutPage, fetchPageForm } from 'state/pages/actions';
 import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
 import { fetchPageTemplates } from 'state/page-templates/actions';
-import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
+import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG, ROUTE_FORBIDDEN } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
+import { formValueSelector } from 'redux-form';
 
 export const FORM_ID = 'pageEdit';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
   groups: getGroupsList(state),
+  myGroups: getMyGroupsList(state),
   allGroups: getGroupEntries(state),
   pageTemplates: getPageTemplatesList(state),
   pages: getPageTreePages(state),
@@ -30,6 +32,8 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   pageCode: params.pageCode,
   form: FORM_ID,
   keepDirtyOnReinitialize: true,
+  enableGroupAccessControl: true,
+  pageOwnerGroup: formValueSelector(FORM_ID)(state, 'ownerGroup'),
 });
 
 
@@ -59,6 +63,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(fetchPageForm(pageCode));
   },
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
+  redirectToForbidden: () => history.push(ROUTE_FORBIDDEN),
 });
 
 

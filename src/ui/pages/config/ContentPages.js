@@ -105,7 +105,7 @@ class ContentPages extends Component {
   render() {
     const {
       loading, onExpandPage, pages, intl, searchPages,
-      onClear, loadOnPageSelect, onLoadPage,
+      onClear, loadOnPageSelect, onLoadPage, myGroupIds,
     } = this.props;
     const { expanded } = this.state;
 
@@ -178,6 +178,7 @@ class ContentPages extends Component {
               onExpandPage={onExpandPage}
               onRowClick={this.handlePageSelect}
               onClickConfigure={!loadOnPageSelect ? onLoadPage : null}
+              myGroupIds={myGroupIds}
             />
           )}
         </Spinner>
@@ -204,6 +205,7 @@ ContentPages.propTypes = {
   loadOnPageSelect: PropTypes.bool,
   onLoadPage: PropTypes.func,
   onSearchPageChange: PropTypes.func.isRequired,
+  myGroupIds: PropTypes.arrayOf(PropTypes.string),
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
@@ -218,6 +220,7 @@ ContentPages.defaultProps = {
   selectedPage: {},
   loadOnPageSelect: true,
   onLoadPage: () => {},
+  myGroupIds: [],
 };
 
 export default injectIntl(ContentPages);

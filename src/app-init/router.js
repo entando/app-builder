@@ -135,3 +135,4 @@ export const WIDGET_CONFIG_ROUTE = '/widget/config/:widget/page/:page/frame/:fra
 // static pages
 export const ROUTE_ABOUT = '/about';
 export const ROUTE_LICENSE = '/license';
+export const ROUTE_FORBIDDEN = '/403';
