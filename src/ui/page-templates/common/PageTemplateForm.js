@@ -55,6 +55,7 @@ const PageTemplateFormBody = ({
   isValid,
   setSubmitting,
   submitForm,
+  validateForm,
   resetForm,
   mode,
   onDidMount,
@@ -74,12 +75,15 @@ const PageTemplateFormBody = ({
   const invalid = !isValid;
 
   const handleSubmit = (submitType) => {
-    if (invalid || submitting) return;
     submitForm();
-    onSubmit(values, submitType).then((res) => {
-      setSubmitting(false);
-      if (!res && submitType !== CONTINUE_SAVE_TYPE) {
-        resetForm();
+    validateForm().then((errors) => {
+      if (Object.keys(errors).length === 0) {
+        onSubmit(values, submitType).then((res) => {
+          setSubmitting(false);
+          if (!res && submitType !== CONTINUE_SAVE_TYPE) {
+            resetForm();
+          }
+        });
       }
     });
   };
@@ -214,6 +218,7 @@ PageTemplateFormBody.propTypes = {
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
+  validateForm: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
   setSubmitting: PropTypes.func.isRequired,
 };
