@@ -106,7 +106,8 @@ class PagesList extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount(page);
+    const { pageSize } = this.props;
+    this.props.onWillMount(page, pageSize);
   }
 
   changePageSize(pageSize) {

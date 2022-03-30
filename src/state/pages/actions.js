@@ -608,13 +608,13 @@ export const fetchPageTreeAll = () => (dispatch, getState) => {
     });
 };
 
-export const fetchDashboardPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
+export const fetchDashboardPages = (page = { page: 1, pageSize: 10 }, params = '', namespace) => async (dispatch) => {
   try {
     const response = await getSearchPages(page, params);
     const json = await response.json();
     if (response.ok) {
       dispatch(setDashboardPages(json.payload));
-      dispatch(setPage(json.metaData));
+      dispatch(setPage(json.metaData, namespace));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
