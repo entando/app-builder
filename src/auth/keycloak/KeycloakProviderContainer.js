@@ -29,6 +29,7 @@ export const mapDispatchToProps = dispatch => ({
     const username = get(keycloak, 'idTokenParsed.preferred_username');
     const { token } = keycloak;
 
+    console.log('event', event);
     switch (event) {
       case 'onAuthSuccess':
         dispatch(clearAppTourProgress());
@@ -44,13 +45,16 @@ export const mapDispatchToProps = dispatch => ({
         keycloak.logout();
         break;
       case 'onReady':
-        if (!username) {
+        if (!username || !token) {
           keycloak.login();
         } else {
           dispatch(loginUser(username, token));
         }
         break;
-      default: break;
+      default:
+        console.log('inside default');
+        keycloak.login();
+        break;
     }
   },
 });
