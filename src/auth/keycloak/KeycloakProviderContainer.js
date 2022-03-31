@@ -52,7 +52,7 @@ export const mapDispatchToProps = dispatch => ({
         }
         break;
       default:
-        console.log('inside default');
+        console.log('inside default!!!');
         keycloak.login();
         break;
     }
