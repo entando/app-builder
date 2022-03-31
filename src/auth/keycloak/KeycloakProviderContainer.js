@@ -29,7 +29,6 @@ export const mapDispatchToProps = dispatch => ({
     const username = get(keycloak, 'idTokenParsed.preferred_username');
     const { token } = keycloak;
 
-    console.log('event', event);
     switch (event) {
       case 'onAuthSuccess':
         dispatch(clearAppTourProgress());
@@ -52,7 +51,6 @@ export const mapDispatchToProps = dispatch => ({
         }
         break;
       default:
-        console.log('inside default!!!');
         keycloak.login();
         break;
     }
