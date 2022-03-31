@@ -321,8 +321,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 3, HOMEPAGE_CODE);
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 3));
+        expect(actions[0]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 3));
         done();
       }).catch(done.fail);
     });
@@ -332,8 +331,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('contacts', 2, HOMEPAGE_CODE);
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
+        expect(actions[0]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
         done();
       }).catch(done.fail);
     });
@@ -343,8 +341,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageBelow('dashboard', 'notfound')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, 'service');
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 2));
+        expect(actions[0]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 2));
         done();
       }).catch(done.fail);
     });
@@ -371,8 +368,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('dashboard', 'contacts')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 2, HOMEPAGE_CODE);
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
+        expect(actions[0]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, HOMEPAGE_CODE, 2));
         done();
       }).catch(done.fail);
     });
@@ -382,8 +378,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('contacts', 'dashboard')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('contacts', 1, HOMEPAGE_CODE);
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 1));
+        expect(actions[0]).toEqual(movePageSync('contacts', HOMEPAGE_CODE, HOMEPAGE_CODE, 1));
         done();
       }).catch(done.fail);
     });
@@ -393,8 +388,7 @@ describe('state/pages/actions', () => {
       store.dispatch(movePageAbove('dashboard', 'notfound')).then(() => {
         const actions = store.getActions();
         expect(setPagePosition).toHaveBeenCalledWith('dashboard', 1, 'service');
-        expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
-        expect(actions[1]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 1));
+        expect(actions[0]).toEqual(movePageSync('dashboard', HOMEPAGE_CODE, 'service', 1));
         done();
       }).catch(done.fail);
     });
