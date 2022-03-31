@@ -11,6 +11,8 @@ import { getLocale } from 'state/locale/selectors';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 
+const namespace = 'dashboardPages';
+
 export const mapDispatchToProps = dispatch => ({
   onWillMount: (page = 1, pageSize = 5) => {
     const queryString = convertToQueryString({
@@ -19,7 +21,7 @@ export const mapDispatchToProps = dispatch => ({
         direction: 'DESC',
       },
     });
-    dispatch(fetchDashboardPages({ page, pageSize }, queryString));
+    dispatch(fetchDashboardPages({ page, pageSize }, queryString, namespace));
   },
   onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'dashboardPageList')),
 });
@@ -27,9 +29,9 @@ export const mapDispatchToProps = dispatch => ({
 export const mapStateToProps = state => (
   {
     pages: getDashboardPages(state),
-    page: getCurrentPage(state),
-    totalItems: getTotalItems(state),
-    pageSize: getPageSize(state),
+    page: getCurrentPage(state, namespace),
+    totalItems: getTotalItems(state, namespace),
+    pageSize: getPageSize(state, namespace),
     language: getLocale(state),
     columnOrder: getColumnOrder(state, 'dashboardPageList'),
   }

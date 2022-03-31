@@ -98,8 +98,8 @@ class ContentListCard extends Component {
   }
 
   changePage(page) {
-    const { onDidMount } = this.props;
-    onDidMount(page);
+    const { onDidMount, pagination } = this.props;
+    onDidMount(page, pagination.pageSize);
   }
 
   changePageSize(pageSize) {
