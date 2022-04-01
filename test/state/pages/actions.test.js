@@ -51,6 +51,11 @@ jest.mock('state/pages/selectors', () => ({
   getChildrenMap: jest.fn(),
   getSelectedPage: jest.fn(),
   getReferencesFromSelectedPage: jest.fn(() => []),
+  getAllPageTreeLoadedStatus: jest.fn(() => []),
+}));
+
+jest.mock('state/languages/selectors', () => ({
+  getDefaultLanguage: jest.fn((() => 'en')),
 }));
 
 jest.mock('app-init/router', () => ({
@@ -414,7 +419,10 @@ describe('state/pages/actions', () => {
       postPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addPagesAction = store.getActions().find(action => action.type === ADD_PAGES);
-        expect(postPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(postPageSEO).toHaveBeenCalledWith({
+          ...CONTACTS_PAYLOAD,
+          seoData: { ...CONTACTS_PAYLOAD.seoData, useExtraTitles: CONTACTS_PAYLOAD.seo },
+        });
         expect(addPagesAction).toBeDefined();
         done();
       }).catch(done.fail);
@@ -424,7 +432,10 @@ describe('state/pages/actions', () => {
       postPageSEO.mockImplementation(mockApi({ errors: true }));
       store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
-        expect(postPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(postPageSEO).toHaveBeenCalledWith({
+          ...CONTACTS_PAYLOAD,
+          seoData: { ...CONTACTS_PAYLOAD.seoData, useExtraTitles: CONTACTS_PAYLOAD.seo },
+        });
         expect(addErrorsAction).toBeDefined();
         done();
       }).catch(done.fail);
@@ -445,7 +456,10 @@ describe('state/pages/actions', () => {
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
         expect(initialize).toHaveBeenCalledWith('pageEdit', CONTACTS_PAYLOAD);
-        expect(putPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD);
+        expect(putPageSEO).toHaveBeenCalledWith({
+          ...CONTACTS_PAYLOAD,
+          seoData: { ...CONTACTS_PAYLOAD.seoData, useExtraTitles: CONTACTS_PAYLOAD.seo },
+        });
         done();
       }).catch(done.fail);
     });
@@ -693,12 +707,13 @@ describe('publish/unpublish', () => {
       store.dispatch(publishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(5);
+        expect(actions).toHaveLength(6);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE);
         expect(actions[2]).toHaveProperty('type', UPDATE_PAGE);
         expect(actions[3]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
-        expect(actions[4]).toHaveProperty('type', SET_PAGE_LOADED);
+        expect(actions[4]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[5]).toHaveProperty('type', SET_PAGE_LOADED);
         done();
       }).catch(done.fail);
     });
@@ -729,12 +744,13 @@ describe('publish/unpublish', () => {
       store.dispatch(unpublishSelectedPage()).then(() => {
         expect(putPageStatus).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(5);
+        expect(actions).toHaveLength(6);
         expect(actions[0]).toHaveProperty('type', SET_PAGE_LOADING);
         expect(actions[1]).toHaveProperty('type', SET_SELECTED_PAGE);
         expect(actions[2]).toHaveProperty('type', UPDATE_PAGE);
         expect(actions[3]).toHaveProperty('type', SET_PUBLISHED_PAGE_CONFIG);
-        expect(actions[4]).toHaveProperty('type', SET_PAGE_LOADED);
+        expect(actions[4]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[5]).toHaveProperty('type', SET_PAGE_LOADED);
         done();
       }).catch(done.fail);
     });
@@ -841,7 +857,7 @@ describe('fetchSearchPages', () => {
   });
 });
 
-describe.only('clonePage', () => {
+describe('clonePage', () => {
   let store;
   beforeEach(() => {
     store = mockStore(INITIALIZED_STATE);
@@ -888,6 +904,7 @@ describe('fetchDashboardPages', () => {
   });
 
   it('should dispatch SET_DASHBOARD_PAGES and SET_PAGE if successful', (done) => {
+    getSearchPages.mockImplementation(mockApi({ payload: [] }));
     store.dispatch(fetchDashboardPages('page')).then(() => {
       expect(getSearchPages).toHaveBeenCalled();
       const actions = store.getActions();
