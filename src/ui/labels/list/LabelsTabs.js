@@ -23,12 +23,12 @@ const LabelsTabs = ({
           onClickDelete={onClickDelete}
           loading={loading}
         />
-        <DeleteLabelAndLanguagesModalContainer />
       </Tab>
     ));
   return (
     <Tabs className="LabelsTabs" defaultActiveKey={0} id="labels-tabs">
       {tabs}
+      <DeleteLabelAndLanguagesModalContainer />
     </Tabs>
   );
 };
