@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import LabelListMenuActions from 'ui/labels/list/LabelListMenuActions';
-import DeleteLabelAndLanguagesModalContainer from 'ui/labels/common/DeleteLabelAndLanguagesModalContainer';
 
 const LabelsTable = ({
   langName, labels, onClickDelete,
@@ -13,7 +12,7 @@ const LabelsTable = ({
       <thead>
         <tr>
           <th className="LabelsTable__th-lg"><FormattedMessage id="app.code" /></th>
-          <th className="LabelsTable__th-lg">{ langName }</th>
+          <th className="LabelsTable__th-lg">{langName}</th>
           <th className="LabelsTable__th-xs text-center"><FormattedMessage id="app.actions" /></th>
         </tr>
       </thead>
@@ -29,10 +28,9 @@ const LabelsTable = ({
               <LabelListMenuActions code={label.key} onClickDelete={onClickDelete} />
             </td>
           </tr>
-          ))}
+        ))}
       </tbody>
     </table>
-    <DeleteLabelAndLanguagesModalContainer />
   </div>
 );
 LabelsTable.propTypes = {
