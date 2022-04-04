@@ -127,7 +127,7 @@ export class CreateTextFileFormBody extends Component {
             <Button
               className="pull-right CreateTextFileForm__btn-cancel"
               componentClass={Link}
-              to={ROUTE_FILE_BROWSER}
+              to={{ pathname: ROUTE_FILE_BROWSER, state: { keepPath: true } }}
             >
               <FormattedMessage id="app.cancel" />
             </Button>

@@ -71,7 +71,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
     }
   });
 
-export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
+export const fetchFileList = (protectedFolder = '', path = '', shouldKeepPath) => dispatch =>
   new Promise((resolve) => {
     dispatch(toggleLoading('files'));
     const queryString = [];
@@ -87,7 +87,9 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
         if (response.ok) {
           history.push(ROUTE_FILE_BROWSER);
           dispatch(setFileList(json.payload));
-          dispatch(setPathInfo(json.metaData));
+          if (!shouldKeepPath) {
+            dispatch(setPathInfo(json.metaData));
+          }
         } else {
           dispatch(addErrors(json.errors.map(e => e.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

@@ -18,9 +18,14 @@ export const mapStateToProps = state => (
   }
 );
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch, ownProps) => ({
   onWillMount: (protectedFolder = '', path = '') => {
-    dispatch(fetchFileList(protectedFolder, path));
+    let shouldKeepPath = false;
+    if (ownProps.location.state) {
+      const { keepPath } = ownProps.location.state;
+      shouldKeepPath = keepPath;
+    }
+    dispatch(fetchFileList(protectedFolder, path, shouldKeepPath));
   },
   onClickDownload: (file) => {
     dispatch(downloadFile(file)).then((base64) => { download(file.name, base64); });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 
@@ -12,7 +13,7 @@ import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupCo
 import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
-export const ListFilesPageBody = () => (
+export const ListFilesPageBody = ({ location }) => (
   <InternalPage className="ListFilesPage">
     <Grid fluid>
       <Row>
@@ -47,10 +48,14 @@ export const ListFilesPageBody = () => (
         <br />
       </Row>
       <Row>
-        <FilesListTableContainer className="ListFilesPage__fileListTableContainer" />
+        <FilesListTableContainer className="ListFilesPage__fileListTableContainer" location={location} />
       </Row>
     </Grid>
   </InternalPage>
 );
+
+ListFilesPageBody.propTypes = {
+  location: PropTypes.shape({}).isRequired,
+};
 
 export default withPermissions(SUPERUSER_PERMISSION)(ListFilesPageBody);

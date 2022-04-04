@@ -35,7 +35,7 @@ export const UploadFileBrowserBody = (props) => {
               <Icon size="lg" name="upload" />&nbsp;
               <FormattedMessage id="app.upload" />
             </Button>
-            <Link to={ROUTE_FILE_BROWSER}>
+            <Link to={{ pathname: ROUTE_FILE_BROWSER, state: { keepPath: true } }}>
               <Button
                 className="pull-right UploadFileBrowserForm__btn-cancel"
               >

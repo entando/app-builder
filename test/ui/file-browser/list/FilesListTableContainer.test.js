@@ -39,6 +39,10 @@ getPathInfo.mockReturnValue(path);
 
 const dispatchMock = jest.fn(() => Promise.resolve({}));
 
+const ownProps = {
+  location: {},
+};
+
 describe('FilesListTableContainer', () => {
   describe('mapStateToProps', () => {
     it('maps files List property state', () => {
@@ -50,7 +54,7 @@ describe('FilesListTableContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, ownProps);
     });
 
     it('should map the correct function properties', () => {
