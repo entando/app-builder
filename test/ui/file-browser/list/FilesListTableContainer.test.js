@@ -50,7 +50,7 @@ describe('FilesListTableContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, { history: { location: {} } });
     });
 
     it('should map the correct function properties', () => {
