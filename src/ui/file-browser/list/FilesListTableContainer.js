@@ -29,6 +29,9 @@ export const mapDispatchToProps = (dispatch, { history }) => {
         dispatch(fetchFileList(protectedFolder, path));
       }
     },
+    onPathChange: (protectedFolder = '', path = '') => {
+      dispatch(fetchFileList(protectedFolder, path));
+    },
     onClickDownload: (file) => {
       dispatch(downloadFile(file)).then((base64) => { download(file.name, base64); });
     },

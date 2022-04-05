@@ -26,6 +26,7 @@ describe('CreateFolderForm', () => {
       handleSubmit,
       onWillMount,
       intl: mockIntl,
+      history: { location: {} },
     };
 
     return shallowWithIntl(<CreateFolderFormBody {...props} />);

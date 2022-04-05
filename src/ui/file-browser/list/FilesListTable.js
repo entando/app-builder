@@ -39,7 +39,7 @@ class FilesListTable extends Component {
     const getLinkItem = (file) => {
       if (file.directory) {
         return (
-          <a className="FilesListTable__link-dir" role="presentation" onClick={() => this.props.onWillMount(getProtectedFolder(file.path), getQueryString(file.path))}>
+          <a className="FilesListTable__link-dir" role="presentation" onClick={() => this.props.onPathChange(getProtectedFolder(file.path), getQueryString(file.path))}>
             <Icon size="lg" name="folder" /> {file.name}
           </a>
         );
@@ -91,12 +91,12 @@ class FilesListTable extends Component {
         return <div />;
       } else if (prev === null && current === '') {
         return (
-          <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onWillMount()}>
+          <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onPathChange()}>
             <Icon size="lg" name="share" className="fa-rotate-270" /> <FormattedMessage id="fileBrowser.list.upLink" />
           </a>);
       }
       return (
-        <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onWillMount(pfolder, prev)}>
+        <a className="FilesListTable__up-link" role="presentation" onClick={() => this.props.onPathChange(pfolder, prev)}>
           <Icon size="lg" name="share" className="fa-rotate-270" /> <FormattedMessage id="fileBrowser.list.upLink" />
         </a>);
     };
@@ -173,6 +173,7 @@ FilesListTable.propTypes = {
   onClickDownload: PropTypes.func,
   onClickDeleteFolder: PropTypes.func,
   onClickDeleteFile: PropTypes.func,
+  onPathChange: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
