@@ -23,7 +23,10 @@ ViewPermissionNoticeOverlay.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
-  viewPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  viewPermissions: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
 };
 

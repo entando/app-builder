@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DefaultAuthContext from 'auth/default/DefaultAuthContext';
-import { history, ROUTE_DASHBOARD } from 'app-init/router';
+import { history, ROUTE_HOME } from 'app-init/router';
 
 const DefaultAuthProvider = ({ children }) => {
   const auth = {
     enabled: false,
     authenticated: false,
     logout: () => {
-      history.push(`${ROUTE_DASHBOARD}`);
+      history.push(`${ROUTE_HOME}`);
     },
   };
   const authProps = {
