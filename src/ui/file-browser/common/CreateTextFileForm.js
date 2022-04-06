@@ -49,7 +49,7 @@ export class CreateTextFileFormBody extends Component {
   }
   render() {
     const {
-      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload,
+      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload, history,
     } = this.props;
 
     return (
@@ -127,7 +127,7 @@ export class CreateTextFileFormBody extends Component {
             <Button
               className="pull-right CreateTextFileForm__btn-cancel"
               componentClass={Link}
-              to={ROUTE_FILE_BROWSER}
+              to={{ pathname: ROUTE_FILE_BROWSER, state: { from: history.location.pathname } }}
             >
               <FormattedMessage id="app.cancel" />
             </Button>
@@ -146,6 +146,11 @@ CreateTextFileFormBody.propTypes = {
   submitting: PropTypes.bool.isRequired,
   mode: PropTypes.string,
   filename: PropTypes.string,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 CreateTextFileFormBody.defaultProps = {

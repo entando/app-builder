@@ -27,6 +27,7 @@ jest.mock('state/file-browser/selectors', () => ({
 jest.mock('app-init/router', () => ({
   history: {
     push: jest.fn(),
+    location: {},
   },
 }));
 

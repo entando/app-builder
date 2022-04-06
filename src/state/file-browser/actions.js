@@ -85,7 +85,7 @@ export const fetchFileList = (protectedFolder = '', path = '') => dispatch =>
     getFileBrowser(`?${queryString.join('&')}`).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          history.push(ROUTE_FILE_BROWSER);
+          history.push(ROUTE_FILE_BROWSER, { from: history.location.pathname });
           dispatch(setFileList(json.payload));
           dispatch(setPathInfo(json.metaData));
         } else {

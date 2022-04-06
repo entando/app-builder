@@ -26,6 +26,7 @@ describe('CreateTextFileForm', () => {
       invalid,
       handleSubmit,
       intl: mockIntl,
+      history: { location: {} },
     };
 
     return shallowWithIntl(<CreateTextFileFormBody {...props} />);

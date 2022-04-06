@@ -9,7 +9,7 @@ const props = {
   submitting: false,
   invalid: false,
   handleSubmit,
-
+  history: { location: {} },
 };
 
 describe('UploadFileBrowserBody', () => {
