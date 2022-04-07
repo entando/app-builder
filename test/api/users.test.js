@@ -9,7 +9,7 @@ import {
   postUserAuthorities,
   putUserAuthorities,
   deleteUserAuthorities,
-  postUserPassword,
+  postMyPassword,
 } from 'api/users';
 import { USER, USERS, ERROR, AUTHORITIES } from 'test/mocks/users';
 
@@ -216,19 +216,19 @@ describe('deleteUserAuthorities', () => {
   });
 });
 
-describe('postUserPassword', () => {
+describe('postMyPassword', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('returns a promise', () => {
-    expect(postUserPassword(USER.username, {})).toBeInstanceOf(Promise);
+    expect(postMyPassword({})).toBeInstanceOf(Promise);
   });
 
   it('makes the correct request with user body', () => {
-    postUserPassword(USER.username, {});
+    postMyPassword({});
     expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
-      uri: `/api/users/${USER.username}/password`,
+      uri: '/api/users/myPassword',
       method: METHODS.POST,
       body: {},
       mockResponse: {},

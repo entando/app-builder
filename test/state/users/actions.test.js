@@ -8,7 +8,7 @@ import {
   setUsers, fetchUsers, fetchUserForm, sendPostUser, sendPutUser,
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
-  sendPutUserAuthorities, sendDeleteUserAuthorities, sendPostUserPassword,
+  sendPutUserAuthorities, sendDeleteUserAuthorities, sendPostMyPassword,
 } from 'state/users/actions';
 import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -18,7 +18,7 @@ import { USER, USERS, AUTHORITIES } from 'test/mocks/users';
 import {
   getUsers, getUser, putUser, postUser, deleteUser,
   getUserAuthorities, postUserAuthorities, putUserAuthorities,
-  deleteUserAuthorities, postUserPassword,
+  deleteUserAuthorities, postMyPassword,
 } from 'api/users';
 import { history, ROUTE_USER_LIST } from 'app-init/router';
 
@@ -349,10 +349,10 @@ describe('state/users/actions', () => {
       });
     });
 
-    describe('sendPostUserPassword', () => {
-      it('when sendPostUserPassword succeeds, should dispatch ADD_TOAST and clearFields', (done) => {
-        store.dispatch(sendPostUserPassword('username', {})).then(() => {
-          expect(postUserPassword).toHaveBeenCalledWith('username', {});
+    describe('sendPostMyPassword', () => {
+      it('when sendPostMyPassword succeeds, should dispatch ADD_TOAST and clearFields', (done) => {
+        store.dispatch(sendPostMyPassword({})).then(() => {
+          expect(postMyPassword).toHaveBeenCalledWith({});
           const actions = store.getActions();
           expect(actions).toHaveLength(4);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
@@ -364,9 +364,9 @@ describe('state/users/actions', () => {
       });
 
       it('if the response is not ok, dispatch add errors', async () => {
-        postUserPassword.mockImplementationOnce(mockApi({ errors: true }));
-        return store.dispatch(sendPostUserPassword('username', {})).catch((e) => {
-          expect(postUserPassword).toHaveBeenCalled();
+        postMyPassword.mockImplementationOnce(mockApi({ errors: true }));
+        return store.dispatch(sendPostMyPassword({})).catch((e) => {
+          expect(postMyPassword).toHaveBeenCalled();
           const actions = store.getActions();
           expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
