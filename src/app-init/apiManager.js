@@ -6,7 +6,7 @@ import {
   fetchLoggedUserPermissions,
   clearLoggedUserPermissions,
 } from 'state/permissions/actions';
-import { clearAppTourProgress, fetchWizardEnabled } from 'state/app-tour/actions';
+import { clearAppTourProgress } from 'state/app-tour/actions';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
@@ -35,16 +35,11 @@ const ApiManager = ({
     }
   };
 
-  const state = store.getState();
-
-  const currentUserName = ((state || {}).currentUser || {}).username;
-
   const goHome = (opts) => {
     if (auth.enabled && auth.toRefreshToken) {
       auth.setToRefreshToken(false);
     } else {
       const { redirectUri, pathname } = opts;
-      store.dispatch(fetchWizardEnabled(currentUserName));
       store.dispatch(fetchPermissions())
         .then(() => store.dispatch(fetchLoggedUserPermissions()));
       if (redirectUri) {
@@ -99,7 +94,7 @@ ApiManager.propTypes = {
     logout: PropTypes.func.isRequired,
     enabled: PropTypes.bool,
     toRefreshToken: PropTypes.bool,
-    setToRefreshToken: PropTypes.func.isRequired,
+    setToRefreshToken: PropTypes.func,
   }).isRequired,
   intl: intlShape.isRequired,
   children: PropTypes.oneOfType([

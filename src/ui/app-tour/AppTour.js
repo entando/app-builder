@@ -33,11 +33,6 @@ class AppTour extends React.Component {
     this.generateSteps = this.generateSteps.bind(this);
   }
 
-  componentDidMount() {
-    const { onDidMount } = this.props;
-    onDidMount(this.props);
-  }
-
   componentDidUpdate(prevProps) {
     const {
       wizardEnabled, appTourProgress, onAppTourCancel, tourCreatedPageCode, publishStatus,
@@ -457,7 +452,6 @@ class AppTour extends React.Component {
 }
 
 AppTour.propTypes = {
-  onDidMount: PropTypes.func.isRequired,
   onToggleDontShow: PropTypes.func.isRequired,
   wizardEnabled: PropTypes.bool,
   username: PropTypes.string,
