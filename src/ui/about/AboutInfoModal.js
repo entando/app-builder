@@ -32,7 +32,7 @@ const AboutInfoModal = () => {
         </p>
         <p className="AboutPage__description">
           <FormattedMessage id="info.about.docs" />
-          <a href="https://dev.entando.org/" target="_blank" rel="noopener noreferrer"> dev.entando.org</a>
+          <a href="https://developer.entando.com/" target="_blank" rel="noopener noreferrer"> developer.entando.com</a>
         </p>
         <p>
           <b><FormattedMessage id="info.about.version" values={{ version: appBuilderVersion }} /></b>
