@@ -118,7 +118,7 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
         resolve();
       });
     }).catch(() => {
-      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
+      dispatch(addToast({ id: 'app.fetchBundlesFailed' }, TOAST_ERROR));
     }).finally(() => {
       dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
     });
@@ -183,7 +183,7 @@ export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, get
         resolve();
       });
     }).catch(() => {
-      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
+      dispatch(addToast({ id: 'app.fetchBundlesFailed' }, TOAST_ERROR));
     })
       .finally(() => {
         dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
@@ -248,12 +248,12 @@ export const sendDeployBundle = bundle => (dispatch, getState) => (
           const components = getECRComponentList(state);
           dispatch(setECRComponents([...components, data.payload]));
         } else {
-          dispatch(addToast(data.message, TOAST_ERROR));
+          dispatch(addToast(data.message || { id: 'app.installFailed' }, TOAST_ERROR));
         }
         resolve();
       });
     }).catch((err) => {
-      dispatch(addToast(err.message, TOAST_ERROR));
+      dispatch(addToast(err.message || { id: 'app.installFailed' }, TOAST_ERROR));
     })
       .finally(() => {
         dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
@@ -280,7 +280,7 @@ export const sendUndeployBundle = bundle => (dispatch, getState) => (
             dispatch(setVisibleModal(''));
           }
         } else {
-          dispatch(addToast(data.message, TOAST_ERROR));
+          dispatch(addToast(data.message || { id: 'app.uninstallFailed' }, TOAST_ERROR));
         }
         resolve();
       });

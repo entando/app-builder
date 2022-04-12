@@ -1012,5 +1012,8 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Grupo',
     'componentRepository.components.installedVersion': 'Versão Instalada',
+    'app.installFailed': 'Ocorreu um erro e o pacote não pôde ser instalado',
+    'app.uninstallFailed': 'Ocorreu um erro e o pacote não pôde ser desinstalado',
+    'app.fetchBundlesFailed': 'Falha ao buscar pacotes do Registro',
   },
 };

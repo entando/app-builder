@@ -1703,5 +1703,8 @@ export default {
     'componentRepository.categories.category': 'Category',
     'componentRepository.categories.group': 'Group',
     'componentRepository.components.installedVersion': 'Installed Version',
+    'app.installFailed': 'An Error occurred and the Bundle could not be installed',
+    'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
+    'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
   },
 };
