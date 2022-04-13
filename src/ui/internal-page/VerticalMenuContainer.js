@@ -38,6 +38,7 @@ import { HOMEPAGE_CODE } from 'state/pages/const';
 import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
 import { fetchSystemReport } from 'state/system/actions';
+import { dismissedWizardKey } from 'ui/app-tour/constant';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -436,6 +437,7 @@ VerticalMenu.defaultProps = {
 const mapDispatchToProps = (dispatch, { history }) => ({
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
   onStartTutorial: () => {
+    sessionStorage.removeItem(dismissedWizardKey);
     history.push(ROUTE_DASHBOARD);
     dispatch(clearAppTourProgress());
     dispatch(setWizardEnabled(true));
