@@ -423,9 +423,12 @@ class AppTour extends React.Component {
 
   render() {
     const {
-      wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset,
+      wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset, isDismissed,
     } = this.props;
-    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED) return null;
+    // sessionStorage is persistent between rerenders
+    // and is cleared out when the current tab is closed,
+    // if the wizard is completed or close on a session live, users won't see it anymore.
+    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed) return null;
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
     const scrollLock = window.innerWidth > 1024;
@@ -485,6 +488,7 @@ AppTour.propTypes = {
   onAddContentListWidget: PropTypes.func.isRequired,
   onAddSitemapMenu: PropTypes.func.isRequired,
   onAppTourFinish: PropTypes.func.isRequired,
+  isDismissed: PropTypes.bool,
 };
 
 AppTour.defaultProps = {
@@ -501,6 +505,7 @@ AppTour.defaultProps = {
   lockBodyScroll: true,
   customOffset: 0,
   publishStatus: false,
+  isDismissed: false,
 };
 
 export default AppTour;

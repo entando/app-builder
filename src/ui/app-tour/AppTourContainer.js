@@ -21,11 +21,14 @@ export const widgetNextSteps = {
   'keycloak-login': 16,
 };
 
+export const storageKey = 'ENTANDO_WELCOME_WIZARD_DISMISSED';
+
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const languages = getActiveLanguages(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const pageCode = (getTourCreatedPage(state) || {}).code || '';
+  const isDismissed = sessionStorage.getItem(storageKey);
   return {
     username: getUsername(state),
     wizardEnabled: getWizardEnabled(state),
@@ -39,6 +42,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     lockBodyScroll,
     tourCreatedPageCode: pageCode,
     publishStatus: getPublishStatus(state),
+    isDismissed,
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
@@ -48,6 +52,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
   onAppTourCancel: (code, publishStatus, noRouting) => {
+    sessionStorage.setItem(storageKey, true);
     if (code && !publishStatus) {
       dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_CANCELLED }));
     }
@@ -58,6 +63,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourLastStep(1));
   },
   onAppTourFinish: () => {
+    sessionStorage.setItem(storageKey, true);
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));
   },

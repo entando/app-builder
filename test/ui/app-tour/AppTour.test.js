@@ -29,6 +29,31 @@ const props = {
   onAddSitemapMenu: jest.fn(),
 };
 
+const localStorageMock = (() => {
+  let store = {};
+
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
+    },
+    clear() {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'sessionStorage', {
+  writable: true,
+  configurable: true,
+  value: localStorageMock,
+});
+
 jest.unmock('react-redux');
 jest.unmock('redux-form');
 
