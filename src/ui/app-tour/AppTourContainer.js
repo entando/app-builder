@@ -14,6 +14,7 @@ import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
 import { ROUTE_DASHBOARD, ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
 import { initConfigPage, configOrUpdatePageWidget } from 'state/page-config/actions';
 import { updateUserPreferences } from 'state/user-preferences/actions';
+import { dismissedWizardKey } from './constant';
 
 export const widgetNextSteps = {
   logo: 13,
@@ -26,6 +27,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
   const mainTitleName = `titles.${mainTitleLangCode}`;
   const pageCode = (getTourCreatedPage(state) || {}).code || '';
+  const isDismissed = sessionStorage.getItem(dismissedWizardKey);
   return {
     username: getUsername(state),
     wizardEnabled: getWizardEnabled(state),
@@ -39,6 +41,7 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     lockBodyScroll,
     tourCreatedPageCode: pageCode,
     publishStatus: getPublishStatus(state),
+    isDismissed,
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
@@ -48,6 +51,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
   },
   onAppTourStart: () => dispatch(setAppTourProgress(APP_TOUR_STARTED)),
   onAppTourCancel: (code, publishStatus, noRouting) => {
+    sessionStorage.setItem(dismissedWizardKey, true);
     if (code && !publishStatus) {
       dispatch(sendDeletePage({ code, tourProgress: APP_TOUR_CANCELLED }));
     }
@@ -58,6 +62,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(setAppTourLastStep(1));
   },
   onAppTourFinish: () => {
+    sessionStorage.setItem(dismissedWizardKey, true);
     dispatch(setAppTourProgress(APP_TOUR_CANCELLED));
     dispatch(setAppTourLastStep(1));
   },
