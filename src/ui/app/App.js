@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { DDProvider } from '@entando/ddtable';
 import {
@@ -121,14 +121,7 @@ import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTempla
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
-import UserListPage from 'ui/users/list/UserListPage';
-import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
-import AddUserPage from 'ui/users/add/AddUserPage';
-import EditUserPage from 'ui/users/edit/EditUserPage';
 import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
-import DetailUserPage from 'ui/users/detail/DetailUserPage';
-import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
-import MyProfilePageContainer from 'ui/users/my-profile/MyProfilePageContainer';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -154,10 +147,6 @@ import ComponentListPageDisabled from 'ui/component-repository/components/list/C
 import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
 import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
-// attribute type
-import ListProfileTypePage from 'ui/profile-types/list/ListProfileTypePage';
-import AddProfileTypesPage from 'ui/profile-types/add/AddProfileTypesPage';
-import EditProfileTypesPage from 'ui/profile-types/edit/EditProfileTypesPage';
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
@@ -181,6 +170,20 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+const EditProfileTypesPage = React.lazy(() => import('ui/profile-types/edit/EditProfileTypesPage'));
+const AddProfileTypesPage = React.lazy(() => import('ui/profile-types/add/AddProfileTypesPage'));
+const ListProfileTypePage = React.lazy(() => import('ui/profile-types/list/ListProfileTypePage'));
+const UserAuthorityPageContainer = React.lazy(() => import('ui/users/authority/UserAuthorityPageContainer'));
+const MyProfilePageContainer = React.lazy(() => import('ui/users/my-profile/MyProfilePageContainer'));
+const UserRestrictionsPage = React.lazy(() => import('ui/users/restrictions/UserRestrictionsPage'));
+const DetailUserPage = React.lazy(() => import('ui/users/detail/DetailUserPage'));
+const EditUserPage = React.lazy(() => import('ui/users/edit/EditUserPage'));
+const AddUserPage = React.lazy(() => import('ui/users/add/AddUserPage'));
+const UserListPage = React.lazy(() => import('ui/users/list/UserListPage'));
+
+export const renderWithSuspense = component =>
+  <Suspense fallback={<span>Loading..</span>}>{component}</Suspense>;
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -208,7 +211,7 @@ const getRouteComponent = () => {
           <LoginPage>
             <LoginFormContainer />
           </LoginPage>
-      )}
+        )}
       />
       <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
       {/* page */}
@@ -248,17 +251,36 @@ const getRouteComponent = () => {
       <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
       <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
       {/* user */}
-      <Route exact path={ROUTE_USER_LIST} component={UserListPage} />
-      <Route path={ROUTE_USER_ADD} component={AddUserPage} />
-      <Route path={ROUTE_USER_EDIT} component={EditUserPage} />
-      <Route path={ROUTE_USER_DETAIL} component={DetailUserPage} />
-      <Route path={ROUTE_USER_RESTRICTIONS} component={UserRestrictionsPage} />
-      <Route path={ROUTE_USER_MY_PROFILE} component={MyProfilePageContainer} />
-      <Route path={ROUTE_USER_AUTHORITY} component={UserAuthorityPageContainer} />
+      <Route exact path={ROUTE_USER_LIST} render={() => renderWithSuspense(<UserListPage />)} />
+      <Route path={ROUTE_USER_ADD} render={() => renderWithSuspense(<AddUserPage />)} />
+      <Route path={ROUTE_USER_EDIT} render={() => renderWithSuspense(<EditUserPage />)} />
+      <Route path={ROUTE_USER_DETAIL} render={() => renderWithSuspense(<DetailUserPage />)} />
+      <Route
+        path={ROUTE_USER_RESTRICTIONS}
+        render={() => renderWithSuspense(<UserRestrictionsPage />)}
+      />
+      <Route
+        path={ROUTE_USER_MY_PROFILE}
+        render={() => renderWithSuspense(<MyProfilePageContainer />)}
+      />
+      <Route
+        path={ROUTE_USER_AUTHORITY}
+        render={() => renderWithSuspense(<UserAuthorityPageContainer />)}
+      />
       {/* profiles */}
-      <Route exact path={ROUTE_PROFILE_TYPE_LIST} component={ListProfileTypePage} />
-      <Route path={ROUTE_PROFILE_TYPE_ADD} component={AddProfileTypesPage} />
-      <Route path={ROUTE_PROFILE_TYPE_EDIT} component={EditProfileTypesPage} />
+      <Route
+        exact
+        path={ROUTE_PROFILE_TYPE_LIST}
+        render={() => renderWithSuspense(<ListProfileTypePage />)}
+      />
+      <Route
+        path={ROUTE_PROFILE_TYPE_ADD}
+        render={() => renderWithSuspense(<AddProfileTypesPage />)}
+      />
+      <Route
+        path={ROUTE_PROFILE_TYPE_EDIT}
+        render={() => renderWithSuspense(<EditProfileTypesPage />)}
+      />
       {/* groups */}
       <Route exact path={ROUTE_GROUP_LIST} component={ListGroupPage} />
       <Route path={ROUTE_GROUP_ADD} component={AddGroupPage} />
@@ -289,31 +311,31 @@ const getRouteComponent = () => {
         exact
         path={ROUTE_ECR_COMPONENT_LIST}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <ComponentListPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <ComponentListPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         exact
         path={ROUTE_ECR_CONFIG_LIST}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsListPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsListPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         path={ROUTE_ECR_CONFIG_EDIT}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsEditPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsEditPage /> : <ComponentListPageDisabled />
+        )}
       />
       <Route
         path={ROUTE_ECR_CONFIG_ADD}
         render={() => (
-      (COMPONENT_REPOSITORY_UI_ENABLED) ?
-        <SettingsAddPage /> : <ComponentListPageDisabled />
-      )}
+          (COMPONENT_REPOSITORY_UI_ENABLED) ?
+            <SettingsAddPage /> : <ComponentListPageDisabled />
+        )}
       />
       {/* email config */}
       <Route path={ROUTE_EMAIL_CONFIG} component={EmailConfigPage} />
@@ -329,10 +351,10 @@ const getRouteComponent = () => {
       <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
       <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
       <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
-      { /* static routes */ }
+      { /* static routes */}
       <Route path={ROUTE_ABOUT} component={AboutPage} />
       <Route path={ROUTE_LICENSE} component={LicensePage} />
-      { /* app routes */ }
+      { /* app routes */}
       {appsRoutes}
       {/* 404 */}
       <Route component={PageNotFoundContainer} />

@@ -95,6 +95,7 @@ import {
   ROUTE_ECR_CONFIG_ADD,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
+import { act } from 'react-dom/test-utils';
 
 jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
   <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />
@@ -105,6 +106,14 @@ const mountWithRoute = route => mountWithIntl((
     <App currentRoute={ROUTE_DASHBOARD} username="admin" loggedUserPrefloading />
   </MemoryRouter>
 ));
+
+// A helper to update wrapper - used for waiting for lazy loaded pages
+const waitForComponentToPaint = async (wrapper) => {
+  await act(async () => {
+    await new Promise(resolve => setTimeout(resolve));
+    wrapper.update();
+  });
+};
 
 describe('App', () => {
   it('renders without crashing', () => {
@@ -219,38 +228,45 @@ describe('App', () => {
     expect(component.find(ListDataTypePage).exists()).toBe(true);
   });
 
-  it('route to user list page', () => {
-    const component = mountWithRoute(ROUTE_USER_LIST);
+  it('route to user list page', async () => {
+    const component = await mountWithRoute(ROUTE_USER_LIST);
+    await waitForComponentToPaint(component);
     expect(component.find(UserListPage).exists()).toBe(true);
   });
 
-  it('route to user authority page', () => {
+  it('route to user authority page', async () => {
     const component = mountWithRoute(ROUTE_USER_AUTHORITY);
+    await waitForComponentToPaint(component);
     expect(component.find(UserAuthorityPageContainer).exists()).toBe(true);
   });
 
-  it('route to user add page', () => {
+  it('route to user add page', async () => {
     const component = mountWithRoute(ROUTE_USER_ADD);
+    await waitForComponentToPaint(component);
     expect(component.find(AddUserPage).exists()).toBe(true);
   });
 
-  it('route to user edit page', () => {
+  it('route to user edit page', async () => {
     const component = mountWithRoute(ROUTE_USER_EDIT);
+    await waitForComponentToPaint(component);
     expect(component.find(EditUserPage).exists()).toBe(true);
   });
 
-  it('route to user detail page', () => {
+  it('route to user detail page', async () => {
     const component = mountWithRoute(ROUTE_USER_DETAIL);
+    await waitForComponentToPaint(component);
     expect(component.find(DetailUserPage).exists()).toBe(true);
   });
 
-  it('route to user restrictions page', () => {
+  it('route to user restrictions page', async () => {
     const component = mountWithRoute(ROUTE_USER_RESTRICTIONS);
+    await waitForComponentToPaint(component);
     expect(component.find(UserRestrictionsPage).exists()).toBe(true);
   });
 
-  it('route to user restrictions page', () => {
+  it('route to user restrictions page', async () => {
     const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
+    await waitForComponentToPaint(component);
     expect(component.find(MyProfilePageContainer).exists()).toBe(true);
   });
 
