@@ -12,7 +12,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (data) => {
-    dispatch(sendPostMyPassword(data));
+    dispatch(sendPostMyPassword({ ...data, newPasswordConfirm: undefined }));
   },
   onEdit: () => {
     dispatch(setVisibleModal(AccountForm.FORM_ID));
