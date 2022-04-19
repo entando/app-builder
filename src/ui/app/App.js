@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import withAuth from 'auth/withAuth';
 import { LoginPage } from '@entando/pages';
+import { Spinner } from 'patternfly-react';
 
 import {
   ROUTE_HOME,
@@ -183,7 +184,7 @@ const AddUserPage = React.lazy(() => import('ui/users/add/AddUserPage'));
 const UserListPage = React.lazy(() => import('ui/users/list/UserListPage'));
 
 export const renderWithSuspense = component =>
-  <Suspense fallback={<span>Loading..</span>}>{component}</Suspense>;
+  <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
