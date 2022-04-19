@@ -161,7 +161,7 @@ export const sendPostUser = (user, editUserProfile) => async (dispatch) => {
 export const sendPutUser = user => dispatch => (
   new Promise((resolve) => {
     if (user) {
-      putUser(user).then((response) => {
+      putUser({ ...user, passwordConfirm: undefined }).then((response) => {
         if (response.ok) {
           history.push(ROUTE_USER_LIST);
           resolve();
