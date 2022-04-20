@@ -51,6 +51,9 @@ import SettingsListPage from 'ui/component-repository/settings/list/SettingsList
 import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
 import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
 import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
+import ListDatabasePage from 'ui/database/list/ListDatabasePage';
+import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
+import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
 
 import {
   ROUTE_HOME,
@@ -95,6 +98,9 @@ import {
   ROUTE_ECR_CONFIG_LIST,
   ROUTE_ECR_CONFIG_EDIT,
   ROUTE_ECR_CONFIG_ADD,
+  ROUTE_DATABASE_LIST,
+  ROUTE_DATABASE_ADD,
+  ROUTE_DATABASE_REPORT,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
@@ -322,14 +328,39 @@ describe('App', () => {
     expect(component.find(PageTemplateDetailPageContainer).exists()).toBe(true);
   });
 
-  it('route to page file browser page', () => {
-    const component = mountWithRoute(ROUTE_FILE_BROWSER);
-    expect(component.find(FileBrowserPageContainer).exists()).toBe(true);
+  it('route to page file browser page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FILE_BROWSER);
+      expect(component.find(FileBrowserPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to page file browser page create folder', () => {
-    const component = mountWithRoute(ROUTE_FILE_BROWSER_CREATE_FOLDER);
-    expect(component.find(CreateFolderFormContainer).exists()).toBe(true);
+  it('route to page file browser page create folder', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FILE_BROWSER_CREATE_FOLDER);
+      expect(component.find(CreateFolderFormContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to database list', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_LIST);
+      expect(component.find(ListDatabasePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to database add page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_ADD);
+      expect(component.find(AddDatabasePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to database report', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_REPORT);
+      expect(component.find(ReportDatabasePageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to plugins page', () => {

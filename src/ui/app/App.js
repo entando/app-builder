@@ -146,14 +146,6 @@ import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileT
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
-import ListDatabasePage from 'ui/database/list/ListDatabasePage';
-import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
-import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
-import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
-import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
-import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
-import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
-import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
@@ -190,6 +182,14 @@ const UserListPage = React.lazy(() => import('ui/users/list/UserListPage'));
 const AboutPage = React.lazy(() => import('ui/about/AboutPage'));
 const LicensePage = React.lazy(() => import('ui/license/LicensePage'));
 const PageNotFoundContainer = React.lazy(() => import('ui/app/PageNotFoundContainer'));
+const ListDatabasePage = React.lazy(() => import('ui/database/list/ListDatabasePage'));
+const AddDatabasePageContainer = React.lazy(() => import('ui/database/add/AddDatabasePageContainer'));
+const ReportDatabasePageContainer = React.lazy(() => import('ui/database/report/ReportDatabasePageContainer'));
+const FileBrowserPage = React.lazy(() => import('ui/file-browser/list/ListFilesPage'));
+const UploadFileBrowserPage = React.lazy(() => import('ui/file-browser/upload/UploadFileBrowserPage'));
+const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFolderPage'));
+const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
+const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -317,16 +317,45 @@ const RouteComponent = () => {
       <Route path={ROUTE_ROLE_EDIT} render={() => renderWithSuspense(<EditRolePage />)} />
       <Route path={ROUTE_ROLE_DETAIL} render={() => renderWithSuspense(<DetailRolePage />)} />
       {/* database */}
-      <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
-      <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_DUMP_TABLE} component={ReportDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
+      <Route
+        exact
+        path={ROUTE_DATABASE_LIST}
+        render={() => renderWithSuspense(<ListDatabasePage />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_ADD}
+        render={() => renderWithSuspense(<AddDatabasePageContainer />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_DUMP_TABLE}
+        render={() => renderWithSuspense(<ReportDatabasePageContainer />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_REPORT}
+        render={() => renderWithSuspense(<ReportDatabasePageContainer />)}
+      />
       {/* files */}
-      <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
-      <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />
-      <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
-      <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
-      <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
+      <Route
+        exact
+        path={ROUTE_FILE_BROWSER}
+        render={() => renderWithSuspense(<FileBrowserPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_UPLOAD}
+        render={() => renderWithSuspense(<UploadFileBrowserPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_CREATE_FOLDER}
+        render={() => renderWithSuspense(<CreateFolderPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE}
+        render={() => renderWithSuspense(<CreateTextFilePage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE}
+        render={() => renderWithSuspense(<EditTextFilePage />)}
+      />
       {/* component repository */}
       <Route
         exact
