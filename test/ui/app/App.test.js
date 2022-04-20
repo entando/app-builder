@@ -284,9 +284,11 @@ describe('App', () => {
     expect(component.find(EditGroupPage).exists()).toBe(true);
   });
 
-  it('route to labels and languages page', () => {
-    const component = mountWithRoute(ROUTE_LABELS_AND_LANGUAGES);
-    expect(component.find(LabelsAndLanguagesPageContainer).exists()).toBe(true);
+  it('route to labels and languages page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_LABELS_AND_LANGUAGES);
+      expect(component.find(LabelsAndLanguagesPageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to add page template page', () => {
