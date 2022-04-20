@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { waitFor } from '@testing-library/react';
 
 import App from 'ui/app/App';
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -95,7 +96,6 @@ import {
   ROUTE_ECR_CONFIG_ADD,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
-import { act } from 'react-dom/test-utils';
 
 jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
   <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />
@@ -106,14 +106,6 @@ const mountWithRoute = route => mountWithIntl((
     <App currentRoute={ROUTE_DASHBOARD} username="admin" loggedUserPrefloading />
   </MemoryRouter>
 ));
-
-// A helper to update wrapper - used for waiting for lazy loaded pages
-const waitForComponentToPaint = async (wrapper) => {
-  await act(async () => {
-    await new Promise(resolve => setTimeout(resolve));
-    wrapper.update();
-  });
-};
 
 describe('App', () => {
   it('renders without crashing', () => {
@@ -229,45 +221,52 @@ describe('App', () => {
   });
 
   it('route to user list page', async () => {
-    const component = await mountWithRoute(ROUTE_USER_LIST);
-    await waitForComponentToPaint(component);
-    expect(component.find(UserListPage).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = await mountWithRoute(ROUTE_USER_LIST);
+      expect(component.find(UserListPage).exists()).toBe(true);
+    });
   });
 
   it('route to user authority page', async () => {
-    const component = mountWithRoute(ROUTE_USER_AUTHORITY);
-    await waitForComponentToPaint(component);
-    expect(component.find(UserAuthorityPageContainer).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_AUTHORITY);
+      expect(component.find(UserAuthorityPageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to user add page', async () => {
-    const component = mountWithRoute(ROUTE_USER_ADD);
-    await waitForComponentToPaint(component);
-    expect(component.find(AddUserPage).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_ADD);
+      expect(component.find(AddUserPage).exists()).toBe(true);
+    });
   });
 
   it('route to user edit page', async () => {
-    const component = mountWithRoute(ROUTE_USER_EDIT);
-    await waitForComponentToPaint(component);
-    expect(component.find(EditUserPage).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_EDIT);
+      expect(component.find(EditUserPage).exists()).toBe(true);
+    });
   });
 
   it('route to user detail page', async () => {
-    const component = mountWithRoute(ROUTE_USER_DETAIL);
-    await waitForComponentToPaint(component);
-    expect(component.find(DetailUserPage).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_DETAIL);
+      expect(component.find(DetailUserPage).exists()).toBe(true);
+    });
   });
 
   it('route to user restrictions page', async () => {
-    const component = mountWithRoute(ROUTE_USER_RESTRICTIONS);
-    await waitForComponentToPaint(component);
-    expect(component.find(UserRestrictionsPage).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_RESTRICTIONS);
+      expect(component.find(UserRestrictionsPage).exists()).toBe(true);
+    });
   });
 
   it('route to user restrictions page', async () => {
-    const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
-    await waitForComponentToPaint(component);
-    expect(component.find(MyProfilePageContainer).exists()).toBe(true);
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
+      expect(component.find(MyProfilePageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to group list page', () => {
