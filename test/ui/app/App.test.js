@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { waitFor } from '@testing-library/react';
 
 import App from 'ui/app/App';
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -219,39 +220,53 @@ describe('App', () => {
     expect(component.find(ListDataTypePage).exists()).toBe(true);
   });
 
-  it('route to user list page', () => {
-    const component = mountWithRoute(ROUTE_USER_LIST);
-    expect(component.find(UserListPage).exists()).toBe(true);
+  it('route to user list page', async () => {
+    await waitFor(async () => {
+      const component = await mountWithRoute(ROUTE_USER_LIST);
+      expect(component.find(UserListPage).exists()).toBe(true);
+    });
   });
 
-  it('route to user authority page', () => {
-    const component = mountWithRoute(ROUTE_USER_AUTHORITY);
-    expect(component.find(UserAuthorityPageContainer).exists()).toBe(true);
+  it('route to user authority page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_AUTHORITY);
+      expect(component.find(UserAuthorityPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to user add page', () => {
-    const component = mountWithRoute(ROUTE_USER_ADD);
-    expect(component.find(AddUserPage).exists()).toBe(true);
+  it('route to user add page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_ADD);
+      expect(component.find(AddUserPage).exists()).toBe(true);
+    });
   });
 
-  it('route to user edit page', () => {
-    const component = mountWithRoute(ROUTE_USER_EDIT);
-    expect(component.find(EditUserPage).exists()).toBe(true);
+  it('route to user edit page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_EDIT);
+      expect(component.find(EditUserPage).exists()).toBe(true);
+    });
   });
 
-  it('route to user detail page', () => {
-    const component = mountWithRoute(ROUTE_USER_DETAIL);
-    expect(component.find(DetailUserPage).exists()).toBe(true);
+  it('route to user detail page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_DETAIL);
+      expect(component.find(DetailUserPage).exists()).toBe(true);
+    });
   });
 
-  it('route to user restrictions page', () => {
-    const component = mountWithRoute(ROUTE_USER_RESTRICTIONS);
-    expect(component.find(UserRestrictionsPage).exists()).toBe(true);
+  it('route to user restrictions page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_RESTRICTIONS);
+      expect(component.find(UserRestrictionsPage).exists()).toBe(true);
+    });
   });
 
-  it('route to user restrictions page', () => {
-    const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
-    expect(component.find(MyProfilePageContainer).exists()).toBe(true);
+  it('route to user restrictions page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_USER_MY_PROFILE);
+      expect(component.find(MyProfilePageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to group list page', () => {
