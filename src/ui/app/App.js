@@ -127,14 +127,7 @@ import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
-import AddLabelPage from 'ui/labels/add/AddLabelPage';
-import EditLabelPage from 'ui/labels/edit/EditLabelPage';
-import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ListRolePage from 'ui/roles/list/ListRolePage';
-import AddRolePage from 'ui/roles/add/AddRolePage';
-import EditRolePage from 'ui/roles/edit/EditRolePage';
-import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
@@ -176,6 +169,13 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
+const DetailRolePage = React.lazy(() => import('ui/roles/detail/DetailRolePage'));
+const EditRolePage = React.lazy(() => import('ui/roles/edit/EditRolePage'));
+const AddRolePage = React.lazy(() => import('ui/roles/add/AddRolePage'));
+const ListRolePage = React.lazy(() => import('ui/roles/list/ListRolePage'));
+const EditLabelPage = React.lazy(() => import('ui/labels/edit/EditLabelPage'));
+const AddLabelPage = React.lazy(() => import('ui/labels/add/AddLabelPage'));
+const LabelsAndLanguagesPageContainer = React.lazy(() => import('ui/labels/list/LabelsAndLanguagesPageContainer'));
 const EditProfileTypesPage = React.lazy(() => import('ui/profile-types/edit/EditProfileTypesPage'));
 const AddProfileTypesPage = React.lazy(() => import('ui/profile-types/add/AddProfileTypesPage'));
 const ListProfileTypePage = React.lazy(() => import('ui/profile-types/list/ListProfileTypePage'));
@@ -304,14 +304,18 @@ const RouteComponent = () => {
       <Route path={ROUTE_GROUP_EDIT} component={EditGroupPage} />
       <Route path={ROUTE_GROUP_DETAIL} component={DetailGroupPage} />
       {/* labels */}
-      <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
-      <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
-      <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
+      <Route
+        exact
+        path={ROUTE_LABELS_AND_LANGUAGES}
+        render={() => renderWithSuspense(<LabelsAndLanguagesPageContainer />)}
+      />
+      <Route path={ROUTE_LABEL_ADD} render={() => renderWithSuspense(<AddLabelPage />)} />
+      <Route path={ROUTE_LABEL_EDIT} render={() => renderWithSuspense(<EditLabelPage />)} />
       {/* roles */}
-      <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
-      <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
-      <Route path={ROUTE_ROLE_EDIT} component={EditRolePage} />
-      <Route path={ROUTE_ROLE_DETAIL} component={DetailRolePage} />
+      <Route exact path={ROUTE_ROLE_LIST} render={() => renderWithSuspense(<ListRolePage />)} />
+      <Route path={ROUTE_ROLE_ADD} render={() => renderWithSuspense(<AddRolePage />)} />
+      <Route path={ROUTE_ROLE_EDIT} render={() => renderWithSuspense(<EditRolePage />)} />
+      <Route path={ROUTE_ROLE_DETAIL} render={() => renderWithSuspense(<DetailRolePage />)} />
       {/* database */}
       <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
       <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
