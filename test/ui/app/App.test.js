@@ -363,6 +363,27 @@ describe('App', () => {
     });
   });
 
+  it('route to database list', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_LIST);
+      expect(component.find(ListDatabasePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to database add page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_ADD);
+      expect(component.find(AddDatabasePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to database report', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_REPORT);
+      expect(component.find(ReportDatabasePageContainer).exists()).toBe(true);
+    });
+  });
+
   it('route to plugins page', async () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PLUGINS);
