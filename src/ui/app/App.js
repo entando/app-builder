@@ -161,15 +161,12 @@ import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
 import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
 import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
-import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
 
 import InternalPage from 'ui/internal-page/InternalPage';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import entandoApps from 'entando-apps';
-import AboutPage from 'ui/about/AboutPage';
-import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
 const EditProfileTypesPage = React.lazy(() => import('ui/profile-types/edit/EditProfileTypesPage'));
@@ -182,6 +179,10 @@ const DetailUserPage = React.lazy(() => import('ui/users/detail/DetailUserPage')
 const EditUserPage = React.lazy(() => import('ui/users/edit/EditUserPage'));
 const AddUserPage = React.lazy(() => import('ui/users/add/AddUserPage'));
 const UserListPage = React.lazy(() => import('ui/users/list/UserListPage'));
+
+const AboutPage = React.lazy(() => import('ui/about/AboutPage'));
+const LicensePage = React.lazy(() => import('ui/license/LicensePage'));
+const PageNotFoundContainer = React.lazy(() => import('ui/app/PageNotFoundContainer'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -353,12 +354,12 @@ const getRouteComponent = () => {
       <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
       <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
       { /* static routes */}
-      <Route path={ROUTE_ABOUT} component={AboutPage} />
-      <Route path={ROUTE_LICENSE} component={LicensePage} />
+      <Route path={ROUTE_ABOUT} render={() => renderWithSuspense(<AboutPage />)} />
+      <Route path={ROUTE_LICENSE} render={() => renderWithSuspense(<LicensePage />)} />
       { /* app routes */}
       {appsRoutes}
       {/* 404 */}
-      <Route component={PageNotFoundContainer} />
+      <Route render={() => renderWithSuspense(<PageNotFoundContainer />)} />
     </Switch>
   );
 };

@@ -125,9 +125,11 @@ describe('App', () => {
     expect(component.contains(<DashboardPage />)).toBe(false);
   });
 
-  it('falls back to default route if wrong route', () => {
-    const component = mountWithRoute('wrongRoute');
-    expect(component.find(PageNotFoundContainer).exists()).toBe(true);
+  it('falls back to default route if wrong route', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute('wrongRoute');
+      expect(component.find(PageNotFoundContainer).exists()).toBe(true);
+    });
   });
 
   it('route to dashboard', () => {
