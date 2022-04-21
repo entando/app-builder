@@ -126,14 +126,7 @@ import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
-import AddLabelPage from 'ui/labels/add/AddLabelPage';
-import EditLabelPage from 'ui/labels/edit/EditLabelPage';
-import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ListRolePage from 'ui/roles/list/ListRolePage';
-import AddRolePage from 'ui/roles/add/AddRolePage';
-import EditRolePage from 'ui/roles/edit/EditRolePage';
-import DetailRolePage from 'ui/roles/detail/DetailRolePage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
@@ -152,14 +145,6 @@ import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileT
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
-import ListDatabasePage from 'ui/database/list/ListDatabasePage';
-import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
-import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
-import FileBrowserPage from 'ui/file-browser/list/ListFilesPage';
-import UploadFileBrowserPage from 'ui/file-browser/upload/UploadFileBrowserPage';
-import CreateFolderPage from 'ui/file-browser/add/CreateFolderPage';
-import CreateTextFilePage from 'ui/file-browser/add/CreateTextFilePage';
-import EditTextFilePage from 'ui/file-browser/edit/EditTextFilePage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import EmailConfigPage from 'ui/email-config/EmailConfigPage';
@@ -169,6 +154,13 @@ import RowSpinner from 'ui/pages/common/RowSpinner';
 import entandoApps from 'entando-apps';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
+const DetailRolePage = React.lazy(() => import('ui/roles/detail/DetailRolePage'));
+const EditRolePage = React.lazy(() => import('ui/roles/edit/EditRolePage'));
+const AddRolePage = React.lazy(() => import('ui/roles/add/AddRolePage'));
+const ListRolePage = React.lazy(() => import('ui/roles/list/ListRolePage'));
+const EditLabelPage = React.lazy(() => import('ui/labels/edit/EditLabelPage'));
+const AddLabelPage = React.lazy(() => import('ui/labels/add/AddLabelPage'));
+const LabelsAndLanguagesPageContainer = React.lazy(() => import('ui/labels/list/LabelsAndLanguagesPageContainer'));
 const EditProfileTypesPage = React.lazy(() => import('ui/profile-types/edit/EditProfileTypesPage'));
 const AddProfileTypesPage = React.lazy(() => import('ui/profile-types/add/AddProfileTypesPage'));
 const ListProfileTypePage = React.lazy(() => import('ui/profile-types/list/ListProfileTypePage'));
@@ -183,6 +175,15 @@ const UserListPage = React.lazy(() => import('ui/users/list/UserListPage'));
 const AboutPage = React.lazy(() => import('ui/about/AboutPage'));
 const LicensePage = React.lazy(() => import('ui/license/LicensePage'));
 const PageNotFoundContainer = React.lazy(() => import('ui/app/PageNotFoundContainer'));
+
+const ListDatabasePage = React.lazy(() => import('ui/database/list/ListDatabasePage'));
+const AddDatabasePageContainer = React.lazy(() => import('ui/database/add/AddDatabasePageContainer'));
+const ReportDatabasePageContainer = React.lazy(() => import('ui/database/report/ReportDatabasePageContainer'));
+const FileBrowserPage = React.lazy(() => import('ui/file-browser/list/ListFilesPage'));
+const UploadFileBrowserPage = React.lazy(() => import('ui/file-browser/upload/UploadFileBrowserPage'));
+const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFolderPage'));
+const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
+const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -289,25 +290,58 @@ const getRouteComponent = () => {
       <Route path={ROUTE_GROUP_EDIT} component={EditGroupPage} />
       <Route path={ROUTE_GROUP_DETAIL} component={DetailGroupPage} />
       {/* labels */}
-      <Route exact path={ROUTE_LABELS_AND_LANGUAGES} component={LabelsAndLanguagesPageContainer} />
-      <Route path={ROUTE_LABEL_ADD} component={AddLabelPage} />
-      <Route path={ROUTE_LABEL_EDIT} component={EditLabelPage} />
+      <Route
+        exact
+        path={ROUTE_LABELS_AND_LANGUAGES}
+        render={() => renderWithSuspense(<LabelsAndLanguagesPageContainer />)}
+      />
+      <Route path={ROUTE_LABEL_ADD} render={() => renderWithSuspense(<AddLabelPage />)} />
+      <Route path={ROUTE_LABEL_EDIT} render={() => renderWithSuspense(<EditLabelPage />)} />
       {/* roles */}
-      <Route exact path={ROUTE_ROLE_LIST} component={ListRolePage} />
-      <Route path={ROUTE_ROLE_ADD} component={AddRolePage} />
-      <Route path={ROUTE_ROLE_EDIT} component={EditRolePage} />
-      <Route path={ROUTE_ROLE_DETAIL} component={DetailRolePage} />
+      <Route exact path={ROUTE_ROLE_LIST} render={() => renderWithSuspense(<ListRolePage />)} />
+      <Route path={ROUTE_ROLE_ADD} render={() => renderWithSuspense(<AddRolePage />)} />
+      <Route path={ROUTE_ROLE_EDIT} render={() => renderWithSuspense(<EditRolePage />)} />
+      <Route path={ROUTE_ROLE_DETAIL} render={() => renderWithSuspense(<DetailRolePage />)} />
       {/* database */}
-      <Route exact path={ROUTE_DATABASE_LIST} component={ListDatabasePage} />
-      <Route path={ROUTE_DATABASE_ADD} component={AddDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_DUMP_TABLE} component={ReportDatabasePageContainer} />
-      <Route path={ROUTE_DATABASE_REPORT} component={ReportDatabasePageContainer} />
+      <Route
+        exact
+        path={ROUTE_DATABASE_LIST}
+        render={() => renderWithSuspense(<ListDatabasePage />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_ADD}
+        render={() => renderWithSuspense(<AddDatabasePageContainer />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_DUMP_TABLE}
+        render={() => renderWithSuspense(<ReportDatabasePageContainer />)}
+      />
+      <Route
+        path={ROUTE_DATABASE_REPORT}
+        render={() => renderWithSuspense(<ReportDatabasePageContainer />)}
+      />
       {/* files */}
-      <Route exact path={ROUTE_FILE_BROWSER} component={FileBrowserPage} />
-      <Route path={ROUTE_FILE_BROWSER_UPLOAD} component={UploadFileBrowserPage} />
-      <Route path={ROUTE_FILE_BROWSER_CREATE_FOLDER} component={CreateFolderPage} />
-      <Route path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE} component={CreateTextFilePage} />
-      <Route path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE} component={EditTextFilePage} />
+      <Route
+        exact
+        path={ROUTE_FILE_BROWSER}
+        render={() => renderWithSuspense(<FileBrowserPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_UPLOAD}
+        render={() => renderWithSuspense(<UploadFileBrowserPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_CREATE_FOLDER}
+        render={() => renderWithSuspense(<CreateFolderPage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_CREATE_TEXT_FILE}
+        render={() => renderWithSuspense(<CreateTextFilePage />)}
+      />
+      <Route
+        path={ROUTE_FILE_BROWSER_EDIT_TEXT_FILE}
+        render={() => renderWithSuspense(<EditTextFilePage />)}
+      />
       {/* component repository */}
       <Route
         exact
@@ -423,8 +457,8 @@ App.propTypes = {
 App.defaultProps = {
   username: null,
   auth: { enabled: false },
-  fetchPlugins: () => {},
-  fetchUserPreferences: () => {},
+  fetchPlugins: () => { },
+  fetchUserPreferences: () => { },
   isReady: false,
   loggedUserPrefloading: false,
 };
