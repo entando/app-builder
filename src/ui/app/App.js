@@ -144,7 +144,6 @@ import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPag
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 
 import PageLayout from 'ui/app/PageLayout';
