@@ -27,15 +27,14 @@ class GroupDetailTabContents extends React.Component {
   }
 
   renderRows() {
-    return this.props.contentReferences.map(item =>
-      (
-        <tr key={item.id}>
-          <td>{item.description}</td>
-          <td>{item.typeCode}</td>
-          <td>{item.typeDescription}</td>
-          <td>{moment(item.lastModified).format('DD/MM/YYYY')}</td>
-        </tr>
-      ));
+    return this.props.contentReferences.map(item => (
+      <tr key={item.id}>
+        <td>{item.description}</td>
+        <td>{item.typeCode}</td>
+        <td>{item.typeDescription}</td>
+        <td>{moment(item.lastModified).format('DD/MM/YYYY')}</td>
+      </tr>
+    ));
   }
 
   renderTable() {
@@ -73,6 +72,7 @@ class GroupDetailTabContents extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
             messages={messages}
           />
         </div>
