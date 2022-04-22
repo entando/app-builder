@@ -391,6 +391,13 @@ describe('App', () => {
     });
   });
 
+  it('route to plugins page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PLUGINS);
+      expect(component.find(PluginsPageContainer).exists()).toBe(true);
+    });
+  });
+
   it('route to plugin config page', async () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
