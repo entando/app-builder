@@ -123,7 +123,6 @@ import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTempla
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
-import EditUserProfilePage from 'ui/user-profile/edit/EditUserProfilePage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -145,10 +144,8 @@ import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPag
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
-import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
+import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
-import EmailConfigPage from 'ui/email-config/EmailConfigPage';
 
 import PageLayout from 'ui/app/PageLayout';
 import RowSpinner from 'ui/pages/common/RowSpinner';
@@ -161,6 +158,10 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
+const PluginConfigPageContainer = React.lazy(() => import('ui/plugins/PluginConfigPageContainer'));
+const PluginsPageContainer = React.lazy(() => import('ui/plugins/PluginsPageContainer'));
+const EditUserProfilePage = React.lazy(() => import('ui/user-profile/edit/EditUserProfilePage'));
+const EmailConfigPage = React.lazy(() => import('ui/email-config/EmailConfigPage'));
 const DetailRolePage = React.lazy(() => import('ui/roles/detail/DetailRolePage'));
 const EditRolePage = React.lazy(() => import('ui/roles/edit/EditRolePage'));
 const AddRolePage = React.lazy(() => import('ui/roles/add/AddRolePage'));
@@ -388,11 +389,24 @@ const RouteComponent = () => {
         )}
       />
       {/* email config */}
-      <Route path={ROUTE_EMAIL_CONFIG} component={EmailConfigPage} />
+      <Route
+        path={ROUTE_EMAIL_CONFIG}
+        render={() => renderWithSuspense(<EmailConfigPage />)}
+      />
       {/* other */}
-      <Route path={ROUTE_USER_PROFILE} component={EditUserProfilePage} />
-      <Route exact path={ROUTE_PLUGINS} component={PluginsPageContainer} />
-      <Route path={ROUTE_PLUGIN_CONFIG_PAGE} component={PluginConfigPageContainer} />
+      <Route
+        path={ROUTE_USER_PROFILE}
+        render={() => renderWithSuspense(<EditUserProfilePage />)}
+      />
+      <Route
+        exact
+        path={ROUTE_PLUGINS}
+        render={() => renderWithSuspense(<PluginsPageContainer />)}
+      />
+      <Route
+        path={ROUTE_PLUGIN_CONFIG_PAGE}
+        render={() => renderWithSuspense(<PluginConfigPageContainer />)}
+      />
       <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
       <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
       <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />

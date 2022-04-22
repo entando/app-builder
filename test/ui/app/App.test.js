@@ -363,14 +363,18 @@ describe('App', () => {
     });
   });
 
-  it('route to plugins page', () => {
-    const component = mountWithRoute(ROUTE_PLUGINS);
-    expect(component.find(PluginsPageContainer).exists()).toBe(true);
+  it('route to plugins page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PLUGINS);
+      expect(component.find(PluginsPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to plugin config page', () => {
-    const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
-    expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
+  it('route to plugin config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
+      expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
+    });
   });
 
   describe('component repository', () => {
