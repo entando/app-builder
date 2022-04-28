@@ -996,6 +996,7 @@ export default {
     'emailConfig.valid': 'La configurazione dell\'email è valida.',
     'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciale underscore ',
     'validateForm.friendlyCode': 'Il Friendly Code deve contenere lettere minuscole, inclusi numeri o caratteri speciali \'_\'.',
+    'validateForm.friendlyCodeUnique': 'Il Friendly Code deve essere univoco per tutte le lingue.',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
     'pageTree.searchForm.name': 'Nome pagina',
     'pageTree.searchForm.search.name': 'Ricerca per nome',
