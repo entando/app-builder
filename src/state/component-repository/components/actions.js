@@ -327,7 +327,7 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
           .then((response) => {
             response.json().then(({ payload: installPlan }) => {
               if (!installPlan) {
-                dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
+                dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
@@ -371,17 +371,14 @@ export const getInstallPlan = component => dispatch => (
             dispatch(toggleConflictsModal(true, installPlan, component, null, true));
           }
         } catch (e) {
-          dispatch(addToast(e.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
+          dispatch(addToast(e.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         } finally {
           dispatch(toggleLoading(loadingId));
           resolve();
         }
       });
     }).catch(() => {
-      dispatch(addToast(
-        { id: 'componentRepository.components.installPlanFailed' },
-        TOAST_ERROR,
-      ));
+      dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
       dispatch(toggleLoading(loadingId));
     });
   })
