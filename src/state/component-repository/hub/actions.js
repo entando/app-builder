@@ -73,7 +73,7 @@ export const fetchBundleStatuses = bundleIds => dispatch => (
           dispatch(setBundleStatuses(data.payload.bundlesStatuses));
         } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
@@ -89,7 +89,7 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
           dispatch(setSelectedBundleStatus(data.payload.bundlesStatuses[0]));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
@@ -113,12 +113,12 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
           }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
     }).catch(() => {
-      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
+      dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
     }).finally(() => {
       dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
     });
@@ -134,12 +134,12 @@ export const fetchRegistries = (params = '') => dispatch => (
           dispatch(setFetchedRegistries(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
     }).catch(() => {
-      dispatch(addToast('Failed to fetch registries from CM', TOAST_ERROR));
+      dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
     })
       .finally(() => {
         dispatch(toggleLoading(FETCH_REGISTRIES_LOADING_STATE));
@@ -155,7 +155,7 @@ export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params =
           dispatch(setFetchedBundleGroups(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
@@ -178,12 +178,12 @@ export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, get
           dispatch(setPage(data.metadata));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
     }).catch(() => {
-      dispatch(addToast('Failed to fetch bundles from indicated API', TOAST_ERROR));
+      dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
     })
       .finally(() => {
         dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
@@ -203,7 +203,7 @@ export const sendDeleteRegistry = registryId => dispatch => (
           dispatch(fetchRegistries());
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
@@ -224,7 +224,7 @@ export const sendPostRegistry = registryObject => dispatch => (
           dispatch(fetchRegistries());
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          data.errors.forEach(err => dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR)));
         }
         resolve();
       });
@@ -248,12 +248,12 @@ export const sendDeployBundle = bundle => (dispatch, getState) => (
           const components = getECRComponentList(state);
           dispatch(setECRComponents([...components, data.payload]));
         } else {
-          dispatch(addToast(data.message, TOAST_ERROR));
+          dispatch(addToast(data.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
         }
         resolve();
       });
     }).catch((err) => {
-      dispatch(addToast(err.message, TOAST_ERROR));
+      dispatch(addToast(err.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
     })
       .finally(() => {
         dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
@@ -280,7 +280,7 @@ export const sendUndeployBundle = bundle => (dispatch, getState) => (
             dispatch(setVisibleModal(''));
           }
         } else {
-          dispatch(addToast(data.message, TOAST_ERROR));
+          dispatch(addToast(data.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
         }
         resolve();
       });

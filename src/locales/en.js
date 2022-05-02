@@ -1703,5 +1703,6 @@ export default {
     'componentRepository.categories.category': 'Category',
     'componentRepository.categories.group': 'Group',
     'componentRepository.components.installedVersion': 'Installed Version',
+    'componentRepository.components.genericError': 'An Error has occurred in the Application',
   },
 };

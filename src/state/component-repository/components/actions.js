@@ -298,7 +298,7 @@ const procceedWithInstall = (component, body, resolve, dispatch, logProgress, lo
           const versionUnavailable = data && data.message;
           if (versionUnavailable) {
             dispatch(addErrors([data.message]));
-            dispatch(addToast(data.message, TOAST_ERROR));
+            dispatch(addToast(data.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
           }
           dispatch(toggleLoading(loadingId));
           resolve();
@@ -326,7 +326,10 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
         postECRComponentInstallPlan(component, version)
           .then((response) => {
             response.json().then(({ payload: installPlan }) => {
-              if (!installPlan.hasConflicts) {
+              if (!installPlan) {
+                dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
+                dispatch(toggleLoading(loadingId));
+              } else if (!installPlan.hasConflicts) {
                 // no conflicts
                 const defaultInstallPlan = updateAllActions(installPlan, 'CREATE');
                 procceedWithInstall(
@@ -343,7 +346,7 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
           }).catch((error) => {
             if (error && error.message) {
               dispatch(addErrors([error.message]));
-              dispatch(addToast(error.message, TOAST_ERROR));
+              dispatch(addToast(error.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
             }
             dispatch(toggleLoading(loadingId));
           });
@@ -368,7 +371,7 @@ export const getInstallPlan = component => dispatch => (
             dispatch(toggleConflictsModal(true, installPlan, component, null, true));
           }
         } catch (e) {
-          dispatch(addToast(e.message, TOAST_ERROR));
+          dispatch(addToast(e.message || { id: 'componentRepository.components.genericError' }, TOAST_ERROR));
         } finally {
           dispatch(toggleLoading(loadingId));
           resolve();

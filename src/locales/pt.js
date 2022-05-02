@@ -1012,5 +1012,6 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Grupo',
     'componentRepository.components.installedVersion': 'Versão Instalada',
+    'componentRepository.components.genericError': 'Ocorreu um erro no aplicativo',
   },
 };
