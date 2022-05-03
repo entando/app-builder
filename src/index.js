@@ -14,6 +14,7 @@ import 'app-init/locale';
 import IntlProviderContainer from 'ui/locale/IntlProviderContainer';
 import AuthProvider from 'auth/AuthProvider';
 import ApiManager from 'app-init/apiManager';
+import MfeDownloadManager from 'app-init/MfeDownloadManager';
 
 import AppContainer from 'ui/app/AppContainer';
 
@@ -34,11 +35,13 @@ export default ReactDOM.render(
   <Provider store={store}>
     <AuthProvider store={store}>
       <IntlProviderContainer>
-        <ApiManager store={store}>
-          <Router history={history}>
-            <AppContainer />
-          </Router>
-        </ApiManager>
+        <MfeDownloadManager>
+          <ApiManager store={store}>
+            <Router history={history}>
+              <AppContainer />
+            </Router>
+          </ApiManager>
+        </MfeDownloadManager>
       </IntlProviderContainer>
     </AuthProvider>
   </Provider>,
