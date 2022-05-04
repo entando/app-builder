@@ -19,12 +19,19 @@ export const updateMfeConfig = mfeConfig => ({
 });
 
 
-export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch => getMfeConfigList(page, params)
-  .then((response) => {
-    response.json().then((json) => {
-      if (response.ok) {
-        dispatch(setMfeConfigList(json.payload));
-      }
-      return response;
-    }).catch(error => dispatch(addToast(error.message, TOAST_ERROR)));
-  }).catch(error => dispatch(addToast(error.message, TOAST_ERROR)));
+export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
+  new Promise((resolve) => {
+    getMfeConfigList(page, params)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setMfeConfigList(json.payload));
+          } else {
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          }
+          resolve(response);
+        }).catch(error => dispatch(addToast(error.message, TOAST_ERROR)));
+      }).catch((error) => {
+        dispatch(addToast(error.message, TOAST_ERROR));
+      });
+  });

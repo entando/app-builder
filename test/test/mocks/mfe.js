@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const LIST_MFE_RESPONSE_OK = [
   {
     id: 'app-builder-header',

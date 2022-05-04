@@ -7,14 +7,14 @@ const initialState = {
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_MFE_CONFIG_LIST:
-      return action.payload;
+      return { ...state, mfeList: action.payload };
     case ADD_MFE_CONFIG: {
-      return [...state.mfeList, action.payload];
+      return { ...state, mfeList: [...state.mfeList, action.payload] };
     }
     case UPDATE_MFE_CONFIG: {
       const mfeConfig = action.payload;
       const filteredMfeList = state.mfeList.filter(mfe => mfe.id !== mfeConfig.id);
-      return [...filteredMfeList, mfeConfig];
+      return { ...state, mfeList: [...filteredMfeList, mfeConfig] };
     }
 
     default: return state;
