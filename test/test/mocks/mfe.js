@@ -25,7 +25,7 @@ export const LIST_MFE_RESPONSE_OK = [
   },
   {
     id: 'strapi-content-template',
-    target: 'strapi-content-template',
+    target: 'content',
     name: 'content',
     assets: ['main.js', 'main.css'],
     customElement: 'app-builder-menu',

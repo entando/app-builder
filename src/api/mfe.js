@@ -1,6 +1,7 @@
 import { makeMockRequest, METHODS } from '@entando/apimanager';
-import { LIST_MFE_RESPONSE_OK, ADD_MFE_OK, UPDATE_MFE_OK } from 'test/mocks/mfe';
+import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
 
+// eslint-disable-next-line import/prefer-default-export
 export const getMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => (
   makeMockRequest(
     {
@@ -11,22 +12,4 @@ export const getMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') =
     },
     page,
   )
-);
-
-export const addMfeConfig = mfeId => (
-  makeMockRequest({
-    uri: `api/ecr/add-config/${mfeId}`,
-    method: METHODS.GET,
-    mockResponse: ADD_MFE_OK,
-    useAuthentication: true,
-  })
-);
-
-export const updateMfeConfig = (mfeId, version) => (
-  makeMockRequest({
-    uri: `api/ecr/update-config/${mfeId}/${version}`,
-    method: METHODS.GET,
-    mockResponse: UPDATE_MFE_OK,
-    useAuthentication: true,
-  })
 );
