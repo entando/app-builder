@@ -49,7 +49,9 @@ export const mapDispatchToProps = dispatch => ({
         }
         break;
       default:
-        keycloak.login();
+        if (!username || !token) {
+          keycloak.login();
+        }
         break;
     }
   },
