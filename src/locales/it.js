@@ -1703,5 +1703,6 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Gruppo',
     'componentRepository.components.installedVersion': 'Versione installata',
+    'componentRepository.components.genericError': 'Si è verificato un errore nell\'applicazione',
   },
 };
