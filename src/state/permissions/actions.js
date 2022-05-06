@@ -9,8 +9,8 @@ import {
 } from 'state/permissions/types';
 import { getPermissionsIdList } from 'state/permissions/selectors';
 import { getPermissions, getMyGroupPermissions } from 'api/permissions';
-import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
+import { toggleLoading } from 'state/loading/actions';
 
 
 export const setPermissions = permissions => ({
