@@ -54,6 +54,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
 import { fetchBundleStatuses, fetchSelectedBundleStatusWithCode, DEFAULT_BE_ERROR_MESSAGE } from 'state/component-repository/hub/actions';
 import { updateAllActions } from 'state/component-repository/components/reducer';
+import { fetchMfeConfigList } from 'state/mfe/actions';
 
 const POLLING_TIMEOUT_IN_MS = 1000 * 60 * 5; // 5 minutes
 
@@ -229,6 +230,7 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentInstallation(componentCode, res.payload));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
+          dispatch(fetchMfeConfigList());
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.installErrorMessage) {
@@ -404,6 +406,7 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
         if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
           dispatch(finishComponentUninstall(componentCode));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
+          dispatch(fetchMfeConfigList());
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }
