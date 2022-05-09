@@ -35,13 +35,13 @@ export default ReactDOM.render(
   <Provider store={store}>
     <AuthProvider store={store}>
       <IntlProviderContainer>
-        <MfeDownloadManager>
-          <ApiManager store={store}>
+        <ApiManager store={store}>
+          <MfeDownloadManager>
             <Router history={history}>
               <AppContainer />
             </Router>
-          </ApiManager>
-        </MfeDownloadManager>
+          </MfeDownloadManager>
+        </ApiManager>
       </IntlProviderContainer>
     </AuthProvider>
   </Provider>,

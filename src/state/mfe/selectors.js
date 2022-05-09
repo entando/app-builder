@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 
 
 const getMfeState = state => state.mfe;
+const getProps = (_, props) => props;
 
 const CONTENT_TARGET = 'content';
 const PRIMARY_MENU_TARGET = 'primary-menu';
@@ -14,10 +15,22 @@ export const getMfeConfigList = createSelector(
 
 export const getMfeTargetContent = createSelector(
   getMfeState,
-  mfe => (mfe.mfeList || []).find(m => m.target === CONTENT_TARGET),
+  mfe => (mfe.mfeList || []).filter(m => m.target === CONTENT_TARGET),
 );
 
 export const getMfeTargetPrimaryMenu = createSelector(
   getMfeState,
-  mfe => (mfe.mfeList || []).find(m => m.target === PRIMARY_MENU_TARGET),
+  mfe => (mfe.mfeList || []).filter(m => m.target === PRIMARY_MENU_TARGET),
+);
+
+export const getMfeByTarget = createSelector(
+  getMfeState,
+  getProps,
+  (mfe, targetId) => (mfe.mfeList || []).filter(m => m.target === targetId),
+);
+
+export const getMfeById = createSelector(
+  getMfeState,
+  getProps,
+  (mfe, id) => (mfe.mfeList || []).find(m => m.id === id) || {},
 );

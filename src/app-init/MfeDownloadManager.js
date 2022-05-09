@@ -3,17 +3,19 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { fetchMfeConfigList } from 'state/mfe/actions';
+import RowSpinner from 'ui/pages/common/RowSpinner';
 
 export default function MfeDownloadManager(props) {
   const { children } = props;
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    dispatch(fetchMfeConfigList());
+    dispatch(fetchMfeConfigList()).then(() => setLoading(false));
   }, [dispatch]);
 
 
-  return <div>{children}</div>;
+  return <div>{loading ? <div className="shell-preload"><RowSpinner loading /></div> : children}</div>;
 }
 
 MfeDownloadManager.propTypes = {

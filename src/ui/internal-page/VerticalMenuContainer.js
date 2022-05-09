@@ -224,6 +224,7 @@ const VerticalMenu = ({
             <HomePageLinkContainer key="projectLink" />
             <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
             <UserMenuContainer key="UserMenu" />
+            {/* add container to render MFE on top header here */}
           </VerticalNav.IconBar>
         </Masthead>
         <Item
@@ -404,6 +405,7 @@ const VerticalMenu = ({
           </Item>
         )
       }
+        {/* add container to render MFE on side menu here */}
       </VerticalNav>
       {(openPath !== null && openPath !== '/') && (
         <Button className="VerticalMenu__secondary-collapse-btn" onClick={handleSecondaryCollapseBtnClick}>

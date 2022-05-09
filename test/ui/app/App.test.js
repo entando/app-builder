@@ -3,6 +3,7 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import App from 'ui/app/App';
 import ToastsContainer from 'ui/app/ToastsContainer';
@@ -96,6 +97,11 @@ import {
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+}));
+
 jest.mock('auth/default/withDefaultAuth', () => WrappedComponent => props => (
   <WrappedComponent {...props} isReady auth={{ enabled: false, authenticated: false }} />
 ));
@@ -107,6 +113,14 @@ const mountWithRoute = route => mountWithIntl((
 ));
 
 describe('App', () => {
+  beforeAll(() => {
+    useSelector.mockImplementation(callback => callback({
+      mfe: {
+        mfeList: [],
+      },
+    }));
+  });
+
   it('renders without crashing', () => {
     const component = shallow(<App currentRoute={ROUTE_HOME} loggedUserPrefloading />);
     expect(component.exists()).toBe(true);

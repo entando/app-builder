@@ -28,13 +28,13 @@ export const LIST_MFE_RESPONSE_OK = [
     target: 'content',
     name: 'content',
     assets: ['main.js', 'main.css'],
-    customElement: 'app-builder-menu',
+    customElement: 'strapi-content',
     params: {
       api: {
         headerMS: 'ms/app-builder-header-ms',
       },
     },
-    activeRoutes: ['/'],
+    activeRoutes: ['/strapi-content'],
   },
 ];
 
