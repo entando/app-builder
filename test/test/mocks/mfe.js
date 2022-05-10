@@ -24,17 +24,17 @@ export const LIST_MFE_RESPONSE_OK = [
     },
   },
   {
-    id: 'strapi-content-template',
+    id: 'example-mfe',
     target: 'content',
     name: 'content',
-    assets: ['main.js', 'main.css'],
-    customElement: 'strapi-content',
+    assets: ['mocks/example-mfe/main.js', 'mocks/example-mfe/main.css'],
+    customElement: 'example-mfe',
     params: {
       api: {
         headerMS: 'ms/app-builder-header-ms',
       },
     },
-    activeRoutes: ['/strapi-content'],
+    activeRoutes: ['/example-mfe'],
   },
 ];
 
