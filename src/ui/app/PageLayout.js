@@ -6,10 +6,10 @@ import VerticalMenuContainer from 'ui/internal-page/VerticalMenuContainer';
 import AboutInfoModal from 'ui/about/AboutInfoModal';
 import LicenseInfoModal from 'ui/license/LicenseInfoModal';
 
-const PageLayout = ({ className, children }) => (
+const PageLayout = ({ children }) => (
   <div
     data-testid="page-layout"
-    className={[className, 'layout-pf-fixed'].join(' ').trim()}
+    className="layout-pf-fixed"
   >
     <VerticalMenuContainer />
     <ActivityStreamContainer >
@@ -25,12 +25,10 @@ const PageLayout = ({ className, children }) => (
 
 PageLayout.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string,
 };
 
 PageLayout.defaultProps = {
   children: null,
-  className: '',
 };
 
 export default PageLayout;
