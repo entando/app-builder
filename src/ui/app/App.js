@@ -181,6 +181,7 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import InternalPage from 'ui/internal-page/InternalPage';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -191,7 +192,7 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
         key={AppRoute.path}
         path={AppRoute.path}
         // eslint-disable-next-line react/jsx-pascal-case
-        render={() => <PageLayout><AppRoute.component /></PageLayout>}
+        render={() => <InternalPage><AppRoute.component /></InternalPage>}
       />
     )),
   ]
