@@ -244,7 +244,7 @@ export class PageFormBody extends Component {
                       >
                         {type}
                       </option>
-                  ))}
+                    ))}
                   </Field>
                 </Col>
                 <label htmlFor="seo" className="col-xs-2 col-xs-offset-2 control-label">
@@ -270,7 +270,7 @@ export class PageFormBody extends Component {
                       >
                         {type}
                       </option>
-                  ))}
+                    ))}
                   </Field>
                 </Col>
               </FormGroup>
@@ -325,7 +325,7 @@ export class PageFormBody extends Component {
                 <FormLabel labelId="pages.pageForm.pagePlacement" required />
               </label>
               <Col xs={10}>
-                { parentPageComponent }
+                {parentPageComponent}
               </Col>
             </FormGroup>
 
@@ -368,7 +368,7 @@ export class PageFormBody extends Component {
                     onSaveClick(
                       { ...values, appTourProgress },
                       ACTION_SAVE_AND_CONFIGURE,
-                  ))}
+                    ))}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
@@ -388,7 +388,7 @@ export class PageFormBody extends Component {
               </div>
             </Col>
           </Row>
-        ) }
+        )}
       </form>
     );
   }
