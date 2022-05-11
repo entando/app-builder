@@ -1,9 +1,5 @@
 class ExampleMFE extends HTMLElement {
-  constructor() {
-    super();
-
-    const shadow = this.attachShadow({ mode: 'open' });
-
+  connectedCallback() {
     const wrapper = document.createElement('div');
 
     wrapper.innerHTML = `
@@ -12,7 +8,7 @@ class ExampleMFE extends HTMLElement {
       </div>
     `;
 
-    shadow.appendChild(wrapper);
+    this.appendChild(wrapper);
   }
 }
 
