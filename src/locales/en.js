@@ -971,6 +971,7 @@ export default {
     'user.wizard.success': 'Wizard has been updated.',
     'app.pages.friendlyCodeHelp': 'URL slug for the page. You can insert a max of 100 characters, lowercase letters, including numbers or  \'_\' special character.',
     'validateForm.friendlyCode': 'Friendly Code must be lowercase letters, including numbers or  \'_\' special character.',
+    'validateForm.friendlyCodeUnique': 'Friendly Code must be unique for all languages.',
     'app.startTutorial': 'Start Welcome Wizard',
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Sender Management',
