@@ -1014,5 +1014,6 @@ export default {
     'componentRepository.categories.group': 'Grupo',
     'componentRepository.components.installedVersion': 'Versão Instalada',
     'componentRepository.components.genericError': 'Ocorreu um erro no aplicativo',
+    'page.invalidPositionError': 'Uma página só pode ser filha direta de uma página com o mesmo grupo de proprietários ou free access',
   },
 };
