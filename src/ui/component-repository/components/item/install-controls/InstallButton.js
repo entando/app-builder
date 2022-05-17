@@ -10,6 +10,7 @@ import {
   ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
 } from 'state/component-repository/components/const';
 import { componentType } from 'models/component-repository/components';
+import { compareSemanticVersions } from 'helpers/comparisons';
 
 const jobProgressStatuses = [
   ECR_COMPONENT_INSTALLATION_STATUS_CREATED,
@@ -69,9 +70,10 @@ const InstallButton = ({
               id={component.code}
               title={<FormattedMessage id={label} />}
             >
-              {component.versions.map(({ version }) => (
-                <MenuItem key={version} eventKey={version}>{version}</MenuItem>
-              ))}
+              {component.versions.sort((a, b) => compareSemanticVersions(b.version, a.version))
+                .map(({ version }) => (
+                  <MenuItem key={version} eventKey={version}>{version}</MenuItem>
+                ))}
             </SplitButton>
           )
           : (
@@ -82,7 +84,7 @@ const InstallButton = ({
               <FormattedMessage id={label} />
             </Button >
           )
-        }
+      }
     </div>
   );
 };

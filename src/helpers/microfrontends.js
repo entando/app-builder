@@ -12,7 +12,7 @@ export const renderMicrofrontend = customElement => (<div dangerouslySetInnerHTM
 export const renderMicrofrontendWithParams = (customElement, params = {}) => {
   let props = '';
   Object.keys(params).forEach((key) => {
-    props += ` ${key}="${params[key]}"`;
+    props += ` ${key}="${typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key]}"`;
   });
   // eslint-disable-next-line react/no-danger
   return (<div dangerouslySetInnerHTML={{ __html: `<${customElement} ${props}/>` }} />);

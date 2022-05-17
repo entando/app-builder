@@ -1,6 +1,6 @@
 import {
   getMfeConfigList, getMfeTargetContent,
-  getMfeTargetPrimaryMenu, getMfeByTarget, getMfeById,
+  getMfeTargetPrimaryMenu, getMfeByTarget, getMfeById, getMfeTargetPrimaryHeader,
 } from 'state/mfe/selectors';
 import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
 
@@ -23,7 +23,12 @@ describe('state/mfe/selectors', () => {
 
   it('getMfeTargetPrimaryMenu(state) returns the correct mfe', () => {
     const bundles = getMfeTargetPrimaryMenu(MOCK_STATE);
-    expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[1]]);
+    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[1]);
+  });
+
+  it('getMfeTargetPrimaryHeader(state) returns the correct mfe', () => {
+    const bundles = getMfeTargetPrimaryHeader(MOCK_STATE);
+    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[0]);
   });
 
   it('getMfeByTarget(state, "content") returns the correct mfe', () => {

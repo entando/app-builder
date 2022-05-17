@@ -39,6 +39,8 @@ import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
 import { fetchSystemReport } from 'state/system/actions';
 import { dismissedWizardKey } from 'ui/app-tour/constant';
+import { getMfeTargetPrimaryHeader, getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
+import MfeContainer from 'ui/app/MfeContainer';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -162,13 +164,11 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const VerticalMenu = ({
+const EntandoMenu = ({
   userPermissions, intl, history, onNextStep, onStartTutorial, onMount,
 }) => {
   const [openPath, setOpenPath] = useState(null);
-
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
-
   const systemReport = useSelector(getSystemReport);
 
   useEffect(() => {
@@ -200,12 +200,12 @@ const VerticalMenu = ({
         hideMasthead={false}
         hoverDisabled
         onNavigate={({ href, onClick }) => {
-          if (href) {
-            window.location.href = href;
-          } else {
-            onClick();
-          }
-        }}
+      if (href) {
+        window.location.href = href;
+      } else {
+        onClick();
+      }
+    }}
         pinnableMenus={false}
         hoverPath={openPath}
         onItemClick={handleItemClick}
@@ -234,191 +234,235 @@ const VerticalMenu = ({
           title={intl.formatMessage({ id: 'menu.dashboard', defaultMessage: 'Dashboard' })}
         />
         {
-        hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
-          <Item
-            id="menu-page-creator"
-            className="app-tour-step-3"
-            onClick={() => onNextStep(4)}
-            iconClass="fa fa-files-o"
-            title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
-          >
-            <SecondaryItem
-              id="menu-page-tree"
-              title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Management' })}
-              className="app-tour-step-4"
-              onClick={() => {
-                onNextStep(5);
-                history.push(ROUTE_PAGE_TREE);
-              }}
-            />
-            <SecondaryItem
-              id="menu-page-config"
-              title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
-              onClick={() =>
-                history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE }))
-              }
-            />
-            {
-              hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-                <SecondaryItem
-                  id="menu-ux-pattern-page-templates"
-                  title={intl.formatMessage({ id: 'menu.pageTemplates', defaultMessage: 'Templates' })}
-                  onClick={() => history.push(ROUTE_PAGE_TEMPLATE_LIST)}
-                />
-              )
-            }
-            {
-              hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-                <SecondaryItem
-                  id="menu-page-settings"
-                  title={intl.formatMessage({ id: 'menu.pageSettings', defaultMessage: 'Settings' })}
-                  onClick={() => history.push(ROUTE_PAGE_SETTINGS)}
-                />
-              )
-            }
-          </Item>
-        )
-      }
+    hasAccess(MANAGE_PAGES_PERMISSION, userPermissions) && (
+      <Item
+        id="menu-page-creator"
+        className="app-tour-step-3"
+        onClick={() => onNextStep(4)}
+        iconClass="fa fa-files-o"
+        title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
+      >
+        <SecondaryItem
+          id="menu-page-tree"
+          title={intl.formatMessage({ id: 'menu.pageTree', defaultMessage: 'Management' })}
+          className="app-tour-step-4"
+          onClick={() => {
+            onNextStep(5);
+            history.push(ROUTE_PAGE_TREE);
+          }}
+        />
+        <SecondaryItem
+          id="menu-page-config"
+          title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
+          onClick={() =>
+            history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE }))
+          }
+        />
         {
-        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <Item
-            id="menu-ux-pattern"
-            onClick={() => {}}
-            iconClass="fa fa-object-ungroup"
-            title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'Components' })}
-          >
+          hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
             <SecondaryItem
-              id="menu-ux-pattern-widgets"
-              title={intl.formatMessage({ id: 'menu.widget', defaultMessage: 'Widget' })}
-              onClick={() => history.push(ROUTE_WIDGET_LIST)}
+              id="menu-ux-pattern-page-templates"
+              title={intl.formatMessage({ id: 'menu.pageTemplates', defaultMessage: 'Templates' })}
+              onClick={() => history.push(ROUTE_PAGE_TEMPLATE_LIST)}
             />
-            <SecondaryItem
-              id="menu-ux-pattern-fragments"
-              title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
-              onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
-            />
-          </Item>
-        )
-      }
-        {
-          hasAccess([
-            CRUD_CONTENTS_PERMISSION,
-            MANAGE_RESOURCES_PERMISSION,
-            MANAGE_CATEGORIES_PERMISSION,
-            VALIDATE_CONTENTS_PERMISSION,
-          ], userPermissions) &&
-          renderCmsMenuItems(intl, userPermissions, systemReport)
-        }
-        {
-
-          hasAccess(
-            [
-              VIEW_USERS_AND_PROFILES_PERMISSION,
-              CRUD_USERS_PERMISSION,
-              EDIT_USER_PROFILES_PERMISSION,
-            ]
-            , userPermissions,
           )
-        && (
-        <Item
-          id="menu-user-settings"
-          onClick={() => {}}
-          iconClass="fa fa-users"
-          title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
-        >
-          <SecondaryItem
-            id="menu-users"
-            title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
-            onClick={() => history.push(ROUTE_USER_LIST)}
-          />
-          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <SecondaryItem
-            id="menu-roles"
-            title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
-            onClick={() => history.push(ROUTE_ROLE_LIST)}
-          />
-            )}
-          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <SecondaryItem
-            id="menu-groups"
-            title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
-            onClick={() => history.push(ROUTE_GROUP_LIST)}
-          />
-            )}
-          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <SecondaryItem
-            id="menu-profile"
-            title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
-            onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
-          />
-            )}
-          {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <SecondaryItem
-            id="menu-user-restrictions"
-            title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
-            onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
-          />
-            )}
-        </Item>
-        )
         }
+        {
+          hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+            <SecondaryItem
+              id="menu-page-settings"
+              title={intl.formatMessage({ id: 'menu.pageSettings', defaultMessage: 'Settings' })}
+              onClick={() => history.push(ROUTE_PAGE_SETTINGS)}
+            />
+          )
+        }
+      </Item>
+    )
+  }
+        {
+    hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <Item
+        id="menu-ux-pattern"
+        onClick={() => {}}
+        iconClass="fa fa-object-ungroup"
+        title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'Components' })}
+      >
+        <SecondaryItem
+          id="menu-ux-pattern-widgets"
+          title={intl.formatMessage({ id: 'menu.widget', defaultMessage: 'Widget' })}
+          onClick={() => history.push(ROUTE_WIDGET_LIST)}
+        />
+        <SecondaryItem
+          id="menu-ux-pattern-fragments"
+          title={intl.formatMessage({ id: 'menu.fragments', defaultMessage: 'Fragments' })}
+          onClick={() => history.push(ROUTE_FRAGMENT_LIST)}
+        />
+      </Item>
+    )
+  }
+        {
+      hasAccess([
+        CRUD_CONTENTS_PERMISSION,
+        MANAGE_RESOURCES_PERMISSION,
+        MANAGE_CATEGORIES_PERMISSION,
+        VALIDATE_CONTENTS_PERMISSION,
+      ], userPermissions) &&
+      renderCmsMenuItems(intl, userPermissions, systemReport)
+    }
+        {
+
+      hasAccess(
+        [
+          VIEW_USERS_AND_PROFILES_PERMISSION,
+          CRUD_USERS_PERMISSION,
+          EDIT_USER_PROFILES_PERMISSION,
+        ]
+        , userPermissions,
+      )
+    && (
+    <Item
+      id="menu-user-settings"
+      onClick={() => {}}
+      iconClass="fa fa-users"
+      title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
+    >
+      <SecondaryItem
+        id="menu-users"
+        title={intl.formatMessage({ id: 'menu.users', defaultMessage: 'Management' })}
+        onClick={() => history.push(ROUTE_USER_LIST)}
+      />
+      {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <SecondaryItem
+        id="menu-roles"
+        title={intl.formatMessage({ id: 'menu.roles', defaultMessage: 'Roles' })}
+        onClick={() => history.push(ROUTE_ROLE_LIST)}
+      />
+        )}
+      {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <SecondaryItem
+        id="menu-groups"
+        title={intl.formatMessage({ id: 'menu.groups', defaultMessage: 'Groups' })}
+        onClick={() => history.push(ROUTE_GROUP_LIST)}
+      />
+        )}
+      {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <SecondaryItem
+        id="menu-profile"
+        title={intl.formatMessage({ id: 'menu.profileTypes', defaultMessage: 'Profile Types' })}
+        onClick={() => history.push(ROUTE_PROFILE_TYPE_LIST)}
+      />
+        )}
+      {hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <SecondaryItem
+        id="menu-user-restrictions"
+        title={intl.formatMessage({ id: 'menu.users.restrictions', defaultMessage: 'Restrictions' })}
+        onClick={() => history.push(ROUTE_USER_RESTRICTIONS)}
+      />
+        )}
+    </Item>
+    )
+    }
 
         {
-          (hasAccess(SUPERUSER_PERMISSION, userPermissions)
-          || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
-          && renderComponentRepositoryMenuItem(history, intl)
-        }
+      (hasAccess(SUPERUSER_PERMISSION, userPermissions)
+      || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
+      && renderComponentRepositoryMenuItem(history, intl)
+    }
         {
-        hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
-          <Item
-            className="VerticalAdminConsoleMenu__fixed-bottom"
-            id="menu-configuration"
-            title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
-            onClick={() => {}}
-            iconClass="fa fa-cogs"
-          >
-            <SecondaryItem
-              id="menu-databases"
-              title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
-              onClick={() => history.push(ROUTE_DATABASE_LIST)}
-            />
-            <SecondaryItem
-              id="menu-labels-file-browser"
-              title={intl.formatMessage({ id: 'menu.fileBrowser', defaultMessage: 'File Browser' })}
-              onClick={() => history.push(ROUTE_FILE_BROWSER)}
-            />
-            <SecondaryItem
-              id="menu-labels-languages"
-              title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Languages & Labels' })}
-              onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
-            />
-            <SecondaryItem
-              id="menu-email"
-              title={intl.formatMessage({ id: 'menu.emailConfig', defaultMessage: 'Email Configuration' })}
-              onClick={() => history.push(ROUTE_EMAIL_CONFIG)}
-            />
-            <SecondaryItem
-              id="menu-reload-configuration"
-              title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload configuration' })}
-              onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
-            />
-          </Item>
-        )
-      }
+    hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
+      <Item
+        className="VerticalAdminConsoleMenu__fixed-bottom"
+        id="menu-configuration"
+        title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
+        onClick={() => {}}
+        iconClass="fa fa-cogs"
+      >
+        <SecondaryItem
+          id="menu-databases"
+          title={intl.formatMessage({ id: 'menu.database', defaultMessage: 'Database' })}
+          onClick={() => history.push(ROUTE_DATABASE_LIST)}
+        />
+        <SecondaryItem
+          id="menu-labels-file-browser"
+          title={intl.formatMessage({ id: 'menu.fileBrowser', defaultMessage: 'File Browser' })}
+          onClick={() => history.push(ROUTE_FILE_BROWSER)}
+        />
+        <SecondaryItem
+          id="menu-labels-languages"
+          title={intl.formatMessage({ id: 'menu.labelsAndLanguages', defaultMessage: 'Languages & Labels' })}
+          onClick={() => history.push(ROUTE_LABELS_AND_LANGUAGES)}
+        />
+        <SecondaryItem
+          id="menu-email"
+          title={intl.formatMessage({ id: 'menu.emailConfig', defaultMessage: 'Email Configuration' })}
+          onClick={() => history.push(ROUTE_EMAIL_CONFIG)}
+        />
+        <SecondaryItem
+          id="menu-reload-configuration"
+          title={intl.formatMessage({ id: 'menu.reloadConfiguration', defaultMessage: 'Reload configuration' })}
+          onClick={() => history.push(ROUTE_RELOAD_CONFIG)}
+        />
+      </Item>
+    )
+  }
         {/* add container to render MFE on side menu here */}
       </VerticalNav>
       {(openPath !== null && openPath !== '/') && (
-        <Button className="VerticalMenu__secondary-collapse-btn" onClick={handleSecondaryCollapseBtnClick}>
-          <Icon name="angle-double-left" />
-        </Button>
-      )}
+      <Button className="VerticalMenu__secondary-collapse-btn" onClick={handleSecondaryCollapseBtnClick}>
+        <Icon name="angle-double-left" />
+      </Button>
+  )}
       {(openPath === null || openPath === '/') && (
-        <Button className="VerticalMenu__expand-collapse-btn" onClick={handleExpandCollapse}>
-          <Icon name={`angle-double-${collapsed ? 'right' : 'left'}`} />
-        </Button>
-      )}
+      <Button className="VerticalMenu__expand-collapse-btn" onClick={handleExpandCollapse}>
+        <Icon name={`angle-double-${collapsed ? 'right' : 'left'}`} />
+      </Button>
+  )}
+    </div>);
+};
+
+const MfeMenuContainer = ({ menuId, headerId }) => (
+  <div className="MfeContainer">
+    <div className="MfeContainer__header-menu-container">
+      {
+        headerId && <MfeContainer id={headerId} />
+      }
     </div>
-  );
+    <div className="MfeContainer__left-menu-container">
+      {
+        menuId && <MfeContainer id={menuId} />
+      }
+    </div>
+  </div>
+);
+
+MfeMenuContainer.propTypes = {
+  menuId: PropTypes.string.isRequired,
+  headerId: PropTypes.string.isRequired,
+};
+
+const VerticalMenu = (props) => {
+  const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
+  const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
+
+  return mfeMenu || mfeHeaderMenu
+    ? <MfeMenuContainer menuId={mfeMenu.id} headerId={mfeHeaderMenu.id} />
+    : <EntandoMenu {...props} />;
+};
+
+
+EntandoMenu.propTypes = {
+  intl: intlShape.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
+  onNextStep: PropTypes.func.isRequired,
+  onStartTutorial: PropTypes.func.isRequired,
+  onMount: PropTypes.func.isRequired,
+};
+
+EntandoMenu.defaultProps = {
+  userPermissions: null,
 };
 
 VerticalMenu.propTypes = {
