@@ -39,7 +39,7 @@ import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
 import { fetchSystemReport } from 'state/system/actions';
 import { dismissedWizardKey } from 'ui/app-tour/constant';
-import { getMfeTargetPrimaryHeader, getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
+import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 
 const {
@@ -164,6 +164,26 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
+const Header = ({ onStartTutorial }) => (
+  <Masthead>
+    <Brand
+      href={`${publicUrl}${ROUTE_DASHBOARD}`}
+      iconImg={`${publicUrl}/images/entando-logo-white.svg`}
+      img=""
+      onClick={null}
+    />
+    <VerticalNav.IconBar collapse>
+      <LanguageSelectContainer key="LanguageSelect" />
+      <HomePageLinkContainer key="projectLink" />
+      <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
+      <UserMenuContainer key="UserMenu" />
+    </VerticalNav.IconBar>
+  </Masthead>);
+
+Header.propTypes = {
+  onStartTutorial: PropTypes.func.isRequired,
+};
+
 const EntandoMenu = ({
   userPermissions, intl, history, onNextStep, onStartTutorial, onMount,
 }) => {
@@ -212,21 +232,7 @@ const EntandoMenu = ({
         isMobile={false}
         navCollapsed={collapsed}
       >
-        <Masthead>
-          <Brand
-            href={`${publicUrl}${ROUTE_DASHBOARD}`}
-            iconImg={`${publicUrl}/images/entando-logo-white.svg`}
-            img=""
-            onClick={null}
-          />
-          <VerticalNav.IconBar collapse>
-            <LanguageSelectContainer key="LanguageSelect" />
-            <HomePageLinkContainer key="projectLink" />
-            <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
-            <UserMenuContainer key="UserMenu" />
-            {/* add container to render MFE on top header here */}
-          </VerticalNav.IconBar>
-        </Masthead>
+        <Header onStartTutorial={onStartTutorial} />
         <Item
           id="menu-dashboard"
           onClick={() => history.push(ROUTE_DASHBOARD)}
@@ -420,32 +426,32 @@ const EntandoMenu = ({
     </div>);
 };
 
-const MfeMenuContainer = ({ menuId, headerId }) => (
+const MfeMenuContainer = ({ menuId, headerId, onStartTutorial }) => (
   <div className="MfeContainer">
     <div className="MfeContainer__header-menu-container">
       {
-        headerId && <MfeContainer id={headerId} />
-      }
+      headerId ? <MfeContainer id={headerId} />
+      : <Header onStartTutorial={onStartTutorial} />
+    }
     </div>
-    <div className="MfeContainer__left-menu-container">
-      {
-        menuId && <MfeContainer id={menuId} />
-      }
-    </div>
+    {
+      menuId && <div className="MfeContainer__left-menu-container"><MfeContainer id={menuId} /></div>
+    }
   </div>
 );
 
 MfeMenuContainer.propTypes = {
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
+  onStartTutorial: PropTypes.func.isRequired,
 };
 
 const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
-  const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
+  // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
 
-  return mfeMenu || mfeHeaderMenu
-    ? <MfeMenuContainer menuId={mfeMenu.id} headerId={mfeHeaderMenu.id} />
+  return mfeMenu
+    ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />
     : <EntandoMenu {...props} />;
 };
 

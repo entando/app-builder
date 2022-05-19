@@ -6,10 +6,7 @@ export const isMicrofrontendWidgetForm = widget =>
 
 export const getMicrofrontend = customElement => document.querySelector(customElement);
 
-// eslint-disable-next-line react/no-danger
-export const renderMicrofrontend = customElement => (<div dangerouslySetInnerHTML={{ __html: `<${customElement} />` }} />);
-
-export const renderMicrofrontendWithParams = (customElement, params = {}) => {
+export const renderMicrofrontend = (customElement, params = {}) => {
   let props = '';
   Object.keys(params).forEach((key) => {
     props += ` ${key}="${typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key]}"`;

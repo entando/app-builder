@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUsername } from '@entando/apimanager';
@@ -9,7 +9,7 @@ import RowSpinner from 'ui/pages/common/RowSpinner';
 export default function MfeDownloadManager(props) {
   const { children } = props;
   const dispatch = useDispatch();
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = useState(true);
   const currentUserName = useSelector(getUsername);
 
   useEffect(() => {

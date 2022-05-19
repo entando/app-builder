@@ -358,7 +358,7 @@ const RouteComponent = () => {
           key={mfe.id}
           path={mfe.route}
           exact
-          render={() => <InternalPage><MfeContainer id={mfe.id} /></InternalPage>}
+          render={() => <MfeContainer id={mfe.id} />}
         />))
       }
       {/* 404 */}
