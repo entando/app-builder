@@ -12,11 +12,11 @@ export const LIST_MFE_RESPONSE_OK = [
     },
   },
   {
-    id: 'app-builder-menu',
+    id: 'example-mfe-menu',
     target: 'primary-menu',
-    name: 'app-builder-menu',
-    assets: ['mocks/app-builder-menu/main.js', 'mocks/app-builder-menu/main.css'],
-    customElement: 'app-builder-menu',
+    name: 'example-mfe-menu',
+    assets: ['mocks/example-mfe-menu/main.js', 'mocks/example-mfe-menu/main.css'],
+    customElement: 'example-mfe-menu',
     params: {
       api: {
         headerMS: 'ms/app-builder-header-ms',

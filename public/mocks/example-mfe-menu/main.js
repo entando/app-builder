@@ -1,9 +1,9 @@
-class AppBuilderMenuMFE extends HTMLElement {
+class ExampleMfeMenu extends HTMLElement {
   connectedCallback() {
     const wrapper = document.createElement('div');
 
     wrapper.innerHTML = `
-      <div class="app-builder-menu-mfe">
+      <div class="example-mfe-menu">
         this is an example of MFE menu
       </div>
     `;
@@ -12,4 +12,4 @@ class AppBuilderMenuMFE extends HTMLElement {
   }
 }
 
-customElements.define('app-builder-menu', AppBuilderMenuMFE);
+customElements.define('example-mfe-menu', ExampleMfeMenu);
