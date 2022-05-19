@@ -1705,5 +1705,6 @@ export default {
     'componentRepository.categories.group': 'Gruppo',
     'componentRepository.components.installedVersion': 'Versione installata',
     'componentRepository.components.genericError': 'Si è verificato un errore nell\'applicazione',
+    'page.invalidPositionError': 'Una pagina può essere figlia solo di un\'altra pagina con lo stesso owner group o con owner group free access',
   },
 };

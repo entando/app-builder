@@ -1705,5 +1705,6 @@ export default {
     'componentRepository.categories.group': 'Group',
     'componentRepository.components.installedVersion': 'Installed Version',
     'componentRepository.components.genericError': 'An Error has occurred in the Application',
+    'page.invalidPositionError': 'A page can only be a direct child of a page with the same owner group or free access',
   },
 };

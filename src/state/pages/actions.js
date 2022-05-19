@@ -33,6 +33,9 @@ import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 
 import { setExistingPages } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 
+const INVALID_PAGE_POSITION_ERROR = { id: 'page.invalidPositionError' };
+const INVALID_PAGE_POSITION_STATUS_CODE = 422;
+
 const RESET_FOR_CLONE = {
   code: '',
   titles: '',
@@ -272,6 +275,8 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
     .then((response) => {
       if (response.ok) {
         dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
+      } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
+        dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
       } else {
         response.json().then((json) => {
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -297,9 +302,17 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
   const newPosition = (moveAbove ? newSiblingIndex : newSiblingIndex + 1) + 1;
   dispatch(setPageLoading(page.code));
   return setPagePosition(pageCode, newPosition, newParentCode)
-    .then(() => {
-      dispatch(movePageSync(pageCode, oldParentCode, newParentCode, newPosition));
-      dispatch(setPageLoaded(page.code));
+    .then((response) => {
+      if (response.ok) {
+        dispatch(movePageSync(pageCode, oldParentCode, newParentCode, newPosition));
+        dispatch(setPageLoaded(page.code));
+      } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
+        dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+      } else {
+        response.json().then((json) => {
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        });
+      }
     }).catch(() => {});
 };
 
@@ -325,6 +338,9 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
       resolve(response);
+    } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
+      dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+      resolve();
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -357,6 +373,9 @@ export const sendClonePage = (pageCode, pageData) => dispatch => new Promise(asy
       dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
       dispatch(addPages([json.payload]));
       resolve(response);
+    } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
+      dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+      resolve();
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
