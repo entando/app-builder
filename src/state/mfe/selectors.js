@@ -38,5 +38,5 @@ export const getMfeByTarget = createSelector(
 export const getMfeById = createSelector(
   getMfeState,
   getProps,
-  (mfe, id) => (mfe.mfeList || []).find(m => m.id === id) || {},
+  (mfe, id) => ((mfe && mfe.mfeList) || []).find(m => m.id === id) || {},
 );

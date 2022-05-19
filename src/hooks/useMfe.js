@@ -36,7 +36,7 @@ const createStyle = (id, asset, remove) => {
 };
 
 // inject asset to DOM accordingly to type
-const injectAssetToDom = ({ id, assets }, add, remove) => {
+const injectAssetToDom = ({ id, assets = [] }, add, remove) => {
   assets.forEach((asset) => {
     add(asset);
     if (asset.endsWith('.js')) {

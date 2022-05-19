@@ -427,15 +427,15 @@ const EntandoMenu = ({
 };
 
 const MfeMenuContainer = ({ menuId, headerId, onStartTutorial }) => (
-  <div className="MfeContainer">
-    <div className="MfeContainer__header-menu-container">
+  <div className="MfeMenuContainer">
+    <div className="MfeMenuContainer__header-menu-container">
       {
       headerId ? <MfeContainer id={headerId} />
       : <Header onStartTutorial={onStartTutorial} />
     }
     </div>
     {
-      menuId && <div className="MfeContainer__left-menu-container"><MfeContainer id={menuId} /></div>
+      menuId && <div className="MfeMenuContainer__left-menu-container"><MfeContainer id={menuId} /></div>
     }
   </div>
 );
