@@ -7,7 +7,7 @@ const MfeContainer = ({ id }) => {
   const [assetLoading, mfe] = useMfe(id);
 
   return assetLoading.length
-    ? <div>Loading...</div> : renderMicrofrontend(mfe.customElement, mfe.params);
+    ? <div>Loading...</div> : renderMicrofrontend(mfe.customElement, { api: mfe.api });
 };
 
 MfeContainer.propTypes = {
