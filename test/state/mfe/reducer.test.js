@@ -48,13 +48,13 @@ describe('mfe/reducer', () => {
 
   describe('after action updateMfeConfig', () => {
     let newState;
-    const existingMfe = { id: 'app-builder-header' };
+    const existingMfe = { id: 'layout-core-bundle:app-builder-header' };
     beforeEach(() => {
       newState = reducer(state, setMfeConfigList(LIST_MFE_RESPONSE_OK));
       newState = reducer(newState, updateMfeConfig(existingMfe));
     });
 
-    it('should define the registries payload', () => {
+    it('should define verify mfeList items and their order', () => {
       expect(newState).toHaveProperty('mfeList', [LIST_MFE_RESPONSE_OK[1], LIST_MFE_RESPONSE_OK[2],
         existingMfe]);
     });
