@@ -282,7 +282,7 @@ ContentsFilterTable.propTypes = {
 };
 
 ContentsFilterTable.defaultProps = {
-  perPageOptions: [5, 10, 15, 25, 50],
+  perPageOptions: [5],
   pickedContents: null,
   onContentPicked: () => {},
   onSetColumnOrder: () => {},

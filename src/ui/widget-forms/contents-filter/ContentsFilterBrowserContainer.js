@@ -40,7 +40,7 @@ import { fetchContentTypeListPaged } from 'state/content-type/actions';
 import { fetchUsers } from 'state/users/actions';
 
 const STATUS_PUBLISHED = '&status=published';
-
+const DEFAULT_CONTENTS_FILTER_PAGE = { page: 1, pageSize: 5 };
 const noPage = { page: 1, pageSize: 0 };
 const paramsForStatusAndAuthor = (status, author) => {
   const published = status === 'published';
@@ -104,7 +104,11 @@ export const mapDispatchToProps = (dispatch, {
     dispatch(setCurrentStatusShow('published'));
     if (fetchOnMount) {
       dispatch(fetchContentsPaged({
-        status: '&status=published', ownerGroup, joinGroups, mode: MODE_LIST,
+        status: '&status=published',
+        ownerGroup,
+        joinGroups,
+        mode: MODE_LIST,
+        page: DEFAULT_CONTENTS_FILTER_PAGE,
       }));
     }
     dispatch(fetchCategoryTree());
