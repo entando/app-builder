@@ -27,6 +27,6 @@ describe('MfeContainer', () => {
     const { container } = render(<MfeContainer id="example-mfe" />);
     const mfe = container.querySelector('example-mfe');
     expect(mfe).toBeInTheDocument();
-    expect(mfe.getAttribute('api')).toBe(JSON.stringify(mockMfe.params.api));
+    expect(mfe.getAttribute('api')).toBe(JSON.stringify(mockMfe.api));
   });
 });

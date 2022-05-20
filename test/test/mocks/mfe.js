@@ -34,15 +34,15 @@ export const LIST_MFE_RESPONSE_OK = [
     ],
   },
   {
-    id: 'layout-core-bundle:strapi-content-template',
-    name: 'strapi-content-template',
+    id: 'example-mfe',
+    name: 'content',
     slot: 'content',
-    assets: ['main.js', 'main.css'],
-    customElement: 'app-builder-menu',
-    paths: ['/'],
+    assets: ['mocks/example-mfe/main.js', 'mocks/example-mfe/main.css'],
+    customElement: 'example-mfe',
+    paths: ['/example-mfe'],
     api: [
       {
-        name: 'ms1',
+        name: 'ms/app-builder-header-ms',
         baseUrl: 'http://localhost:8080',
       },
       {

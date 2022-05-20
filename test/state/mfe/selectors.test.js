@@ -41,8 +41,8 @@ describe('state/mfe/selectors', () => {
     expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[0]]);
   });
 
-  it('getMfeById(state, "layout-core-bundle:strapi-content-template") returns the correct mfe', () => {
-    const bundles = getMfeById(MOCK_STATE, 'layout-core-bundle:strapi-content-template');
+  it('getMfeById(state, "example-mfe") returns the correct mfe', () => {
+    const bundles = getMfeById(MOCK_STATE, 'example-mfe');
     expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[2]);
   });
 });
