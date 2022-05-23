@@ -181,6 +181,9 @@ import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
+import { useSelector } from 'react-redux';
+import { getMfeTargetContent } from 'state/mfe/selectors';
+import MfeContainer from 'ui/app/MfeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
@@ -198,8 +201,22 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
   ]
 ), []);
 
-const getRouteComponent = () => {
+const RouteComponent = () => {
   const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
+  const contentMfe = useSelector(getMfeTargetContent);
+
+  const mfeRoutes = React.useMemo(() => contentMfe.reduce((acc, curr) => {
+    if (curr.paths) {
+      const routes = [];
+      curr.paths.forEach((route) => {
+        routes.push({ route, id: curr.id });
+      });
+      return [...acc, ...routes];
+    }
+    return acc;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []), [JSON.stringify(contentMfe)]);
+
   return (
     <Switch>
       <Route
@@ -335,6 +352,15 @@ const getRouteComponent = () => {
       <Route path={ROUTE_LICENSE} component={LicensePage} />
       { /* app routes */}
       {appsRoutes}
+      {/* MFE routes */}
+      {
+        mfeRoutes.map(mfe => (<Route
+          key={mfe.id}
+          path={mfe.route}
+          exact
+          render={() => <MfeContainer id={mfe.id} />}
+        />))
+      }
       {/* 404 */}
       <Route component={PageNotFoundContainer} />
     </Switch>
@@ -376,7 +402,7 @@ class App extends Component {
     }
 
     const readyDisplay = !auth.enabled || auth.authenticated
-      ? getRouteComponent()
+      ? <RouteComponent />
       : <LoginPage />;
     return (
       <DDProvider>

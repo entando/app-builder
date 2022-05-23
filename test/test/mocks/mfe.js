@@ -1,65 +1,78 @@
 export const LIST_MFE_RESPONSE_OK = [
   {
-    id: 'app-builder-header',
-    target: 'primary-header',
+    id: 'layout-core-bundle:app-builder-header',
     name: 'app-builder-header',
+    slot: 'primary-header',
     assets: ['main.js', 'main.css'],
     customElement: 'app-builder-header',
-    params: {
-      api: {
-        headerMS: 'ms/app-builder-header-ms',
+    api: [
+      {
+        name: 'ms1',
+        baseUrl: 'http://localhost:8080',
       },
-    },
+      {
+        name: 'ms2',
+        baseUrl: 'http://localhost:8090',
+      },
+    ],
   },
   {
-    id: 'app-builder-menu',
-    target: 'primary-menu',
-    name: 'app-builder-menu',
-    assets: ['main.js', 'main.css'],
-    customElement: 'app-builder-menu',
-    params: {
-      api: {
-        headerMS: 'ms/app-builder-header-ms',
+    id: 'example-mfe-menu',
+    slot: 'primary-menu',
+    name: 'example-mfe-menu',
+    assets: ['mocks/example-mfe-menu/main.js', 'mocks/example-mfe-menu/main.css'],
+    customElement: 'example-mfe-menu',
+    api: [
+      {
+        name: 'ms1',
+        baseUrl: 'http://localhost:8080',
       },
-    },
+      {
+        name: 'ms2',
+        baseUrl: 'http://localhost:8090',
+      },
+    ],
   },
   {
-    id: 'strapi-content-template',
-    target: 'content',
+    id: 'example-mfe',
     name: 'content',
-    assets: ['main.js', 'main.css'],
-    customElement: 'app-builder-menu',
-    params: {
-      api: {
-        headerMS: 'ms/app-builder-header-ms',
+    slot: 'content',
+    assets: ['mocks/example-mfe/main.js', 'mocks/example-mfe/main.css'],
+    customElement: 'example-mfe',
+    paths: ['/example-mfe'],
+    api: [
+      {
+        name: 'ms/app-builder-header-ms',
+        baseUrl: 'http://localhost:8080',
       },
-    },
-    activeRoutes: ['/'],
+      {
+        name: 'ms2',
+        baseUrl: 'http://localhost:8090',
+      },
+    ],
   },
 ];
 
 export const ADD_MFE_OK = {
   id: 'app-builder-header',
-  target: 'primary-header',
+  slot: 'primary-header',
   name: 'app-builder-header',
   assets: ['main.js', 'main.css'],
   customElement: 'app-builder-header',
-  params: {
-    api: {
-      headerMS: 'ms/app-builder-header-ms',
-    },
+  api: {
+    name: 'ms1',
+    baseUrl: 'http://localhost:8080',
   },
 };
 
 export const UPDATE_MFE_OK = {
   id: 'app-builder-header',
-  target: 'primary-header',
+  slot: 'primary-header',
   name: 'app-builder-header',
   assets: ['main.js', 'main.css'],
   customElement: 'app-builder-header',
-  params: {
-    api: {
-      headerMS: 'ms/app-builder-header-ms',
-    },
+  api: {
+    name: 'ms1',
+    baseUrl: 'http://localhost:8080',
   },
 };

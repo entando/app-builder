@@ -1,0 +1,21 @@
+.MfeMenuContainer__header-menu-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60px;
+  background-color: $color-extra-dark-grey;
+  z-index: 1030;
+}
+
+.MfeMenuContainer__left-menu-container {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  width: 215px;
+  background-color: $color-extra-dark-grey;
+  z-index: 1030;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
