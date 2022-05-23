@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
+import { routeConverter } from '@entando/utils';
 
 import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 
@@ -9,8 +10,9 @@ import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 
-export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
+export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
   onDidMount: ({ widgetConfig }) => {
     const { pageCode, widgetCode, framePos } = params;
     if (widgetConfig) {
@@ -21,6 +23,10 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
   onSubmit: (widgetConfig) => {
     dispatch(updateConfiguredPageWidget(widgetConfig, params));
+  },
+  onCancel: () => {
+    const { pageCode } = params;
+    history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
   },
 });
 

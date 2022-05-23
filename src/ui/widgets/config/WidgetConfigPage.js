@@ -72,7 +72,8 @@ class WidgetConfigPage extends Component {
 
   render() {
     const {
-      widget, widgetCode, widgetConfig, framePos, frameName, pageCode, onSubmit, intl, history,
+      widget, widgetCode, widgetConfig, framePos, frameName, pageCode,
+      onSubmit, intl, history, onCancel,
     } = this.props;
 
     const parameters = get(widget, 'parameters', []);
@@ -95,6 +96,7 @@ class WidgetConfigPage extends Component {
             widget={widget}
             widgetConfig={widgetConfig}
             onSubmit={onSubmit}
+            onCancel={onCancel}
           />
         );
       }
@@ -149,7 +151,7 @@ class WidgetConfigPage extends Component {
                 className="PageConfigPage__info-panel"
                 id="collapsible-info-table"
                 expanded={this.state.infoTableOpen}
-                onToggle={() => { }}
+                onToggle={() => {}}
               >
                 <Panel.Collapse>
                   <SelectedPageInfoTableContainer />
@@ -194,17 +196,17 @@ class WidgetConfigPage extends Component {
                   }
                 </Panel.Body>
                 {
-                    isReadOnly &&
-                    <div className="text-right PageConfigPage__ok-button">
-                      <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                        <Button
-                          bsStyle="primary"
-                          onClick={this.toggleInfoTable}
-                        >
-                          <FormattedMessage id="app.ok" />
-                        </Button>
-                      </Link>
-                    </div>
+                  isReadOnly &&
+                  <div className="text-right PageConfigPage__ok-button">
+                    <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
+                      <Button
+                        bsStyle="primary"
+                        onClick={this.toggleInfoTable}
+                      >
+                        <FormattedMessage id="app.ok" />
+                      </Button>
+                    </Link>
+                  </div>
                 }
               </Panel>
             </Col>
@@ -227,6 +229,7 @@ WidgetConfigPage.propTypes = {
   frameName: PropTypes.string.isRequired,
   pageCode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
 };
