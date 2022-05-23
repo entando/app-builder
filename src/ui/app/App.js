@@ -206,9 +206,9 @@ const RouteComponent = () => {
   const contentMfe = useSelector(getMfeTargetContent);
 
   const mfeRoutes = React.useMemo(() => contentMfe.reduce((acc, curr) => {
-    if (curr.activeRoutes) {
+    if (curr.paths) {
       const routes = [];
-      curr.activeRoutes.forEach((route) => {
+      curr.paths.forEach((route) => {
         routes.push({ route, id: curr.id });
       });
       return [...acc, ...routes];
