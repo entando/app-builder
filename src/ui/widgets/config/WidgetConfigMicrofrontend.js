@@ -9,7 +9,9 @@ import { getResourcePath } from 'helpers/resourcePath';
 import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
 
-const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
+const WidgetConfigMicrofrontend = ({
+  onSubmit, widget, widgetConfig, onCancel,
+}) => {
   const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
   const customElement = get(widget, 'configUi.customElement');
 
@@ -35,7 +37,8 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
   const microfrontendMarkup = renderMicrofrontend(customElement);
 
   return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
-    && !someScriptError && !someStylesheetError) ? (
+    && !someScriptError && !someStylesheetError) ?
+    (
       <Fragment>
         {microfrontendMarkup}
         <Button
@@ -45,6 +48,14 @@ const WidgetConfigMicrofrontend = ({ onSubmit, widget, widgetConfig }) => {
           onClick={handleSubmit}
         ><FormattedMessage id="app.save" />
         </Button>
+        <Button
+          className="pull-right cancel"
+          type="submit"
+          bsStyle="default"
+          onClick={onCancel}
+          style={{ marginRight: '5px' }}
+        ><FormattedMessage id="app.cancel" />
+        </Button>
       </Fragment>
     ) : <FormattedMessage id="widget.page.config.error" />;
 };
@@ -53,6 +64,7 @@ WidgetConfigMicrofrontend.propTypes = {
   widget: PropTypes.shape({}).isRequired,
   widgetConfig: PropTypes.shape({}),
   onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 WidgetConfigMicrofrontend.defaultProps = {
