@@ -8,9 +8,10 @@ import { getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
 import { getResourcePath } from 'helpers/resourcePath';
 import useScripts from 'helpers/useScripts';
 import useStylesheets from 'helpers/useStylesheets';
+import WidgetConfigPanel from './WidgetConfigPanel';
 
 const WidgetConfigMicrofrontend = ({
-  onSubmit, widget, widgetConfig, onCancel,
+  onSubmit, widget, widgetConfig, onCancel, widgetCode, framePos, frameName, pageCode,
 }) => {
   const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
   const customElement = get(widget, 'configUi.customElement');
@@ -35,29 +36,39 @@ const WidgetConfigMicrofrontend = ({
   }, [customElement, everyScriptLoaded, widgetConfig]);
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
+  const shouldRender = (scripts.length && everyScriptLoaded && everyStylesheetLoaded
+    && !someScriptError && !someStylesheetError);
 
-  return (scripts.length && everyScriptLoaded && everyStylesheetLoaded
-    && !someScriptError && !someStylesheetError) ?
-    (
-      <Fragment>
-        {microfrontendMarkup}
-        <Button
-          className="pull-right save"
-          type="submit"
-          bsStyle="primary"
-          onClick={handleSubmit}
-        ><FormattedMessage id="app.save" />
-        </Button>
-        <Button
-          className="pull-right cancel"
-          type="submit"
-          bsStyle="default"
-          onClick={onCancel}
-          style={{ marginRight: '5px' }}
-        ><FormattedMessage id="app.cancel" />
-        </Button>
-      </Fragment>
-    ) : <FormattedMessage id="widget.page.config.error" />;
+  return (
+    <WidgetConfigPanel
+      widget={widget}
+      widgetCode={widgetCode}
+      framePos={framePos}
+      frameName={frameName}
+      pageCode={pageCode}
+      buttons={
+        shouldRender &&
+        <Fragment>
+          <Button
+            className="pull-right save"
+            type="submit"
+            bsStyle="primary"
+            onClick={handleSubmit}
+          ><FormattedMessage id="app.save" />
+          </Button>
+          <Button
+            className="pull-right cancel"
+            type="submit"
+            bsStyle="default"
+            onClick={onCancel}
+            style={{ marginRight: '5px' }}
+          ><FormattedMessage id="app.cancel" />
+          </Button>
+        </Fragment>
+      }
+    >
+      { shouldRender ? microfrontendMarkup : <FormattedMessage id="widget.page.config.error" /> }
+    </WidgetConfigPanel>);
 };
 
 WidgetConfigMicrofrontend.propTypes = {
@@ -65,6 +76,10 @@ WidgetConfigMicrofrontend.propTypes = {
   widgetConfig: PropTypes.shape({}),
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  widgetCode: PropTypes.string.isRequired,
+  framePos: PropTypes.number.isRequired,
+  frameName: PropTypes.string.isRequired,
+  pageCode: PropTypes.string.isRequired,
 };
 
 WidgetConfigMicrofrontend.defaultProps = {

@@ -164,7 +164,7 @@ const renderComponentRepositoryMenuItem = (history, intl) => (
     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
   />) : '');
 
-const Header = ({ onStartTutorial }) => (
+const getHeader = onStartTutorial => (
   <Masthead>
     <Brand
       href={`${publicUrl}${ROUTE_DASHBOARD}`}
@@ -179,10 +179,6 @@ const Header = ({ onStartTutorial }) => (
       <UserMenuContainer key="UserMenu" />
     </VerticalNav.IconBar>
   </Masthead>);
-
-Header.propTypes = {
-  onStartTutorial: PropTypes.func.isRequired,
-};
 
 const EntandoMenu = ({
   userPermissions, intl, history, onNextStep, onStartTutorial, onMount,
@@ -232,7 +228,7 @@ const EntandoMenu = ({
         isMobile={false}
         navCollapsed={collapsed}
       >
-        <Header onStartTutorial={onStartTutorial} />
+        {getHeader(onStartTutorial)}
         <Item
           id="menu-dashboard"
           onClick={() => history.push(ROUTE_DASHBOARD)}
@@ -431,7 +427,7 @@ const MfeMenuContainer = ({ menuId, headerId, onStartTutorial }) => (
     <div className="MfeMenuContainer__header-menu-container">
       {
       headerId ? <MfeContainer id={headerId} />
-      : <Header onStartTutorial={onStartTutorial} />
+      : getHeader(onStartTutorial)
     }
     </div>
     {
@@ -449,6 +445,8 @@ MfeMenuContainer.propTypes = {
 const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
+
+  // return <EntandoMenu {...props} />;
 
   return mfeMenu
     ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />
