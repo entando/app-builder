@@ -10,10 +10,11 @@ const initialState = {
   },
 };
 
-const isPageValid = (page, lastPage) => {
-  if (!isInteger(page) ||
-    page < 1 ||
-    page > lastPage
+const isPageValid = (page, lastPage, totalItems) => {
+  if (
+    !isInteger(page) ||
+    (totalItems > 0 && page > lastPage) ||
+    page < 1
   ) {
     return false;
   }
@@ -37,7 +38,7 @@ const isLastPageValid = (lastPage) => {
 };
 
 const isPayloadValid = (payload) => {
-  if (!isPageValid(payload.page, payload.lastPage) ||
+  if (!isPageValid(payload.page, payload.lastPage, payload.totalItems) ||
     !isPageSizeValid(payload.pageSize) ||
     !isLastPageValid(payload.lastPage) ||
     !isTotalItemsValid(payload.totalItems)
