@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
@@ -20,6 +20,21 @@ const WidgetConfigMicrofrontend = ({
 
   const [everyScriptLoaded, someScriptError] = useScripts(scripts);
   const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets);
+
+  // eslint-disable-next-line no-unused-vars
+  const [enableSubmit, setEnableSubmit] = useState(true);
+
+  useEffect(() => {
+    const widgetConfigListenerName = 'widget-config';
+    const listener = (e) => {
+      const { save } = e.detail;
+      setEnableSubmit(save);
+    };
+
+    window.addEventListener(widgetConfigListenerName, listener);
+
+    return () => window.removeEventListener(widgetConfigListenerName, listener);
+  }, []);
 
   const handleSubmit = () => {
     const configWebComponent = getMicrofrontend(customElement);
