@@ -15,7 +15,7 @@ import { routeConverter } from '@entando/utils';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
-import WidgetConfigPanel from './WidgetConfigPanel';
+import WidgetConfigPanel from 'ui/widgets/config/WidgetConfigPanel';
 
 const msgs = defineMessages({
   widgetConfigError: {

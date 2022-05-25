@@ -446,8 +446,6 @@ const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
 
-  // return <EntandoMenu {...props} />;
-
   return mfeMenu
     ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />
     : <EntandoMenu {...props} />;
