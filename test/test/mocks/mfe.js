@@ -3,7 +3,7 @@ export const LIST_MFE_RESPONSE_OK = [
     id: 'layout-core-bundle:app-builder-header',
     name: 'app-builder-header',
     slot: 'primary-header',
-    assets: ['main.js', 'main.css'],
+    assets: ['main.js'],
     customElement: 'app-builder-header',
     api: [
       {
@@ -20,7 +20,7 @@ export const LIST_MFE_RESPONSE_OK = [
     id: 'example-mfe-menu',
     slot: 'primary-menu',
     name: 'example-mfe-menu',
-    assets: ['mocks/example-mfe-menu/main.js', 'mocks/example-mfe-menu/main.css'],
+    assets: ['mocks/example-mfe-menu/main.js'],
     customElement: 'example-mfe-menu',
     api: [
       {
@@ -37,7 +37,7 @@ export const LIST_MFE_RESPONSE_OK = [
     id: 'example-mfe',
     name: 'content',
     slot: 'content',
-    assets: ['mocks/example-mfe/main.js', 'mocks/example-mfe/main.css'],
+    assets: ['mocks/example-mfe/main.js'],
     customElement: 'example-mfe',
     paths: ['/example-mfe'],
     api: [
@@ -57,7 +57,7 @@ export const ADD_MFE_OK = {
   id: 'app-builder-header',
   slot: 'primary-header',
   name: 'app-builder-header',
-  assets: ['main.js', 'main.css'],
+  assets: ['main.js'],
   customElement: 'app-builder-header',
   api: {
     name: 'ms1',
@@ -69,7 +69,7 @@ export const UPDATE_MFE_OK = {
   id: 'app-builder-header',
   slot: 'primary-header',
   name: 'app-builder-header',
-  assets: ['main.js', 'main.css'],
+  assets: ['main.js'],
   customElement: 'app-builder-header',
   api: {
     name: 'ms1',
