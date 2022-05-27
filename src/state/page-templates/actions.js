@@ -141,6 +141,7 @@ export const loadSelectedPageTemplate = pageTemplateCode => (dispatch, getState)
   return fetchPageTemplate(pageTemplateCode)(dispatch)
     .then((json) => {
       const pageObject = json.payload;
+      pageObject.configuration = JSON.stringify(pageObject.configuration, null, 2);
       dispatch(setSelectedPageTemplate(pageObject));
       return pageObject;
     }).catch(() => {});
