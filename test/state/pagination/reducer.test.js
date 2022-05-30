@@ -60,12 +60,22 @@ describe('pagination reducer', () => {
         expect(state).toEqual(defaultState);
       });
 
-      it('should not define page if the page is greater than lastPage', () => {
+      it('should not define page if the page is greater than lastPage and totalItems is not 0', () => {
         const state = reducer(defaultState, setPage({
           ...correctBody,
           page: 4,
         }));
         expect(state).toEqual(defaultState);
+      });
+
+      it('should define page if the page is greater than lastPage and totalItems is 0', () => {
+        const newPage = {
+          ...correctBody,
+          totalItems: 0,
+          page: 4,
+        };
+        const state = reducer(defaultState, setPage(newPage));
+        expect(state.global).toEqual(newPage);
       });
 
       it('should define page if the page is numeric', () => {

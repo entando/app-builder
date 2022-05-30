@@ -4,11 +4,8 @@ import { getMfeById } from 'state/mfe/selectors';
 
 
 // try to find the element by id
-const isLoaded = (id) => {
-  const script = document.getElementById(`script-${id}`);
-  const style = document.getElementById(`style-${id}`);
-  return script && style;
-};
+const isJSLoaded = id => document.getElementById(`script-${id}`);
+const isCSSLoaded = id => document.getElementById(`style-${id}`);
 
 // generates the <script> tag and track the loading status
 const createScript = (id, asset, remove) => {
@@ -38,11 +35,12 @@ const createStyle = (id, asset, remove) => {
 // inject asset to DOM accordingly to type
 const injectAssetToDom = ({ id, assets = [] }, add, remove) => {
   assets.forEach((asset) => {
-    add(asset);
-    if (asset.endsWith('.js')) {
+    if (asset.endsWith('.js') && !isJSLoaded(id)) {
       createScript(id, asset, remove);
-    } else if (asset.endsWith('.css')) {
+      add(asset);
+    } else if (asset.endsWith('.css') && !isCSSLoaded((id))) {
       createStyle(id, asset, remove);
+      add(asset);
     }
   });
 };
@@ -61,9 +59,7 @@ const useMfe = (mfeId) => {
   }, [assetLoading]);
 
   useEffect(() => {
-    if (!isLoaded(mfe.id)) {
-      injectAssetToDom(mfe, addAsset, removeAsset);
-    }
+    injectAssetToDom(mfe, addAsset, removeAsset);
   }, [addAsset, mfe, mfe.id, removeAsset]);
 
   return [assetLoading, mfe];
