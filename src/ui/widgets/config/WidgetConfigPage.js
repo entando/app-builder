@@ -3,20 +3,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
 import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { Panel, Label } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Panel } from 'react-bootstrap';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
+import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
-
+import WidgetConfigPanel from 'ui/widgets/config/WidgetConfigPanel';
 
 const msgs = defineMessages({
   widgetConfigError: {
@@ -80,14 +79,30 @@ class WidgetConfigPage extends Component {
 
     const renderWidgetConfigForm = () => {
       const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
-
       if (appBuilderWidgetForm) {
-        return React.createElement(
-          appBuilderWidgetForm,
-          {
-            widgetConfig, widgetCode, pageCode, frameId: framePos, intl, history, parameters,
-          },
-          null,
+        return (
+          <WidgetConfigPanel
+            widget={widget}
+            widgetCode={widgetCode}
+            framePos={framePos}
+            frameName={frameName}
+            pageCode={pageCode}
+          >
+            {
+              React.createElement(
+              appBuilderWidgetForm,
+              {
+                widgetConfig,
+                widgetCode,
+                pageCode,
+                frameId: framePos,
+                intl,
+                history,
+                parameters,
+              }, null,
+              )
+            }
+          </WidgetConfigPanel>
         );
       }
       if (isMicrofrontendWidgetForm(widget)) {
@@ -102,8 +117,6 @@ class WidgetConfigPage extends Component {
       }
       return <FormattedMessage id="widget.page.config.error" />;
     };
-
-    const isReadOnly = widget && widget.readonlyDefaultConfig;
 
     return (
       <InternalPage className="WidgetConfigPage">
@@ -159,58 +172,7 @@ class WidgetConfigPage extends Component {
               </Panel>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              <Panel>
-                <Panel.Heading>
-                  <Label>{framePos}</Label>
-                  &nbsp;
-                  <span>{frameName}</span>
-                </Panel.Heading>
-                {
-                  isReadOnly &&
-                  <div className="PageConfigPage__readonly-warning alert alert-warning">
-                    <Row>
-                      <Col xs={8}>
-                        <span className="pficon pficon-warning-triangle-o" />
-                        {' '}
-                        <FormattedMessage id="widget.page.config.readOnlyMessage" />
-                      </Col>
-                      <Col xs={4} className="text-right">
-                        <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode })}>
-                          <Button
-                            bsStyle="primary"
-                            onClick={this.toggleInfoTable}
-                          >
-                            <FormattedMessage id="widget.page.config.goToConfig" />
-                          </Button>
-                        </Link>
-                      </Col>
-                    </Row>
-                  </div>
-                }
-                <Panel.Body className="PageConfigPage__panel-body">
-                  {renderWidgetConfigForm()}
-                  {
-                    isReadOnly && <div className="PageConfigPage__block-ui" />
-                  }
-                </Panel.Body>
-                {
-                  isReadOnly &&
-                  <div className="text-right PageConfigPage__ok-button">
-                    <Link to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                      <Button
-                        bsStyle="primary"
-                        onClick={this.toggleInfoTable}
-                      >
-                        <FormattedMessage id="app.ok" />
-                      </Button>
-                    </Link>
-                  </div>
-                }
-              </Panel>
-            </Col>
-          </Row>
+          {renderWidgetConfigForm()}
         </Grid>
       </InternalPage>
     );
