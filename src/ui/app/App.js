@@ -214,7 +214,7 @@ const RouteComponent = () => {
       return [...acc, ...routes];
     }
     return acc;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []), [JSON.stringify(contentMfe)]);
 
   return (

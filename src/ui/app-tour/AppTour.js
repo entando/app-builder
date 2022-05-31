@@ -21,6 +21,9 @@ export const simulateMouseClick = (element) => {
 const TOTAL_STEPS = 19;
 const STEP_OFFSET = -2;
 
+const LISTEN_TUTORIAL_START = 'tutorial:start';
+const LISTEN_TUTORIAL_NEXT_STEP = 'tutorial';
+
 class AppTour extends React.Component {
   constructor(props) {
     super(props);
@@ -31,11 +34,15 @@ class AppTour extends React.Component {
     this.onNextStep = this.onNextStep.bind(this);
     this.cancelTour = this.cancelTour.bind(this);
     this.generateSteps = this.generateSteps.bind(this);
+    this.listenTutorialStart = this.listenTutorialStart.bind(this);
+    this.listenTutorialNextStep = this.listenTutorialNextStep.bind(this);
   }
 
   componentDidMount() {
     const { onDidMount } = this.props;
     onDidMount(this.props);
+    window.addEventListener(LISTEN_TUTORIAL_START, this.listenTutorialStart);
+    window.addEventListener(LISTEN_TUTORIAL_NEXT_STEP, this.listenTutorialNextStep);
   }
 
   componentDidUpdate(prevProps) {
@@ -59,6 +66,10 @@ class AppTour extends React.Component {
         };
       }
     }
+  }
+  componentWillUnmount() {
+    window.removeEventListener(LISTEN_TUTORIAL_START, this.listenTutorialStart);
+    window.removeEventListener(LISTEN_TUTORIAL_NEXT_STEP, this.listenTutorialNextStep);
   }
 
   onNextStep(step, goTo) {
@@ -84,6 +95,18 @@ class AppTour extends React.Component {
     const { onAppTourCancel } = this.props;
     onAppTourCancel(tourCreatedPageCode, publishStatus, noRouting);
     document.body.style.overflow = 'auto';
+  }
+
+  listenTutorialStart() {
+    const { onAppTourStart, setNextStep } = this.props;
+    setNextStep(2);
+    onAppTourStart();
+  }
+
+  listenTutorialNextStep(event) {
+    const { setNextStep } = this.props;
+    const { nextStep } = event.detail;
+    setNextStep(nextStep);
   }
 
   generateSteps() {
