@@ -67,7 +67,7 @@ const PageTemplateFormBody = ({
   useEffect(() => {
     onDidMount();
     return () => onWillUnmount();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isEditMode = mode === FORM_MODE_EDIT;
@@ -259,7 +259,7 @@ const PageTemplateForm = withFormik({
             return jsonTest;
           }
           const previewErrors = validateFrames(JSON.parse(value).frames);
-          if (previewErrors.length) {
+          if (previewErrors && previewErrors.length) {
             const errors = previewErrors.map(({ id, values }) => {
               const errMsgs = defineMessages({
                 err: { id },

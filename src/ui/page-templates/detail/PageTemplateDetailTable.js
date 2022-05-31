@@ -26,7 +26,7 @@ class PageTemplateDetailTable extends Component {
               <FormattedMessage id="app.name" />
             </th>
             <td>
-              { pageTemplate.descr }
+              {pageTemplate.descr}
             </td>
           </tr>
           <tr>
@@ -34,7 +34,7 @@ class PageTemplateDetailTable extends Component {
               <FormattedMessage id="app.code" />
             </th>
             <td>
-              { pageTemplate.code }
+              {pageTemplate.code}
             </td>
           </tr>
           <tr>
@@ -51,7 +51,7 @@ class PageTemplateDetailTable extends Component {
             </th>
             <td>
               <pre>
-                { JSON.stringify(pageTemplate.configuration, null, 2) }
+                {pageTemplate.configuration}
               </pre>
             </td>
           </tr>
@@ -61,7 +61,7 @@ class PageTemplateDetailTable extends Component {
             </th>
             <td>
               <pre className="PageTemplateDetailTable__template">
-                { pageTemplate.template }
+                {pageTemplate.template}
               </pre>
             </td>
           </tr>
@@ -82,7 +82,7 @@ class PageTemplateDetailTable extends Component {
     const { loading } = this.props;
     return (
       <Spinner loading={loading}>
-        { this.renderContent() }
+        {this.renderContent()}
       </Spinner>
     );
   }
