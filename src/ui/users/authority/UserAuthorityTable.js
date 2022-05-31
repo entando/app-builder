@@ -23,12 +23,14 @@ class UserAuthorityTable extends Component {
 
   onClickAdd() {
     const { fields, groupRolesCombo, onCloseModal } = this.props;
-
     const isPresent = Boolean(groupRolesCombo
-      .find(item => (this.group.value === '' || item.group.code === this.group.value) &&
-        (this.role.value === '' || item.role.code === this.role.value)));
+      .find(item => (item.group.code === this.group.value ||
+        (!this.group.value && !item.group.code))
+        &&
+        (item.role.code === this.role.value ||
+          (!this.role.value && !item.role.code))));
 
-    if (!isPresent) {
+    if (!isPresent && (this.group.value || this.role.value)) {
       fields.push({
         group: this.group.value || null,
         role: this.role.value || null,
@@ -83,13 +85,13 @@ class UserAuthorityTable extends Component {
       intl, groupRolesCombo, groups, roles, fields, onAddNewClicked,
     } = this.props;
     const groupsWithEmpty =
-          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
+      [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(groups);
     const rolesWithEmpty =
-          [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(roles);
+      [{ code: '', name: intl.formatMessage(msgs.chooseOption) }].concat(roles);
     const groupOptions =
-        groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
+      groupsWithEmpty.map(gr => (<option key={gr.name} value={gr.code}>{gr.name}</option>));
     const rolesOptions =
-        rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.code}>{rl.name}</option>));
+      rolesWithEmpty.map(rl => (<option key={rl.name} value={rl.code}>{rl.name}</option>));
 
     const renderRow = groupRolesCombo.map((item, index) => (
       <tr key={`groupRole-${parseInt(index, 10)}`}>
