@@ -3,9 +3,14 @@ import { withRouter } from 'react-router-dom';
 import useMfe from 'hooks/useMfe';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getLocale } from 'state/locale/selectors';
+import { getLoggedUserPermissions } from 'state/permissions/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const [assetLoading, mfe] = useMfe(id);
+  const locale = useSelector(getLocale);
+  const permissions = useSelector(getLoggedUserPermissions);
 
   useEffect(() => {
     if (!window.appBuilderRouter) {
@@ -16,6 +21,8 @@ const MfeContainer = ({ id, history }) => {
   const params = {
     config: {
       api: mfe.api,
+      userPermissions: permissions,
+      lang: locale,
     },
   };
 
