@@ -82,7 +82,7 @@ const WidgetConfigMicrofrontend = ({
         </Fragment>
       }
     >
-      { shouldRender ? microfrontendMarkup : <FormattedMessage id="widget.page.config.error" /> }
+      {shouldRender ? microfrontendMarkup : <FormattedMessage id="widget.page.config.error" />}
     </WidgetConfigPanel>);
 };
 
