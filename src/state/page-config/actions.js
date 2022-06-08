@@ -122,7 +122,7 @@ export const initConfigPage = pageCode => async (dispatch) => {
     if (errors && errors.length) {
       const translatedErrors = errors.map(({ id, values }) => ({ id, values }));
       dispatch(addErrors(translatedErrors));
-      errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+      errors.forEach(err => dispatch(addToast(err.message || err, TOAST_ERROR)));
       return;
     }
 

@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Spinner } from 'patternfly-react';
 
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
+import { convertPageTemplateConfigObjectToString } from 'helpers/stringUtils';
 
 
 class PageTemplateDetailTable extends Component {
@@ -18,6 +19,7 @@ class PageTemplateDetailTable extends Component {
     if (!pageTemplate || loading) {
       return null;
     }
+
     return (
       <table className="PageTemplateDetailTable table table-bordered">
         <tbody>
@@ -51,7 +53,7 @@ class PageTemplateDetailTable extends Component {
             </th>
             <td>
               <pre>
-                {pageTemplate.configuration}
+                {convertPageTemplateConfigObjectToString(pageTemplate)}
               </pre>
             </td>
           </tr>

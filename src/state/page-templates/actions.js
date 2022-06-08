@@ -133,19 +133,19 @@ export const fetchPageTemplate = pageTemplateCode => dispatch => (
   })
 );
 
-export const loadSelectedPageTemplate = pageTemplateCode => (dispatch, getState) => {
-  const selectedPage = getSelectedPageTemplate(getState());
-  if (selectedPage && selectedPage.code === pageTemplateCode) {
-    return new Promise(r => r(selectedPage));
-  }
-  return fetchPageTemplate(pageTemplateCode)(dispatch)
-    .then((json) => {
-      const pageObject = json.payload;
-      pageObject.configuration = JSON.stringify(pageObject.configuration, null, 2);
-      dispatch(setSelectedPageTemplate(pageObject));
-      return pageObject;
-    }).catch(() => {});
-};
+export const loadSelectedPageTemplate = pageTemplateCode =>
+  (dispatch, getState) => {
+    const selectedPage = getSelectedPageTemplate(getState());
+    if (selectedPage && selectedPage.code === pageTemplateCode) {
+      return new Promise(r => r(selectedPage));
+    }
+    return fetchPageTemplate(pageTemplateCode)(dispatch)
+      .then((json) => {
+        const pageObject = json.payload;
+        dispatch(setSelectedPageTemplate(pageObject));
+        return pageObject;
+      }).catch(() => {});
+  };
 
 export const initPageTemplateForm = (pageTemplateCode, mode = FORM_MODE_EDIT) => dispatch => (
   fetchPageTemplate(pageTemplateCode)(dispatch).then((json) => {
