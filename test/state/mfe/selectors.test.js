@@ -43,6 +43,6 @@ describe('state/mfe/selectors', () => {
 
   it('getMfeById(state, "example-mfe") returns the correct mfe', () => {
     const bundles = getMfeById(MOCK_STATE, 'example-mfe');
-    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[2]);
+    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[3]);
   });
 });
