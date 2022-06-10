@@ -40,6 +40,7 @@ export const LIST_MFE_RESPONSE_OK = [
     slot: 'primary-menu',
     assets: ['main.js', 'main.css'],
     customElement: 'app-builder-menu',
+    paths: ['route1', '/route2'],
     config: {
       api: [
         {
@@ -82,6 +83,28 @@ export const LIST_MFE_RESPONSE_OK = [
     slot: 'example-mfe-slot',
     assets: ['main.js', 'main.css'],
     customElement: 'example-mfe',
+    paths: ['/'],
+    config: {
+      api: [
+        {
+          name: 'ms1',
+          baseUrl: 'http://localhost:8080',
+        },
+        {
+          name: 'ms2',
+          baseUrl: 'http://localhost:8090',
+        },
+      ],
+    },
+  },
+  {
+    id: 'example   mfe    2 with spaces',
+    pbcName: 'example-mfe-2',
+    bundleName: 'example-mfe-2',
+    name: 'example-mfe-name-2',
+    slot: 'example-mfe-slot-2',
+    assets: ['main.js', 'main.css'],
+    customElement: 'example-mfe-2',
     paths: ['/'],
     config: {
       api: [

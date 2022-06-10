@@ -55,8 +55,12 @@ describe('mfe/reducer', () => {
     });
 
     it('should define verify mfeList items and their order', () => {
-      expect(newState).toHaveProperty('mfeList', [LIST_MFE_RESPONSE_OK[1], LIST_MFE_RESPONSE_OK[2], LIST_MFE_RESPONSE_OK[3], LIST_MFE_RESPONSE_OK[4],
-        existingMfe]);
+      expect(newState).toHaveProperty('mfeList', [
+        LIST_MFE_RESPONSE_OK[1], LIST_MFE_RESPONSE_OK[2],
+        LIST_MFE_RESPONSE_OK[3],
+        LIST_MFE_RESPONSE_OK[4],
+        existingMfe,
+      ]);
     });
   });
 });
