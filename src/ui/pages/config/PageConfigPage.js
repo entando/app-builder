@@ -134,7 +134,7 @@ class PageConfigPage extends Component {
             status={pageStatus}
             differsFromPublished={pageDiffersFromPublished}
           />
-          { pageName }
+          {pageName}
         </h1>
 
         <ErrorsAlertContainer />
@@ -161,11 +161,11 @@ class PageConfigPage extends Component {
           <ButtonToolbar className="pull-left">
             <Button
               className={[
-                        'btn',
-                        'btn-primary',
-                        'PageConfigPage__info-btn',
-                        'PageConfigPage__btn-icon',
-                      ].join(' ')}
+                'btn',
+                'btn-primary',
+                'PageConfigPage__info-btn',
+                'PageConfigPage__btn-icon',
+              ].join(' ')}
               bsStyle="default"
               onClick={this.toggleInfoTable}
             >
@@ -194,72 +194,72 @@ class PageConfigPage extends Component {
                   </span>
                 </Button>
                 {
-                editingSettings && (
+                  editingSettings && (
+                    <Button
+                      className={[
+                        'PageConfigPage__btn-icon--right',
+                        'btn',
+                        'btn-primary',
+                      ].join(' ')}
+                      onClick={onClickSaveSettings}
+                      disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
+                    >
+                      <span>
+                        <FormattedMessage id="app.save" />
+                      </span>
+                    </Button>
+                  )
+                }
+              </React.Fragment>
+              : (
+                <div>
                   <Button
                     className={[
                       'PageConfigPage__btn-icon--right',
                       'btn',
-                      'btn-primary',
+                      'btn-default',
                     ].join(' ')}
-                    onClick={onClickSaveSettings}
-                    disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
+                    onClick={restoreConfig}
+                    disabled={!pageDiffersFromPublished}
                   >
                     <span>
-                      <FormattedMessage id="app.save" />
+                      <FormattedMessage id="app.restore" />
+                      <Icon name="undo" className="PageConfigPage__btn-icon--svg-right" />
                     </span>
                   </Button>
-                )
-              }
-              </React.Fragment>
-            : (
-              <div>
-                <Button
-                  className={[
-                  'PageConfigPage__btn-icon--right',
-                  'btn',
-                  'btn-default',
-                ].join(' ')}
-                  onClick={restoreConfig}
-                  disabled={!pageDiffersFromPublished}
-                >
-                  <span>
-                    <FormattedMessage id="app.restore" />
-                    <Icon name="undo" className="PageConfigPage__btn-icon--svg-right" />
-                  </span>
-                </Button>
 
-                <a
-                  href={previewUri}
-                  title={intl.formatMessage(msgs.appPreview)}
-                  className={[
-                          'btn',
-                          'btn-primary',
-                          'PageConfigPage__btn--addml',
-                          'app-tour-step-19',
-                        ].join(' ')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FormattedMessage id="app.preview" />
-                </a>
-                <Button
-                  title={intl.formatMessage(msgs.viewPublishedPage)}
-                  className={[
+                  <a
+                    href={previewUri}
+                    title={intl.formatMessage(msgs.appPreview)}
+                    className={[
+                      'btn',
+                      'btn-primary',
+                      'PageConfigPage__btn--addml',
+                      'app-tour-step-19',
+                    ].join(' ')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FormattedMessage id="app.preview" />
+                  </a>
+                  <Button
+                    title={intl.formatMessage(msgs.viewPublishedPage)}
+                    className={[
                       'btn',
                       pageStatus === PAGE_STATUS_UNPUBLISHED ? 'btn-default' : 'btn-primary',
                       'PageConfigPage__btn--viewPublishedPage',
                     ].join(' ')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  disabled={pageStatus === PAGE_STATUS_UNPUBLISHED}
-                  onClick={this.openLinkPublishedPage}
-                >
-                  <span>
-                    <FormattedMessage id="pageTree.viewPublishedPage" />
-                  </span>
-                </Button>
-              </div>
-            ) }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    disabled={pageStatus === PAGE_STATUS_UNPUBLISHED}
+                    onClick={this.openLinkPublishedPage}
+                  >
+                    <span>
+                      <FormattedMessage id="pageTree.viewPublishedPage" />
+                    </span>
+                  </Button>
+                </div>
+              )}
           </ButtonToolbar>
         </Col>
       </Row>
@@ -359,7 +359,7 @@ class PageConfigPage extends Component {
                   className="PageConfigPage__bottom-options--tbar"
                 >
                   <ButtonToolbar className="pull-left">
-                    { defaultConfigBtn }
+                    {defaultConfigBtn}
                   </ButtonToolbar>
                   <div className="pull-right PageConfigPage__publishing">
                     <label className="PageConfigPage__on-the-fly-label">

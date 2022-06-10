@@ -14,6 +14,7 @@ import HtmlCodeEditorRenderer from 'ui/common/formik-field/HtmlCodeEditorRendere
 import FormLabel from 'ui/common/form/FormLabel';
 import PageConfigGrid from 'ui/pages/config/PageConfigGrid';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { convertPageTemplateConfigObjectToString } from 'helpers/stringUtils';
 
 import {
   FORM_MODE_ADD, FORM_MODE_EDIT, FORM_MODE_CLONE,
@@ -229,7 +230,8 @@ PageTemplateFormBody.defaultProps = {
 
 const PageTemplateForm = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ initialValues }) => initialValues,
+  mapPropsToValues: ({ initialValues }) =>
+    ({ ...initialValues, configuration: convertPageTemplateConfigObjectToString(initialValues) }),
   isInitialValid: ({ mode }) => mode === FORM_MODE_EDIT,
   mapPropsToErrors: ({ mode }) => {
     switch (mode) {
