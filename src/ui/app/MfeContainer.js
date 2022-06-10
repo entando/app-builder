@@ -6,23 +6,32 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
+import { getDomain } from 'helpers/resourcePath';
+import { getSystemReport } from 'state/system/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const [assetLoading, mfe] = useMfe(id);
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
+  const systemReport = useSelector(getSystemReport);
 
   useEffect(() => {
     if (!window.appBuilderRouter) {
       window.appBuilderRouter = history;
     }
-  }, [history]);
+    if (!window.shellGlobals) {
+      window.shellGlobals = {
+        userPermissions: permissions,
+        lang: locale,
+        adminConsoleUrl: getDomain(),
+        systemReport,
+      };
+    }
+  }, [history, locale, permissions, systemReport]);
 
   const params = {
     config: {
       api: mfe.api,
-      userPermissions: permissions,
-      lang: locale,
     },
   };
 
