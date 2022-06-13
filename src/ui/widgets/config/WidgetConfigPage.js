@@ -120,9 +120,9 @@ class WidgetConfigPage extends Component {
 
     return (
       <InternalPage className="WidgetConfigPage">
-        <Grid fluid>
-          <Row>
-            <Col xs={12}>
+        <div className="WidgetConfigPage__header">
+          <div className="WidgetConfigPage__top">
+            <div>
               <Breadcrumb>
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.pageDesigner" />
@@ -134,46 +134,52 @@ class WidgetConfigPage extends Component {
                   <FormattedMessage id="menu.widget" />
                 </BreadcrumbItem>
               </Breadcrumb>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <PageTitle titleId="menu.widget" helpId="widgetConfig.help" />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <ErrorsAlertContainer />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Button
-                className="WidgetConfigPage__info-btn"
-                bsStyle="primary"
-                onClick={this.toggleInfoTable}
-              >
-                <span className="icon fa fa-chevron-down" />
-                <FormattedMessage id="app.info" />
-              </Button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <Panel
-                className="PageConfigPage__info-panel"
-                id="collapsible-info-table"
-                expanded={this.state.infoTableOpen}
-                onToggle={() => {}}
-              >
-                <Panel.Collapse>
-                  <SelectedPageInfoTableContainer />
-                </Panel.Collapse>
-              </Panel>
-            </Col>
-          </Row>
-          {renderWidgetConfigForm()}
-        </Grid>
+            </div>
+            <div>
+              <div id="widget-button-holder" />
+            </div>
+          </div>
+          <div>
+            <PageTitle titleId="menu.widget" helpId="widgetConfig.help" />
+          </div>
+        </div>
+
+        <div className="WidgetConfigPage__body">
+          <Grid fluid>
+            <Row>
+              <Col xs={12}>
+                <ErrorsAlertContainer />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Button
+                  className="WidgetConfigPage__info-btn"
+                  bsStyle="primary"
+                  onClick={this.toggleInfoTable}
+                >
+                  <span className="icon fa fa-chevron-down" />
+                  <FormattedMessage id="app.info" />
+                </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Panel
+                  className="PageConfigPage__info-panel"
+                  id="collapsible-info-table"
+                  expanded={this.state.infoTableOpen}
+                  onToggle={() => {}}
+                >
+                  <Panel.Collapse>
+                    <SelectedPageInfoTableContainer />
+                  </Panel.Collapse>
+                </Panel>
+              </Col>
+            </Row>
+            {renderWidgetConfigForm()}
+          </Grid>
+        </div>
       </InternalPage>
     );
   }

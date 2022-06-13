@@ -143,17 +143,23 @@
 }
 
 .container-pf-nav-pf-vertical { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-top: 65px;
-  margin-left: #{$nav-pf-vertical-width - 5};
-  padding-bottom: 50px;
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  left: #{$nav-pf-vertical-width + 15};
+  width: calc(100% - #{$nav-pf-vertical-width} - 15px);
+  padding: 0;
+  overflow-x: hidden;
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-left: 75px;
+  left: 75px;
+  width: calc(100% - 75px);
 }
 
 .container-pf-nav-pf-vertical.hidden-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  margin-left: 0;
+  left: 0;
+  width: 100%;
 }
 
 .navbar-brand-txt { //sass-lint:disable-line class-name-format
