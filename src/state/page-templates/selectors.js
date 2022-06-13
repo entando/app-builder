@@ -45,6 +45,20 @@ export const getSelectedPageTemplateDefaultConfig = createSelector(
   },
 );
 
+export const getSelectedPageTemplateStringified = createSelector(
+  [getSelectedPageTemplate],
+  (pageTemplate) => {
+    let configuration = get(pageTemplate, 'configuration', '');
+    if (configuration instanceof Object) {
+      configuration = JSON.stringify(configuration);
+    }
+    return {
+      ...pageTemplate,
+      configuration,
+    };
+  },
+);
+
 export const getFormPageTemplate = createSelector(
   [getPageTemplateForm],
   pageTemplateForm => convertPageTemplateForm(pageTemplateForm),

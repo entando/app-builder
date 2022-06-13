@@ -51,7 +51,7 @@ class PageTemplateDetailTable extends Component {
             </th>
             <td>
               <pre>
-                {pageTemplate.configuration}
+                { JSON.stringify(pageTemplate.configuration, null, 2) }
               </pre>
             </td>
           </tr>

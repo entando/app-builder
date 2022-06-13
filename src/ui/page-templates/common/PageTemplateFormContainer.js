@@ -3,7 +3,7 @@ import { clearErrors } from '@entando/messages';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
-import { getSelectedPageTemplate } from 'state/page-templates/selectors';
+import { getSelectedPageTemplateStringified } from 'state/page-templates/selectors';
 import {
   initPageTemplateForm,
   updatePageTemplate,
@@ -19,7 +19,7 @@ import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import PageTemplateForm from 'ui/page-templates/common/PageTemplateForm';
 
 export const mapStateToProps = state => ({
-  initialValues: getSelectedPageTemplate(state) || DEFAULT_FORM_VALUES,
+  initialValues: getSelectedPageTemplateStringified(state) || DEFAULT_FORM_VALUES,
 });
 
 export const mapDispatchToProps = (dispatch, { mode, match: { params }, history }) => ({
