@@ -319,7 +319,7 @@ export default {
     'menu.details': 'Dettagli',
     'menu.groups': 'Gruppi',
     'menu.database': 'Database',
-    'menu.widget': 'Widgets',
+    'menu.widget': 'MFE & Widgets',
     'menu.labelsAndLanguages': 'Lingue ed Etichette',
     'menu.uxComponents.addLabels': 'Etichette di sistema',
     'menu.categories': 'Categorie',
