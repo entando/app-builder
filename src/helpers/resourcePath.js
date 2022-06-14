@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
-const getDomain = () => {
+export const getDomain = () => {
   const { DOMAIN } = getRuntimeEnv();
   return DOMAIN;
 };
