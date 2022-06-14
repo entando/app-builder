@@ -5,6 +5,7 @@ import { Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 export const SIMPLE_WIDGET_CONFIG_FORM_ID = 'simpleWidgetConfigFormId';
 
@@ -27,13 +28,15 @@ const SimpleWidgetConfigForm = ({ parameters, handleSubmit }) => (
             />
         ))}
         </fieldset>
-        <Button
-          className="pull-right"
-          type="submit"
-          bsStyle="primary"
-        >
-          <FormattedMessage id="app.save" />
-        </Button>
+        <WidgetConfigPortal>
+          <Button
+            className="pull-right"
+            type="submit"
+            bsStyle="primary"
+          >
+            <FormattedMessage id="app.save" />
+          </Button>
+        </WidgetConfigPortal>
       </form>
     </Col>
   </Row>

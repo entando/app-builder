@@ -13,6 +13,7 @@ import { getContentById } from 'api/contents';
 import { SINGLE_CONTENT_CONFIG } from 'ui/widget-forms/const';
 import ContentTableRow from 'ui/widget-forms/publish-single-content-config/ContentTableRow';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 export const SingleContentConfigContainerId = `widgets.${SINGLE_CONTENT_CONFIG}`;
 
@@ -113,21 +114,23 @@ export class SingleContentConfigFormBody extends PureComponent {
     return (
       <Row className="SingleContentConfigFormBody__actionBar">
         <Col xs={12}>
-          <Button
-            className="pull-right AddContentTypeFormBody__save--btn app-tour-step-21"
-            type="submit"
-            bsStyle="primary"
-            disabled={invalid || submitting || !contentExists}
-          >
-            <FormattedMessage id="app.save" />
-          </Button>
-          <Button
-            className="pull-right AddContentTypeFormBody__cancel--btn"
-            bsStyle="default"
-            onClick={handleCancelClick}
-          >
-            <FormattedMessage id="cms.label.cancel" />
-          </Button>
+          <WidgetConfigPortal>
+            <Button
+              className="pull-right AddContentTypeFormBody__save--btn app-tour-step-21"
+              type="submit"
+              bsStyle="primary"
+              disabled={invalid || submitting || !contentExists}
+            >
+              <FormattedMessage id="app.save" />
+            </Button>
+            <Button
+              className="pull-right AddContentTypeFormBody__cancel--btn"
+              bsStyle="default"
+              onClick={handleCancelClick}
+            >
+              <FormattedMessage id="cms.label.cancel" />
+            </Button>
+          </WidgetConfigPortal>
         </Col>
       </Row>
     );
