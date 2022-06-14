@@ -23,12 +23,6 @@ const mfeConfigMock = {
 
 jest.mock('hooks/useMfe', () => jest.fn(() => ([mockedLoading, mockMfe])));
 
-jest.mock('state/system/selectors', () => ({
-  getSystemReport: jest.fn().mockReturnValue({
-    contentSchedulerPluginInstalled: true,
-  }),
-}));
-
 describe('MfeContainer', () => {
   beforeAll(() => {
     useSelector.mockImplementation(callback => callback({
@@ -55,6 +49,6 @@ describe('MfeContainer', () => {
     const { container } = render(<MemoryRouter><MfeContainer id="example-mfe" /></MemoryRouter>);
     const mfe = container.querySelector('example-mfe');
     expect(mfe).toBeInTheDocument();
-    expect(mfe.getAttribute('config')).toBe(JSON.stringify({ api: mfeConfigMock.api }));
+    expect(mfe.getAttribute('config')).toBe(JSON.stringify(mfeConfigMock));
   });
 });
