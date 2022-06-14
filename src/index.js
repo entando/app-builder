@@ -30,6 +30,15 @@ import '@entando/datatable/dist/css/index.css';
 
 import 'index.scss';
 
+// init namespace for the shell
+if (!window.entando) window.entando = {};
+
+if (process.env.USE_MFE_MOCKS) {
+  import('./services/mocking/init').then(({ initMockingService }) => {
+    initMockingService();
+  });
+}
+
 // exporting for tests
 export default ReactDOM.render(
   <Provider store={store}>

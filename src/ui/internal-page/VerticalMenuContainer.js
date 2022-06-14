@@ -39,7 +39,7 @@ import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
 import { fetchSystemReport } from 'state/system/actions';
 import { dismissedWizardKey } from 'ui/app-tour/constant';
-// import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
+import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 
 const {
@@ -443,11 +443,13 @@ MfeMenuContainer.propTypes = {
 };
 
 const VerticalMenu = (props) => {
-  const mfeMenu = false;
-  // const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
+  const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
 
-  return mfeMenu
+  // TODO: remove when we have the ECR API is implemented
+  const isMFEMenuEnabled = process.env.USE_MFE_MOCKS || false;
+
+  return isMFEMenuEnabled
     ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />
     : <EntandoMenu {...props} />;
 };
