@@ -17,21 +17,14 @@ export const LIST_MFE_RESPONSE_OK = [
     ],
   },
   {
-    id: 'example-mfe-menu',
+    id: 'app-builder-menu',
     slot: 'primary-menu',
-    name: 'example-mfe-menu',
-    assets: ['mocks/example-mfe-menu/main.js'],
-    customElement: 'example-mfe-menu',
-    api: [
-      {
-        name: 'ms1',
-        baseUrl: 'http://localhost:8080',
-      },
-      {
-        name: 'ms2',
-        baseUrl: 'http://localhost:8090',
-      },
-    ],
+    name: 'app-builder-menu',
+    assets: ['http://localhost:4173/app-builder-menu.umd.js'],
+    customElement: 'app-builder-menu',
+    api: {
+      url: 'http://localhost:8080/menu-be-api',
+    },
   },
   {
     id: 'example-mfe',

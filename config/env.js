@@ -3,11 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
-const { isURL } = require('validator');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
 
+// eslint-disable-next-line prefer-destructuring
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
   throw new Error('The NODE_ENV environment variable is required but was not specified.');
@@ -31,6 +31,7 @@ const dotenvFiles = [
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach((dotenvFile) => {
   if (fs.existsSync(dotenvFile)) {
+    // eslint-disable-next-line global-require
     require('dotenv-expand')(require('dotenv').config({
       path: dotenvFile,
     }));
@@ -68,6 +69,7 @@ function getClientEnvironment(publicUrl) {
     .filter(key => REACT_APP.test(key) || RUNTIME_OVERRIDABLE_VARS.includes(key))
     .reduce(
       (env, key) => {
+        // eslint-disable-next-line no-param-reassign
         env[key] = process.env[key];
         return env;
       },
@@ -81,6 +83,7 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         USE_MOCKS: process.env.USE_MOCKS === 'true',
+        USE_MFE_MOCKS: process.env.USE_MFE_MOCKS === 'true',
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
@@ -91,6 +94,7 @@ function getClientEnvironment(publicUrl) {
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
     'process.env': Object.keys(raw).reduce((env, key) => {
+      // eslint-disable-next-line no-param-reassign
       env[key] = JSON.stringify(raw[key]);
       return env;
     }, {}),
