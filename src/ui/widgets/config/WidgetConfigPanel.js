@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { ROUTE_PAGE_CONFIG, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 const WidgetConfigPanel = ({
   widget, widgetCode, framePos, frameName, pageCode, children, buttons,
@@ -64,9 +65,9 @@ const WidgetConfigPanel = ({
               </div>
             }
         </Panel>
-        <div>
+        <WidgetConfigPortal>
           {buttons}
-        </div>
+        </WidgetConfigPortal>
       </Col>
     </Row>
   );
