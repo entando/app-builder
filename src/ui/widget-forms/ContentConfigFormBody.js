@@ -253,6 +253,7 @@ export class ContentConfigFormBody extends PureComponent {
                   type="submit"
                   bsStyle="primary"
                   disabled={invalid || submitting || noContents}
+                  onClick={onSave}
                 >
                   <FormattedMessage id="app.save" />
                 </Button>

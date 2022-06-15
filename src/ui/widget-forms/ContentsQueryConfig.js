@@ -177,6 +177,7 @@ export class ContentsQueryFormBody extends Component {
         type="submit"
         bsStyle="primary"
         disabled={invalid || submitting}
+        onClick={onSave}
       >
         <FormattedMessage id="app.save" />
       </Button>

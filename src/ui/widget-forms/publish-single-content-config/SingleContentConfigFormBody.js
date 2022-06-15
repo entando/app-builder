@@ -98,6 +98,7 @@ export class SingleContentConfigFormBody extends PureComponent {
       dirty,
       submitting,
       appTourProgress,
+      onSave,
     } = this.props;
 
     const { selectedContent } = this.state;
@@ -120,6 +121,7 @@ export class SingleContentConfigFormBody extends PureComponent {
               type="submit"
               bsStyle="primary"
               disabled={invalid || submitting || !contentExists}
+              onClick={onSave}
             >
               <FormattedMessage id="app.save" />
             </Button>

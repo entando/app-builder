@@ -33,6 +33,7 @@ const SimpleWidgetConfigForm = ({ parameters, handleSubmit }) => (
             className="pull-right"
             type="submit"
             bsStyle="primary"
+            onClick={handleSubmit}
           >
             <FormattedMessage id="app.save" />
           </Button>

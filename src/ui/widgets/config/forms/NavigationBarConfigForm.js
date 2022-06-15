@@ -138,6 +138,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                     type="submit"
                     bsStyle="primary"
                     disabled={invalid || submitting || expressionsNotAvailable}
+                    onClick={onSave}
                   >
                     <FormattedMessage id="app.save" />
                   </Button>
