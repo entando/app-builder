@@ -17,6 +17,7 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 
 import { CONTENTS_QUERY_CONFIG } from 'ui/widget-forms/const';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 export const ContentsQueryContainerId = `widgets.${CONTENTS_QUERY_CONFIG}`;
 
@@ -176,6 +177,7 @@ export class ContentsQueryFormBody extends Component {
         type="submit"
         bsStyle="primary"
         disabled={invalid || submitting}
+        onClick={onSave}
       >
         <FormattedMessage id="app.save" />
       </Button>
@@ -438,14 +440,16 @@ export class ContentsQueryFormBody extends Component {
         {!extFormName && (
           <Row>
             <Col xs={12}>
-              {renderSaveButton}
-              <Button
-                className="pull-right AddContentTypeFormBody__cancel--btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="cms.label.cancel" />
-              </Button>
+              <WidgetConfigPortal>
+                {renderSaveButton}
+                <Button
+                  className="pull-right AddContentTypeFormBody__cancel--btn"
+                  bsStyle="default"
+                  onClick={handleCancelClick}
+                >
+                  <FormattedMessage id="cms.label.cancel" />
+                </Button>
+              </WidgetConfigPortal>
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
                 invalid={invalid}

@@ -14,6 +14,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 import { MULTIPLE_CONTENTS_CONFIG } from 'ui/widget-forms/const';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 const maxLength70 = maxLength(70);
 
@@ -246,21 +247,24 @@ export class ContentConfigFormBody extends PureComponent {
         {!extFormName && (
           <Row>
             <Col xs={12}>
-              <Button
-                className="pull-right AddContentTypeFormBody__save--btn"
-                type="submit"
-                bsStyle="primary"
-                disabled={invalid || submitting || noContents}
-              >
-                <FormattedMessage id="app.save" />
-              </Button>
-              <Button
-                className="pull-right AddContentTypeFormBody__cancel--btn"
-                bsStyle="default"
-                onClick={handleCancelClick}
-              >
-                <FormattedMessage id="cms.label.cancel" />
-              </Button>
+              <WidgetConfigPortal>
+                <Button
+                  className="pull-right AddContentTypeFormBody__save--btn"
+                  type="submit"
+                  bsStyle="primary"
+                  disabled={invalid || submitting || noContents}
+                  onClick={onSave}
+                >
+                  <FormattedMessage id="app.save" />
+                </Button>
+                <Button
+                  className="pull-right AddContentTypeFormBody__cancel--btn"
+                  bsStyle="default"
+                  onClick={handleCancelClick}
+                >
+                  <FormattedMessage id="cms.label.cancel" />
+                </Button>
+              </WidgetConfigPortal>
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
                 invalid={invalid}

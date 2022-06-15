@@ -13,6 +13,7 @@ import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 export default class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
@@ -131,21 +132,24 @@ export default class NavigationBarConfigForm extends PureComponent {
           {mode !== MODE_CLONE &&
             <Row>
               <Col xs={12}>
-                <Button
-                  className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
-                  type="submit"
-                  bsStyle="primary"
-                  disabled={invalid || submitting || expressionsNotAvailable}
-                >
-                  <FormattedMessage id="app.save" />
-                </Button>
-                <Button
-                  className="pull-right NavigationBarConfigForm__cancel-btn"
-                  bsStyle="default"
-                  onClick={handleCancelClick}
-                >
-                  <FormattedMessage id="app.cancel" />
-                </Button>
+                <WidgetConfigPortal>
+                  <Button
+                    className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
+                    type="submit"
+                    bsStyle="primary"
+                    disabled={invalid || submitting || expressionsNotAvailable}
+                    onClick={onSave}
+                  >
+                    <FormattedMessage id="app.save" />
+                  </Button>
+                  <Button
+                    className="pull-right NavigationBarConfigForm__cancel-btn"
+                    bsStyle="default"
+                    onClick={handleCancelClick}
+                  >
+                    <FormattedMessage id="app.cancel" />
+                  </Button>
+                </WidgetConfigPortal>
                 {
                   appTourProgress !== APP_TOUR_STARTED && (
                     <ConfirmCancelModalContainer
