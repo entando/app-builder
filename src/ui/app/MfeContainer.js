@@ -19,12 +19,17 @@ const MfeContainer = ({ id, history }) => {
     if (!window.appBuilderRouter) {
       window.appBuilderRouter = history;
     }
-    if (!window.shellGlobals) {
-      window.shellGlobals = {
+    if (!window.entando || !window.entando.globals) {
+      const entandoWindow = window.entando || {};
+      const globals = {
         userPermissions: permissions,
         lang: locale,
         adminConsoleUrl: getDomain(),
         systemReport,
+      };
+      window.entando = {
+        ...entandoWindow,
+        globals,
       };
     }
   }, [history, locale, permissions, systemReport]);
