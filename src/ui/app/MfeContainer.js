@@ -19,14 +19,15 @@ const MfeContainer = ({ id, history }) => {
     if (!window.appBuilderRouter) {
       window.appBuilderRouter = history;
     }
-    if (!window.entando || !window.entando.globals) {
-      const entandoWindow = window.entando || {};
-      const globals = {
-        userPermissions: permissions,
-        lang: locale,
-        adminConsoleUrl: getDomain(),
-        systemReport,
-      };
+    const entandoWindow = window.entando || {};
+    const globals = {
+      userPermissions: permissions,
+      lang: locale,
+      adminConsoleUrl: getDomain(),
+      systemReport,
+    };
+
+    if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
       window.entando = {
         ...entandoWindow,
         globals,
