@@ -208,7 +208,8 @@ const RouteComponent = () => {
 
   const mfeRoutes = React.useMemo(
     () => generateMfeRoutes(contentMfe),
-    [contentMfe],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(contentMfe)],
   );
 
   return (
