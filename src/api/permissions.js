@@ -20,7 +20,7 @@ export const getMyGroupPermissions = () => (
     method: METHODS.GET,
     mockResponse: MY_PERMISSIONS_PAYLOAD_OK,
     useAuthentication: true,
-    // useCredentials: true,
+    useCredentials: true,
   })
 );
 
