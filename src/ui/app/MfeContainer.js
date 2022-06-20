@@ -37,7 +37,7 @@ const MfeContainer = ({ id, history }) => {
 
   const params = {
     config: {
-      api: mfe.api,
+      api: mfe.config.api,
     },
   };
 
