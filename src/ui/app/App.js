@@ -185,6 +185,7 @@ import { useSelector } from 'react-redux';
 import { getMfeTargetContent } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
+import { generateMfeRoutes } from 'helpers/urlUtils';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -205,17 +206,11 @@ const RouteComponent = () => {
   const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
   const contentMfe = useSelector(getMfeTargetContent);
 
-  const mfeRoutes = React.useMemo(() => contentMfe.reduce((acc, curr) => {
-    if (curr.paths) {
-      const routes = [];
-      curr.paths.forEach((route) => {
-        routes.push({ route, id: curr.id });
-      });
-      return [...acc, ...routes];
-    }
-    return acc;
+  const mfeRoutes = React.useMemo(
+    () => generateMfeRoutes(contentMfe),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []), [JSON.stringify(contentMfe)]);
+    [JSON.stringify(contentMfe)],
+  );
 
   return (
     <Switch>
