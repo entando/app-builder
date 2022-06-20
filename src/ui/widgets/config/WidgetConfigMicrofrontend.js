@@ -1,41 +1,31 @@
+/* eslint-disable no-nested-ternary */
 import { get } from 'lodash';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
 
 import { getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
 import { getResourcePath } from 'helpers/resourcePath';
-import useScripts from 'helpers/useScripts';
-import useStylesheets from 'helpers/useStylesheets';
+import useMfe from 'hooks/useMfe';
 import WidgetConfigPanel from './WidgetConfigPanel';
+
+// normalize the widget object to what is expected by the hook
+const normalizeMfeObject = (obj, assets) => ({
+  id: get(obj, 'code'),
+  customElement: get(obj, 'configUi.customElement', ''),
+  name: get(obj, 'code'),
+  assets,
+});
 
 const WidgetConfigMicrofrontend = ({
   onSubmit, widget, widgetConfig, onCancel, widgetCode, framePos, frameName, pageCode,
 }) => {
+  // uncomment this to work with local widgets
+  // const resources = get(widget, 'configUi.resources', []).map(resource => `/${resource}`);
   const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
-  const customElement = get(widget, 'configUi.customElement');
-
-  const scripts = resources.filter(res => res.endsWith('.js'));
-  const styleSheets = resources.filter(res => res.endsWith('.css'));
-
-  const [everyScriptLoaded, someScriptError] = useScripts(scripts);
-  const [everyStylesheetLoaded, someStylesheetError] = useStylesheets(styleSheets);
-
-  // eslint-disable-next-line no-unused-vars
-  const [enableSubmit, setEnableSubmit] = useState(true);
-
-  useEffect(() => {
-    const widgetConfigListenerName = 'widget-config';
-    const listener = (e) => {
-      const { save } = e.detail;
-      setEnableSubmit(save);
-    };
-
-    window.addEventListener(widgetConfigListenerName, listener);
-
-    return () => window.removeEventListener(widgetConfigListenerName, listener);
-  }, []);
+  const { assetLoading, mfe, hasError } = useMfe(normalizeMfeObject(widget, resources));
+  const customElement = get(mfe, 'customElement');
 
   const handleSubmit = () => {
     const configWebComponent = getMicrofrontend(customElement);
@@ -45,14 +35,13 @@ const WidgetConfigMicrofrontend = ({
 
   useEffect(() => {
     const microfrontend = getMicrofrontend(customElement);
-    if (everyScriptLoaded && microfrontend && widgetConfig) {
+    if (!assetLoading && microfrontend && widgetConfig) {
       microfrontend.config = widgetConfig;
     }
-  }, [customElement, everyScriptLoaded, widgetConfig]);
+  }, [customElement, assetLoading, widgetConfig]);
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
-  const shouldRender = (scripts.length && everyScriptLoaded && everyStylesheetLoaded
-    && !someScriptError && !someStylesheetError);
+  const shouldRender = !assetLoading && !hasError && resources.length && customElement;
 
   return (
     <WidgetConfigPanel
@@ -82,7 +71,9 @@ const WidgetConfigMicrofrontend = ({
         </Fragment>
       }
     >
-      {shouldRender ? microfrontendMarkup : <FormattedMessage id="widget.page.config.error" />}
+      {shouldRender ? microfrontendMarkup
+      : assetLoading ? <FormattedMessage id="widget.page.config.loading" />
+      : <FormattedMessage id="widget.page.config.error" />}
     </WidgetConfigPanel>);
 };
 

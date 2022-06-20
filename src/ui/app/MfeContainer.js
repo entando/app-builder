@@ -8,7 +8,7 @@ import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
 
 const MfeContainer = ({ id, history }) => {
-  const [assetLoading, mfe] = useMfe(id);
+  const { assetLoading, mfe } = useMfe(id);
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
 
@@ -26,7 +26,7 @@ const MfeContainer = ({ id, history }) => {
     },
   };
 
-  return assetLoading.length
+  return assetLoading
     ? <div>Loading...</div>
     : renderMicrofrontend(mfe.customElement, params);
 };
