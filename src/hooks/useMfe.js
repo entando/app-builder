@@ -68,8 +68,6 @@ const useMfe = (mfeId) => {
     injectAssetToDom(mfe, removeAsset, setError);
   }, [mfe, mfe.id, removeAsset]);
 
-  console.log(assetLoading);
-
   return { assetLoading: assetLoading.length > 0, mfe, hasError };
 };
 
