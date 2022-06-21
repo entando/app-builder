@@ -16,10 +16,11 @@ const MfeContainer = ({ id, history }) => {
   const systemReport = useSelector(getSystemReport);
 
   useEffect(() => {
-    if (!window.appBuilderRouter) {
-      window.appBuilderRouter = history;
-    }
     const entandoWindow = window.entando || {};
+    if (!entandoWindow.router) {
+      window.entando = { ...entandoWindow, router: history };
+      entandoWindow.router = history;
+    }
     const globals = {
       userPermissions: permissions,
       lang: locale,
