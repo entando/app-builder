@@ -1,6 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
+import { getResourcePath } from 'helpers/resourcePath';
+
+const { USE_MFE_MOCKS } = process.env;
+
+const getMfeResourcePath = (path) => {
+  if (USE_MFE_MOCKS) {
+    return path;
+  }
+  return getResourcePath(path);
+};
 
 
 // try to find the element by id
@@ -10,7 +20,7 @@ const isCSSLoaded = id => document.getElementById(`style-${id}`);
 // generates the <script> tag and track the loading status
 const createScript = (id, asset, remove, setError) => {
   const script = document.createElement('script');
-  script.src = asset;
+  script.src = getMfeResourcePath(asset);
   script.id = `script-${id}`;
   script.onload = () => {
     remove(asset);
@@ -27,7 +37,7 @@ const createStyle = (id, asset, remove, setError) => {
   styles.rel = 'stylesheet';
   styles.type = 'text/css';
   styles.media = 'screen';
-  styles.href = asset;
+  styles.href = getMfeResourcePath(asset);
   styles.id = `style-${id}`;
   styles.onload = () => {
     remove(asset);
