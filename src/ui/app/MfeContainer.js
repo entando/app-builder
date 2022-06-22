@@ -18,7 +18,6 @@ const MfeContainer = ({ id, history }) => {
   useEffect(() => {
     const entandoWindow = window.entando || {};
     if (!entandoWindow.router) {
-      window.entando = { ...entandoWindow, router: history };
       entandoWindow.router = history;
     }
     const globals = {
@@ -29,11 +28,10 @@ const MfeContainer = ({ id, history }) => {
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
-      window.entando = {
-        ...entandoWindow,
-        globals,
-      };
+      entandoWindow.globals = globals;
     }
+
+    window.entando = entandoWindow;
   }, [history, locale, permissions, systemReport]);
 
   const params = {
