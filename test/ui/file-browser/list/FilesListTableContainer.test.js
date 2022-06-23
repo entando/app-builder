@@ -50,7 +50,7 @@ describe('FilesListTableContainer', () => {
   describe('mapDispatchToProps', () => {
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, { history: { location: {} } });
     });
 
     it('should map the correct function properties', () => {
@@ -58,10 +58,17 @@ describe('FilesListTableContainer', () => {
       expect(props.onClickDownload).toBeDefined();
       expect(props.onClickDeleteFolder).toBeDefined();
       expect(props.onClickDeleteFile).toBeDefined();
+      expect(props.onPathChange).toBeDefined();
     });
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
+      expect(dispatchMock).toHaveBeenCalled();
+      expect(fetchFileList).toHaveBeenCalled();
+    });
+
+    it('should dispatch an action if onPathChange is called', () => {
+      props.onPathChange({});
       expect(dispatchMock).toHaveBeenCalled();
       expect(fetchFileList).toHaveBeenCalled();
     });

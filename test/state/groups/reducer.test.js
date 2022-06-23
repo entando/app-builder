@@ -6,11 +6,13 @@ import {
   setSelectedGroup,
   setReferences,
   removeGroupSync,
+  setMyGroups,
 } from 'state/groups/actions';
 
 import {
   getGroupsList,
   getSelectedGroup,
+  getMyGroupsList,
 } from 'state/groups/selectors';
 
 import {
@@ -45,6 +47,17 @@ describe('state/groups/reducer', () => {
 
     it('should define the groups payload', () => {
       expect(getGroupsList({ groups: newState })).toMatchObject(LIST_GROUPS_OK);
+    });
+  });
+
+  describe('after action SET_MY_GROUPS', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setMyGroups(LIST_GROUPS_OK));
+    });
+
+    it('should define the groups payload', () => {
+      expect(getMyGroupsList({ groups: newState })).toEqual(LIST_GROUPS_OK.map(g => g.code));
     });
   });
 

@@ -10,7 +10,7 @@ import RenderFileInput from 'ui/common/form/RenderFileInput';
 
 export const UploadFileBrowserBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, loading,
+    handleSubmit, invalid, submitting, loading, history,
   } = props;
 
   return (
@@ -35,7 +35,7 @@ export const UploadFileBrowserBody = (props) => {
               <Icon size="lg" name="upload" />&nbsp;
               <FormattedMessage id="app.upload" />
             </Button>
-            <Link to={ROUTE_FILE_BROWSER}>
+            <Link to={{ pathname: ROUTE_FILE_BROWSER, state: { from: history.location.pathname } }}>
               <Button
                 className="pull-right UploadFileBrowserForm__btn-cancel"
               >
@@ -55,6 +55,11 @@ UploadFileBrowserBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   loading: PropTypes.bool,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 UploadFileBrowserBody.defaultProps = {

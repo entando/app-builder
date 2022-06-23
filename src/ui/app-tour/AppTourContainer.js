@@ -6,7 +6,7 @@ import { getUsername } from '@entando/apimanager';
 import AppTour from 'ui/app-tour/AppTour';
 import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage, getWizardEnabled } from 'state/app-tour/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { fetchWizardEnabled, setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
+import { setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
@@ -45,7 +45,6 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onDidMount: ({ username }) => { dispatch(fetchWizardEnabled(username)); },
   onToggleDontShow: (disableWizard, username) => {
     dispatch(updateUserPreferences(username, { wizard: !disableWizard, showToast: false }));
   },

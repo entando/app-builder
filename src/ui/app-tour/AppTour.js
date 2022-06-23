@@ -483,7 +483,6 @@ class AppTour extends React.Component {
 }
 
 AppTour.propTypes = {
-  onDidMount: PropTypes.func.isRequired,
   onToggleDontShow: PropTypes.func.isRequired,
   wizardEnabled: PropTypes.bool,
   username: PropTypes.string,

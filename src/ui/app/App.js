@@ -90,6 +90,7 @@ import {
   ROUTE_LICENSE,
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
+  ROUTE_FORBIDDEN,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -186,6 +187,7 @@ import { getMfeTargetContent } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
+import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -356,6 +358,8 @@ const RouteComponent = () => {
           render={() => <MfeContainer id={mfe.id} />}
         />))
       }
+      {/* 403 */}
+      <Route path={ROUTE_FORBIDDEN} component={NoAccessPageContainer} />
       {/* 404 */}
       <Route component={PageNotFoundContainer} />
     </Switch>
@@ -392,7 +396,7 @@ class App extends Component {
       return <Redirect to={{ pathname: ROUTE_HOME, search: `?redirect_uri=${currentRoute}` }} />;
     }
 
-    if (!loggedUserPrefloading) {
+    if (auth.enabled && !loggedUserPrefloading) {
       return <div className="shell-preload"><RowSpinner loading /></div>;
     }
 

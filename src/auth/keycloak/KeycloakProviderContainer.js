@@ -5,7 +5,6 @@ import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { connect } from 'react-redux';
 import { loginUser } from '@entando/apimanager';
 import { fetchLoggedUserPermissions } from 'state/permissions/actions';
-import { fetchWizardEnabled, clearAppTourProgress } from 'state/app-tour/actions';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
@@ -31,26 +30,29 @@ export const mapDispatchToProps = dispatch => ({
 
     switch (event) {
       case 'onAuthSuccess':
-        dispatch(clearAppTourProgress());
         dispatch(loginUser(username, token));
         break;
       case 'onAuthRefreshSuccess':
         keycloak.setToRefreshToken(true);
         dispatch(loginUser(username, token));
         dispatch(fetchLoggedUserPermissions());
-        dispatch(fetchWizardEnabled(username));
+
         break;
       case 'onAuthRefreshError':
         keycloak.logout();
         break;
       case 'onReady':
-        if (!username) {
+        if (!username || !token) {
           keycloak.login();
         } else {
           dispatch(loginUser(username, token));
         }
         break;
-      default: break;
+      default:
+        if (!username || !token) {
+          keycloak.login();
+        }
+        break;
     }
   },
 });

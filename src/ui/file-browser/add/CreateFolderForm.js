@@ -26,7 +26,7 @@ export class CreateFolderFormBody extends Component {
 
   render() {
     const {
-      intl, invalid, submitting,
+      intl, invalid, submitting, history,
     } = this.props;
 
     return (
@@ -62,7 +62,7 @@ export class CreateFolderFormBody extends Component {
             <Button
               className="pull-right FileBrowserCreateFolderForm__btn-cancel"
               componentClass={Link}
-              to={ROUTE_FILE_BROWSER}
+              to={{ pathname: ROUTE_FILE_BROWSER, state: { from: history.location.pathname } }}
             >
               <FormattedMessage id="app.cancel" />
             </Button>
@@ -78,6 +78,11 @@ CreateFolderFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
+  history: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 const CreateFolderForm = reduxForm({

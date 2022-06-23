@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'patternfly-react';
 
 import LabelsTable from 'ui/labels/list/LabelsTable';
+import DeleteLabelAndLanguagesModalContainer from 'ui/labels/common/DeleteLabelAndLanguagesModalContainer';
 
 const LabelsTabs = ({
   languages, labels, onClickDelete, loading,
@@ -27,6 +28,7 @@ const LabelsTabs = ({
   return (
     <Tabs className="LabelsTabs" defaultActiveKey={0} id="labels-tabs">
       {tabs}
+      <DeleteLabelAndLanguagesModalContainer />
     </Tabs>
   );
 };

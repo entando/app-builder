@@ -300,7 +300,7 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
     .filter(code => code !== pageCode);
   const newSiblingIndex = newSiblingChildren.indexOf(siblingCode);
   const newPosition = (moveAbove ? newSiblingIndex : newSiblingIndex + 1) + 1;
-  dispatch(setPageLoading(page.code));
+
   return setPagePosition(pageCode, newPosition, newParentCode)
     .then((response) => {
       if (response.ok) {
@@ -627,13 +627,13 @@ export const fetchPageTreeAll = () => (dispatch, getState) => {
     });
 };
 
-export const fetchDashboardPages = (page = { page: 1, pageSize: 10 }, params = '') => async (dispatch) => {
+export const fetchDashboardPages = (page = { page: 1, pageSize: 10 }, params = '', namespace) => async (dispatch) => {
   try {
     const response = await getSearchPages(page, params);
     const json = await response.json();
     if (response.ok) {
       dispatch(setDashboardPages(json.payload));
-      dispatch(setPage(json.metaData));
+      dispatch(setPage(json.metaData, namespace));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

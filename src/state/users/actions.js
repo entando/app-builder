@@ -12,7 +12,7 @@ import {
   postUserAuthorities,
   putUserAuthorities,
   deleteUserAuthorities,
-  postUserPassword,
+  postMyPassword,
   postWizardSetting,
 } from 'api/users';
 import { setPage } from 'state/pagination/actions';
@@ -161,7 +161,7 @@ export const sendPostUser = (user, editUserProfile) => async (dispatch) => {
 export const sendPutUser = user => dispatch => (
   new Promise((resolve) => {
     if (user) {
-      putUser(user).then((response) => {
+      putUser({ ...user, passwordConfirm: undefined }).then((response) => {
         if (response.ok) {
           history.push(ROUTE_USER_LIST);
           resolve();
@@ -267,9 +267,9 @@ export const sendDeleteUserAuthorities = username => async (dispatch) => {
   }
 };
 
-export const sendPostUserPassword = (username, data) => async (dispatch) => {
+export const sendPostMyPassword = data => async (dispatch) => {
   try {
-    const response = await postUserPassword(username, data);
+    const response = await postMyPassword(data);
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast(

@@ -6,6 +6,7 @@ import {
   SET_REFERENCES,
   REMOVE_GROUP,
   SET_GROUP_ENTRIES,
+  SET_MY_GROUPS,
 } from 'state/groups/types';
 
 export const toMap = array => array.reduce((acc, group) => {
@@ -23,6 +24,15 @@ export const list = (state = [], action = {}) => {
     case REMOVE_GROUP: {
       const { groupCode } = action.payload;
       return state.filter(group => group !== groupCode);
+    }
+    default: return state;
+  }
+};
+
+export const myGroupsList = (state = [], action = {}) => {
+  switch (action.type) {
+    case SET_MY_GROUPS: {
+      return toIdList(action.payload.groups);
     }
     default: return state;
   }
@@ -100,4 +110,5 @@ export default combineReducers({
   selected,
   total,
   groupEntries,
+  myGroupsList,
 });

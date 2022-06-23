@@ -46,6 +46,22 @@ export class PageFormBody extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } = prevProps;
+    const {
+      enableGroupAccessControl, myGroups, redirectToForbidden, pageOwnerGroup,
+    } = this.props;
+
+    if (enableGroupAccessControl) {
+      if (myGroups != null && pageOwnerGroup && (prevMyGroups == null || !prevPageOwnerGroup)) {
+        const redirectDueToLackOfGroupAccess = !myGroups.includes(pageOwnerGroup);
+        if (redirectDueToLackOfGroupAccess) {
+          redirectToForbidden();
+        }
+      }
+    }
+  }
+
   render() {
     const {
       intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
@@ -434,6 +450,10 @@ PageFormBody.propTypes = {
   onChangeOwnerGroup: PropTypes.func,
   readOnly: PropTypes.bool,
   stayOnSave: PropTypes.bool,
+  enableGroupAccessControl: PropTypes.bool,
+  myGroups: PropTypes.arrayOf(PropTypes.string),
+  redirectToForbidden: PropTypes.func,
+  pageOwnerGroup: PropTypes.string,
 };
 
 PageFormBody.defaultProps = {
@@ -453,6 +473,10 @@ PageFormBody.defaultProps = {
   onChangeOwnerGroup: () => {},
   readOnly: false,
   stayOnSave: false,
+  enableGroupAccessControl: false,
+  myGroups: null,
+  redirectToForbidden: () => {},
+  pageOwnerGroup: '',
 };
 
 const PageForm = reduxForm({

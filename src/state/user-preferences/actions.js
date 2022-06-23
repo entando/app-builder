@@ -1,5 +1,6 @@
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { getUserPreferences, putUserPreferences } from 'api/userPreferences';
+import { setWizardEnabled } from 'state/app-tour/actions';
 import { SET_USER_PREFERENCES } from 'state/user-preferences/types';
 
 export const setUserPreferences = preferences => ({
@@ -13,6 +14,7 @@ export const fetchUserPreferences = username => dispatch => new Promise((resolve
   getUserPreferences(username).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
+        dispatch(setWizardEnabled((json.payload || {}).wizard));
         dispatch(setUserPreferences(json.payload));
         resolve();
       } else {

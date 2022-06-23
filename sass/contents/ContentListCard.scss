@@ -1,7 +1,7 @@
 // sass-lint:disable class-name-format nesting-depth
 .ContentListCard {
   position: relative;
-  height: 275px;
+  min-height: 275px;
   margin: 0 -10px;
   padding: 0 20px 20px;
   border: $color-pf-black-300 solid 1px;

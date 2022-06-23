@@ -73,8 +73,8 @@ export const deleteUserAuthorities = username => makeRequest({
   useAuthentication: true,
 });
 
-export const postUserPassword = (username, data) => makeRequest({
-  uri: `/api/users/${username}/password`,
+export const postMyPassword = data => makeRequest({
+  uri: '/api/users/myPassword',
   method: METHODS.POST,
   body: data,
   mockResponse: {},

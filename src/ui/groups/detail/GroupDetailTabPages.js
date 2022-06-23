@@ -92,6 +92,7 @@ class GroupDetailTabPages extends React.Component {
             viewType="table"
             itemCount={this.props.totalItems}
             onPageSet={this.changePage}
+            onPerPageSelect={this.changePageSize}
             messages={messages}
           />
         </div>

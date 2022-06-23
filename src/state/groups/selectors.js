@@ -16,6 +16,12 @@ export const getGroupsIdList =
     groups => (groups.list || []),
   );
 
+export const getMyGroupsList =
+  createSelector(
+    getGroups,
+    groups => (groups.myGroupsList || []),
+  );
+
 export const getGroupsMap =
   createSelector(
     getGroups,
@@ -64,10 +70,10 @@ export const getSelectedGroupResourceReferences =
   );
 
 export const getSelectedGroupContentReferences =
-    createSelector(
-      getReferenceMap,
-      refMap => (refMap[CONTENT_REFERENCE_KEY] || []),
-    );
+  createSelector(
+    getReferenceMap,
+    refMap => (refMap[CONTENT_REFERENCE_KEY] || []),
+  );
 
 export const getSelectedGroupUserReferences =
   createSelector(
@@ -82,13 +88,13 @@ export const getSelectedGroupWidgetTypeReferences =
   );
 
 export const getWidgetTypeReferences =
-    createSelector(
-      getSelectedGroupWidgetTypeReferences, getLocale,
-      (widgets, locale) => (widgets ? widgets.map(widget => ({
-        code: widget.code,
-        title: widget.titles[locale],
-      })) : []),
-    );
+  createSelector(
+    getSelectedGroupWidgetTypeReferences, getLocale,
+    (widgets, locale) => (widgets ? widgets.map(widget => ({
+      code: widget.code,
+      title: widget.titles[locale],
+    })) : []),
+  );
 
 export const getSelectedGroupPageReferences =
   createSelector(

@@ -26,6 +26,7 @@ import { getUserPreferences } from 'state/user-preferences/selectors';
 import { history, ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
+import { getMyGroupsList } from 'state/groups/selectors';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).pageTree,
@@ -38,6 +39,7 @@ export const mapStateToProps = state => ({
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
   domain: getDomain(state),
+  myGroupIds: getMyGroupsList(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
