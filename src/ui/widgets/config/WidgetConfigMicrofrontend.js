@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
 
 import { getMicrofrontend, renderMicrofrontend } from 'helpers/microfrontends';
-import { getResourcePath } from 'helpers/resourcePath';
 import useMfe from 'hooks/useMfe';
 import WidgetConfigPanel from './WidgetConfigPanel';
 
@@ -21,9 +20,7 @@ const normalizeMfeObject = (obj, assets) => ({
 const WidgetConfigMicrofrontend = ({
   onSubmit, widget, widgetConfig, onCancel, widgetCode, framePos, frameName, pageCode,
 }) => {
-  // uncomment this to work with local widgets
-  // const resources = get(widget, 'configUi.resources', []).map(resource => `/${resource}`);
-  const resources = get(widget, 'configUi.resources', []).map(getResourcePath);
+  const resources = get(widget, 'configUi.resources', []);
   const { assetLoading, mfe, hasError } = useMfe(normalizeMfeObject(widget, resources));
   const customElement = get(mfe, 'customElement');
 
