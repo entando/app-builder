@@ -9,10 +9,11 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { FORM_MODE_CLONE, DEFAULT_FORM_VALUES } from 'state/fragments/const';
+import { getFragmentSelected } from 'state/fragments/selectors';
 
-export const mapStateToProps = () => ({
+export const mapStateToProps = state => ({
   mode: FORM_MODE_CLONE,
-  initialValues: DEFAULT_FORM_VALUES,
+  initialValues: getFragmentSelected(state) || DEFAULT_FORM_VALUES,
 });
 
 
