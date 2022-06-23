@@ -10,7 +10,7 @@ import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
 
 const MfeContainer = ({ id, history }) => {
-  const [assetLoading, mfe] = useMfe(id);
+  const { assetLoading, mfe } = useMfe(id);
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
   const systemReport = useSelector(getSystemReport);
@@ -40,7 +40,7 @@ const MfeContainer = ({ id, history }) => {
     },
   };
 
-  return assetLoading.length
+  return assetLoading
     ? <div>Loading...</div>
     : renderMicrofrontend(mfe.customElement, params);
 };

@@ -385,6 +385,7 @@ export default {
     'widget.page.tab.defaultUi': 'UI Padrão',
     'widget.page.edit.pageTitle': 'Editar Widget',
     'widget.page.alert.notAvailable': 'Indisponível',
+    'widget.page.config.loading': 'Carregando micro frontend...',
     'widget.page.config.error': 'Unable to load widget configuration',
     'widget.page.config.goToConfig': 'Ir para configurações padrão do widget',
     'widget.page.config.readOnlyMessage': 'Essa é a configuração padrão do widget. Você deseja alterá-la?',

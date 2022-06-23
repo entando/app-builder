@@ -13,8 +13,8 @@ jest.mock('react-redux', () => ({
 }));
 
 const EXAMPLE_MFE_ID = 'example-mfe';
+let mockedLoading = true;
 
-let mockedLoading = [EXAMPLE_MFE_ID];
 const mockMfe = LIST_MFE_RESPONSE_OK.find(obj => obj.id === EXAMPLE_MFE_ID);
 
 const mfeConfigMock = {
@@ -23,7 +23,7 @@ const mfeConfigMock = {
   lang: 'en',
 };
 
-jest.mock('hooks/useMfe', () => jest.fn(() => ([mockedLoading, mockMfe])));
+jest.mock('hooks/useMfe', () => jest.fn(() => ({ assetLoading: mockedLoading, mfe: mockMfe })));
 
 jest.mock('state/system/selectors', () => ({
   getSystemReport: jest.fn().mockReturnValue({
@@ -47,13 +47,13 @@ describe('MfeContainer', () => {
   });
 
   it('Should return the micro front-end when loading is complete', () => {
-    mockedLoading = [];
+    mockedLoading = false;
     const { container } = render(<MemoryRouter><MfeContainer id={EXAMPLE_MFE_ID} /></MemoryRouter>);
     expect(container.querySelector(EXAMPLE_MFE_ID)).toBeInTheDocument();
   });
 
   it('micro front-end should have proper params', () => {
-    mockedLoading = [];
+    mockedLoading = false;
     const { container } = render(<MemoryRouter><MfeContainer id={EXAMPLE_MFE_ID} /></MemoryRouter>);
     const mfe = container.querySelector(EXAMPLE_MFE_ID);
     expect(mfe).toBeInTheDocument();

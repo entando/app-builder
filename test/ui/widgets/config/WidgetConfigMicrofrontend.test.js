@@ -3,15 +3,12 @@ import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render } from '@testing-library/react';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
-import useScript from 'helpers/useScript';
 
 const renderWithReactIntl = component => render(<IntlProvider locale="en">{component}</IntlProvider>);
 
 const widgetConfig = { name: 'John' };
 
 const onSubmit = jest.fn();
-
-jest.mock('helpers/useScript');
 
 jest.mock('helpers/resourcePath', () => ({
   getResourcePath: res => res,
@@ -61,48 +58,51 @@ const widgetWithNoConfig = {
   hasConfig: false,
 };
 
+let mockedLoading = false;
+let mockedHasError = false;
+
+jest.mock('hooks/useMfe', () => jest.fn(mfe => ({ assetLoading: mockedLoading, mfe, hasError: mockedHasError })));
+
 describe('WidgetConfigMicrofrontend', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    mockedLoading = false;
+    mockedHasError = false;
   });
 
   it('shows microfrontend', () => {
-    useScript.mockImplementation(() => [true, false]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
     expect(getByText('Sample Widget Config')).toBeInTheDocument();
     expect(queryByText('widget.page.config.error')).not.toBeInTheDocument();
   });
 
   it('shows microfrontend if no config', () => {
-    useScript.mockImplementation(() => [true, false]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={null} />);
     expect(getByText('Sample Widget Config')).toBeInTheDocument();
     expect(queryByText('widget.page.config.error')).not.toBeInTheDocument();
   });
 
-  it('shows config error if scripts are not loaded', () => {
-    useScript.mockImplementation(() => [false, false]);
+  it('shows loding message if scripts are not yet loaded', () => {
+    mockedLoading = true;
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
-    expect(getByText('widget.page.config.error')).toBeInTheDocument();
+    expect(getByText('widget.page.config.loading')).toBeInTheDocument();
   });
 
   it('shows config error if scripts are loaded with error', () => {
-    useScript.mockImplementation(() => [true, true]);
+    mockedHasError = true;
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
   });
 
   it('shows config error if no scripts are provided', () => {
-    useScript.mockImplementation(() => [true, false]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={widgetWithNoConfig} widgetConfig={widgetConfig} />);
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
   });
 
   it('shows config error if widget is null', () => {
-    useScript.mockImplementation(() => [true, false]);
     const { getByText, queryByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={null} widgetConfig={widgetConfig} />);
     expect(queryByText('Sample Widget Config')).not.toBeInTheDocument();
     expect(getByText('widget.page.config.error')).toBeInTheDocument();
@@ -111,7 +111,6 @@ describe('WidgetConfigMicrofrontend', () => {
   // The save button component is now rendered outside WidgetConfigMicrofrontend and thus,
   // it is can not be accessed by RTL selectors
   xit('calls onSubmit if user clicks on save button', () => {
-    useScript.mockImplementation(() => [true, false]);
     const { getByText } = renderWithReactIntl(<WidgetConfigMicrofrontend onSubmit={onSubmit} widget={sampleWidget} widgetConfig={widgetConfig} />);
     const saveButton = getByText('app.save');
     fireEvent.click(saveButton);
