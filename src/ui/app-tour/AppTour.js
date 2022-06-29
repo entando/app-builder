@@ -39,8 +39,6 @@ class AppTour extends React.Component {
   }
 
   componentDidMount() {
-    const { onDidMount } = this.props;
-    onDidMount(this.props);
     window.addEventListener(LISTEN_TUTORIAL_START, this.listenTutorialStart);
     window.addEventListener(LISTEN_TUTORIAL_NEXT_STEP, this.listenTutorialNextStep);
   }
