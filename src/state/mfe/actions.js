@@ -35,3 +35,19 @@ export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '')
         dispatch(addToast(error.message, TOAST_ERROR));
       });
   });
+
+// creating a new action as we don't want to dispatch error toasts on MFeDownloadManager
+export const fetchInitialMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
+  new Promise((resolve, reject) => {
+    getMfeConfigList(page, params)
+      .then((response) => {
+        response.json().then((json) => {
+          if (response.ok) {
+            dispatch(setMfeConfigList(json.payload));
+            resolve(response);
+          } else {
+            reject();
+          }
+        }).catch(() => reject());
+      }).catch(() => reject());
+  });
