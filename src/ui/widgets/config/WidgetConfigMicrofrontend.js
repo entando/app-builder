@@ -69,8 +69,8 @@ const WidgetConfigMicrofrontend = ({
       }
     >
       {shouldRender ? microfrontendMarkup
-      : assetLoading ? <FormattedMessage id="widget.page.config.loading" />
-      : <FormattedMessage id="widget.page.config.error" />}
+        : assetLoading ? <FormattedMessage id="widget.page.config.loading" />
+          : <FormattedMessage id="widget.page.config.error" />}
     </WidgetConfigPanel>);
 };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
 import { getResourcePath } from 'helpers/resourcePath';
@@ -63,7 +63,9 @@ const injectAssetToDom = ({ id, assets = [] }, remove, setError) => {
 
 const useMfe = (mfeId) => {
   // if mfeId is already an object, return it, otherwise select it from store
-  const mfe = useSelector(state => (typeof mfeId === 'object' ? mfeId : getMfeById(state, mfeId)));
+  const mfe = useSelector(state => getMfeById(state, mfeId));
+
+  const memoMfe = useMemo(() => (typeof mfeId === 'object' ? mfeId : mfe), [mfe, mfeId]);
 
   const [assetLoading, setAssetLoading] = useState([...(mfe.assets || [])]);
   const [hasError, setError] = useState(false);
@@ -75,10 +77,10 @@ const useMfe = (mfeId) => {
   }, [assetLoading]);
 
   useEffect(() => {
-    injectAssetToDom(mfe, removeAsset, setError);
-  }, [mfe, mfe.id, removeAsset]);
+    injectAssetToDom(memoMfe, removeAsset, setError);
+  }, [memoMfe, memoMfe.id, removeAsset]);
 
-  return { assetLoading: assetLoading.length > 0, mfe, hasError };
+  return { assetLoading: assetLoading.length > 0, mfe: memoMfe, hasError };
 };
 
 export default useMfe;
