@@ -90,16 +90,16 @@ class WidgetConfigPage extends Component {
           >
             {
               React.createElement(
-              appBuilderWidgetForm,
-              {
-                widgetConfig,
-                widgetCode,
-                pageCode,
-                frameId: framePos,
-                intl,
-                history,
-                parameters,
-              }, null,
+                appBuilderWidgetForm,
+                {
+                  widgetConfig,
+                  widgetCode,
+                  pageCode,
+                  frameId: framePos,
+                  intl,
+                  history,
+                  parameters,
+                }, null,
               )
             }
           </WidgetConfigPanel>

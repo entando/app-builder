@@ -61,7 +61,7 @@ const widgetWithNoConfig = {
 let mockedLoading = false;
 let mockedHasError = false;
 
-jest.mock('hooks/useMfe', () => jest.fn(mfe => ({ assetLoading: mockedLoading, mfe, hasError: mockedHasError })));
+jest.mock('hooks/useMfe', () => jest.fn(({ initialMfe: mfe }) => ({ assetLoading: mockedLoading, mfe, hasError: mockedHasError })));
 
 describe('WidgetConfigMicrofrontend', () => {
   afterEach(() => {

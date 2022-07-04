@@ -22,7 +22,7 @@ getMfeById.mockImplementation(() => mockMfe);
 
 describe('useMfe hook', () => {
   it('should return the expected mfe data', () => {
-    const { result } = renderHook(() => useMfe('example-mfe'));
+    const { result } = renderHook(() => useMfe({ mfeId: 'example-mfe' }));
     const { assetLoading, mfe, hasError } = result.current;
 
     expect(assetLoading).toBe(true);

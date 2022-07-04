@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
 import { getResourcePath } from 'helpers/resourcePath';
@@ -51,34 +51,34 @@ const createStyle = (id, asset, remove, setError) => {
 // inject asset to DOM accordingly to type
 const injectAssetToDom = ({ id, assets = [] }, remove, setError) => {
   assets.forEach((asset) => {
-    if (asset.endsWith('.js') && !isJSLoaded(id)) {
-      createScript(id, asset, remove, setError);
+    const assetId = `${id}-${asset}`;
+    if (asset.endsWith('.js') && !isJSLoaded(assetId)) {
+      createScript(assetId, asset, remove, setError);
     } else if (asset.endsWith('.css') && !isCSSLoaded((id))) {
-      createStyle(id, asset, remove, setError);
+      createStyle(assetId, asset, remove, setError);
     } else {
       remove(asset);
     }
   });
 };
 
-const useMfe = (mfeId) => {
-  // if mfeId is already an object, return it, otherwise select it from store
-  const mfe = useSelector(state => (typeof mfeId === 'object' ? mfeId : getMfeById(state, mfeId)));
+const useMfe = ({ mfeId, initialMfe }) => {
+  const mfe = useSelector(state => getMfeById(state, mfeId));
 
-  const [assetLoading, setAssetLoading] = useState([...(mfe.assets || [])]);
+  const memoMfe = useMemo(() => initialMfe || mfe, [initialMfe, mfe]);
+  const memoAssetsLoading = useMemo(() => [...(memoMfe.assets || [])], [memoMfe.assets]);
+  const [assetLoading, setAssetLoading] = useState(memoAssetsLoading);
   const [hasError, setError] = useState(false);
 
   const removeAsset = useCallback((id) => {
-    if (assetLoading.length) {
-      setAssetLoading(assetLoading.filter(a => a !== id));
-    }
-  }, [assetLoading]);
+    setAssetLoading(prev => (prev || []).filter(a => a !== id));
+  }, []);
 
   useEffect(() => {
-    injectAssetToDom(mfe, removeAsset, setError);
-  }, [mfe, mfe.id, removeAsset]);
+    injectAssetToDom(memoMfe, removeAsset, setError);
+  }, [memoMfe, memoMfe.id, removeAsset]);
 
-  return { assetLoading: assetLoading.length > 0, mfe, hasError };
+  return { assetLoading: assetLoading.length > 0, mfe: memoMfe, hasError };
 };
 
 export default useMfe;
