@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getUsername } from '@entando/apimanager';
 
 import { fetchInitialMfeConfigList } from 'state/mfe/actions';
-import StartupWaitScreen from 'app-init/StartupWaitScreen';
+import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
 export default function MfeDownloadManager(props) {
@@ -26,6 +26,7 @@ export default function MfeDownloadManager(props) {
           setLoading(false);
           setIsPolling(true);
           setTimeout(fetchConfig, 10000);
+          clearTimeout();
         });
       };
 
