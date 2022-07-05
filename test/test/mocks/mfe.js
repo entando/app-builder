@@ -1,166 +1,177 @@
 export const LIST_MFE_RESPONSE_OK = [
   {
-    pbcName: 'entando-ab-core',
-    bundleName: 'entando-ab-core-navigation',
-    id: 'layout-core-bundle:app-builder-header',
-    name: 'app-builder-header',
-    slot: 'primary-header',
+    id: '1a793414-d773-42ef-922e-00acafa43aa9',
+    bundleId: '64c57c33',
+    bundleCode: 'layout-core-bundle-id',
+    bundleGroup: 'layout-core-bundle',
+    widgetName: 'app-builder-header',
+    widgetCode: '5dd5d520-f796-11ec-b939-0242ac120002',
     assets: ['main.js', 'main.css'],
     customElement: 'app-builder-header',
-    config: {
-      api: [
-        {
-          name: 'ms1',
-          baseUrl: 'http://localhost:8080',
-        },
-        {
-          name: 'ms2',
-          baseUrl: 'http://localhost:8090',
-        },
-      ],
+    descriptorExt: {
+      slot: 'primary-header',
+      nav: [],
+      paths: ['route1', '/route2'],
     },
-  },
-  {
-    id: 'app-builder-menu',
-    slot: 'primary-menu',
-    name: 'app-builder-menu',
-    assets: ['http://localhost:4173/app-builder-menu.umd.js'],
-    customElement: 'app-builder-menu',
-    config: {
+    systemParams: {
       api: {
-        url: 'http://localhost:8080/menu-be-api',
+        'ext-api': {
+          url: '/service-id/simple-ms',
+        },
       },
     },
   },
   {
-    pbcName: 'entando-ab-core',
-    bundleName: 'entando-ab-core-navigation',
-    id: 'layout-core-bundle:app-builder-menu',
-    name: 'app-builder-menu',
-    slot: 'primary-menu',
+    id: '9e343527-37bf-472e-aadc-a780613ceb88',
+    bundleId: '64c57c33',
+    bundleCode: 'layout-core-bundle-id',
+    bundleGroup: 'layout-core-bundle',
+    widgetName: 'app-builder-menu',
+    widgetCode: '6e3e752a-f796-11ec-b939-0242ac120002',
     assets: ['main.js', 'main.css'],
     customElement: 'app-builder-menu',
-    paths: ['route1', '/route2'],
-    config: {
-      api: [
-        {
-          name: 'ms1',
-          baseUrl: 'http://localhost:8080',
+    descriptorExt: {
+      slot: 'primary-menu',
+      nav: [],
+      paths: [],
+    },
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
         },
-        {
-          name: 'ms2',
-          baseUrl: 'http://localhost:8090',
-        },
-      ],
+      },
     },
   },
   {
-    pbcName: 'strapi',
-    bundleName: 'strapi-bundle',
-    name: 'strapi-content-template',
-    slot: 'content',
+    id: '9f8b891d-fb54-4c37-87eb-0c48301afa16',
+    bundleId: '64c57c33',
+    bundleCode: 'strapi-content-template',
+    bundleGroup: 'layout-core-bundle',
+    widgetName: 'strapi-content-template',
+    widgetCode: '769eb766-f796-11ec-b939-0242ac120002',
     assets: ['main.js', 'main.css'],
-    customElement: 'app-builder-menu',
-    paths: ['/'],
-    config: {
-      api: [
-        {
-          name: 'ms1',
-          baseUrl: 'http://localhost:8080',
+    customElement: 'strapi-content-template',
+    descriptorExt: {
+      slot: 'content',
+      nav: [],
+      paths: ['/'],
+    },
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
         },
-        {
-          name: 'ms2',
-          baseUrl: 'http://localhost:8090',
-        },
-      ],
+      },
     },
   },
   {
+    widgetCode: 'example-mfe-widget-code',
     id: 'example-mfe',
-    pbcName: 'example-mfe',
-    bundleName: 'example-mfe',
-    name: 'example-mfe-name',
-    slot: 'example-mfe-slot',
+    bundleGroup: 'example-mfe',
+    bundleCode: 'example-mfe',
+    bundleId: 'example-mfe-bundle-id',
+    widgetName: 'example-mfe-name',
+    descriptorExt: { slot: 'example-mfe-slot', paths: ['/'] },
     assets: ['main.js', 'main.css'],
     customElement: 'example-mfe',
-    paths: ['/'],
-    config: {
-      api: [
-        {
-          name: 'ms1',
-          baseUrl: 'http://localhost:8080',
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
         },
-        {
-          name: 'ms2',
-          baseUrl: 'http://localhost:8090',
-        },
-      ],
+      },
     },
   },
   {
+    widgetCode: 'example-mfe-2-widget-code',
     id: 'example   mfe    2 with spaces',
-    pbcName: 'example-mfe-2',
-    bundleName: 'example-mfe-2',
-    name: 'example-mfe-name-2',
-    slot: 'example-mfe-slot-2',
+    bundleGroup: 'example-mfe-2',
+    bundleCode: 'example-mfe-2',
+    bundleId: 'example-mfe-2-bundle-id',
+    widgetName: 'example-mfe-name-2',
+    descriptorExt: { slot: 'example-mfe-slot-2', paths: ['/'] },
     assets: ['main.js', 'main.css'],
     customElement: 'example-mfe-2',
-    paths: ['/'],
-    config: {
-      api: [
-        {
-          name: 'ms1',
-          baseUrl: 'http://localhost:8080',
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
         },
-        {
-          name: 'ms2',
-          baseUrl: 'http://localhost:8090',
+      },
+    },
+  },
+  {
+    widgetCode: 'example-mfe-3-widget-code',
+    id: 'example-mfe-3',
+    bundleGroup: 'example-mfe-3',
+    bundleCode: 'example-mfe-3',
+    bundleId: 'example-mfe-3-bundle-id',
+    widgetName: 'example-mfe-name-3',
+    descriptorExt: { slot: 'example-mfe-slot-3' },
+    assets: ['main.js', 'main.css'],
+    customElement: 'example-mfe-3',
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
         },
-      ],
+      },
+    },
+  },
+  {
+    widgetCode: 'example-mfe-4-widget-code',
+    bundleGroup: 'example-mfe-4-group',
+    bundleCode: 'example-mfe-4-code',
+    bundleId: 'example-mfe-4-bundle-id',
+    widgetName: 'example-mfe-name-4',
+    descriptorExt: { slot: 'example-mfe-slot-4', paths: ['/'] },
+    assets: ['main.js', 'main.css'],
+    customElement: 'example-mfe-4',
+    systemParams: {
+      api: {
+        'ext-api': {
+          url: '/service-id/simple-ms',
+        },
+      },
     },
   },
 ];
 
 export const ADD_MFE_OK = {
-  pbcName: 'entando-ab-core',
-  bundleName: 'entando-ab-core-navigation',
+  bundleGroup: 'entando-ab-core',
+  bundleCode: 'entando-ab-core-navigation',
+  bundleId: 'entando-ab-core-navigation-id',
+  widgetCode: 'layout-core-bundle-widget-code',
   id: 'layout-core-bundle:app-builder-menu',
-  name: 'app-builder-menu',
-  slot: 'primary-menu',
+  widgetName: 'app-builder-menu',
+  descriptorExt: { slot: 'primary-menu' },
   assets: ['main.js', 'main.css'],
   customElement: 'app-builder-menu',
-  config: {
-    api: [
-      {
-        name: 'ms1',
-        baseUrl: 'http://localhost:8080',
+  systemParams: {
+    api: {
+      'ext-api': {
+        url: '/service-id/simple-ms',
       },
-      {
-        name: 'ms2',
-        baseUrl: 'http://localhost:8090',
-      },
-    ],
+    },
   },
 };
 
 export const UPDATE_MFE_OK = {
-  pbcName: 'entando-ab-core',
-  bundleName: 'entando-ab-core-navigation',
+  widgetCode: 'entando-ab-core-widget-code',
+  bundleGroup: 'entando-ab-core',
+  bundleCode: 'entando-ab-core-navigation',
+  bundleId: 'entando-ab-core-navigation-id',
   id: 'layout-core-bundle:app-builder-menu',
-  name: 'app-builder-menu',
-  slot: 'primary-menu',
+  widgetName: 'app-builder-menu',
+  descriptorExt: { slot: 'primary-menu' },
   assets: ['main.js', 'main.css'],
   customElement: 'app-builder-menu',
-  config: {
-    api: [
-      {
-        name: 'ms1',
-        baseUrl: 'http://localhost:8080',
+  systemParams: {
+    api: {
+      'ext-api': {
+        url: '/service-id/simple-ms',
       },
-      {
-        name: 'ms2',
-        baseUrl: 'http://localhost:8090',
-      },
-    ],
+    },
   },
 };
