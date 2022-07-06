@@ -119,10 +119,13 @@ $fa-square-o: "\f096";
 }
 
 .btn-primary,
-.btn-primary:hover,
 .btn-primary:active,
 .btn-primary:focus {
   background-color: $color-primary !important; // sass-lint:disable-line no-important
+}
+
+.btn-primary:hover {
+  background-color: $color-primary;
 }
 
 .btn-primary:hover:active {
