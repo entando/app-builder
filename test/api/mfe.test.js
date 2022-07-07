@@ -28,7 +28,7 @@ describe('api/mfe', () => {
       getMfeConfigList();
       expect(makeMockRequest).toHaveBeenCalledWith(
         {
-          uri: 'api/ecr/config-list',
+          uri: '/bundles/all/widgets?widgetType="app-builder"',
           method: METHODS.GET,
           mockResponse: LIST_MFE_RESPONSE_OK,
           useAuthentication: true,

@@ -5,7 +5,7 @@ import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
 export const getMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => (
   makeMockRequest(
     {
-      uri: `api/ecr/config-list${params}`,
+      uri: `/bundles/all/widgets?widgetType="app-builder"${params}`,
       method: METHODS.GET,
       mockResponse: LIST_MFE_RESPONSE_OK,
       useAuthentication: true,
