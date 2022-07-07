@@ -18,26 +18,7 @@ export const updateMfeConfig = mfeConfig => ({
   payload: mfeConfig,
 });
 
-
-export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
-  new Promise((resolve) => {
-    getMfeConfigList(page, params)
-      .then((response) => {
-        response.json().then((json) => {
-          if (response.ok) {
-            dispatch(setMfeConfigList(json.payload));
-          } else {
-            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          }
-          resolve(response);
-        }).catch(error => dispatch(addToast(error.message, TOAST_ERROR)));
-      }).catch((error) => {
-        dispatch(addToast(error.message, TOAST_ERROR));
-      });
-  });
-
-// creating a new action as we don't want to dispatch error toasts on MFeDownloadManager
-export const fetchInitialMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
+export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '', withToastNotification = true) => dispatch =>
   new Promise((resolve, reject) => {
     getMfeConfigList(page, params)
       .then((response) => {
@@ -45,9 +26,14 @@ export const fetchInitialMfeConfigList = (page = { page: 1, pageSize: 0 }, param
           if (response.ok) {
             dispatch(setMfeConfigList(json.payload));
             resolve(response);
+          } else if (withToastNotification) {
+            json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+            resolve(response);
           } else {
             reject();
           }
-        }).catch(() => reject());
-      }).catch(() => reject());
+        }).catch(error => (withToastNotification ?
+          dispatch(addToast(error.message, TOAST_ERROR)) : reject()));
+      }).catch(error => (withToastNotification ?
+        dispatch(addToast(error.message, TOAST_ERROR)) : reject()));
   });
