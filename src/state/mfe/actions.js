@@ -19,9 +19,9 @@ export const updateMfeConfig = mfeConfig => ({
 });
 
 
-export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '') => dispatch =>
+export const fetchMfeConfigList = (params = '') => dispatch =>
   new Promise((resolve) => {
-    getMfeConfigList(page, params)
+    getMfeConfigList(params)
       .then((response) => {
         response.json().then((json) => {
           if (response.ok) {
