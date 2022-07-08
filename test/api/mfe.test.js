@@ -1,16 +1,10 @@
 import 'test/enzyme-init';
 import { getMfeConfigList } from 'api/mfe';
-import { makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
-
-const NO_PAGE = {
-  page: 1,
-  pageSize: 0,
-};
 
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
-  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
@@ -26,15 +20,13 @@ describe('api/mfe', () => {
 
     it('makes the correct request', () => {
       getMfeConfigList();
-      expect(makeMockRequest).toHaveBeenCalledWith(
-        {
-          uri: '/bundles/all/widgets?widgetType="app-builder"',
-          method: METHODS.GET,
-          mockResponse: LIST_MFE_RESPONSE_OK,
-          useAuthentication: true,
-        },
-        NO_PAGE,
-      );
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/bundles/all/widgets?filters[0].value=app-builder&filters[0].attribute=widgetType&filters[0].operator=eq',
+        domain: '/digital-exchange',
+        method: METHODS.GET,
+        mockResponse: LIST_MFE_RESPONSE_OK,
+        useAuthentication: true,
+      });
     });
   });
 });
