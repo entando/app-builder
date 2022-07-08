@@ -18,7 +18,7 @@ describe('state/mfe/selectors', () => {
 
   it('getMfeTargetContent(state) returns the correct mfe', () => {
     const bundles = getMfeTargetContent(MOCK_STATE);
-    expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[3]]);
+    expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[2]]);
   });
 
   it('getMfeTargetPrimaryMenu(state) returns the correct mfe', () => {
@@ -33,7 +33,7 @@ describe('state/mfe/selectors', () => {
 
   it('getMfeByTarget(state, "content") returns the correct mfe', () => {
     const bundles = getMfeByTarget(MOCK_STATE, 'content');
-    expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[3]]);
+    expect(bundles).toEqual([MOCK_STATE.mfe.mfeList[2]]);
   });
 
   it('getMfeByTarget(state, "primary-header") returns the correct mfe', () => {
@@ -43,6 +43,6 @@ describe('state/mfe/selectors', () => {
 
   it('getMfeById(state, "example-mfe") returns the correct mfe', () => {
     const bundles = getMfeById(MOCK_STATE, 'example-mfe');
-    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[4]);
+    expect(bundles).toEqual(MOCK_STATE.mfe.mfeList[3]);
   });
 });

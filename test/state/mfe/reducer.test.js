@@ -48,7 +48,7 @@ describe('mfe/reducer', () => {
 
   describe('after action updateMfeConfig', () => {
     let newState;
-    const existingMfe = { id: 'layout-core-bundle:app-builder-header' };
+    const existingMfe = { id: LIST_MFE_RESPONSE_OK[0].id };
     beforeEach(() => {
       newState = reducer(state, setMfeConfigList(LIST_MFE_RESPONSE_OK));
       newState = reducer(newState, updateMfeConfig(existingMfe));
@@ -56,10 +56,12 @@ describe('mfe/reducer', () => {
 
     it('should define verify mfeList items and their order', () => {
       expect(newState).toHaveProperty('mfeList', [
-        LIST_MFE_RESPONSE_OK[1], LIST_MFE_RESPONSE_OK[2],
+        LIST_MFE_RESPONSE_OK[1],
+        LIST_MFE_RESPONSE_OK[2],
         LIST_MFE_RESPONSE_OK[3],
         LIST_MFE_RESPONSE_OK[4],
         LIST_MFE_RESPONSE_OK[5],
+        LIST_MFE_RESPONSE_OK[6],
         existingMfe,
       ]);
     });
