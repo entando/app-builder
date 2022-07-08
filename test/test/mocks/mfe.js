@@ -28,7 +28,7 @@ export const LIST_MFE_RESPONSE_OK = [
     bundleGroup: 'layout-core-bundle',
     widgetName: 'app-builder-menu',
     widgetCode: '6e3e752a-f796-11ec-b939-0242ac120002',
-    assets: ['main.js', 'main.css'],
+    assets: ['http://localhost:4173/app-builder-menu.umd.js'],
     customElement: 'app-builder-menu',
     descriptorExt: {
       slot: 'primary-menu',
@@ -37,8 +37,8 @@ export const LIST_MFE_RESPONSE_OK = [
     },
     systemParams: {
       api: {
-        'ext-api': {
-          url: '/service-id/simple-ms',
+        navigation: {
+          url: 'http://localhost:8080',
         },
       },
     },
