@@ -8,7 +8,7 @@ program.version('1.0.0')
   .arguments('<app>')
   .option('-p, --packageName <packageName>', 'name of the package')
   .option('-d, --dev <path>', 'install app in development')
-  .option('-v, --version <version>', 'version of the package')
+  .option('-x, --packageVersion <packageVersion>', 'version of the package')
   .action((app, { dev, packageName, packageVersion }) => {
     const appFullName = !dev ? `@entando/${app}` : app;
     const appPackageName = packageName || appFullName;
