@@ -12,7 +12,8 @@ VER="6.3.93-hotfix.2"
 # BUILD PACKAGE
 npm ci
 npm rebuild node-sass
-npm run app-install -- --packageVersion 0.2.252-hotfix.1 cms
+npm set registry http://localhost:4873
+npm run app-install -- --packageVersion 0.2.252-hotfix.2 cms
 npm run build --production
 
 # BUILD AND PUSH IMAGE
