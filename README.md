@@ -20,13 +20,13 @@ a boolean used to determine whether the API calls will be against a real Entando
 a boolean used to enable EPC's MFE rendering on AppBuilder.
 
 #### `USE_MFE_MOCKS` (boolean, default: `false`)
-a boolean used to enable the mocking system based on MSW for MFE's, usefull for development purpose.
+a boolean used to enable the mocking system based on MSW for MFE's, useful for development purpose.
 
 #### `USE_LOCAL_MFE` (boolean, default: `false`)
-a boolean used to reference the MFE static resources on the `/` instead of `entando-de-app/cmsresources`, this is usefull for testing with a local static server without infrastructure.
+a boolean used to reference the MFE static resources on the `/` instead of `entando-de-app/cmsresources`, this is useful for testing with a local static server without infrastructure.
 
 #### `USE_REMOTE_MFE` (boolean, default: `false`)
-a boolean used to reference the MFE static resources on `entando-de-app/cmsresources`, this is usefull for testing in remote cluster with a local AppBuilder instance.
+a boolean used to reference the MFE static resources on `entando-de-app/cmsresources`, this is useful for testing in remote cluster with a local AppBuilder instance.
 
 #### `DOMAIN` (string, default: `null`)
 a string representing the domain name of the Entando Core instance. The protocol is optional and it is possible to specify a subdirectory of the domain.
