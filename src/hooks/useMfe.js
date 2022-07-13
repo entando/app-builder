@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
 import { getResourcePath } from 'helpers/resourcePath';
 
-const { USE_MFE_MOCKS } = process.env;
 
 const getMfeResourcePath = (path) => {
-  if (USE_MFE_MOCKS) {
+  if (process.env.USE_LOCAL_MFE) {
     return path;
   }
+
   return getResourcePath(path);
 };
 

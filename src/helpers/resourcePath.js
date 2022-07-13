@@ -7,9 +7,10 @@ export const getDomain = () => {
 };
 
 const getResource = () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.USE_REMOTE_MFE || process.env.NODE_ENV === 'production') {
     return 'cmsresources';
   }
+
   return 'resources';
 };
 
