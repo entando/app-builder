@@ -16,6 +16,18 @@ Dev instances should be using the `.env.development.local` file while production
 #### `USE_MOCKS` (boolean, default: `true`)
 a boolean used to determine whether the API calls will be against a real Entando Core or if they are just being mocked internally.
 
+#### `USE_MFE` (boolean, default: `false`)
+a boolean used to enable EPC's MFE rendering on AppBuilder.
+
+#### `USE_MFE_MOCKS` (boolean, default: `false`)
+a boolean used to enable the mocking system based on MSW for MFE's, useful for development purpose.
+
+#### `USE_LOCAL_MFE` (boolean, default: `false`)
+a boolean used to reference the MFE static resources on the `/` instead of `entando-de-app/cmsresources`, this is useful for testing with a local static server without infrastructure.
+
+#### `USE_REMOTE_MFE` (boolean, default: `false`)
+a boolean used to reference the MFE static resources on `entando-de-app/cmsresources`, this is useful for testing in remote cluster with a local AppBuilder instance.
+
 #### `DOMAIN` (string, default: `null`)
 a string representing the domain name of the Entando Core instance. The protocol is optional and it is possible to specify a subdirectory of the domain.
 Trailing slashes are valid (but will automatically be removed) and it only validates up to 3rd level domains.
