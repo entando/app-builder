@@ -276,9 +276,9 @@ describe('state/fragments/actions', () => {
         store.dispatch(sendDeleteFragment('CODE')).then(() => {
           expect(deleteFragment).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', REMOVE_FRAGMENT);
-          expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+          expect(actions[2]).toHaveProperty('type', ADD_TOAST);
           done();
         }).catch(done.fail);
       });

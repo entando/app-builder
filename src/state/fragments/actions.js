@@ -185,6 +185,7 @@ export const sendDeleteFragment = fragmentCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeFragment(fragmentCode));
+          dispatch(fetchFragments());
           dispatch(addToast(
             { id: 'app.deleted', values: { type: 'fragment', code: fragmentCode } },
             TOAST_SUCCESS,
