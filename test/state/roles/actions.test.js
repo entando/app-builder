@@ -176,7 +176,7 @@ describe('state/roles/actions', () => {
       store.dispatch(sendDeleteRole(ROLE_CODE)).then(() => {
         expect(deleteRole).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', REMOVE_ROLE);
         expect(actions[0].payload).toHaveProperty('roleCode', ROLE_CODE);
         done();
