@@ -130,6 +130,25 @@ export const fetchGroup = groupCode => dispatch => (
   })
 );
 
+export const fetchAllGroupEntries = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
+  dispatch(toggleLoading('groups'));
+  getGroups(page, params).then((response) => {
+    response.json().then((data) => {
+      if (response.ok) {
+        dispatch(setGroupEntries(data.payload));
+        dispatch(toggleLoading('groups'));
+        dispatch(setPage(data.metaData));
+        resolve();
+      } else {
+        dispatch(addErrors(data.errors.map(err => err.message)));
+        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        dispatch(toggleLoading('groups'));
+        resolve();
+      }
+    });
+  }).catch(() => {});
+});
+
 export const sendPutGroup = groupData => dispatch => (
   new Promise((resolve) => {
     putGroup(groupData).then((response) => {
@@ -181,6 +200,7 @@ export const sendDeleteGroup = groupCode => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removeGroupSync(groupCode));
+          dispatch(fetchAllGroupEntries());
           dispatch(addToast(
             { id: 'app.deleted', values: { type: 'group', code: groupCode } },
             TOAST_SUCCESS,
@@ -251,21 +271,3 @@ export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => 
   })
 );
 
-export const fetchAllGroupEntries = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => new Promise((resolve) => {
-  dispatch(toggleLoading('groups'));
-  getGroups(page, params).then((response) => {
-    response.json().then((data) => {
-      if (response.ok) {
-        dispatch(setGroupEntries(data.payload));
-        dispatch(toggleLoading('groups'));
-        dispatch(setPage(data.metaData));
-        resolve();
-      } else {
-        dispatch(addErrors(data.errors.map(err => err.message)));
-        data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        dispatch(toggleLoading('groups'));
-        resolve();
-      }
-    });
-  }).catch(() => {});
-});
