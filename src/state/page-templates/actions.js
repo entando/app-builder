@@ -100,6 +100,7 @@ export const removePageTemplate = pageTemplateCode => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removePageTemplateSync(pageTemplateCode));
+          dispatch(fetchPageTemplates());
           dispatch(addToast(
             { id: 'app.deleted', values: { type: 'page template', code: pageTemplateCode } },
             TOAST_SUCCESS,

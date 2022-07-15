@@ -207,9 +207,10 @@ describe('state/page-templates/actions', () => {
     it('if API response is ok, calls the right action sequence', (done) => {
       store.dispatch(removePageTemplate(PAGE_TEMPLATE.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', REMOVE_PAGE_TEMPLATE);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -218,9 +219,12 @@ describe('state/page-templates/actions', () => {
       deletePageTemplate.mockImplementation(mockApi({ errors: true }));
       store.dispatch(removePageTemplate(PAGE_TEMPLATE.code)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions).toHaveLength(5);
+        expect(actions[0]).toHaveProperty('type', SET_PAGE_TEMPLATES);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[2]).toHaveProperty('type', SET_PAGE);
+        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[4]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
