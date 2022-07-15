@@ -12,6 +12,7 @@ VER="6.3.93-hotfix.2"
 # BUILD PACKAGE
 npm ci
 npm rebuild node-sass
+# This is needed only if you need the CMS package from a local npm registry
 npm set registry http://localhost:4873
 npm run app-install -- --packageVersion 0.2.252-hotfix.2 cms
 npm run build --production
