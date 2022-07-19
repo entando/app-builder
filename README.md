@@ -16,7 +16,7 @@ Dev instances should be using the `.env.development.local` file while production
 #### `USE_MOCKS` (boolean, default: `true`)
 a boolean used to determine whether the API calls will be against a real Entando Core or if they are just being mocked internally.
 
-#### `USE_MFE` (boolean, default: `false`)
+#### `USE_MFE` (boolean, default: `true`)
 a boolean used to enable EPC's MFE rendering on AppBuilder.
 
 #### `USE_MFE_MOCKS` (boolean, default: `false`)
