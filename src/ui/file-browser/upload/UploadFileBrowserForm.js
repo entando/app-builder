@@ -55,11 +55,6 @@ UploadFileBrowserBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   loading: PropTypes.bool,
-  history: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 UploadFileBrowserBody.defaultProps = {

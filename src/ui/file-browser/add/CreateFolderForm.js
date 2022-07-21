@@ -78,11 +78,6 @@ CreateFolderFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 const CreateFolderForm = reduxForm({

@@ -146,11 +146,6 @@ CreateTextFileFormBody.propTypes = {
   submitting: PropTypes.bool.isRequired,
   mode: PropTypes.string,
   filename: PropTypes.string,
-  history: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 CreateTextFileFormBody.defaultProps = {
