@@ -5,7 +5,8 @@
 - `cd entando-keycloak`
 - Remove the file extension of `Dockerfile` to be used (i.e. `Dockerfile.keycloak` -> `Dockerfile`)
 - `docker build -t entando/keycloak:latest .`
-- `docker-compose up`
+- Rename `Dockerfile` to `Dockerfile.keycloak` again
+- `docker-compose up --build keycloak`
 ###  Setup keycloak realm and client
 - `git clone https://github.com/entando/entando-keycloak-plugin.git`
 - Navigate to: http://localhost:8081/auth and log into keycloak admin console
@@ -23,7 +24,8 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - You should choose a client `realm-management` from dropdown and assign `realm-admin` to the right.
 - Also, choose `entando-core` in dropdown and assign `superuser` to the right.
 - Now restart the keycloak server.
-- Go to `Users` and add a new user that you will be using during `app-builder` login.
+- Go to `Users` and add a new user called `admin` that you will be using during `app-builder` login.
+- In `Users/admin` go to the `Credentials` tab and add a password for the `admin` user
 ### Setup entando-de-app
 - Clone: https://github.com/entando-k8s/entando-de-app/
 - Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update the following values:
@@ -37,8 +39,8 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 As for secret you need to go to keycloak , then go to `Clients/entando-core` and click `Credentials` tab, there you will see a secret and put that secret into `pom.xml` . As for other lines, you can keep them same as in the snippet above.
 - Now run entando-de-app via running: `mvn clean package jetty:run-war -Pjetty-local -Pderby -Pkeycloak`
 ### Setup app-builder
-- Clone app-builder from: https://github.com/entando/app-builder
-- You must have node version `10.*`
+- git clone https://github.com/entando/app-builder.git
+- You must have node version `12.*` or `14.*` (not `16.*`)
 - Run: `npm install`
 - Create a file `.env.local`
 - Put these lines into that file:
@@ -47,4 +49,5 @@ USE_MOCKS=false
 DOMAIN=http://localhost:8080/entando-de-app
 KEYCLOAK_ENABLED=true
 ```
+- `npm start`
 - Navigate to: `localhost:3000` and try to log in with user you created in the last step of `Configure clients`
