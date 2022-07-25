@@ -216,6 +216,8 @@ export const sendDeleteRegistry = registryId => dispatch => (
         }
         resolve();
       });
+    }).catch((err) => {
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     }).finally(() => {
     });
   })
@@ -238,6 +240,8 @@ export const sendPostRegistry = registryObject => dispatch => (
         }
         resolve();
       });
+    }).catch((err) => {
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     }).finally(() => {
     });
   })
@@ -294,6 +298,8 @@ export const sendUndeployBundle = bundle => (dispatch, getState) => (
         }
         resolve();
       });
+    }).catch((err) => {
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     }).finally(() => {
       dispatch(toggleLoading(`undeployBundle${bundle.gitRepoAddress}`));
     });
