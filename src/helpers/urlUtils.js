@@ -7,7 +7,7 @@ export const generateMfeRoutes = mfe => mfe.reduce((acc, curr) => {
     const routes = [];
     curr.descriptorExt.paths.forEach((route) => {
       const path = route.split('/').filter(Boolean).join('/');
-      const mfeRoute = [curr.bundleGroup, curr.bundleCode, path].join('/');
+      const mfeRoute = [curr.bundleCode, path].join('/');
       const id = curr.id || `id-${curr.bundleGroup}-${curr.bundleCode}-${route}-${curr.widgetCode}`;
       const refactoredId = id.replace(/\s+/g, '-');
       routes.push({ route: `/${mfeRoute}`, id: refactoredId });
