@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import CreateTextFileForm from 'ui/file-browser/common/CreateTextFileForm';
 import { saveFile } from 'state/file-browser/actions';
 

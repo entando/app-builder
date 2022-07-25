@@ -4,13 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 import { FormGroup, Col, Icon, Button, Spinner } from 'patternfly-react';
 import { Link } from 'react-router-dom';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
 import { required } from '@entando/utils';
 import RenderFileInput from 'ui/common/form/RenderFileInput';
 
 export const UploadFileBrowserBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, loading, history,
+    handleSubmit, invalid, submitting, loading,
   } = props;
 
   return (
@@ -55,11 +55,6 @@ UploadFileBrowserBody.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   loading: PropTypes.bool,
-  history: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 UploadFileBrowserBody.defaultProps = {

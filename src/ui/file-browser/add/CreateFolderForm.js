@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
 
 export const maxLength50 = maxLength(50);
 
@@ -26,7 +26,7 @@ export class CreateFolderFormBody extends Component {
 
   render() {
     const {
-      intl, invalid, submitting, history,
+      intl, invalid, submitting,
     } = this.props;
 
     return (
@@ -78,11 +78,6 @@ CreateFolderFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  history: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 const CreateFolderForm = reduxForm({
