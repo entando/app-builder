@@ -78,8 +78,20 @@ const HubBundleManagementModal = () => {
   }, [bundlegroups, payload.bundleGroups]);
 
   const handleDeploy = () => {
-    const { name, gitRepoAddress, descriptionImage } = payload;
-    dispatch(sendDeployBundle({ name, gitRepoAddress, descriptionImage }));
+    const {
+      name, gitRepoAddress, descriptionImage, bundleId,
+    } = payload;
+
+    const groupsWithName = bundlegroups.reduce((acc, bundle) => {
+      if (bundle.children && bundle.children.some(id => id === bundleId)) {
+        return [...acc, { id: bundle.bundleGroupId, name: bundle.name }];
+      }
+      return acc;
+    }, []);
+
+    dispatch(sendDeployBundle({
+      name, gitRepoAddress, descriptionImage, bundleId, bundleGroups: groupsWithName,
+    }));
   };
 
   const handleUndeploy = () => {

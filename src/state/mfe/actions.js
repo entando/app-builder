@@ -18,9 +18,9 @@ export const updateMfeConfig = mfeConfig => ({
   payload: mfeConfig,
 });
 
-export const fetchMfeConfigList = (page = { page: 1, pageSize: 0 }, params = '', withToastNotification = true) => dispatch =>
+export const fetchMfeConfigList = (params = '', withToastNotification = true) => dispatch =>
   new Promise((resolve, reject) => {
-    getMfeConfigList(page, params)
+    getMfeConfigList(params)
       .then((response) => {
         response.json().then((json) => {
           if (response.ok) {

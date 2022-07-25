@@ -447,7 +447,7 @@ const VerticalMenu = (props) => {
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
 
   // TODO: remove when we have the ECR API is implemented
-  const isMFEMenuEnabled = process.env.USE_MFE_MOCKS || false;
+  const isMFEMenuEnabled = process.env.USE_MFE || false;
 
   return isMFEMenuEnabled
     ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />

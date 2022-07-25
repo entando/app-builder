@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { get } from 'lodash';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
@@ -21,7 +21,8 @@ const WidgetConfigMicrofrontend = ({
   onSubmit, widget, widgetConfig, onCancel, widgetCode, framePos, frameName, pageCode,
 }) => {
   const resources = get(widget, 'configUi.resources', []);
-  const { assetLoading, mfe, hasError } = useMfe(normalizeMfeObject(widget, resources));
+  const memoMfeObject = useMemo(() => normalizeMfeObject(widget, resources), [resources, widget]);
+  const { assetLoading, mfe, hasError } = useMfe({ initialMfe: memoMfeObject });
   const customElement = get(mfe, 'customElement');
 
   const handleSubmit = () => {
@@ -69,8 +70,8 @@ const WidgetConfigMicrofrontend = ({
       }
     >
       {shouldRender ? microfrontendMarkup
-      : assetLoading ? <FormattedMessage id="widget.page.config.loading" />
-      : <FormattedMessage id="widget.page.config.error" />}
+        : assetLoading ? <FormattedMessage id="widget.page.config.loading" />
+          : <FormattedMessage id="widget.page.config.error" />}
     </WidgetConfigPanel>);
 };
 

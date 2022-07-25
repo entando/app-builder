@@ -16,23 +16,23 @@ export const getMfeConfigList = createSelector(
 
 export const getMfeTargetContent = createSelector(
   getMfeState,
-  mfe => (mfe.mfeList || []).filter(m => m.slot === CONTENT_TARGET),
+  mfe => (mfe.mfeList || []).filter(m => m.descriptorExt.slot === CONTENT_TARGET),
 );
 
 export const getMfeTargetPrimaryMenu = createSelector(
   getMfeState,
-  mfe => (mfe.mfeList || []).find(m => m.slot === PRIMARY_MENU_TARGET),
+  mfe => (mfe.mfeList || []).find(m => m.descriptorExt.slot === PRIMARY_MENU_TARGET),
 );
 
 export const getMfeTargetPrimaryHeader = createSelector(
   getMfeState,
-  mfe => (mfe.mfeList || []).find(m => m.slot === PRIMARY_HEADER_TARGET),
+  mfe => (mfe.mfeList || []).find(m => m.descriptorExt.slot === PRIMARY_HEADER_TARGET),
 );
 
 export const getMfeByTarget = createSelector(
   getMfeState,
   getProps,
-  (mfe, targetId) => (mfe.mfeList || []).filter(m => m.slot === targetId),
+  (mfe, targetId) => (mfe.mfeList || []).filter(m => m.descriptorExt.slot === targetId),
 );
 
 export const getMfeById = createSelector(

@@ -39,17 +39,23 @@ if (process.env.USE_MFE_MOCKS) {
   });
 }
 
+const AppRoot = (
+  <Router history={history}>
+    <AppContainer />
+  </Router>
+);
+
 // exporting for tests
 export default ReactDOM.render(
   <Provider store={store}>
     <AuthProvider store={store}>
       <IntlProviderContainer>
         <ApiManager store={store}>
-          <MfeDownloadManager>
-            <Router history={history}>
-              <AppContainer />
-            </Router>
-          </MfeDownloadManager>
+          {process.env.USE_MFE ? (
+            <MfeDownloadManager>
+              {AppRoot}
+            </MfeDownloadManager>
+          ) : AppRoot}
         </ApiManager>
       </IntlProviderContainer>
     </AuthProvider>

@@ -83,6 +83,9 @@ function getClientEnvironment(publicUrl) {
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         USE_MOCKS: process.env.USE_MOCKS === 'true',
+        USE_MFE: process.env.USE_MFE !== 'false',
+        USE_LOCAL_MFE: process.env.USE_LOCAL_MFE === 'true',
+        USE_REMOTE_MFE: process.env.USE_REMOTE_MFE === 'true',
         USE_MFE_MOCKS: process.env.USE_MFE_MOCKS === 'true',
         CLIENT_ID: process.env.CLIENT_ID || 'appbuilder',
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',

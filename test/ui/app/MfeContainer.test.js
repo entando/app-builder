@@ -18,7 +18,7 @@ let mockedLoading = true;
 const mockMfe = LIST_MFE_RESPONSE_OK.find(obj => obj.id === EXAMPLE_MFE_ID);
 
 const mfeConfigMock = {
-  api: mockMfe.config.api,
+  api: mockMfe.systemParams.api,
   userPermissions: ['superuser', 'viewUsers'],
   lang: 'en',
 };
@@ -57,6 +57,6 @@ describe('MfeContainer', () => {
     const { container } = render(<MemoryRouter><MfeContainer id={EXAMPLE_MFE_ID} /></MemoryRouter>);
     const mfe = container.querySelector(EXAMPLE_MFE_ID);
     expect(mfe).toBeInTheDocument();
-    expect(mfe.getAttribute('config')).toBe(JSON.stringify({ api: mfeConfigMock.api }));
+    expect(mfe.getAttribute('config')).toBe(JSON.stringify({ systemParams: { api: mfeConfigMock.api } }));
   });
 });

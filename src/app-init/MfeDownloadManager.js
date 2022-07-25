@@ -20,7 +20,7 @@ export default function MfeDownloadManager(props) {
       let configPolling;
       const fetchConfig = () => {
         clearTimeout(configPolling);
-        dispatch(fetchMfeConfigList({ page: 1, pageSize: 0 }, '', false)).then(() => {
+        dispatch(fetchMfeConfigList('', false)).then(() => {
           setLoading(false);
           setIsPolling(false);
         }).catch(() => {

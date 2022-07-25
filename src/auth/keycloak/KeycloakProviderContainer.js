@@ -28,6 +28,11 @@ export const mapDispatchToProps = dispatch => ({
     const username = get(keycloak, 'idTokenParsed.preferred_username');
     const { token } = keycloak;
 
+    window.entando = {
+      ...(window.entando || {}),
+      keycloak,
+    };
+
     switch (event) {
       case 'onAuthSuccess':
         dispatch(loginUser(username, token));

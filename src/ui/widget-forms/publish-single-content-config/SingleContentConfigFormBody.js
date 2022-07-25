@@ -54,7 +54,7 @@ export class SingleContentConfigFormBody extends PureComponent {
       if (chosenContent.status) {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ selectedContent: chosenContent });
-      } else if (!this.state.contentLoading) {
+      } else if (!this.state.contentLoading && chosenContent.contentId) {
         this.fetchContentById(chosenContent.contentId);
       }
     }
@@ -164,7 +164,8 @@ export class SingleContentConfigFormBody extends PureComponent {
     const contentTypeCode = get(content, 'typeCode', typeCodeSub);
 
     const filterByCode = contentTemplate => contentTemplate.contentType === contentTypeCode;
-    const contentTemplatesByContentType = [{ id: 'default', descr: intl.formatMessage({ id: 'widget.form.default' }) },
+    const contentTemplatesByContentType = [
+      { id: 'default', descr: intl.formatMessage({ id: 'widget.form.default' }) },
       ...contentTemplates.filter(filterByCode)];
 
     const contentTemplateOptions = contentTemplatesByContentType
@@ -243,7 +244,7 @@ export class SingleContentConfigFormBody extends PureComponent {
               </tr>
             </thead>
             <tbody>
-              { contentId.length > 0 && <ContentTableRow content={content} intl={intl} /> }
+              {contentId.length > 0 && <ContentTableRow content={content} intl={intl} />}
             </tbody>
           </table>
         </div>
