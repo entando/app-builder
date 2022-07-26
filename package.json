@@ -13,7 +13,7 @@
     "@entando/pages": "^3.3.2",
     "@entando/pagetreeselector": "^2.0.1",
     "@entando/utils": "^2.4.2",
-    "autoprefixer": "7.1.6",
+    "autoprefixer": "7.2.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
