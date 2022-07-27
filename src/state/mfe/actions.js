@@ -18,20 +18,22 @@ export const updateMfeConfig = mfeConfig => ({
   payload: mfeConfig,
 });
 
-
-export const fetchMfeConfigList = (params = '') => dispatch =>
-  new Promise((resolve) => {
+export const fetchMfeConfigList = (params = '', withToastNotification = true) => dispatch =>
+  new Promise((resolve, reject) => {
     getMfeConfigList(params)
       .then((response) => {
         response.json().then((json) => {
           if (response.ok) {
             dispatch(setMfeConfigList(json.payload));
-          } else {
+            resolve(response);
+          } else if (withToastNotification) {
             json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+            resolve(response);
+          } else {
+            reject();
           }
-          resolve(response);
-        }).catch(error => dispatch(addToast(error.message, TOAST_ERROR)));
-      }).catch((error) => {
-        dispatch(addToast(error.message, TOAST_ERROR));
-      });
+        }).catch(error => (withToastNotification ?
+          dispatch(addToast(error.message, TOAST_ERROR)) : reject()));
+      }).catch(error => (withToastNotification ?
+        dispatch(addToast(error.message, TOAST_ERROR)) : reject()));
   });
