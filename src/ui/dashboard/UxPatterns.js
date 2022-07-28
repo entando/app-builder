@@ -13,7 +13,7 @@ import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
 
@@ -22,7 +22,7 @@ import { ROUTE_PAGE_TEMPLATE_LIST, ROUTE_WIDGET_ADD, ROUTE_WIDGET_LIST } from 'a
 class UxPatterns extends Component {
   componentDidMount() {
     const { onDidMount, userPermissions } = this.props;
-    if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
+    if (hasAccess(SUPERUSER_PERMISSION, userPermissions)) {
       onDidMount();
     }
   }
@@ -32,7 +32,7 @@ class UxPatterns extends Component {
 
     return (
       <Card accented className="UxPatternsCard">
-        <ViewPermissionNoticeOverlay viewPermissions={[MANAGE_PAGES_PERMISSION]}>
+        <ViewPermissionNoticeOverlay viewPermissions={[SUPERUSER_PERMISSION]}>
           <CardTitle>
             <Icon size="lg" name="object-ungroup" />
             <FormattedMessage id="menu.uxComponents" />

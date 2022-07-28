@@ -10,7 +10,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { FORM_MODE_EDIT } from 'state/page-templates/const';
 import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
-import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
+import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const PageTemplateEditPageBody = () => (
   <InternalPage className="PageTemplateEditPage">
@@ -49,4 +49,4 @@ export const PageTemplateEditPageBody = () => (
   </InternalPage>
 );
 
-export default withPermissions(MANAGE_PAGES_PERMISSION)(PageTemplateEditPageBody);
+export default withPermissions(SUPERUSER_PERMISSION)(PageTemplateEditPageBody);
