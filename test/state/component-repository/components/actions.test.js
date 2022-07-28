@@ -228,12 +228,11 @@ describe('state/component-repository/components/actions', () => {
 
       store.dispatch(uninstallECRComponent(GET_ECR_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(5);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[2]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
-        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[4]).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', FINISH_COMPONENT_UNINSTALLATION);
         done();
       }).catch(done.fail);
     });
@@ -245,15 +244,14 @@ describe('state/component-repository/components/actions', () => {
 
       store.dispatch(uninstallECRComponent(GET_ECR_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(8);
+        expect(actions).toHaveLength(7);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[2]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
-        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[4]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[5]).toHaveProperty('type', COMPONENT_UNINSTALLATION_FAILED);
-        expect(actions[6]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[7]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1]).toHaveProperty('type', START_COMPONENT_UNINSTALLATION);
+        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[3]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[4]).toHaveProperty('type', COMPONENT_UNINSTALLATION_FAILED);
+        expect(actions[5]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[6]).toHaveProperty('type', ADD_TOAST);
         done();
       }).catch(done.fail);
     });
@@ -262,12 +260,11 @@ describe('state/component-repository/components/actions', () => {
       postECRComponentUninstall.mockImplementation(mockApi({ errors: true }));
       store.dispatch(uninstallECRComponent(GET_ECR_COMPONENT_OK.id)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(5);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[2]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[3]).toHaveProperty('type', ADD_TOAST);
-        expect(actions[4]).toHaveProperty('type', TOGGLE_LOADING);
+        expect(actions[1]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[2]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
         done();
       }).catch(done.fail);
     });

@@ -449,15 +449,22 @@ export const uninstallECRComponent = (componentCode, logProgress) => dispatch =>
           dispatch(pollECRComponentUninstallStatus(componentCode, logProgress))
             .then(res => resolve(res));
         } else {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          if (data && data.errors) {
+            dispatch(addErrors(data.errors.map(err => err.message)));
+            data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          } else if (data && data.message) {
+            dispatch(addToast(data.message, TOAST_ERROR));
+          } else {
+            dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+          }
           resolve();
         }
         dispatch(toggleLoading(loadingId));
       });
-      logProgress(0);
-    }).catch(() => {
+      if (logProgress) logProgress(0);
+    }).catch((err) => {
       dispatch(toggleLoading(loadingId));
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     });
   })
 );
