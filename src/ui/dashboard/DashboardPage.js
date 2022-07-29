@@ -10,8 +10,6 @@ import PagesListContainer from 'ui/dashboard/PagesListContainer';
 import ContentsStatusCardContainer from 'ui/contents/status-card/ContentsStatusCardContainer';
 import ContentsListCardContainer from 'ui/contents/list-card/ContentListCardContainer';
 
-import AppTourContainer from 'ui/app-tour/AppTourContainer';
-
 import { ADMINISTRATION_AREA_PERMISSION } from 'state/permissions/const';
 
 export const DashboardPageBody = () => (
@@ -46,7 +44,6 @@ export const DashboardPageBody = () => (
           {ContentsListCardContainer ? <ContentsListCardContainer /> : null}
         </Col>
       </Row>
-      <AppTourContainer />
     </CardGrid>
   </InternalPage>
 );

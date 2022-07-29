@@ -11,7 +11,6 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import PageConfigGridContainer from 'ui/pages/config/PageConfigGridContainer';
 import ToolbarPageConfigContainer from 'ui/pages/config/ToolbarPageConfigContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
-import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
 import PagesEditFormContainer from 'ui/pages/edit/PagesEditFormContainer';
@@ -420,7 +419,6 @@ class PageConfigPage extends Component {
               />
             </Col>
           </Row>
-          <AppTourContainer lockBodyScroll={false} />
         </Grid>
       </InternalPage>
     );

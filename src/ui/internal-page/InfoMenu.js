@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { LinkMenuItem } from '@entando/menu';
 import { useDispatch } from 'react-redux';
 
 import InfoDropdown from 'ui/internal-page/InfoDropdown';
@@ -9,7 +7,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID as ABOUT_MODAL_ID } from 'ui/about/AboutInfoModal';
 import { MODAL_ID as LICENSE_MODAL_ID } from 'ui/license/LicenseInfoModal';
 
-const InfoMenu = ({ onStartTutorial }) => {
+const InfoMenu = () => {
   const dispatch = useDispatch();
 
   const handleAboutClick = useCallback(
@@ -50,18 +48,8 @@ const InfoMenu = ({ onStartTutorial }) => {
           <FormattedMessage id="app.license" />
         </a>
       </li>
-      <LinkMenuItem
-        id="info-menu-start-tutorial"
-        to="#"
-        onClick={onStartTutorial}
-        label={<FormattedMessage id="app.startTutorial" />}
-      />
     </InfoDropdown>
   );
-};
-
-InfoMenu.propTypes = {
-  onStartTutorial: PropTypes.func.isRequired,
 };
 
 export default InfoMenu;

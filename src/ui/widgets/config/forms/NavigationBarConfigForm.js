@@ -10,7 +10,6 @@ import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import NavigationBarExpressionsList from 'ui/widgets/config/forms/NavigationBarExpressionsList';
 import NavigationBarTargetPage from 'ui/widgets/config/forms/NavigationBarTargetPage';
 import NavigatorBarOperator from 'ui/widgets/config/forms/NavigatorBarOperator';
-import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
@@ -162,7 +161,6 @@ export default class NavigationBarConfigForm extends PureComponent {
                   )
                 }
               </Col>
-              <AppTourContainer />
             </Row>
           }
         </form>
