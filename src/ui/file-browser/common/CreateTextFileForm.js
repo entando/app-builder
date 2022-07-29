@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import { ROUTE_FILE_BROWSER } from 'app-init/router';
+import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
 
 export const maxLength50 = maxLength(50);
 
@@ -49,7 +49,7 @@ export class CreateTextFileFormBody extends Component {
   }
   render() {
     const {
-      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload, history,
+      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload,
     } = this.props;
 
     return (
@@ -101,7 +101,6 @@ export class CreateTextFileFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-
             <Field
               component={RenderTextAreaInput}
               cols={50}
@@ -111,7 +110,6 @@ export class CreateTextFileFormBody extends Component {
               placeholder={intl.formatMessage(msgs.textFilePlaceholder)}
               validate={[required]}
             />
-
           </Col>
         </Row>
         <Row>
