@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Spinner, PaginationRow } from 'patternfly-react';
+import { Col, Spinner, Paginator } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { DataTable } from '@entando/datatable';
 
@@ -118,7 +118,7 @@ class FragmentListTable extends Component {
             cell: 'FragmentListRow__td',
           }}
         />
-        <PaginationRow
+        <Paginator
           itemCount={totalItems}
           itemsStart={itemsStart}
           itemsEnd={itemsEnd}
