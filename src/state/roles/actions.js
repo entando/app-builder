@@ -126,6 +126,7 @@ export const sendDeleteRole = roleCode => dispatch =>
       response.json().then((data) => {
         if (response.ok) {
           dispatch(removeRole(roleCode));
+          dispatch(fetchRoles());
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));
@@ -142,7 +143,7 @@ export const fetchUserRefs = (roleCode, page = { page: 1, pageSize: 10 }, params
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setUserRefs(data.payload));
-          dispatch(setPage(data.metaData));
+          if (data.payload.length > 0) dispatch(setPage(data.metaData));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           dispatch(addToast(data.errors[0].message, TOAST_ERROR));

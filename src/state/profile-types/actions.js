@@ -208,6 +208,25 @@ export const setNewAttributeComposite = attributeData => ({
 
 // thunk
 
+export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+  new Promise((resolve) => {
+    dispatch(toggleLoading('profileTypes'));
+    getProfileTypes(page, params).then((response) => {
+      response.json().then((json) => {
+        if (response.ok) {
+          dispatch(setProfileTypes(json.payload));
+          dispatch(setPage(json.metaData));
+        } else {
+          dispatch(addErrors(json.errors.map(err => err.message)));
+          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        }
+        dispatch(toggleLoading('profileTypes'));
+        resolve();
+      });
+    }).catch(() => {});
+  })
+);
+
 export const fetchProfileTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
   getProfileTypesStatus().then((response) => {
     response.json().then((json) => {
@@ -295,6 +314,7 @@ export const sendDeleteProfileType = profileTypeCode => dispatch =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(removeProfileType(profileTypeCode));
+          dispatch(fetchProfileTypes());
           dispatch(addToast(
             { id: 'app.deleted', values: { type: 'profile type', code: profileTypeCode } },
             TOAST_SUCCESS,
@@ -338,25 +358,6 @@ export const fetchMyProfileType = () => dispatch => (
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
         }
-        resolve();
-      });
-    }).catch(() => {});
-  })
-);
-
-export const fetchProfileTypes = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
-  new Promise((resolve) => {
-    dispatch(toggleLoading('profileTypes'));
-    getProfileTypes(page, params).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setProfileTypes(json.payload));
-          dispatch(setPage(json.metaData));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        }
-        dispatch(toggleLoading('profileTypes'));
         resolve();
       });
     }).catch(() => {});

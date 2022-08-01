@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
-import { sendDeleteRole, fetchUserRefs } from 'state/roles/actions';
+import { sendDeleteRole, fetchUserRefs, fetchRoles } from 'state/roles/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getUserRefs } from 'state/roles/selectors';
 import { getPagination } from 'state/pagination/selectors';
@@ -23,7 +23,10 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(sendDeleteRole(roleCode));
     dispatch(setVisibleModal(''));
   },
-  onCloseModal: () => dispatch(setInfo({})),
+  onCloseModal: () => {
+    dispatch(setInfo({}));
+    dispatch(fetchRoles());
+  },
   onPageChange: (roleCode, page) => dispatch(fetchUserRefs(roleCode, page)),
 });
 
