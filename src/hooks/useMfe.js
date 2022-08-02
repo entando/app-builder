@@ -22,6 +22,7 @@ const createScript = (id, asset, remove, setError) => {
   const script = document.createElement('script');
   script.src = getMfeResourcePath(asset);
   script.id = `script-${id}`;
+  script.type = 'module';
   script.onload = () => {
     remove(asset);
   };
