@@ -78,7 +78,19 @@ class WidgetConfigPage extends Component {
     const parameters = get(widget, 'parameters', []);
 
     const renderWidgetConfigForm = () => {
+      if (isMicrofrontendWidgetForm(widget)) {
+        return (
+          <WidgetConfigMicrofrontend
+            widget={widget}
+            widgetConfig={widgetConfig}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+          />
+        );
+      }
+
       const appBuilderWidgetForm = getAppBuilderWidgetForm(widget);
+
       if (appBuilderWidgetForm) {
         return (
           <WidgetConfigPanel
@@ -105,16 +117,7 @@ class WidgetConfigPage extends Component {
           </WidgetConfigPanel>
         );
       }
-      if (isMicrofrontendWidgetForm(widget)) {
-        return (
-          <WidgetConfigMicrofrontend
-            widget={widget}
-            widgetConfig={widgetConfig}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-          />
-        );
-      }
+
       return <FormattedMessage id="widget.page.config.error" />;
     };
 
