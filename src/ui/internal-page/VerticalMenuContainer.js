@@ -41,6 +41,7 @@ import { fetchSystemReport } from 'state/system/actions';
 import { dismissedWizardKey } from 'ui/app-tour/constant';
 import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
+import { getAppTourlastStep } from 'state/app-tour/selectors';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -422,7 +423,9 @@ const EntandoMenu = ({
     </div>);
 };
 
-const MfeMenuContainer = ({ menuId, headerId, onStartTutorial }) => (
+const MfeMenuContainer = ({
+  menuId, headerId, onStartTutorial, appTourLastStep,
+}) => (
   <div className="MfeMenuContainer">
     <div className="MfeMenuContainer__header-menu-container">
       {
@@ -431,7 +434,13 @@ const MfeMenuContainer = ({ menuId, headerId, onStartTutorial }) => (
     }
     </div>
     {
-      menuId && <div className="MfeMenuContainer__left-menu-container"><MfeContainer id={menuId} /></div>
+      menuId && (
+        <div
+          className={`MfeMenuContainer__left-menu-container ${appTourLastStep === 3 || appTourLastStep === 4 ? 'tour-focus' : ''}`}
+        >
+          <MfeContainer id={menuId} />
+        </div>
+      )
     }
   </div>
 );
@@ -440,6 +449,7 @@ MfeMenuContainer.propTypes = {
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
+  appTourLastStep: PropTypes.number.isRequired,
 };
 
 const VerticalMenu = (props) => {
@@ -450,7 +460,12 @@ const VerticalMenu = (props) => {
   const isMFEMenuEnabled = process.env.USE_MFE || false;
 
   return isMFEMenuEnabled
-    ? <MfeMenuContainer menuId={mfeMenu.id} onStartTutorial={props.onStartTutorial} />
+    ?
+      <MfeMenuContainer
+        menuId={mfeMenu.id}
+        onStartTutorial={props.onStartTutorial}
+        appTourLastStep={props.appTourLastStep}
+      />
     : <EntandoMenu {...props} />;
 };
 
@@ -476,6 +491,7 @@ VerticalMenu.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string),
+  appTourLastStep: PropTypes.number,
   onNextStep: PropTypes.func.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
   onMount: PropTypes.func.isRequired,
@@ -483,7 +499,12 @@ VerticalMenu.propTypes = {
 
 VerticalMenu.defaultProps = {
   userPermissions: null,
+  appTourLastStep: 1,
 };
+
+const mapStateToProps = state => ({
+  appTourLastStep: getAppTourlastStep(state),
+});
 
 const mapDispatchToProps = (dispatch, { history }) => ({
   onNextStep: nextStep => dispatch(setAppTourLastStep(nextStep)),
@@ -500,6 +521,6 @@ const mapDispatchToProps = (dispatch, { history }) => ({
 });
 
 const VerticalMenuContainer =
-  connect(null, mapDispatchToProps)(VerticalMenu);
+  connect(mapStateToProps, mapDispatchToProps)(VerticalMenu);
 
 export default withPermissionValues(injectIntl(withRouter(VerticalMenuContainer)));

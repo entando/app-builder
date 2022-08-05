@@ -18,4 +18,8 @@
   z-index: 1030;
   overflow-x: hidden;
   overflow-y: auto;
+
+  &.tour-focus { // sass-lint:disable-line class-name-format
+    z-index: 100001;
+  }
 }
