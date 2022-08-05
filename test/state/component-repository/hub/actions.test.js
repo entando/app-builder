@@ -20,6 +20,7 @@ import {
   sendPostRegistry,
   sendDeployBundle,
   sendUndeployBundle,
+  BUNDLE_DESCRIPTOR_QUERY,
 } from 'state/component-repository/hub/actions';
 
 import {
@@ -220,7 +221,7 @@ describe('state/component-repository/component-repositories/actions', () => {
         payload: LIST_BUNDLE_STATUSES_OK,
       }));
       store.dispatch(fetchBundlesFromRegistry(registryUrl)).then(() => {
-        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, '');
+        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -334,7 +335,7 @@ describe('state/component-repository/component-repositories/actions', () => {
         registryUrl,
         { page: 1, pageSize: 10 },
       )).then(() => {
-        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, '?');
+        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
