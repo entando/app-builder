@@ -18,6 +18,7 @@ const FETCH_REGISTRIES_LOADING_STATE = 'component-repository/hub/list/registries
 
 export const DEFAULT_BE_ERROR_MESSAGE = { id: 'componentRepository.components.genericError' };
 
+export const BUNDLE_DESCRIPTOR_QUERY = 'descriptorVersions=v5&descriptorVersions=v1';
 
 export const setActiveRegistry = registry => ({
   type: SET_ACTIVE_REGISTRY,
@@ -105,7 +106,10 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
 export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundlesFromRegistry(url, page, params).then((response) => {
+
+    const currentParams = params ? `${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
+
+    getBundlesFromRegistry(url, page, currentParams).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           if (data.payload) {
@@ -175,9 +179,11 @@ export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, get
   new Promise((resolve) => {
     const state = getState();
     const filters = getBundleFilters(state);
-    const params = `?${Object.keys(filters).map(k => (filters[k] ? `${k}=${filters[k]}` : ''))}`;
+    const params = Object.keys(filters).map(k => (filters[k] ? `${k}=${filters[k]}` : '')).join('&');
+    const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
+
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundlesFromRegistry(url, page, params).then((response) => {
+    getBundlesFromRegistry(url, page, currentParams).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
