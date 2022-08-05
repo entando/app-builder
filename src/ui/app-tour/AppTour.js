@@ -118,8 +118,9 @@ class AppTour extends React.Component {
       onAppTourFinish,
     } = this.props;
 
-    const step3Element = document.querySelector('.app-tour-step-3 > a');
-    const step4Element = document.querySelector('.app-tour-step-4 > a');
+    const getStep3Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-3 > a');
+    const getStep4Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-4 > a');
+
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');
     const step11Element = document.querySelector('.app-tour-step-11');
@@ -208,21 +209,19 @@ class AppTour extends React.Component {
       {
         step: 3,
         onNext: ({ goTo }) => {
-          simulateMouseClick(step3Element);
+          simulateMouseClick(getStep3Element());
           this.onNextStep(4, goTo);
         },
         onBack: ({ goTo }) => this.onNextStep(2, goTo),
-        nextButtonDisabled: step3Element === null,
         stepInteraction: true,
       },
       {
         step: 4,
         onNext: ({ goTo }) => {
-          simulateMouseClick(step4Element);
+          simulateMouseClick(getStep4Element());
           this.onNextStep(5, goTo);
         },
         onBack: ({ goTo }) => this.onNextStep(3, goTo),
-        nextButtonDisabled: step4Element === null,
         stepInteraction: true,
       },
       {
@@ -232,7 +231,7 @@ class AppTour extends React.Component {
           this.onNextStep(6, goTo);
         },
         onBack: ({ goTo }) => {
-          simulateMouseClick(step3Element);
+          simulateMouseClick(getStep3Element());
           this.onNextStep(4, goTo);
         },
         nextButtonDisabled: step5Element == null,
