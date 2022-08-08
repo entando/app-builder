@@ -25,10 +25,10 @@ export const fetchMfeConfigList = (params = '', withToastNotification = true) =>
         response.json().then((json) => {
           if (response.ok) {
             dispatch(setMfeConfigList(json.payload));
-            resolve(response);
+            resolve(json);
           } else if (withToastNotification) {
             json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-            resolve(response);
+            resolve(json);
           } else {
             reject();
           }

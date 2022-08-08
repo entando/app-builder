@@ -7,6 +7,14 @@ import { fetchMfeConfigList } from 'state/mfe/actions';
 import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 
+const MFE_MANDATORY_SLOT = ['primary-menu'];
+
+function isReady(payload) {
+  return (
+    payload.length > 0 &&
+    Boolean(payload.find(mfe => MFE_MANDATORY_SLOT.includes(mfe.descriptorExt.slot)))
+  );
+}
 export default function MfeDownloadManager(props) {
   const { children } = props;
   const dispatch = useDispatch();
@@ -18,15 +26,23 @@ export default function MfeDownloadManager(props) {
     // wait until apiManager is not initialised and only after that fetch the mfe config list
     if (currentUserName) {
       let configPolling;
+
       const fetchConfig = () => {
         clearTimeout(configPolling);
-        dispatch(fetchMfeConfigList('', false)).then(() => {
-          setLoading(false);
-          setIsPolling(false);
+        dispatch(fetchMfeConfigList('', false)).then((res) => {
+          if (isReady(res.payload)) {
+            setIsPolling(false);
+            setLoading(false);
+            clearTimeout(configPolling);
+          } else {
+            setIsPolling(true);
+            setLoading(false);
+            configPolling = setTimeout(fetchConfig, 10000);
+          }
         }).catch(() => {
           // if fails, start polling until it succeed
-          setLoading(false);
           setIsPolling(true);
+          setLoading(false);
           configPolling = setTimeout(fetchConfig, 10000);
         });
       };
