@@ -40,7 +40,7 @@ As for secret you need to go to keycloak , then go to `Clients/entando-core` and
 - Now run entando-de-app via running: `mvn clean package jetty:run-war -Pjetty-local -Pderby -Pkeycloak`
 ### Setup app-builder
 - git clone https://github.com/entando/app-builder.git
-- You must have node version `12.*` or `14.*` (not `16.*`)
+- You must have node version `14.*`
 - Run: `npm install`
 - Create a file `.env.local`
 - Put these lines into that file:
