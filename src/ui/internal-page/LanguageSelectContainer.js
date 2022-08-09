@@ -9,7 +9,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSelect: langCode => dispatch(setCurrentLanguage(langCode)),
+  onSelect: (langCode) => {
+    dispatch(setCurrentLanguage(langCode));
+    window.location.reload();
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
