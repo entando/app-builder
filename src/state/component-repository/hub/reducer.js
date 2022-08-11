@@ -6,7 +6,7 @@ import {
   SET_SELECTED_BUNDLE_STATUS, SET_BUNDLE_GROUP_ID_FILTER,
 } from 'state/component-repository/hub/types';
 
-export const ECR_LOCAL_REGISTRY_NAME = 'Local Registry';
+export const ECR_LOCAL_REGISTRY_NAME = 'Local Hub';
 
 export const ECR_LOCAL_REGISTRY = {
   name: ECR_LOCAL_REGISTRY_NAME,
