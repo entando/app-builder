@@ -5,7 +5,7 @@ import ComponentImage from 'ui/component-repository/components/item/ComponentIma
 
 const BundlePreview = ({
   bundle: {
-    name, descriptionImage,
+    name, descriptionImage, description,
   },
   hubName,
   bundleGroup,
@@ -32,7 +32,7 @@ const BundlePreview = ({
         <FormattedMessage id="app.filterTypesSelect.description" />
       </div>
       <div className="BundlePreview__description-body">
-        {(bundleGroup || {}).description || ''}
+        {(bundleGroup || {}).description || description}
       </div>
     </div>
   </div>
@@ -42,6 +42,7 @@ BundlePreview.propTypes = {
   bundle: PropTypes.shape({
     name: PropTypes.string.isRequired,
     descriptionImage: PropTypes.string,
+    description: PropTypes.string,
   }).isRequired,
   hubName: PropTypes.string.isRequired,
   bundleGroup: PropTypes.PropTypes.shape({
