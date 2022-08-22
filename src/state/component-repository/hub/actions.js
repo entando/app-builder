@@ -119,10 +119,12 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
           if (data.metadata) {
             dispatch(setPage(data.metadata));
           }
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
         resolve();
       });
@@ -141,10 +143,12 @@ export const fetchRegistries = (params = '') => dispatch => (
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setFetchedRegistries(data.payload));
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
         resolve();
       });
@@ -163,10 +167,12 @@ export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params =
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setFetchedBundleGroups(data.payload));
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
         resolve();
       });
@@ -189,10 +195,12 @@ export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, get
           dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
           dispatch(setFetchedBundlesFromRegistry(data.payload));
           dispatch(setPage(data.metadata));
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
         resolve();
       });
@@ -215,10 +223,12 @@ export const sendDeleteRegistry = registryId => dispatch => (
             TOAST_SUCCESS,
           ));
           dispatch(fetchRegistries());
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
         resolve();
       });
@@ -239,12 +249,14 @@ export const sendPostRegistry = registryObject => dispatch => (
             TOAST_SUCCESS,
           ));
           dispatch(fetchRegistries());
-        } else {
+        } else if (data.errors) {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err =>
             dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
-        resolve();
+        resolve(response.ok);
       });
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
