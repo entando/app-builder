@@ -48,7 +48,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
   new Promise((resolve, reject) => {
     const state = getState();
     const file = filename.split('.');
-    if (extensions.includes(`.${file[1]}`)) {
+    if (extensions.includes(`.${file[file.length - 1]}`)) {
       dispatch(toggleLoading('file'));
       const { protectedFolder, currentPath } = getPathInfo(state);
       const queryString = `?protectedFolder=${protectedFolder === null ? false : protectedFolder}&currentPath=${currentPath}/${filename}`;
