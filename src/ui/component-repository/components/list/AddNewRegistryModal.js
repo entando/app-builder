@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal } from 'patternfly-react';
-import { Field, reduxForm, destroy, submit, Form } from 'redux-form';
+import { Field, reduxForm, destroy, submit, Form, reset } from 'redux-form';
 import PropTypes from 'prop-types';
 import { required } from '@entando/utils';
 
@@ -35,12 +35,17 @@ const AddNewRegistryModalForm = ({
 
   const handleSave = (values) => {
     setLoading(true);
-    dispatch(sendPostRegistry(values)).then(() => {
+    dispatch(sendPostRegistry(values)).then((isSuccess) => {
       setLoading(false);
-      dispatch(setVisibleModal(''));
-      dispatch(destroy(NewRegistryFormId));
+      if (isSuccess) {
+        dispatch(setVisibleModal(''));
+        dispatch(destroy(NewRegistryFormId));
+      } else {
+        reset(NewRegistryFormId);
+      }
     }).catch(() => {
       setLoading(false);
+      reset(NewRegistryFormId);
     });
   };
 
