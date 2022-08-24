@@ -31,8 +31,7 @@ const mergeProps = (stateProps, dispatchProps) => ({
   ...stateProps,
   ...dispatchProps,
   onSubmit: (values) => {
-    const data = stateProps.filename.split('.');
-    const file = new File([values.content], `${data[0]}.${data[1]}`);
+    const file = new File([values.content], stateProps.filename);
     dispatchProps.onSubmit(file);
   },
 });
