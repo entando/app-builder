@@ -121,7 +121,7 @@ class UserAuthorityTable extends Component {
               onClick={onAddNewClicked}
               data-testid={TEST_ID_USER_AUTHORITY_TABLE.ADD_BUTTON}
             >
-              Add new Authorization
+              <FormattedMessage id="user.authority.addNew" />
             </Button>
           </Col>
         </Row>

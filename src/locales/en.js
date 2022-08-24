@@ -1710,5 +1710,6 @@ export default {
     'app.installFailed': 'An Error occurred and the Bundle could not be installed',
     'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
+    'user.authority.addNew': 'Add new Authorization',
   },
 };
