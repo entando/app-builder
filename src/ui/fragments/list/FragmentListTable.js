@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Spinner, Paginator } from 'patternfly-react';
+import { Col, Spinner, PaginationRow } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { DataTable } from '@entando/datatable';
 
@@ -12,8 +12,14 @@ class FragmentListTable extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      pageInputValue: props.page,
+    };
+
     this.changePage = this.changePage.bind(this);
     this.changePageSize = this.changePageSize.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handlePageInput = this.handlePageInput.bind(this);
   }
 
   componentWillMount() {
@@ -59,11 +65,21 @@ class FragmentListTable extends Component {
   changePage(page) {
     const { filters } = this.props;
     this.props.onWillMount({ page, pageSize: this.props.pageSize }, filters);
+
+    this.setState({ pageInputValue: page });
   }
 
   changePageSize(pageSize) {
     const { filters } = this.props;
     this.props.onWillMount({ page: 1, pageSize }, filters);
+  }
+
+  handleFormSubmit() {
+    this.changePage(this.state.pageInputValue);
+  }
+
+  handlePageInput(e) {
+    this.setState({ pageInputValue: e.target.value });
   }
 
   renderTable() {
@@ -118,19 +134,19 @@ class FragmentListTable extends Component {
             cell: 'FragmentListRow__td',
           }}
         />
-        <Paginator
+        <PaginationRow
           itemCount={totalItems}
           itemsStart={itemsStart}
           itemsEnd={itemsEnd}
           viewType="table"
           pagination={pagination}
           amountOfPages={lastPage}
-          pageInputValue={page}
-          onPageSet={this.changePage}
+          pageInputValue={this.state.pageInputValue}
+          onSubmit={this.handleFormSubmit}
+          onPageInput={this.handlePageInput}
           onPerPageSelect={this.changePageSize}
           onFirstPage={() => this.changePage(1)}
           onPreviousPage={() => this.changePage(page - 1)}
-          onPageInput={this.onPageInput}
           onNextPage={() => this.changePage(page + 1)}
           onLastPage={() => this.changePage(lastPage)}
           messages={messages}
