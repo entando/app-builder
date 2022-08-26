@@ -63,6 +63,22 @@ const injectAssetToDom = ({ id, assets = [] }, remove, setError) => {
   });
 };
 
+const deleteAssetFromDom = ({ id, assets = [] }) => {
+  assets.forEach((asset) => {
+    if (asset.endsWith('.js')) {
+      const script = document.getElementById(`script-${id}-${asset}`);
+      if (script) {
+        script.remove();
+      }
+    } else if (asset.endsWith('.css')) {
+      const styles = document.getElementById(`style-${id}-${asset}`);
+      if (styles) {
+        styles.remove();
+      }
+    }
+  });
+};
+
 const useMfe = ({ mfeId, initialMfe }) => {
   const mfe = useSelector(state => getMfeById(state, mfeId));
 
@@ -77,6 +93,9 @@ const useMfe = ({ mfeId, initialMfe }) => {
 
   useEffect(() => {
     injectAssetToDom(memoMfe, removeAsset, setError);
+    return () => {
+      deleteAssetFromDom(memoMfe);
+    };
   }, [memoMfe, memoMfe.id, removeAsset]);
 
   return { assetLoading: assetLoading.length > 0, mfe: memoMfe, hasError };
