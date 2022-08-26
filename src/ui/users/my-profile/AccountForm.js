@@ -13,8 +13,8 @@ const FORM_ID = 'myprofile-account';
 
 export class AccountFormBody extends Component {
   shouldComponentUpdate(nextProps) {
-    const { username } = this.props;
-    if (nextProps.username === username) {
+    const { username, locale } = this.props;
+    if (nextProps.username === username && nextProps.locale === locale) {
       return false;
     }
     return true;
@@ -108,6 +108,7 @@ AccountFormBody.propTypes = {
   username: PropTypes.string.isRequired,
   onEdit: PropTypes.func.isRequired,
   onModalFormSubmit: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 const AccountForm = reduxForm({
