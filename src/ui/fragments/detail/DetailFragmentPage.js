@@ -10,6 +10,7 @@ import DetailFragmentTable from 'ui/fragments/detail/DetailFragmentTable';
 import FragmentReferenceTable from 'ui/fragments/detail/FragmentReferenceTable';
 import PageTemplateReferenceTable from 'ui/fragments/detail/PageTemplateReferenceTable';
 import WidgetTypeReferenceTable from 'ui/fragments/detail/WidgetTypeReferenceTable';
+import { ROUTE_FRAGMENT_LIST } from 'app-init/router';
 
 class DetailFragmentPage extends Component {
   componentWillMount() {
@@ -25,7 +26,7 @@ class DetailFragmentPage extends Component {
                 <BreadcrumbItem>
                   <FormattedMessage id="menu.uxComponents" />
                 </BreadcrumbItem>
-                <BreadcrumbItem>
+                <BreadcrumbItem to={ROUTE_FRAGMENT_LIST}>
                   <FormattedMessage id="menu.uxComponents.fragment" />
                 </BreadcrumbItem>
                 <BreadcrumbItem active>
