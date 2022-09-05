@@ -1,0 +1,38 @@
+import React from 'react';
+import { screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
+import MfeDownloadManager from 'app-init/MfeDownloadManager';
+import { renderWithState } from 'test/testUtils';
+import { fetchMfeConfigList } from 'state/mfe/actions';
+
+jest.unmock('react-redux');
+
+jest.mock('state/mfe/actions', () => ({
+  fetchMfeConfigList: jest.fn(),
+}));
+
+describe('MfeDownloadManager', () => {
+  it('shows spinner when loading', () => {
+    renderWithState(<MfeDownloadManager>test</MfeDownloadManager>, { state: { currentUser: {} } });
+
+    expect(screen.getByTestId('spinner')).toBeInTheDocument();
+  });
+
+  it('shows startup wait screen when polling', async () => {
+    fetchMfeConfigList.mockImplementationOnce(() => () => new Promise(resolve => resolve({})));
+
+    renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
+
+    expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();
+  });
+
+  it('shows children when ready', async () => {
+    fetchMfeConfigList.mockImplementationOnce(() => () =>
+      new Promise(resolve => resolve({ payload: [{ descriptorExt: { slot: 'primary-menu' } }], length: 1 })));
+
+    renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
+
+    expect(await screen.findByText('test')).toBeInTheDocument();
+  });
+});

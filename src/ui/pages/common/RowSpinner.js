@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const RowSpinner = ({ loading }) => (
   (loading) ? (
-    <div className="RowSpinner">
+    <div data-testid="spinner" className="RowSpinner">
       <div className="RowSpinner__spinner spinner spinner-sm" />
     </div>) :
     null
