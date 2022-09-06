@@ -235,7 +235,7 @@ export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
   });
 
 export const sendPutWidgets = (widgetObject, saveType) => (dispatch, getState) => {
-  const { action: configUiName } = getSelectedWidget(getState());
+  const { action: configUiName } = getSelectedWidget(getState()) || {};
 
   return new Promise((resolve) => {
     putWidgets({ ...widgetObject, configUiName }).then((response) => {
