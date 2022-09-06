@@ -1711,5 +1711,7 @@ export default {
     'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
     'user.authority.addNew': 'Add new Authorization',
+    'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
+    'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
   },
 };
