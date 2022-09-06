@@ -35,4 +35,13 @@ describe('MfeDownloadManager', () => {
 
     expect(await screen.findByText('test')).toBeInTheDocument();
   });
+
+  it('shows startup wait screen when fetching fails', async () => {
+    fetchMfeConfigList.mockImplementationOnce(() => () =>
+      new Promise((resolve, reject) => reject()));
+
+    renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
+
+    expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();
+  });
 });
