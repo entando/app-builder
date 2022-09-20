@@ -5,9 +5,9 @@ import { ADD_ERRORS } from '@entando/messages';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
-  removeLabelSync, removeLabel, fetchLabel,
+  removeLabelSync, removeLabel, fetchLabel, setLabelFilters,
 } from 'state/labels/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_LABEL_FILTERS } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -39,6 +39,7 @@ const INITIAL_STATE = {
       },
     },
     list: ['HELLO', 'GOODBYE'],
+    filters: null,
   },
 };
 const PAGE = { page: 1, pageSize: 10 };
@@ -66,6 +67,7 @@ jest.mock('api/labels', () => ({
 
 jest.mock('state/labels/selectors', () => ({
   getLabelsMap: jest.fn(),
+  getLabelFilters: jest.fn(),
 }));
 
 describe('state/labels/actions', () => {
@@ -125,6 +127,13 @@ describe('state/labels/actions', () => {
 
     it('defines the "labelCode" payload property', () => {
       expect(action.payload.labelCode).toBe(HELLO_LABEL.key);
+    });
+  });
+
+  describe('setLabelFilters', () => {
+    it('returns an action object with the correct type and payload', () => {
+      const action = setLabelFilters({ keyword: 'foo' });
+      expect(action).toEqual({ type: SET_LABEL_FILTERS, payload: { keyword: 'foo' } });
     });
   });
 
