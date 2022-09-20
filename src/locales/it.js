@@ -1712,6 +1712,6 @@ export default {
     'app.fetchBundlesFailed': 'Non è stato possibile recuperare la lista di Bundle dal Registry',
     'user.authority.addNew': 'Aggiungi nuova Autorizzazione',
     'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
-    'componentRepository.bundle.installVersionsRefreshed': 'Rinfrescato',
+    'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
   },
 };
