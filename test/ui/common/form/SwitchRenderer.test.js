@@ -4,6 +4,8 @@ import React from 'react';
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import '../../../test/mocks/intersectionObserverMock';
+
 
 const VALUE = true;
 const NAME = 'inputName';

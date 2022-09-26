@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
+import { useForceUpdate } from 'hooks/useForceUpdate';
+import { useOnScreen } from 'hooks/useOnScreen';
 
-const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
+const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
+  const forceUpdate = useForceUpdate();
+
+  const ref = React.useRef();
+  const isVisible = useOnScreen(ref);
+
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
     input.onChange(returnVal);
@@ -11,8 +18,17 @@ const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, d
     }
   };
 
+  // force update to re-render the switch component since the
+  // component has clearly has bug and we need for it to re-render
+  React.useEffect(() => {
+    if (isVisible) {
+      forceUpdate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVisible]);
+
   return (
-    <div data-testid={dataTestId}>
+    <div data-testid={dataTestId} ref={ref}>
       <Switch
         {...input}
         value={switchValue}
@@ -38,9 +54,9 @@ const SwitchRenderer = ({
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
           <div aria-labelledby={`switch-${input.name}`} >
-            {switchField(
-                { ...input, disabled }, switchValue, trueValue, falseValue,
-                onToggleValue, dataTestId,
+            {SwitchField(
+              { ...input, disabled }, switchValue, trueValue, falseValue,
+              onToggleValue, dataTestId,
             )}
           </div>
           {append && <span className="AppendedLabel">{append}</span>}
@@ -49,7 +65,7 @@ const SwitchRenderer = ({
       </div>);
   }
 
-  return switchField(
+  return SwitchField(
     { ...input, disabled },
     switchValue, trueValue, falseValue, onToggleValue, dataTestId,
   );
