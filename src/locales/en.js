@@ -1,7 +1,7 @@
 export default {
   locale: 'en',
   messages: {
-    'app.serverError': 'could not establish connection with {domain}',
+    'app.serverError': 'a generic error has occurred on the server',
     'app.noJsonReturned': 'could not establish connection with {domain}',
     'app.permissionDenied': 'your session is expired',
     'app.usingMocks': 'App Builder is currently using mocks',
