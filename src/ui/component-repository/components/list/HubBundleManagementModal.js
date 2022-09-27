@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal, Spinner } from 'patternfly-react';
@@ -55,12 +55,15 @@ const HubBundleManagementModal = () => {
   const loadingInstallUninstallAction = useSelector(getLoading)[`deComponentInstallUninstall-${(selectedECRComponent || {}).code || ''}`];
   const ecrComponents = useSelector(getECRComponentList);
 
+  const [redeployed, setRedeployed] = useState(false);
+  const [fetchingDetails, setFetchingDetails] = useState(false);
+
   const ecrComponent = useMemo(
     () => selectedECRComponent && ecrComponents.find(c => c.code === selectedECRComponent.code),
     [ecrComponents, selectedECRComponent],
   );
 
-  const component = ecrComponent || selectedECRComponent;
+  const component = selectedECRComponent || ecrComponent;
   const isComponentInstalling =
     useSelector(state => getECRComponentInstallationStatus(state, {
       component:
@@ -103,12 +106,13 @@ const HubBundleManagementModal = () => {
       thumbnail,
       gitRepoAddress,
     } = payload;
-
     dispatch(sendDeployBundle({
       name,
       gitRepoAddress: gitRepoAddress || repoUrl,
       descriptionImage: descriptionImage || thumbnail,
-    }, 'componentRepository.bundle.installVersionsRefreshed'));
+    }, 'componentRepository.bundle.installVersionsRefreshed')).then(() => {
+      setRedeployed(true);
+    });
   };
 
   const handleUndeploy = () => {
@@ -134,10 +138,18 @@ const HubBundleManagementModal = () => {
   }, [dispatch, payload, payload.gitRepoAddress, payload.repoUrl]);
 
   useEffect(() => {
-    if (selectedBundleStatus.status) {
-      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64')));
+    if ((selectedBundleStatus.status || redeployed) && !fetchingDetails) {
+      setFetchingDetails(true);
+      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64'))).finally(() => {
+        setFetchingDetails(false);
+      });
+      if (redeployed) {
+        setRedeployed(false);
+      }
     }
-  }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status,
+    redeployed]);
 
   const refreshVersionsButton = (
     <OverlayTrigger
@@ -153,7 +165,8 @@ const HubBundleManagementModal = () => {
         bsStyle="primary"
         id="InstallationPlanModal__refresh-versions"
         className="InstallationPlanModal__refresh-versions"
-        disabled={loading}
+        disabled={loading || isComponentInstalling ||
+          isComponentUninstalling || loadingInstallUninstallAction}
         onClick={handleReDeploy}
       >
         <span className="fa fa-refresh" />
