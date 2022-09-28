@@ -50,7 +50,7 @@ export const fetchLabels = (page = { page: 1, pageSize: 10 }) => (dispatch, getS
     dispatch(toggleLoading('systemLabels'));
 
     const filters = getLabelFilters(getState());
-    const params = filters ? convertToQueryString({
+    const params = filters && filters.keyword ? convertToQueryString({
       formValues: { key: filters.keyword },
       operators: { key: FILTER_OPERATORS.LIKE },
     }) : '';
