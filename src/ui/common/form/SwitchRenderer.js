@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
-import { useForceUpdate } from 'hooks/useForceUpdate';
-import { useOnScreen } from 'hooks/useOnScreen';
 
 const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
-  const forceUpdate = useForceUpdate();
-
   const ref = React.useRef();
-  const isVisible = useOnScreen(ref);
 
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
@@ -17,15 +12,6 @@ const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, d
       onToggleValue(returnVal);
     }
   };
-
-  // force update to re-render the switch component since the
-  // component has clearly has bug and we need for it to re-render
-  React.useEffect(() => {
-    if (isVisible) {
-      forceUpdate();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isVisible]);
 
   return (
     <div data-testid={dataTestId} ref={ref}>
