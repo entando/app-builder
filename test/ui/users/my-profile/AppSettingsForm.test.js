@@ -4,7 +4,6 @@ import { fireEvent, render, within } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
-import '../../../test/mocks/intersectionObserverMock';
 
 const props = {
   onDidMount: jest.fn(),

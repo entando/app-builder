@@ -6,7 +6,6 @@ import * as reactRedux from 'react-redux';
 
 import { renderWithIntlAndState, setupForm } from 'test/testUtils';
 import EmailConfigSmtpServerContainer from 'ui/email-config/EmailConfigSmtpServerContainer';
-import '../../test/mocks/intersectionObserverMock';
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');

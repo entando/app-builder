@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 
 const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
-  const ref = React.useRef();
-
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
     input.onChange(returnVal);
@@ -14,7 +12,7 @@ const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, d
   };
 
   return (
-    <div data-testid={dataTestId} ref={ref}>
+    <div data-testid={dataTestId}>
       <Switch
         {...input}
         value={switchValue}
