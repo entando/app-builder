@@ -1,10 +1,8 @@
 import React from 'react';
-import { IntlProvider } from 'react-intl';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, within } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
-import { renderWithRedux, renderWithRouter } from 'test/testUtils';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const props = {

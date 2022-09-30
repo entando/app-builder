@@ -51,7 +51,7 @@ const SeoInfo = ({
   }, [defaultLang.code, touchedTabs]);
 
   return (languages && languages.length ? (
-    <Tabs id="basic-tabs" defaultActiveKey={defaultLang ? defaultLang.code : undefined} className="SeoInfo" onSelect={handleSelect}>
+    <Tabs mountOnEnter unmountOnExit id="basic-tabs" defaultActiveKey={defaultLang ? defaultLang.code : undefined} className="SeoInfo" onSelect={handleSelect}>
       {
         languages.map((lang, i) => (
           <Tab key={lang.code} eventKey={lang.code} title={`${lang.code.toUpperCase()}${lang.code === defaultLang.code ? '*' : ''}`} >
