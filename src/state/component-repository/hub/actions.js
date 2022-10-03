@@ -271,7 +271,7 @@ export const sendPostRegistry = registryObject => dispatch => (
   })
 );
 
-export const sendDeployBundle = (bundle, successMessageId = 'app.deployed') => (dispatch, getState) => (
+export const sendDeployBundle = (bundle, successMessageId = 'app.deployed', isRedeploy = false) => (dispatch, getState) => (
   new Promise((resolve) => {
     dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
     deployBundle(bundle).then((response) => {
@@ -284,7 +284,9 @@ export const sendDeployBundle = (bundle, successMessageId = 'app.deployed') => (
           dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress));
           const state = getState();
           const components = getECRComponentList(state);
-          dispatch(setECRComponents([...components, data.payload]));
+          if (!isRedeploy) {
+            dispatch(setECRComponents([...components, data.payload]));
+          }
         } else {
           dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }

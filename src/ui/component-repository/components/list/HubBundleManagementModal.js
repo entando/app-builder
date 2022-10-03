@@ -63,7 +63,8 @@ const HubBundleManagementModal = () => {
     [ecrComponents, selectedECRComponent],
   );
 
-  const component = selectedECRComponent || ecrComponent;
+  const component = { ...(selectedECRComponent || {}), ...(ecrComponent || {}) };
+
   const isComponentInstalling =
     useSelector(state => getECRComponentInstallationStatus(state, {
       component:
@@ -110,7 +111,7 @@ const HubBundleManagementModal = () => {
       name,
       gitRepoAddress: gitRepoAddress || repoUrl,
       descriptionImage: descriptionImage || thumbnail,
-    }, 'componentRepository.bundle.installVersionsRefreshed')).then(() => {
+    }, 'componentRepository.bundle.installVersionsRefreshed', true)).then(() => {
       setRedeployed(true);
     });
   };
@@ -249,7 +250,7 @@ const HubBundleManagementModal = () => {
     >
       <BundlePreview
         bundle={{
-          name: payload.name || payload.title,
+          name: payload.name || payload.title || component.name || component.title,
           description: payload.description,
           descriptionImage: payload.descriptionImage || payload.thumbnail,
         }}
