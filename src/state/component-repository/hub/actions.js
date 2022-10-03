@@ -286,6 +286,14 @@ export const sendDeployBundle = (bundle, successMessageId = 'app.deployed', isRe
           const components = getECRComponentList(state);
           if (!isRedeploy) {
             dispatch(setECRComponents([...components, data.payload]));
+          } else {
+            dispatch(setECRComponents([...(components || [])
+              .filter((c) => {
+                const gitId = c.gitRepoAddress || c.repoUrl;
+                const bundleGitId = data.payload &&
+                  (data.payload.gitRepoAddress || data.payload.repoUrl);
+                return gitId !== bundleGitId;
+              }), data.payload]));
           }
         } else {
           dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
