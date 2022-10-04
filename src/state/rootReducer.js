@@ -41,7 +41,6 @@ import plugins from 'state/plugins/reducer';
 import contentTemplate from 'state/content-template/reducer';
 import contentType from 'state/content-type/reducer';
 import editContent from 'state/edit-content/reducer';
-import assets from 'state/assets/reducer';
 import contentSettings from 'state/content-settings/reducer';
 import contents from 'state/contents/reducer';
 import versioning from 'state/versioning/reducer';
@@ -99,7 +98,6 @@ const reducerDef = {
   contentTemplate,
   contentType,
   editContent,
-  assets,
   contentSettings,
   contents,
   versioning,

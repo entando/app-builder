@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import {
   ROUTE_CMS_CONTENTTEMPLATE_LIST, ROUTE_CMS_CONTENTTYPE_LIST,
-  ROUTE_CMS_CONTENTS, ROUTE_CMS_ASSETS_LIST, ROUTE_CMS_VERSIONING,
+  ROUTE_CMS_CONTENTS, ROUTE_CMS_VERSIONING,
   ROUTE_CATEGORIES,
 } from 'app-init/router';
 import { adminConsoleUrl } from 'helpers/urlUtils';
@@ -33,30 +33,21 @@ const LinkMenu = ({ userPermissions, isSuperuser }) => {
   return (
     <Fragment>
       {
-      hasContentSupervisorAccess && (
-      <LinkMenuItem
-        id="menu-contents"
-        label={<FormattedMessage id="cms.menu.contents" defaultMessage="Contents" />}
-        to={ROUTE_CMS_CONTENTS}
-      />
-      )
-      }
-      {
-        hasManageResourcesAccess && (
-        <LinkMenuItem
-          id="menu-assets"
-          label={<FormattedMessage id="cms.assets.title" defaultMessage="Digital Assets" />}
-          to={ROUTE_CMS_ASSETS_LIST}
-        />
+        hasContentSupervisorAccess && (
+          <LinkMenuItem
+            id="menu-contents"
+            label={<FormattedMessage id="cms.menu.contents" defaultMessage="Contents" />}
+            to={ROUTE_CMS_CONTENTS}
+          />
         )
       }
       {
         hasContentTemplatesAccess && (
-        <LinkMenuItem
-          id="menu-content-template"
-          label={<FormattedMessage id="cms.menu.contenttemplates" defaultMessage="Content Templates" />}
-          to={ROUTE_CMS_CONTENTTEMPLATE_LIST}
-        />
+          <LinkMenuItem
+            id="menu-content-template"
+            label={<FormattedMessage id="cms.menu.contenttemplates" defaultMessage="Content Templates" />}
+            to={ROUTE_CMS_CONTENTTEMPLATE_LIST}
+          />
         )
       }
       {
@@ -70,11 +61,11 @@ const LinkMenu = ({ userPermissions, isSuperuser }) => {
       }
       {
         hasVersioningAccess && (
-        <LinkMenuItem
-          id="menu-versioning"
-          label={<FormattedMessage id="cms.menu.versioning" defaultMessage="Content Versioning" />}
-          to={ROUTE_CMS_VERSIONING}
-        />
+          <LinkMenuItem
+            id="menu-versioning"
+            label={<FormattedMessage id="cms.menu.versioning" defaultMessage="Content Versioning" />}
+            to={ROUTE_CMS_VERSIONING}
+          />
         )
       }
       {
@@ -88,20 +79,20 @@ const LinkMenu = ({ userPermissions, isSuperuser }) => {
       }
       {
         hasContentTypesAccess && (
-        <LinkMenuItem
-          id="menu-content-type"
-          label={<FormattedMessage id="cms.menu.contenttypes" defaultMessage="Content Types" />}
-          to={ROUTE_CMS_CONTENTTYPE_LIST}
-        />
+          <LinkMenuItem
+            id="menu-content-type"
+            label={<FormattedMessage id="cms.menu.contenttypes" defaultMessage="Content Types" />}
+            to={ROUTE_CMS_CONTENTTYPE_LIST}
+          />
         )
       }
       {
         hasContentSettingsAccess && (
-        <LinkMenuItem
-          id="menu-content-settings"
-          label={<FormattedMessage id="cms.menu.contentsettings" defaultMessage="Content Settings" />}
-          to="/cms/content-settings"
-        />
+          <LinkMenuItem
+            id="menu-content-settings"
+            label={<FormattedMessage id="cms.menu.contentsettings" defaultMessage="Content Settings" />}
+            to="/cms/content-settings"
+          />
         )
       }
     </Fragment>

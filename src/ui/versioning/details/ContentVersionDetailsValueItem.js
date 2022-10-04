@@ -4,7 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { FormattedMessage } from 'react-intl';
 import { FormGroup, ListView, ListViewItem } from 'patternfly-react';
 
-import { getURLAbsolute } from 'state/assets/selectors';
+const getURLAbsolute = (domain, url) => {
+  const isAbs = /^(?:[a-z]+:)?\/\//i.test(domain);
+  if (!isAbs) {
+    return url;
+  }
+  const theURL = new URL(domain);
+  return `${theURL.origin}${url}`;
+};
 
 let renderAttributeTypes = () => {};
 
@@ -27,9 +34,7 @@ const renderAttachAttributeValue = (
           title={`Download: ${name}`}
           href={getURLAbsolute(domain, path)}
           className={`btn btn-default ${useDefault && 'disabled'}`}
-        ><span
-          className="icon fa fa-download"
-        /><span className="sr-only">Download</span>
+        ><span className="icon fa fa-download" /><span className="sr-only">Download</span>
         </a>
         <span
           className={`${useDefault && 'text-muted'}`}
@@ -81,7 +86,7 @@ const renderCompositeAttributeValue = (attribute, defaultLangCode, currentLangCo
             {renderAttributeTypes(attr, defaultLangCode, currentLangCode, domain, false)}
           </div>
         </FormGroup>
-    )}
+      )}
       hideCloseIcon={false}
       stacked={false}
     />
