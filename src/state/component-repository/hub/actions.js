@@ -81,6 +81,9 @@ export const fetchBundleStatuses = bundleIds => dispatch => (
         }
         resolve();
       });
+    }).catch(() => {
+      dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+      resolve();
     });
   })
 );
@@ -98,6 +101,9 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
         }
         resolve();
       });
+    }).catch(() => {
+      dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+      resolve();
     });
   })
 );
@@ -265,20 +271,30 @@ export const sendPostRegistry = registryObject => dispatch => (
   })
 );
 
-export const sendDeployBundle = bundle => (dispatch, getState) => (
+export const sendDeployBundle = (bundle, successMessageId = 'app.deployed', isRedeploy = false) => (dispatch, getState) => (
   new Promise((resolve) => {
     dispatch(toggleLoading(`deployBundle${bundle.gitRepoAddress}`));
     deployBundle(bundle).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(addToast(
-            { id: 'app.deployed', values: { type: 'bundle', code: bundle.name } },
+            { id: successMessageId, values: { type: 'bundle', code: bundle.name } },
             TOAST_SUCCESS,
           ));
           dispatch(fetchSelectedBundleStatus(bundle.gitRepoAddress));
           const state = getState();
           const components = getECRComponentList(state);
-          dispatch(setECRComponents([...components, data.payload]));
+          if (!isRedeploy) {
+            dispatch(setECRComponents([...components, data.payload]));
+          } else {
+            dispatch(setECRComponents([...(components || [])
+              .filter((c) => {
+                const gitId = c.gitRepoAddress || c.repoUrl;
+                const bundleGitId = data.payload &&
+                  (data.payload.gitRepoAddress || data.payload.repoUrl);
+                return gitId !== bundleGitId;
+              }), data.payload]));
+          }
         } else {
           dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
         }
