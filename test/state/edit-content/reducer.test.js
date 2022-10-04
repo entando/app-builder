@@ -10,7 +10,6 @@ import {
   setSaveType,
 } from 'state/edit-content/actions';
 import { WORK_MODE_ADD, WORK_MODE_EDIT } from 'state/edit-content/types';
-import { onJoinCategory, onUnjoinCategory } from 'state/categories/actions';
 
 const content = { contentType: 'NEWS', code: 'AwesomeContent' };
 
@@ -98,31 +97,6 @@ describe('state/edit-content/reducer', () => {
     it('Content should be changed', () => {
       expect(state).toHaveProperty('content');
       expect(state.content).toEqual(content);
-    });
-  });
-  describe('after action JOIN_CATEGORY', () => {
-    let state;
-    beforeEach(() => {
-      state = reducer({ joinedCategories: ['OFFICE'] }, onJoinCategory('NEWS'));
-    });
-    it('Joined categories array should be changed', () => {
-      expect(state).toHaveProperty('joinedCategories');
-      expect(state.joinedCategories).toEqual(['OFFICE', 'NEWS']);
-    });
-    it('Should not add already added category', () => {
-      state = reducer({ joinedCategories: ['OFFICE'] }, onJoinCategory('OFFICE'));
-      expect(state).toHaveProperty('joinedCategories');
-      expect(state.joinedCategories).toEqual(['OFFICE']);
-    });
-  });
-  describe('after action UNJOIN_CATEGORY', () => {
-    let state;
-    beforeEach(() => {
-      state = reducer({ joinedCategories: ['NEWS', 'OFFICE'] }, onUnjoinCategory('NEWS'));
-    });
-    it('Joined categories array should be changed', () => {
-      expect(state).toHaveProperty('joinedCategories');
-      expect(state.joinedCategories).toEqual(['OFFICE']);
     });
   });
   describe('after action setMissingTranslations', () => {

@@ -1,5 +1,5 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { CATEGORY_TREE, BODY_OK, MOCK_REFERENCES } from 'test/mocks/categories';
+import { CATEGORY_TREE, MOCK_REFERENCES } from 'test/mocks/categories';
 
 const HOME_CODE = 'home';
 const MYCATEGORY1_CODE = 'mycategory1';
@@ -26,35 +26,6 @@ export const getCategory = categoryCode => (
     uri: `/api/categories/${categoryCode}`,
     method: METHODS.GET,
     mockResponse: CATEGORY_TREE.home,
-    useAuthentication: true,
-  })
-);
-
-export const postCategory = categoriesObject => (
-  makeRequest({
-    uri: '/api/categories',
-    method: METHODS.POST,
-    mockResponse: BODY_OK,
-    body: categoriesObject,
-    useAuthentication: true,
-  })
-);
-
-export const putCategory = categoryObject => (
-  makeRequest({
-    uri: `/api/categories/${categoryObject.code}`,
-    method: METHODS.PUT,
-    mockResponse: BODY_OK,
-    body: categoryObject,
-    useAuthentication: true,
-  })
-);
-
-export const deleteCategory = categoryCode => (
-  makeRequest({
-    uri: `/api/categories/${categoryCode}`,
-    method: METHODS.DELETE,
-    mockResponse: { code: categoryCode },
     useAuthentication: true,
   })
 );
