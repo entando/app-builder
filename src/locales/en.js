@@ -1,8 +1,8 @@
 export default {
   locale: 'en',
   messages: {
-    'app.serverError': 'could not establish connection with {domain}',
-    'app.noJsonReturned': 'could not establish connection with {domain}',
+    'app.serverError': 'a generic error has occurred on the server',
+    'app.noJsonReturned': 'a generic error has occurred on the server',
     'app.permissionDenied': 'your session is expired',
     'app.usingMocks': 'App Builder is currently using mocks',
     'app.welcome': 'Welcome to Entando, {name}!',

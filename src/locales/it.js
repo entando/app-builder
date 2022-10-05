@@ -1,8 +1,8 @@
 export default {
   locale: 'it',
   messages: {
-    'app.serverError': 'non è possibile raggiungere {domain}',
-    'app.noJsonReturned': 'non è possibile raggiungere {domain}',
+    'app.serverError': 'si è verificato un errore generico lato server',
+    'app.noJsonReturned': 'si è verificato un errore generico lato server',
     'app.permissionDenied': 'sessione scaduta',
     'app.usingMocks': 'App Builder sta usando i mock',
     'app.welcome': 'Benvenuto in Entando, {name}!',
