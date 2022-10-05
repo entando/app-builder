@@ -333,7 +333,7 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
-                const defaultInstallPlan = updateAllActions(installPlan, 'CREATE');
+                const defaultInstallPlan = updateAllActions(installPlan, '');
                 procceedWithInstall(
                   component, { ...defaultInstallPlan, version }, resolve,
                   dispatch, logProgress, loadingId,

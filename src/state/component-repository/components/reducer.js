@@ -133,16 +133,13 @@ const list = (state = [], action = {}) => {
       return markComponentAsUninstalled(newState, action.payload.code);
     }
     case COMPONENT_INSTALLATION_FAILED:
-    case COMPONENT_UNINSTALLATION_FAILED:
-    {
+    case COMPONENT_UNINSTALLATION_FAILED: {
       return markComponentLastStatusAsError(state, action.payload.code);
     }
-    case COMPONENT_INSTALL_ONGOING_PROGRESS:
-    {
+    case COMPONENT_INSTALL_ONGOING_PROGRESS: {
       return markComponentLastStatusAsInstallInProgress(state, action.payload.code);
     }
-    case COMPONENT_UNINSTALL_ONGOING_PROGRESS:
-    {
+    case COMPONENT_UNINSTALL_ONGOING_PROGRESS: {
       return markComponentLastStatusAsUninstallInProgress(state, action.payload.code);
     }
     default: return state;
@@ -325,7 +322,9 @@ export const updateAllActions = (installPlan, type) =>
         [key2]: {
           ...installPlan[key][key2],
           action: installPlan[key][key2].status === 'NEW' ? 'CREATE' : type
-            || (installPlan[key][key2].status === 'EQUAL' ? 'SKIP' : installPlan[key][key2].action),
+            || (installPlan[key][key2].status === 'EQUAL' ? 'SKIP' :
+              (installPlan[key][key2].action ||
+                (installPlan[key][key2].status === 'DIFF' ? null : 'CREATE'))),
         },
       }), {});
 
