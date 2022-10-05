@@ -12,6 +12,7 @@ import {
   setInstallUninstallProgress,
   setSelectedComponentInstallVersion,
   setInstallHasConflictingVersion,
+  toggleConflictsModal,
 } from 'state/component-repository/components/actions';
 import {
   LIST_ECR_COMPONENTS_OK,
@@ -416,5 +417,35 @@ describe('installConflicts reducer', () => {
   it('should have new state equal to action payload', () => {
     state = reducer(state, setInstallHasConflictingVersion(true));
     expect(state).toHaveProperty('installConflicts.hasConflictingVersion', true);
+  });
+
+  it('should return state with updated installPlan actions when action is toggleConflictsModal', () => {
+    const installPlan = {
+      widgets: {
+        'diff-widget': { status: 'DIFF', action: null },
+        'new-widget': { status: 'NEW', action: null },
+      },
+      plugins: {
+        'equal-plugin': { status: 'EQUAL', action: null },
+      },
+    };
+    const component = { code: 'test-comp', title: 'Test comp' };
+
+    state = reducer(state, toggleConflictsModal(true, installPlan, component, 'v0.0.1'));
+
+    expect(state.installConflicts).toEqual({
+      component,
+      open: true,
+      version: 'v0.0.1',
+      installPlan: {
+        widgets: {
+          ...installPlan.widgets,
+          'new-widget': { status: 'NEW', action: 'CREATE' },
+        },
+        plugins: {
+          'equal-plugin': { status: 'EQUAL', action: 'SKIP' },
+        },
+      },
+    });
   });
 });
