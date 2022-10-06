@@ -43,7 +43,6 @@ import contentType from 'state/content-type/reducer';
 import editContent from 'state/edit-content/reducer';
 import contentSettings from 'state/content-settings/reducer';
 import contents from 'state/contents/reducer';
-import versioning from 'state/versioning/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
 
@@ -100,7 +99,6 @@ const reducerDef = {
   editContent,
   contentSettings,
   contents,
-  versioning,
   tableColumns,
   hub,
   system,

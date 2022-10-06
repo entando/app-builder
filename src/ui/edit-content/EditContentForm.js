@@ -16,7 +16,6 @@ import RenderVersionText from 'ui/common/form/RenderVersionText';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 
 import { WORK_MODE_ADD, WORK_MODE_EDIT } from 'state/edit-content/types';
-import SingleContentVersioningHistoryContainer from 'ui/versioning/SingleContentVersioningHistoryContainer';
 
 const maxLength255 = maxLength(255);
 
@@ -185,7 +184,6 @@ export class EditContentFormBody extends React.Component {
             <legend>
               <FormattedMessage id="cms.versioning.history" defaultMessage="History" />
             </legend>
-            <SingleContentVersioningHistoryContainer id={id} />
           </Panel.Body>
         </Panel>
       </Row>
