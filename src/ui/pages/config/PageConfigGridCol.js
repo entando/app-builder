@@ -47,7 +47,7 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
     classNameAr.push('PageConfigGridCol--frame');
     content = (
       <DecoratedWidgetFrame
-        widgetAction={col.widgetAction}
+        configUiName={col.configUiName}
         frameId={col.framePos}
         frameName={col.frameDescr}
         frameIsMainFrame={col.frameIsMainFrame}
@@ -91,7 +91,7 @@ PageConfigGridCol.propTypes = {
     framePos: PropTypes.number,
     widgetCode: PropTypes.string,
     widgetStatus: PropTypes.string,
-    widgetAction: PropTypes.string,
+    configUiName: PropTypes.string,
     frameDescr: PropTypes.string,
     widgetTitle: PropTypes.string,
     widgetHasConfig: PropTypes.bool,
