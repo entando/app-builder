@@ -53,9 +53,9 @@ export const mapStateToProps = (state, { match: { params } }) => {
 export const mapDispatchToProps = (dispatch, { history, match: { params } }) => ({
   onWillMount: ({ widgetConfig }) => {
     const {
-      parentCode, widgetAction, pageCode, frameId,
+      parentCode, configUiName, pageCode, frameId,
     } = params;
-    if (widgetAction && widgetAction === CONFIG_SIMPLE_PARAMETER) {
+    if (configUiName && configUiName === CONFIG_SIMPLE_PARAMETER) {
       // navigate to specific form
     }
     dispatch(fetchMyGroups({ sort: 'name' }));

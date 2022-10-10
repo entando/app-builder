@@ -15,12 +15,12 @@ class WidgetFrame extends Component {
     const {
       widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
       onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings, onClickSaveAs,
-      widgetAction, widgetHasConfigForm,
+      configUiName, widgetHasConfigForm,
     } = this.props;
 
     let actionsMenu = null;
     if (widgetStatus !== WIDGET_STATUS_REMOVED) {
-      const configMenuItems = widgetHasConfig && (widgetAction || widgetHasConfigForm) ?
+      const configMenuItems = widgetHasConfig && (configUiName || widgetHasConfigForm) ?
         [
           (
             <MenuItem
@@ -33,7 +33,7 @@ class WidgetFrame extends Component {
           ),
         ] :
         null;
-      const cloneMenuItems = widgetHasConfig && widgetAction ? [
+      const cloneMenuItems = widgetHasConfig && configUiName ? [
         (
           <MenuItem
             key="menu-saveAs"
@@ -42,7 +42,7 @@ class WidgetFrame extends Component {
               widgetId,
               widgetHasConfig,
               frameId,
-              widgetAction,
+              configUiName,
             })}
           >
             <FormattedMessage id="app.saveAs" />
@@ -135,7 +135,7 @@ WidgetFrame.propTypes = {
   widgetName: PropTypes.string.isRequired,
   widgetHasConfig: PropTypes.bool,
   widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),
-  widgetAction: PropTypes.string,
+  configUiName: PropTypes.string,
   widgetHasConfigForm: PropTypes.bool,
 
   /* eslint-disable react/no-unused-prop-types */
@@ -164,7 +164,7 @@ WidgetFrame.defaultProps = {
   connectDragSource: null,
   connectDropTarget: null,
   isOver: false,
-  widgetAction: null,
+  configUiName: null,
   widgetHasConfigForm: false,
 };
 
