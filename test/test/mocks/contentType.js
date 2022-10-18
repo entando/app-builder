@@ -108,8 +108,6 @@ export const CONTENT_TYPES_OK_PAGE = {
   },
 };
 
-export const CONTENT_TYPES_DELETE_OK = { code: '<contentTypeCode>' };
-
 export const CONTENT_TYPES_ATTRIBUTES = ['Enumerator', 'Monotext', 'Text', 'List', 'Monolist'];
 
 export const CONTENT_TYPE_ATTRIBUTE = {
@@ -153,14 +151,6 @@ export const CONTENT_TYPE_REFERENCES_STATUS = {
   ready: ['AAA', 'BBB'],
   toRefresh: ['CCC'],
   refreshing: [],
-};
-
-export const CONTENT_TYPE_RELOAD_REFERENCES_STATUS = {
-  result: 'success',
-  contentTypeCodes: {
-    AAA: 0,
-    BBB: 1,
-  },
 };
 
 export const ATTRIBUTE_CONTENT_TYPES_DELETE_OK = {

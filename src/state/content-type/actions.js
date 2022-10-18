@@ -1,15 +1,12 @@
 import { METHODS } from '@entando/apimanager';
-import { addErrors, addToast, clearErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
+import { addErrors } from '@entando/messages';
 import moment from 'moment';
 import { isUndefined } from 'lodash';
 import { setPage } from 'state/pagination/actions';
 import { NAMESPACE_CONTENT_TYPES } from 'state/pagination/const';
 import {
   SET_CONTENT_TYPES,
-  SET_CONTENT_TYPE_REFERENCE_STATUS,
-  REMOVE_CONTENT_TYPE,
   SET_SELECTED_CONTENT_TYPE,
-  SET_ATTRIBUTES,
   REMOVE_ATTRIBUTE,
   SET_SELECTED_ATTRIBUTE,
   PUSH_PARENT_SELECTED_ATTRIBUTE,
@@ -33,7 +30,6 @@ import { routeConverter } from '@entando/utils';
 import { toggleLoading } from 'state/loading/actions';
 import {
   getActionModeContentTypeSelectedAttribute,
-  getContentTypeAttributesIdList,
   getMonolistAttributeType,
   getFormTypeValue,
   getSelectedAttributeType,
@@ -63,13 +59,6 @@ import {
 import {
   getContentTypes,
   getContentType,
-  getContentTypesStatus,
-  postContentType,
-  postContentTypesStatus,
-  postRefreshContentType,
-  putContentType,
-  deleteContentType,
-  getContentTypeAttributes,
   getContentTypeAttribute,
   getAttributeFromContentType,
   moveAttributeUp,
@@ -84,13 +73,6 @@ export const setContentTypeList = list => ({
   payload: { list },
 });
 
-export const removeContentType = contentTypeCode => ({
-  type: REMOVE_CONTENT_TYPE,
-  payload: {
-    contentTypeCode,
-  },
-});
-
 export const setSelectedContentType = contentType => ({
   type: SET_SELECTED_CONTENT_TYPE,
   payload: {
@@ -102,13 +84,6 @@ export const clearSelectedContentType = () => ({
   type: SET_SELECTED_CONTENT_TYPE,
   payload: {
     contentType: {},
-  },
-});
-
-export const setContentTypeReferenceStatus = contentTypeStatus => ({
-  type: SET_CONTENT_TYPE_REFERENCE_STATUS,
-  payload: {
-    contentTypeStatus,
   },
 });
 
@@ -150,13 +125,6 @@ export const pushParentSelectedAttribute = attribute => ({
 
 export const popParentSelectedAttribute = () => ({
   type: POP_PARENT_SELECTED_ATTRIBUTE,
-});
-
-export const setContentTypeAttributes = attributes => ({
-  type: SET_ATTRIBUTES,
-  payload: {
-    attributes,
-  },
 });
 
 export const moveAttributeUpSync = ({ entityCode, attributeCode, attributeIndex }) => ({
@@ -254,127 +222,6 @@ export const fetchContentType = (
     .catch(() => {});
 });
 
-export const sendPostContentType = contentTypeObject => dispatch => new Promise((resolve) => {
-  postContentType(contentTypeObject)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
-
-export const fetchContentTypeReferenceStatus = () => dispatch => new Promise((resolve) => {
-  getContentTypesStatus()
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(setContentTypeReferenceStatus(json.payload));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
-
-export const sendPostContentTypeReferenceStatus = contentTypeCodes => dispatch => (
-  new Promise((resolve) => {
-    postContentTypesStatus({ profileTypeCodes: contentTypeCodes })
-      .then((response) => {
-        response.json().then((json) => {
-          if (response.ok) {
-            resolve(json);
-          } else {
-            dispatch(addErrors(json.errors.map(err => err.message)));
-            resolve();
-          }
-        });
-      })
-      .catch(() => {});
-  })
-);
-
-export const sendPostRefreshContentType = contentTypeCode => dispatch => (
-  new Promise((resolve) => {
-    postRefreshContentType(contentTypeCode).then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(addToast(json.payload.status, TOAST_SUCCESS));
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        }
-        resolve();
-      });
-    });
-  })
-);
-
-export const sendPutContentType = contentTypeObject => dispatch => (
-  new Promise(resolve => putContentType(contentTypeObject)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json);
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {}))
-);
-
-export const sendDeleteContentType = contentTypeCode => dispatch => (
-  new Promise(resolve => deleteContentType(contentTypeCode)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          dispatch(removeContentType(contentTypeCode));
-          resolve(json);
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(addToast(json.errors[0].message, TOAST_ERROR));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {}))
-);
-
-export const fetchContentTypeAttributeRefs = (page = { page: 1, pageSize: 0 }, params = '') => (
-  dispatch,
-  getState,
-) => new Promise((resolve) => {
-  dispatch(toggleLoading('contentTypeAttr'));
-  getContentTypeAttributes(page, params)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          const list = getContentTypeAttributesIdList(getState());
-          if (!list || list.length === 0) {
-            dispatch(setContentTypeAttributes(json.payload));
-          }
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-        }
-        dispatch(toggleLoading('contentTypeAttr'));
-        resolve();
-      });
-    })
-    .catch(() => {});
-});
-
 export const fetchContentTypeAttributeRef = (
   contentTypeCode,
   contentTypeAttributeCode,
@@ -385,8 +232,8 @@ export const fetchContentTypeAttributeRef = (
   let typeAttribute = contentTypeAttributeCode;
 
   const checkCompositeSubAttribute = selectedAttributeType === TYPE_COMPOSITE
-      || (selectedAttributeType === TYPE_MONOLIST
-        && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
+    || (selectedAttributeType === TYPE_MONOLIST
+      && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
   if (checkCompositeSubAttribute) {
     typeAttribute = getFormTypeValue(getState(), formName);
@@ -492,7 +339,7 @@ export const fetchAttributeFromContentType = (formName, contentTypeCode, attribu
             rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
             equalDate = equalDate && fmtDateDDMMYYY(equalDate);
             rangeStartDateAttribute = rangeStartDateAttribute
-            && fmtDateDDMMYYY(rangeStartDateAttribute);
+              && fmtDateDDMMYYY(rangeStartDateAttribute);
             rangeEndDateAttribute = rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
             equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
             const validationRules = {
@@ -572,7 +419,7 @@ export const sendPutAttributeFromContentType = (
           dispatch(addErrors(json.errors.map(err => err.message)));
         } else if (list || (
           json.payload.type === TYPE_MONOLIST
-            && !getIsMonolistCompositeAttributeType(getState())
+          && !getIsMonolistCompositeAttributeType(getState())
         )) {
           history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_MONOLIST_ADD, {
             entityCode,
@@ -648,11 +495,11 @@ const convertDateValidationRules = (validationRules) => {
     rules.rangeEndDate = rangeEndDate && convertDate(rangeEndDate);
     rules.equalDate = equalDate && convertDate(equalDate);
     rules.rangeStartDateAttribute = rangeStartDateAttribute
-    && convertDate(rangeStartDateAttribute);
+      && convertDate(rangeStartDateAttribute);
     rules.rangeEndDateAttribute = rangeEndDateAttribute
-    && convertDate(rangeEndDateAttribute);
+      && convertDate(rangeEndDateAttribute);
     rules.equalDateAttribute = equalDateAttribute
-    && convertDate(equalDateAttribute);
+      && convertDate(equalDateAttribute);
   }
   return rules;
 };
@@ -736,7 +583,7 @@ export const handlerAttributeFromContentType = (
 ) => (dispatch, getState) => {
   let payload = getPayloadFromTypeAttribute(values, allowedRoles);
   const isMonolistComposite = payload.type === TYPE_MONOLIST
-  && payload.nestedAttribute.type === TYPE_COMPOSITE;
+    && payload.nestedAttribute.type === TYPE_COMPOSITE;
   if (action === METHODS.POST) {
     const attributeSelected = getAttributeSelectFromContentType(getState()) || '';
     if (attributeSelected.type === TYPE_COMPOSITE && mode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
@@ -800,7 +647,7 @@ export const handlerAttributeFromContentType = (
   } else {
     dispatch(setActionMode(MODE_EDIT));
     const isComposite = values.type === TYPE_COMPOSITE
-    || payload.type === TYPE_COMPOSITE || isMonolistComposite;
+      || payload.type === TYPE_COMPOSITE || isMonolistComposite;
     if (isComposite) {
       if (mode === MODE_EDIT_COMPOSITE) {
         dispatch(sendPutAttributeFromContentType(payload, entityCode, mode, history));

@@ -2,9 +2,6 @@ import { combineReducers } from 'redux';
 import { cloneDeep, set } from 'lodash';
 import {
   SET_CONTENT_TYPES,
-  REMOVE_CONTENT_TYPE,
-  SET_ATTRIBUTES,
-  SET_CONTENT_TYPE_REFERENCE_STATUS,
   SET_SELECTED_ATTRIBUTE,
   PUSH_PARENT_SELECTED_ATTRIBUTE,
   POP_PARENT_SELECTED_ATTRIBUTE,
@@ -34,10 +31,6 @@ export const list = (state = [], action = {}) => {
     case SET_CONTENT_TYPES: {
       return toIdList(action.payload.list);
     }
-    case REMOVE_CONTENT_TYPE: {
-      const { contentTypeCode } = action.payload;
-      return state.filter(item => item !== contentTypeCode);
-    }
     default:
       return state;
   }
@@ -47,12 +40,6 @@ const contentTypeMap = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_CONTENT_TYPES: {
       return toMap(action.payload.list);
-    }
-    case REMOVE_CONTENT_TYPE: {
-      const { contentTypeCode } = action.payload;
-      const newState = { ...state };
-      delete newState[contentTypeCode];
-      return newState;
     }
     default:
       return state;
@@ -135,16 +122,6 @@ export const selectedContentType = (state = {}, action = {}) => {
   }
 };
 
-export const attributeList = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_ATTRIBUTES: {
-      return action.payload.attributes;
-    }
-    default:
-      return state;
-  }
-};
-
 export const selectedAttribute = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_ATTRIBUTE: {
@@ -177,27 +154,14 @@ export const parentSelectedAttribute = (state = [], action = {}) => {
       return state;
   }
 };
-export const status = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_CONTENT_TYPE_REFERENCE_STATUS: {
-      return action.payload.contentTypeStatus;
-    }
-    default:
-      return state;
-  }
-};
 
 export default combineReducers({
   list,
   map: contentTypeMap,
   selected: selectedContentType,
   attributes: combineReducers({
-    list: attributeList,
     selected: selectedAttribute,
     selectedNested: selectedNestedAttribute,
     parentSelected: parentSelectedAttribute,
-  }),
-  references: combineReducers({
-    status,
   }),
 });

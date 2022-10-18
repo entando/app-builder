@@ -2,13 +2,10 @@ import reducer from 'state/content-type/reducer';
 import { cloneDeep } from 'lodash';
 import {
   setContentTypeList,
-  removeContentType,
   removeAttribute,
   setSelectedContentType,
   setSelectedContentTypeAttribute,
-  setContentTypeAttributes,
   setSelectedAttributeRef,
-  setContentTypeReferenceStatus,
   moveAttributeUpSync,
   moveAttributeDownSync,
   setActionMode,
@@ -20,9 +17,7 @@ import {
 import {
   GET_CONTENT_TYPE_RESPONSE_OK,
   CONTENT_TYPES_OK_PAGE,
-  CONTENT_TYPES_ATTRIBUTES,
   CONTENT_TYPE_ATTRIBUTE,
-  CONTENT_TYPE_REFERENCES_STATUS,
   ATTRIBUTE_MONOLIST_COMPOSITE,
 } from 'test/mocks/contentType';
 
@@ -34,7 +29,7 @@ const STATE_REMOVE_ATTRIBUTE = {
 };
 
 describe('state/content-type/reducer', () => {
-  let state = reducer();
+  const state = reducer();
   let newState;
 
   it('should return an object', () => {
@@ -48,14 +43,6 @@ describe('state/content-type/reducer', () => {
 
     it('should define the ContentType payload', () => {
       expect(newState.list).toMatchObject(contentTypesList);
-    });
-  });
-
-  describe('afert action REMOVE_CONTENT_TYPE', () => {
-    it('should define the new state', () => {
-      state = { list: ['AAA'] };
-      newState = reducer(state, removeContentType('AAA'));
-      expect(newState.list).toMatchObject([]);
     });
   });
 
@@ -224,18 +211,6 @@ describe('state/content-type/reducer', () => {
     });
   });
 
-  describe('after action SET_ATTRIBUTES', () => {
-    beforeEach(() => {
-      newState = reducer(state, setContentTypeAttributes(CONTENT_TYPES_ATTRIBUTES));
-    });
-
-    it('should define the attributes payload', () => {
-      expect(newState).toHaveProperty('attributes');
-      expect(newState).toHaveProperty('attributes.list');
-      expect(newState.attributes.list).toMatchObject(CONTENT_TYPES_ATTRIBUTES);
-    });
-  });
-
   describe('after action SET_SELECTED_ATTRIBUTE', () => {
     beforeEach(() => {
       newState = reducer(state, setSelectedAttributeRef(CONTENT_TYPE_ATTRIBUTE));
@@ -257,18 +232,6 @@ describe('state/content-type/reducer', () => {
       expect(newState).toHaveProperty('attributes');
       expect(newState).toHaveProperty('attributes.selectedNested');
       expect(newState.attributes.selectedNested).toMatchObject(CONTENT_TYPE_ATTRIBUTE);
-    });
-  });
-
-  describe('after action SET_CONTENT_TYPE_REFERENCE_STATUS', () => {
-    beforeEach(() => {
-      newState = reducer(state, setContentTypeReferenceStatus(CONTENT_TYPE_REFERENCES_STATUS));
-    });
-
-    it('should define the references.status payload', () => {
-      expect(newState).toHaveProperty('references');
-      expect(newState).toHaveProperty('references.status');
-      expect(newState.references.status).toMatchObject(CONTENT_TYPE_REFERENCES_STATUS);
     });
   });
 });
