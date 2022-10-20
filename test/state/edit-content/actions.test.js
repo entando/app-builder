@@ -151,7 +151,7 @@ describe('editContent thunks', () => {
       .catch(done.fail);
   });
 
-  it('sendPostContentTemplate error', (done) => {
+  it('postAddContent error', (done) => {
     postAddContent.mockImplementationOnce(mockApi({ errors: true }));
     const tosend = { a: 1, contentType: { typeCode: 'NEWS', typeDescription: 'News' } };
     store
@@ -229,8 +229,10 @@ describe('editContent thunks', () => {
       { type: 'List', nestedAttribute: { type: 'Number' } },
       {
         type: 'Composite',
-        compositeAttributes: [{ type: 'Boolean' }, { type: 'Number' },
-          { type: 'Timestamp' }, { type: 'CheckBox' }, { type: 'Image' }],
+        compositeAttributes: [
+          { type: 'Boolean' }, { type: 'Number' },
+          { type: 'Timestamp' }, { type: 'CheckBox' }, { type: 'Image' },
+        ],
       },
       { type: 'List', nestedAttribute: { type: 'Boolean' } },
       { type: 'Date' },
