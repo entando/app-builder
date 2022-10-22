@@ -40,7 +40,6 @@ import emailConfig from 'state/email-config/reducer';
 import plugins from 'state/plugins/reducer';
 import contentTemplate from 'state/content-template/reducer';
 import contentType from 'state/content-type/reducer';
-import editContent from 'state/edit-content/reducer';
 import contents from 'state/contents/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
@@ -95,7 +94,6 @@ const reducerDef = {
   emailConfig,
   contentTemplate,
   contentType,
-  editContent,
   contents,
   tableColumns,
   hub,

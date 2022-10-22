@@ -18,9 +18,6 @@ import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 import { fetchPage } from 'state/pages/actions';
 import { getContentTypeList, getSelectedContentType } from 'state/content-type/selectors';
 import { fetchContentTypeListPaged, fetchContentType } from 'state/content-type/actions';
-import { setNewContentsType, setWorkMode } from 'state/edit-content/actions';
-import { setCurrentStatusShow } from 'state/contents/actions';
-import { WORK_MODE_ADD } from 'state/edit-content/types';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
@@ -120,9 +117,6 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       }
     },
     onClickAddContent: (contentType) => {
-      dispatch(setWorkMode(WORK_MODE_ADD));
-      dispatch(setCurrentStatusShow('all'));
-      dispatch(setNewContentsType(contentType));
       const newRoute = adminConsoleUrl(`do/jacms/Content/createNew.action?contentTypeCode=${contentType.typeCode}`);
       window.location.href = newRoute;
     },

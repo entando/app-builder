@@ -11,8 +11,6 @@ import { getColumnOrder } from 'state/table-column-order/selectors';
 import { getPagination } from 'state/pagination/selectors';
 
 import ContentListCard from 'ui/contents/list-card/ContentListCard';
-import { setWorkMode, setNewContentsType } from 'state/edit-content/actions';
-import { WORK_MODE_ADD } from 'state/edit-content/types';
 import { fetchContentTypeListPaged } from 'state/content-type/actions';
 import { getContentTypeList } from 'state/content-type/selectors';
 
@@ -32,8 +30,6 @@ const mapDispatchToProps = dispatch => ({
   },
   onSetColumnOrder: columnOrder => dispatch(setColumnOrder(columnOrder, 'dashboardContentList')),
   onClickAddContent: (contentType) => {
-    dispatch(setWorkMode(WORK_MODE_ADD));
-    dispatch(setNewContentsType(contentType));
     const newRoute = adminConsoleUrl(`do/jacms/Content/createNew.action?contentTypeCode=${contentType.typeCode}`);
     window.location.href = newRoute;
   },

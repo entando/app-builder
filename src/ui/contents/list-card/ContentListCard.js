@@ -6,7 +6,6 @@ import { DataTable } from '@entando/datatable';
 import { formatDate, hasAccess } from '@entando/utils';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import { getContentStatusDetails } from 'ui/contents/ContentsTable';
 import {
   SUPERUSER_PERMISSION,
   ADMINISTRATION_AREA_PERMISSION,
@@ -17,6 +16,34 @@ import {
 import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
 
 import paginatorMessages from 'ui/common/paginatorMessages';
+
+export const getContentStatusDetails = (status = '', hasPublicVersion, intl) => {
+  const statusLowerCase = status.toLowerCase();
+  let color = '';
+  let titleId = '';
+  if (statusLowerCase === 'public') {
+    color = 'published';
+    titleId = 'cms.content.status.published';
+  } else if (statusLowerCase === 'ready') {
+    color = 'review';
+    if (hasPublicVersion) {
+      titleId = 'cms.content.status.pendingChanges.publicNotEqualReady';
+    } else {
+      titleId = 'cms.content.status.unpublished.ready';
+      color = 'unpublished';
+    }
+  } else {
+    color = 'unpublished';
+    if (hasPublicVersion) {
+      titleId = 'cms.content.status.pendingChanges.publicNotEqualDraft';
+      color = 'review';
+    } else {
+      titleId = 'cms.content.status.unpublished';
+    }
+  }
+  const title = intl.formatMessage({ id: titleId });
+  return { color, title };
+};
 
 class ContentListCard extends Component {
   constructor(props) {
@@ -120,28 +147,32 @@ class ContentListCard extends Component {
     const renderAddContentButton = hasAccess(
       [SUPERUSER_PERMISSION, CRUD_CONTENTS_PERMISSION, VALIDATE_CONTENTS_PERMISSION],
       userPermissions,
-    ) && (
-      <DropdownButton
-        bsStyle="primary"
-        className="pull-right"
-        title={intl.formatMessage({ id: 'cms.contents.add.title' })}
-        id="addContent"
-      >
-        {
-        contentTypes.map(contentType => (
-          <MenuItem
-            eventKey={contentType.code}
-            key={contentType.code}
-            onClick={() => (
-              onClickAddContent({ typeCode: contentType.code, typeDescription: contentType.name })
-            )}
-          >
-            {contentType.name}
-          </MenuItem>
-        ))
-      }
-      </DropdownButton>
-    );
+    )
+      && (
+        <DropdownButton
+          bsStyle="primary"
+          className="pull-right"
+          title={intl.formatMessage({ id: 'cms.contents.add.title' })}
+          id="addContent"
+        >
+          {
+            contentTypes.map(contentType => (
+              <MenuItem
+                eventKey={contentType.code}
+                key={contentType.code}
+                onClick={() => (
+                  onClickAddContent({
+                    typeCode: contentType.code,
+                    typeDescription: contentType.name,
+                  })
+                )}
+              >
+                {contentType.name}
+              </MenuItem>
+            ))
+          }
+        </DropdownButton>
+      );
 
     const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
       { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }

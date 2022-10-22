@@ -6,7 +6,7 @@ import { Col, PAGINATION_VIEW, PaginationRow, Button } from 'patternfly-react';
 import { DataTable, TABLE_SORT_DIRECTION } from '@entando/datatable';
 import { SORT_ATTRIBUTE_REPLACES } from 'state/contents/const';
 import { formatDate } from '@entando/utils';
-import { getContentStatusDetails } from 'ui/contents/ContentsTable';
+import { getContentStatusDetails } from 'ui/contents/list-card/ContentListCard';
 import paginatorMessages from 'ui/common/paginatorMessages';
 
 class ContentsFilterTable extends Component {
