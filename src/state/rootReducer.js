@@ -44,14 +44,10 @@ import contents from 'state/contents/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
 
-import entandoApps from 'entando-apps';
 import hub from 'state/component-repository/hub/reducer';
 import mfe from 'state/mfe/reducer';
 
-const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
-
 const reducerDef = {
-  apps: Object.keys(appsReducers).length ? combineReducers(appsReducers) : {},
   activityStream,
   api,
   categories,

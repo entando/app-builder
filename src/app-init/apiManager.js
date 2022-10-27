@@ -10,7 +10,6 @@ import { clearAppTourProgress } from 'state/app-tour/actions';
 import { addToast, TOAST_WARNING } from '@entando/messages';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { history, ROUTE_DASHBOARD, ROUTE_HOME } from 'app-init/router';
-import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { keycloak } from 'auth/keycloak/KeycloakProviderContainer';
@@ -78,7 +77,6 @@ const ApiManager = ({
       store={store}
       domain={DOMAIN}
       useMocks={useMocks}
-      plugins={pluginsArray}
     >
       {children}
     </ApiProvider>
