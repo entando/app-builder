@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import reducer from 'state/labels/reducer';
-import { setLabels, updateLabelSync, removeLabelSync } from 'state/labels/actions';
+import { setLabels, updateLabelSync, removeLabelSync, setLabelFilters } from 'state/labels/actions';
 import { LABELS_LIST } from 'test/mocks/labels';
 
 
@@ -17,6 +17,10 @@ describe('state/languages/reducer', () => {
 
   it('should define an empty list array', () => {
     expect(INITIAL_STATE.list).toEqual([]);
+  });
+
+  it('should define filters property with null value', () => {
+    expect(INITIAL_STATE.filters).toBe(null);
   });
 
   describe('after action SET_LABELS', () => {
@@ -85,6 +89,13 @@ describe('state/languages/reducer', () => {
       expect(STATE_WITH_LIST.list).not.toBe(newState.list);
       expect(STATE_WITH_LIST.list.includes(LABEL_KEY)).toBe(true);
       expect(newState.list.includes(LABEL_KEY)).toBe(false);
+    });
+  });
+
+  describe('after action SET_LABEL_FILTERS', () => {
+    it('sets the filters with the provided value', () => {
+      const newState = reducer(INITIAL_STATE, setLabelFilters({ keyword: 'testkey' }));
+      expect(newState.filters).toEqual({ keyword: 'testkey' });
     });
   });
 });

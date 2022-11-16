@@ -234,9 +234,11 @@ export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
     }).catch(() => {});
   });
 
-export const sendPutWidgets = (widgetObject, saveType) => dispatch =>
-  new Promise((resolve) => {
-    putWidgets(widgetObject).then((response) => {
+export const sendPutWidgets = (widgetObject, saveType) => (dispatch, getState) => {
+  const { configUiName } = getSelectedWidget(getState()) || {};
+
+  return new Promise((resolve) => {
+    putWidgets({ ...widgetObject, configUiName }).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           if (saveType !== CONTINUE_SAVE_TYPE) history.push(ROUTE_WIDGET_LIST);
@@ -252,6 +254,7 @@ export const sendPutWidgets = (widgetObject, saveType) => dispatch =>
       });
     }).catch(() => {});
   });
+};
 
 export const sendDeleteWidgets = widgetCode => dispatch =>
   new Promise((resolve) => {

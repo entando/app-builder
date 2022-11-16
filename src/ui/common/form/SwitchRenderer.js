@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Col, ControlLabel } from 'patternfly-react';
 
-const switchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
+const SwitchField = (input, switchValue, trueValue, falseValue, onToggleValue, dataTestId) => {
   const handleChange = (el, val) => {
     const returnVal = val ? trueValue : falseValue;
     input.onChange(returnVal);
@@ -38,9 +38,9 @@ const SwitchRenderer = ({
         </Col>
         <Col xs={inputSize || 12 - labelSize}>
           <div aria-labelledby={`switch-${input.name}`} >
-            {switchField(
-                { ...input, disabled }, switchValue, trueValue, falseValue,
-                onToggleValue, dataTestId,
+            {SwitchField(
+              { ...input, disabled }, switchValue, trueValue, falseValue,
+              onToggleValue, dataTestId,
             )}
           </div>
           {append && <span className="AppendedLabel">{append}</span>}
@@ -49,7 +49,7 @@ const SwitchRenderer = ({
       </div>);
   }
 
-  return switchField(
+  return SwitchField(
     { ...input, disabled },
     switchValue, trueValue, falseValue, onToggleValue, dataTestId,
   );

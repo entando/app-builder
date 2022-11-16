@@ -36,6 +36,7 @@ const SeoInfoMetadata = ({
             labelSize={0}
             inputSize={12}
             disabled={metas.useDefaultLang || readOnly}
+            hasLabel={false}
           />
         </Col>
         <Col sm={langIdx ? 3 : 4}>

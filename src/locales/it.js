@@ -1,8 +1,8 @@
 export default {
   locale: 'it',
   messages: {
-    'app.serverError': 'non è possibile raggiungere {domain}',
-    'app.noJsonReturned': 'non è possibile raggiungere {domain}',
+    'app.serverError': 'si è verificato un errore generico lato server',
+    'app.noJsonReturned': 'si è verificato un errore generico lato server',
     'app.permissionDenied': 'sessione scaduta',
     'app.usingMocks': 'App Builder sta usando i mock',
     'app.welcome': 'Benvenuto in Entando, {name}!',
@@ -1710,5 +1710,8 @@ export default {
     'app.installFailed': 'Si è verificato un errore e non è stato possibile installare il Bundle',
     'app.uninstallFailed': 'Si è verificato un errore e non è stato possibile disinstallare il Bundle',
     'app.fetchBundlesFailed': 'Non è stato possibile recuperare la lista di Bundle dal Registry',
+    'user.authority.addNew': 'Aggiungi nuova Autorizzazione',
+    'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
+    'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
   },
 };

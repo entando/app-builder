@@ -23,13 +23,13 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
   onClickDelete: frameId => dispatch(removePageWidget(frameId, params.pageCode)),
   onClickSettings: frameId => dispatch(editWidgetConfig(frameId, params.pageCode)),
   onClickSaveAs: ({
-    widgetId, frameId, widgetAction,
+    widgetId, frameId, configUiName,
   }) => {
     history.push(routeConverter(ROUTE_CLONE_WIDGET, {
       parentCode: widgetId,
       frameId,
       pageCode: params.pageCode,
-      widgetAction,
+      configUiName,
     }));
   },
 });

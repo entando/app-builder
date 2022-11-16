@@ -1,11 +1,14 @@
 import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR } from '@entando/messages';
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 
 import { getLabels, getLabel, putLabel, postLabel, deleteLabel } from 'api/labels';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_ACTIVE_TAB, SET_LABEL_FILTERS } from 'state/labels/types';
 import { history, ROUTE_LABELS_AND_LANGUAGES } from 'app-init/router';
+import { getLabelFilters } from 'state/labels/selectors';
+
 
 export const setLabels = labels => ({
   type: SET_LABELS,
@@ -35,11 +38,23 @@ export const setActiveTab = activeTab => ({
   },
 });
 
+export const setLabelFilters = filters => ({
+  type: SET_LABEL_FILTERS,
+  payload: filters,
+});
+
 // thunks
 
-export const fetchLabels = (page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+export const fetchLabels = (page = { page: 1, pageSize: 10 }) => (dispatch, getState) => (
   new Promise((resolve) => {
     dispatch(toggleLoading('systemLabels'));
+
+    const filters = getLabelFilters(getState());
+    const params = filters && filters.keyword ? convertToQueryString({
+      formValues: { key: filters.keyword },
+      operators: { key: FILTER_OPERATORS.LIKE },
+    }) : '';
+
     getLabels(page, params).then((response) => {
       response.json().then((json) => {
         if (response.ok) {

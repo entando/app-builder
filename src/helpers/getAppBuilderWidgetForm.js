@@ -39,8 +39,8 @@ const widgetForms = {
 };
 
 export default (widget, baseOnly) => {
-  const { code, action } = widget || {};
-  const widgetFormId = action || code;
+  const { code, configUiName } = widget || {};
+  const widgetFormId = configUiName || code;
   const widgetForm = widgetForms && widgetFormId ? widgetForms[widgetFormId] : null;
   const moduleKey = baseOnly ? 'body' : 'default';
   return get(widgetForm, moduleKey, widgetForm);

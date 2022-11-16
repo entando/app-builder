@@ -1,8 +1,8 @@
 export default {
   locale: 'pt',
   messages: {
-    'app.serverError': 'não foi possível estabelecer conexão com {domain}',
-    'app.noJsonReturned': 'não foi possível estabelecer conexão com {domain}',
+    'app.serverError': 'ocorreu um erro genérico no servidor',
+    'app.noJsonReturned': 'ocorreu um erro genérico no servidor',
     'app.permissionDenied': 'sua sessão expirou',
     'app.usingMocks': 'O App Builder está usando mocks',
     'app.welcome': '{name}, seja bem vindo a Entando!',
@@ -1019,5 +1019,8 @@ export default {
     'app.installFailed': 'Ocorreu um erro e o pacote não pôde ser instalado',
     'app.uninstallFailed': 'Ocorreu um erro e o pacote não pôde ser desinstalado',
     'app.fetchBundlesFailed': 'Falha ao buscar pacotes do Registro',
+    'user.authority.addNew': 'Adicionar nova Autorização',
+    'componentRepository.refreshBundleVersions': 'Atualizar as versões disponíveis do pacote',
+    'componentRepository.bundle.installVersionsRefreshed': 'Atualizado',
   },
 };

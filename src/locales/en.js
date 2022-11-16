@@ -1,8 +1,8 @@
 export default {
   locale: 'en',
   messages: {
-    'app.serverError': 'could not establish connection with {domain}',
-    'app.noJsonReturned': 'could not establish connection with {domain}',
+    'app.serverError': 'a generic error has occurred on the server',
+    'app.noJsonReturned': 'a generic error has occurred on the server',
     'app.permissionDenied': 'your session is expired',
     'app.usingMocks': 'App Builder is currently using mocks',
     'app.welcome': 'Welcome to Entando, {name}!',
@@ -1710,5 +1710,8 @@ export default {
     'app.installFailed': 'An Error occurred and the Bundle could not be installed',
     'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
+    'user.authority.addNew': 'Add new Authorization',
+    'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
+    'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
   },
 };

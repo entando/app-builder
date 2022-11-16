@@ -22,6 +22,11 @@
     font-size: 22px;
   }
 
+  &__refresh-versions {
+    max-height: 24px !important; // sass-lint:disable-line no-important
+    margin-right: 5px !important; // sass-lint:disable-line no-important
+  }
+
   &__warning {
     color: $color-draft;
     font-size: 22px;

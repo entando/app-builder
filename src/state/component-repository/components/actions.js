@@ -309,6 +309,13 @@ const procceedWithInstall = (component, body, resolve, dispatch, logProgress, lo
       if (logProgress) {
         logProgress(0);
       }
+    }).catch((error) => {
+      dispatch(addToast(
+        error && error.message ? error.message : DEFAULT_BE_ERROR_MESSAGE,
+        TOAST_ERROR,
+      ));
+      dispatch(toggleLoading(loadingId));
+      resolve();
     });
 
 export const installECRComponent = (component, version, logProgress, resolvedInstallPlan) =>
@@ -333,7 +340,7 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
-                const defaultInstallPlan = updateAllActions(installPlan, 'CREATE');
+                const defaultInstallPlan = updateAllActions(installPlan, '');
                 procceedWithInstall(
                   component, { ...defaultInstallPlan, version }, resolve,
                   dispatch, logProgress, loadingId,

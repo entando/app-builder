@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal, Spinner } from 'patternfly-react';
@@ -20,6 +20,7 @@ import {
 import { INSTALLED, INSTALLED_NOT_DEPLOYED, DEPLOYED, NOT_FOUND, INVALID_REPO_URL } from 'state/component-repository/hub/const';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
 import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export const HUB_BUNDLE_MANAGEMENT_MODAL_ID = 'HubBundleManagementModalId';
 
@@ -47,19 +48,23 @@ const HubBundleManagementModal = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const bundlegroups = useSelector(getBundleGroups);
   const selectedBundleStatus = useSelector(getSelectedBundleStatus);
-  const loadingDeploy = useSelector(getLoading)[`deployBundle${payload && payload.gitRepoAddress}`];
-  const loadingUndeploy = useSelector(getLoading)[`undeployBundle${payload && payload.gitRepoAddress}`];
+  const loadingDeploy = useSelector(getLoading)[`deployBundle${payload && (payload.gitRepoAddress || payload.repoUrl)}`];
+  const loadingUndeploy = useSelector(getLoading)[`undeployBundle${payload && (payload.gitRepoAddress || payload.repoUrl)}`];
   const loading = loadingDeploy || loadingUndeploy;
   const selectedECRComponent = useSelector(getECRComponentSelected);
   const loadingInstallUninstallAction = useSelector(getLoading)[`deComponentInstallUninstall-${(selectedECRComponent || {}).code || ''}`];
   const ecrComponents = useSelector(getECRComponentList);
+
+  const [redeployed, setRedeployed] = useState(false);
+  const [fetchingDetails, setFetchingDetails] = useState(false);
 
   const ecrComponent = useMemo(
     () => selectedECRComponent && ecrComponents.find(c => c.code === selectedECRComponent.code),
     [ecrComponents, selectedECRComponent],
   );
 
-  const component = ecrComponent || selectedECRComponent;
+  const component = { ...(selectedECRComponent || {}), ...(ecrComponent || {}) };
+
   const isComponentInstalling =
     useSelector(state => getECRComponentInstallationStatus(state, {
       component:
@@ -94,6 +99,23 @@ const HubBundleManagementModal = () => {
     }));
   };
 
+  const handleReDeploy = () => {
+    const {
+      name,
+      repoUrl,
+      descriptionImage,
+      thumbnail,
+      gitRepoAddress,
+    } = payload;
+    dispatch(sendDeployBundle({
+      name,
+      gitRepoAddress: gitRepoAddress || repoUrl,
+      descriptionImage: descriptionImage || thumbnail,
+    }, 'componentRepository.bundle.installVersionsRefreshed', true)).then(() => {
+      setRedeployed(true);
+    });
+  };
+
   const handleUndeploy = () => {
     const { name, gitRepoAddress, descriptionImage } = payload;
     dispatch(sendUndeployBundle({
@@ -117,10 +139,41 @@ const HubBundleManagementModal = () => {
   }, [dispatch, payload, payload.gitRepoAddress, payload.repoUrl]);
 
   useEffect(() => {
-    if (selectedBundleStatus.status) {
-      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64')));
+    if ((selectedBundleStatus.status || redeployed) && !fetchingDetails) {
+      setFetchingDetails(true);
+      dispatch(fetchECRComponentDetail(Buffer.from(payload.gitRepoAddress || payload.repoUrl || '').toString('base64'))).finally(() => {
+        setFetchingDetails(false);
+      });
+      if (redeployed) {
+        setRedeployed(false);
+      }
     }
-  }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status,
+    redeployed]);
+
+  const refreshVersionsButton = (
+    <OverlayTrigger
+      placement="top"
+      overlay={(
+        <Tooltip key={`tooltip-${component && component.code}-content-for-version-refresh`} className="Contents__tablerow-tooltip">
+          <FormattedMessage id="componentRepository.refreshBundleVersions" />
+        </Tooltip>
+      )}
+      key={`tooltip-${component && component.code}-overlay-for-version-refresh`}
+    >
+      <Button
+        bsStyle="primary"
+        id="InstallationPlanModal__refresh-versions"
+        className="InstallationPlanModal__refresh-versions"
+        disabled={loading || isComponentInstalling ||
+          isComponentUninstalling || loadingInstallUninstallAction}
+        onClick={handleReDeploy}
+      >
+        <span className="fa fa-refresh" />
+      </Button>
+    </OverlayTrigger>
+  );
 
   const deployButton = (
     <Button bsStyle="primary" id="InstallationPlanModal__button-ok" disabled={loading} onClick={handleDeploy}>
@@ -164,10 +217,17 @@ const HubBundleManagementModal = () => {
       <Spinner loading={loading || !selectedBundleStatus.status}>
         <div className="HubBundleManagement__action-buttons">
           {
+            (selectedBundleStatus.status === INSTALLED || selectedBundleStatus.status === DEPLOYED)
+            && (
+              refreshVersionsButton
+            )
+          }
+          {
             bundleDeployedOrInstalled && component &&
             <ComponentInstallActionsContainer component={component} />
           }
           <div className="HubBundleManagement__deploy-action">
+
             {renderHubActions()}
           </div>
         </div>
@@ -190,7 +250,7 @@ const HubBundleManagementModal = () => {
     >
       <BundlePreview
         bundle={{
-          name: payload.name || payload.title,
+          name: payload.name || payload.title || component.name || component.title,
           description: payload.description,
           descriptionImage: payload.descriptionImage || payload.thumbnail,
         }}

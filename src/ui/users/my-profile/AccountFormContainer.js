@@ -5,9 +5,11 @@ import { submit } from 'redux-form';
 import { sendPostMyPassword } from 'state/users/actions';
 import AccountForm from 'ui/users/my-profile/AccountForm';
 import { setVisibleModal } from 'state/modal/actions';
+import { getLocale } from 'state/locale/selectors';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
+  locale: getLocale(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

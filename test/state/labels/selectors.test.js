@@ -1,5 +1,5 @@
 
-import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap } from 'state/labels/selectors';
+import { getLabels, getLabelsIdList, getLabelsList, getLabelsMap, getLabelFilters } from 'state/labels/selectors';
 
 
 const LABELS_MAP = {
@@ -26,6 +26,7 @@ const STATE = {
   labels: {
     map: LABELS_MAP,
     list: LABELS_LIST,
+    filters: { keyword: 'testkey' },
   },
 };
 
@@ -48,5 +49,9 @@ describe('state/labels/selectors', () => {
       LABELS_MAP.HELLO,
       LABELS_MAP.GOODBYE,
     ]);
+  });
+
+  it('getLabelFilters returns the label filters', () => {
+    expect(getLabelFilters(STATE)).toEqual(STATE.labels.filters);
   });
 });

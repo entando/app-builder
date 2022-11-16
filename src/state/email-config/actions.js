@@ -63,9 +63,11 @@ export const testEmailConfig = emailConfig => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(addToast({ id: 'emailConfig.valid' }, TOAST_SUCCESS));
-    } else {
+    } else if (json.errors && json.errors.length > 0) {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+    } else {
+      dispatch(addToast({ id: 'componentRepository.components.genericError' }, TOAST_ERROR));
     }
   } catch (e) {
     // do nothing

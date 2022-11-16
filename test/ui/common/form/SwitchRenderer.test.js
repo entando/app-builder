@@ -5,6 +5,7 @@ import 'test/enzyme-init';
 import { shallow } from 'enzyme';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
+
 const VALUE = true;
 const NAME = 'inputName';
 const onChangeMock = jest.fn();
