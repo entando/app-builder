@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { get } from 'lodash';
-import React, { Fragment, useEffect, useMemo } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Button } from 'patternfly-react';
@@ -24,6 +24,21 @@ const WidgetConfigMicrofrontend = ({
   const memoMfeObject = useMemo(() => normalizeMfeObject(widget, resources), [resources, widget]);
   const { assetLoading, mfe, hasError } = useMfe({ initialMfe: memoMfeObject });
   const customElement = get(mfe, 'customElement');
+
+  // eslint-disable-next-line no-unused-vars
+  const [enableSubmit, setEnableSubmit] = useState(true);
+
+  useEffect(() => {
+    const widgetConfigListenerName = 'widget-config';
+    const listener = (e) => {
+      const { save } = e.detail;
+      setEnableSubmit(save);
+    };
+
+    window.addEventListener(widgetConfigListenerName, listener);
+
+    return () => window.removeEventListener(widgetConfigListenerName, listener);
+  }, []);
 
   const handleSubmit = () => {
     const configWebComponent = getMicrofrontend(customElement);
