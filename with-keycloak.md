@@ -3,10 +3,7 @@
 ###  Run keycloak server:
 - `git clone https://github.com/entando/entando-keycloak.git`
 - `cd entando-keycloak`
-- Remove the file extension of `Dockerfile` to be used (i.e. `Dockerfile.keycloak` -> `Dockerfile`)
-- `docker build -t entando/keycloak:latest .`
-- Rename `Dockerfile` to `Dockerfile.keycloak` again
-- `docker-compose up --build keycloak`
+- `docker-compose up --build keycloak` or `docker compose up --build -keycloak`
 ###  Setup keycloak realm and client
 - `git clone https://github.com/entando/entando-keycloak-plugin.git`
 - Navigate to: http://localhost:8081/auth and log into keycloak admin console
@@ -45,9 +42,15 @@ As for secret you need to go to keycloak , then go to `Clients/entando-core` and
 - Create a file `.env.local`
 - Put these lines into that file:
 ```
-USE_MOCKS=false
-DOMAIN=http://localhost:8080/entando-de-app
+USE_MOCKS=false 
+USE_MFE=false
+USE_REMOTE_MFE=false
+USE_LOCAL_MFE=false
+USE_MFE_MOCKS=false
+CI=false
 KEYCLOAK_ENABLED=true
+DOMAIN=http://localhost:8080/entando-de-app
+PUBLIC_URL=/app-builder
 ```
 - `npm start`
 - Navigate to: `localhost:3000` and try to log in with user you created in the last step of `Configure clients`
