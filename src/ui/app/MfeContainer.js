@@ -31,8 +31,12 @@ const MfeContainer = ({ id, history }) => {
       entandoWindow.globals = globals;
     }
 
+    entandoWindow.mfe = entandoWindow.mfe || {};
+    entandoWindow.mfe[mfe.widgetName] =
+      entandoWindow.mfe[mfe.widgetName] || { basePath: mfe.basePath };
+
     window.entando = entandoWindow;
-  }, [history, locale, permissions, systemReport]);
+  }, [history, locale, mfe.basePath, mfe.widgetName, permissions, systemReport]);
 
   const params = {
     config: {
