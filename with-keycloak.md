@@ -23,9 +23,10 @@ Now you have 2 clients that you will be using: 1) `entando-core` and 2) `entando
 - Now restart the keycloak server.
 - Go to `Users` and add a new user called `admin` that you will be using during `app-builder` login.
 - In `Users/admin` go to the `Credentials` tab and add a password for the `admin` user
-### Setup entando-de-app
-- Clone: https://github.com/entando-k8s/entando-de-app/
-- Open `pom.xml` file and find `<!-- Keycloak Configuration -->`, then update the following values:
+### Setup app-engine
+- Clone: https://github.com/entando/app-engine.git
+- see the [README.md](https://github.com/entando/app-engine/blob/develop/README.md) for the installation.
+- Open `pom.xml` file inside `webapp` folder and find `<!-- Keycloak Configuration -->`, then update the following values:
 ```
 <keycloak.enabled>true</keycloak.enabled>
 <keycloak.auth.url>http://localhost:8081/auth</keycloak.auth.url>
