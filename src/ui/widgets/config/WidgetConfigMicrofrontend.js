@@ -25,7 +25,6 @@ const WidgetConfigMicrofrontend = ({
   const { assetLoading, mfe, hasError } = useMfe({ initialMfe: memoMfeObject });
   const customElement = get(mfe, 'customElement');
 
-  // eslint-disable-next-line no-unused-vars
   const [enableSubmit, setEnableSubmit] = useState(true);
 
   useEffect(() => {
@@ -71,6 +70,7 @@ const WidgetConfigMicrofrontend = ({
             type="submit"
             bsStyle="primary"
             onClick={handleSubmit}
+            disabled={!enableSubmit}
           ><FormattedMessage id="app.save" />
           </Button>
           <Button
