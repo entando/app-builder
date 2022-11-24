@@ -45,7 +45,7 @@
 
   &__buttons-container {
     display: flex;
-    max-height: 24px !important; // sass-lint:disable-line no-important
+    max-height: 24px;
 
     & > div {
       margin-right: 10px;
