@@ -142,6 +142,7 @@ export const mapStateToProps = (state) => {
     ownerGroupValue: formValueSelector('page')(state, 'ownerGroup'),
     parentCodeValue: formValueSelector('page')(state, 'parentCode'),
     pageModelValue: formValueSelector('page')(state, 'pageModel'),
+    titles: formValueSelector('page')(state, 'titles'),
     appTourLastPageData,
   };
 };

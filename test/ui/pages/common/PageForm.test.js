@@ -200,6 +200,7 @@ describe('PageForm', () => {
           selectedJoinGroups={[]}
           invalid={false}
           intl={mockIntl}
+          titles={{ en: 'title' }}
         />
       ));
     });

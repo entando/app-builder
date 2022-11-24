@@ -34,6 +34,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   keepDirtyOnReinitialize: true,
   enableGroupAccessControl: true,
   pageOwnerGroup: formValueSelector(FORM_ID)(state, 'ownerGroup'),
+  titles: formValueSelector(FORM_ID)(state, 'titles'),
 });
 
 

@@ -21,6 +21,7 @@ export const mapStateToProps = state => ({
   charsets: getCharsets(state),
   contentTypes: getContentTypes(state),
   selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
+  titles: formValueSelector('page')(state, 'titles'),
   mode: 'clone',
   keepDirtyOnReinitialize: true,
 });
