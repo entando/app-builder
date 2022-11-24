@@ -67,7 +67,7 @@ export class PageFormBody extends Component {
       intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
       contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave, form,
+      onChangeOwnerGroup, readOnly, stayOnSave, form, titles,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -75,6 +75,10 @@ export class PageFormBody extends Component {
     }
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
+
+    const defaultLang = languages.find(lang => lang.isDefault) || { code: '' };
+    const isDefaultTitleEmpty = !titles || !titles[defaultLang.code] ||
+      !titles[defaultLang.code].length;
 
     const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED;
 
@@ -379,7 +383,7 @@ export class PageFormBody extends Component {
                   className="PageForm__save-and-configure-btn app-tour-step-11"
                   type="submit"
                   bsStyle="success"
-                  disabled={invalid || submitting}
+                  disabled={invalid || submitting || isDefaultTitleEmpty}
                   onClick={handleSubmit(values =>
                     onSaveClick(
                       { ...values, appTourProgress },
@@ -394,7 +398,7 @@ export class PageFormBody extends Component {
                   type="submit"
                   data-testid="save-page"
                   bsStyle="primary"
-                  disabled={invalid || submitting}
+                  disabled={invalid || submitting || isDefaultTitleEmpty}
                   onClick={handleSubmit(values =>
                     onSaveClick(values, ACTION_SAVE))}
                 >
@@ -454,6 +458,7 @@ PageFormBody.propTypes = {
   myGroups: PropTypes.arrayOf(PropTypes.string),
   redirectToForbidden: PropTypes.func,
   pageOwnerGroup: PropTypes.string,
+  titles: PropTypes.shape({}),
 };
 
 PageFormBody.defaultProps = {
@@ -477,6 +482,7 @@ PageFormBody.defaultProps = {
   myGroups: null,
   redirectToForbidden: () => {},
   pageOwnerGroup: '',
+  titles: {},
 };
 
 const PageForm = reduxForm({
