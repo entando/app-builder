@@ -12,7 +12,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   onConfirmDelete: (page, successRedirect) => {
-    dispatch(sendDeletePage(page, successRedirect));
+    dispatch(sendDeletePage({ ...page, redirectToPageTree: true }, successRedirect));
     dispatch(setVisibleModal(''));
   },
 });
