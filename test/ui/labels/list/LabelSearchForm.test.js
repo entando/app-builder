@@ -5,6 +5,8 @@ import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
+const onMount = jest.fn();
+const onUnmount = jest.fn();
 
 jest.unmock('react-redux');
 jest.unmock('redux-form');
@@ -16,6 +18,8 @@ describe('LabelSearchFormBody', () => {
     beforeEach(() => {
       labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
         handleSubmit={handleSubmit}
+        onMount={onMount}
+        onUnmount={onUnmount}
       />));
     });
     it('root component renders without crashing', () => {
@@ -33,6 +37,8 @@ describe('LabelSearchFormBody', () => {
     beforeEach(() => {
       labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
         handleSubmit={handleSubmit}
+        onMount={onMount}
+        onUnmount={onUnmount}
       />));
     });
 
