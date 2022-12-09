@@ -1600,7 +1600,6 @@ export default {
     'app.installFailed': 'Si è verificato un errore e non è stato possibile installare il Bundle',
     'app.uninstallFailed': 'Si è verificato un errore e non è stato possibile disinstallare il Bundle',
     'app.fetchBundlesFailed': 'Non è stato possibile recuperare la lista di Bundle dal Registry',
-    'user.authority.addNew': 'Aggiungi nuova Autorizzazione',
     'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
     'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
   },

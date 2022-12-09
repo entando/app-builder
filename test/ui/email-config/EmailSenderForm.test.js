@@ -11,7 +11,7 @@ const setupEmailSenderForm = (initialValues = { code: '', email: '' }, editing =
   const utils = renderWithIntl((
     <EmailSenderForm
       initialValues={initialValues}
-      onSubmit={mockHandleSubmit}
+      onSubmit={values => mockHandleSubmit(values)}
       editing={editing}
       titleId="emailConfig.senderMgmt.new"
     />

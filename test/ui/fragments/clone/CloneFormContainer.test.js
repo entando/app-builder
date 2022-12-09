@@ -1,13 +1,12 @@
 import 'test/enzyme-init';
 
-import { FORM_MODE_CLONE, DEFAULT_FORM_VALUES } from 'state/fragments/const';
+import { FORM_MODE_CLONE } from 'state/fragments/const';
 import { getFragmentSelected } from 'state/fragments/selectors';
 import { mapStateToProps, mapDispatchToProps } from 'ui/fragments/clone/CloneFormContainer';
 
 const TEST_STATE = {
   initialValues: { code: '', defaultGuiCode: '', guiCode: '' },
   mode: FORM_MODE_CLONE,
-  initialValues: { code: '', defaultGuiCode: '', guiCode: '' },
 };
 
 jest.mock('state/fragments/selectors', () => ({
