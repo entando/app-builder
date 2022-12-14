@@ -2,7 +2,7 @@ import 'test/enzyme-init';
 
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { mapDispatchToProps } from 'ui/labels/list/LabelSearchFormContainer';
-import { fetchLabels, setSearchTerm } from 'state/labels/actions';
+import { fetchLabels, setLabelFilters } from 'state/labels/actions';
 
 const dispatchMock = jest.fn();
 
@@ -11,8 +11,8 @@ const FIELD_OPERATORS = {
   key: FILTER_OPERATORS.LIKE,
 };
 
-const TEST_VALUE = { key: 'label text' };
-const page = { page: 1, pageSize: undefined };
+const TEST_VALUE = { text: 'label text', key: 'testkey' };
+const page = { page: 1, pageSize: 10 };
 const queryString = convertToQueryString({
   formValues: TEST_VALUE,
   operators: FIELD_OPERATORS,
@@ -21,7 +21,7 @@ const queryString = convertToQueryString({
 
 jest.mock('state/labels/actions', () => ({
   fetchLabels: jest.fn(),
-  setSearchTerm: jest.fn(),
+  setLabelFilters: jest.fn(),
 }));
 
 describe('mapDispatchToProps', () => {
@@ -37,7 +37,7 @@ describe('mapDispatchToProps', () => {
   it('should dispatch an action if onSubmit is called', () => {
     props.onSubmit(TEST_VALUE);
     expect(dispatchMock).toHaveBeenCalled();
-    expect(setSearchTerm).toHaveBeenCalledWith(TEST_VALUE.key);
-    expect(fetchLabels).toHaveBeenCalledWith(page, queryString);
+    expect(setLabelFilters).toHaveBeenCalledWith({ keyword: TEST_VALUE.key });
+    expect(fetchLabels).toHaveBeenCalledWith(page);
   });
 });

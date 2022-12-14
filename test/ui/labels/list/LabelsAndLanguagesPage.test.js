@@ -64,7 +64,7 @@ describe('LabelsAndLanguagesPage', () => {
     expect(onWillMount).toHaveBeenCalledWith({
       page: 3,
       pageSize: props.pageSize,
-    }, '');
+    });
   });
 
   it('on change page size, it calls onWillMount with new page data', () => {
@@ -73,6 +73,6 @@ describe('LabelsAndLanguagesPage', () => {
     expect(onWillMount).toHaveBeenCalledWith({
       page: props.page,
       pageSize: 20,
-    }, '');
+    });
   });
 });
