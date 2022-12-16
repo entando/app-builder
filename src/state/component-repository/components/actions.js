@@ -231,6 +231,8 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
           dispatch(finishComponentInstallation(componentCode, res.payload));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          // refresh the page
+          window.location.reload();
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.installErrorMessage) {
@@ -414,6 +416,8 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
           dispatch(finishComponentUninstall(componentCode));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          // refresh the page
+          window.location.reload();
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }
