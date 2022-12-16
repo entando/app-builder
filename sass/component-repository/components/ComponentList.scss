@@ -45,6 +45,7 @@
 
   &__buttons-container {
     display: flex;
+    max-height: 24px;
 
     & > div {
       margin-right: 10px;
