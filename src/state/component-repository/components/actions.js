@@ -416,6 +416,8 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
           dispatch(finishComponentUninstall(componentCode));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          // refresh the page
+          window.location.reload();
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }
