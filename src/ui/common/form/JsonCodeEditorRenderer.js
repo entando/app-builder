@@ -44,7 +44,7 @@ JsonCodeEditorRenderer.propTypes = {
   }),
   help: PropTypes.node,
   input: PropTypes.shape({
-    value: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
