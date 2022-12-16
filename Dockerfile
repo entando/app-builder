@@ -5,7 +5,7 @@ LABEL name="Entando App Builder" \
       maintainer="dev@entando.com" \
       vendor="Entando Inc." \
       version="v${VERSION}" \
-      release="7.1.2" \
+      release="7.1.3" \
       summary="Entando App Builder" \
       description="The Entando App Builder is the front end environment to interact with the micro frontends, the WCMS, and other Entando components"
 
