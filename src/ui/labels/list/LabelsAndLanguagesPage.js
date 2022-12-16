@@ -145,7 +145,7 @@ class LabelsAndLanguagesPage extends Component {
               </div>
             </Col>
           </Row>
-          { pageContent }
+          {pageContent}
         </Grid>
       </InternalPage>
     );
