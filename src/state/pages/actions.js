@@ -205,7 +205,7 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
     if (response) {
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
-      if (page.tourProgress !== APP_TOUR_STARTED && successRedirect) {
+      if ((page.tourProgress !== APP_TOUR_STARTED && successRedirect) || page.redirectToPageTree) {
         history.push(ROUTE_PAGE_TREE);
       }
     } else {
