@@ -31,9 +31,9 @@ const MfeContainer = ({ id, history }) => {
       entandoWindow.globals = globals;
     }
 
-    entandoWindow.mfe = entandoWindow.mfe || {};
-    entandoWindow.mfe[mfe.widgetName] =
-      entandoWindow.mfe[mfe.widgetName] || { basePath: getResourcePath(mfe.assetsBasePath) };
+    entandoWindow.epc = entandoWindow.epc || {};
+    entandoWindow.epc[mfe.widgetName] =
+      entandoWindow.epc[mfe.widgetName] || { basePath: getResourcePath(mfe.assetsBasePath) };
 
     window.entando = entandoWindow;
   }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport]);
