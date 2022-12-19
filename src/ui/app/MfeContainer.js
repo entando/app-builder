@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
-import { getDomain } from 'helpers/resourcePath';
+import { getDomain, getResourcePath } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
 
 const MfeContainer = ({ id, history }) => {
@@ -33,7 +33,7 @@ const MfeContainer = ({ id, history }) => {
 
     entandoWindow.mfe = entandoWindow.mfe || {};
     entandoWindow.mfe[mfe.widgetName] =
-      entandoWindow.mfe[mfe.widgetName] || { basePath: mfe.assetsBasePath };
+      entandoWindow.mfe[mfe.widgetName] || { basePath: getResourcePath(mfe.assetsBasePath) };
 
     window.entando = entandoWindow;
   }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport]);
