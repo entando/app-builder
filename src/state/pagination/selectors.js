@@ -7,9 +7,9 @@ export const getPagination = (
   namespace = NAMESPACE_GLOBAL,
   omitGlobal = false,
 ) => {
-  const value = !omitGlobal ? state.pagination[NAMESPACE_GLOBAL] : undefined;
+  const fallbackValue = !omitGlobal ? state.pagination[NAMESPACE_GLOBAL] : undefined;
 
-  return get(state, `pagination.${namespace}`, value);
+  return get(state, `pagination.${namespace}`, fallbackValue);
 };
 
 export const getCurrentPage = createSelector(
