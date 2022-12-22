@@ -24,7 +24,7 @@ import {
 } from 'state/contents/types';
 import { parseJoinGroups } from 'helpers/joinGroups';
 
-const pageDefault = { page: 1, pageSize: 10 };
+const pageDefault = { page: 1, pageSize: 5 };
 
 export const leaveContentsPage = () => ({
   type: CLEAR_CONTENTS_STATE,
@@ -162,7 +162,7 @@ export const fetchContentsWithFilters = (
   mode = MODE_FULL,
 ) => (dispatch, getState) => {
   const state = getState();
-  const pagination = newPagination || getPagination(state, NAMESPACE_CONTENTS);
+  const pagination = newPagination || getPagination(state, NAMESPACE_CONTENTS, true);
   const sortingColumns = getSortingColumns(state);
   const quickFilter = getCurrentQuickFilter(state);
   const { id, value: qfValue } = quickFilter;
@@ -235,7 +235,7 @@ export const fetchContentsWithTabs = (
   mode = MODE_FULL,
 ) => (dispatch, getState) => {
   const state = getState();
-  const pagination = page || getPagination(state, NAMESPACE_CONTENTS);
+  const pagination = page || getPagination(state, NAMESPACE_CONTENTS, true);
   const { attribute, direction } = getSortingColumns(state);
   const sorting = newSort || { attribute, direction: direction.toUpperCase() };
   const author = getCurrentAuthorShow(state);
