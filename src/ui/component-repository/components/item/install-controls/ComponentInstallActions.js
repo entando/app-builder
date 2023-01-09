@@ -12,14 +12,8 @@ import InProgressInstallState from 'ui/component-repository/components/item/inst
 import FailedInstallState from 'ui/component-repository/components/item/install-controls/FailedInstallState';
 import InstallButton from 'ui/component-repository/components/item/install-controls/InstallButton';
 import UninstallButton from 'ui/component-repository/components/item/install-controls/UninstallButton';
+import { compareSemanticVersions } from 'helpers/comparisons';
 import ConfirmDowngradeModal from './ConfirmDowngradeModal';
-
-const parseVersion = (version) => {
-  if (typeof version !== 'string') {
-    return '0.0.0';
-  }
-  return version.indexOf('v') > 0 ? version.split('v')[1] : version;
-};
 
 const ComponentInstallActions = ({
   component,
@@ -48,12 +42,14 @@ const ComponentInstallActions = ({
   };
 
   const handleUpdate = (componentToInstall, version) => {
+    const compareVersions =
+      compareSemanticVersions(version, component.installedJob.componentVersion);
     if (component.installed
       && component.installedJob
-      && parseVersion(version) < parseVersion(component.installedJob.componentVersion)) {
+      && compareVersions < 0) {
       setSelectedVersion(version || latestVersion);
       dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
-    } else if (parseVersion(version) === parseVersion(component.installedJob.componentVersion)) {
+    } else if (compareVersions === 0) {
       setSelectedVersion(version || latestVersion);
       dispatch(setVisibleModal(`downgrade-${componentToInstall.code}`));
       setIsConflictVersion(true);

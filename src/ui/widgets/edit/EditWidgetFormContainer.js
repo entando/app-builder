@@ -29,7 +29,7 @@ export const mapStateToProps = (state) => {
     defaultUIField: getSelectedWidgetDefaultUi(state),
     languages: getActiveLanguages(state),
     loading: getLoading(state).fetchWidget,
-    configUiRequired: isMicrofrontendWidgetForm(widget),
+    configUiRequired: !!isMicrofrontendWidgetForm(widget),
     widget,
   });
 };

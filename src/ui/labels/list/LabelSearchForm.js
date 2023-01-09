@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -11,7 +11,17 @@ const msgs = defineMessages({
   },
 });
 
-export const LabelSearchFormBody = ({ intl, handleSubmit }) => {
+export const LabelSearchFormBody = ({
+  intl, handleSubmit, onUnmount, onMount,
+}) => {
+  useEffect(() => {
+    onMount();
+    return () => {
+      onUnmount();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit = (ev) => {
     ev.preventDefault();
     handleSubmit();
@@ -56,6 +66,8 @@ export const LabelSearchFormBody = ({ intl, handleSubmit }) => {
 LabelSearchFormBody.propTypes = {
   intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  onUnmount: PropTypes.func.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 const LabelSearchForm = reduxForm({
