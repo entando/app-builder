@@ -1,4 +1,5 @@
 import {
+  getPagination,
   getCurrentPage,
   getLastPage,
   getPageSize,
@@ -34,13 +35,24 @@ describe('pagination selectors', () => {
   let state;
   let page;
 
-  const setPage = (mockState) => {
-    state = { pagination: { global: mockState } };
+  const setPage = (mockState, fields = {}) => {
+    state = { pagination: { global: mockState, ...fields } };
     page = mockState;
   };
 
   beforeEach(() => {
     setPage(firstPage);
+  });
+
+  it('verify getPagination selector', () => {
+    const namespace = 'content';
+    const pagination = { page: 1, pageSize: 5 };
+
+    expect(getPagination(state, namespace)).toEqual(firstPage);
+
+    setPage(firstPage, { [namespace]: pagination });
+
+    expect(getPagination(state, namespace, true)).toEqual(pagination);
   });
 
   it('verify getCurrentPage selector', () => {

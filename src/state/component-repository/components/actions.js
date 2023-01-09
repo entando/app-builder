@@ -224,7 +224,7 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
         ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
-      stepFunction: payload => stepFunction(payload.progress),
+      stepFunction: payload => stepFunction && stepFunction(payload.progress),
     })
       .then((res) => {
         if (res.payload.status === ECR_COMPONENT_INSTALLATION_STATUS_COMPLETED) {

@@ -271,7 +271,7 @@ export class WidgetFormBody extends Component {
           <div className="WidgetForm__body">
             <div className="WidgetForm__container">
               <fieldset className="no-padding">
-                <Tabs className="WidgetForm__tabs" id="basic-tabs">
+                <Tabs className="WidgetForm__tabs" id="basic-tabs" mountOnEnter>
                   {!parentWidgetParameters.length &&
                     <Tab eventKey={1} title={`${intl.formatMessage(msgs.customUi)} *`} >
                       <Field
