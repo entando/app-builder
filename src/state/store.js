@@ -8,6 +8,7 @@ const localStorageStates = {
   permissions: ['loggedUser'],
   appTour: ['appTourProgress', 'lastStep'],
   tableColumnOrder: [],
+  fileBrowser: [],
 };
 
 export const getPersistedState = (state, path, localStorageState) => {
