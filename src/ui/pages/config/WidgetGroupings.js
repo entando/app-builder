@@ -14,7 +14,6 @@ const msgs = defineMessages({
 });
 
 const WidgetGroupings = ({
-  // eslint-disable-next-line no-unused-vars
   intl, groupedWidgets, widgetGroupingList, filterWidget, locale, searchFilter, clearFilter,
 }) => {
   const onChange = (event) => {
