@@ -23,16 +23,16 @@ class GroupDetailTabPages extends React.Component {
     this.changePageSize = this.changePageSize.bind(this);
   }
 
-  componentWillMount() {
-    this.props.onWillMount(this.props.page);
+  componentDidMount() {
+    this.props.onDidMount(this.props.page);
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    this.props.onDidMount({ page, pageSize: this.props.pageSize });
   }
 
   changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
+    this.props.onDidMount({ page: 1, pageSize });
   }
 
   renderRows() {
@@ -110,6 +110,8 @@ class GroupDetailTabPages extends React.Component {
   }
 
   render() {
+    console.log(this.props.pageReferences);
+
     return (
       <div className="GroupDetailTabPages">
         <Spinner loading={this.props.loading} >
@@ -122,7 +124,7 @@ class GroupDetailTabPages extends React.Component {
 
 GroupDetailTabPages.propTypes = {
   intl: intlShape.isRequired,
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   loading: PropTypes.bool,
   pageReferences: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
@@ -134,7 +136,7 @@ GroupDetailTabPages.propTypes = {
 };
 
 GroupDetailTabPages.defaultProps = {
-  onWillMount: () => {},
+  onDidMount: () => {},
   loading: false,
   pageReferences: [],
 };
