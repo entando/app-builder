@@ -11,7 +11,6 @@ import {
 } from 'api/groups';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { getReferenceKeyList, getSelectedRefs } from 'state/groups/selectors';
 import {
   SET_GROUPS,
   SET_SELECTED_GROUP,
@@ -245,22 +244,12 @@ export const fetchReferences = (referenceKey, groupname, page = { page: 1, pageS
     })
   );
 
-export const fetchCurrentPageGroupDetail = groupname => (dispatch, getState) => (
+export const fetchCurrentPageGroupDetail = groupname => dispatch => (
   new Promise((resolve) => {
     getGroup(groupname).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedGroup(json.payload));
-          const references = getReferenceKeyList(getState());
-          references.forEach((referenceKey) => {
-            if (getSelectedRefs(getState())[referenceKey]) {
-              dispatch(fetchReferences(referenceKey, groupname));
-            } else {
-              setReferences({
-                [referenceKey]: [],
-              });
-            }
-          });
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
