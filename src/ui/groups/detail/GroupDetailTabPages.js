@@ -110,8 +110,6 @@ class GroupDetailTabPages extends React.Component {
   }
 
   render() {
-    console.log(this.props.pageReferences);
-
     return (
       <div className="GroupDetailTabPages">
         <Spinner loading={this.props.loading} >
