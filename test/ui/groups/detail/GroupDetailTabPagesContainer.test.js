@@ -41,11 +41,11 @@ describe('GroupDetailTabPagesContainer', () => {
     });
 
     it('should map the correct function properties', () => {
-      expect(props.onWillMount).toBeDefined();
+      expect(props.onDidMount).toBeDefined();
     });
 
-    it('should dispatch an action if onWillMount is called', () => {
-      props.onWillMount();
+    it('should dispatch an action if onDidMount is called', () => {
+      props.onDidMount();
       expect(dispatchMock).toHaveBeenCalledWith('fetchReferences_result');
     });
   });

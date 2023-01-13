@@ -16,7 +16,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
-  onWillMount: (page) => {
+  onDidMount: (page) => {
     dispatch(fetchReferences(PAGE_REFERENCE_KEY, params.groupname, page));
   },
 });
