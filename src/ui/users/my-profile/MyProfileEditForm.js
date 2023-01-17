@@ -16,6 +16,11 @@ import {
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 import { getComponentType } from 'helpers/entities';
+import { required, maxLength } from '@entando/utils';
+import { getAttrValidators } from 'helpers/attrValidation';
+import { TYPE_EMAIL } from 'state/profile-types/const';
+
+const maxLength70 = maxLength(70);
 
 const defaultAttrCodes = ['fullname', 'email'];
 
@@ -44,8 +49,8 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
     options.push({ value: '', optionDisplayName: intl.formatMessage(msgs.enumNone) });
   }
   switch (component) {
-    case TYPE_ENUMERATOR:
-    { const itemsList = items.split(separator);
+    case TYPE_ENUMERATOR: {
+      const itemsList = items.split(separator);
       itemsList.forEach((item) => {
         options.push({ optionDisplayName: item, value: item });
       });
@@ -81,6 +86,14 @@ const field = (intl, attribute, disabled) => {
     labelText: attribute.name,
   });
 
+  const validate = attribute.mandatory ? [required, maxLength70] : [maxLength70];
+  const validateWithRules = [...validate, ...getAttrValidators({
+    ...attribute.validationRules,
+    ...(
+      attribute.type === TYPE_EMAIL ? { email: attribute.validationRules.regex, regex: null } : {}
+    ),
+  })];
+
   return (
     <Field
       key={attribute.code}
@@ -103,6 +116,7 @@ const field = (intl, attribute, disabled) => {
         required={attribute.mandatory}
       />}
       disabled={disabled}
+      validate={validateWithRules}
     />
   );
 };
@@ -164,12 +178,12 @@ export class MyProfileEditFormBody extends Component {
       rows={3}
       toggleElement={getComponentOptions(attribute.type, intl)}
       options={getEnumeratorOptions(
-            attribute.nestedAttribute.type,
-            attribute.nestedAttribute.enumeratorStaticItems,
-            attribute.nestedAttribute.enumeratorStaticItemsSeparator,
-            attribute.nestedAttribute.mandatory,
-            intl,
-          )}
+        attribute.nestedAttribute.type,
+        attribute.nestedAttribute.enumeratorStaticItems,
+        attribute.nestedAttribute.enumeratorStaticItemsSeparator,
+        attribute.nestedAttribute.mandatory,
+        intl,
+      )}
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
@@ -199,7 +213,7 @@ export class MyProfileEditFormBody extends Component {
                 <Panel>
                   <Panel.Body>
                     <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
+                      {renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
                     </FormSection>
                   </Panel.Body>
                 </Panel>

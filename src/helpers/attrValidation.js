@@ -122,11 +122,11 @@ export const compositeOneOfExists = memoize(defaultLangCode => compositeFieldVal
       )
     ) || (
       fieldValue.values && fieldValue.values[defaultLangCode]
-        && !isNull(fieldValue.values[defaultLangCode])
-        && (
-          isBoolean(fieldValue.values[defaultLangCode])
-          || fieldValue.values[defaultLangCode]
-        )
+      && !isNull(fieldValue.values[defaultLangCode])
+      && (
+        isBoolean(fieldValue.values[defaultLangCode])
+        || fieldValue.values[defaultLangCode]
+      )
     )
   )) ? undefined : <FormattedMessage id="validateForm.required" />
 ));
@@ -154,6 +154,18 @@ export const regex = text => (value) => {
     ) : undefined;
 };
 
+export const validateEmail = text => (value) => {
+  const re = new RegExp(text);
+  return !re.test(value)
+    ? (
+      <FormattedMessage
+        id="validateForm.email"
+        values={{ regex: <b>{text}</b> }}
+        defaultMessage="Invalid email address."
+      />
+    ) : undefined;
+};
+
 // Attribute validator functions should be memoized as their parameters are dynamic.
 // Otherwise, it will cause an infinite re-rendering of a redux-form Field
 export const attrValidatorsObj = {
@@ -169,6 +181,7 @@ export const attrValidatorsObj = {
   rangeStartNumber: memoize(rangeStartNumber),
   rangeStartString: memoize(rangeStartString),
   regex: memoize(regex),
+  email: memoize(validateEmail),
 };
 
 export const getAttrValidators = (validationRules) => {
@@ -191,10 +204,8 @@ export const linkValidate = memoize((langCode, required = false) => input => (
     !input || (!input.value || (!input.value.symbolicDestination
       || input.value.symbolicDestination === EMPTY_SYMBOLIC_DEST
       || input.values[langCode]
-    )))) || (
-    required && input && input.value && input.value.symbolicDestination
-    && input.values[langCode] && input.value.symbolicDestination !== EMPTY_SYMBOLIC_DEST
-  )
+    )))) || (required && input && input.value && input.value.symbolicDestination
+      && input.values[langCode] && input.value.symbolicDestination !== EMPTY_SYMBOLIC_DEST)
     ? undefined
     : (<FormattedMessage id="validateForm.required" />)
 ), (...args) => JSON.stringify(args));
