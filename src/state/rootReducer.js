@@ -40,20 +40,14 @@ import emailConfig from 'state/email-config/reducer';
 import plugins from 'state/plugins/reducer';
 import contentTemplate from 'state/content-template/reducer';
 import contentType from 'state/content-type/reducer';
-import editContent from 'state/edit-content/reducer';
-import contentSettings from 'state/content-settings/reducer';
 import contents from 'state/contents/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
 
-import entandoApps from 'entando-apps';
 import hub from 'state/component-repository/hub/reducer';
 import mfe from 'state/mfe/reducer';
 
-const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
-
 const reducerDef = {
-  apps: Object.keys(appsReducers).length ? combineReducers(appsReducers) : {},
   activityStream,
   api,
   categories,
@@ -96,8 +90,6 @@ const reducerDef = {
   emailConfig,
   contentTemplate,
   contentType,
-  editContent,
-  contentSettings,
   contents,
   tableColumns,
   hub,

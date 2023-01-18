@@ -1,4 +1,3 @@
-import apps from 'entando-apps';
 import { get } from 'lodash';
 
 import NavigationBarConfigFormContainer from 'ui/widgets/config/forms/NavigationBarConfigFormContainer';
@@ -6,11 +5,6 @@ import SimpleWidgetConfigFormContainer from 'ui/widgets/config/forms/SimpleWidge
 import SingleContentConfigContainer, { formBody as SingleContentConfigBody } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigContainer';
 import MultipleContentsConfigContainer, { formBody as MultipleContentsConfigBody } from 'ui/widget-forms/MultipleContentsConfigContainer';
 import ContentsQueryConfigContainer, { formBody as ContentsQueryFormBody } from 'ui/widget-forms/ContentsQueryConfigContainer';
-
-const appsWidgetForms = apps.reduce((obj, app) => ({
-  ...obj,
-  ...app.widgetForms != null ? app.widgetForms : {},
-}), {});
 
 const appBuilderNativeWidgetForms = {
   navigatorConfig: NavigationBarConfigFormContainer,
@@ -33,7 +27,6 @@ const cmsWidgetForms = {
 };
 
 const widgetForms = {
-  ...appsWidgetForms,
   ...appBuilderNativeWidgetForms,
   ...cmsWidgetForms,
 };

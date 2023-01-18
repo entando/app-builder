@@ -178,31 +178,14 @@ import EmailConfigPage from 'ui/email-config/EmailConfigPage';
 
 import PageLayout from 'ui/app/PageLayout';
 import RowSpinner from 'ui/pages/common/RowSpinner';
-import entandoApps from 'entando-apps';
 import AboutPage from 'ui/about/AboutPage';
 import LicensePage from 'ui/license/LicensePage';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { useSelector } from 'react-redux';
 import { getMfeTargetContent } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
-import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
-
-const appsRoutes = entandoApps.reduce((routes, app) => (
-  [
-    ...routes,
-    ...app.routesDir.map(AppRoute => (
-      <Route
-        exact
-        key={AppRoute.path}
-        path={AppRoute.path}
-        // eslint-disable-next-line react/jsx-pascal-case
-        render={() => <InternalPage><AppRoute.component /></InternalPage>}
-      />
-    )),
-  ]
-), []);
 
 const RouteComponent = () => {
   const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
@@ -347,8 +330,6 @@ const RouteComponent = () => {
       { /* static routes */}
       <Route path={ROUTE_ABOUT} component={AboutPage} />
       <Route path={ROUTE_LICENSE} component={LicensePage} />
-      { /* app routes */}
-      {appsRoutes}
       {/* MFE routes */}
       {
         mfeRoutes.map(mfe => (<Route

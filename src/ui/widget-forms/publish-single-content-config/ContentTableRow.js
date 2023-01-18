@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
-import { getContentStatusDetails } from 'ui/contents/ContentsTable';
+import { getContentStatusDetails } from 'ui/contents/list-card/ContentListCard';
 
 const ContentTableRow = ({ content, intl }) => {
   const {
