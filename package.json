@@ -7,7 +7,6 @@
     "@entando/apimanager": "6.6.7",
     "@entando/datatable": "^2.0.0",
     "@entando/ddtable": "^1.0.5",
-    "@entando/log": "^1.0.2",
     "@entando/menu": "^2.1.1",
     "@entando/messages": "^1.0.4",
     "@entando/pages": "^3.3.2",
@@ -116,9 +115,7 @@
     "precommit": "npm run lint && npm run sass-lint && npm run coverage",
     "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
     "start-openshift": "npm install -g serve && serve -l 8080 -s build",
-    "analyze": "source-map-explorer build/static/js/main.*",
-    "app-install": "node apps/install.js",
-    "app-clear": "node apps/clear.js"
+    "analyze": "source-map-explorer build/static/js/main.*"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -235,7 +232,6 @@
     "@testing-library/react": "^10.4.9",
     "@testing-library/react-hooks": "^8.0.0",
     "@testing-library/user-event": "^12.8.1",
-    "commander": "^3.0.2",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest-canvas-mock": "^2.3.0",
