@@ -1,9 +1,6 @@
 import { toggleLoading } from 'state/loading/actions';
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
-import {
-  getContents, deleteContent, publishContent,
-  updateContents, publishMultipleContents, getContentsStatus, cloneContent,
-} from 'api/contents';
+import { getContents, getContentsStatus } from 'api/contents';
 import { setPage } from 'state/pagination/actions';
 import { NAMESPACE_CONTENTS } from 'state/pagination/const';
 import { getPagination } from 'state/pagination/selectors';
@@ -18,8 +15,8 @@ import {
   SET_CONTENTS, SET_QUICK_FILTER, SET_CONTENT_CATEGORY_FILTER,
   CHECK_STATUS, CHECK_ACCESS, CHECK_AUTHOR, SET_CURRENT_AUTHOR_SHOW,
   SET_CURRENT_STATUS_SHOW, SET_SORT, SET_CONTENT_TYPE, SET_TAB_SEARCH,
-  SET_GROUP, SELECT_ROW, SELECT_ROWS, SELECT_ALL_ROWS,
-  SET_JOIN_CONTENT_CATEGORY, RESET_JOIN_CONTENT_CATEGORIES,
+  SET_GROUP, SELECT_ALL_ROWS,
+  SET_JOIN_CONTENT_CATEGORY,
   RESET_AUTHOR_STATUS, SELECT_SINGLE_ROW, CLEAR_CONTENTS_STATE, SET_CONTENTS_STATUS,
 } from 'state/contents/types';
 import { parseJoinGroups } from 'helpers/joinGroups';
@@ -70,10 +67,6 @@ export const setJoinContentCategory = categories => ({
   payload: { categories },
 });
 
-export const resetJoinContentCategories = () => ({
-  type: RESET_JOIN_CONTENT_CATEGORIES,
-});
-
 export const checkStatus = status => ({
   type: CHECK_STATUS,
   payload: status,
@@ -102,14 +95,6 @@ export const setCurrentStatusShow = status => ({
 export const selectSingleRow = row => ({
   type: SELECT_SINGLE_ROW,
   payload: row,
-});
-export const selectRow = row => ({
-  type: SELECT_ROW,
-  payload: row,
-});
-export const selectRows = rows => ({
-  type: SELECT_ROWS,
-  payload: rows,
 });
 
 export const selectAllRows = checked => ({
@@ -282,95 +267,6 @@ export const fetchContentsPaged = ({
     status, ownerGroup, joinGroups, mode,
   ));
 };
-
-export const sendDeleteContent = id => dispatch => new Promise((resolve) => {
-  deleteContent(id)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-          dispatch(fetchContentsPaged());
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
-
-export const sendPublishContent = (id, status) => dispatch => new Promise((resolve) => {
-  publishContent(id, status)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-          dispatch(fetchContentsPaged());
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
-
-export const sendPublishMultipleContents = (id, status) => dispatch => new Promise((resolve) => {
-  publishMultipleContents(id, status)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-          dispatch(fetchContentsPaged());
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
-
-export const sendUpdateContents = contents => dispatch => new Promise((resolve) => {
-  updateContents(contents)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-          dispatch(fetchContentsPaged());
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
-
-export const sendCloneContent = contentId => dispatch => new Promise((resolve) => {
-  cloneContent(contentId)
-    .then((response) => {
-      response.json().then((json) => {
-        if (response.ok) {
-          resolve(json.payload);
-        } else {
-          dispatch(addErrors(json.errors.map(err => err.message)));
-          dispatch(clearErrors());
-          json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-          resolve();
-        }
-      });
-    })
-    .catch(() => {});
-});
 
 export const fetchContentsStatus = () => dispatch => new Promise((resolve) => {
   getContentsStatus().then((response) => {

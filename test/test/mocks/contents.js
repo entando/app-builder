@@ -13,14 +13,6 @@ export const RESPONSE_SINGLE_CONTENT = [
   },
 ];
 
-export const RESPONSE_DELETE_OK = {
-  result: 'ok',
-};
-
-export const RESPONSE_PUBLISH_OK = {
-  result: 'ok',
-};
-
 export const MOCK_CONTENTS_STATUS = {
   published: 0,
   ready: 0,

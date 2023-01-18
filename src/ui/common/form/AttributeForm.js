@@ -157,7 +157,7 @@ export class AttributeFormBody extends Component {
                 <FormattedMessage id="app.working" />
                 {TYPE_COMPOSITE},&nbsp;
                 <FormattedMessage id="app.element.of" />&nbsp;
-                { isComposite ? profileTypeAttributeCode : nestedAttributeComposite }&nbsp;
+                {isComposite ? profileTypeAttributeCode : nestedAttributeComposite}&nbsp;
                 ({TYPE_MONOLIST})
               </Alert>
               : null);
@@ -168,8 +168,8 @@ export class AttributeFormBody extends Component {
     return (
       <form
         onSubmit={handleSubmit(values => (
-            onSubmit(values, allowedRoles, mode)
-          ))}
+          onSubmit(values, allowedRoles, mode)
+        ))}
         className="form-horizontal"
       >
         <Row>

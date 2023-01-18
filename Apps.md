@@ -129,19 +129,3 @@ its an object containing all the i18n locales of the app.
 # dependencies
 Only actual dependencies that are not already included in `app-builder` can be added as pure dependencies.
 Every other dependency must be either a `devDependency` or `peerDependency`.
-
-# Installation process
-
-After running `npm install` in the app builder the user can run the `npm run app-install <appId>` command to install the app.
-
-This command will trigger a download of the app from npm and the installation of its component within app builder.
-After the installation process is complete it will be possible to either `npm start` or `npm build` app builder.
-
-To install a dev app that has not been published on npm you can use additional flags:
-
-- `-d` specify the relative path where the app is installed. When using this flag the appId should be the normalized app name, without the `@entando/` prefix.
-- `-p` specify the package name if it is different from the appId
-
-to use flags you will have to use the double dash in the command:
-
-`npm run app-install --  cms -d ../entando-app -p @entando/cms`

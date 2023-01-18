@@ -1,13 +1,6 @@
 import { configEnzymeAdapter } from 'test/legacyTestUtils';
 
-import {
-  getContentTemplates,
-  postContentTemplate,
-  getContentTemplate,
-  putContentTemplate,
-  deleteContentTemplate,
-  getContentTemplateDictionary,
-} from 'api/contentTemplates';
+import { getContentTemplates } from 'api/contentTemplates';
 import { makeRequest } from '@entando/apimanager';
 import { GET_CONTENT_TEMPLATES_RESPONSE_OK } from 'test/mocks/contentTemplate';
 
@@ -55,68 +48,5 @@ describe('api/contentTemplates', () => {
       },
       { page: 1, pageSize: 10 },
     );
-  });
-
-  it('postContentTemplate returns a promise with correct params', () => {
-    const body = { a: 1, b: 2 };
-    const response = postContentTemplate(body);
-    expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/api/plugins/cms/contentmodels',
-      body,
-      method: 'POST',
-      mockResponse: GET_CONTENT_TEMPLATES_RESPONSE_OK[0],
-      useAuthentication: true,
-    });
-    expect(response).toBeInstanceOf(Promise);
-  });
-
-  it('getContentTemplate returns a promise with correct params', () => {
-    const response = getContentTemplate(1);
-    expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/api/plugins/cms/contentmodels/1',
-      method: 'GET',
-      mockResponse: GET_CONTENT_TEMPLATES_RESPONSE_OK[0],
-      contentType: 'application/json',
-      useAuthentication: true,
-    });
-    expect(response).toBeInstanceOf(Promise);
-  });
-
-  it('putContentTemplate returns a promise with correct params', () => {
-    const body = { id: 1, b: 2 };
-    const response = putContentTemplate(body);
-    expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/api/plugins/cms/contentmodels/1',
-      body,
-      method: 'PUT',
-      mockResponse: GET_CONTENT_TEMPLATES_RESPONSE_OK[0],
-      useAuthentication: true,
-    });
-    expect(response).toBeInstanceOf(Promise);
-  });
-
-  it('deleteContentTemplate returns a promise with correct params', () => {
-    const response = deleteContentTemplate(1);
-    expect(makeRequest).toHaveBeenCalledWith({
-      uri: '/api/plugins/cms/contentmodels/1',
-      method: 'DELETE',
-      mockResponse: { code: '<contentTemplateId>' },
-      useAuthentication: true,
-    });
-    expect(response).toBeInstanceOf(Promise);
-  });
-
-  it('getContentTemplateDictionary returns a promise with correct params', () => {
-    const response = getContentTemplateDictionary();
-    expect(makeRequest).toHaveBeenCalledWith(
-      {
-        uri: '/api/plugins/cms/contentmodels/dictionary',
-        method: 'GET',
-        mockResponse: GET_CONTENT_TEMPLATES_RESPONSE_OK,
-        useAuthentication: true,
-        errors: expect.any(Function),
-      },
-    );
-    expect(response).toBeInstanceOf(Promise);
   });
 });

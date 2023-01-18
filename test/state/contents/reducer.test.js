@@ -3,8 +3,7 @@ import {
   setQuickFilter, setContentType, setGroup, setSort,
   setContentCategoryFilter, checkStatus, checkAccess, setContents,
   checkAuthor, setCurrentAuthorShow, setCurrentStatusShow,
-  selectRow, selectAllRows, setJoinContentCategory,
-  resetJoinContentCategories,
+  selectAllRows, setJoinContentCategory,
   setTabSearch,
   resetAuthorStatus,
   setContentsStatus,
@@ -111,16 +110,6 @@ describe('state/contents/reducer', () => {
       expect(newState.sortingColumns).toEqual({ default: { direction: 'ASC', attribute: 'cho' } });
     });
   });
-  describe('after action selectRow', () => {
-    let newState = reducer({ selectedRows: [] });
-    it('should correctly update selectedRows state field', () => {
-      newState = reducer(newState, selectRow({ id: 'new1' }));
-      expect(newState.selectedRows).toEqual(['new1']);
-
-      newState = reducer(newState, selectRow({ id: 'new1' }));
-      expect(newState.selectedRows).toEqual([]);
-    });
-  });
   describe('after action selectAllRows', () => {
     let newState = reducer({ selectedRows: [] });
     it('should correctly update selectedRows field', () => {
@@ -143,13 +132,6 @@ describe('state/contents/reducer', () => {
     it('should correctly update joiningCategories state field', () => {
       newState = reducer(newState, setJoinContentCategory({ code: 'cat1' }));
       expect(newState.joiningCategories).toEqual({ code: 'cat1' });
-    });
-  });
-  describe('after action resetJoinContentCategories', () => {
-    let newState = reducer({ joiningCategories: ['a'] });
-    it('should correctly update joiningCategories state field', () => {
-      newState = reducer(newState, resetJoinContentCategories());
-      expect(newState.joiningCategories).toEqual([]);
     });
   });
   describe('after action resetAuthorStatus', () => {
