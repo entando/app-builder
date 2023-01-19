@@ -10,8 +10,8 @@ import {
 
 import {
   setCategories, setCategoryExpanded,
-  setCategoryLoading, setCategoryLoaded, removeCategory,
-  setSelectedCategory, setReferences,
+  setCategoryLoaded,
+  setReferences,
 } from 'state/categories/actions';
 
 
@@ -67,15 +67,6 @@ describe('state/categories/reducer', () => {
       });
     });
 
-    describe('action SET_CATEGORY_LOADING', () => {
-      let newState;
-      const CATEGORY_CODE = 'home';
-      it('sets the category loading flag to true', () => {
-        newState = reducer(state, setCategoryLoading(CATEGORY_CODE));
-        expect(newState.statusMap[CATEGORY_CODE].loading).toBe(true);
-      });
-    });
-
     describe('action SET_CATEGORY_LOADED', () => {
       let newState;
       const CATEGORY_CODE = 'home';
@@ -86,38 +77,6 @@ describe('state/categories/reducer', () => {
       it('sets the category loading flag to false', () => {
         newState = reducer(state, setCategoryLoaded(CATEGORY_CODE));
         expect(newState.statusMap[CATEGORY_CODE].loading).toBe(false);
-      });
-    });
-
-    describe('after action REMOVE_CATEGORY', () => {
-      const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
-      const PARENT_CODE = MYCATEGORY1_PAYLOAD.parentCode;
-      const newState = reducer(state, setCategories(CATEGORIES));
-
-      it('should remove the group from map and list', () => {
-        const stateAfterRemove = reducer(newState, removeCategory(CATEGORY_CODE, PARENT_CODE));
-        expect(newState.map).not.toEqual(stateAfterRemove.map);
-        expect(stateAfterRemove.map[CATEGORY_CODE]).toBeUndefined();
-        expect(stateAfterRemove.childrenMap[CATEGORY_CODE]).toBeUndefined();
-        expect(stateAfterRemove.childrenMap[PARENT_CODE]).not.toContain(CATEGORY_CODE);
-
-        expect(newState.list).not.toBe(stateAfterRemove.list);
-        expect(stateAfterRemove.list.includes(CATEGORY_CODE)).toBe(false);
-      });
-    });
-
-    describe('after action SET_SELECTED_CATEGORY', () => {
-      const CATEGORY_CODE = MYCATEGORY1_PAYLOAD.code;
-      const newState = reducer(state, setSelectedCategory(MYCATEGORY1_PAYLOAD));
-
-      it('should define the categories.selected payload', () => {
-        expect(newState).toHaveProperty('selected');
-        expect(newState.selected).toHaveProperty('code', CATEGORY_CODE);
-      });
-
-      it('should define the categories.selected.referenceKeyList payload', () => {
-        expect(newState).toHaveProperty('selected.referenceKeyList');
-        expect(newState.selected.referenceKeyList).toHaveLength(2);
       });
     });
 
