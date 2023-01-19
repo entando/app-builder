@@ -7,6 +7,8 @@ import LabelSearchForm from 'ui/labels/list/LabelSearchForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
 const handleSubmit = jest.fn();
+const onMount = jest.fn();
+const onUnmount = jest.fn();
 
 jest.unmock('react-redux');
 
@@ -17,6 +19,8 @@ describe('LabelSearchFormBody', () => {
     beforeEach(() => {
       labelSearchForm = render(mockRenderWithIntlAndStore(<LabelSearchForm
         onSubmit={handleSubmit}
+        onMount={onMount}
+        onUnmount={onUnmount}
       />));
     });
     it('root component renders without crashing', () => {
@@ -33,6 +37,8 @@ describe('LabelSearchFormBody', () => {
       const onSubmit = jest.fn();
       const form = render(mockRenderWithIntlAndStore(<LabelSearchForm
         onSubmit={onSubmit}
+        onMount={onMount}
+        onUnmount={onUnmount}
       />));
       const testValue = 'Test Label';
       userEvent.type(form.getByRole('textbox'), testValue);

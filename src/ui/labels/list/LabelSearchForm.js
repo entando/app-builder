@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -11,7 +11,17 @@ const msgs = defineMessages({
   },
 });
 
-export const LabelSearchFormBody = ({ intl, onSubmit, pageSize }) => {
+export const LabelSearchFormBody = ({
+  intl, onUnmount, onMount, onSubmit, pageSize,
+}) => {
+  useEffect(() => {
+    onMount();
+    return () => {
+      onUnmount();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = (values) => {
     onSubmit(values, pageSize);
   };
@@ -65,6 +75,8 @@ LabelSearchFormBody.propTypes = {
   intl: intlShape.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pageSize: PropTypes.number,
+  onUnmount: PropTypes.func.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 LabelSearchFormBody.defaultProps = {
