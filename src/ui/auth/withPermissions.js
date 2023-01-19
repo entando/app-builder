@@ -54,10 +54,16 @@ const withPermissions = requiredPermissions => (WrappedComponent) => {
   }) => (
     <Spinner loading={!!(userPermissions === null)}>
       <PermissionCheck
-        page403={<NoAccessPage
-          gotoHome={requiredPermissions === ADMINISTRATION_AREA_PERMISSION
+        page403={
+          <div
+            className="NoAccessPage"
+          >
+            <NoAccessPage
+              gotoHome={requiredPermissions === ADMINISTRATION_AREA_PERMISSION
             ? gotoLogout : gotoHomepage}
-        />}
+            />
+          </div>
+        }
         requiredPermissions={requiredPermissions}
         userPermissions={userPermissions || []}
       >
