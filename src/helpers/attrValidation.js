@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { memoize, isNull, isEmpty, isBoolean } from 'lodash';
 import { maxLength, minLength } from '@entando/utils';
+import isEmail from 'validator/lib/isEmail';
 
 export const EMPTY_SYMBOLIC_DEST = '#!!#';
 
@@ -154,17 +155,14 @@ export const regex = text => (value) => {
     ) : undefined;
 };
 
-export const validateEmail = text => (value) => {
-  const re = new RegExp(text);
-  return !re.test(value)
-    ? (
-      <FormattedMessage
-        id="validateForm.email"
-        values={{ regex: <b>{text}</b> }}
-        defaultMessage="Invalid email address."
-      />
-    ) : undefined;
-};
+export const validateEmail = text => value => (!isEmail(value)
+  ? (
+    <FormattedMessage
+      id="validateForm.email"
+      values={{ regex: <b>{text}</b> }}
+      defaultMessage="Invalid email address."
+    />
+  ) : undefined);
 
 // Attribute validator functions should be memoized as their parameters are dynamic.
 // Otherwise, it will cause an infinite re-rendering of a redux-form Field
