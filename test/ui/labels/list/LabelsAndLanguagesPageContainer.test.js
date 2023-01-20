@@ -19,9 +19,6 @@ jest.mock('state/labels/selectors', () => ({
   getActiveTab: jest.fn().mockReturnValue({
     activeTab: 'labels',
   }),
-  getSearchTerm: jest.fn().mockReturnValue({
-    searchTerm: 'term',
-  }),
 }));
 
 
@@ -55,7 +52,7 @@ describe('LabelsAndLanguagesPageContainer', () => {
 
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount({});
-      expect(dispatchMock).toHaveBeenCalledTimes(3);
+      expect(dispatchMock).toHaveBeenCalledTimes(2);
     });
   });
 });

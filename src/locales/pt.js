@@ -1022,7 +1022,6 @@ export default {
     'app.installFailed': 'Ocorreu um erro e o pacote não pôde ser instalado',
     'app.uninstallFailed': 'Ocorreu um erro e o pacote não pôde ser desinstalado',
     'app.fetchBundlesFailed': 'Falha ao buscar pacotes do Registro',
-    'user.authority.addNew': 'Adicionar nova Autorização',
     'componentRepository.refreshBundleVersions': 'Atualizar as versões disponíveis do pacote',
     'componentRepository.bundle.installVersionsRefreshed': 'Atualizado',
   },

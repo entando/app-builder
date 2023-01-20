@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
+import { adminConsoleUrl } from 'helpers/urlUtils';
 
 import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 
@@ -16,7 +17,7 @@ import {
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
   ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
-  ROUTE_DASHBOARD, ROUTE_CATEGORY_LIST, ROUTE_CMS_VERSIONING, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
+  ROUTE_DASHBOARD, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
   ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
   ROUTE_EMAIL_CONFIG,
 } from 'app-init/router';

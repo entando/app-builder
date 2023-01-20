@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { initialize } from 'redux-form';
 import { ADD_ERRORS, ADD_TOAST, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
