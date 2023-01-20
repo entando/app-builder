@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
+import { adminConsoleUrl } from 'helpers/urlUtils';
 
 import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 

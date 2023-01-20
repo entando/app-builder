@@ -12,7 +12,7 @@ const msgs = defineMessages({
 });
 
 export const LabelSearchFormBody = ({
-  intl, handleSubmit, onUnmount, onMount,
+  intl, onUnmount, onMount, onSubmit, pageSize,
 }) => {
   useEffect(() => {
     onMount();
@@ -22,9 +22,8 @@ export const LabelSearchFormBody = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = (ev) => {
-    ev.preventDefault();
-    handleSubmit();
+  const handleSubmit = (values) => {
+    onSubmit(values, pageSize);
   };
 
   return (
@@ -74,9 +73,14 @@ export const LabelSearchFormBody = ({
 
 LabelSearchFormBody.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  pageSize: PropTypes.number,
   onUnmount: PropTypes.func.isRequired,
   onMount: PropTypes.func.isRequired,
+};
+
+LabelSearchFormBody.defaultProps = {
+  pageSize: 10,
 };
 
 export default injectIntl(LabelSearchFormBody);

@@ -1611,7 +1611,6 @@ export default {
     'app.installFailed': 'An Error occurred and the Bundle could not be installed',
     'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
-    'user.authority.addNew': 'Add new Authorization',
     'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
     'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
     'componentRepository.hub.epcInstalledTip': 'To correctly update the EPC menu, please refresh the AppBuilder page on your browser',

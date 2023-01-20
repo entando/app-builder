@@ -17,8 +17,8 @@ describe('LabelSearchFormBody', () => {
 
   describe('basic render tests', () => {
     beforeEach(() => {
-      labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
-        handleSubmit={handleSubmit}
+      labelSearchForm = render(mockRenderWithIntlAndStore(<LabelSearchForm
+        onSubmit={handleSubmit}
         onMount={onMount}
         onUnmount={onUnmount}
       />));
@@ -33,10 +33,10 @@ describe('LabelSearchFormBody', () => {
   });
 
   describe('event handlers test', () => {
-    const preventDefault = jest.fn();
-    beforeEach(() => {
-      labelSearchForm = mount(mockRenderWithIntlAndStore(<LabelSearchForm
-        handleSubmit={handleSubmit}
+    it('on form submit calls handleSubmit', async () => {
+      const onSubmit = jest.fn();
+      const form = render(mockRenderWithIntlAndStore(<LabelSearchForm
+        onSubmit={onSubmit}
         onMount={onMount}
         onUnmount={onUnmount}
       />));
