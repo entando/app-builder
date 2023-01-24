@@ -231,7 +231,7 @@ export default {
     'app.maxLength': 'Maximum length',
     'app.regexp': 'Regular expression',
     'app.enumeratorStaticItems': 'Elements',
-    'app.enumeratorStaticItems.help': 'Insert a configuration like \'lable1,lable2,lable3\'',
+    'app.enumeratorStaticItems.help': 'Insert a configuration like \'label1,label2,label3\'',
     'app.enumeratorStaticItemsMap.help': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
     'app.enumeratorStaticItemsSeparator': 'Separator',
     'app.enumeratorExtractorBean': 'Extractor bean name',
