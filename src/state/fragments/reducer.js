@@ -1,6 +1,9 @@
 
 import { combineReducers } from 'redux';
-import { SET_SELECTED, SET_FRAGMENTS, SET_PLUGINS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
+import {
+  SET_SELECTED, SET_FRAGMENTS, SET_PLUGINS,
+  REMOVE_FRAGMENT, SET_FILTERS, SET_FRAGMENT_SETTINGS,
+} from 'state/fragments/types';
 
 const selected = (state = {}, action = {}) => {
   switch (action.type) {
@@ -42,9 +45,19 @@ const filters = (state = '', action = {}) => {
   }
 };
 
+const settings = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_FRAGMENT_SETTINGS: {
+      return action.payload;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   selected,
   list,
   plugins,
   filters,
+  settings,
 });
