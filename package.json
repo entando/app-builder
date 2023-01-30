@@ -100,7 +100,6 @@
     "regex-parser": "^2.2.11",
     "reselect": "^4.0.0",
     "sass": "^1.56.2",
-    "sass": "^1.56.2",
     "sass-lint": "^1.13.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.0",
