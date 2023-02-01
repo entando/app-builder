@@ -5,6 +5,7 @@ import {
   setPlugins,
   removeFragment,
   setFilters,
+  setFragmentSettings,
 } from 'state/fragments/actions';
 import {
   GET_FRAGMENT_OK,
@@ -55,6 +56,19 @@ describe('fragments/reducer', () => {
     });
     it('should define the plugins payload', () => {
       expect(newState.plugins).toEqual(PLUGINS_PAYLOAD);
+    });
+  });
+
+  describe('after action SET_FRAGMENT_SETTINGS', () => {
+    let newState;
+    const FRAGMENT_SETTINGS = {
+      enableEditingWhenEmptyDefaultGui: true,
+    };
+    beforeEach(() => {
+      newState = reducer(state, setFragmentSettings(FRAGMENT_SETTINGS));
+    });
+    it('should define the settings payload', () => {
+      expect(newState.settings).toEqual(FRAGMENT_SETTINGS);
     });
   });
 
