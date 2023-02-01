@@ -1,7 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { initialize } from 'redux-form';
 import { config } from '@entando/apimanager';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
@@ -11,7 +10,7 @@ import {
   fetchFragment, fetchFragmentDetail, setFragments, fetchFragments,
   fetchPlugins, setPlugins, setSelectedFragment, fetchFragmentSettings,
   updateFragmentSettings, removeFragment, sendDeleteFragment,
-  sendPostFragment, sendPutFragment, setFilters,
+  sendPostFragment, sendPutFragment, setFilters, setFragmentSettings,
 } from 'state/fragments/actions';
 import {
   PLUGINS_OK,
@@ -30,7 +29,7 @@ import {
   putFragment,
 } from 'api/fragments';
 
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, SET_FILTERS, REMOVE_FRAGMENT } from 'state/fragments/types';
+import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, SET_FILTERS, REMOVE_FRAGMENT, SET_FRAGMENT_SETTINGS } from 'state/fragments/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { CONTINUE_SAVE_TYPE } from 'state/fragments/const';
@@ -77,6 +76,13 @@ describe('state/fragments/actions', () => {
     it('test setFragments action sets the correct type', () => {
       action = setFragments(LIST_FRAGMENTS_OK.payload);
       expect(action.type).toEqual(SET_FRAGMENTS);
+    });
+  });
+
+  describe('setFragmentSettings', () => {
+    it('test setFragmentSettings action sets the correct type', () => {
+      action = setFragmentSettings(GET_FRAGMENT_OK);
+      expect(action.payload).toEqual(GET_FRAGMENT_OK);
     });
   });
 
@@ -219,9 +225,10 @@ describe('state/fragments/actions', () => {
     });
 
     describe('fetchFragmentSettings', () => {
-      it('if API response is ok, initializes the form with fragmentSettings information', (done) => {
+      it('if API response is ok, sets fragment settings with proper redux action', (done) => {
         store.dispatch(fetchFragmentSettings()).then(() => {
-          expect(initialize).toHaveBeenCalled();
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('type', SET_FRAGMENT_SETTINGS);
           done();
         }).catch(done.fail);
       });
@@ -245,7 +252,6 @@ describe('state/fragments/actions', () => {
       it('action payload contains fragment settings information', (done) => {
         store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
           const actions = store.getActions();
-          expect(initialize).toHaveBeenCalled();
           expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
           expect(actions[1]).toHaveProperty('type', ADD_TOAST);
@@ -253,9 +259,10 @@ describe('state/fragments/actions', () => {
         }).catch(done.fail);
       });
 
-      it('if API response ok, initializes the form with reponse data information', (done) => {
+      it('if API response ok, sets fragment settings with proper redux action', (done) => {
         store.dispatch(updateFragmentSettings(FRAGMENT_SETTINGS)).then(() => {
-          expect(initialize).toHaveBeenCalledWith('fragmentSettings', FRAGMENT_SETTINGS);
+          const actions = store.getActions();
+          expect(actions[0]).toHaveProperty('payload', FRAGMENT_SETTINGS);
           done();
         }).catch(done.fail);
       });
