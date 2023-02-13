@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { formValueSelector, change, initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
@@ -79,13 +78,18 @@ export const mapStateToProps = (state) => {
   const joinGroups = userPreferences.defaultPageJoinGroups;
   const appTourProgress = getAppTourProgress(state);
   const mainTitleLangCode = (languages[0] || {}).code || 'en';
-  const mainTitleName = `titles.${mainTitleLangCode}`;
   const appTourLastPageData = getTourCreatedPage(state);
   const parentCode = getSearchParam('parentCode');
   const existingPages = (getExistingPages(state) || []).map(page =>
     ({ ...page, name: page.titles[mainTitleLangCode] }));
   const pageName = getNextPageName({ pages: existingPages, pattern: 'Hello World App', separator: ' ' });
   const pageCode = getNextPageCode({ pages: existingPages, pattern: 'hello_world_app', separator: '_' });
+
+  // generate empty titles for all languages
+  const emptyTitles = languages.reduce((acc, curr) => ({
+    ...acc,
+    [curr.code]: '',
+  }), {});
 
   return {
     languages,
@@ -106,6 +110,7 @@ export const mapStateToProps = (state) => {
       ...(parentCode ? { parentCode } : {}),
       ...(appTourProgress === APP_TOUR_STARTED && {
         titles: {
+          ...emptyTitles,
           [mainTitleLangCode]: pageName,
         },
         code: pageCode,
@@ -114,18 +119,15 @@ export const mapStateToProps = (state) => {
         pageModel: '1-column',
         ...appTourLastPageData,
       }),
+      ...(appTourProgress !== APP_TOUR_STARTED && {
+        titles: emptyTitles,
+      }),
     },
     mode: 'add',
     locale: getLocale(state),
     parentCode,
     parentTitle: getSelectedPageLocaleTitle(state),
     appTourProgress,
-    mainTitleValue: formValueSelector('page')(state, mainTitleName),
-    codeValue: formValueSelector('page')(state, 'code'),
-    ownerGroupValue: formValueSelector('page')(state, 'ownerGroup'),
-    parentCodeValue: formValueSelector('page')(state, 'parentCode'),
-    pageModelValue: formValueSelector('page')(state, 'pageModel'),
-    titles: formValueSelector('page')(state, 'titles'),
     appTourLastPageData,
   };
 };
@@ -138,24 +140,6 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchMyGroupPermissions({ sort: 'group' }));
     dispatch(fetchAllGroupEntries({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroups({ sort: 'name' }));
-  },
-  onInitPageForm: (data) => {
-    const {
-      appTourProgress, codeValue, languages, appTourLastPageData,
-    } = data;
-    const mainTitleLangCode = (languages[0] || {}).code || 'en';
-    if (appTourProgress === APP_TOUR_STARTED && !codeValue) {
-      dispatch(initialize('page', {
-        titles: {
-          [mainTitleLangCode]: 'Hello World App',
-        },
-        code: 'hello_world_app',
-        ownerGroup: 'free',
-        parentCode: APP_TOUR_HOMEPAGE_CODEREF,
-        pageModel: '1-column',
-        ...appTourLastPageData,
-      }));
-    }
   },
   onSubmit: (data, action) =>
     dispatch(sendPostPage(data)).then((res) => {
@@ -185,8 +169,6 @@ export const mapDispatchToProps = dispatch => ({
         }
       }
     }),
-  onChangeDefaultTitle: title =>
-    dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
   onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
   onChangePageTemplate: (newValue, appTourProgress) => {
     if (appTourProgress === APP_TOUR_STARTED && newValue) {

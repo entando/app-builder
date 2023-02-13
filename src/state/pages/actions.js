@@ -344,7 +344,7 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
 
-export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
+export const sendPostPage = pageData => dispatch => new Promise(async (resolve, reject) => {
   try {
     const { seoData, seo } = pageData;
     const seoPayload = seoData ? {
@@ -365,11 +365,11 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       resolve(response);
     } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
       dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
-      resolve();
+      reject();
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-      resolve();
+      reject();
     }
   } catch (e) {
     const { details, defaultMessage } = e;
@@ -377,7 +377,7 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     const combinedErrors = [defaultMessage, detailMessage].join(' - ');
     dispatch(addErrors([combinedErrors]));
     dispatch(addToast(combinedErrors, TOAST_ERROR));
-    resolve();
+    reject();
   }
 });
 
