@@ -22,6 +22,8 @@ const uniqueFriendlyCodeValidation = (value, allValues) => {
 const SeoInfo = ({
   languages,
   readOnly,
+  isAddMode,
+  isCloneMode,
 }) => {
   const [touchedTabs, setTouchedTabs] = React.useState([]);
 
@@ -82,7 +84,7 @@ const SeoInfo = ({
                   validate={val => validateTitle(lang.code, val)}
                   inputSize={9}
                   onChange={(ev) => {
-                    if (lang.isDefault) {
+                    if (lang.isDefault && (isAddMode || isCloneMode)) {
                       formik.setFieldValue('code', ev.currentTarget.value && ev.currentTarget.value.replace(/\W/g, '_').toLowerCase());
                     }
                   }}
@@ -197,10 +199,14 @@ const SeoInfo = ({
 SeoInfo.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   readOnly: PropTypes.bool,
+  isAddMode: PropTypes.bool,
+  isCloneMode: PropTypes.bool,
 };
 
 SeoInfo.defaultProps = {
   readOnly: false,
+  isAddMode: false,
+  isCloneMode: false,
 };
 
 export default SeoInfo;

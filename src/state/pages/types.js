@@ -17,3 +17,4 @@ export const COLLAPSE_ALL = 'pages/collapse-all-pages';
 export const SET_VIEWPAGES = 'pages/set-viewpages';
 export const SET_DASHBOARD_PAGES = 'pages/set-dashboard-pages';
 export const SET_VIRTUAL_ROOT = 'pages/set-virtual-root';
+export const SET_EDIT_PAGE = 'pages/set-edit-pages';
