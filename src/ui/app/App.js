@@ -352,10 +352,10 @@ const RouteComponent = () => {
       {/* MFE routes */}
       {
         mfeRoutes.map(mfe => (<Route
-          key={`${mfe.id}-${mfe.route}`}
+          key={mfe.id}
           path={mfe.route}
           exact
-          render={() => <MfeContainer id={mfe.id} />}
+          render={() => <MfeContainer id={mfe.id} key={`${mfe.id}-${mfe.route}`} />}
         />))
       }
       {/* 403 */}
