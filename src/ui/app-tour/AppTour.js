@@ -109,14 +109,24 @@ class AppTour extends React.Component {
 
   generateSteps() {
     const {
-      appTourLastStep, mainTitleValue,
-      codeValue, ownerGroupValue, parentCodeValue, pageModelValue,
+      appTourLastStep, languages,
       onBackToAddPage, tourCreatedPageCode, onBackToPageTree,
       onAddLogo, onAddNavBarWidget, onAddSearchWidget,
       onAddLoginWidget, onAddBannerWidget,
       onAddContentListWidget, onAddSitemapMenu,
-      onAppTourFinish,
+      onAppTourFinish, innerRef,
     } = this.props;
+
+    const addPageformikValues = innerRef ? (innerRef.current || {}).values || {} : {};
+
+    const defaultLang = languages.find(lang => lang.isDefault) || { code: 'en' };
+    const defaultLangCode = defaultLang.code;
+
+    const mainTitleValue = (addPageformikValues.titles || {})[defaultLangCode] || '';
+    const codeValue = addPageformikValues.code || '';
+    const ownerGroupValue = addPageformikValues.ownerGroup || '';
+    const parentCodeValue = addPageformikValues.parentCode || '';
+    const pageModelValue = addPageformikValues.pageModel || '';
 
     const getStep3Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-3 > a');
     const getStep4Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-4 > a');
@@ -491,11 +501,6 @@ AppTour.propTypes = {
   appTourProgress: PropTypes.string,
   appTourLastStep: PropTypes.number,
   setNextStep: PropTypes.func.isRequired,
-  mainTitleValue: PropTypes.string,
-  codeValue: PropTypes.string,
-  ownerGroupValue: PropTypes.string,
-  parentCodeValue: PropTypes.string,
-  pageModelValue: PropTypes.string,
   tourCreatedPageCode: PropTypes.string,
   lockBodyScroll: PropTypes.bool,
   customOffset: PropTypes.number,
@@ -508,6 +513,13 @@ AppTour.propTypes = {
   onAddSitemapMenu: PropTypes.func.isRequired,
   onAppTourFinish: PropTypes.func.isRequired,
   isDismissed: PropTypes.bool,
+  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    isActive: PropTypes.bool,
+    isDefault: PropTypes.bool,
+  })),
 };
 
 AppTour.defaultProps = {
@@ -515,16 +527,13 @@ AppTour.defaultProps = {
   username: '',
   appTourProgress: '',
   appTourLastStep: 1,
-  mainTitleValue: '',
-  codeValue: '',
-  ownerGroupValue: '',
-  parentCodeValue: '',
-  pageModelValue: '',
   tourCreatedPageCode: '',
   lockBodyScroll: true,
   customOffset: 0,
   publishStatus: false,
   isDismissed: false,
+  innerRef: null,
+  languages: [],
 };
 
 export default AppTour;

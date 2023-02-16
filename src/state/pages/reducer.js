@@ -18,6 +18,7 @@ import {
   BATCH_TOGGLE_EXPANDED,
   COLLAPSE_ALL,
   SET_DASHBOARD_PAGES,
+  SET_EDIT_PAGE,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -285,6 +286,14 @@ export const dashboard = (state = [], action = {}) => {
   }
 };
 
+export const editPage = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_EDIT_PAGE:
+      return action.payload;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map: reducer,
   childrenMap,
@@ -295,4 +304,5 @@ export default combineReducers({
   selected,
   search,
   dashboard,
+  editPage,
 });

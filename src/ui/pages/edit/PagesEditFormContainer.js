@@ -6,7 +6,7 @@ import PageForm from 'ui/pages/common/PageForm';
 import { getActiveLanguages } from 'state/languages/selectors';
 import { getGroupEntries, getGroupsList, getMyGroupsList } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
-import { getCharsets, getContentTypes, getPageTreePages } from 'state/pages/selectors';
+import { getCharsets, getContentTypes, getEditPage, getPageTreePages } from 'state/pages/selectors';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE, SEO_ENABLED } from 'state/pages/const';
 import { sendPutPage, fetchPageForm } from 'state/pages/actions';
 import { fetchAllGroupEntries, fetchMyGroups } from 'state/groups/actions';
@@ -14,9 +14,6 @@ import { fetchPageTemplates } from 'state/page-templates/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG, ROUTE_FORBIDDEN } from 'app-init/router';
 import { fetchLanguages } from 'state/languages/actions';
 import { setVisibleModal } from 'state/modal/actions';
-import { formValueSelector } from 'redux-form';
-
-export const FORM_ID = 'pageEdit';
 
 export const mapStateToProps = (state, { match: { params } }) => ({
   languages: getActiveLanguages(state),
@@ -30,11 +27,9 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   seoMode: SEO_ENABLED,
   mode: 'edit',
   pageCode: params.pageCode,
-  form: FORM_ID,
   keepDirtyOnReinitialize: true,
   enableGroupAccessControl: true,
-  pageOwnerGroup: formValueSelector(FORM_ID)(state, 'ownerGroup'),
-  titles: formValueSelector(FORM_ID)(state, 'titles'),
+  initialValues: getEditPage(state),
 });
 
 
@@ -55,7 +50,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
           default: history.push(ROUTE_PAGE_TREE);
         }
       } else ownProps.onSave();
-    }).catch(() => {}),
+    }),
   onWillMount: ({ pageCode }) => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroups({ sort: 'name' }));
