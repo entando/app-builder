@@ -14,13 +14,14 @@ import {
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
   setReferenceSelectedPage, clonePage, clearTree, sendPutPageSettings, sendPatchPage,
-  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages,
+  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages, setEditPage,
 } from 'state/pages/actions';
 
 import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, MOVE_PAGE, SET_PAGE_PARENT,
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
   SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, SET_DASHBOARD_PAGES,
+  SET_EDIT_PAGE,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -187,6 +188,12 @@ describe('state/pages/actions', () => {
     });
   });
 
+
+  it('setEditPage() should return a well formed action', () => {
+    const action = setEditPage(HOMEPAGE_PAYLOAD);
+    expect(action.type).toBe(SET_EDIT_PAGE);
+    expect(action.payload).toEqual(HOMEPAGE_PAYLOAD);
+  });
 
   it('setPageLoading() should return a well formed action', () => {
     const action = setPageLoading(PAGE_CODE);
@@ -430,7 +437,7 @@ describe('state/pages/actions', () => {
 
     it('when postPage fails, should dispatch ADD_ERRORS', (done) => {
       postPageSEO.mockImplementation(mockApi({ errors: true }));
-      store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(() => {
+      store.dispatch(sendPostPage(CONTACTS_PAYLOAD)).then(done.fail).catch(() => {
         const addErrorsAction = store.getActions().find(action => action.type === ADD_ERRORS);
         expect(postPageSEO).toHaveBeenCalledWith({
           ...CONTACTS_PAYLOAD,
@@ -438,7 +445,7 @@ describe('state/pages/actions', () => {
         });
         expect(addErrorsAction).toBeDefined();
         done();
-      }).catch(done.fail);
+      });
     });
   });
 
@@ -452,10 +459,9 @@ describe('state/pages/actions', () => {
       putPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(sendPutPage(CONTACTS_PAYLOAD)).then(() => {
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_TOAST);
         expect(actions[1]).toHaveProperty('type', UPDATE_PAGE);
-        expect(initialize).toHaveBeenCalledWith('pageEdit', CONTACTS_PAYLOAD);
         expect(putPageSEO).toHaveBeenCalledWith({
           ...CONTACTS_PAYLOAD,
           seoData: { ...CONTACTS_PAYLOAD.seoData, useExtraTitles: CONTACTS_PAYLOAD.seo },
@@ -564,11 +570,13 @@ describe('state/pages/actions', () => {
       store = mockStore(INITIALIZED_STATE);
     });
 
-    it('when getPage succeeds, should dispatch redux-form initialize', (done) => {
+    it('when getPage succeeds, should dispatch SET_EDIT_PAGE', (done) => {
       getPageSEO.mockImplementation(mockApi({ payload: CONTACTS_PAYLOAD }));
       store.dispatch(fetchPageForm(CONTACTS_PAYLOAD.code)).then(() => {
+        const actions = store.getActions();
         expect(getPageSEO).toHaveBeenCalledWith(CONTACTS_PAYLOAD.code);
-        expect(initialize).toHaveBeenCalledWith('pageEdit', CONTACTS_PAYLOAD);
+        expect(actions).toHaveLength(1);
+        expect(actions[0]).toHaveProperty('type', SET_EDIT_PAGE);
         done();
       }).catch(done.fail);
     });

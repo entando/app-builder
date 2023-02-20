@@ -9,6 +9,7 @@ import {
   addPages, setPageParentSync, movePageSync, setPageExpanded, setPageLoading, setPageLoaded,
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
   setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded, setDashboardPages,
+  setEditPage,
 } from 'state/pages/actions';
 
 import { HOMEPAGE_CODE } from 'state/pages/const';
@@ -187,6 +188,16 @@ describe('state/pages/reducer', () => {
     });
     it('state should be valued with an array of options', () => {
       expect(state.freePages[0]).toEqual(FREE_PAGES_PAYLOAD[0]);
+    });
+  });
+
+  describe('after action SET_EDIT_PAGE', () => {
+    let state;
+    beforeEach(() => {
+      state = reducer({}, setEditPage(FREE_PAGES_PAYLOAD[0]));
+    });
+    it('state should be valued with an array of options', () => {
+      expect(state.editPage).toEqual(FREE_PAGES_PAYLOAD[0]);
     });
   });
 

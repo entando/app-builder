@@ -7,7 +7,6 @@ import {
 
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
-import { formValueSelector, change } from 'redux-form';
 import { getGroupsList, getGroupEntries } from 'state/groups/selectors';
 import { getPageTemplatesList } from 'state/page-templates/selectors';
 import {
@@ -245,10 +244,6 @@ describe('PagesAddFormContainer', () => {
       expect(props.parentTitle).toBe('getSelectedPageLocaleTitle_result');
     });
 
-    it('maps the "selectedJoinGroups" prop with the correct values from redux-form', () => {
-      expect(formValueSelector).toHaveBeenCalledWith('page');
-    });
-
     it('maps the "initialValues" prop with the correct initial values for a page', () => {
       expect(props.initialValues).toEqual({
         seo: false,
@@ -266,6 +261,11 @@ describe('PagesAddFormContainer', () => {
         parentCode: 'parentCode',
         ownerGroup: 'free',
         joinGroups: ['free'],
+        titles: {
+          en: '',
+          it: '',
+          nl: '',
+        },
       });
     });
   });
@@ -287,12 +287,6 @@ describe('PagesAddFormContainer', () => {
           done();
         })
         .catch(done.fail);
-    });
-
-    it('maps the "onChangeDefaultTitle" prop a redux-form change dispatch', () => {
-      expect(props).toHaveProperty('onChangeDefaultTitle');
-      props.onChangeDefaultTitle('En Title');
-      expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
     });
   });
 });
