@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { Field, reduxForm, FieldArray } from 'redux-form'
-import { Button, FormGroup, Col, Form } from 'patternfly-react';
+import {
+  Button,
+  FormGroup,
+  Col,
+  Form,
+} from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 
-import * as Yup from 'yup';
 import FormLabel from 'ui/common/form/FormLabel';
-// import SwitchRenderer from 'ui/common/form/SwitchRenderer'
+import MultiSelectRenderer from 'ui/common/formik-field/MultiSelectRenderer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-// import RenderSelectInput from 'ui/common/form/RenderSelectInput'
-// import MultiSelectRenderer from 'ui/pages/common/MultiSelectRenderer'
 import { withFormik, Field, Form as FormikForm, FieldArray } from 'formik';
 import SelectInput from '../../common/formik-field/SelectInput';
 import SwitchInput from '../../common/formik-field/SwitchInput';
@@ -21,9 +22,9 @@ export class AppSettingsFormBody extends Component {
     this.submit = this.submit.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.props.onDidMount()
-  // }
+  componentDidMount() {
+    this.props.onDidMount();
+  }
 
   submit(data) {
     const { username } = this.props;
@@ -33,9 +34,9 @@ export class AppSettingsFormBody extends Component {
   render() {
     const {
       selectGroups,
-      defaultPageJoinGroups,
-      defaultContentJoinGroups,
-      values,
+      // defaultPageJoinGroups,
+      // defaultContentJoinGroups,
+      // values,
     } = this.props;
 
     return (
@@ -88,27 +89,30 @@ export class AppSettingsFormBody extends Component {
             name="defaultPageOwnerGroup"
             defaultOptionId="app.chooseAnOption"
           />
-          {/* <FormGroup>
-          <Col xs={2} className='text-right'>
-            <label htmlFor='defaultPageJoinGroups' className='control-label'>
-              <FormLabel
-                helpId='user.myProfile.defaultPageJoinGroupsHelp'
-                labelId='user.myProfile.defaultPageJoinGroups'
+          <FormGroup>
+            <Col xs={2} className="text-right">
+              <label htmlFor="defaultPageJoinGroups" className="control-label">
+                <FormLabel
+                  helpId="user.myProfile.defaultPageJoinGroupsHelp"
+                  labelId="user.myProfile.defaultPageJoinGroups"
+                />
+              </label>
+            </Col>
+            <Col xs={10}>
+              <FieldArray
+                render={arrayHelpers => (<MultiSelectRenderer
+                  arrayHelpers={arrayHelpers}
+                  allOptions={selectGroups}
+                  selectedValues={[]}
+                  labelKey="text"
+                  valueKey="value"
+                  emptyOptionTextId="app.chooseAnOption"
+                  name="defaultPageJoinGroups"
+                />)}
+                name="defaultPageJoinGroups"
               />
-            </label>
-          </Col>
-          <Col xs={10}>
-            <FieldArray
-              component={SelectInput}
-              name='defaultPageJoinGroups'
-              options={selectGroups}
-              selectedValues={defaultPageJoinGroups}
-              labelKey='text'
-              valueKey='value'
-              emptyOptionTextId='app.chooseAnOption'
-            />
-          </Col>
-        </FormGroup> */}
+            </Col>
+          </FormGroup>
           <Field
             label={
               <FormLabel
@@ -121,27 +125,30 @@ export class AppSettingsFormBody extends Component {
             name="defaultContentOwnerGroup"
             defaultOptionId="app.chooseAnOption"
           />
-          {/* <FormGroup>
-          <Col xs={2} className='text-right'>
-            <label htmlFor='defaultContentJoinGroups' className='control-label'>
-              <FormLabel
-                helpId='user.myProfile.defaultContentJoinGroupsHelp'
-                labelId='user.myProfile.defaultContentJoinGroups'
+          <FormGroup>
+            <Col xs={2} className="text-right">
+              <label htmlFor="defaultContentJoinGroups" className="control-label">
+                <FormLabel
+                  helpId="user.myProfile.defaultContentJoinGroupsHelp"
+                  labelId="user.myProfile.defaultContentJoinGroups"
+                />
+              </label>
+            </Col>
+            <Col xs={10}>
+              <FieldArray
+                render={arrayHelpers => (<MultiSelectRenderer
+                  arrayHelpers={arrayHelpers}
+                  allOptions={selectGroups}
+                  selectedValues={[]}
+                  labelKey="text"
+                  valueKey="value"
+                  name="defaultContentJoinGroups"
+                />)}
+                name="defaultContentJoinGroups"
+                options={selectGroups}
               />
-            </label>
-          </Col>
-          <Col xs={10}>
-            <FieldArray
-              component={SelectInput}
-              name='defaultContentJoinGroups'
-              options={selectGroups}
-              selectedValues={defaultContentJoinGroups}
-              labelKey='text'
-              valueKey='value'
-              emptyOptionTextId='app.chooseAnOption'
-            />
-          </Col>
-        </FormGroup> */}
+            </Col>
+          </FormGroup>
           <Field
             label={
               <FormLabel
@@ -170,32 +177,21 @@ export class AppSettingsFormBody extends Component {
 
 AppSettingsFormBody.propTypes = {
   onDidMount: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  // handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   selectGroups: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
   })).isRequired,
-  defaultPageJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  defaultContentJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // defaultPageJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // defaultContentJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default withFormik({
   displayName: 'userPreferences',
   enableReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
-  validationSchema: () =>
-    Yup.object().shape({
-      wizard: Yup.boolean().nullable(false),
-      translationWarning: Yup.boolean().nullable(false),
-      loadOnPageSelect: Yup.boolean().nullable(false),
-      defaultPageOwnerGroup: Yup.string().nullable(true),
-      defaultPageJoinGroups: Yup.string().nullable(true),
-      defaultContentOwnerGroup: Yup.string().nullable(true),
-      defaultContentJoinGroups: Yup.string().nullable(true),
-      defaultWidgetOwnerGroup: Yup.string().nullable(true),
-    }),
   handleSubmit: (values, { setSubmitting, props: { onSubmit, username } }) => {
     onSubmit({ username, data: values }).then(() => setSubmitting(false));
   },
