@@ -1,14 +1,14 @@
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { getUsername } from '@entando/apimanager'
+import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
+import { getUsername } from '@entando/apimanager';
 
-import { updateUserPreferences } from 'state/user-preferences/actions'
-import { getUserPreferences } from 'state/user-preferences/selectors'
-import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm'
-import { getGroupsList } from 'state/groups/selectors'
-import { fetchMyGroups } from 'state/groups/actions'
+import { updateUserPreferences } from 'state/user-preferences/actions';
+import { getUserPreferences } from 'state/user-preferences/selectors';
+import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
+import { getGroupsList } from 'state/groups/selectors';
+import { fetchMyGroups } from 'state/groups/actions';
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   username: getUsername(state),
   initialValues: {
     ...getUserPreferences(state),
@@ -22,19 +22,18 @@ export const mapStateToProps = (state) => ({
   defaultContentJoinGroups:
     formValueSelector('userPreferences')(state, 'defaultContentJoinGroups') ||
     [],
-})
+});
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
   onDidMount: () => {
-    dispatch(fetchMyGroups())
+    dispatch(fetchMyGroups());
   },
   onSubmit: (values) => {
-    const { username, data } = values
-    console.log('values', values)
-    dispatch(updateUserPreferences(username, data))
+    const { username, data } = values;
+    dispatch(updateUserPreferences(username, data));
   },
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
-})(AppSettingsForm)
+})(AppSettingsForm);

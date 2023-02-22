@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Col, ControlLabel } from 'patternfly-react'
-import { injectIntl, intlShape, defineMessages } from 'react-intl'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Col, ControlLabel } from 'patternfly-react';
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
 
-import { getTouchErrorByField } from 'helpers/formikUtils'
+import { getTouchErrorByField } from 'helpers/formikUtils';
 
 const SelectInput = ({
   field,
@@ -25,37 +25,37 @@ const SelectInput = ({
   hasLabel,
   xsClass,
 }) => {
-  const { touched, error } = getTouchErrorByField(field.name, form)
+  const { touched, error } = getTouchErrorByField(field.name, form);
 
   const containerClasses =
-    touched && error ? 'form-group has-error' : 'form-group'
+    touched && error ? 'form-group has-error' : 'form-group';
 
-  let defaultOption = null
+  let defaultOption = null;
   if (defaultOptionId) {
     const defMsg = defineMessages({
       defaultOptionId: {
         id: defaultOptionId,
       },
-    })
+    });
     defaultOption = (
-      <option value=''>{intl.formatMessage(defMsg.defaultOptionId)}</option>
-    )
+      <option value="">{intl.formatMessage(defMsg.defaultOptionId)}</option>
+    );
   }
 
   const optionsList = optionReducer
     ? optionReducer(options)
-    : options.map((item) => (
-        <option key={item[optionValue]} value={item[optionValue]}>
-          {item[optionDisplayName]}
-        </option>
-      ))
+    : options.map(item => (
+      <option key={item[optionValue]} value={item[optionValue]}>
+        {item[optionDisplayName]}
+      </option>
+    ));
 
   const errorBox =
     touched && error ? (
-      <span role='alert' className='help-block'>
+      <span role="alert" className="help-block">
         {error}
       </span>
-    ) : null
+    ) : null;
 
   return (
     <div className={containerClasses}>
@@ -71,7 +71,7 @@ const SelectInput = ({
           {...field}
           id={field.name}
           size={size}
-          className='form-control SelectInput'
+          className="form-control SelectInput"
           disabled={disabled}
           ref={forwardedRef}
         >
@@ -81,8 +81,8 @@ const SelectInput = ({
         {errorBox}
       </Col>
     </div>
-  )
-}
+  );
+};
 
 SelectInput.propTypes = {
   intl: intlShape.isRequired,
@@ -98,12 +98,10 @@ SelectInput.propTypes = {
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
   defaultOptionId: PropTypes.string,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      text: PropTypes.string,
-    })
-  ),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    text: PropTypes.string,
+  })),
   label: PropTypes.node,
   labelSize: PropTypes.number,
   alignClass: PropTypes.string,
@@ -116,7 +114,7 @@ SelectInput.propTypes = {
   inputSize: PropTypes.number,
   disabled: PropTypes.bool,
   hasLabel: PropTypes.bool,
-}
+};
 
 SelectInput.defaultProps = {
   form: {},
@@ -135,10 +133,10 @@ SelectInput.defaultProps = {
   disabled: false,
   hasLabel: true,
   forwardedRef: null,
-}
+};
 
-const IntlWrappedSelectInput = injectIntl(SelectInput)
+const IntlWrappedSelectInput = injectIntl(SelectInput);
 
 export default React.forwardRef((props, ref) => (
   <IntlWrappedSelectInput {...props} forwardedRef={ref} />
-))
+));
