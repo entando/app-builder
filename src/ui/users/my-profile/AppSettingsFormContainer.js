@@ -24,7 +24,6 @@ export const mapDispatchToProps = dispatch => ({
   },
   onSubmit: (values) => {
     const { username, data } = values;
-    console.log('values', values);
     dispatch(updateUserPreferences(username, data));
   },
 });
