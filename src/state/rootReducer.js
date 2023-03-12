@@ -45,6 +45,7 @@ import contentSettings from 'state/content-settings/reducer';
 import contents from 'state/contents/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
+import currentTenant from 'state/multi-tenancy/reducer';
 
 import entandoApps from 'entando-apps';
 import hub from 'state/component-repository/hub/reducer';
@@ -103,6 +104,7 @@ const reducerDef = {
   hub,
   system,
   mfe,
+  currentTenant,
 };
 
 // app root reducer

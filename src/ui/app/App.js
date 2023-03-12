@@ -188,6 +188,7 @@ import MfeContainer from 'ui/app/MfeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
+import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
 
 const appsRoutes = entandoApps.reduce((routes, app) => (
   [
@@ -369,6 +370,8 @@ const RouteComponent = () => {
 class App extends Component {
   componentDidMount() {
     const { username, fetchUserPreferences } = this.props;
+
+    fetchCurrentTenant();
 
     // prevent calling the userPreferences API on login screen
     if (username) {

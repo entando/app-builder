@@ -1,16 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
-import { getResourcePath } from 'helpers/resourcePath';
-
-
-const getMfeResourcePath = (path) => {
-  if (process.env.USE_LOCAL_MFE) {
-    return path;
-  }
-
-  return getResourcePath(path);
-};
+import { generateUrlFromTenantAndResource } from 'hooks/useDynamicResourceUrl';
+import { selectCurrentTenant } from 'state/multi-tenancy/selectors';
 
 
 // try to find the element by id
@@ -18,9 +10,9 @@ const isJSLoaded = id => document.getElementById(`script-${id}`);
 const isCSSLoaded = id => document.getElementById(`style-${id}`);
 
 // generates the <script> tag and track the loading status
-const createScript = (id, asset, remove, setError) => {
+const createScript = (id, asset, remove, setError, tenant) => {
   const script = document.createElement('script');
-  script.src = getMfeResourcePath(asset);
+  script.src = generateUrlFromTenantAndResource({ tenant, resource: asset });
   script.id = `script-${id}`;
   script.type = 'module';
   script.onload = () => {
@@ -33,12 +25,12 @@ const createScript = (id, asset, remove, setError) => {
 };
 
 // generates the <style> tag and track the loading status
-const createStyle = (id, asset, remove, setError) => {
+const createStyle = (id, asset, remove, setError, tenant) => {
   const styles = document.createElement('link');
   styles.rel = 'stylesheet';
   styles.type = 'text/css';
   styles.media = 'screen';
-  styles.href = getMfeResourcePath(asset);
+  styles.href = generateUrlFromTenantAndResource({ tenant, resource: asset });
   styles.id = `style-${id}`;
   styles.onload = () => {
     remove(asset);
@@ -50,13 +42,13 @@ const createStyle = (id, asset, remove, setError) => {
 };
 
 // inject asset to DOM accordingly to type
-const injectAssetToDom = ({ id, assets = [] }, remove, setError) => {
+const injectAssetToDom = ({ id, assets = [] }, remove, setError, tenant) => {
   assets.forEach((asset) => {
     const assetId = `${id}-${asset}`;
     if (asset.endsWith('.js') && !isJSLoaded(assetId)) {
-      createScript(assetId, asset, remove, setError);
+      createScript(assetId, asset, remove, setError, tenant);
     } else if (asset.endsWith('.css') && !isCSSLoaded((id))) {
-      createStyle(assetId, asset, remove, setError);
+      createStyle(assetId, asset, remove, setError, tenant);
     } else {
       remove(asset);
     }
@@ -79,8 +71,11 @@ const deleteAssetFromDom = ({ id, assets = [] }) => {
   });
 };
 
+const EMPTY_OBJECT = {};
+
 const useMfe = ({ mfeId, initialMfe }) => {
   const mfe = useSelector(state => getMfeById(state, mfeId));
+  const tenant = useSelector(selectCurrentTenant) || EMPTY_OBJECT;
 
   const memoMfe = useMemo(() => initialMfe || mfe, [initialMfe, mfe]);
   const memoAssetsLoading = useMemo(() => [...(memoMfe.assets || [])], [memoMfe.assets]);
@@ -92,11 +87,11 @@ const useMfe = ({ mfeId, initialMfe }) => {
   }, []);
 
   useEffect(() => {
-    injectAssetToDom(memoMfe, removeAsset, setError);
+    injectAssetToDom(memoMfe, removeAsset, setError, tenant);
     return () => {
       deleteAssetFromDom(memoMfe);
     };
-  }, [memoMfe, memoMfe.id, removeAsset]);
+  }, [memoMfe, memoMfe.id, removeAsset, tenant]);
 
   return { assetLoading: assetLoading.length > 0, mfe: memoMfe, hasError };
 };

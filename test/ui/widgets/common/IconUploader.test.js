@@ -14,6 +14,7 @@ describe('IconUploader', () => {
   it('renders the IconUploader without value successfully', () => {
     useSelector.mockImplementation(callback => callback({
       loading: {},
+      currentTenant: {},
     }));
 
     const { container, getByText } = renderWithIntl(<IconUploader label="test" />);
@@ -34,6 +35,7 @@ describe('IconUploader', () => {
           },
         },
       },
+      currentTenant: {},
     }));
 
     const input = {

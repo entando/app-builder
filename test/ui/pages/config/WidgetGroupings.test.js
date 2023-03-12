@@ -79,6 +79,7 @@ describe('WidgetGroupings', () => {
           test: {},
         },
       },
+      currentTenant: {},
     }));
   });
 
