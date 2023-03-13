@@ -17,9 +17,13 @@ export const generateUrlFromTenantAndResource = ({ tenant, resource }) => {
     return `${resourceUrl}/${resource}`;
   }
   if (resourcePath) {
-    return `${getDomain()}${resourcePath}${resource}`;
+    // please not that getDomain is not used here since the subpath
+    // is already included in the resourcePath (e.g /entando-de-app)
+    return `${resourcePath}${resource}`;
   }
-  return process.env.NODE_ENV === 'production' ? `${getDomain()}/cmsresources/${resource}` : `${getDomain()}/resources/${resource}`;
+  // if you are using multipass on local instance then replace <resources> with <cmsresources>
+  const localResourceUrl = `${getDomain()}/resources/${resource}`;
+  return process.env.NODE_ENV === 'production' ? `${getDomain()}/cmsresources/${resource}` : localResourceUrl;
 };
 
 

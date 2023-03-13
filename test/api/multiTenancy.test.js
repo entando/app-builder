@@ -1,7 +1,7 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 
 import { getCurrentTenant } from 'api/multiTenancy';
-import { GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY } from 'test/mocks/multiTenancy';
+import { GET_CURRENT_TENANT_RESPONSE_OK_PRIMARY } from 'test/mocks/multiTenancy';
 
 jest.mock('@entando/apimanager', () => ({
   makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
@@ -19,7 +19,7 @@ describe('api/multiTenancy', () => {
       expect(makeRequest).toHaveBeenCalledWith({
         uri: '/api/currentTenant',
         method: METHODS.GET,
-        mockResponse: GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY,
+        mockResponse: GET_CURRENT_TENANT_RESPONSE_OK_PRIMARY,
         useAuthentication: true,
       });
     });

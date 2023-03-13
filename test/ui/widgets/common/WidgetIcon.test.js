@@ -19,7 +19,9 @@ describe('WidgetIcon', () => {
           },
         },
       },
-      currentTenant: {},
+      currentTenant: {
+        currentTenant: {},
+      },
     }));
     const { container } = render(<WidgetIcon icon="font-awesome:fa-archive" />);
     expect(container.firstChild).toHaveClass('fa');
@@ -35,7 +37,9 @@ describe('WidgetIcon', () => {
           },
         },
       },
-      currentTenant: {},
+      currentTenant: {
+        currentTenant: {},
+      },
     }));
     const { container } = render(<WidgetIcon widgetId="test" />);
     expect(container.firstChild).toHaveClass('fa');
@@ -51,7 +55,9 @@ describe('WidgetIcon', () => {
           },
         },
       },
-      currentTenant: {},
+      currentTenant: {
+        currentTenant: {},
+      },
     }));
     const { container } = render(<WidgetIcon icon="asset:my_asset" />);
     expect(container.firstChild.tagName).toBe('IMG');

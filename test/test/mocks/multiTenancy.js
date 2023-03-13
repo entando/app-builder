@@ -6,8 +6,8 @@ export const GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY = [{
 }];
 
 export const GET_CURRENT_TENANT_RESPONSE_OK_PRIMARY = [{
-  primary: false,
+  primary: true,
   code: '<TENANT_CODE>',
-  resourceRootUrl: 'https://cds-mt720.k8s-entando.org/primary/public',
+  resourceRootUrl: null,
   resourceRootPath: '/entando-de-app/cmsresources/',
 }];
