@@ -44,7 +44,7 @@ describe('state/system/actions', () => {
         .mockImplementationOnce(mockApi({ payload: GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY }));
 
       const expectedActions = [
-        { type: SET_CURRENT_TENANT, payload: GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY[0] },
+        { type: SET_CURRENT_TENANT, payload: GET_CURRENT_TENANT_RESPONSE_OK_NON_PRIMARY },
       ];
 
       dispatch(fetchCurrentTenant()).then(() => {
