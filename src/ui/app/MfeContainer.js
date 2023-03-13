@@ -17,6 +17,7 @@ const MfeContainer = ({ id, history }) => {
   const systemReport = useSelector(getSystemReport);
 
   const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
+  console.log('MfeContainer->mfeResourceBasePath', mfeResourceBasePath);
 
   useEffect(() => {
     const entandoWindow = window.entando || {};
@@ -35,12 +36,13 @@ const MfeContainer = ({ id, history }) => {
     }
 
     entandoWindow.epc = entandoWindow.epc || {};
+    console.log('inside useEffect->mfeResourceBasePath', mfe.widgetName, mfeResourceBasePath, entandoWindow.epc[mfe.widgetName] || { basePath: mfeResourceBasePath });
     entandoWindow.epc[mfe.widgetName] =
       entandoWindow.epc[mfe.widgetName] || { basePath: mfeResourceBasePath };
 
     window.entando = entandoWindow;
-  }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport,
-    mfeResourceBasePath]);
+  }, [history, locale, mfe.assetsBasePath, mfe.widgetName,
+    permissions, systemReport, mfeResourceBasePath]);
 
   const params = {
     config: {

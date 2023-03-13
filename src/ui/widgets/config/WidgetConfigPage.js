@@ -105,6 +105,7 @@ class WidgetConfigPage extends Component {
           </WidgetConfigPanel>
         );
       }
+      console.log('isMicrofrontendWidgetForm(widget)', isMicrofrontendWidgetForm(widget), widget);
       if (isMicrofrontendWidgetForm(widget)) {
         return (
           <WidgetConfigMicrofrontend
