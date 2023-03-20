@@ -6,7 +6,7 @@ import { getUsername } from '@entando/apimanager';
 import { fetchMfeConfigList } from 'state/mfe/actions';
 import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
-import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { selectCurrentTenant, selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
 
 const MFE_MANDATORY_SLOT = ['primary-menu'];
@@ -20,9 +20,10 @@ function isReady(payload) {
 export default function MfeDownloadManager(props) {
   const { children } = props;
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isPolling, setIsPolling] = useState(false);
   const currentUserName = useSelector(getUsername);
+  const currentTenant = useSelector(selectCurrentTenant);
   const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function MfeDownloadManager(props) {
       let configPolling;
 
       const fetchConfig = () => {
+        setLoading(true);
         clearTimeout(configPolling);
         dispatch(fetchMfeConfigList('', false)).then((res) => {
           if (isReady(res.payload)) {
@@ -59,7 +61,7 @@ export default function MfeDownloadManager(props) {
     dispatch(fetchCurrentTenant());
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || !currentTenant) {
     return <div className="shell-preload"><RowSpinner loading /></div>;
   } else if (isPolling) {
     return <StartupWaitScreen />;

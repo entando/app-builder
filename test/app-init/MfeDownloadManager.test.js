@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import MfeDownloadManager from 'app-init/MfeDownloadManager';
 import { renderWithState } from 'test/testUtils';
 import { fetchMfeConfigList } from 'state/mfe/actions';
-import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { selectIsPrimaryTenant, selectCurrentTenant } from 'state/multi-tenancy/selectors';
 
 jest.unmock('react-redux');
 
@@ -15,6 +15,7 @@ jest.mock('state/mfe/actions', () => ({
 
 jest.mock('state/multi-tenancy/selectors', () => ({
   selectIsPrimaryTenant: jest.fn(),
+  selectCurrentTenant: jest.fn(),
 }));
 
 describe('MfeDownloadManager', () => {
@@ -30,7 +31,7 @@ describe('MfeDownloadManager', () => {
 
   it('shows startup wait screen when polling', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () => new Promise(resolve => resolve({})));
-
+    selectCurrentTenant.mockReturnValue({});
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();
@@ -39,7 +40,7 @@ describe('MfeDownloadManager', () => {
   it('shows children when ready', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () =>
       new Promise(resolve => resolve({ payload: [{ descriptorExt: { slot: 'primary-menu' } }], length: 1 })));
-
+    selectCurrentTenant.mockReturnValue({});
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByText('test')).toBeInTheDocument();
@@ -48,7 +49,7 @@ describe('MfeDownloadManager', () => {
   it('shows startup wait screen when fetching fails', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () =>
       new Promise((resolve, reject) => reject()));
-
+    selectCurrentTenant.mockReturnValue({});
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();
