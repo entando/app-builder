@@ -6,6 +6,7 @@ import { getUsername } from '@entando/apimanager';
 import { fetchMfeConfigList } from 'state/mfe/actions';
 import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
+import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 
 const MFE_MANDATORY_SLOT = ['primary-menu'];
 
@@ -21,6 +22,7 @@ export default function MfeDownloadManager(props) {
   const [loading, setLoading] = useState(true);
   const [isPolling, setIsPolling] = useState(false);
   const currentUserName = useSelector(getUsername);
+  const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
 
   useEffect(() => {
     // wait until apiManager is not initialised and only after that fetch the mfe config list
@@ -46,10 +48,11 @@ export default function MfeDownloadManager(props) {
           configPolling = setTimeout(fetchConfig, 10000);
         });
       };
-
-      fetchConfig();
+      if (isPrimaryTenant) {
+        fetchConfig();
+      }
     }
-  }, [dispatch, currentUserName]);
+  }, [dispatch, currentUserName, isPrimaryTenant]);
 
   if (loading) {
     return <div className="shell-preload"><RowSpinner loading /></div>;

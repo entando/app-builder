@@ -59,7 +59,9 @@ describe('state/system/actions', () => {
         errors: [{ message: MOCK_ERROR_MESSAGE }],
       }));
 
-      const expectedActions = [];
+      const expectedActions = [
+        { type: SET_CURRENT_TENANT, payload: null },
+      ];
 
       dispatch(fetchCurrentTenant()).then(() => {
         const actions = getActions();

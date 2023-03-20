@@ -15,10 +15,9 @@ export const fetchCurrentTenant = () => async (dispatch) => {
     if (response.ok && json.payload) {
       dispatch(setCurrentTenant(json.payload));
     } else {
-      // json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-      // do nothing...
+      dispatch(setCurrentTenant(null));
     }
   } catch (e) {
-    // do nothing...
+    dispatch(setCurrentTenant(null));
   }
 };

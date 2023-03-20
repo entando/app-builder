@@ -5,6 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import MfeDownloadManager from 'app-init/MfeDownloadManager';
 import { renderWithState } from 'test/testUtils';
 import { fetchMfeConfigList } from 'state/mfe/actions';
+import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 
 jest.unmock('react-redux');
 
@@ -12,7 +13,15 @@ jest.mock('state/mfe/actions', () => ({
   fetchMfeConfigList: jest.fn(),
 }));
 
+jest.mock('state/multi-tenancy/selectors', () => ({
+  selectIsPrimaryTenant: jest.fn(),
+}));
+
 describe('MfeDownloadManager', () => {
+  beforeEach(() => {
+    selectIsPrimaryTenant.mockReturnValue(true);
+  });
+
   it('shows spinner when loading', () => {
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>, { state: { currentUser: {} } });
 

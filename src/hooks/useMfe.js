@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getMfeById } from 'state/mfe/selectors';
-import { generateUrlFromTenantAndResource } from 'hooks/useDynamicResourceUrl';
+import { generateStaticAssetsUrl } from 'hooks/useDynamicResourceUrl';
 import { selectCurrentTenant } from 'state/multi-tenancy/selectors';
 
 
@@ -12,8 +12,7 @@ const isCSSLoaded = id => document.getElementById(`style-${id}`);
 // generates the <script> tag and track the loading status
 const createScript = (id, asset, remove, setError, tenant) => {
   const script = document.createElement('script');
-  console.log('script source is: ', tenant, asset, generateUrlFromTenantAndResource({ tenant, resource: asset }));
-  script.src = generateUrlFromTenantAndResource({ tenant, resource: asset });
+  script.src = generateStaticAssetsUrl({ tenant, resource: asset });
   script.id = `script-${id}`;
   script.type = 'module';
   script.onload = () => {
@@ -31,8 +30,7 @@ const createStyle = (id, asset, remove, setError, tenant) => {
   styles.rel = 'stylesheet';
   styles.type = 'text/css';
   styles.media = 'screen';
-  console.log('style source is: ', tenant, asset, generateUrlFromTenantAndResource({ tenant, resource: asset }));
-  styles.href = generateUrlFromTenantAndResource({ tenant, resource: asset });
+  styles.href = generateStaticAssetsUrl({ tenant, resource: asset });
   styles.id = `style-${id}`;
   styles.onload = () => {
     remove(asset);
@@ -45,7 +43,6 @@ const createStyle = (id, asset, remove, setError, tenant) => {
 
 // inject asset to DOM accordingly to type
 const injectAssetToDom = ({ id, assets = [] }, remove, setError, tenant) => {
-  console.log('injectAssetToDom', id, assets, tenant);
   assets.forEach((asset) => {
     const assetId = `${id}-${asset}`;
     if (asset.endsWith('.js') && !isJSLoaded(assetId)) {
@@ -89,10 +86,8 @@ const useMfe = ({ mfeId, initialMfe }) => {
     setAssetLoading(prev => (prev || []).filter(a => a !== id));
   }, []);
 
-  console.log('useMfe', memoMfe, tenant, assetLoading, hasError);
 
   useEffect(() => {
-    console.log('useEffect', memoMfe, tenant);
     injectAssetToDom(memoMfe, removeAsset, setError, tenant);
     return () => {
       deleteAssetFromDom(memoMfe);

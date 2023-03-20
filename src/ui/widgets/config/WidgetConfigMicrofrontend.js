@@ -21,7 +21,6 @@ const WidgetConfigMicrofrontend = ({
   onSubmit, widget, widgetConfig, onCancel, widgetCode, framePos, frameName, pageCode,
 }) => {
   const resources = get(widget, 'configUi.resources', []);
-  console.log('inside WidgetConfigMicrofrontend resources', resources);
   const memoMfeObject = useMemo(() => normalizeMfeObject(widget, resources), [resources, widget]);
   const { assetLoading, mfe, hasError } = useMfe({ initialMfe: memoMfeObject });
   const customElement = get(mfe, 'customElement');
@@ -55,12 +54,6 @@ const WidgetConfigMicrofrontend = ({
 
   const microfrontendMarkup = renderMicrofrontend(customElement);
   const shouldRender = !assetLoading && !hasError && resources.length && customElement;
-
-  console.log('inside WidgetConfigMicrofrontend shouldRender', shouldRender, assetLoading, hasError, resources.length, customElement, {
-    resources,
-    mfe,
-    microfrontendMarkup,
-  });
 
   return (
     <WidgetConfigPanel

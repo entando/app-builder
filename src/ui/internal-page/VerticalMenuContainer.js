@@ -42,6 +42,7 @@ import { dismissedWizardKey } from 'ui/app-tour/constant';
 import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 import { getAppTourlastStep } from 'state/app-tour/selectors';
+import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -455,11 +456,12 @@ MfeMenuContainer.propTypes = {
 const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
+  const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
 
   // TODO: remove when we have the ECR API is implemented
   const isMFEMenuEnabled = process.env.USE_MFE || false;
 
-  return isMFEMenuEnabled
+  return isMFEMenuEnabled && isPrimaryTenant
     ?
       <MfeMenuContainer
         menuId={mfeMenu.id}
