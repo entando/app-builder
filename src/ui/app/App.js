@@ -369,7 +369,9 @@ const RouteComponent = () => {
 class App extends Component {
   componentDidMount() {
     const { username, fetchUserPreferences, fetchCurrentTenantInfo } = this.props;
-    fetchCurrentTenantInfo();
+    if (!process.env.USE_MFE) {
+      fetchCurrentTenantInfo();
+    }
 
     // prevent calling the userPreferences API on login screen
     if (username) {

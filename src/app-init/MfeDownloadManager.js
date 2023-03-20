@@ -7,6 +7,7 @@ import { fetchMfeConfigList } from 'state/mfe/actions';
 import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
 
 const MFE_MANDATORY_SLOT = ['primary-menu'];
 
@@ -53,6 +54,10 @@ export default function MfeDownloadManager(props) {
       }
     }
   }, [dispatch, currentUserName, isPrimaryTenant]);
+
+  useEffect(() => {
+    dispatch(fetchCurrentTenant());
+  }, [dispatch]);
 
   if (loading) {
     return <div className="shell-preload"><RowSpinner loading /></div>;
