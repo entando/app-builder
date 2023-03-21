@@ -1600,5 +1600,6 @@ export default {
     'user.authority.addNew': 'Aggiungi nuova Autorizzazione',
     'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
     'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
+    'validateForm.specialCharacter': 'Si prega di scegliere un singolo carattere speciale da questo elenco: !@#%&_=,:;`',
   },
 };

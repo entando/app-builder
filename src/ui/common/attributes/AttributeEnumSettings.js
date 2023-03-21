@@ -13,6 +13,32 @@ export const element = value =>
   (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)
     ? <FormattedMessage id="validateForm.element" /> : undefined);
 
+const specialCharRegex = /^[!@#%&_=,:;`]$/;
+
+
+const specialSymbolValidator = (value) => {
+  if (value && !value.match(specialCharRegex)) {
+    return <FormattedMessage id="validateForm.specialCharacter" />;
+  }
+  return undefined;
+};
+
+
+export const separatorValidator = (value, allValues) => {
+  if (allValues.enumeratorStaticItemsSeparator && value &&
+    allValues.enumeratorStaticItemsSeparator.match(specialCharRegex)) {
+    const regexp =
+    new
+    RegExp(`^([^${allValues.enumeratorStaticItemsSeparator}]+)(${allValues.enumeratorStaticItemsSeparator}([^${allValues.enumeratorStaticItemsSeparator}])+)*$`);
+    if (!regexp.test(value)) {
+      return <FormattedMessage id="validateForm.element" />;
+    }
+    return undefined;
+  }
+  return undefined;
+};
+
+
 const msgs = defineMessages({
   help: {
     id: 'app.enumeratorStaticItems.help',
@@ -41,7 +67,7 @@ const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
               <FormLabel labelId="app.enumeratorStaticItems" required />
             }
             placeholder={intl.formatMessage(msgs.help)}
-            validate={[required, element]}
+            validate={[required, separatorValidator]}
           />
           <Field
             component={RenderTextInput}
@@ -49,6 +75,7 @@ const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
             label={
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
+            validate={[specialSymbolValidator]}
           />
           {
             mode === MODE_ADD ?

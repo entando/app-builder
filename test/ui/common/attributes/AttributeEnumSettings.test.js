@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
-import AttributeEnumSettings, { element as elementValidation } from 'ui/common/attributes/AttributeEnumSettings';
+import AttributeEnumSettings, { separatorValidator } from 'ui/common/attributes/AttributeEnumSettings';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import { required } from '@entando/utils';
@@ -30,7 +30,7 @@ describe('AttributeEnumSettings', () => {
     expect(element.exists()).toBe(true);
     const props = element.props();
     expect(props).toHaveProperty('component', RenderTextInput);
-    expect(props).toHaveProperty('validate', [required, elementValidation]);
+    expect(props).toHaveProperty('validate', [required, separatorValidator]);
   });
 
   it('has a enumeratorExtractorBean select field', () => {
