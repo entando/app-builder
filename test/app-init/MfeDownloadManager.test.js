@@ -31,7 +31,7 @@ describe('MfeDownloadManager', () => {
 
   it('shows startup wait screen when polling', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () => new Promise(resolve => resolve({})));
-    selectCurrentTenant.mockReturnValue({});
+    selectCurrentTenant.mockReturnValue(null);
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();
@@ -40,7 +40,7 @@ describe('MfeDownloadManager', () => {
   it('shows children when ready', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () =>
       new Promise(resolve => resolve({ payload: [{ descriptorExt: { slot: 'primary-menu' } }], length: 1 })));
-    selectCurrentTenant.mockReturnValue({});
+    selectCurrentTenant.mockReturnValue(null);
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByText('test')).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('MfeDownloadManager', () => {
   it('shows startup wait screen when fetching fails', async () => {
     fetchMfeConfigList.mockImplementationOnce(() => () =>
       new Promise((resolve, reject) => reject()));
-    selectCurrentTenant.mockReturnValue({});
+    selectCurrentTenant.mockReturnValue(null);
     renderWithState(<MfeDownloadManager>test</MfeDownloadManager>);
 
     expect(await screen.findByTestId('startup-wait-screen')).toBeInTheDocument();

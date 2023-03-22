@@ -61,7 +61,9 @@ export default function MfeDownloadManager(props) {
     dispatch(fetchCurrentTenant());
   }, [dispatch]);
 
-  if (loading || !currentTenant) {
+  // check if currentTenant is empty object
+  if (loading || currentTenant === undefined ||
+    (currentTenant !== null && Object.keys(currentTenant).length === 0)) {
     return <div className="shell-preload"><RowSpinner loading /></div>;
   } else if (isPolling) {
     return <StartupWaitScreen />;
