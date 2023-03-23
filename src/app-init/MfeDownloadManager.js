@@ -58,8 +58,10 @@ export default function MfeDownloadManager(props) {
   }, [dispatch, currentUserName, isPrimaryTenant]);
 
   useEffect(() => {
-    dispatch(fetchCurrentTenant());
-  }, [dispatch]);
+    if (currentUserName) {
+      dispatch(fetchCurrentTenant());
+    }
+  }, [dispatch, currentUserName]);
 
   // check if currentTenant is empty object
   if (loading || currentTenant === undefined ||

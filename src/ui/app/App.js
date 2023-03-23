@@ -368,10 +368,7 @@ const RouteComponent = () => {
 
 class App extends Component {
   componentDidMount() {
-    const { username, fetchUserPreferences, fetchCurrentTenantInfo } = this.props;
-    if (!process.env.USE_MFE) {
-      fetchCurrentTenantInfo();
-    }
+    const { username, fetchUserPreferences } = this.props;
 
     // prevent calling the userPreferences API on login screen
     if (username) {
@@ -380,10 +377,15 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { username, fetchPlugins, fetchUserPreferences } = this.props;
+    const {
+      username, fetchPlugins, fetchUserPreferences, fetchCurrentTenantInfo,
+    } = this.props;
     if (username && username !== prevProps.username) {
       fetchPlugins();
       fetchUserPreferences(username);
+      if (!process.env.USE_MFE) {
+        fetchCurrentTenantInfo();
+      }
     }
   }
 
