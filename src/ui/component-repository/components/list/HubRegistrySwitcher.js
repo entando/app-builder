@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, Fragment } from 'react';
 import { Row, Col, DropdownKebab, MenuItem, Icon } from 'patternfly-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -9,6 +9,7 @@ import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer'
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { ADD_NEW_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/AddNewRegistryModal';
 import { DELETE_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/DeleteRegistryModal';
+import { EDIT_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/EditRegistryModal';
 
 const DEFAULT_ECR_REGISTRY = {
   name: ECR_LOCAL_REGISTRY_NAME,
@@ -31,6 +32,11 @@ const HubRegistrySwitcher = () => {
   const handleNewRegistryClick = useCallback(() => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry' }));
+  }, [dispatch]);
+
+  const handleEditRegistry = useCallback((registry) => {
+    dispatch(setVisibleModal(EDIT_REGISTRY_MODAL_ID));
+    dispatch(setInfo({ editData: registry }));
   }, [dispatch]);
 
   const handleDeleteRegistry = useCallback((registry) => {
@@ -83,15 +89,26 @@ const HubRegistrySwitcher = () => {
                       </div>
                       {
                         reg.name !== ECR_LOCAL_REGISTRY_NAME && (
-                          <div
-                            role="button"
-                            tabIndex={-1}
-                            className="HubRegistrySwitcher__trash"
-                            onClick={() => handleDeleteRegistry(reg)}
-                            onKeyDown={() => handleDeleteRegistry(reg)}
-                          >
-                            <Icon size="lg" name="trash" />
-                          </div>
+                          <Fragment>
+                            <div
+                              role="button"
+                              tabIndex={-1}
+                              className="HubRegistrySwitcher__edit"
+                              onClick={() => handleEditRegistry(reg)}
+                              onKeyDown={() => handleEditRegistry(reg)}
+                            >
+                              <Icon size="lg" name="edit" />
+                            </div>
+                            <div
+                              role="button"
+                              tabIndex={-1}
+                              className="HubRegistrySwitcher__trash"
+                              onClick={() => handleDeleteRegistry(reg)}
+                              onKeyDown={() => handleDeleteRegistry(reg)}
+                            >
+                              <Icon size="lg" name="trash" />
+                            </div>
+                          </Fragment>
                         )
                       }
                     </MenuItem>

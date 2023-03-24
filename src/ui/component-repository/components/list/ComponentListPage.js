@@ -11,6 +11,7 @@ import InstallationPlanModal from 'ui/component-repository/components/Installati
 import ComponentListWrapper from 'ui/component-repository/components/list/ComponentListWrapper';
 import AddNewRegistryModal from 'ui/component-repository/components/list/AddNewRegistryModal';
 import DeleteRegistryModalContainer from 'ui/component-repository/components/list/DeleteRegistryModalContainer';
+import EditRegistryModal from 'ui/component-repository/components/list/EditRegistryModal';
 
 export const ComponentListPageBody = () => (
   <InternalPage className="ComponentListPage">
@@ -36,6 +37,7 @@ export const ComponentListPageBody = () => (
     </Grid>
     <InstallationPlanModal />
     <AddNewRegistryModal />
+    <EditRegistryModal />
     <DeleteRegistryModalContainer />
   </InternalPage>
 );

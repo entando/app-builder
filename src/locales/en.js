@@ -1567,6 +1567,7 @@ export default {
     'hub.localRegistry.description': 'This is a local hub where all your deployed bundles are appearing as well as ECR components',
     'hub.newRegistry.name': 'Name',
     'hub.newRegistry.url': 'URL',
+    'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Registry name must be unique',
     'hub.newRegistry.url.error': 'Registry URL must be unique',
     'app.filterTypesSelect.organizationName': 'Organization Name',

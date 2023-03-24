@@ -41,13 +41,17 @@
     text-align: right;
   }
 
+  &__edit {
+    margin-right: 5px;
+  }
+
   &__trash {
     float: right;
   }
 
   &__action-label {
     display: inline-block;
-    width: 190px;
+    width: 180px;
     margin-left: 0;
     padding-left: 25px;
     text-overflow: ellipsis;

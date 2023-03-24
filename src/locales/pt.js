@@ -989,6 +989,7 @@ export default {
     'hub.localRegistry.description': 'Este é um hub local onde todos os seus pacotes implantados estão aparecendo, bem como os componentes ECR',
     'hub.newRegistry.name': 'Nome',
     'hub.newRegistry.url': 'URL',
+    'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'O nome do registro deve ser único',
     'hub.newRegistry.url.error': 'O URL do registro deve ser exclusivo',
     'app.filterTypesSelect.organizationName': 'Nome da organização',

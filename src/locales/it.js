@@ -1567,6 +1567,7 @@ export default {
     'hub.localRegistry.description': 'Questo è un hub locale in cui vengono visualizzati tutti i pacchetti distribuiti e i componenti ECR',
     'hub.newRegistry.name': 'Nome',
     'hub.newRegistry.url': 'URL',
+    'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Il nome del registro deve essere univoco',
     'hub.newRegistry.url.error': 'L\'URL del registro deve essere univoco',
     'app.filterTypesSelect.organizationName': 'Nome dell\'organizzazione',

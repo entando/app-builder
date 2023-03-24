@@ -68,6 +68,17 @@ export const addRegistry = registryObject => (
   })
 );
 
+export const updateRegistry = registryObject => (
+  makeRequest({
+    uri: '/registries',
+    domain: '/digital-exchange',
+    method: METHODS.PUT,
+    mockResponse: ADD_REGISTRY_OK,
+    useAuthentication: true,
+    body: registryObject,
+  })
+);
+
 export const deployBundle = bundle => (
   makeRequest({
     uri: '/components',
