@@ -309,6 +309,7 @@ export default {
     'menu.cms.contentTypes': 'Tipos de Conteúdo',
     'menu.cms.contentModels': 'Modelos de Conteúdo',
     'menu.cms.contentSettings': 'Configurações de Conteúdo',
+    'cms.menu.solarConfig': 'SOLR configuração',
     'menu.details': 'Detalhes',
     'menu.groups': 'Grupos',
     'menu.database': 'Banco de Dados',
