@@ -31,16 +31,6 @@ jest.mock('state/system/selectors', () => ({
   }),
 }));
 
-// jest.mock('state/current-system-configuration/selectors', () => ({
-//   selectCurrentSystemConfiguration: jest.fn()
-//     .mockReturnValue({
-//       advancedSearch: {
-//         enabled: true,
-//       },
-//     }),
-//   // selectCurrentSystemConfigurationAdvancedSearch: jest.fn().mockReturnValue(true),
-// }));
-
 describe('MfeContainer', () => {
   beforeAll(() => {
     useSelector.mockImplementation(callback => callback({
