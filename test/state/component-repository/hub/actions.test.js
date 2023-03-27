@@ -18,6 +18,7 @@ import {
   fetchBundlesFromRegistryWithFilters,
   sendDeleteRegistry,
   sendPostRegistry,
+  sendPutRegistry,
   sendDeployBundle,
   sendUndeployBundle,
   BUNDLE_DESCRIPTOR_QUERY,
@@ -47,6 +48,7 @@ import {
   getBundleGroups,
   deleteRegistry,
   addRegistry,
+  updateRegistry,
   deployBundle,
   undeployBundle,
 } from 'api/component-repository/hub';
@@ -429,6 +431,44 @@ describe('state/component-repository/component-repositories/actions', () => {
       addRegistry.mockImplementationOnce(mockApi({ errors: true }));
       store.dispatch(sendPostRegistry()).then(() => {
         expect(addRegistry).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[0].payload).toHaveProperty('errors', ['Error!']);
+        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1].payload).toHaveProperty('message', 'Error!');
+        expect(actions[1].payload).toHaveProperty('type', TOAST_ERROR);
+        done();
+      }).catch(done.fail);
+    });
+  });
+
+  describe('sendPutRegistry', () => {
+    it('should dispatch actions for updating a registry and fetching the updated list of registries on success', (done) => {
+      updateRegistry.mockImplementationOnce(mockApi({
+        errors: false,
+        payload: ADD_REGISTRY_OK,
+      }));
+      getRegistries.mockImplementationOnce(mockApi({
+        errors: false,
+        payload: LIST_REGISTRIES_OK,
+      }));
+      store.dispatch(sendPutRegistry({ name: 'id1', url: 'url' })).then(() => {
+        expect(updateRegistry).toHaveBeenCalledWith({ name: 'id1', url: 'url' });
+        expect(getRegistries).toHaveBeenCalled();
+        const actions = store.getActions();
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[0].payload).toHaveProperty('type', TOAST_SUCCESS);
+        expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('should dispatch error actions when updating a registry fails with an error', (done) => {
+      updateRegistry.mockImplementationOnce(mockApi({ errors: true }));
+      store.dispatch(sendPutRegistry()).then(() => {
+        expect(updateRegistry).toHaveBeenCalled();
         const actions = store.getActions();
         expect(actions).toHaveLength(2);
         expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
