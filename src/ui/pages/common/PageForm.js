@@ -1,41 +1,46 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Row, Col, FormGroup } from 'patternfly-react';
-import { Button } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { isUndefined } from 'lodash';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { Row, Col, FormGroup } from "patternfly-react";
+import { Button } from "react-bootstrap";
+import { required, maxLength } from "@entando/utils";
+import { codeWithDash } from "../../../helpers/attrValidation";
+import {
+  FormattedMessage,
+  defineMessages,
+  injectIntl,
+  intlShape,
+} from "react-intl";
+import { isUndefined } from "lodash";
 
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import FormLabel from 'ui/common/form/FormLabel';
-import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
-import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
-import SeoInfo from 'ui/pages/common/SeoInfo';
-import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
-import { APP_TOUR_STARTED } from 'state/app-tour/const';
-import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
+import RenderTextInput from "ui/common/form/RenderTextInput";
+import FormLabel from "ui/common/form/FormLabel";
+import FormSectionTitle from "ui/common/form/FormSectionTitle";
+import RenderDropdownTypeaheadInput from "ui/common/form/RenderDropdownTypeaheadInput";
+import PageTreeSelectorContainer from "ui/pages/common/PageTreeSelectorContainer";
+import SwitchRenderer from "ui/common/form/SwitchRenderer";
+import RenderSelectInput from "ui/common/form/RenderSelectInput";
+import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from "state/pages/const";
+import SeoInfo from "ui/pages/common/SeoInfo";
+import FindTemplateModalContainer from "ui/pages/common/FindTemplateModalContainer";
+import { APP_TOUR_STARTED } from "state/app-tour/const";
+import { complementTitlesForActiveLanguages } from "ui/pages/add/PagesAddFormContainer";
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
-
 const msgs = defineMessages({
   chooseAnOption: {
-    id: 'app.chooseAnOption',
-    defaultMessage: 'Choose',
+    id: "app.chooseAnOption",
+    defaultMessage: "Choose",
   },
   chooseOptions: {
-    id: 'app.chooseOptions',
-    defaultMessage: 'Choose',
+    id: "app.chooseOptions",
+    defaultMessage: "Choose",
   },
   appCode: {
-    id: 'app.code',
-    defaultMessage: 'Code',
+    id: "app.code",
+    defaultMessage: "Code",
   },
 });
 
@@ -47,14 +52,23 @@ export class PageFormBody extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } = prevProps;
+    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } =
+      prevProps;
     const {
-      enableGroupAccessControl, myGroups, redirectToForbidden, pageOwnerGroup,
+      enableGroupAccessControl,
+      myGroups,
+      redirectToForbidden,
+      pageOwnerGroup,
     } = this.props;
 
     if (enableGroupAccessControl) {
-      if (myGroups != null && pageOwnerGroup && (prevMyGroups == null || !prevPageOwnerGroup)) {
-        const redirectDueToLackOfGroupAccess = !myGroups.includes(pageOwnerGroup);
+      if (
+        myGroups != null &&
+        pageOwnerGroup &&
+        (prevMyGroups == null || !prevPageOwnerGroup)
+      ) {
+        const redirectDueToLackOfGroupAccess =
+          !myGroups.includes(pageOwnerGroup);
         if (redirectDueToLackOfGroupAccess) {
           redirectToForbidden();
         }
@@ -64,67 +78,95 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
-      contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
-      pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave, form, titles,
+      intl,
+      handleSubmit,
+      invalid,
+      submitting,
+      groups,
+      allGroups,
+      pageTemplates,
+      contentTypes,
+      charsets,
+      mode,
+      onChangeDefaultTitle,
+      parentCode,
+      parentTitle,
+      languages,
+      pageCode,
+      seoMode,
+      onFindTemplateClick,
+      appTourProgress,
+      onChangePageTemplate,
+      onChangeOwnerGroup,
+      readOnly,
+      stayOnSave,
+      form,
+      titles,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
-      pages = pages.filter(p => p.code !== pageCode);
+      pages = pages.filter((p) => p.code !== pageCode);
     }
-    const isEditMode = mode === 'edit';
-    const isCloneMode = mode === 'clone';
+    const isEditMode = mode === "edit";
+    const isCloneMode = mode === "clone";
 
-    const defaultLang = languages.find(lang => lang.isDefault) || { code: '' };
-    const isDefaultTitleEmpty = !titles || !titles[defaultLang.code] ||
-      !titles[defaultLang.code].length;
+    const defaultLang = languages.find((lang) => lang.isDefault) || {
+      code: "",
+    };
+    const isDefaultTitleEmpty =
+      !titles || !titles[defaultLang.code] || !titles[defaultLang.code].length;
 
     const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED;
 
-    const pageTemplatesWithEmpty =
-      [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
+    const pageTemplatesWithEmpty = [
+      { code: "", descr: intl.formatMessage(msgs.chooseAnOption) },
+    ].concat(pageTemplates);
 
-    const parentPageComponent = parentCode ?
-      <span>{parentTitle}</span> :
-      (
-        <div className="app-tour-step-8" data-testid="PageForm__PageTreeSelector">
-          <Field
-            component={PageTreeSelectorContainer}
-            name="parentCode"
-            pages={pages}
-            onPageSelect={pageTemplateDisabled ? () => {} : null}
-            validate={[required]}
-          />
-        </div>
-      );
+    const parentPageComponent = parentCode ? (
+      <span>{parentTitle}</span>
+    ) : (
+      <div className="app-tour-step-8" data-testid="PageForm__PageTreeSelector">
+        <Field
+          component={PageTreeSelectorContainer}
+          name="parentCode"
+          pages={pages}
+          onPageSelect={pageTemplateDisabled ? () => {} : null}
+          validate={[required]}
+        />
+      </div>
+    );
 
     const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
-        return languages
-          .map((lang) => {
-            const msgTitle = defineMessages({
-              langCode: { id: `app.${lang.code}Title` },
-            });
-            return (
-              <Field
-                key={lang.code}
-                component={RenderTextInput}
-                name={`titles.${lang.code}`}
-                data-testid={`titles.${lang.code}`}
-                tourClass="app-tour-step-6"
-                label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
-                placeholder={intl.formatMessage(msgTitle.langCode)}
-                validate={[required, maxLength70]}
-                onChange={(ev) => {
-                  if (onChangeDefaultTitle && lang.isDefault) {
-                    onChangeDefaultTitle(ev.currentTarget.value);
-                  }
-                }}
-                disabled={readOnly}
-              />
-            );
+        return languages.map((lang) => {
+          const msgTitle = defineMessages({
+            langCode: { id: `app.${lang.code}Title` },
           });
+          return (
+            <Field
+              key={lang.code}
+              component={RenderTextInput}
+              name={`titles.${lang.code}`}
+              data-testid={`titles.${lang.code}`}
+              tourClass="app-tour-step-6"
+              label={
+                <FormLabel
+                  langLabelText={lang.code}
+                  labelId="app.title"
+                  required
+                />
+              }
+              placeholder={intl.formatMessage(msgTitle.langCode)}
+              validate={[required, maxLength70]}
+              onChange={(ev) => {
+                if (onChangeDefaultTitle && lang.isDefault) {
+                  onChangeDefaultTitle(ev.currentTarget.value);
+                }
+              }}
+              disabled={readOnly}
+            />
+          );
+        });
       }
       return null;
     };
@@ -146,16 +188,18 @@ export class PageFormBody extends Component {
               <Field
                 component={RenderDropdownTypeaheadInput}
                 name="ownerGroup"
-                label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
+                label={
+                  <FormLabel labelId="pages.pageForm.ownerGroup" required />
+                }
                 options={groups}
                 labelKey="name"
                 valueKey="code"
                 disabled={isEditMode}
                 placeholder={intl.formatMessage(msgs.chooseAnOption)}
                 tourClass="app-tour-step-9"
-                onChange={optionSelected => (
+                onChange={(optionSelected) =>
                   onChangeOwnerGroup(optionSelected.code, appTourProgress)
-                )}
+                }
                 validate={[required]}
               />
               <Field
@@ -193,7 +237,9 @@ export class PageFormBody extends Component {
                         required
                       />
                     }
-                    onChange={e => onChangePageTemplate(e.target.value, appTourProgress)}
+                    onChange={(e) =>
+                      onChangePageTemplate(e.target.value, appTourProgress)
+                    }
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
@@ -213,7 +259,10 @@ export class PageFormBody extends Component {
               </Row>
               <FindTemplateModalContainer isEditMode={isEditMode} />
               <FormGroup>
-                <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
+                <label
+                  htmlFor="displayedInMenu"
+                  className="col-xs-2 control-label"
+                >
                   <FormLabel
                     labelId="pages.pageForm.displayedInMenu"
                     helpId="pages.pageForm.displayedInMenuHelp"
@@ -256,7 +305,7 @@ export class PageFormBody extends Component {
                     validate={[required]}
                     disabled={readOnly}
                   >
-                    {charsets.map(type => (
+                    {charsets.map((type) => (
                       <option
                         key={type}
                         className="PageForm__bullet-option"
@@ -267,7 +316,10 @@ export class PageFormBody extends Component {
                     ))}
                   </Field>
                 </Col>
-                <label htmlFor="seo" className="col-xs-2 col-xs-offset-2 control-label">
+                <label
+                  htmlFor="seo"
+                  className="col-xs-2 col-xs-offset-2 control-label"
+                >
                   <FormLabel
                     labelId="pages.pageForm.mimeType"
                     helpId="pages.pageForm.mimeTypeHelp"
@@ -282,7 +334,7 @@ export class PageFormBody extends Component {
                     validate={[required]}
                     disabled={readOnly}
                   >
-                    {contentTypes.map(type => (
+                    {contentTypes.map((type) => (
                       <option
                         key={type}
                         className="PageForm__bullet-option"
@@ -317,7 +369,6 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
-
             {seoMode ? (
               <SeoInfo
                 formId={form}
@@ -334,9 +385,15 @@ export class PageFormBody extends Component {
               name="code"
               data-testid="page-code"
               tourClass="app-tour-step-7"
-              label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
+              label={
+                <FormLabel
+                  labelId="app.code"
+                  helpId="pages.pageForm.codeHelp"
+                  required
+                />
+              }
               placeholder={intl.formatMessage(msgs.appCode)}
-              validate={[required, code, maxLength30]}
+              validate={[required, codeWithDash, maxLength30]}
               disabled={isEditMode}
             />
 
@@ -344,11 +401,8 @@ export class PageFormBody extends Component {
               <label htmlFor="parentCode" className="col-xs-2 control-label">
                 <FormLabel labelId="pages.pageForm.pagePlacement" required />
               </label>
-              <Col xs={10}>
-                {parentPageComponent}
-              </Col>
+              <Col xs={10}>{parentPageComponent}</Col>
             </FormGroup>
-
           </Col>
         </Row>
 
@@ -366,7 +420,9 @@ export class PageFormBody extends Component {
                 <Field
                   component={SwitchRenderer}
                   name="seoData.useExtraDescriptions"
-                  label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
+                  label={
+                    <FormLabel labelId="pages.pageForm.useExtDescSearch" />
+                  }
                   labelSize={3}
                   disabled={readOnly}
                 />
@@ -375,7 +431,7 @@ export class PageFormBody extends Component {
           </Fragment>
         )}
 
-        {(!readOnly && !stayOnSave) && (
+        {!readOnly && !stayOnSave && (
           <Row>
             <Col xs={12}>
               <div className="btn-toolbar pull-right">
@@ -384,14 +440,14 @@ export class PageFormBody extends Component {
                   type="submit"
                   bsStyle="success"
                   disabled={invalid || submitting || isDefaultTitleEmpty}
-                  onClick={handleSubmit(values =>
+                  onClick={handleSubmit((values) =>
                     onSaveClick(
                       { ...values, appTourProgress },
-                      ACTION_SAVE_AND_CONFIGURE,
-                    ))}
+                      ACTION_SAVE_AND_CONFIGURE
+                    )
+                  )}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
-
                 </Button>
                 <Button
                   className="PageForm__save-btn"
@@ -399,11 +455,11 @@ export class PageFormBody extends Component {
                   data-testid="save-page"
                   bsStyle="primary"
                   disabled={invalid || submitting || isDefaultTitleEmpty}
-                  onClick={handleSubmit(values =>
-                    onSaveClick(values, ACTION_SAVE))}
+                  onClick={handleSubmit((values) =>
+                    onSaveClick(values, ACTION_SAVE)
+                  )}
                 >
                   <FormattedMessage id="app.save" />
-
                 </Button>
               </div>
             </Col>
@@ -423,23 +479,31 @@ PageFormBody.propTypes = {
   submitting: PropTypes.bool,
   charsets: PropTypes.arrayOf(PropTypes.string).isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  languages: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    isDefault: PropTypes.bool,
-  })).isRequired,
-  groups: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
-  allGroups: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-  })).isRequired,
-  pageTemplates: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.string.isRequired,
-    descr: PropTypes.string.isRequired,
-  })).isRequired,
+  languages: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      isDefault: PropTypes.bool,
+    })
+  ).isRequired,
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  allGroups: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  pageTemplates: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      descr: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
   onChangeDefaultTitle: PropTypes.func,
@@ -464,7 +528,7 @@ PageFormBody.propTypes = {
 PageFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  mode: 'add',
+  mode: "add",
   onWillMount: null,
   onChangeDefaultTitle: null,
   onFindTemplateClick: null,
@@ -473,7 +537,7 @@ PageFormBody.defaultProps = {
   pages: null,
   pageCode: null,
   seoMode: false,
-  appTourProgress: '',
+  appTourProgress: "",
   onChangePageTemplate: () => {},
   onChangeOwnerGroup: () => {},
   readOnly: false,
@@ -481,12 +545,12 @@ PageFormBody.defaultProps = {
   enableGroupAccessControl: false,
   myGroups: null,
   redirectToForbidden: () => {},
-  pageOwnerGroup: '',
+  pageOwnerGroup: "",
   titles: {},
 };
 
 const PageForm = reduxForm({
-  form: 'page',
+  form: "page",
   enableReinitialize: true,
 })(PageFormBody);
 
