@@ -115,11 +115,11 @@
 .EditRegistryModal {
   width: 800px;
 
-  .alert {
+  .alert { // sass-lint:disable-line class-name-format
     padding-left: 11px;
     color: $color-dim-grey;
 
-    .pficon {
+    .pficon { //sass-lint:disable-line nesting-depth class-name-format
       display: none;
     }
   }
