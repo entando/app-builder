@@ -111,3 +111,16 @@
     }
   }
 }
+
+.EditRegistryModal {
+  width: 800px;
+
+  .alert {
+    padding-left: 11px;
+    color: $color-dim-grey;
+
+    .pficon {
+      display: none;
+    }
+  }
+}

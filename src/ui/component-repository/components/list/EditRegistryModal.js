@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Button, Modal } from 'patternfly-react';
+import { Button, Modal, Alert } from 'patternfly-react';
 import { Field, reduxForm, destroy, submit, Form, reset, initialize } from 'redux-form';
 import PropTypes from 'prop-types';
 import { required } from '@entando/utils';
@@ -88,7 +88,7 @@ const EditRegistryModalForm = ({
       modalId={EDIT_REGISTRY_MODAL_ID}
       buttons={buttons}
       modalTitle={modalTitle}
-      modalClassName="InstallationPlanModal"
+      modalClassName="EditRegistryModal"
       closeLabel="app.cancel"
       modalCloseCleanup={handleCancel}
     >
@@ -116,6 +116,9 @@ const EditRegistryModalForm = ({
           />
         </fieldset>
       </Form>
+      <Alert type="info">
+        <FormattedMessage id="hub.editRegistry.alert" />
+      </Alert>
     </GenericModalContainer>
   );
 };

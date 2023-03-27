@@ -1570,6 +1570,7 @@ export default {
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Il nome del registro deve essere univoco',
     'hub.newRegistry.url.error': 'L\'URL del registro deve essere univoco',
+    'hub.editRegistry.alert': 'Sottomettere questo modulo sostituirà l\'esistente API Key. Se non ne verrà inviata alcuna, quella precedente verrà eliminata.',
     'app.filterTypesSelect.organizationName': 'Nome dell\'organizzazione',
     'app.filterTypesSelect.bundleGroup': 'Gruppo pacchetto',
     'hub.bundle.installation': 'Installazione del pacchetto',

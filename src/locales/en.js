@@ -1570,6 +1570,7 @@ export default {
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Registry name must be unique',
     'hub.newRegistry.url.error': 'Registry URL must be unique',
+    'hub.editRegistry.alert': 'Submitting this form will replace the existing API Key. If none will be submitted, the old one will be deleted.',
     'app.filterTypesSelect.organizationName': 'Organization Name',
     'app.filterTypesSelect.bundleGroup': 'Bundle Group',
     'hub.bundle.installation': 'Bundle Installation',
