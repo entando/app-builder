@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Row, Col, DropdownKebab, MenuItem, Icon } from 'patternfly-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
