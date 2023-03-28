@@ -150,11 +150,11 @@ describe('api/component-repository/hub', () => {
   });
 
   describe('updateRegistry', () => {
-    it.only('returns a promise', () => {
+    it('returns a promise', () => {
       expect(updateRegistry()).toBeInstanceOf(Promise);
     });
 
-    it.only('makes the correct request', () => {
+    it('makes the correct request', () => {
       const registryObject = { name: 'test name', url: 'http://test.com' };
       updateRegistry(registryObject);
       expect(makeRequest).toHaveBeenCalledWith({
