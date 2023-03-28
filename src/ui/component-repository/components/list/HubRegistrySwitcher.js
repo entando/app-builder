@@ -21,29 +21,29 @@ const HubRegistrySwitcher = () => {
   const registries = useSelector(getRegistries);
   const dispatch = useDispatch();
 
-  const handleRegistryChange = useCallback((registry) => {
+  const handleRegistryChange = (registry) => {
     if (registry.name !== activeRegistry.name) {
       dispatch(setFetchedBundleGroups([]));
       dispatch(setFetchedBundlesFromRegistry([]));
       dispatch(setActiveRegistry(registry));
     }
-  }, [activeRegistry.name, dispatch]);
+  };
 
-  const handleNewRegistryClick = useCallback(() => {
+  const handleNewRegistryClick = () => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry' }));
-  }, [dispatch]);
+  };
 
-  const handleEditRegistry = useCallback((registry) => {
+  const handleEditRegistry = (registry) => {
     dispatch(setVisibleModal(EDIT_REGISTRY_MODAL_ID));
     dispatch(setInfo({ editData: registry }));
-  }, [dispatch]);
+  };
 
-  const handleDeleteRegistry = useCallback((registry) => {
+  const handleDeleteRegistry = (registry) => {
     if (activeRegistry.id === registry.id) return;
     dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry', code: registry.name, id: registry.id }));
-  }, [activeRegistry.id, dispatch]);
+  };
 
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
 
