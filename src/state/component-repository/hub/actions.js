@@ -292,7 +292,6 @@ export const sendPutRegistry = registryObject => dispatch => (
       });
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-    }).finally(() => {
     });
   })
 );
