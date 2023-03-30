@@ -109,13 +109,13 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
 );
 
 
-export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+export const fetchBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
 
     const currentParams = params ? `${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
 
-    getBundlesFromRegistry(url, page, currentParams).then((response) => {
+    getBundlesFromRegistry(registryId, page, currentParams).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           if (data.payload) {
@@ -167,9 +167,9 @@ export const fetchRegistries = (params = '') => dispatch => (
   })
 );
 
-export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params = '') => dispatch => (
+export const fetchBundleGroups = (registryId, page = { page: 1, pageSize: 0 }, params = '') => dispatch => (
   new Promise((resolve) => {
-    getBundleGroups(url, page, params).then((response) => {
+    getBundleGroups(registryId, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setFetchedBundleGroups(data.payload));
@@ -187,7 +187,7 @@ export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params =
   })
 );
 
-export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, getState) => (
+export const fetchBundlesFromRegistryWithFilters = (registryId, page) => (dispatch, getState) => (
   new Promise((resolve) => {
     const state = getState();
     const filters = getBundleFilters(state);
@@ -195,7 +195,7 @@ export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, get
     const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
 
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundlesFromRegistry(url, page, currentParams).then((response) => {
+    getBundlesFromRegistry(registryId, page, currentParams).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));

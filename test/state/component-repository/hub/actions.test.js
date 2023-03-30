@@ -210,7 +210,7 @@ describe('state/component-repository/component-repositories/actions', () => {
 
   describe('fetchBundlesFromRegistry', () => {
     it('calls getBundlesFromRegistry and appropriate actions', (done) => {
-      const registryUrl = 'http://registry.url/';
+      const registryId = 123;
       getBundlesFromRegistry.mockImplementationOnce(mockApi({
         errors: false,
         payload: LIST_BUNDLES_FROM_REGISTRY_OK,
@@ -220,8 +220,8 @@ describe('state/component-repository/component-repositories/actions', () => {
         errors: false,
         payload: LIST_BUNDLE_STATUSES_OK,
       }));
-      store.dispatch(fetchBundlesFromRegistry(registryUrl)).then(() => {
-        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
+      store.dispatch(fetchBundlesFromRegistry(registryId)).then(() => {
+        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryId, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
         const actions = store.getActions();
         expect(actions).toHaveLength(3);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
@@ -292,9 +292,9 @@ describe('state/component-repository/component-repositories/actions', () => {
         errors: false,
         payload: LIST_BUNDLE_GROUPS_OK,
       }));
-      const url = 'url';
-      store.dispatch(fetchBundleGroups(url)).then(() => {
-        expect(getBundleGroups).toHaveBeenCalledWith(url, { page: 1, pageSize: 0 }, '');
+      const registryId = 123;
+      store.dispatch(fetchBundleGroups(registryId)).then(() => {
+        expect(getBundleGroups).toHaveBeenCalledWith(registryId, { page: 1, pageSize: 0 }, '');
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('payload.bundleGroups', LIST_BUNDLE_GROUPS_OK);
@@ -321,7 +321,7 @@ describe('state/component-repository/component-repositories/actions', () => {
 
   describe('fetchBundlesFromRegistryWithFilters', () => {
     it('calls getBundlesFromRegistry and appropriate actions', (done) => {
-      const registryUrl = 'http://registry.url/';
+      const registryId = 123;
       getBundlesFromRegistry.mockImplementationOnce(mockApi({
         errors: false,
         payload: LIST_BUNDLES_FROM_REGISTRY_OK,
@@ -332,10 +332,10 @@ describe('state/component-repository/component-repositories/actions', () => {
         payload: LIST_BUNDLE_STATUSES_OK,
       }));
       store.dispatch(fetchBundlesFromRegistryWithFilters(
-        registryUrl,
+        registryId,
         { page: 1, pageSize: 10 },
       )).then(() => {
-        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryUrl, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
+        expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryId, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
         const actions = store.getActions();
         expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);

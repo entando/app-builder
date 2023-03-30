@@ -8,11 +8,11 @@ import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const NO_PAGE = { page: 1, pageSize: 0 };
 
-export const getBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => (
+export const getBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/bundles/${params}`,
-      domain: url,
+      uri: `/hub/bundles/${params ? `${params}&registryId=${registryId}` : `?registryId=${registryId}`}`,
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
       useAuthentication: false,
@@ -34,11 +34,11 @@ export const getRegistries = (params = '') => (
   )
 );
 
-export const getBundleGroups = (url, page = { page: 1, pageSize: 10 }, params = '') => (
+export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/bundlegroups/?statuses=PUBLISHED&${params}`,
-      domain: url,
+      uri: `/hub/bundlegroups/?statuses=PUBLISHED&registryId=${registryId}&${params}`,
+      domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
       useAuthentication: false,
