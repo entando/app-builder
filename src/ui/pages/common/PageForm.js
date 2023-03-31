@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
+import { required, maxLength } from '@entando/utils';
 import {
   FormattedMessage,
   defineMessages,
