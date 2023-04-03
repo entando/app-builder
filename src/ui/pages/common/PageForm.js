@@ -4,12 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
 import { required, maxLength } from '@entando/utils';
-import {
-  FormattedMessage,
-  defineMessages,
-  injectIntl,
-  intlShape,
-} from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isUndefined } from 'lodash';
 
 import RenderTextInput from 'ui/common/form/RenderTextInput';
@@ -24,10 +19,11 @@ import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
-import { codeWithDash } from '../../../helpers/attrValidation';
+import { codeWithDash } from 'helpers/attrValidation';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
+
 
 const msgs = defineMessages({
   chooseAnOption: {
@@ -52,23 +48,14 @@ export class PageFormBody extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } =
-      prevProps;
+    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } = prevProps;
     const {
-      enableGroupAccessControl,
-      myGroups,
-      redirectToForbidden,
-      pageOwnerGroup,
+      enableGroupAccessControl, myGroups, redirectToForbidden, pageOwnerGroup,
     } = this.props;
 
     if (enableGroupAccessControl) {
-      if (
-        myGroups != null &&
-        pageOwnerGroup &&
-        (prevMyGroups == null || !prevPageOwnerGroup)
-      ) {
-        const redirectDueToLackOfGroupAccess =
-          !myGroups.includes(pageOwnerGroup);
+      if (myGroups != null && pageOwnerGroup && (prevMyGroups == null || !prevPageOwnerGroup)) {
+        const redirectDueToLackOfGroupAccess = !myGroups.includes(pageOwnerGroup);
         if (redirectDueToLackOfGroupAccess) {
           redirectToForbidden();
         }
@@ -78,30 +65,10 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl,
-      handleSubmit,
-      invalid,
-      submitting,
-      groups,
-      allGroups,
-      pageTemplates,
-      contentTypes,
-      charsets,
-      mode,
-      onChangeDefaultTitle,
-      parentCode,
-      parentTitle,
-      languages,
-      pageCode,
-      seoMode,
-      onFindTemplateClick,
-      appTourProgress,
-      onChangePageTemplate,
-      onChangeOwnerGroup,
-      readOnly,
-      stayOnSave,
-      form,
-      titles,
+      intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
+      contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
+      pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
+      onChangeOwnerGroup, readOnly, stayOnSave, form, titles,
     } = this.props;
     let { pages } = this.props;
     if (pages && pages.length > 0) {
@@ -110,63 +77,55 @@ export class PageFormBody extends Component {
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
 
-    const defaultLang = languages.find(lang => lang.isDefault) || {
-      code: '',
-    };
-    const isDefaultTitleEmpty =
-      !titles || !titles[defaultLang.code] || !titles[defaultLang.code].length;
+    const defaultLang = languages.find(lang => lang.isDefault) || { code: '' };
+    const isDefaultTitleEmpty = !titles || !titles[defaultLang.code] ||
+      !titles[defaultLang.code].length;
 
     const pageTemplateDisabled = appTourProgress === APP_TOUR_STARTED;
 
-    const pageTemplatesWithEmpty = [
-      { code: '', descr: intl.formatMessage(msgs.chooseAnOption) },
-    ].concat(pageTemplates);
+    const pageTemplatesWithEmpty =
+      [{ code: '', descr: intl.formatMessage(msgs.chooseAnOption) }].concat(pageTemplates);
 
-    const parentPageComponent = parentCode ? (
-      <span>{parentTitle}</span>
-    ) : (
-      <div className="app-tour-step-8" data-testid="PageForm__PageTreeSelector">
-        <Field
-          component={PageTreeSelectorContainer}
-          name="parentCode"
-          pages={pages}
-          onPageSelect={pageTemplateDisabled ? () => {} : null}
-          validate={[required]}
-        />
-      </div>
-    );
+    const parentPageComponent = parentCode ?
+      <span>{parentTitle}</span> :
+      (
+        <div className="app-tour-step-8" data-testid="PageForm__PageTreeSelector">
+          <Field
+            component={PageTreeSelectorContainer}
+            name="parentCode"
+            pages={pages}
+            onPageSelect={pageTemplateDisabled ? () => {} : null}
+            validate={[required]}
+          />
+        </div>
+      );
 
     const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
-        return languages.map((lang) => {
-          const msgTitle = defineMessages({
-            langCode: { id: `app.${lang.code}Title` },
+        return languages
+          .map((lang) => {
+            const msgTitle = defineMessages({
+              langCode: { id: `app.${lang.code}Title` },
+            });
+            return (
+              <Field
+                key={lang.code}
+                component={RenderTextInput}
+                name={`titles.${lang.code}`}
+                data-testid={`titles.${lang.code}`}
+                tourClass="app-tour-step-6"
+                label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
+                placeholder={intl.formatMessage(msgTitle.langCode)}
+                validate={[required, maxLength70]}
+                onChange={(ev) => {
+                  if (onChangeDefaultTitle && lang.isDefault) {
+                    onChangeDefaultTitle(ev.currentTarget.value);
+                  }
+                }}
+                disabled={readOnly}
+              />
+            );
           });
-          return (
-            <Field
-              key={lang.code}
-              component={RenderTextInput}
-              name={`titles.${lang.code}`}
-              data-testid={`titles.${lang.code}`}
-              tourClass="app-tour-step-6"
-              label={
-                <FormLabel
-                  langLabelText={lang.code}
-                  labelId="app.title"
-                  required
-                />
-              }
-              placeholder={intl.formatMessage(msgTitle.langCode)}
-              validate={[required, maxLength70]}
-              onChange={(ev) => {
-                if (onChangeDefaultTitle && lang.isDefault) {
-                  onChangeDefaultTitle(ev.currentTarget.value);
-                }
-              }}
-              disabled={readOnly}
-            />
-          );
-        });
       }
       return null;
     };
@@ -188,18 +147,16 @@ export class PageFormBody extends Component {
               <Field
                 component={RenderDropdownTypeaheadInput}
                 name="ownerGroup"
-                label={
-                  <FormLabel labelId="pages.pageForm.ownerGroup" required />
-                }
+                label={<FormLabel labelId="pages.pageForm.ownerGroup" required />}
                 options={groups}
                 labelKey="name"
                 valueKey="code"
                 disabled={isEditMode}
                 placeholder={intl.formatMessage(msgs.chooseAnOption)}
                 tourClass="app-tour-step-9"
-                onChange={optionSelected =>
+                onChange={optionSelected => (
                   onChangeOwnerGroup(optionSelected.code, appTourProgress)
-                }
+                )}
                 validate={[required]}
               />
               <Field
@@ -237,9 +194,7 @@ export class PageFormBody extends Component {
                         required
                       />
                     }
-                    onChange={e =>
-                      onChangePageTemplate(e.target.value, appTourProgress)
-                    }
+                    onChange={e => onChangePageTemplate(e.target.value, appTourProgress)}
                     options={pageTemplatesWithEmpty}
                     optionValue="code"
                     optionDisplayName="descr"
@@ -259,10 +214,7 @@ export class PageFormBody extends Component {
               </Row>
               <FindTemplateModalContainer isEditMode={isEditMode} />
               <FormGroup>
-                <label
-                  htmlFor="displayedInMenu"
-                  className="col-xs-2 control-label"
-                >
+                <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
                   <FormLabel
                     labelId="pages.pageForm.displayedInMenu"
                     helpId="pages.pageForm.displayedInMenuHelp"
@@ -316,10 +268,7 @@ export class PageFormBody extends Component {
                     ))}
                   </Field>
                 </Col>
-                <label
-                  htmlFor="seo"
-                  className="col-xs-2 col-xs-offset-2 control-label"
-                >
+                <label htmlFor="seo" className="col-xs-2 col-xs-offset-2 control-label">
                   <FormLabel
                     labelId="pages.pageForm.mimeType"
                     helpId="pages.pageForm.mimeTypeHelp"
@@ -369,6 +318,7 @@ export class PageFormBody extends Component {
         </Row>
         <Row>
           <Col xs={12}>
+
             {seoMode ? (
               <SeoInfo
                 formId={form}
@@ -385,13 +335,7 @@ export class PageFormBody extends Component {
               name="code"
               data-testid="page-code"
               tourClass="app-tour-step-7"
-              label={
-                <FormLabel
-                  labelId="app.code"
-                  helpId="pages.pageForm.codeHelp"
-                  required
-                />
-              }
+              label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
               validate={[required, codeWithDash, maxLength30]}
               disabled={isEditMode}
@@ -401,8 +345,11 @@ export class PageFormBody extends Component {
               <label htmlFor="parentCode" className="col-xs-2 control-label">
                 <FormLabel labelId="pages.pageForm.pagePlacement" required />
               </label>
-              <Col xs={10}>{parentPageComponent}</Col>
+              <Col xs={10}>
+                {parentPageComponent}
+              </Col>
             </FormGroup>
+
           </Col>
         </Row>
 
@@ -420,9 +367,7 @@ export class PageFormBody extends Component {
                 <Field
                   component={SwitchRenderer}
                   name="seoData.useExtraDescriptions"
-                  label={
-                    <FormLabel labelId="pages.pageForm.useExtDescSearch" />
-                  }
+                  label={<FormLabel labelId="pages.pageForm.useExtDescSearch" />}
                   labelSize={3}
                   disabled={readOnly}
                 />
@@ -431,7 +376,7 @@ export class PageFormBody extends Component {
           </Fragment>
         )}
 
-        {!readOnly && !stayOnSave && (
+        {(!readOnly && !stayOnSave) && (
           <Row>
             <Col xs={12}>
               <div className="btn-toolbar pull-right">
@@ -447,6 +392,7 @@ export class PageFormBody extends Component {
                     ))}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
+
                 </Button>
                 <Button
                   className="PageForm__save-btn"
@@ -458,6 +404,7 @@ export class PageFormBody extends Component {
                     onSaveClick(values, ACTION_SAVE))}
                 >
                   <FormattedMessage id="app.save" />
+
                 </Button>
               </div>
             </Col>

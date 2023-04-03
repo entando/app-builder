@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import { Tabs, Tab, Col, ControlLabel } from 'patternfly-react';
 import { Field, FieldArray, FormSection } from 'redux-form';
 import { required, maxLength } from '@entando/utils';
-import { friendlyCodeWithDash } from 'helpers/attrValidation';
 import { FormattedMessage } from 'react-intl';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
+import { friendlyCodeWithDash } from 'helpers/attrValidation';
 
 const maxLength70 = maxLength(70);
 const maxLength100 = maxLength(100);
+
+// const friendlyCodeValidation = value => (value && !/^[0-9a-z_]+$/g.test(value) ?
+//   <FormattedMessage id="validateForm.friendlyCode" /> : undefined);
 
 const uniqueFriendlyCodeValidation = (value, allValues) => {
   const friendlyCodes = Object.values((allValues.seoData || {}).seoDataByLang || {})

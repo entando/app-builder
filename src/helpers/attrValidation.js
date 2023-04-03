@@ -116,17 +116,17 @@ export const compositeOneOfExists = memoize(defaultLangCode => compositeFieldVal
   compositeFieldValues && compositeFieldValues.some(fieldValue => (
     (
       !isNull(fieldValue.value)
-            && (
-              isBoolean(fieldValue.value)
-                || fieldValue.value
-            )
+      && (
+        isBoolean(fieldValue.value)
+        || fieldValue.value
+      )
     ) || (
       fieldValue.values && fieldValue.values[defaultLangCode]
-            && !isNull(fieldValue.values[defaultLangCode])
-            && (
-              isBoolean(fieldValue.values[defaultLangCode])
-                || fieldValue.values[defaultLangCode]
-            )
+        && !isNull(fieldValue.values[defaultLangCode])
+        && (
+          isBoolean(fieldValue.values[defaultLangCode])
+          || fieldValue.values[defaultLangCode]
+        )
     )
   )) ? undefined : <FormattedMessage id="validateForm.required" />
 ));
@@ -176,8 +176,8 @@ export const getAttrValidators = (validationRules) => {
   Object.keys(validationRules).forEach((key) => {
     if (
       validationRules[key] !== null
-            && validationRules[key] !== false
-            && attrValidatorsObj[key]
+      && validationRules[key] !== false
+      && attrValidatorsObj[key]
     ) {
       validators.push(attrValidatorsObj[key](validationRules[key]));
     }
@@ -189,11 +189,11 @@ export const getAttrValidators = (validationRules) => {
 export const linkValidate = memoize((langCode, required = false) => input => (
   (!required && (
     !input || (!input.value || (!input.value.symbolicDestination
-            || input.value.symbolicDestination === EMPTY_SYMBOLIC_DEST
-            || input.values[langCode]
+      || input.value.symbolicDestination === EMPTY_SYMBOLIC_DEST
+      || input.values[langCode]
     )))) || (
     required && input && input.value && input.value.symbolicDestination
-            && input.values[langCode] && input.value.symbolicDestination !== EMPTY_SYMBOLIC_DEST
+    && input.values[langCode] && input.value.symbolicDestination !== EMPTY_SYMBOLIC_DEST
   )
     ? undefined
     : (<FormattedMessage id="validateForm.required" />)
@@ -220,6 +220,7 @@ export const codeWithDash = value =>
   (value && /^[0-9a-zA-Z_.-]+$/i.test(value) ? undefined : (
     <FormattedMessage id="validateForm.codeWithDash" />
   ));
+
 export const friendlyCodeWithDash = value =>
   (value && /^[0-9a-zA-Z_.-]+$/i.test(value) ? undefined : (
     <FormattedMessage id="validateForm.friendlyCodeWithDash" />
