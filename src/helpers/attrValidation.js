@@ -221,7 +221,5 @@ export const codeWithDash = value =>
     <FormattedMessage id="validateForm.codeWithDash" />
   ));
 
-export const friendlyCodeWithDash = value =>
-  (value && /^[0-9a-zA-Z_.-]+$/i.test(value) ? undefined : (
-    <FormattedMessage id="validateForm.friendlyCodeWithDash" />
-  ));
+export const friendlyCodeWithDash = value => (value && !/^[0-9a-zA-Z_.-]+$/i.test(value) ?
+  <FormattedMessage id="validateForm.friendlyCodeWithDash" /> : undefined);
