@@ -142,6 +142,15 @@ export const fetchBundlesFromRegistry = (registryId, page = { page: 1, pageSize:
   })
 );
 
+export const fetchBundlesFromRegistryWithFilters = (registryId, page) => (dispatch, getState) => {
+  const state = getState();
+  const filters = getBundleFilters(state);
+  const params = Object.keys(filters)
+    .map(k => (filters[k] ? `${k}=${filters[k]}` : ''))
+    .join('&');
+  return dispatch(fetchBundlesFromRegistry(registryId, page, params));
+};
+
 export const fetchRegistries = (params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_REGISTRIES_LOADING_STATE));
@@ -184,38 +193,6 @@ export const fetchBundleGroups = (registryId, page = { page: 1, pageSize: 0 }, p
       });
     }).finally(() => {
     });
-  })
-);
-
-export const fetchBundlesFromRegistryWithFilters = (registryId, page) => (dispatch, getState) => (
-  new Promise((resolve) => {
-    const state = getState();
-    const filters = getBundleFilters(state);
-    const params = Object.keys(filters).map(k => (filters[k] ? `${k}=${filters[k]}` : '')).join('&');
-    const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
-
-    dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundlesFromRegistry(registryId, page, currentParams).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
-          dispatch(setFetchedBundlesFromRegistry(data.payload));
-          dispatch(setPage(data.metadata));
-        } else if (data.errors) {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err =>
-            dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
-        } else {
-          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-        }
-        resolve();
-      });
-    }).catch(() => {
-      dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-    })
-      .finally(() => {
-        dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-      });
   })
 );
 

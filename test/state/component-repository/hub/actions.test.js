@@ -223,11 +223,12 @@ describe('state/component-repository/component-repositories/actions', () => {
       store.dispatch(fetchBundlesFromRegistry(registryId)).then(() => {
         expect(getBundlesFromRegistry).toHaveBeenCalledWith(registryId, { page: 1, pageSize: 10 }, `?${BUNDLE_DESCRIPTOR_QUERY}`);
         const actions = store.getActions();
-        expect(actions).toHaveLength(3);
+        expect(actions).toHaveLength(4);
         expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
         expect(actions[2]).toHaveProperty('payload.bundles', LIST_BUNDLES_FROM_REGISTRY_OK);
         expect(actions[2]).toHaveProperty('type', SET_FETCHED_BUNDLES);
+        expect(actions[3]).toHaveProperty('type', SET_PAGE);
         done();
       }).catch(done.fail);
     });
