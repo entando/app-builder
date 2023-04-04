@@ -34,12 +34,12 @@ describe('api/component-repository/hub', () => {
     });
 
     it('makes the correct request', () => {
-      const url = 'http://test.com';
-      getBundlesFromRegistry(url);
+      const registryId = 123;
+      getBundlesFromRegistry(registryId);
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          uri: '/bundles/',
-          domain: url,
+          uri: `/hub/bundles/${registryId}/`,
+          domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
           useAuthentication: false,
@@ -96,12 +96,12 @@ describe('api/component-repository/hub', () => {
     });
 
     it('makes the correct request', () => {
-      const url = 'http://test.com';
-      getBundleGroups(url);
+      const registryId = 123;
+      getBundleGroups(registryId);
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          uri: '/bundlegroups/?statuses=PUBLISHED&',
-          domain: url,
+          uri: `/hub/bundlegroups/${registryId}/?statuses=PUBLISHED&`,
+          domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLE_GROUPS_OK,
           useAuthentication: false,

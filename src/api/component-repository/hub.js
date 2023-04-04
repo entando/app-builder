@@ -11,7 +11,7 @@ export const NO_PAGE = { page: 1, pageSize: 0 };
 export const getBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/hub/bundles/${params ? `${params}&registryId=${registryId}` : `?registryId=${registryId}`}`,
+      uri: `/hub/bundles/${registryId}/${params}`,
       domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
@@ -37,7 +37,7 @@ export const getRegistries = (params = '') => (
 export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
-      uri: `/hub/bundlegroups/?statuses=PUBLISHED&registryId=${registryId}&${params}`,
+      uri: `/hub/bundlegroups/${registryId}/?statuses=PUBLISHED&${params}`,
       domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
