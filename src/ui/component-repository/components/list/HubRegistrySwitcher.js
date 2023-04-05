@@ -85,7 +85,10 @@ const HubRegistrySwitcher = () => {
                         onKeyDown={() => handleDeleteRegistry(reg)}
                         className="HubRegistrySwitcher__action-label"
                       >
-                        {reg.apiKeyPresent && <span className="HubRegistrySwitcher__key-icon pficon pficon-key fa-lg" />}
+                        <span
+                          style={{ visibility: reg.apiKeyPresent ? 'visible' : 'hidden' }}
+                          className="HubRegistrySwitcher__key-icon pficon pficon-key fa-lg"
+                        />
                         {reg.name}
                       </div>
                       {
