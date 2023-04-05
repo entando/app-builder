@@ -41,8 +41,18 @@
     text-align: right;
   }
 
+  &__key-icon {
+    margin-right: 12px;
+    color: transparent;
+    font-size: 14px;
+    // sass-lint:disable no-vendor-prefixes
+    -webkit-text-stroke: #363636;
+    -webkit-text-stroke-width: thick;
+    // sass-lint:enable
+  }
+
   &__edit {
-    margin-right: 5px;
+    margin-right: 12px;
   }
 
   &__trash {
