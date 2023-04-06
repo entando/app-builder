@@ -996,7 +996,7 @@ export default {
     'emailConfig.senderMgmt.editWithCode': 'Modifica mittente: {code}',
     'emailConfig.saveSuccessful': 'Configurazione e-mail salvata con successo.',
     'emailConfig.valid': 'La configurazione dell\'email è valida.',
-    'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, il carattere speciale underscore e \'-\'.',
+    'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciali \'_\' e \'-\'.',
     'validateForm.friendlyCode': 'Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali \'_\' e \'-\'.',
     'validateForm.friendlyCodeWithDash': 'Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali \'_\' e \'-\'.',
     'validateForm.friendlyCodeUnique': 'Il Friendly Code deve essere univoco per tutte le lingue.',
