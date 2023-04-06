@@ -490,7 +490,7 @@ export default {
     'pages.pageForm.ownerGroup': 'Owner group',
     'pages.pageForm.ownerGroupHelp': 'You must set the owner group to define what kind of people (edited in Settings) are able to see this page.',
     'pages.pageForm.joinGroup': 'Join group',
-    'pages.pageForm.codeHelp': 'Insert page code',
+    'pages.pageForm.codeHelp': 'Insert the page code. You can only use alphanumeric characters, and the \'_\' and \'-\' special characters.',
     'pages.pageForm.pagePlacement': 'Select page placement',
     'pages.pageForm.pageTemplate': 'Page Template',
     'pages.pageForm.pageTemplateHelp': 'Select a page template',

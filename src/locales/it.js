@@ -490,7 +490,7 @@ export default {
     'pages.pageForm.ownerGroup': 'Gruppo Proprietario',
     'pages.pageForm.ownerGroupHelp': 'É necessario impostare il Gruppo Proprietario per definire le persone che hanno il permesso di vedere questa pagina. I Gruppi si creano e gestiscono nell\'area Settings di Entando.',
     'pages.pageForm.joinGroup': 'Associa Gruppo',
-    'pages.pageForm.codeHelp': 'Inserisci il page code',
+    'pages.pageForm.codeHelp': 'Inserisci il codice di pagina. Puoi inserire solo caratteri alfanumerici, e i caratteri speciali \'_\' e \'-\'.',
     'pages.pageForm.pagePlacement': 'Posizione della pagina',
     'pages.pageForm.pageTemplate': 'Template di Pagina',
     'pages.pageForm.pageTemplateHelp': 'Seleziona un template di pagina da utilizzare',
