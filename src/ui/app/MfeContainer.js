@@ -9,12 +9,14 @@ import { getLoggedUserPermissions } from 'state/permissions/selectors';
 import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const { assetLoading, mfe } = useMfe({ mfeId: id });
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
   const systemReport = useSelector(getSystemReport);
+  const userPreferences = useSelector(getUserPreferences) || {};
 
   const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
@@ -28,6 +30,7 @@ const MfeContainer = ({ id, history }) => {
       lang: locale,
       adminConsoleUrl: getDomain(),
       systemReport,
+      disableContentMenu: userPreferences.disableContentMenu,
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
@@ -40,7 +43,7 @@ const MfeContainer = ({ id, history }) => {
 
     window.entando = entandoWindow;
   }, [history, locale, mfe.assetsBasePath, mfe.widgetName,
-    permissions, systemReport, mfeResourceBasePath]);
+    permissions, systemReport, mfeResourceBasePath, userPreferences.disableContentMenu]);
 
   const params = {
     config: {

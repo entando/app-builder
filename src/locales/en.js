@@ -909,6 +909,7 @@ export default {
     'widget.page.clone.pageTitle': 'Clone widget',
     'app.saveAndReplace': 'Save and Replace',
     'user.myProfile.appSettingsSection': 'Preferences',
+    'user.myProfile.disableContentMenu': 'Disable Content Menu',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
     'user.myProfile.wizardToggleHelp': 'Enable or disable Welcome Wizard that guides you through the "Create first application" process',
     'user.myProfile.translationWarning': 'Missing Translation Warning',
