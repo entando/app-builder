@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
@@ -14,7 +13,10 @@ import {
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_FRAGMENT_EDIT, ROUTE_FRAGMENT_LIST } from 'app-init/router';
-import { SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS, REMOVE_FRAGMENT, SET_FILTERS } from 'state/fragments/types';
+import {
+  SET_SELECTED, SET_PLUGINS, SET_FRAGMENTS,
+  REMOVE_FRAGMENT, SET_FILTERS, SET_FRAGMENT_SETTINGS,
+} from 'state/fragments/types';
 import { CONTINUE_SAVE_TYPE, FORM_MODE_CLONE, FORM_MODE_EDIT } from 'state/fragments/const';
 
 export const setSelectedFragment = fragment => ({
@@ -57,6 +59,11 @@ export const removeFragment = fragmentCode => ({
   payload: {
     fragmentCode,
   },
+});
+
+export const setFragmentSettings = settings => ({
+  type: SET_FRAGMENT_SETTINGS,
+  payload: settings,
 });
 
 // thunks
@@ -147,7 +154,7 @@ export const fetchFragmentSettings = () => dispatch =>
     getFragmentSettings().then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('fragmentSettings', json.payload));
+          dispatch(setFragmentSettings(json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -162,7 +169,7 @@ export const updateFragmentSettings = settings => dispatch =>
     putFragmentSettings(settings).then((response) => {
       response.json().then((json) => {
         if (response.ok) {
-          dispatch(initialize('fragmentSettings', json.payload));
+          dispatch(setFragmentSettings(json.payload));
           dispatch(addToast(
             { id: 'fragment.settings.alert.success' },
             TOAST_SUCCESS,
