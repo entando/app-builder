@@ -34,9 +34,6 @@ export class AppSettingsFormBody extends Component {
   render() {
     const {
       selectGroups,
-      // defaultPageJoinGroups,
-      // defaultContentJoinGroups,
-      // values,
     } = this.props;
 
     return (
@@ -177,15 +174,12 @@ export class AppSettingsFormBody extends Component {
 
 AppSettingsFormBody.propTypes = {
   onDidMount: PropTypes.func.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   selectGroups: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,
   })).isRequired,
-  // defaultPageJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // defaultContentJoinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default withFormik({
