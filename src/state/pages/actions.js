@@ -20,7 +20,7 @@ import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT, SET_VIEWPAGES,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
-  SET_DASHBOARD_PAGES,
+  SET_DASHBOARD_PAGES, SET_EDIT_PAGE,
 } from 'state/pages/types';
 import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
@@ -166,6 +166,13 @@ export const setDashboardPages = pages => ({
     pages,
   },
 });
+
+export const setEditPage = page => (
+  {
+    type: SET_EDIT_PAGE,
+    payload: page,
+  }
+);
 
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
@@ -319,7 +326,7 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
 export const movePageAbove = (pageCode, siblingCode) => movePage(pageCode, siblingCode, true);
 export const movePageBelow = (pageCode, siblingCode) => movePage(pageCode, siblingCode, false);
 
-export const sendPostPage = pageData => dispatch => new Promise(async (resolve) => {
+export const sendPostPage = pageData => dispatch => new Promise(async (resolve, reject) => {
   try {
     const { seoData, seo } = pageData;
     const seoPayload = seoData ? {
@@ -340,11 +347,11 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
       resolve(response);
     } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
       dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
-      resolve();
+      reject();
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-      resolve();
+      reject();
     }
   } catch (e) {
     const { details, defaultMessage } = e;
@@ -352,46 +359,47 @@ export const sendPostPage = pageData => dispatch => new Promise(async (resolve) 
     const combinedErrors = [defaultMessage, detailMessage].join(' - ');
     dispatch(addErrors([combinedErrors]));
     dispatch(addToast(combinedErrors, TOAST_ERROR));
-    resolve();
+    reject();
   }
 });
 
-export const sendClonePage = (pageCode, pageData) => dispatch => new Promise(async (resolve) => {
-  try {
-    const { titles, parentCode, code } = pageData;
+export const sendClonePage = (pageCode, pageData) => dispatch =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const { titles, parentCode, code } = pageData;
 
-    const requestBody = {
-      newPageCode: code,
-      parentCode,
-      titles,
-    };
+      const requestBody = {
+        newPageCode: code,
+        parentCode,
+        titles,
+      };
 
-    const response = await postClonePage(pageCode, requestBody);
+      const response = await postClonePage(pageCode, requestBody);
 
-    const json = await response.json();
-    if (response.ok) {
-      dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
-      dispatch(addPages([json.payload]));
-      resolve(response);
-    } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
-      dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
-      resolve();
-    } else {
-      dispatch(addErrors(json.errors.map(e => e.message)));
-      json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-      resolve();
+      const json = await response.json();
+      if (response.ok) {
+        dispatch(addToast({ id: 'pages.created' }, TOAST_SUCCESS));
+        dispatch(addPages([json.payload]));
+        resolve(response);
+      } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
+        dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+        reject();
+      } else {
+        dispatch(addErrors(json.errors.map(e => e.message)));
+        json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+        reject();
+      }
+    } catch (e) {
+      const { details, defaultMessage } = e;
+      if (details && defaultMessage) {
+        const detailMessage = details.map(er => er.message).join('; ');
+        const combinedErrors = [defaultMessage, detailMessage].join(' - ');
+        dispatch(addErrors([combinedErrors]));
+        dispatch(addToast(combinedErrors, TOAST_ERROR));
+      }
+      reject();
     }
-  } catch (e) {
-    const { details, defaultMessage } = e;
-    if (details && defaultMessage) {
-      const detailMessage = details.map(er => er.message).join('; ');
-      const combinedErrors = [defaultMessage, detailMessage].join(' - ');
-      dispatch(addErrors([combinedErrors]));
-      dispatch(addToast(combinedErrors, TOAST_ERROR));
-    }
-    resolve();
-  }
-});
+  });
 
 export const fetchFreePages = () => async (dispatch) => {
   try {
@@ -480,7 +488,6 @@ export const sendPutPage = pageData => dispatch =>
       if (response.ok) {
         dispatch(addToast({ id: 'pages.updated' }, TOAST_SUCCESS));
         dispatch(updatePage(json.payload));
-        dispatch(initialize('pageEdit', json.payload));
         resolve();
       } else {
         dispatch(addErrors(json.errors.map(e => e.message)));
@@ -535,7 +542,7 @@ export const fetchPageForm = pageCode => (dispatch, getState) => fetchPageInfo(p
       ...response.payload,
       titles,
     };
-    dispatch(initialize('pageEdit', formValues));
+    dispatch(setEditPage(formValues));
   })
   .catch(() => {});
 

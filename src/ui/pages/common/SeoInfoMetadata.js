@@ -1,89 +1,123 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Button, Icon, ControlLabel } from 'patternfly-react';
-import { Field, fieldArrayFieldsPropTypes } from 'redux-form';
+import { Field, useFormikContext } from 'formik';
 
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
+import SwitchRenderer from 'ui/common/formik-field/SwitchInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SeoMetadataForm from 'ui/pages/common/SeoMetadataForm';
 import { METATAG_TYPE_OPTIONS } from 'ui/pages/common/const';
 
 const SeoInfoMetadata = ({
-  fields,
+  value,
   langIdx,
-  onPushMetadata,
-  onRemoveMetadata,
   readOnly,
+  lang,
+  languages,
 }) => {
-  const fieldTables = fields.map((name, idx) => {
-    const metas = fields.get(idx);
-    return (
-      <div key={name} className="form-group SeoInfo__metadata--itemgroup">
-        <Col sm={2}>
-          <div className="text-right SeoInfo__metadata--itemgroup">
-            <ControlLabel htmlFor={`${name}.type`}>
-              <span>{metas.key}</span>
-            </ControlLabel>
-          </div>
-        </Col>
-        <Col sm={langIdx ? 3 : 4}>
+  const formik = useFormikContext();
+  const onPushMetadata = (metadata) => {
+    const { metakey, metatype, metavalue } = metadata;
+    const newMetadata = {
+      key: metakey,
+      type: metatype,
+      value: metavalue,
+      useDefaultLang: false,
+    };
+    languages.forEach((language) => {
+      formik.setFieldValue(`seoData.seoDataByLang.${language.code}.metaTags`, [
+        ...value,
+        newMetadata,
+      ]);
+    });
+  };
+
+  const onRemoveMetadata = (idx) => {
+    languages.forEach((language) => {
+      formik.setFieldValue(`seoData.seoDataByLang.${language.code}.metaTags`, [
+        ...value.slice(0, idx),
+        ...value.slice(idx + 1),
+      ]);
+    });
+  };
+
+
+  const fieldTables = value.map((metas, idx) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <div key={`${metas.key}-${idx}`} className="form-group SeoInfo__metadata--itemgroup">
+      <Col sm={2}>
+        <div className="text-right SeoInfo__metadata--itemgroup">
+          <ControlLabel htmlFor={`seoData.seoDataByLang.${lang.code}.metaTags.${idx}.type`}>
+            <span>{metas.key}</span>
+          </ControlLabel>
+        </div>
+      </Col>
+      <Col sm={langIdx ? 3 : 4}>
+        <Field
+          component={RenderSelectInput}
+          options={METATAG_TYPE_OPTIONS}
+          name={`seoData.seoDataByLang.${lang.code}.metaTags.${idx}.type`}
+          labelSize={0}
+          inputSize={12}
+          disabled={metas.useDefaultLang || readOnly}
+          hasLabel={false}
+        />
+      </Col>
+      <Col sm={langIdx ? 3 : 4}>
+        <Field
+          component={RenderTextInput}
+          name={`seoData.seoDataByLang.${lang.code}.metaTags.${idx}.value`}
+          labelSize={0}
+          inputSize={12}
+          disabled={metas.useDefaultLang || readOnly}
+        />
+      </Col>
+      <Col sm={langIdx ? 3 : 1} className="text-right">
+        {langIdx > 0 ? (
           <Field
-            component={RenderSelectInput}
-            options={METATAG_TYPE_OPTIONS}
-            name={`${name}.type`}
-            labelSize={0}
-            inputSize={12}
-            disabled={metas.useDefaultLang || readOnly}
-            hasLabel={false}
+            component={SwitchRenderer}
+            name={`seoData.seoDataByLang.${lang.code}.metaTags.${idx}.useDefaultLang`}
+            label={<FormLabel labelId="app.seo.inheritLangLabel" />}
+            labelSize={7}
+            disabled={readOnly}
           />
-        </Col>
-        <Col sm={langIdx ? 3 : 4}>
-          <Field
-            component={RenderTextInput}
-            name={`${name}.value`}
-            labelSize={0}
-            inputSize={12}
-            disabled={metas.useDefaultLang || readOnly}
-          />
-        </Col>
-        <Col sm={langIdx ? 3 : 1} className="text-right">
-          {langIdx > 0 ? (
-            <Field
-              component={SwitchRenderer}
-              name={`${name}.useDefaultLang`}
-              label={<FormLabel labelId="app.seo.inheritLangLabel" />}
-              labelSize={7}
-              disabled={readOnly}
-            />
-          ) : (
-            <Button bsStyle="danger" onClick={() => onRemoveMetadata(idx)} disabled={readOnly}>
-              <Icon name="trash" />
-            </Button>
-          )}
-        </Col>
-      </div>
-    );
-  });
+      ) : (
+        <Button bsStyle="danger" onClick={() => onRemoveMetadata(idx)} disabled={readOnly}>
+          <Icon name="trash" />
+        </Button>
+      )}
+      </Col>
+    </div>
+  ));
 
   return (
     <Fragment>
       {fieldTables}
-      {langIdx === 0 && <SeoMetadataForm onSubmit={onPushMetadata} readOnly={readOnly} />}
+      {langIdx === 0 ? <SeoMetadataForm
+        key={value ? value.length : 0}
+        onSubmit={onPushMetadata}
+        readOnly={readOnly}
+      /> : null}
     </Fragment>
   );
 };
 
 SeoInfoMetadata.propTypes = {
-  fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired,
+  value: PropTypes.arrayOf(PropTypes.shape({})),
   langIdx: PropTypes.number.isRequired,
-  onPushMetadata: PropTypes.func.isRequired,
-  onRemoveMetadata: PropTypes.func.isRequired,
   readOnly: PropTypes.bool,
+  lang: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }).isRequired,
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 SeoInfoMetadata.defaultProps = {
+  value: [],
   readOnly: false,
 };
 

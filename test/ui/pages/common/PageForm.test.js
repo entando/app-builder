@@ -16,11 +16,6 @@ const PAGE_TEMPLATES = GET_LIST_RESPONSE.payload;
 const CONTENT_TYPES = getContentTypes();
 const CHARSETS = getCharsets();
 const ON_WILL_MOUNT = jest.fn();
-const ON_CHANGE_EN_TITLE = jest.fn();
-
-const CHANGE_EVENT = {
-  currentTarget: { value: 'test' },
-};
 
 describe('PageForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -69,11 +64,6 @@ describe('PageForm', () => {
         expect(option.text()).toBe(CONTENT_TYPES[i]);
       });
     });
-
-    it('when changing the en title, it calls nothing', () => {
-      component.find('Field[name="titles.en"]').prop('onChange')(CHANGE_EVENT);
-      expect(ON_CHANGE_EN_TITLE).not.toHaveBeenCalled();
-    });
   });
 
   describe('with onWillMount callback', () => {
@@ -96,37 +86,6 @@ describe('PageForm', () => {
 
     it('calls onWillMount', () => {
       expect(ON_WILL_MOUNT).toHaveBeenCalled();
-    });
-  });
-
-  describe('with onChangeDefaultTitle callback', () => {
-    let component;
-    beforeEach(() => {
-      component = shallow((
-        <PageFormBody
-          onSubmit={ON_SUBMIT}
-          handleSubmit={HANDLE_SUBMIT}
-          languages={LANGUAGES}
-          groups={GROUPS}
-          allGroups={GROUPS}
-          pageTemplates={PAGE_TEMPLATES}
-          contentTypes={CONTENT_TYPES}
-          charsets={CHARSETS}
-          selectedJoinGroups={[]}
-          onChangeDefaultTitle={ON_CHANGE_EN_TITLE}
-          intl={mockIntl}
-        />
-      ));
-    });
-
-    it('when changing a default language title, it calls onChangeDefaultTitle', () => {
-      component.find('Field[name="titles.en"]').prop('onChange')(CHANGE_EVENT);
-      expect(ON_CHANGE_EN_TITLE).toHaveBeenCalledWith(CHANGE_EVENT.currentTarget.value);
-    });
-
-    it('when changing a not default language title, it calls nothing', () => {
-      component.find('Field[name="titles.it"]').prop('onChange')(CHANGE_EVENT);
-      expect(ON_CHANGE_EN_TITLE).not.toHaveBeenCalled();
     });
   });
 
@@ -170,7 +129,6 @@ describe('PageForm', () => {
           pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
-          selectedJoinGroups={[]}
           submitting
           intl={mockIntl}
         />
@@ -197,10 +155,38 @@ describe('PageForm', () => {
           pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
-          selectedJoinGroups={[]}
-          invalid={false}
+          isValid
           intl={mockIntl}
-          titles={{ en: 'title' }}
+          titles={{ en: 'title', it: 'titulo' }}
+          initialValues={{
+            values:
+              {
+                code: 'code',
+                parentCode: 'parentCode',
+                titles: {
+                            en: 'title',
+                            it: 'titolo',
+                          },
+                ownerGroup: 'ownerGroup',
+                pageModel: 'pageModel',
+                charset: 'charset',
+                contentType: 'contentType',
+              },
+              mode: 'add',
+            }
+          }
+          values={{
+            code: 'code',
+            parentCode: 'parentCode',
+            titles: {
+                        en: 'title',
+                        it: 'titolo',
+                      },
+            ownerGroup: 'ownerGroup',
+            pageModel: 'pageModel',
+            charset: 'charset',
+            contentType: 'contentType',
+          }}
         />
       ));
     });
@@ -225,8 +211,7 @@ describe('PageForm', () => {
           pageTemplates={PAGE_TEMPLATES}
           contentTypes={CONTENT_TYPES}
           charsets={CHARSETS}
-          selectedJoinGroups={[]}
-          invalid={false}
+          isValid
           intl={mockIntl}
           mode="edit"
         />

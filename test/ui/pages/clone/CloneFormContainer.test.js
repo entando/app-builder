@@ -3,10 +3,6 @@ import { mapStateToProps, mapDispatchToProps } from 'ui/pages/clone/CloneFormCon
 
 import { history, ROUTE_PAGE_TREE } from 'app-init/router';
 // mocked
-import { formValueSelector, change } from 'redux-form';
-import { getGroupsList } from 'state/groups/selectors';
-import { getPageTemplatesList } from 'state/page-templates/selectors';
-import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { DASHBOARD_PAYLOAD } from 'test/mocks/pages';
 import { sendClonePage } from 'state/pages/actions';
 import { ACTION_SAVE } from 'state/pages/const';
@@ -56,30 +52,6 @@ describe('CloneFormContainer', () => {
       expect(props).toHaveProperty('languages', LANGUAGES);
     });
 
-    it('maps the "groups" prop with the getGroupsList selector', () => {
-      expect(getGroupsList).toHaveBeenCalledWith(STATE);
-      expect(props.groups).toBe('getGroupsList_result');
-    });
-
-    it('maps the "pageTemplates" prop with the getPageTemplates selector', () => {
-      expect(getPageTemplatesList).toHaveBeenCalledWith(STATE);
-      expect(props.pageTemplates).toBe('getPageTemplates_result');
-    });
-
-    it('maps the "charsets" prop with the getCharsets selector', () => {
-      expect(getCharsets).toHaveBeenCalledWith(STATE);
-      expect(props.charsets).toBe('getCharsets_result');
-    });
-
-    it('maps the "contentTypes" prop with the getContentTypes selector', () => {
-      expect(getContentTypes).toHaveBeenCalledWith(STATE);
-      expect(props.contentTypes).toBe('getContentTypes_result');
-    });
-
-    it('maps the "selectedJoinGroups" prop with the correct values from redux-form', () => {
-      expect(formValueSelector).toHaveBeenCalledWith('page');
-    });
-
     it('maps the "mode" prop with the "clone" value', () => {
       expect(props.mode).toBe('clone');
     });
@@ -103,12 +75,6 @@ describe('CloneFormContainer', () => {
         expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);
-    });
-
-    it('maps the "onChangeDefaultTitle" prop a redux-form change dispatch', () => {
-      expect(props).toHaveProperty('onChangeDefaultTitle');
-      props.onChangeDefaultTitle('En Title');
-      expect(change).toHaveBeenCalledWith('page', 'code', 'en_title');
     });
 
 

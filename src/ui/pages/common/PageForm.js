@@ -1,27 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { withFormik, Form, Field } from 'formik';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isUndefined } from 'lodash';
+import * as Yup from 'yup';
 
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
+import RenderDropdownTypeaheadInput from 'ui/common/formik-field/RenderDropdownTypeaheadInput';
 import PageTreeSelectorContainer from 'ui/pages/common/PageTreeSelectorContainer';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import SwitchRenderer from 'ui/common/formik-field/SwitchInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
-
-const maxLength30 = maxLength(30);
-const maxLength70 = maxLength(70);
+import { validateCodeField } from 'helpers/formikValidations';
 
 
 const msgs = defineMessages({
@@ -47,14 +45,15 @@ export class PageFormBody extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { myGroups: prevMyGroups, pageOwnerGroup: prevPageOwnerGroup } = prevProps;
+    const { myGroups: prevMyGroups, values: prevValues } = prevProps;
     const {
-      enableGroupAccessControl, myGroups, redirectToForbidden, pageOwnerGroup,
+      enableGroupAccessControl, myGroups, redirectToForbidden, values,
     } = this.props;
 
     if (enableGroupAccessControl) {
-      if (myGroups != null && pageOwnerGroup && (prevMyGroups == null || !prevPageOwnerGroup)) {
-        const redirectDueToLackOfGroupAccess = !myGroups.includes(pageOwnerGroup);
+      if (myGroups != null && (values || {}).ownerGroup &&
+      (prevMyGroups == null || !(prevValues || {}).ownerGroup)) {
+        const redirectDueToLackOfGroupAccess = !myGroups.includes((values || {}).ownerGroup);
         if (redirectDueToLackOfGroupAccess) {
           redirectToForbidden();
         }
@@ -64,17 +63,20 @@ export class PageFormBody extends Component {
 
   render() {
     const {
-      intl, handleSubmit, invalid, submitting, groups, allGroups, pageTemplates,
-      contentTypes, charsets, mode, onChangeDefaultTitle, parentCode, parentTitle, languages,
+      intl, isValid, isSubmitting, groups, allGroups, pageTemplates,
+      contentTypes, charsets, mode, parentCode, parentTitle, languages,
       pageCode, seoMode, onFindTemplateClick, appTourProgress, onChangePageTemplate,
-      onChangeOwnerGroup, readOnly, stayOnSave, form, titles,
+      onChangeOwnerGroup, readOnly, stayOnSave, values: formikValues,
+      setFieldValue, handleSubmit, innerRef,
     } = this.props;
+    const { titles } = formikValues || {};
     let { pages } = this.props;
     if (pages && pages.length > 0) {
       pages = pages.filter(p => p.code !== pageCode);
     }
     const isEditMode = mode === 'edit';
     const isCloneMode = mode === 'clone';
+    const isAddMode = mode === 'add';
 
     const defaultLang = languages.find(lang => lang.isDefault) || { code: '' };
     const isDefaultTitleEmpty = !titles || !titles[defaultLang.code] ||
@@ -94,10 +96,19 @@ export class PageFormBody extends Component {
             name="parentCode"
             pages={pages}
             onPageSelect={pageTemplateDisabled ? () => {} : null}
-            validate={[required]}
           />
         </div>
       );
+
+    const validateTitle = (val) => {
+      if (!val || val.length === 0) {
+        return <FormattedMessage id="validateForm.required" />;
+      }
+      if (val.length > 70) {
+        return <FormattedMessage id="validateForm.maxLength" values={{ max: 70 }} />;
+      }
+      return null;
+    };
 
     const renderActiveLanguageTitles = () => {
       if (!isUndefined(languages)) {
@@ -115,10 +126,10 @@ export class PageFormBody extends Component {
                 tourClass="app-tour-step-6"
                 label={<FormLabel langLabelText={lang.code} labelId="app.title" required />}
                 placeholder={intl.formatMessage(msgTitle.langCode)}
-                validate={[required, maxLength70]}
+                validate={validateTitle}
                 onChange={(ev) => {
-                  if (onChangeDefaultTitle && lang.isDefault) {
-                    onChangeDefaultTitle(ev.currentTarget.value);
+                  if (lang.isDefault && (isAddMode || isCloneMode)) {
+                    setFieldValue('code', ev.currentTarget.value && ev.currentTarget.value.replace(/\W/g, '_').toLowerCase());
                   }
                 }}
                 disabled={readOnly}
@@ -156,7 +167,6 @@ export class PageFormBody extends Component {
                 onChange={optionSelected => (
                   onChangeOwnerGroup(optionSelected.code, appTourProgress)
                 )}
-                validate={[required]}
               />
               <Field
                 component={RenderDropdownTypeaheadInput}
@@ -185,7 +195,6 @@ export class PageFormBody extends Component {
                     name="pageModel"
                     className="form-control"
                     tourClass="app-tour-step-10"
-                    validate={[required]}
                     label={
                       <FormLabel
                         labelId="pages.pageForm.pageTemplate"
@@ -253,7 +262,6 @@ export class PageFormBody extends Component {
                     name="charset"
                     className="PageForm__charsets-select form-control"
                     size="3"
-                    validate={[required]}
                     disabled={readOnly}
                   >
                     {charsets.map(type => (
@@ -279,7 +287,6 @@ export class PageFormBody extends Component {
                     name="contentType"
                     className="PageForm__content-types-select form-control"
                     size="5"
-                    validate={[required]}
                     disabled={readOnly}
                   >
                     {contentTypes.map(type => (
@@ -300,16 +307,13 @@ export class PageFormBody extends Component {
       );
     };
 
-    const onSaveClick = (values, action) => {
-      const data = {
-        ...values,
-        titles: complementTitlesForActiveLanguages(values.titles, languages),
-      };
-      return this.props.onSubmit(data, action);
+    const onSaveClick = (action) => {
+      setFieldValue('saveAction', action);
+      handleSubmit();
     };
 
     return (
-      <form className="PageForm form-horizontal">
+      <Form ref={innerRef} className="PageForm form-horizontal">
         <Row>
           <Col xs={12}>
             <FormSectionTitle titleId="pages.pageForm.info" />
@@ -320,10 +324,10 @@ export class PageFormBody extends Component {
 
             {seoMode ? (
               <SeoInfo
-                formId={form}
                 languages={languages}
-                onChangeDefaultTitle={onChangeDefaultTitle}
                 readOnly={readOnly}
+                isAddMode={isAddMode}
+                isCloneMode={isCloneMode}
               />
             ) : (
               renderActiveLanguageTitles()
@@ -336,7 +340,6 @@ export class PageFormBody extends Component {
               tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
-              validate={[required, code, maxLength30]}
               disabled={isEditMode}
             />
 
@@ -375,32 +378,27 @@ export class PageFormBody extends Component {
           </Fragment>
         )}
 
-        {(!readOnly && !stayOnSave) && (
+        {(!readOnly && !stayOnSave) ? (
           <Row>
             <Col xs={12}>
               <div className="btn-toolbar pull-right">
                 <Button
                   className="PageForm__save-and-configure-btn app-tour-step-11"
-                  type="submit"
                   bsStyle="success"
-                  disabled={invalid || submitting || isDefaultTitleEmpty}
-                  onClick={handleSubmit(values =>
-                    onSaveClick(
-                      { ...values, appTourProgress },
-                      ACTION_SAVE_AND_CONFIGURE,
-                    ))}
+                  disabled={!isValid || isSubmitting || isDefaultTitleEmpty}
+                  onClick={() =>
+                    onSaveClick(ACTION_SAVE_AND_CONFIGURE)}
                 >
                   <FormattedMessage id="pages.pageForm.saveAndConfigure" />
 
                 </Button>
                 <Button
                   className="PageForm__save-btn"
-                  type="submit"
                   data-testid="save-page"
                   bsStyle="primary"
-                  disabled={invalid || submitting || isDefaultTitleEmpty}
-                  onClick={handleSubmit(values =>
-                    onSaveClick(values, ACTION_SAVE))}
+                  disabled={!isValid || isSubmitting || isDefaultTitleEmpty}
+                  onClick={() =>
+                    onSaveClick(ACTION_SAVE)}
                 >
                   <FormattedMessage id="app.save" />
 
@@ -408,21 +406,19 @@ export class PageFormBody extends Component {
               </div>
             </Col>
           </Row>
-        )}
-      </form>
+        ) : null}
+      </Form>
     );
   }
 }
 
 PageFormBody.propTypes = {
   intl: intlShape.isRequired,
-  form: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
-  charsets: PropTypes.arrayOf(PropTypes.string).isRequired,
-  contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
+  charsets: PropTypes.arrayOf(PropTypes.string),
+  contentTypes: PropTypes.arrayOf(PropTypes.string),
   languages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -431,18 +427,17 @@ PageFormBody.propTypes = {
   groups: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-  })).isRequired,
+  })),
   allGroups: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-  })).isRequired,
+  })),
   pageTemplates: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string.isRequired,
     descr: PropTypes.string.isRequired,
-  })).isRequired,
+  })),
   mode: PropTypes.string,
   onWillMount: PropTypes.func,
-  onChangeDefaultTitle: PropTypes.func,
   onFindTemplateClick: PropTypes.func,
   parentCode: PropTypes.string,
   parentTitle: PropTypes.string,
@@ -457,16 +452,17 @@ PageFormBody.propTypes = {
   enableGroupAccessControl: PropTypes.bool,
   myGroups: PropTypes.arrayOf(PropTypes.string),
   redirectToForbidden: PropTypes.func,
-  pageOwnerGroup: PropTypes.string,
-  titles: PropTypes.shape({}),
+  initialValues: PropTypes.shape({}),
+  values: PropTypes.shape({}),
+  setFieldValue: PropTypes.func.isRequired,
+  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
 };
 
 PageFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: true,
+  isSubmitting: false,
   mode: 'add',
   onWillMount: null,
-  onChangeDefaultTitle: null,
   onFindTemplateClick: null,
   parentCode: null,
   parentTitle: null,
@@ -481,13 +477,72 @@ PageFormBody.defaultProps = {
   enableGroupAccessControl: false,
   myGroups: null,
   redirectToForbidden: () => {},
-  pageOwnerGroup: '',
-  titles: {},
+  initialValues: {},
+  values: {},
+  pageTemplates: [],
+  charsets: [],
+  contentTypes: [],
+  groups: [],
+  allGroups: [],
+  innerRef: null,
 };
 
-const PageForm = reduxForm({
-  form: 'page',
+
+const PageForm = withFormik({
   enableReinitialize: true,
+  mapPropsToValues: ({ initialValues, mode }) => ({ ...initialValues, mode, code: (initialValues && initialValues.code) || '' }),
+  validationSchema: ({ intl }) => (
+    Yup.object().shape({
+      code: Yup.string()
+        .required(<FormattedMessage id="validateForm.required" />)
+        .max(30, <FormattedMessage id="validateForm.maxLength" values={{ max: 30 }} />)
+        .test('validateCodeField', validateCodeField(intl)),
+      parentCode: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      ownerGroup: Yup.string().when('mode', {
+        is: mode => mode === 'add' || mode === 'edit',
+        then: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      }),
+      pageModel: Yup.string().when('mode', {
+        is: mode => mode === 'add' || mode === 'edit',
+        then: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      }),
+      charset: Yup.string().when('mode', {
+        is: mode => mode === 'add' || mode === 'edit',
+        then: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      }),
+      contentType: Yup.string().when('mode', {
+        is: mode => mode === 'add' || mode === 'edit',
+        then: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      }),
+    })),
+  handleSubmit: (
+    values,
+    formikBag,
+  ) => {
+    const {
+      props: {
+        onSubmit, languages, stayOnSave, onSaveSuccess, appTourProgress,
+      },
+      setSubmitting,
+    } = formikBag;
+    setSubmitting(true);
+    const newValues = {
+      ...values,
+      titles: complementTitlesForActiveLanguages(values.titles, languages),
+      saveAction: undefined,
+      mode: undefined,
+      appTourProgress,
+    };
+    onSubmit(newValues, values.saveAction).catch(() => setSubmitting(false)).then(() => {
+      if (stayOnSave) {
+        setSubmitting(false);
+        if (onSaveSuccess) {
+          onSaveSuccess(newValues);
+        }
+      }
+    });
+  },
+  displayName: 'pageForm',
 })(PageFormBody);
 
 export default injectIntl(PageForm);

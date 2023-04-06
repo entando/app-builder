@@ -13,6 +13,11 @@ import { ROUTE_PAGE_TREE } from 'app-init/router';
 
 
 class PagesAddPage extends Component {
+  constructor(props) {
+    super(props);
+    this.addPageFormRef = React.createRef();
+  }
+
   componentWillMount() {
     if (this.props.onWillMount) this.props.onWillMount(this.props);
   }
@@ -48,10 +53,10 @@ class PagesAddPage extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <PagesAddFormContainer />
+              <PagesAddFormContainer innerRef={this.addPageFormRef} />
             </Col>
           </Row>
-          <AppTourContainer />
+          <AppTourContainer innerRef={this.addPageFormRef} />
         </Grid>
       </InternalPage>
     );
