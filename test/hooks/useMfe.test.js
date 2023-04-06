@@ -17,7 +17,12 @@ jest.mock('state/mfe/selectors', () => ({
   getMfeById: jest.fn(),
 }));
 
-useSelector.mockImplementation(callback => callback(mockMfe));
+useSelector.mockImplementation(callback => callback({
+  mockMfe,
+  currentTenant: {
+    currentTenant: {},
+  },
+}));
 getMfeById.mockImplementation(() => mockMfe);
 
 describe('useMfe hook', () => {

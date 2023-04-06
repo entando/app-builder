@@ -6,14 +6,17 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
-import { getDomain, getResourcePath } from 'helpers/resourcePath';
+import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
+import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 
 const MfeContainer = ({ id, history }) => {
   const { assetLoading, mfe } = useMfe({ mfeId: id });
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
   const systemReport = useSelector(getSystemReport);
+
+  const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
   useEffect(() => {
     const entandoWindow = window.entando || {};
@@ -33,10 +36,11 @@ const MfeContainer = ({ id, history }) => {
 
     entandoWindow.epc = entandoWindow.epc || {};
     entandoWindow.epc[mfe.widgetName] =
-      entandoWindow.epc[mfe.widgetName] || { basePath: getResourcePath(mfe.assetsBasePath) };
+      entandoWindow.epc[mfe.widgetName] || { basePath: mfeResourceBasePath };
 
     window.entando = entandoWindow;
-  }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport]);
+  }, [history, locale, mfe.assetsBasePath, mfe.widgetName,
+    permissions, systemReport, mfeResourceBasePath]);
 
   const params = {
     config: {

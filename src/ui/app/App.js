@@ -377,10 +377,15 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { username, fetchPlugins, fetchUserPreferences } = this.props;
+    const {
+      username, fetchPlugins, fetchUserPreferences, fetchCurrentTenantInfo,
+    } = this.props;
     if (username && username !== prevProps.username) {
       fetchPlugins();
       fetchUserPreferences(username);
+      if (!process.env.USE_MFE) {
+        fetchCurrentTenantInfo();
+      }
     }
   }
 
@@ -421,6 +426,7 @@ App.propTypes = {
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
   fetchUserPreferences: PropTypes.func,
+  fetchCurrentTenantInfo: PropTypes.func,
   loggedUserPrefloading: PropTypes.bool,
 };
 
@@ -429,6 +435,7 @@ App.defaultProps = {
   auth: { enabled: false },
   fetchPlugins: () => {},
   fetchUserPreferences: () => {},
+  fetchCurrentTenantInfo: () => {},
   isReady: false,
   loggedUserPrefloading: false,
 };

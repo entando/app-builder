@@ -10,8 +10,8 @@ const widgetConfig = { name: 'John' };
 
 const onSubmit = jest.fn();
 
-jest.mock('helpers/resourcePath', () => ({
-  getResourcePath: res => res,
+jest.mock('hooks/useDynamicResourceUrl', () => ({
+  useDynamicResourceUrl: res => res,
 }));
 
 jest.mock('helpers/microfrontends', () => ({
