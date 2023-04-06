@@ -1,7 +1,11 @@
+/**
+* @jest-environment jest-environment-jsdom-sixteen
+* */
+
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, within } from '@testing-library/react';
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import AppSettingsForm from 'ui/users/my-profile/AppSettingsForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
 
@@ -18,6 +22,8 @@ const props = {
   }],
   defaultPageJoinGroups: ['free'],
   defaultContentJoinGroups: ['admin'],
+  values: {},
+  initialValues: {},
 };
 
 jest.unmock('react-redux');
@@ -34,9 +40,9 @@ describe('AppSettingsForm', () => {
       ),
     ); */
     const defaultPageOwnerGroupSelectView = within(screen.getAllByRole('combobox')[0]);
-    const defaultPageJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[0]);
+    const defaultPageJoinGroupsMultiSelectView = within(screen.getAllByTestId('formik-field_MultiSelectRenderer_select')[0]);
     const defaultContentOwnerGroupSelectView = within(screen.getAllByRole('combobox')[0]);
-    const defaultContentJoinGroupsMultiSelectView = within(screen.getAllByTestId('multi-select')[1]);
+    const defaultContentJoinGroupsMultiSelectView = within(screen.getAllByTestId('formik-field_MultiSelectRenderer_select')[1]);
     expect(screen.getByText('Preferences')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
     expect(screen.getByLabelText('Welcome Wizard')).toBeInTheDocument();
@@ -50,9 +56,10 @@ describe('AppSettingsForm', () => {
     expect(defaultContentJoinGroupsMultiSelectView.getByRole('option', { name: 'Free Access' })).toBeInTheDocument();
   });
 
-  it('Verify onSubmit function is triggered when submitting form', () => {
+  it('Verify onSubmit function is triggered when submitting form', async () => {
     render(mockRenderWithIntlAndStore(<AppSettingsForm {...props} />));
-    fireEvent.submit(screen.getByTestId('appSettingsForm'));
-    expect(props.onSubmit).toHaveBeenCalled();
+    fireEvent.submit(screen.getByTestId('my-profile_AppSettingsForm_FormikForm'));
+    await waitFor(() =>
+      expect(props.onSubmit).toHaveBeenCalled());
   });
 });

@@ -27,7 +27,8 @@ const SelectInput = ({
 }) => {
   const { touched, error } = getTouchErrorByField(field.name, form);
 
-  const containerClasses = touched && error ? 'form-group has-error' : 'form-group';
+  const containerClasses =
+    touched && error ? 'form-group has-error' : 'form-group';
 
   let defaultOption = null;
   if (defaultOptionId) {
@@ -36,7 +37,9 @@ const SelectInput = ({
         id: defaultOptionId,
       },
     });
-    defaultOption = <option value="">{intl.formatMessage(defMsg.defaultOptionId)}</option>;
+    defaultOption = (
+      <option value="">{intl.formatMessage(defMsg.defaultOptionId)}</option>
+    );
   }
 
   const optionsList = optionReducer
@@ -47,7 +50,12 @@ const SelectInput = ({
       </option>
     ));
 
-  const errorBox = touched && error ? <span role="alert" className="help-block">{error}</span> : null;
+  const errorBox =
+    touched && error ? (
+      <span role="alert" className="help-block">
+        {error}
+      </span>
+    ) : null;
 
   return (
     <div className={containerClasses}>
