@@ -45,6 +45,7 @@ import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 import { getAppTourlastStep } from 'state/app-tour/selectors';
 import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -52,7 +53,7 @@ const {
 
 const publicUrl = process.env.PUBLIC_URL;
 
-const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
+const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAdvancedSearchOn) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION,
     VALIDATE_CONTENTS_PERMISSION,
@@ -154,6 +155,15 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
           />
         )
       }
+      {
+        currSysConfigAdvancedSearchOn && (
+          <SecondaryItem
+            id="menu-solar-config"
+            title={intl.formatMessage({ id: 'cms.menu.solarConfig', defaultMessage: 'SOLR configuration' })}
+            href={adminConsoleUrl('do/jpsolr/config')}
+          />
+        )
+      }
     </Item>
   );
 };
@@ -190,6 +200,7 @@ const EntandoMenu = ({
   const [openPath, setOpenPath] = useState(null);
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
   const systemReport = useSelector(getSystemReport);
+  const currSystemConfigAdvancedSearchOn = useSelector(selectCurrSystemConfigAdvancedSearch);
 
   useEffect(() => {
     onMount();
@@ -313,7 +324,7 @@ const EntandoMenu = ({
             MANAGE_CATEGORIES_PERMISSION,
             VALIDATE_CONTENTS_PERMISSION,
           ], userPermissions) &&
-          renderCmsMenuItems(intl, userPermissions, systemReport)
+          renderCmsMenuItems(intl, userPermissions, systemReport, currSystemConfigAdvancedSearchOn)
         }
         {
 

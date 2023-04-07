@@ -41,6 +41,13 @@ describe('MfeContainer', () => {
       currentTenant: {
         currentTenant: {},
       },
+      currentSystemConfiguration: {
+        currentSystemConfiguration: {
+          advancedSearch: {
+            enabled: true,
+          },
+        },
+      },
     }));
   });
 

@@ -9,12 +9,15 @@ import { getLoggedUserPermissions } from 'state/permissions/selectors';
 import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
+import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const { assetLoading, mfe } = useMfe({ mfeId: id });
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
   const systemReport = useSelector(getSystemReport);
+  const currentSystemConfigurationAdvancedSearchOn =
+  useSelector(selectCurrSystemConfigAdvancedSearch);
 
   const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
@@ -28,6 +31,7 @@ const MfeContainer = ({ id, history }) => {
       lang: locale,
       adminConsoleUrl: getDomain(),
       systemReport,
+      advancedSearchOn: currentSystemConfigurationAdvancedSearchOn,
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
@@ -39,8 +43,8 @@ const MfeContainer = ({ id, history }) => {
       entandoWindow.epc[mfe.widgetName] || { basePath: mfeResourceBasePath };
 
     window.entando = entandoWindow;
-  }, [history, locale, mfe.assetsBasePath, mfe.widgetName,
-    permissions, systemReport, mfeResourceBasePath]);
+  }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport,
+    mfeResourceBasePath, currentSystemConfigurationAdvancedSearchOn]);
 
   const params = {
     config: {
