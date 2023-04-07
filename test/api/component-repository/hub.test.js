@@ -42,7 +42,7 @@ describe('api/component-repository/hub', () => {
           domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
-          useAuthentication: false,
+          useAuthentication: true,
         },
         DEFAULT_PAGE,
       );
@@ -104,7 +104,7 @@ describe('api/component-repository/hub', () => {
           domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLE_GROUPS_OK,
-          useAuthentication: false,
+          useAuthentication: true,
         },
         DEFAULT_PAGE,
       );

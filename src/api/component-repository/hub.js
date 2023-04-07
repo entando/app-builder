@@ -15,7 +15,7 @@ export const getBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 1
       domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
-      useAuthentication: false,
+      useAuthentication: true,
     },
     page,
   )
@@ -41,7 +41,7 @@ export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, pa
       domain: '/digital-exchange',
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
-      useAuthentication: false,
+      useAuthentication: true,
     },
     page,
   )
