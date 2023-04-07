@@ -13,12 +13,11 @@ import { getRegistries } from 'state/component-repository/hub/selectors';
 import { sendPutRegistry } from 'state/component-repository/hub/actions';
 import { setInfo, setVisibleModal } from 'state/modal/actions';
 import { getInfo } from 'state/modal/selectors';
+import { mustBeUnique } from 'ui/component-repository/components/list/AddNewRegistryModal';
 
 export const EDIT_REGISTRY_MODAL_ID = 'EditRegistryModal';
 
 const EditRegistryFormId = 'EditRegistryFormId';
-
-export const mustBeUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
 
 const EditRegistryModalForm = ({
   invalid, handleSubmit,
