@@ -16,7 +16,8 @@ import {
   ROUTE_PAGE_TREE, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_PAGE_SETTINGS,
+  // ROUTE_ECR_COMPONENT_LIST,
   ROUTE_DASHBOARD, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
   ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
   ROUTE_EMAIL_CONFIG,
@@ -28,12 +29,13 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
-  MANAGE_CATEGORIES_PERMISSION, ENTER_ECR_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION,
+  // ENTER_ECR_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
+// import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
 import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
@@ -156,15 +158,15 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
   );
 };
 
-const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
+// const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
-const renderComponentRepositoryMenuItem = (history, intl) => (
-  COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
-    id="component-repository"
-    onClick={() => history.push(ROUTE_ECR_COMPONENT_LIST)}
-    iconClass="fa fa-cart-plus"
-    title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
-  />) : '');
+// const renderComponentRepositoryMenuItem = (history, intl) => (
+//   COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
+//     id="component-repository"
+//     onClick={() => history.push(ROUTE_ECR_COMPONENT_LIST)}
+//     iconClass="fa fa-cart-plus"
+//     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
+//   />) : '');
 
 const getHeader = onStartTutorial => (
   <Masthead>
@@ -367,11 +369,11 @@ const EntandoMenu = ({
           )
         }
 
-        {
+        {/* {
           (hasAccess(SUPERUSER_PERMISSION, userPermissions)
             || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
           && renderComponentRepositoryMenuItem(history, intl)
-        }
+        } */}
         {
           hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
             <Item
