@@ -113,7 +113,7 @@ export const fetchBundlesFromRegistry = (registryId, page = { page: 1, pageSize:
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
 
-    const currentParams = params ? `${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
+    const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
 
     getBundlesFromRegistry(registryId, page, currentParams).then((response) => {
       response.json().then((data) => {
