@@ -236,8 +236,8 @@ describe('PageConfigPageContainer', () => {
 
     describe('prop onClickSaveSettings', () => {
       it('should dispatch redux-form reset()', (done) => {
-        props.onClickSaveSettings().then(() => {
-          expect(dispatchMock.mock.calls.length).toBe(3);
+        props.onClickSaveSettings({ code: 'home' }).then(() => {
+          expect(dispatchMock.mock.calls.length).toBe(4);
           expect(submit).toHaveBeenCalledWith('pageEdit');
           expect(reset.mock.calls.length).toBe(2);
           expect(reset.mock.calls[0][0]).toBe('pageEdit');
