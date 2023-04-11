@@ -9,8 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (_, url, page) => dispatch(fetchBundlesFromRegistryWithFilters(
-    url,
+  onSubmit: (_, registryId, page) => dispatch(fetchBundlesFromRegistryWithFilters(
+    registryId,
     { page: 1, pageSize: page.pageSize },
   )),
 });

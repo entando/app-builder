@@ -18,8 +18,10 @@ export const errorResponse = (...messages) => ({
   errors: messages.map((message, code) => ({ code, message })),
 });
 
+// Note: There are two metadata keys with different casing: 'metaData' and 'metadata'.
+// This is due to differing API endpoint responses.
 export const mockApi = ({
-  errors, payload, metaData, codeStatus = 500,
+  errors, payload, metaData, metadata, codeStatus = 500,
 }) => {
   const statusCode = (errors === true) ||
     (Array.isArray(errors) && errors.length) ? codeStatus : 200;
@@ -27,6 +29,7 @@ export const mockApi = ({
     errors: errors === true ? [{ code: 1, message: 'Error!' }] : errors || [],
     payload: payload || {},
     metaData: metaData || [],
+    metadata: metadata || {},
   };
   return () => new Promise(resolve => (
     resolve(new Response(

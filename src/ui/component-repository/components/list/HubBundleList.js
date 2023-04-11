@@ -38,23 +38,23 @@ const HubBundleList = ({
   const bundleGroups = useSelector(getBundleGroups);
 
   useEffect(
-    () => { dispatch(fetchBundlesFromRegistry(activeRegistry.url)); },
-    [activeRegistry.url, dispatch],
+    () => { dispatch(fetchBundlesFromRegistry(activeRegistry.id)); },
+    [activeRegistry.id, dispatch],
   );
 
   const changePage = useCallback((newPage) => {
     dispatch(fetchBundlesFromRegistryWithFilters(
-      activeRegistry.url,
+      activeRegistry.id,
       { page: newPage, pageSize: perPage },
     ));
-  }, [activeRegistry.url, dispatch, perPage]);
+  }, [activeRegistry.id, dispatch, perPage]);
 
   const changePageSize = useCallback((newPageSize) => {
     dispatch(fetchBundlesFromRegistryWithFilters(
-      activeRegistry.url,
+      activeRegistry.id,
       { page: 1, pageSize: newPageSize },
     ));
-  }, [activeRegistry.url, dispatch]);
+  }, [activeRegistry.id, dispatch]);
 
   const openComponentManagementModal = useCallback((component) => {
     dispatch(setInfo({ type: 'Component', payload: component }));

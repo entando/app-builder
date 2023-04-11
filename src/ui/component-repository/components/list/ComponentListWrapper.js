@@ -29,10 +29,10 @@ const ComponentListWrapper = () => {
   const perPage = useSelector(getPageSize);
   const handleRefreshBundles = () => {
     dispatch(fetchBundlesFromRegistryWithFilters(
-      activeRegistry.url,
+      activeRegistry.id,
       { page: 1, pageSize: perPage },
     ));
-    dispatch(fetchBundleGroups(activeRegistry.url));
+    dispatch(fetchBundleGroups(activeRegistry.id));
   };
   return (
     <div className="ComponentListPage__body">
