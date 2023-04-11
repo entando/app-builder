@@ -2,7 +2,7 @@ import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messag
 
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
-import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses } from 'api/component-repository/hub';
+import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses, updateRegistry } from 'api/component-repository/hub';
 import {
   SET_ACTIVE_REGISTRY, SET_BUNDLE_GROUP_ID_FILTER,
   SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS,
@@ -267,6 +267,31 @@ export const sendPostRegistry = registryObject => dispatch => (
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     }).finally(() => {
+    });
+  })
+);
+
+export const sendPutRegistry = registryObject => dispatch => (
+  new Promise((resolve) => {
+    updateRegistry(registryObject).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(addToast(
+            { id: 'app.updated', values: { type: 'registry', code: data.payload.name } },
+            TOAST_SUCCESS,
+          ));
+          dispatch(fetchRegistries());
+        } else if (data.errors) {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err =>
+            dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+        }
+        resolve(response.ok);
+      });
+    }).catch((err) => {
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     });
   })
 );

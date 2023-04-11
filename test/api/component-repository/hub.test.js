@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 import {
   NO_PAGE, getBundlesFromRegistry, getRegistries, getBundleGroups,
-  deleteRegistry, addRegistry, deployBundle, undeployBundle,
-  getBundleStatuses, getBundleStatusWithCode,
+  deleteRegistry, addRegistry, updateRegistry, deployBundle,
+  undeployBundle, getBundleStatuses, getBundleStatusWithCode,
 } from 'api/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
@@ -142,6 +142,25 @@ describe('api/component-repository/hub', () => {
         uri: '/registries',
         domain: '/digital-exchange',
         method: METHODS.POST,
+        mockResponse: ADD_REGISTRY_OK,
+        useAuthentication: true,
+        body: registryObject,
+      });
+    });
+  });
+
+  describe('updateRegistry', () => {
+    it('returns a promise', () => {
+      expect(updateRegistry()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const registryObject = { name: 'test name', url: 'http://test.com' };
+      updateRegistry(registryObject);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/registries',
+        domain: '/digital-exchange',
+        method: METHODS.PUT,
         mockResponse: ADD_REGISTRY_OK,
         useAuthentication: true,
         body: registryObject,
