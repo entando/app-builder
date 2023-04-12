@@ -153,7 +153,6 @@ src
 ## API Requests
 Api requests are being done using `@entando/apimanager`.
 For more information checkout the [documentation on NPM](https://www.npmjs.com/package/@entando/apimanager).
-
 ---
 
 ## Apps
