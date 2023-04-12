@@ -4,6 +4,7 @@ import {
   clearErrors,
   TOAST_ERROR,
   TOAST_WARNING,
+  TOAST_SUCCESS,
 } from '@entando/messages';
 import {
   SET_ECR_COMPONENTS,
@@ -231,6 +232,10 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
           dispatch(finishComponentInstallation(componentCode, res.payload));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          dispatch(addToast(
+            { id: 'componentRepository.hub.epcInstalledTip' },
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.installErrorMessage) {
@@ -414,6 +419,10 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
           dispatch(finishComponentUninstall(componentCode));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          dispatch(addToast(
+            { id: 'componentRepository.hub.epcInstalledTip' },
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }
