@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { Button, Modal } from 'patternfly-react';
-import { Field, reduxForm, destroy, submit, Form, reset } from 'redux-form';
+import { Button, Modal, Alert } from 'patternfly-react';
+import { Field, reduxForm, destroy, submit, Form, reset, initialize } from 'redux-form';
 import PropTypes from 'prop-types';
 import { required } from '@entando/utils';
 
@@ -10,46 +10,61 @@ import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { getRegistries } from 'state/component-repository/hub/selectors';
-import { sendPostRegistry } from 'state/component-repository/hub/actions';
-import { setVisibleModal } from 'state/modal/actions';
+import { sendPutRegistry } from 'state/component-repository/hub/actions';
+import { setInfo, setVisibleModal } from 'state/modal/actions';
+import { getInfo } from 'state/modal/selectors';
+import { mustBeUnique } from 'ui/component-repository/components/list/AddNewRegistryModal';
 
-export const ADD_NEW_REGISTRY_MODAL_ID = 'AddNewRegistryModal';
+export const EDIT_REGISTRY_MODAL_ID = 'EditRegistryModal';
 
-const NewRegistryFormId = 'NewRegistryFormId';
+const EditRegistryFormId = 'EditRegistryFormId';
 
-export const mustBeUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
-
-const AddNewRegistryModalForm = ({
+const EditRegistryModalForm = ({
   invalid, handleSubmit,
 }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const { editData } = useSelector(getInfo);
   const existingRegistries = useSelector(getRegistries);
+  const filteredRegistries = useMemo(
+    () =>
+      existingRegistries.filter(reg => reg.id !== (editData && editData.id)),
+    [existingRegistries, editData],
+  );
 
-  const names = useMemo(() => existingRegistries.map(reg => reg.name), [existingRegistries]);
-  const urls = useMemo(() => existingRegistries.map(reg => reg.url), [existingRegistries]);
+  const names = useMemo(() => filteredRegistries.map(reg => reg.name), [filteredRegistries]);
+  const urls = useMemo(() => filteredRegistries.map(reg => reg.url), [filteredRegistries]);
 
   const validateName = useMemo(() => [required, mustBeUnique(names, 'name')], [names]);
   const validateUrl = useMemo(() => [required, mustBeUnique(urls, 'url')], [urls]);
 
+  useEffect(() => {
+    if (editData) {
+      dispatch((initialize(EditRegistryFormId, editData)));
+    }
+  }, [dispatch, editData]);
+
   const handleSave = (values) => {
     setLoading(true);
-    dispatch(sendPostRegistry(values)).then((isSuccess) => {
+    dispatch(sendPutRegistry(values)).then((isSuccess) => {
       setLoading(false);
       if (isSuccess) {
         dispatch(setVisibleModal(''));
-        dispatch(destroy(NewRegistryFormId));
+        dispatch(setInfo({}));
+        dispatch(destroy(EditRegistryFormId));
       } else {
-        reset(NewRegistryFormId);
+        reset(EditRegistryFormId);
       }
     }).catch(() => {
       setLoading(false);
-      reset(NewRegistryFormId);
     });
   };
 
-  const handleCancel = () => dispatch(destroy(NewRegistryFormId));
+  const handleCancel = () => {
+    dispatch(setInfo({}));
+    dispatch(destroy(EditRegistryFormId));
+  };
 
   const buttons = [
     <Button
@@ -57,22 +72,22 @@ const AddNewRegistryModalForm = ({
       type="submit"
       id="InstallationPlanModal__button-ok"
       disabled={invalid || loading}
-      onClick={() => dispatch(submit(NewRegistryFormId))}
+      onClick={() => dispatch(submit(EditRegistryFormId))}
     >
       <FormattedMessage id="app.save" />
     </Button>,
   ];
 
   const modalTitle = (
-    <Modal.Title><FormattedMessage id="hub.newRegistry" /></Modal.Title>
+    <Modal.Title><FormattedMessage id="app.edit" /></Modal.Title>
   );
 
   return (
     <GenericModalContainer
-      modalId={ADD_NEW_REGISTRY_MODAL_ID}
+      modalId={EDIT_REGISTRY_MODAL_ID}
       buttons={buttons}
       modalTitle={modalTitle}
-      modalClassName="InstallationPlanModal"
+      modalClassName="EditRegistryModal"
       closeLabel="app.cancel"
       modalCloseCleanup={handleCancel}
     >
@@ -100,21 +115,26 @@ const AddNewRegistryModalForm = ({
           />
         </fieldset>
       </Form>
+      <Alert type="info">
+        <FormattedMessage id="hub.editRegistry.alert" />
+      </Alert>
     </GenericModalContainer>
   );
 };
 
-AddNewRegistryModalForm.propTypes = {
+EditRegistryModalForm.propTypes = {
   invalid: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
 };
 
-AddNewRegistryModalForm.defaultProps = {
+EditRegistryModalForm.defaultProps = {
   invalid: false,
 };
 
-const AddNewRegistryModal = reduxForm({
-  form: NewRegistryFormId,
-})(AddNewRegistryModalForm);
+const EditRegistryModal = reduxForm({
+  form: EditRegistryFormId,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+})(EditRegistryModalForm);
 
-export default AddNewRegistryModal;
+export default EditRegistryModal;
