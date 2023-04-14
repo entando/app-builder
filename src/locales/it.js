@@ -1090,6 +1090,8 @@ export default {
     'cms.label.modal.confirmCancel': 'Vuoi salvare le modifiche apportate? Le modifiche andranno perse se non le salvi',
     'cms.label.dontSave': 'Non salvare',
     'cms.label.metadata': 'Metadati',
+    'cms.contents.versioning.author': 'Autore',
+    'cms.versioning.list.lastModify': 'Ultima modifica',
     'cms.label.modal.confirmpublish': 'Vuoi davvero pubblicare {code}?',
     'cms.label.modal.confirmunpublish': 'Vuoi davvero annullare la pubblicazione di {code}?',
     'cms.label.yes': 'sì',
