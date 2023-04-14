@@ -1090,6 +1090,8 @@ export default {
     'cms.label.modal.confirmCancel': 'Do you want to save all changes?',
     'cms.label.dontSave': 'Don\'t save',
     'cms.label.metadata': 'Metadata',
+    'cms.contents.versioning.author': 'Author',
+    'cms.versioning.list.lastModify': 'Last Modified',
     'cms.label.modal.confirmpublish': 'Do you really want to publish {code}?',
     'cms.label.modal.confirmunpublish': 'Do you really want to unpublish {code}?',
     'cms.label.yes': 'Yes',
