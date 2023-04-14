@@ -828,6 +828,8 @@ export default {
     'app.seo.addMetatagHelp': 'Nesta seção, você pode adicionar um novo metatag (personalizado ou sugerido por um catálogo interno)',
     'app.seo.inheritLangLabel': 'Herdar do idioma padrão',
     'dashboard.pageList': 'Lista de páginas',
+    'cms.contents.versioning.author': 'Autor',
+    'cms.versioning.list.lastModify': 'última edição',
     'widget.navigationBar.config.title': 'Navegação - Barra Horizontal',
     'widget.navigationBar.config.expressionList': 'Lista de expressões',
     'widget.navigationBar.config.page': 'Página',
