@@ -910,6 +910,7 @@ export default {
     'widget.page.clone.pageTitle': 'Clona widget',
     'app.saveAndReplace': 'Salva e sostituisci',
     'user.myProfile.appSettingsSection': 'Preferenze',
+    'user.myProfile.disableContentMenu': 'Disabilita il menu dei contenuti',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
     'user.myProfile.wizardToggleHelp': 'Abilita o disabilita la procedura guidata di benvenuto che guida l\'utente attraverso il processo "Crea prima applicazione"',
     'user.myProfile.translationWarning': 'Avviso di traduzione mancante',
