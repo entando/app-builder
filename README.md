@@ -94,7 +94,6 @@ DOMAIN=//my.entando.com
 - Make sure to have `git`, `npm` + `node` installed and up to date.
 - `npm install`: installs npm dependencies
 
-
 ### Deploy:
 
 - `npm run lint`: runs the linter. It fails if linting rules are not matched.
