@@ -10,6 +10,7 @@ export const getSelectedUser = state => state.users.selected;
 export const getSelectedUserActionAuthorities = state => state.users.authorities.action;
 export const getSelectedUserAuthoritiesList = state => state.users.authorities.list;
 export const getUsersTotal = state => state.users.total;
+export const getUserSearchTerm = state => state.users.searchTerm;
 
 export const getUserList = createSelector(
   [getUsersMap, getUsersIdList],

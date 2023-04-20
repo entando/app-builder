@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL, SET_USER_SEARCH_TERM } from 'state/users/types';
 import { ACTION_SAVE, ACTION_UPDATE } from 'state/users/const';
 
 const toMap = array => array.reduce((acc, user) => {
@@ -58,10 +58,20 @@ export const total = (state = 0, action = {}) => {
   }
 };
 
+export const searchTerm = (state = '', action = {}) => {
+  switch (action.type) {
+    case SET_USER_SEARCH_TERM: {
+      return action.payload;
+    }
+    default: return state;
+  }
+};
+
 export default combineReducers({
   list,
   map: userMap,
   selected,
   authorities,
   total,
+  searchTerm,
 });
