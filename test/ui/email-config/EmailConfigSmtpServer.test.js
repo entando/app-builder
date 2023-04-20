@@ -36,8 +36,7 @@ describe('EmailConfigSmtpServer', () => {
   });
 
   it('should render General Settings section', () => {
-    const { debug } = setupEmailConfigForm();
-    debug();
+    setupEmailConfigForm();
     expect(getHeadings(screen)[0]).toHaveTextContent('General Settings');
     expect(screen.getByLabelText('Active')).toHaveTextContent('ON');
     expect(screen.getByLabelText('Debug Mode')).toHaveTextContent('OFF');

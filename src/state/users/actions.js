@@ -19,7 +19,7 @@ import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_USER_LIST, ROUTE_USER_PROFILE } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL, SET_USER_SEARCH_TERM } from 'state/users/types';
 import { setVisibleModal } from 'state/modal/actions';
 
 
@@ -50,6 +50,11 @@ export const setUsersTotal = usersTotal => ({
   payload: {
     usersTotal,
   },
+});
+
+export const setUserSearchTerm = searchTerm => ({
+  type: SET_USER_SEARCH_TERM,
+  payload: searchTerm,
 });
 
 // thunk
