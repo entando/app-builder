@@ -16,7 +16,7 @@ export const fetchCurrentTenant = () => async (dispatch) => {
       dispatch(setCurrentTenant(json.payload));
       // check on response and set tenant to unauthorized into state
     } else if (response.status === 403) {
-      dispatch(setCurrentTenant('unauthorized'));
+      dispatch(setCurrentTenant({ unauthorized: true }));
     } else {
       dispatch(setCurrentTenant(null));
     }
