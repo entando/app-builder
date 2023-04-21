@@ -21,7 +21,7 @@ describe('api/mfe', () => {
     it('makes the correct request', () => {
       getMfeConfigList();
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/bundles/all/widgets?filters[0].value=app-builder&filters[0].attribute=widgetType&filters[0].operator=eq',
+        uri: '/bundles/all/widgets?filters%5B0%5D.value=app-builder&filters%5B0%5D.attribute=widgetType&filters%5B0%5D.operator=eq',
         domain: '/digital-exchange',
         method: METHODS.GET,
         mockResponse: LIST_MFE_RESPONSE_OK,
