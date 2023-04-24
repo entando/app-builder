@@ -21,7 +21,7 @@ import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import { reset, submit, isInvalid, isSubmitting } from 'redux-form';
+import { reset, submit, isInvalid, isSubmitting, getFormValues } from 'redux-form';
 import { FORM_ID } from 'ui/pages/edit/PagesEditFormContainer';
 import { APP_TOUR_CANCELLED } from 'state/app-tour/const';
 
@@ -49,8 +49,9 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
     dispatch(reset(FORM_ID));
     dispatch(reset('SeoMetadataForm'));
   },
-  onClickSaveSettings: async () => {
+  onClickSaveSettings: async (page) => {
     await dispatch(submit(FORM_ID));
+    dispatch(initConfigPage(page.code));
     dispatch(reset(FORM_ID));
     dispatch(reset('SeoMetadataForm'));
   },
@@ -61,7 +62,10 @@ export const mapStateToProps = (state, { match: { params } }) => {
   if (!selectedPage) {
     return {};
   }
+  const selectedPageForm = getFormValues(FORM_ID)(state);
+
   return {
+    selectedPageForm,
     pageCode: selectedPage.code,
     pageName: getSelectedPageLocaleTitle(state),
     pageStatus: selectedPage.status,

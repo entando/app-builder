@@ -152,6 +152,7 @@ class PageConfigPage extends Component {
     const {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
       onClickSaveSettings, pageSettingsButtonInvalid, pageSettingsButtonSubmitting,
+      selectedPageForm,
     } = this.props;
 
     const { editingSettings } = this.state;
@@ -201,7 +202,7 @@ class PageConfigPage extends Component {
                         'btn',
                         'btn-primary',
                       ].join(' ')}
-                      onClick={onClickSaveSettings}
+                      onClick={() => onClickSaveSettings(selectedPageForm)}
                       disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
                     >
                       <span>
@@ -448,6 +449,7 @@ PageConfigPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({}),
   }).isRequired,
+  selectedPageForm: PropTypes.shape({}),
   loading: PropTypes.bool,
   appTourProgress: PropTypes.string,
   onSettingsCancel: PropTypes.func.isRequired,
@@ -473,6 +475,7 @@ PageConfigPage.defaultProps = {
   publishPage: null,
   unpublishPage: null,
   applyDefaultConfig: null,
+  selectedPageForm: {},
   loading: false,
   appTourProgress: '',
   pageSettingsButtonSubmitting: false,
