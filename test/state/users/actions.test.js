@@ -9,8 +9,9 @@ import {
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
   sendPutUserAuthorities, sendDeleteUserAuthorities, sendPostMyPassword,
+  setUserSearchTerm,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL, SET_USER_SEARCH_TERM } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { SET_VISIBLE_MODAL } from 'state/modal/types';
@@ -61,6 +62,14 @@ describe('state/users/actions', () => {
           const action = setUsersTotal(12);
           expect(action).toHaveProperty('type', SET_USERS_TOTAL);
           expect(action).toHaveProperty('payload.usersTotal', 12);
+        });
+      });
+
+      describe('setUserSearchTerm', () => {
+        it('test setUserSearchTerm action sets the correct type', () => {
+          const action = setUserSearchTerm('test');
+          expect(action).toHaveProperty('type', SET_USER_SEARCH_TERM);
+          expect(action).toHaveProperty('payload', 'test');
         });
       });
     });

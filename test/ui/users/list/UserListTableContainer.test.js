@@ -2,13 +2,14 @@ import 'test/enzyme-init';
 
 import { mapStateToProps, mapDispatchToProps } from 'ui/users/list/UserListTableContainer';
 import { USERS } from 'test/mocks/users';
-import { getUserList } from 'state/users/selectors';
+import { getUserList, getUserSearchTerm } from 'state/users/selectors';
 import { getLoading } from 'state/loading/selectors';
 
 const dispatchMock = jest.fn();
 
 jest.mock('state/users/selectors', () => ({
   getUserList: jest.fn(),
+  getUserSearchTerm: jest.fn(),
 }));
 
 jest.mock('state/loading/selectors', () => ({
@@ -23,6 +24,7 @@ jest.mock('state/pagination/selectors', () => ({
 const users = USERS;
 
 getUserList.mockReturnValue(users);
+getUserSearchTerm.mockReturnValue('');
 getLoading.mockReturnValue(false);
 
 describe('UserListTableContainer', () => {

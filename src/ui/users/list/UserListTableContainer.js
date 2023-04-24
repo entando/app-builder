@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { fetchUsers } from 'state/users/actions';
-import { getUserList } from 'state/users/selectors';
+import { getUserList, getUserSearchTerm } from 'state/users/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import UserListTable from 'ui/users/list/UserListTable';
@@ -15,11 +15,12 @@ export const mapStateToProps = state => ({
   totalItems: getTotalItems(state),
   pageSize: getPageSize(state),
   loading: getLoading(state).users,
+  userSearchTerm: getUserSearchTerm(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (page = { page: 1, pageSize: 10 }) => {
-    dispatch(fetchUsers(page));
+  onWillMount: (page = { page: 1, pageSize: 10 }, params) => {
+    dispatch(fetchUsers(page, params));
   },
   onClickDelete: (user) => {
     dispatch(setVisibleModal(MODAL_ID));
