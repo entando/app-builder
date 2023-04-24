@@ -1605,5 +1605,6 @@ export default {
     'user.authority.addNew': 'Add new Authorization',
     'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
     'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
+    'componentRepository.hub.epcInstalledTip': 'To correctly update the EPC menu, please refresh the AppBuilder page on your browser',
   },
 };

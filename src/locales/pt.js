@@ -1025,5 +1025,6 @@ export default {
     'user.authority.addNew': 'Adicionar nova Autorização',
     'componentRepository.refreshBundleVersions': 'Atualizar as versões disponíveis do pacote',
     'componentRepository.bundle.installVersionsRefreshed': 'Atualizado',
+    'componentRepository.hub.epcInstalledTip': 'Para atualizar corretamente o menu EPC, atualize a página do AppBuilder em seu navegador',
   },
 };
