@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Button, Row, Col, ControlLabel, Icon } from 'patternfly-react';
-import { required, maxLength } from '@entando/utils';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
+import { formatMessageMaxLength, formatMessageRequired } from 'helpers/formikValidations';
+import { Button, Row, Col, Icon } from 'patternfly-react';
+import { maxLength } from '@entando/utils';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
+import RenderTextAreaInput from 'ui/common/formik-field/RenderTextAreaInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 
 export const maxLength50 = maxLength(50);
 
@@ -22,26 +25,6 @@ const msgs = defineMessages({
   },
 });
 
-const RenderTextInput = (field) => {
-  const {
-    input, append, meta: { touched, error }, disabled,
-  } = field;
-  return (
-    <div className={`CreateTextFileForm__input ${(touched && error) ? 'form-group has-error' : 'form-group'}`}>
-      <input
-        {...input}
-        type="text"
-        id={input.name}
-        className="form-control CreateTextFileForm__input-text"
-        disabled={disabled}
-      />
-      {append && <span className="AppendedLabel">{append}</span>}
-      {touched && ((error && <span className="help-block">{error}</span>))}
-    </div>
-  );
-};
-
-
 export class CreateTextFileFormBody extends Component {
   componentWillMount() {
     const { filename, onWillMount } = this.props;
@@ -49,24 +32,18 @@ export class CreateTextFileFormBody extends Component {
   }
   render() {
     const {
-      intl, invalid, submitting, handleSubmit, mode, filename, onClickDownload,
+      intl, isValid, isSubmitting, handleSubmit, mode, filename, onClickDownload,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit} className="CreateTextFileForm form-horizontal">
+      <Form onSubmit={handleSubmit} className="CreateTextFileForm form-horizontal">
         <Row>
-          <Col xs={2} className="text-right">
-            <ControlLabel htmlFor="name">
-              <FormLabel labelId="app.name" />
-            </ControlLabel>
-          </Col>
-          <Col xs={7}>
+          <Col xs={9}>
             { mode !== 'edit' ?
               <Field
                 component={RenderTextInput}
                 name="name"
                 label={<FormLabel labelId="app.name" />}
-                validate={[required, maxLength50]}
               /> :
               <div className="CreateTextFileForm__download-filename">{filename}
 
@@ -89,7 +66,6 @@ export class CreateTextFileFormBody extends Component {
                     <Field
                       component="select"
                       name="extension"
-                      validate={[required]}
                       className="CreateTextFileForm__select-extension form-control"
                     >
                       <option value=".txt">txt</option>
@@ -100,15 +76,14 @@ export class CreateTextFileFormBody extends Component {
             }
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col xs={9}>
             <Field
               component={RenderTextAreaInput}
               cols={50}
               rows={20}
-              name="content"
               label={intl.formatMessage(msgs.textFileContent)}
+              name="content"
               placeholder={intl.formatMessage(msgs.textFilePlaceholder)}
-              validate={[required]}
             />
           </Col>
         </Row>
@@ -118,7 +93,7 @@ export class CreateTextFileFormBody extends Component {
               className="pull-right CreateTextFileForm__btn-submit"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -131,7 +106,7 @@ export class CreateTextFileFormBody extends Component {
             </Button>
           </Col>
         </Row>
-      </form>
+      </Form>
     );
   }
 }
@@ -140,8 +115,8 @@ CreateTextFileFormBody.propTypes = {
   onWillMount: PropTypes.func,
   onClickDownload: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   mode: PropTypes.string,
   filename: PropTypes.string,
   history: PropTypes.shape({
@@ -158,8 +133,20 @@ CreateTextFileFormBody.defaultProps = {
   filename: '',
 };
 
-const CreateTextFileForm = reduxForm({
-  form: 'CreateTextFileForm',
+const CreateTextFileForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  enableReinitialize: true,
+  validationSchema: ({ intl, mode }) => Yup.object().shape({
+    name: mode === 'edit' ? null : Yup.string()
+      .required(intl.formatMessage(formatMessageRequired))
+      .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 })),
+    extension: mode === 'edit' ? null : Yup.string().required(intl.formatMessage(formatMessageRequired)),
+    content: Yup.string().required(intl.formatMessage(formatMessageRequired)),
+  }),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+  displayName: 'CreateTextFileFormFormik',
 })(CreateTextFileFormBody);
 
 export default injectIntl(CreateTextFileForm);

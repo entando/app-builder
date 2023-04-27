@@ -1,26 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
 import { FormGroup, Col, Icon, Button, Spinner } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
-import { required } from '@entando/utils';
-import RenderFileInput from 'ui/common/form/RenderFileInput';
+import RenderFileInput from 'ui/common/formik-field/RenderFileInput';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
 
 export const UploadFileBrowserBody = (props) => {
   const {
-    handleSubmit, invalid, submitting, loading,
+    isValid, isSubmitting, loading,
   } = props;
 
   return (
-    <form onSubmit={handleSubmit} className="UploadFileBrowserForm form-horizontal">
+    <Form aria-label="form" className="UploadFileBrowserForm form-horizontal">
       <Spinner loading={loading} size="lg" />
       <Field
         className="UploadFileBrowserForm__file"
         name="file"
         component={RenderFileInput}
-        validate={[required]}
         label={<FormattedMessage id="fileBrowser.uploadFiles" />}
       />
       <FormGroup>
@@ -28,7 +27,7 @@ export const UploadFileBrowserBody = (props) => {
           <div className="UploadFileBrowserForm__btn">
             <Button
               type="submit"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
               className="pull-right UploadFileBrowserForm__btn-save"
               bsStyle="primary"
             >
@@ -45,15 +44,14 @@ export const UploadFileBrowserBody = (props) => {
           </div>
         </Col>
       </FormGroup>
-    </form>
+    </Form>
 
   );
 };
 
 UploadFileBrowserBody.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   loading: PropTypes.bool,
   history: PropTypes.shape({
     location: PropTypes.shape({
@@ -63,12 +61,22 @@ UploadFileBrowserBody.propTypes = {
 };
 
 UploadFileBrowserBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   loading: false,
 };
 
-const UploadFileBrowserForm = reduxForm({
-  form: 'fileBroswer',
+const UploadFileBrowserForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  enableReinitialize: true,
+  validationSchema: () => Yup.object().shape({
+    file: Yup.mixed().required(),
+  }),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+  displayName: 'fileBrowserUploadForm',
 })(UploadFileBrowserBody);
+
+
 export default UploadFileBrowserForm;
