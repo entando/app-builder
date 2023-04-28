@@ -92,7 +92,7 @@ DOMAIN=//my.entando.com
 ### Clone and set up:
 
 - Make sure to have `git`, `npm` + `node` installed and up to date.
-- `npm install`: installs npm dependencies
+- `npm install`: installs npm dependencies.
 
 
 ### Deploy:
