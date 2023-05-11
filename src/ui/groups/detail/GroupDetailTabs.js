@@ -29,7 +29,7 @@ const GroupDetailTabs = () => (
         </NavItem>
       </Nav>
       <TabContent>
-        <TabPane eventKey={1} mountOnEnter unmountOnExit>
+        <TabPane eventKey={1} unmountOnExit>
           <GroupDetailTabPagesContainer />
         </TabPane>
         <TabPane eventKey={2} mountOnEnter unmountOnExit>
