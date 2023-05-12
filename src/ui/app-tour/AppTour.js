@@ -7,6 +7,23 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 
+// This mutes warnings and errors of the library
+// eslint-disable-next-line no-console
+const originalWarn = console.warn;
+
+// eslint-disable-next-line no-console
+console.warn = (message, ...args) => {
+  if (
+    typeof message === 'string' &&
+    message.includes("Please check the 'steps' Tour prop Array at position")
+  ) {
+    return; // Ignore the warning
+  }
+
+  // Log the warning
+  originalWarn.apply(console, [message, ...args]);
+};
+
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
 export const simulateMouseClick = (element) => {
   mouseClickEvents.forEach(mouseEventType =>
