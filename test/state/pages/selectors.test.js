@@ -8,6 +8,7 @@ import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
   getPageTreePages, getCharsets, getContentTypes, getFreePages, getReferencesFromSelectedPage,
   getSelectedPagePreviewURI, getSelectedPageLocaleTitle, getSelectedPublishedPageURI,
+  getIsVirtualRootOn,
 } from 'state/pages/selectors';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
@@ -56,6 +57,7 @@ const MOCK_STATE = {
     },
     freePages: [],
     selected: { ...HOMEPAGE_PAYLOAD, references: { jacmsContentManager: true } },
+    virtualRoot: true,
   },
 };
 
@@ -89,6 +91,10 @@ describe('state/pages/selectors', () => {
   it('getStatusMap(state) returns the pages object', () => {
     const selected = getStatusMap(MOCK_STATE);
     expect(selected).toBe(MOCK_STATE.pages.statusMap);
+  });
+  it('getIsVirtualRootOn(state) returns the virtualRoot boolean', () => {
+    const selected = getIsVirtualRootOn(MOCK_STATE);
+    expect(selected).toBe(MOCK_STATE.pages.virtualRoot);
   });
 
   describe('getPositionMap(state)', () => {

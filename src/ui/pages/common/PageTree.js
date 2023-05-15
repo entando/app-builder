@@ -16,13 +16,24 @@ import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
-import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+import { HOMEPAGE_CODE, PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+
+export const getIsRootAndVirtual = (page, virtualRootOn) => {
+  if (!page) {
+    return false;
+  }
+  if (page.code === HOMEPAGE_CODE && virtualRootOn) {
+    return true;
+  }
+  return false;
+};
 
 class PageTree extends Component {
   constructor(props) {
     super(props);
     this.handleDrop = this.handleDrop.bind(this);
     this.renderActionCell = this.renderActionCell.bind(this);
+    this.renderStatusCell = this.renderStatusCell.bind(this);
   }
 
   componentDidMount() {
@@ -109,9 +120,7 @@ class PageTree extends Component {
           className: 'text-center PageTree__thead',
           style: { width: '10%' },
         },
-        Cell: ({ value }) => (
-          <PageStatusIcon status={value} />
-        ),
+        Cell: this.renderStatusCell,
         cellAttributes: {
           className: 'text-center',
         },
@@ -150,6 +159,12 @@ class PageTree extends Component {
   }
 
   renderActionCell({ original: page }) {
+    const isRootAndVirtual = getIsRootAndVirtual(page, this.props.virtualRootOn);
+
+    if (isRootAndVirtual) {
+      return null;
+    }
+
     return (
       <PageTreeActionMenu
         page={page}
@@ -167,6 +182,14 @@ class PageTree extends Component {
         domain={this.props.domain}
         myGroupIds={this.props.myGroupIds}
       />
+    );
+  }
+
+  renderStatusCell(args) {
+    const isRootAndVirtual = getIsRootAndVirtual(args.row.original, this.props.virtualRootOn);
+    if (isRootAndVirtual) return null;
+    return (
+      <PageStatusIcon status={args.value} hide={isRootAndVirtual} />
     );
   }
 
@@ -258,6 +281,7 @@ PageTree.propTypes = {
   onSetColumnOrder: PropTypes.func,
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
+  virtualRootOn: PropTypes.bool,
 };
 
 PageTree.defaultProps = {
@@ -270,6 +294,7 @@ PageTree.defaultProps = {
   onSetColumnOrder: () => {},
   columnOrder: ['title', 'status', 'displayedInMenu'],
   myGroupIds: [],
+  virtualRootOn: false,
 };
 
 export default PageTree;

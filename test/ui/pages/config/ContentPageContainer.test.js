@@ -1,6 +1,6 @@
 import { mapStateToProps, mapDispatchToProps } from 'ui/pages/config/ContentPagesContainer';
 import { HOMEPAGE_PAYLOAD, SEARCH_PAGES } from 'test/mocks/pages';
-import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
+import { getPageTreePages, getSearchPages, getSelectedPage, getIsVirtualRootOn } from 'state/pages/selectors';
 import { getUserPreferences } from 'state/user-preferences/selectors';
 import { getMyGroupsList } from 'state/groups/selectors';
 
@@ -8,6 +8,7 @@ jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
   getSearchPages: jest.fn(),
   getSelectedPage: jest.fn(),
+  getIsVirtualRootOn: jest.fn(),
 }));
 
 jest.mock('state/pagination/selectors', () => ({
@@ -29,6 +30,7 @@ getSearchPages.mockReturnValue([SEARCH_PAGES]);
 getSelectedPage.mockReturnValue(HOMEPAGE_PAYLOAD);
 getUserPreferences.mockReturnValue({});
 getMyGroupsList.mockReturnValue(['administrators', 'free']);
+getIsVirtualRootOn.mockReturnValue(false);
 
 describe('ContentPagesContainer', () => {
   describe('mapStateToProps', () => {

@@ -18,7 +18,9 @@ import {
   BATCH_TOGGLE_EXPANDED,
   COLLAPSE_ALL,
   SET_DASHBOARD_PAGES,
+  SET_VIRTUAL_ROOT,
 } from 'state/pages/types';
+import { HOMEPAGE_CODE } from './const';
 
 // creates a map from an array
 const toMap = (array, propKey) => array.reduce((acc, page) => {
@@ -138,9 +140,15 @@ const childrenMap = (state = {}, action = {}) => {
 const titlesMap = (state = {}, action = {}) => {
   switch (action.type) {
     case ADD_PAGES: {
+      const mapOfTitles = toMap(action.payload.pages, 'titles');
+      if (mapOfTitles[HOMEPAGE_CODE]) {
+        Object.keys(mapOfTitles[HOMEPAGE_CODE]).forEach((key) => {
+          mapOfTitles[HOMEPAGE_CODE][key] = 'Root';
+        });
+      }
       return {
         ...state,
-        ...toMap(action.payload.pages, 'titles'),
+        ...mapOfTitles,
       };
     }
     case UPDATE_PAGE: {
@@ -285,6 +293,14 @@ export const dashboard = (state = [], action = {}) => {
   }
 };
 
+export const virtualRoot = (state = {}, action = {}) => {
+  switch (action.type) {
+    case SET_VIRTUAL_ROOT:
+      return action.payload;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map: reducer,
   childrenMap,
@@ -295,4 +311,5 @@ export default combineReducers({
   selected,
   search,
   dashboard,
+  virtualRoot,
 });

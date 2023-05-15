@@ -21,6 +21,7 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
   SET_DASHBOARD_PAGES,
+  SET_VIRTUAL_ROOT,
 } from 'state/pages/types';
 import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
@@ -167,6 +168,11 @@ export const setDashboardPages = pages => ({
   },
 });
 
+export const setVirtualRoot = virtualRoot => ({
+  type: SET_VIRTUAL_ROOT,
+  payload: virtualRoot,
+});
+
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const json = await response.json();
@@ -222,6 +228,9 @@ export const fetchPageTree = pageCode => async (dispatch) => {
       fetchPage(pageCode)(dispatch),
       fetchPageChildren(pageCode)(dispatch),
     ]);
+    const rootMetadata = responses[1] ? responses[1].metaData : {};
+    const { virtualRoot } = rootMetadata;
+    dispatch(setVirtualRoot(virtualRoot));
     return [responses[0].payload].concat(responses[1].payload);
   }
   const response = await fetchPageChildren(pageCode)(dispatch);

@@ -106,6 +106,7 @@ class ContentPages extends Component {
     const {
       loading, onExpandPage, pages, intl, searchPages,
       onClear, loadOnPageSelect, onLoadPage, myGroupIds,
+      virtualRootOn,
     } = this.props;
     const { expanded } = this.state;
 
@@ -174,6 +175,7 @@ class ContentPages extends Component {
               {...this.props}
               className={loadOnPageSelect ? 'ContentPages__pagetree--loadable' : ''}
               pages={pages}
+              virtualRootOn={virtualRootOn}
               selectedPage={selectedPage}
               onExpandPage={onExpandPage}
               onRowClick={this.handlePageSelect}
@@ -206,6 +208,7 @@ ContentPages.propTypes = {
   onLoadPage: PropTypes.func,
   onSearchPageChange: PropTypes.func.isRequired,
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
+  virtualRootOn: PropTypes.bool,
 };
 ContentPages.defaultProps = {
   onWillMount: () => {},
@@ -221,6 +224,7 @@ ContentPages.defaultProps = {
   loadOnPageSelect: true,
   onLoadPage: () => {},
   myGroupIds: [],
+  virtualRootOn: false,
 };
 
 export default injectIntl(ContentPages);
