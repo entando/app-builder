@@ -104,8 +104,9 @@ const PAGE_STATUS_DEFAULTS = {
 };
 
 export const getPageTreePages = createSelector(
-  [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale, getDefaultLanguage],
-  (pages, pageChildren, pagesStatus, pagesTitles, locale, defaultLang) => (
+  [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale, getDefaultLanguage,
+    getIsVirtualRootOn],
+  (pages, pageChildren, pagesStatus, pagesTitles, locale, defaultLang, virtualRootOn) => (
     getPagesOrder(pageChildren)
       .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
       .map((pageCode) => {
@@ -118,11 +119,15 @@ export const getPageTreePages = createSelector(
             .some(el => pages[el] && pages[el].status === PAGE_STATUS_PUBLISHED);
         }
 
-        const title = pagesTitles[pageCode][locale]
+        let title = pagesTitles[pageCode][locale]
           || pagesTitles[pageCode][defaultLang]
           || pagesTitles[pageCode][
             Object.keys(pagesTitles[pageCode]).find(langCode => pagesTitles[pageCode][langCode])
           ];
+
+        if (pageCode === HOMEPAGE_CODE && virtualRootOn) {
+          title = 'Root';
+        }
 
         return ({
           ...pages[pageCode],
