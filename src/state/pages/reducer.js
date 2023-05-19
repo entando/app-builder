@@ -177,6 +177,7 @@ const statusMap = (state = {}, action = {}) => {
         [pageCode]: {
           ...state[pageCode],
           expanded: expanded !== undefined ? expanded : true,
+          childrenFetched: true,
         },
       };
     }

@@ -152,9 +152,11 @@ describe('state/pages/reducer', () => {
       it('should toggle the page expanded flag', () => {
         newState = reducer(state, setPageExpanded(PAGE_CODE));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(true);
+        expect(newState.statusMap[PAGE_CODE].childrenFetched).toBe(true);
 
         newState = reducer(newState, setPageExpanded(PAGE_CODE, false));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(false);
+        expect(newState.statusMap[PAGE_CODE].childrenFetched).toBe(true);
       });
     });
 

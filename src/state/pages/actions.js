@@ -247,7 +247,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
     const state = getState();
     const pageStatus = getStatusMap(state)[pageCode];
     const toExpand = (!pageStatus || !pageStatus.expanded);
-    const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
+    const toLoad = (toExpand && (!pageStatus || !pageStatus.childrenFetched));
     if (toLoad) {
       dispatch(setPageLoading(pageCode));
       return fetchPageTree(pageCode)(dispatch)
