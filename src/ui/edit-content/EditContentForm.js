@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, defineMessages, FormattedMessage } from 'react-intl';
-import { Row, Col, FormGroup, ControlLabel, Spinner, Button } from 'patternfly-react';
+import { Row, Col, FormGroup, Spinner, Button } from 'patternfly-react';
 import { Field, reduxForm } from 'redux-form';
 import Panel from 'react-bootstrap/lib/Panel';
 import { required, maxLength } from '@entando/utils';
@@ -14,11 +14,8 @@ import FormLabel from 'ui/common/form/FormLabel';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import RenderVersionText from 'ui/common/form/RenderVersionText';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
-import ExtCategoryTreeContainer from 'ui/categories/common/ExtCategoryTreeSelectorContainer';
 
 import { WORK_MODE_ADD, WORK_MODE_EDIT } from 'state/edit-content/types';
-import ContentAttributesContainer from 'ui/edit-content/content-attributes/ContentAttributesContainer';
-import SingleContentVersioningHistoryContainer from 'ui/versioning/SingleContentVersioningHistoryContainer';
 
 const maxLength255 = maxLength(255);
 
@@ -147,14 +144,12 @@ export class EditContentFormBody extends React.Component {
       groups,
       allGroups,
       content,
-      language,
       workMode,
       handleSubmit,
       onSubmit,
       invalid,
       submitting,
       onUnpublish,
-      selectedJoinGroups,
       contentType: cType,
       currentUser: currentUserName,
       dirty,
@@ -163,7 +158,6 @@ export class EditContentFormBody extends React.Component {
       onSave,
       loading,
       match: { params = {} },
-      selectedOwnerGroup,
       closeModal,
       missingTranslations,
       saveType,
@@ -178,7 +172,6 @@ export class EditContentFormBody extends React.Component {
       typeCode: cType.code,
     };
     const contentType = content.typeDescription || newContentsType.typeDescription || '';
-    const typeCode = content.typeCode || newContentsType.typeCode;
     const groupsWithEmptyOption = [...groups];
     const handleCollapseInfo = val => this.collapseSection('infoOpen', val);
     const handleCollapseGroups = val => this.collapseSection('groupsOpen', val);
@@ -191,7 +184,6 @@ export class EditContentFormBody extends React.Component {
             <legend>
               <FormattedMessage id="cms.versioning.history" defaultMessage="History" />
             </legend>
-            <SingleContentVersioningHistoryContainer id={id} />
           </Panel.Body>
         </Panel>
       </Row>
@@ -209,7 +201,7 @@ export class EditContentFormBody extends React.Component {
           // set focus to element
           const inputId = `${attributePath}.values.${lang}`;
           const element = document.getElementById(inputId)
-          || document.getElementsByName(inputId)[0];
+            || document.getElementsByName(inputId)[0];
 
           if (element) {
             const fieldCollapse = element.closest('.ContentFormFieldCollapse');
@@ -233,7 +225,7 @@ export class EditContentFormBody extends React.Component {
           ...values,
           saveType,
         }, undefined, true))
-          }
+        }
       >
         <FormattedMessage id="cms.label.ignore" />
       </Button>,
@@ -332,7 +324,7 @@ export class EditContentFormBody extends React.Component {
                               helpId="cms.contents.edit.contentDescription.tooltip"
                               required
                             />
-      )}
+                          )}
                           placeholder={intl.formatMessage(messages.contentDesctiption)}
                         />
                       </Col>
@@ -403,23 +395,6 @@ export class EditContentFormBody extends React.Component {
                 noRequired
                 isOpened={categoriesOpen}
               />
-              <Collapse isOpened={categoriesOpen}>
-                <fieldset className="EditContentForm__fieldset">
-                  <FormGroup>
-                    <ControlLabel htmlFor="contentCategories" className="col-xs-2">
-                      <FormLabel labelId="cms.contents.edit.categories" />
-                    </ControlLabel>
-                    <Col xs={10}>
-                      <Field
-                        component={ExtCategoryTreeContainer}
-                        language={language}
-                        name="contentCategories"
-                        treeNameId="cms.contents.edit.categories.categoriesTree"
-                      />
-                    </Col>
-                  </FormGroup>
-                </fieldset>
-              </Collapse>
             </Row>
 
             <div id="attributesWrapper" className="EditContentForm__attributes-area">
@@ -429,16 +404,6 @@ export class EditContentFormBody extends React.Component {
                   onClick={handleCollapseAttributes}
                   isOpened={attributesOpen}
                 />
-                {(content.attributes || typeCode) && (
-                <ContentAttributesContainer
-                  attributes={content.attributes}
-                  typeCode={typeCode}
-                  content={content}
-                  mainGroup={selectedOwnerGroup}
-                  joinGroups={selectedJoinGroups}
-                  isNewContent={workMode === WORK_MODE_ADD}
-                />
-                )}
               </Row>
             </div>
 

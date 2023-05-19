@@ -41,16 +41,16 @@ import plugins from 'state/plugins/reducer';
 import contentTemplate from 'state/content-template/reducer';
 import contentType from 'state/content-type/reducer';
 import editContent from 'state/edit-content/reducer';
-import assets from 'state/assets/reducer';
 import contentSettings from 'state/content-settings/reducer';
 import contents from 'state/contents/reducer';
-import versioning from 'state/versioning/reducer';
 import tableColumns from 'state/table-columns/reducer';
 import system from 'state/system/reducer';
+import currentTenant from 'state/multi-tenancy/reducer';
 
 import entandoApps from 'entando-apps';
 import hub from 'state/component-repository/hub/reducer';
 import mfe from 'state/mfe/reducer';
+import currentSystemConfiguration from 'state/current-system-configuration/reducer';
 
 const appsReducers = entandoApps.reduce((obj, { id, state }) => ({ ...obj, [id]: state }), {});
 
@@ -99,14 +99,14 @@ const reducerDef = {
   contentTemplate,
   contentType,
   editContent,
-  assets,
   contentSettings,
   contents,
-  versioning,
   tableColumns,
   hub,
   system,
   mfe,
+  currentTenant,
+  currentSystemConfiguration,
 };
 
 // app root reducer

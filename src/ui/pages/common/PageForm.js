@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
-import { required, code, maxLength } from '@entando/utils';
+import { required, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isUndefined } from 'lodash';
 
@@ -19,6 +19,7 @@ import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
+import { codeWithDash } from 'helpers/attrValidation';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
@@ -336,7 +337,7 @@ export class PageFormBody extends Component {
               tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
-              validate={[required, code, maxLength30]}
+              validate={[required, codeWithDash, maxLength30]}
               disabled={isEditMode}
             />
 

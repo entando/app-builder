@@ -1,8 +1,8 @@
 import 'test/enzyme-init';
 import {
   NO_PAGE, getBundlesFromRegistry, getRegistries, getBundleGroups,
-  deleteRegistry, addRegistry, deployBundle, undeployBundle,
-  getBundleStatuses, getBundleStatusWithCode,
+  deleteRegistry, addRegistry, updateRegistry, deployBundle,
+  undeployBundle, getBundleStatuses, getBundleStatusWithCode,
 } from 'api/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import {
@@ -34,15 +34,15 @@ describe('api/component-repository/hub', () => {
     });
 
     it('makes the correct request', () => {
-      const url = 'http://test.com';
-      getBundlesFromRegistry(url);
+      const registryId = 123;
+      getBundlesFromRegistry(registryId);
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          uri: '/bundles/',
-          domain: url,
+          uri: `/hub/bundles/${registryId}/`,
+          domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
-          useAuthentication: false,
+          useAuthentication: true,
         },
         DEFAULT_PAGE,
       );
@@ -96,15 +96,15 @@ describe('api/component-repository/hub', () => {
     });
 
     it('makes the correct request', () => {
-      const url = 'http://test.com';
-      getBundleGroups(url);
+      const registryId = 123;
+      getBundleGroups(registryId);
       expect(makeRequest).toHaveBeenCalledWith(
         {
-          uri: '/bundlegroups/?statuses=PUBLISHED&',
-          domain: url,
+          uri: `/hub/bundlegroups/${registryId}/?statuses=PUBLISHED&`,
+          domain: '/digital-exchange',
           method: METHODS.GET,
           mockResponse: LIST_BUNDLE_GROUPS_OK,
-          useAuthentication: false,
+          useAuthentication: true,
         },
         DEFAULT_PAGE,
       );
@@ -142,6 +142,25 @@ describe('api/component-repository/hub', () => {
         uri: '/registries',
         domain: '/digital-exchange',
         method: METHODS.POST,
+        mockResponse: ADD_REGISTRY_OK,
+        useAuthentication: true,
+        body: registryObject,
+      });
+    });
+  });
+
+  describe('updateRegistry', () => {
+    it('returns a promise', () => {
+      expect(updateRegistry()).toBeInstanceOf(Promise);
+    });
+
+    it('makes the correct request', () => {
+      const registryObject = { name: 'test name', url: 'http://test.com' };
+      updateRegistry(registryObject);
+      expect(makeRequest).toHaveBeenCalledWith({
+        uri: '/registries',
+        domain: '/digital-exchange',
+        method: METHODS.PUT,
         mockResponse: ADD_REGISTRY_OK,
         useAuthentication: true,
         body: registryObject,

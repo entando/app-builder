@@ -215,3 +215,11 @@ export const imageValidate = memoize(langCode => (input) => {
   }
   return condition ? undefined : <FormattedMessage id="validateForm.required" />;
 }, (...args) => JSON.stringify(args));
+
+export const codeWithDash = value =>
+  (value && /^[0-9a-zA-Z_.-]+$/i.test(value) ? undefined : (
+    <FormattedMessage id="validateForm.codeWithDash" />
+  ));
+
+export const friendlyCodeWithDash = value => (value && !/^[0-9a-zA-Z_.-]+$/i.test(value) ?
+  <FormattedMessage id="validateForm.friendlyCodeWithDash" /> : undefined);

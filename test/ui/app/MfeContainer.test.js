@@ -38,6 +38,16 @@ describe('MfeContainer', () => {
       permissions: {
         loggedUser: [...mfeConfigMock.userPermissions],
       },
+      currentTenant: {
+        currentTenant: {},
+      },
+      currentSystemConfiguration: {
+        currentSystemConfiguration: {
+          advancedSearch: {
+            enabled: true,
+          },
+        },
+      },
     }));
   });
 

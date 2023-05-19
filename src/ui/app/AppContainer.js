@@ -7,6 +7,8 @@ import { fetchMyGroups } from 'state/groups/actions';
 import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
 import App from 'ui/app/App';
+import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
+import { fetchCurrentSystemConfiguration } from 'state/current-system-configuration/actions';
 
 export const mapStateToProps = (state, { location: { pathname } }) => ({
   username: getUsername(state),
@@ -16,10 +18,14 @@ export const mapStateToProps = (state, { location: { pathname } }) => ({
 
 export const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(fetchPlugins()),
+  fetchCurrentSystemConfiguration: () => dispatch(fetchCurrentSystemConfiguration()),
   fetchUserPreferences: (username) => {
     dispatch(clearAppTourProgress());
     dispatch(fetchUserPreferences(username));
     dispatch(fetchMyGroups({ sort: 'name' }));
+  },
+  fetchCurrentTenantInfo: () => {
+    dispatch(fetchCurrentTenant());
   },
 });
 

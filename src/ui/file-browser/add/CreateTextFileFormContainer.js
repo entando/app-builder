@@ -20,7 +20,8 @@ export const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-  null, {
+  null,
+  {
     pure: false,
   },
 )(CreateTextFileForm));

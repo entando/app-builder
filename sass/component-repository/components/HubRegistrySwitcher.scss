@@ -41,21 +41,35 @@
     text-align: right;
   }
 
+  &__key-icon {
+    margin-right: 12px;
+    color: transparent;
+    font-size: 14px;
+    // sass-lint:disable no-vendor-prefixes
+    -webkit-text-stroke: #363636;
+    -webkit-text-stroke-width: thick;
+    // sass-lint:enable
+  }
+
+  &__edit {
+    margin-right: 12px;
+  }
+
   &__trash {
     float: right;
   }
 
   &__action-label {
     display: inline-block;
-    width: 190px;
+    width: 180px;
     margin-left: 0;
-    padding-left: 25px;
+    padding-left: 8px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 
     &--new {
-      padding-left: 5px;
+      padding-left: 34px;
       color: $color-mid-blue;
       font-family: "Open Sans";
       font-size: 12px;
@@ -104,6 +118,19 @@
   div {
     input { //sass-lint:disable-line nesting-depth
       height: 30px;
+    }
+  }
+}
+
+.EditRegistryModal {
+  width: 800px;
+
+  .alert { // sass-lint:disable-line class-name-format
+    padding-left: 11px;
+    color: $color-dim-grey;
+
+    .pficon { //sass-lint:disable-line nesting-depth class-name-format
+      display: none;
     }
   }
 }

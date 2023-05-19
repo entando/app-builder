@@ -9,12 +9,13 @@ import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 
 import SeoInfoMetadataContainer from 'ui/pages/common/SeoInfoMetadataContainer';
+import { friendlyCodeWithDash } from 'helpers/attrValidation';
 
 const maxLength70 = maxLength(70);
 const maxLength100 = maxLength(100);
 
-const friendlyCodeValidation = value => (value && !/^[0-9a-z_]+$/g.test(value) ?
-  <FormattedMessage id="validateForm.friendlyCode" /> : undefined);
+// const friendlyCodeValidation = value => (value && !/^[0-9a-z_]+$/g.test(value) ?
+//   <FormattedMessage id="validateForm.friendlyCode" /> : undefined);
 
 const uniqueFriendlyCodeValidation = (value, allValues) => {
   const friendlyCodes = Object.values((allValues.seoData || {}).seoDataByLang || {})
@@ -151,7 +152,7 @@ const SeoInfo = ({
                         name="friendlyCode"
                         disabled={readOnly}
                         inputSize={12}
-                        validate={[friendlyCodeValidation,
+                        validate={[friendlyCodeWithDash,
                           maxLength100, uniqueFriendlyCodeValidation]}
                         labelSize={0}
                       />

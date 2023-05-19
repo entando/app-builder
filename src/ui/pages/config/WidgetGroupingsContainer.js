@@ -14,6 +14,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   filterWidget: value => dispatch(setSearchFilter(value)),
+  clearFilter: () => dispatch(setSearchFilter('')),
 });
 
 

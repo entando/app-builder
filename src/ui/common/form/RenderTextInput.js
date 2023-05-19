@@ -18,11 +18,12 @@ export const RenderTextInputBody = ({
   xsClass,
   forwardedRef,
   endButtons,
+  tourClass,
   ...others
 }) => {
   const { restProps } = others;
   return (
-    <div className={touched && error ? 'form-group has-error' : 'form-group'}>
+    <div className={(touched && error) ? `form-group has-error ${tourClass}` : `form-group ${tourClass}`}>
       {hasLabel && labelSize > 0 && (
         <Col xs={12} sm={labelSize} className={`${alignClass} ${xsClass}`}>
           <ControlLabel htmlFor={input.name}>
@@ -84,6 +85,7 @@ RenderTextInputBody.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  tourClass: PropTypes.string,
 };
 
 RenderTextInputBody.defaultProps = {
@@ -104,6 +106,7 @@ RenderTextInputBody.defaultProps = {
   xsClass: 'mobile-left',
   forwardedRef: null,
   endButtons: null,
+  tourClass: '',
 };
 
 export default React.forwardRef((props, ref) => (

@@ -79,18 +79,24 @@ describe('WidgetGroupings', () => {
           test: {},
         },
       },
+      currentTenant: {
+        currentTenant: {},
+      },
     }));
   });
 
   it('has the root class', () => {
-    const { container } = render(<WidgetGroupings />);
+    const clearFilter = jest.fn();
+    const { container } = render(<WidgetGroupings clearFilter={clearFilter} />);
     expect(container.firstChild.classList.contains('WidgetGroupings')).toBe(true);
   });
 
   it('has filterable data', async () => {
     const filterWidget = jest.fn();
+    const clearFilter = jest.fn();
     render(<WidgetGroupings
       filterWidget={filterWidget}
+      clearFilter={clearFilter}
       groupedWidgets={GROUPED_WIDGETS}
       widgetGroupingList={WIDGET_GROUPING_LIST}
     />);

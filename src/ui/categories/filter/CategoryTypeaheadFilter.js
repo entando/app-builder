@@ -11,7 +11,6 @@ const CategoryTypeaheadFilter = ({
   language,
   onChangeCategory,
   intl,
-  paginationOptions,
   onApplyFilteredSearch,
   filterSubject,
   applyFilterParams,
@@ -20,7 +19,7 @@ const CategoryTypeaheadFilter = ({
 }) => {
   useEffect(() => {
     onDidMount();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onChange = (category) => {
     const selected = category.map(catId => (
@@ -28,7 +27,6 @@ const CategoryTypeaheadFilter = ({
     ));
     onChangeCategory(selected, filterSubject);
     if (onApplyFilteredSearch) {
-      const { perPage: pageSize } = paginationOptions;
       const filterParams = [];
       if (selected.length) {
         filterParams.push(selected.map((filter, i) => (
@@ -38,7 +36,7 @@ const CategoryTypeaheadFilter = ({
 
       const extraParams = new URLSearchParams({
         page: 1,
-        pageSize,
+        pageSize: 5,
         ...(applyFilterParams || {}),
       });
       filterParams.push(extraParams.toString());
@@ -72,9 +70,6 @@ CategoryTypeaheadFilter.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string.isRequired,
   filterSubject: PropTypes.string.isRequired,
-  paginationOptions: PropTypes.shape({
-    perPage: PropTypes.number,
-  }).isRequired,
   onApplyFilteredSearch: PropTypes.func,
   applyFilterParams: PropTypes.shape({}),
   noLabel: PropTypes.bool,

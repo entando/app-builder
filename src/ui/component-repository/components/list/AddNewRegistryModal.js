@@ -92,6 +92,12 @@ const AddNewRegistryModalForm = ({
             type="text"
             validate={validateUrl}
           />
+          <Field
+            label={<FormLabel labelId="hub.newRegistry.apiKey" />}
+            component={RenderTextInput}
+            name="apiKey"
+            type="text"
+          />
         </fieldset>
       </Form>
     </GenericModalContainer>

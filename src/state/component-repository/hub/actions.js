@@ -2,7 +2,7 @@ import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messag
 
 import { toggleLoading } from 'state/loading/actions';
 import { setPage } from 'state/pagination/actions';
-import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses } from 'api/component-repository/hub';
+import { addRegistry, getBundlesFromRegistry, getRegistries, deleteRegistry, getBundleGroups, deployBundle, undeployBundle, getBundleStatuses, updateRegistry } from 'api/component-repository/hub';
 import {
   SET_ACTIVE_REGISTRY, SET_BUNDLE_GROUP_ID_FILTER,
   SET_FETCHED_BUNDLES, SET_FETCHED_BUNDLE_GROUPS,
@@ -109,13 +109,13 @@ export const fetchSelectedBundleStatus = bundleId => dispatch => (
 );
 
 
-export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
+export const fetchBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 10 }, params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
 
-    const currentParams = params ? `${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
+    const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
 
-    getBundlesFromRegistry(url, page, currentParams).then((response) => {
+    getBundlesFromRegistry(registryId, page, currentParams).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           if (data.payload) {
@@ -142,6 +142,15 @@ export const fetchBundlesFromRegistry = (url, page = { page: 1, pageSize: 10 }, 
   })
 );
 
+export const fetchBundlesFromRegistryWithFilters = (registryId, page) => (dispatch, getState) => {
+  const state = getState();
+  const filters = getBundleFilters(state);
+  const params = Object.keys(filters)
+    .map(k => (filters[k] ? `${k}=${filters[k]}` : ''))
+    .join('&');
+  return dispatch(fetchBundlesFromRegistry(registryId, page, params));
+};
+
 export const fetchRegistries = (params = '') => dispatch => (
   new Promise((resolve) => {
     dispatch(toggleLoading(FETCH_REGISTRIES_LOADING_STATE));
@@ -167,9 +176,9 @@ export const fetchRegistries = (params = '') => dispatch => (
   })
 );
 
-export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params = '') => dispatch => (
+export const fetchBundleGroups = (registryId, page = { page: 1, pageSize: 0 }, params = '') => dispatch => (
   new Promise((resolve) => {
-    getBundleGroups(url, page, params).then((response) => {
+    getBundleGroups(registryId, page, params).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setFetchedBundleGroups(data.payload));
@@ -184,38 +193,6 @@ export const fetchBundleGroups = (url, page = { page: 1, pageSize: 0 }, params =
       });
     }).finally(() => {
     });
-  })
-);
-
-export const fetchBundlesFromRegistryWithFilters = (url, page) => (dispatch, getState) => (
-  new Promise((resolve) => {
-    const state = getState();
-    const filters = getBundleFilters(state);
-    const params = Object.keys(filters).map(k => (filters[k] ? `${k}=${filters[k]}` : '')).join('&');
-    const currentParams = params ? `?${params}&${BUNDLE_DESCRIPTOR_QUERY}` : `?${BUNDLE_DESCRIPTOR_QUERY}`;
-
-    dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-    getBundlesFromRegistry(url, page, currentParams).then((response) => {
-      response.json().then((data) => {
-        if (response.ok) {
-          dispatch(fetchBundleStatuses(data.payload.map(bundle => bundle.gitRepoAddress)));
-          dispatch(setFetchedBundlesFromRegistry(data.payload));
-          dispatch(setPage(data.metadata));
-        } else if (data.errors) {
-          dispatch(addErrors(data.errors.map(err => err.message)));
-          data.errors.forEach(err =>
-            dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
-        } else {
-          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-        }
-        resolve();
-      });
-    }).catch(() => {
-      dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-    })
-      .finally(() => {
-        dispatch(toggleLoading(FETCH_BUNDLES_LOADING_STATE));
-      });
   })
 );
 
@@ -267,6 +244,31 @@ export const sendPostRegistry = registryObject => dispatch => (
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     }).finally(() => {
+    });
+  })
+);
+
+export const sendPutRegistry = registryObject => dispatch => (
+  new Promise((resolve) => {
+    updateRegistry(registryObject).then((response) => {
+      response.json().then((data) => {
+        if (response.ok) {
+          dispatch(addToast(
+            { id: 'app.updated', values: { type: 'registry', code: data.payload.name } },
+            TOAST_SUCCESS,
+          ));
+          dispatch(fetchRegistries());
+        } else if (data.errors) {
+          dispatch(addErrors(data.errors.map(err => err.message)));
+          data.errors.forEach(err =>
+            dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR)));
+        } else {
+          dispatch(addToast(data.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+        }
+        resolve(response.ok);
+      });
+    }).catch((err) => {
+      dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
     });
   })
 );

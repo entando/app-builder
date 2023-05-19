@@ -46,11 +46,9 @@ const props = {
 describe('ui/edit-content/EditContentForm', () => {
   describe('Test EditContentForm during adding a new content', () => {
     it('render component without crash and parts are hidden if ownerGroup is not chosen', () => {
-      const component = shallow(
-        <EditContentFormBody
-          {...props}
-        />,
-      );
+      const component = shallow(<EditContentFormBody
+        {...props}
+      />);
       expect(component.exists()).toBe(true);
       const contentDescriptionWrapper = component.find('#contentDescriptionWrapper');
       expect(contentDescriptionWrapper.exists()).toBe(true);
@@ -63,12 +61,10 @@ describe('ui/edit-content/EditContentForm', () => {
     });
 
     it('render component without crash and parts are shown if ownerGroup is chosen', () => {
-      const component = shallow(
-        <EditContentFormBody
-          {...props}
-          ownerGroupDisabled
-        />,
-      );
+      const component = shallow(<EditContentFormBody
+        {...props}
+        ownerGroupDisabled
+      />);
       expect(component.exists()).toBe(true);
       const contentDescriptionWrapper = component.find('#contentDescriptionWrapper');
       expect(contentDescriptionWrapper.exists()).toBe(true);
@@ -81,12 +77,10 @@ describe('ui/edit-content/EditContentForm', () => {
     });
 
     it('render component without crash and parts are shown if ownerGroup is not chosen but work mode is Edit', () => {
-      const component = shallow(
-        <EditContentFormBody
-          {...props}
-          workMode={WORK_MODE_EDIT}
-        />,
-      );
+      const component = shallow(<EditContentFormBody
+        {...props}
+        workMode={WORK_MODE_EDIT}
+      />);
       expect(component.exists()).toBe(true);
       const contentDescriptionWrapper = component.find('#contentDescriptionWrapper');
       expect(contentDescriptionWrapper.exists()).toBe(true);

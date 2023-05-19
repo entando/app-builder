@@ -1,45 +1,30 @@
 import configureMockStore from 'redux-mock-store';
-import { initialize } from 'redux-form';
 import thunk from 'redux-thunk';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 import {
   setCategories,
   setCategoryExpanded,
-  setCategoryLoading,
   setCategoryLoaded,
-  setSelectedCategory,
   setReferences,
   fetchCategoryTree,
-  handleExpandCategory,
-  fetchCategory,
-  sendPostCategory,
-  sendPutCategory,
-  sendDeleteCategory,
-  fetchCategoryDetail,
   wrapApiCall,
   fetchReferences,
-  initCategoryForm,
 } from 'state/categories/actions';
 
 import {
   getCategoryTree,
-  postCategory,
-  getCategory,
-  putCategory,
-  deleteCategory,
   getReferences,
 } from 'api/categories';
 import { mockApi } from 'test/testUtils';
 
 import {
-  SET_CATEGORIES, SET_CATEGORY_EXPANDED, SET_CATEGORY_LOADING,
-  SET_CATEGORY_LOADED, CATEGORY_TREE_HOME, SET_SELECTED_CATEGORY,
+  SET_CATEGORIES, SET_CATEGORY_EXPANDED,
+  SET_CATEGORY_LOADED, CATEGORY_TREE_HOME,
   SET_REFERENCES,
 } from 'state/categories/types';
 
 import { TOGGLE_LOADING } from 'state/loading/types';
-import { STATE_NORMALIZED, BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
-import { history, ROUTE_CATEGORY_ADD } from 'app-init/router';
+import { BODY_OK, CONTENT_REFERENCES } from 'test/mocks/categories';
 
 const CATEGORY_CODE = 'category_code';
 const REFERENCE_KEY = 'jacmsContentManager';
@@ -89,22 +74,10 @@ describe('state/categories/actions', () => {
     expect(action.payload).toHaveProperty('expanded', true);
   });
 
-  it('setCategoryLoading() should return a well formed action', () => {
-    const action = setCategoryLoading(CATEGORY_CODE);
-    expect(action).toHaveProperty('type', SET_CATEGORY_LOADING);
-    expect(action.payload).toHaveProperty('categoryCode', CATEGORY_CODE);
-  });
-
   it('setCategoryLoaded() should return a well formed action', () => {
     const action = setCategoryLoaded(CATEGORY_CODE);
     expect(action).toHaveProperty('type', SET_CATEGORY_LOADED);
     expect(action.payload).toHaveProperty('categoryCode', CATEGORY_CODE);
-  });
-
-  it('setSelectedCategory() should return a well formed action', () => {
-    const action = setSelectedCategory(BODY_OK);
-    expect(action).toHaveProperty('type', SET_SELECTED_CATEGORY);
-    expect(action.payload.category).toHaveProperty('code', BODY_OK.code);
   });
 
   it('setReferences() should return a well formed action', () => {
@@ -112,35 +85,6 @@ describe('state/categories/actions', () => {
     const action = setReferences(CATEGORY_REFS);
     expect(action).toHaveProperty('type', SET_REFERENCES);
     expect(action.payload).toHaveProperty('references', {});
-  });
-
-  describe('handleExpandCategory()', () => {
-    beforeEach(() => {
-      getCategoryTree.mockImplementation(mockApi({ payload: CATEGORY_TREE_HOME }));
-    });
-    it('when loading an already expanded category (home) set category expanded to false', (done) => {
-      store = mockStore(STATE_NORMALIZED);
-      store.dispatch(handleExpandCategory()).then(() => {
-        const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', SET_CATEGORY_EXPANDED);
-        expect(actions[0].payload).toHaveProperty('expanded', false);
-        done();
-      }).catch(done.fail);
-    });
-
-    it('when loading root category, should download the root and its children', (done) => {
-      store = mockStore({
-        categories: { statusMap: { home: { expandend: false, loaded: false } } },
-      });
-      store.dispatch(handleExpandCategory('home')).then(() => {
-        const actionTypes = store.getActions().map(action => action.type);
-        expect(actionTypes).toHaveLength(8);
-        expect(actionTypes.includes(TOGGLE_LOADING)).toBe(true);
-        expect(actionTypes.includes(SET_CATEGORY_LOADING)).toBe(true);
-        done();
-      }).catch(done.fail);
-    });
   });
 
   describe('fetchCategoryTree', () => {
@@ -166,61 +110,6 @@ describe('state/categories/actions', () => {
         const actions = store.getActions();
         expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', SET_CATEGORIES);
-        done();
-      }).catch(done.fail);
-    });
-  });
-
-  describe('sendPostCategory()', () => {
-    it('when postCategory succeeds should call post action', (done) => {
-      postCategory.mockImplementation(mockApi({ payload: BODY_OK }));
-      jest.mock('state/categories/selectors', () => ({ getCategoriesMap: () => ({ parentCode: { parentCode: '123' } }) }));
-      store.dispatch(sendPostCategory(BODY_OK)).then(() => {
-        expect(postCategory).toHaveBeenCalled();
-        done();
-      }).catch(done.fail);
-    });
-  });
-
-  describe('fetchCategory()', () => {
-    it('when getCategory succeeds should call post action', (done) => {
-      getCategory.mockImplementation(mockApi({ payload: BODY_OK }));
-      store.dispatch(fetchCategory(CATEGORY_CODE)).then(() => {
-        expect(getCategory).toHaveBeenCalledWith(CATEGORY_CODE);
-        done();
-      }).catch(done.fail);
-    });
-  });
-
-  describe('sendPutCategory()', () => {
-    it('when putCategory succeeds should call post action', (done) => {
-      putCategory.mockImplementation(mockApi({ payload: BODY_OK }));
-      store.dispatch(sendPutCategory(BODY_OK)).then(() => {
-        expect(putCategory).toHaveBeenCalledWith(BODY_OK);
-        done();
-      }).catch(done.fail);
-    });
-  });
-
-  describe('fetchCategoryDetail()', () => {
-    it('when getCategory succeeds should call post action', (done) => {
-      getCategory.mockImplementation(mockApi({ payload: BODY_OK }));
-      store.dispatch(fetchCategoryDetail(CATEGORY_CODE)).then(() => {
-        const actions = store.getActions();
-        expect(actions).toHaveLength(3);
-        expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-        expect(actions[1]).toHaveProperty('type', SET_SELECTED_CATEGORY);
-        expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
-        done();
-      }).catch(done.fail);
-    });
-  });
-
-  describe('sendDeleteCategory()', () => {
-    it('when deleteCategory succeeds should call post action', (done) => {
-      deleteCategory.mockImplementation(mockApi({ payload: CATEGORY_CODE }));
-      store.dispatch(sendDeleteCategory(CATEGORY_CODE)).then(() => {
-        expect(deleteCategory).toHaveBeenCalledWith(CATEGORY_CODE);
         done();
       }).catch(done.fail);
     });
@@ -266,17 +155,6 @@ describe('state/categories/actions', () => {
       return store.dispatch(wrapApiCall(genericApi)(BODY_OK)).catch((e) => {
         expect(e instanceof TypeError).toBe(true);
       });
-    });
-  });
-
-  describe('initCategoryForm()', () => {
-    it('when initCategoryForm is called should dispatch initialize action then go to route', () => {
-      store = mockStore(STATE_NORMALIZED);
-      store.dispatch(initCategoryForm({ parentCode: CATEGORY_CODE }));
-      expect(initialize).toHaveBeenCalledWith('category', {
-        parentCode: CATEGORY_CODE,
-      });
-      expect(history.push).toHaveBeenCalledWith(ROUTE_CATEGORY_ADD);
     });
   });
 });

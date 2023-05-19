@@ -14,7 +14,7 @@ const msgs = defineMessages({
 });
 
 const WidgetGroupings = ({
-  intl, groupedWidgets, widgetGroupingList, filterWidget, locale, searchFilter,
+  intl, groupedWidgets, widgetGroupingList, filterWidget, locale, searchFilter, clearFilter,
 }) => {
   const onChange = (event) => {
     filterWidget(event.target.value);
@@ -35,13 +35,16 @@ const WidgetGroupings = ({
     setOpenGroupings(newOpenGroupings);
   }, [searchFilter, widgetGroupingList]);
 
+  useEffect(() => () => {
+    clearFilter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const optClassSel = 'WidgetGroupings__view-option--selected';
-  const gridViewClass = `fa fa-th WidgetGroupings__view-option ${
-    view === GRID_VIEW ? optClassSel : ''
-  }`;
-  const listViewClass = `fa fa-list WidgetGroupings__view-option ${
-    view === LIST_VIEW ? optClassSel : ''
-  }`;
+  const gridViewClass = `fa fa-th WidgetGroupings__view-option 
+  ${view === GRID_VIEW ? optClassSel : ''}`;
+  const listViewClass = `fa fa-list WidgetGroupings__view-option 
+  ${view === LIST_VIEW ? optClassSel : ''}`;
 
   const setGridView = () => setView(GRID_VIEW);
   const setListView = () => setView(LIST_VIEW);
@@ -98,12 +101,14 @@ WidgetGroupings.propTypes = {
   intl: intlShape.isRequired,
   searchFilter: PropTypes.string,
   locale: PropTypes.string,
+  clearFilter: PropTypes.func,
 };
 
 WidgetGroupings.defaultProps = {
   groupedWidgets: {},
   widgetGroupingList: [],
   filterWidget: PropTypes.noop,
+  clearFilter: PropTypes.noop,
   searchFilter: null,
   locale: 'en',
 };

@@ -116,7 +116,6 @@ export const ROUTE_CMS_CONTENTTEMPLATE_ADD = '/cms/content-templates/add';
 export const ROUTE_CMS_EDIT_CONTENT = '/cms/content/edit/:id';
 export const ROUTE_CMS_ADD_CONTENT = '/cms/content/add/:contentType';
 export const ROUTE_CMS_CONTENTTEMPLATE_EDIT = '/cms/content-templates/edit/:id';
-export const ROUTE_CMS_ASSETS_LIST = '/cms/assets';
 export const ROUTE_CMS_CONTENTTYPE_LIST = '/cms/content-types';
 export const ROUTE_CMS_CONTENTTYPE_ADD = '/cms/content-types/add';
 export const ROUTE_CMS_CONTENTTYPE_EDIT = '/cms/content-types/edit/:code';

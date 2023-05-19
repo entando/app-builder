@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Row, Col, DropdownKebab, MenuItem, Icon } from 'patternfly-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -9,6 +9,7 @@ import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer'
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { ADD_NEW_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/AddNewRegistryModal';
 import { DELETE_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/DeleteRegistryModal';
+import { EDIT_REGISTRY_MODAL_ID } from 'ui/component-repository/components/list/EditRegistryModal';
 
 const DEFAULT_ECR_REGISTRY = {
   name: ECR_LOCAL_REGISTRY_NAME,
@@ -20,24 +21,29 @@ const HubRegistrySwitcher = () => {
   const registries = useSelector(getRegistries);
   const dispatch = useDispatch();
 
-  const handleRegistryChange = useCallback((registry) => {
+  const handleRegistryChange = (registry) => {
     if (registry.name !== activeRegistry.name) {
       dispatch(setFetchedBundleGroups([]));
       dispatch(setFetchedBundlesFromRegistry([]));
       dispatch(setActiveRegistry(registry));
     }
-  }, [activeRegistry.name, dispatch]);
+  };
 
-  const handleNewRegistryClick = useCallback(() => {
+  const handleNewRegistryClick = () => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry' }));
-  }, [dispatch]);
+  };
 
-  const handleDeleteRegistry = useCallback((registry) => {
+  const handleEditRegistry = (registry) => {
+    dispatch(setVisibleModal(EDIT_REGISTRY_MODAL_ID));
+    dispatch(setInfo({ editData: registry }));
+  };
+
+  const handleDeleteRegistry = (registry) => {
     if (activeRegistry.id === registry.id) return;
     dispatch(setVisibleModal(DELETE_REGISTRY_MODAL_ID));
     dispatch(setInfo({ type: 'Registry', code: registry.name, id: registry.id }));
-  }, [activeRegistry.id, dispatch]);
+  };
 
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
 
@@ -79,19 +85,34 @@ const HubRegistrySwitcher = () => {
                         onKeyDown={() => handleDeleteRegistry(reg)}
                         className="HubRegistrySwitcher__action-label"
                       >
+                        <span
+                          style={{ visibility: reg.apiKeyPresent ? 'visible' : 'hidden' }}
+                          className="HubRegistrySwitcher__key-icon pficon pficon-key fa-lg"
+                        />
                         {reg.name}
                       </div>
                       {
                         reg.name !== ECR_LOCAL_REGISTRY_NAME && (
-                          <div
-                            role="button"
-                            tabIndex={-1}
-                            className="HubRegistrySwitcher__trash"
-                            onClick={() => handleDeleteRegistry(reg)}
-                            onKeyDown={() => handleDeleteRegistry(reg)}
-                          >
-                            <Icon size="lg" name="trash" />
-                          </div>
+                          <Fragment>
+                            <div
+                              role="button"
+                              tabIndex={-1}
+                              className="HubRegistrySwitcher__edit"
+                              onClick={() => handleEditRegistry(reg)}
+                              onKeyDown={() => handleEditRegistry(reg)}
+                            >
+                              <Icon size="lg" name="edit" />
+                            </div>
+                            <div
+                              role="button"
+                              tabIndex={-1}
+                              className="HubRegistrySwitcher__trash"
+                              onClick={() => handleDeleteRegistry(reg)}
+                              onKeyDown={() => handleDeleteRegistry(reg)}
+                            >
+                              <Icon size="lg" name="trash" />
+                            </div>
+                          </Fragment>
                         )
                       }
                     </MenuItem>
