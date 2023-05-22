@@ -137,7 +137,7 @@ class AppTour extends React.Component {
 
     const mfeAppBuilderMenu = document.getElementsByTagName('app-builder-menu') ? document.getElementsByTagName('app-builder-menu')[0] : null;
     const getStep3Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-3 > a') : document.querySelector('.app-tour-step-3 > a'));
-    const getStep4Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-3 > a') : document.querySelector('.app-tour-step-4 > a'));
+    const getStep4Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-4 > a') : document.querySelector('.app-tour-step-4 > a'));
 
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');
