@@ -334,9 +334,10 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
         // check for conflicts on install plan before install
         postECRComponentInstallPlan(component, version)
           .then((response) => {
-            response.json().then(({ payload: installPlan }) => {
+            response.json().then((responseJson) => {
+              const { payload: installPlan, message } = responseJson;
               if (!installPlan) {
-                dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+                dispatch(addToast(message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
@@ -352,15 +353,10 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
                 dispatch(toggleConflictsModal(true, installPlan, component, version));
               }
             });
-            console.log('responsito', response);
           }).catch((error) => {
-            console.log(error);
             if (error && error.message) {
               dispatch(addErrors([error.message]));
               dispatch(addToast(error.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-            } else if (error) {
-              dispatch(addErrors([error]));
-              dispatch(addToast(error || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
             }
             dispatch(toggleLoading(loadingId));
           });
