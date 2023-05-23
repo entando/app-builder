@@ -47,6 +47,10 @@
     width: 40px;
   }
 
+  &__virtual-root {
+    cursor: not-allowed !important; // sass-lint:disable-line no-important
+  }
+
   // sass-lint:disable force-element-nesting nesting-depth no-qualifying-elements class-name-format
   &.table > tbody > &__row--selected {
     &,

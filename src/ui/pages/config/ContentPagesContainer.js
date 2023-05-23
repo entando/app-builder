@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { convertToQueryString, routeConverter } from '@entando/utils';
-import { getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
+import { getIsVirtualRootOn, getPageTreePages, getSearchPages, getSelectedPage } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/pages/common/DeletePageModal';
 import { MODAL_ID as UNPUBLISH_MODAL_ID } from 'ui/pages/common/UnpublishPageModal';
@@ -40,6 +40,7 @@ export const mapStateToProps = state => ({
   pageSize: getPageSize(state),
   domain: getDomain(state),
   myGroupIds: getMyGroupsList(state),
+  virtualRootOn: getIsVirtualRootOn(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

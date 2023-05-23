@@ -8,6 +8,7 @@ import {
   getPages, getPagesMap, getChildrenMap, getTitlesMap, getStatusMap, getPositionMap,
   getPageTreePages, getCharsets, getContentTypes, getFreePages, getReferencesFromSelectedPage,
   getSelectedPagePreviewURI, getSelectedPageLocaleTitle, getSelectedPublishedPageURI,
+  getIsVirtualRootOn,
 } from 'state/pages/selectors';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 
@@ -56,6 +57,7 @@ const MOCK_STATE = {
     },
     freePages: [],
     selected: { ...HOMEPAGE_PAYLOAD, references: { jacmsContentManager: true } },
+    virtualRoot: true,
   },
 };
 
@@ -90,6 +92,10 @@ describe('state/pages/selectors', () => {
     const selected = getStatusMap(MOCK_STATE);
     expect(selected).toBe(MOCK_STATE.pages.statusMap);
   });
+  it('getIsVirtualRootOn(state) returns the virtualRoot boolean', () => {
+    const selected = getIsVirtualRootOn(MOCK_STATE);
+    expect(selected).toBe(MOCK_STATE.pages.virtualRoot);
+  });
 
   describe('getPositionMap(state)', () => {
     it('returns a calculated position map', () => {
@@ -108,6 +114,8 @@ describe('state/pages/selectors', () => {
     let pageTreePages;
     beforeEach(() => {
       pageTreePages = getPageTreePages(MOCK_STATE);
+      // make virtualRoot false
+      MOCK_STATE.pages.virtualRoot = false;
     });
     it('only returns expanded rows and their children', () => {
       expect(pageTreePages.length).toBe(4); // homepage and its 3 children
@@ -153,6 +161,14 @@ describe('state/pages/selectors', () => {
       expect(pageTreePages[1].loaded).toBe(false);
       expect(pageTreePages[2].loaded).toBe(false);
       expect(pageTreePages[3].loaded).toBe(false);
+    });
+    it('shows Root for home if virtualRoot is true', () => {
+      MOCK_STATE.pages.virtualRoot = true;
+      pageTreePages = getPageTreePages(MOCK_STATE);
+      expect(pageTreePages[0].title).toBe('Root');
+      expect(pageTreePages[1].title).toBe(pageTreePages[1].titles[LOCALE_MOCK]);
+      expect(pageTreePages[2].title).toBe(pageTreePages[2].titles[LOCALE_MOCK]);
+      expect(pageTreePages[3].title).toBe(pageTreePages[3].titles[LOCALE_MOCK]);
     });
   });
 

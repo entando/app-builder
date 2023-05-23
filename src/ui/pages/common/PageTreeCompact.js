@@ -6,6 +6,7 @@ import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { getIsRootAndVirtual } from './PageTree';
 
 class PageTreeCompact extends Component {
   renderRows() {
@@ -13,7 +14,7 @@ class PageTreeCompact extends Component {
       pages, onClickDetails, onClickAdd, onClickEdit, onClickConfigure,
       onClickClone, onClickDelete, onClickUnPublish, onClickPublish,
       onRowClick, onClickViewPublishedPage, onClickPreview, selectedPage,
-      domain, locale, loadOnPageSelect, myGroupIds,
+      domain, locale, loadOnPageSelect, myGroupIds, virtualRootOn,
     } = this.props;
 
     const handleClick = (handler, page) => (e) => {
@@ -95,11 +96,15 @@ class PageTreeCompact extends Component {
         </MenuItem>
       );
 
+      const isRootAndVirtual = getIsRootAndVirtual(page, virtualRootOn);
+
       return (
         <tr
           key={page.code}
-          className={`PageTreeCompact__row ${selectedPage && selectedPage.code === page.code ? 'PageTreeCompact__row--selected' : ''}`}
-          onClick={() => onRowClick(page)}
+          className={`PageTreeCompact__row ${selectedPage && selectedPage.code === page.code ? 'PageTreeCompact__row--selected' : ''}
+            ${isRootAndVirtual ? 'PageTreeCompact__virtual-root' : ''}
+          `}
+          onClick={() => (isRootAndVirtual ? null : onRowClick(page))}
         >
           <td className={className.join(' ').trim()}>
             <div className="PageTreeCompact__column-wrapper">
@@ -129,51 +134,62 @@ class PageTreeCompact extends Component {
               )}
             </div>
           </td>
-          <td className="text-center PageTreeCompact__status-col">
-            <PageStatusIcon status={page.status} />
-          </td>
+          {
+            isRootAndVirtual ? null : (
+              <td className="text-center PageTreeCompact__status-col">
+                <PageStatusIcon status={page.status} />
+              </td>
+            )
+          }
           <td className="text-center PageTreeCompact__actions-col">
-            <div onClick={e => e.stopPropagation()} role="none">
-              <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
-                <MenuItem onClick={handleClick(onClickAdd, page)}>
-                  <FormattedMessage id="pageTree.add" />
-                </MenuItem>
-                {onClickEdit && (
-                  <MenuItem
-                    onClick={!disableDueToLackOfGroupAccess ? handleClick(onClickEdit, page) : null}
-                    disabled={disableDueToLackOfGroupAccess}
-                  >
-                    <FormattedMessage id="app.edit" />
-                  </MenuItem>
+            {
+              isRootAndVirtual ? null : (
+                <div onClick={e => e.stopPropagation()} role="none">
+                  <DropdownKebab className="PageTreeCompact__kebab-button" key={page.code} id={page.code} pullRight>
+                    <MenuItem onClick={handleClick(onClickAdd, page)}>
+                      <FormattedMessage id="pageTree.add" />
+                    </MenuItem>
+                    {onClickEdit && (
+                    <MenuItem
+                      onClick={!disableDueToLackOfGroupAccess ?
+                        handleClick(onClickEdit, page) : null}
+                      disabled={disableDueToLackOfGroupAccess}
+                    >
+                      <FormattedMessage id="app.edit" />
+                    </MenuItem>
                 )}
-                {onClickConfigure && (
-                  <MenuItem
-                    onClick={!disableDueToLackOfGroupAccess ?
+                    {onClickConfigure && (
+                    <MenuItem
+                      onClick={!disableDueToLackOfGroupAccess ?
                       handleClick(onClickConfigure, page) : null}
-                    disabled={disableDueToLackOfGroupAccess}
-                  >
-                    <FormattedMessage id="app.design" />
-                  </MenuItem>
+                      disabled={disableDueToLackOfGroupAccess}
+                    >
+                      <FormattedMessage id="app.design" />
+                    </MenuItem>
                 )}
-                {onClickDetails && (
-                  <MenuItem onClick={handleClick(onClickDetails, page)}>
-                    <FormattedMessage id="app.details" />
-                  </MenuItem>
+                    {onClickDetails && (
+                    <MenuItem onClick={handleClick(onClickDetails, page)}>
+                      <FormattedMessage id="app.details" />
+                    </MenuItem>
                 )}
-                <MenuItem
-                  onClick={!disableDueToLackOfGroupAccess ? handleClick(onClickClone, page) : null}
-                  disabled={disableDueToLackOfGroupAccess}
-                >
-                  <FormattedMessage id="app.clone" />
-                </MenuItem>
-                {renderDeleteItem()}
-                {changePublishStatus}
-                <MenuItem onClick={handleClickPreview(onClickPreview, page)}>
-                  <FormattedMessage id="app.preview" />
-                </MenuItem>
-                {viewPublishedPage}
-              </DropdownKebab>
-            </div>
+                    <MenuItem
+                      onClick={!disableDueToLackOfGroupAccess ?
+                        handleClick(onClickClone, page) : null}
+                      disabled={disableDueToLackOfGroupAccess}
+                    >
+                      <FormattedMessage id="app.clone" />
+                    </MenuItem>
+                    {renderDeleteItem()}
+                    {changePublishStatus}
+                    <MenuItem onClick={handleClickPreview(onClickPreview, page)}>
+                      <FormattedMessage id="app.preview" />
+                    </MenuItem>
+                    {viewPublishedPage}
+                  </DropdownKebab>
+                </div>
+
+              )
+            }
           </td>
         </tr >
       );
@@ -222,6 +238,7 @@ PageTreeCompact.propTypes = {
   loadOnPageSelect: PropTypes.bool,
   className: PropTypes.string,
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
+  virtualRootOn: PropTypes.bool,
 };
 
 PageTreeCompact.defaultProps = {
@@ -235,6 +252,7 @@ PageTreeCompact.defaultProps = {
   onRowClick: () => {},
   className: '',
   myGroupIds: [],
+  virtualRootOn: false,
 };
 
 export default PageTreeCompact;

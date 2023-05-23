@@ -2,7 +2,7 @@ import {
   mapStateToProps,
   mapDispatchToProps,
 } from 'ui/pages/common/PageTreeContainer';
-import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
+import { getPageTreePages, getSearchPages, getIsVirtualRootOn } from 'state/pages/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import {
   setSelectedPage,
@@ -50,6 +50,7 @@ jest.mock('state/modal/actions', () => ({
 jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
   getSearchPages: jest.fn(),
+  getIsVirtualRootOn: jest.fn(),
 }));
 
 jest.mock('state/groups/selectors', () => ({
@@ -59,6 +60,7 @@ jest.mock('state/groups/selectors', () => ({
 getMyGroupsList.mockReturnValue(['administrators', 'free']);
 getPageTreePages.mockReturnValue('pages');
 getSearchPages.mockReturnValue([]);
+getIsVirtualRootOn.mockReturnValue(false);
 
 const dispatchMock = jest.fn();
 

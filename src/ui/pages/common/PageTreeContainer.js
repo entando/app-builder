@@ -29,7 +29,7 @@ import {
 import { setColumnOrder } from 'state/table-column-order/actions';
 import { getColumnOrder } from 'state/table-column-order/selectors';
 
-import { getPageTreePages, getSearchPages } from 'state/pages/selectors';
+import { getIsVirtualRootOn, getPageTreePages, getSearchPages } from 'state/pages/selectors';
 import { PAGE_INIT_VALUES } from 'ui/pages/common/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
 import { getDomain } from '@entando/apimanager';
@@ -47,6 +47,7 @@ export const mapStateToProps = state => ({
   columnOrder: getColumnOrder(state, 'pageList'),
   pageSearchColumnOrder: getColumnOrder(state, 'pageSearch'),
   myGroupIds: getMyGroupsList(state),
+  virtualRootOn: getIsVirtualRootOn(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
