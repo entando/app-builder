@@ -112,16 +112,13 @@ class PageTree extends Component {
         cellAttributes: ({ row: page }) => {
           const className = ['PageTree__tree-column-td'];
 
-          if (page.isEmpty) {
+          // Remove arrow from page with no child
+          if (page.isEmpty || page.original.isEmpty) {
             className.push('PageTree__tree-column-td--empty');
           }
           // No drag class is added if first level child and Virtual Root On
-          if (page.original.parentCode === 'homepage' && virtualRootOn) {
+          if (page.original.parentCode === HOMEPAGE_CODE && virtualRootOn) {
             className.push('PageTree__no-drag');
-          }
-          // Remove arrow from page with no child
-          if (page.original.isEmpty) {
-            className.push('PageTree__no-arrow');
           }
 
           return { className: className.join(' ') };
