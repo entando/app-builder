@@ -18,6 +18,7 @@ import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 import { HOMEPAGE_CODE, PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
+
 export const getIsRootAndVirtual = (page, virtualRootOn) => {
   if (!page) {
     return false;
@@ -27,6 +28,7 @@ export const getIsRootAndVirtual = (page, virtualRootOn) => {
   }
   return false;
 };
+
 
 class PageTree extends Component {
   constructor(props) {
@@ -49,6 +51,7 @@ class PageTree extends Component {
       onExpandAll,
       onCollapseAll,
       onExpandPage,
+      virtualRootOn,
     } = this.props;
 
     const columnDefs = {
@@ -108,9 +111,19 @@ class PageTree extends Component {
         },
         cellAttributes: ({ row: page }) => {
           const className = ['PageTree__tree-column-td'];
+
           if (page.isEmpty) {
             className.push('PageTree__tree-column-td--empty');
           }
+          // No drag class is added if first level child and Virtual Root On
+          if (page.original.parentCode === 'homepage' && virtualRootOn) {
+            className.push('PageTree__no-drag');
+          }
+          // Remove arrow from page with no child
+          if (page.original.isEmpty) {
+            className.push('PageTree__no-arrow');
+          }
+
           return { className: className.join(' ') };
         },
       },
@@ -282,6 +295,7 @@ PageTree.propTypes = {
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
   virtualRootOn: PropTypes.bool,
+  getIsVirtualRootOn: PropTypes.bool,
 };
 
 PageTree.defaultProps = {
@@ -295,6 +309,7 @@ PageTree.defaultProps = {
   columnOrder: ['title', 'status', 'displayedInMenu'],
   myGroupIds: [],
   virtualRootOn: false,
+  getIsVirtualRootOn: false,
 };
 
 export default PageTree;
