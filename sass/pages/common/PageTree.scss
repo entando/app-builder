@@ -46,7 +46,8 @@
 
   &__tree-column-td--empty {
     .TreeNodeExpandedIcon {
-      display: none;
+      opacity: 0;
+      visibility: hidden;
     }
   }
 

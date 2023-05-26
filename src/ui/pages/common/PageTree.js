@@ -113,7 +113,8 @@ class PageTree extends Component {
           const className = ['PageTree__tree-column-td'];
 
           // Remove arrow from page with no child
-          if (page.isEmpty || page.original.isEmpty) {
+          // if (page.isEmpty || page.original.isEmpty) {
+          if (page.isEmpty) {
             className.push('PageTree__tree-column-td--empty');
           }
           // No drag class is added if first level child and Virtual Root On
