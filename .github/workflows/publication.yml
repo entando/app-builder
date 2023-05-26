@@ -1,4 +1,4 @@
-name: Internal Snapshot Publication
+name: PUB
 
 on:
   push:
@@ -6,23 +6,27 @@ on:
       - 'v*'
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.2.0"
+  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
+  ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
+  ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
+  ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
   ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
   ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
   ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
-  ENTANDO_OPT_REPO_BOM_URL: "${{ secrets.ENTANDO_OPT_REPO_BOM_URL }}"
   ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
   PPL_CONTEXT: ${{ toJson(github) }}
-  GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
-  GIT_USER_EMAIL: "${{ secrets.GIT_USER_EMAIL }}"
   LOCAL_CLONE_DIR: "local-checkout"
 
 
 jobs:
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # INTERNAL PUBLICATION
-  internal-publication:
+  # PUBLICATION
+
+  publication:
+    outputs:
+      POST_PUB_DOCKER_SCAN: ${{ steps.START.outputs.POST_PUB_DOCKER_SCAN }}
+      POST_DEP_TESTS: ${{ steps.START.outputs.POST_DEP_TESTS }}
     env:
       ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
     runs-on: ubuntu-latest
@@ -33,15 +37,15 @@ jobs:
           ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
           ~/ppl-run \
             .. status-report \
-            .. @setup-feature-flags "PR_FORMAT_CHECK" "BOM_CHECK" "BOM" \
+            .. @setup-feature-flags "PR_FORMAT_CHECK" "BOM_CHECK" "BOM" "POST_PUB_DOCKER_SCAN" "POST_DEP_TESTS" \
           ;
       #~ CHECKOUT
       - name: "CHECKOUT"
         id: CHECKOUT
         run: |
           ~/ppl-run \
-            .. checkout-branch --id "CHECKOUT FOR NEXUS PUBLICATION" \
-            --lcd "$LOCAL_CLONE_DIR" \
+            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
+                  --lcd "$LOCAL_CLONE_DIR" \
                   --token "$ENTANDO_BOT_TOKEN" \
             .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;
@@ -57,18 +61,13 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm
-      #~ BUILD CACHE
-      - name: "Cache Build Dir"
-        id: build-cache
-        uses: actions/cache@v2
-        with:
-          path: "${{ env.LOCAL_CLONE_DIR }}/build/"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #~ PUBLISH PACKAGE
+      #~ PUBLISH  THE ARTIFACT
       - name: "Publish package"
         run: |
-          ~/ppl-run generic PUBLISH \
-            --id "PUBLICATION" \
+          export ENTANDO_OPT_AWS_ACCESS_KEY_ID="${{ secrets.ENTANDO_OPT_AWS_ACCESS_KEY_ID }}"
+          export ENTANDO_OPT_AWS_SECRET_ACCESS_KEY="${{ secrets.ENTANDO_OPT_AWS_SECRET_ACCESS_KEY }}"
+
+          ~/ppl-run generic PUBLISH --id "PUBLICATION" \
             --lcd "$LOCAL_CLONE_DIR"
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
@@ -82,14 +81,96 @@ jobs:
             --lcd "$LOCAL_CLONE_DIR" \
             --token "$ENTANDO_BOT_TOKEN" \
           ;
-      #~ PUBLISH TO DOCKER IMAGE
+      #~ PUBLISH TO DOCKER
       - name: "Publish docker"
+        run: |
+          export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+          export ENTANDO_OPT_DOCKER_ALT_LOGIN_URL="${{ secrets.ENTANDO_OPT_DOCKER_ALT_LOGIN }}"
+          export ENTANDO_OPT_DOCKER_ALT_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_ALT_USERNAME }}"
+          export ENTANDO_OPT_DOCKER_ALT_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_ALT_PASSWORD }}"
+
+          ~/ppl-run docker publish --id "PUBLISH-DOCKER" --lcd "$LOCAL_CLONE_DIR"
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # POST PUB JOBS
+
+  post-pub-docker-scan:
+    needs: [ 'publication' ]
+    if: needs.publication.outputs.POST_PUB_DOCKER_SCAN == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        id: CHECKOUT
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run \
+            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
+                  --lcd "$LOCAL_CLONE_DIR" \
+                  --token "$ENTANDO_BOT_TOKEN" \
+            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
+          ;
+      #~ NODE
+      - name: "Set up Node 14"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+      #~ SCAN
+      - name: "Scan docker"
         env:
+          ENTANDO_OPT_SNYK_ORG: "${{ secrets.ENTANDO_OPT_SNYK_ORG }}"
+          SNYK_TOKEN: "${{ secrets.SNYK_TOKEN }}"
           ENTANDO_OPT_DOCKER_BUILDS: "${{ secrets.ENTANDO_OPT_DOCKER_BUILDS }}"
           ENTANDO_OPT_DOCKER_ORG: "${{ secrets.ENTANDO_OPT_DOCKER_ORG }}"
-          ENTANDO_OPT_DOCKER_USERNAME: "${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
-          ENTANDO_OPT_DOCKER_PASSWORD: "${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
         run: |
-          ~/ppl-run docker publish "$ENTANDO_OPT_DOCKER_BUILDS"\
-            --id "PUBLISH-DOCKER" \
-            --lcd "$LOCAL_CLONE_DIR"
+          ~/ppl-run docker scan --id "SCAN-DOCKER" --lcd "$LOCAL_CLONE_DIR"
+
+  post-dep-tests:
+    needs: [ 'publication' ]
+    if: needs.publication.outputs.POST_DEP_TESTS == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        id: CHECKOUT
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run \
+            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
+                  --lcd "$LOCAL_CLONE_DIR" \
+                  --token "$ENTANDO_BOT_TOKEN" \
+            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
+          ;
+      #~ NODE
+      - name: "Set up Node 14"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+      #~ PUBLISH  THE ARTIFACT
+      - name: "Post deployment tests"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+
+          export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+          export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
+          export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
+          export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+          export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
+          export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
+
+          ~/ppl-run generic "POST-DEP-TESTS" --id "POST_DEP_TESTS" --lcd "$LOCAL_CLONE_DIR"
