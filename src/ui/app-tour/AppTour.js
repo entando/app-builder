@@ -6,6 +6,7 @@ import { Checkbox } from 'react-bootstrap';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
+import { v4 as uuidv4 } from 'uuid';
 
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
 export const simulateMouseClick = (element) => {
@@ -452,8 +453,10 @@ class AppTour extends React.Component {
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
     const scrollLock = window.innerWidth > 1024;
+    const needsUpdate = appTourLastStep === 11 ? `give-me-force-update-${uuidv4()}` : 'no-force-update';
     return (
       <Tour
+        key={needsUpdate}
         steps={this.generateSteps()}
         isOpen={wizardEnabled}
         showNumber={false}
