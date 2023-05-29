@@ -32,6 +32,8 @@ export const updateUserPreferences = (user, preferences) =>
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setUserPreferences(json.payload));
+          // send an event to micro frontends
+          window.dispatchEvent(new CustomEvent('user-preferences-updated', { detail: preferences }));
           if (preferences.showToast !== false) {
             dispatch(addToast(
               { id: 'userpreferences.edit.success' },

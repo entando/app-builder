@@ -1,6 +1,6 @@
 {
   "name": "app-builder",
-  "version": "7.2.0-SNAPSHOT",
+  "version": "7.2.1-SNAPSHOT",
   "repository": "https://github.com/entando/app-builder",
   "private": true,
   "dependencies": {
@@ -90,7 +90,7 @@
     "react-router-dom": "^5.2.0",
     "react-roving-tabindex": "^1.0.0",
     "react-test-renderer": "^16.14.0",
-    "reactour": "^1.18.0",
+    "reactour": "^1.19.0",
     "redux": "^4.0.1",
     "redux-form": "^8.3.7",
     "redux-localstorage": "^0.4.1",
