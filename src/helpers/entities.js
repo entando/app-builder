@@ -56,7 +56,7 @@ export const getPayloadForForm = (
 
   userProfile.attributes.forEach((attr) => {
     const {
-      code, value, values, listElements, elements,
+      code, value, values, listElements, elements, compositeelements,
     } = attr;
 
     const attrType =
@@ -117,9 +117,9 @@ export const getPayloadForForm = (
       }
       case TYPE_COMPOSITE: {
         const childProfileType = selectedProfileType.find(item => item.code === code);
-        if (elements && childProfileType) {
+        if (compositeelements && childProfileType) {
           formAttr[code] = getPayloadForForm(
-            username, { attributes: elements },
+            username, { attributes: compositeelements },
             childProfileType.compositeAttributes,
             defaultLanguage,
           );
@@ -205,12 +205,12 @@ export const getPayloadForApi = (
         }
         case TYPE_COMPOSITE: {
           const childProfileType = selectedProfileType.find(item => item.code === key);
-          const elements = getPayloadForApi(
+          const compositeelements = getPayloadForApi(
             profile[key],
             childProfileType.compositeAttributes,
             defaultLanguage,
           ).attributes;
-          attr.push({ code: key, elements });
+          attr.push({ code: key, compositeelements });
           break;
         }
         default:

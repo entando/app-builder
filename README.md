@@ -92,7 +92,7 @@ DOMAIN=//my.entando.com
 ### Clone and set up:
 
 - Make sure to have `git`, `npm` + `node` installed and up to date.
-- `npm install`: installs npm dependencies
+- `npm install`: installs npm dependencies.
 
 
 ### Deploy:
@@ -153,7 +153,6 @@ src
 ## API Requests
 Api requests are being done using `@entando/apimanager`.
 For more information checkout the [documentation on NPM](https://www.npmjs.com/package/@entando/apimanager).
-
 ---
 
 ## Apps

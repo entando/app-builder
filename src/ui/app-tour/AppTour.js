@@ -7,6 +7,23 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 
+// This mutes warnings and errors of the library
+// eslint-disable-next-line no-console
+const originalWarn = console.warn;
+
+// eslint-disable-next-line no-console
+console.warn = (message, ...args) => {
+  if (
+    typeof message === 'string' &&
+    message.includes("Please check the 'steps' Tour prop Array at position")
+  ) {
+    return; // Ignore the warning
+  }
+
+  // Log the warning
+  originalWarn.apply(console, [message, ...args]);
+};
+
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
 export const simulateMouseClick = (element) => {
   mouseClickEvents.forEach(mouseEventType =>
@@ -118,8 +135,9 @@ class AppTour extends React.Component {
       onAppTourFinish,
     } = this.props;
 
-    const getStep3Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-3 > a');
-    const getStep4Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-4 > a');
+    const mfeAppBuilderMenu = document.getElementsByTagName('app-builder-menu') ? document.getElementsByTagName('app-builder-menu')[0] : null;
+    const getStep3Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-3 > a') : document.querySelector('.app-tour-step-3 > a'));
+    const getStep4Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-4 > a') : document.querySelector('.app-tour-step-4 > a'));
 
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');

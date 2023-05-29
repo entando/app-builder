@@ -10,6 +10,7 @@ import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const { assetLoading, mfe } = useMfe({ mfeId: id });
@@ -18,6 +19,7 @@ const MfeContainer = ({ id, history }) => {
   const systemReport = useSelector(getSystemReport);
   const currentSystemConfigurationAdvancedSearchOn =
   useSelector(selectCurrSystemConfigAdvancedSearch);
+  const userPreferences = useSelector(getUserPreferences) || {};
 
   const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
@@ -32,6 +34,7 @@ const MfeContainer = ({ id, history }) => {
       adminConsoleUrl: getDomain(),
       systemReport,
       advancedSearchOn: currentSystemConfigurationAdvancedSearchOn,
+      disableContentMenu: userPreferences.disableContentMenu,
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
@@ -44,7 +47,8 @@ const MfeContainer = ({ id, history }) => {
 
     window.entando = entandoWindow;
   }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport,
-    mfeResourceBasePath, currentSystemConfigurationAdvancedSearchOn]);
+    mfeResourceBasePath, currentSystemConfigurationAdvancedSearchOn,
+    userPreferences.disableContentMenu]);
 
   const params = {
     config: {

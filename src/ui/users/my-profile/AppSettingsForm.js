@@ -45,6 +45,11 @@ export class AppSettingsFormBody extends Component {
           name="wizard"
         />
         <Field
+          label={<FormLabel labelId="user.myProfile.disableContentMenu" />}
+          component={SwitchRenderer}
+          name="disableContentMenu"
+        />
+        <Field
           label={<FormLabel helpId="user.myProfile.translationWarningHelp" labelId="user.myProfile.translationWarning" />}
           component={SwitchRenderer}
           name="translationWarning"
