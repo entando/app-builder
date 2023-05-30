@@ -1022,6 +1022,7 @@ export default {
     'componentRepository.components.installedVersion': 'Versão Instalada',
     'componentRepository.components.genericError': 'Ocorreu um erro no aplicativo',
     'page.invalidPositionError': 'Uma página só pode ser filha direta de uma página com o mesmo grupo de proprietários ou free access',
+    'page.invalidChildPositionError': 'LIlli',
     'app.installFailed': 'Ocorreu um erro e o pacote não pôde ser instalado',
     'app.uninstallFailed': 'Ocorreu um erro e o pacote não pôde ser desinstalado',
     'app.fetchBundlesFailed': 'Falha ao buscar pacotes do Registro',

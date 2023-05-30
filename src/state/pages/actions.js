@@ -37,6 +37,9 @@ import { getAppTourProgress } from 'state/app-tour/selectors';
 const INVALID_PAGE_POSITION_ERROR = { id: 'page.invalidPositionError' };
 const INVALID_PAGE_POSITION_STATUS_CODE = 422;
 
+const INVALID_PAGE_CHILD_POSITION_ERROR = { id: 'page.invalidChildPositionError' };
+const INVALID_PAGE_CHILD_POSITION_STATUS_CODE = 400;
+
 const RESET_FOR_CLONE = {
   code: '',
   titles: '',
@@ -286,6 +289,9 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
         dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
       } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
         dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+      } else if (response && response.status === INVALID_PAGE_CHILD_POSITION_STATUS_CODE) {
+        console.log('lilli', response.status);
+        dispatch(addToast(INVALID_PAGE_CHILD_POSITION_ERROR, TOAST_ERROR));
       } else {
         response.json().then((json) => {
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
