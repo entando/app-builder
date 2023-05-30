@@ -1,8 +1,10 @@
 {
-  "name": "app-builder",
+  "name": "@entando/app-builder",
   "version": "7.3.0-SNAPSHOT",
+  "author": "Entando",
+  "homepage": "https://github.com/entando/app-builder",
+  "license": "MIT",
   "repository": "https://github.com/entando/app-builder",
-  "private": true,
   "dependencies": {
     "@entando/apimanager": "6.6.8",
     "@entando/datatable": "^2.0.0",
