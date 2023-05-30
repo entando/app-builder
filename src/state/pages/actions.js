@@ -240,11 +240,7 @@ export const fetchPageTree = pageCode => async (dispatch) => {
   return response.payload;
 };
 
-/**
- * will call:
- * http://confluence.entando.org/display/E5/Page+Tree
- * /pages
- */
+
 export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
   (dispatch, getState) => {
     const state = getState();
