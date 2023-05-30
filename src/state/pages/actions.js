@@ -290,7 +290,6 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
       } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
         dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
       } else if (response && response.status === INVALID_PAGE_CHILD_POSITION_STATUS_CODE) {
-        console.log('lilli', response.status);
         dispatch(addToast(INVALID_PAGE_CHILD_POSITION_ERROR, TOAST_ERROR));
       } else {
         response.json().then((json) => {

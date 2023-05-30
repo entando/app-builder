@@ -1602,7 +1602,7 @@ export default {
     'componentRepository.components.installedVersion': 'Installed Version',
     'componentRepository.components.genericError': 'An Error has occurred in the Application',
     'page.invalidPositionError': 'A page can only be a direct child of a page with the same owner group or free access',
-    'page.invalidChildPositionError': 'A page that belongs to a group cannot become a direct child of the Virtual Root',
+    'page.invalidChildPositionError': 'A page belonging to a group cannot be placed as a child of the root',
     'app.installFailed': 'An Error occurred and the Bundle could not be installed',
     'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',

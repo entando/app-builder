@@ -1602,7 +1602,7 @@ export default {
     'componentRepository.components.installedVersion': 'Versione installata',
     'componentRepository.components.genericError': 'Si è verificato un errore nell\'applicazione',
     'page.invalidPositionError': 'Una pagina può essere figlia solo di un\'altra pagina con lo stesso owner group o con owner group free access',
-    'page.invalidChildPositionError': 'Una pagina figlia appartenente ad un gruppo non può essere posizionata figlia della root',
+    'page.invalidChildPositionError': 'Una pagina appartenente ad un gruppo non può essere posizionata figlia della root',
     'app.installFailed': 'Si è verificato un errore e non è stato possibile installare il Bundle',
     'app.uninstallFailed': 'Si è verificato un errore e non è stato possibile disinstallare il Bundle',
     'app.fetchBundlesFailed': 'Non è stato possibile recuperare la lista di Bundle dal Registry',
