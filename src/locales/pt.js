@@ -1021,6 +1021,7 @@ export default {
     'componentRepository.categories.group': 'Grupo',
     'componentRepository.components.installedVersion': 'Versão Instalada',
     'componentRepository.components.genericError': 'Ocorreu um erro no aplicativo',
+    'page.invalidChildPositionError': 'Uma página que pertence a um grupo não pode se tornar um filho direto da raiz atual',
     'page.invalidPositionError': 'Uma página só pode ser filha direta de uma página com o mesmo grupo de proprietários ou free access',
     'app.installFailed': 'Ocorreu um erro e o pacote não pôde ser instalado',
     'app.uninstallFailed': 'Ocorreu um erro e o pacote não pôde ser desinstalado',
