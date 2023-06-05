@@ -339,9 +339,10 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
         // check for conflicts on install plan before install
         postECRComponentInstallPlan(component, version)
           .then((response) => {
-            response.json().then(({ payload: installPlan }) => {
+            response.json().then((responseJson) => {
+              const { payload: installPlan, message } = responseJson;
               if (!installPlan) {
-                dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+                dispatch(addToast(message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
