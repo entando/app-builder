@@ -8,8 +8,9 @@ import InfoDropdown from 'ui/internal-page/InfoDropdown';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID as ABOUT_MODAL_ID } from 'ui/about/AboutInfoModal';
 import { MODAL_ID as LICENSE_MODAL_ID } from 'ui/license/LicenseInfoModal';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 
-const InfoMenu = ({ onStartTutorial }) => {
+const InfoMenu = ({ onStartTutorial, isSuperuser }) => {
   const dispatch = useDispatch();
 
   const handleAboutClick = useCallback(
@@ -50,18 +51,23 @@ const InfoMenu = ({ onStartTutorial }) => {
           <FormattedMessage id="app.license" />
         </a>
       </li>
-      <LinkMenuItem
-        id="info-menu-start-tutorial"
-        to="#"
-        onClick={onStartTutorial}
-        label={<FormattedMessage id="app.startTutorial" />}
-      />
+      {
+        isSuperuser ? (
+          <LinkMenuItem
+            id="info-menu-start-tutorial"
+            to="#"
+            onClick={onStartTutorial}
+            label={<FormattedMessage id="app.startTutorial" />}
+          />
+        ) : null
+      }
     </InfoDropdown>
   );
 };
 
 InfoMenu.propTypes = {
   onStartTutorial: PropTypes.func.isRequired,
+  isSuperuser: PropTypes.bool.isRequired,
 };
 
-export default InfoMenu;
+export default withPermissionValues(InfoMenu);
