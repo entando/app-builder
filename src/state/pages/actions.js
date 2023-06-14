@@ -233,7 +233,7 @@ export const fetchPageTree = pageCode => async (dispatch) => {
     ]);
     const rootMetadata = responses[1] ? responses[1].metaData : {};
     const { virtualRoot } = rootMetadata;
-    dispatch(setVirtualRoot(virtualRoot));
+    dispatch(setVirtualRoot(!!virtualRoot));
     return [responses[0].payload].concat(responses[1].payload);
   }
   const response = await fetchPageChildren(pageCode)(dispatch);
