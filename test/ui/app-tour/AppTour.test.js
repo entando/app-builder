@@ -32,6 +32,10 @@ const props = {
 jest.unmock('react-redux');
 jest.unmock('redux-form');
 
+jest.mock('state/permissions/selectors', () => ({
+  getLoggedUserPermissions: jest.fn(() => (['superuser'])),
+}));
+
 describe('AppSettingsForm', () => {
   beforeEach(() => {
     jest.clearAllMocks();
