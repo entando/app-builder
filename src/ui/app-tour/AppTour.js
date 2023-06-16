@@ -7,6 +7,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { v4 as uuidv4 } from 'uuid';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 
 // This mutes warnings and errors of the library
 // eslint-disable-next-line no-console
@@ -463,11 +464,14 @@ class AppTour extends React.Component {
   render() {
     const {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset, isDismissed,
+      isSuperuser,
     } = this.props;
     // sessionStorage is persistent between rerenders
     // and is cleared out when the current tab is closed,
     // if the wizard is completed or close on a session live, users won't see it anymore.
-    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed) return null;
+    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed || !isSuperuser) {
+      return null;
+    }
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
     const scrollLock = window.innerWidth > 1024;
@@ -529,6 +533,7 @@ AppTour.propTypes = {
   onAddSitemapMenu: PropTypes.func.isRequired,
   onAppTourFinish: PropTypes.func.isRequired,
   isDismissed: PropTypes.bool,
+  isSuperuser: PropTypes.bool.isRequired,
 };
 
 AppTour.defaultProps = {
@@ -548,4 +553,4 @@ AppTour.defaultProps = {
   isDismissed: false,
 };
 
-export default AppTour;
+export default withPermissionValues(AppTour);

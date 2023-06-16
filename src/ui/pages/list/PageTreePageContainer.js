@@ -25,14 +25,14 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ appTourProgress }) => {
+  onWillMount: ({ appTourProgress, isSuperuser }) => {
     dispatch(clearErrors());
     dispatch(clearTree());
     dispatch(clearSearchPage());
     dispatch(toggleLoading('pageTree'));
     dispatch(handleExpandPage())
       .then(() => {
-        if (appTourProgress !== APP_TOUR_CANCELLED) {
+        if (appTourProgress !== APP_TOUR_CANCELLED && isSuperuser) {
           dispatch(handleExpandPage(APP_TOUR_HOMEPAGE_CODEREF)).finally(() => dispatch(toggleLoading('pageTree')));
         } else {
           dispatch(toggleLoading('pageTree'));

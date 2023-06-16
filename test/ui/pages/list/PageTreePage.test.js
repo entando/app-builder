@@ -2,7 +2,7 @@ import React from 'react';
 
 import 'test/enzyme-init';
 import { shallow } from 'enzyme';
-import PageTreePage from 'ui/pages/list/PageTreePage';
+import { PageTreePageBody } from 'ui/pages/list/PageTreePage';
 import { shallowWithIntl } from 'test/legacyTestUtils';
 
 const props = {
@@ -16,7 +16,7 @@ describe('PageTreePage', () => {
 
   let component;
   beforeEach(() => {
-    component = shallowWithIntl(<PageTreePage {...props} />);
+    component = shallowWithIntl(<PageTreePageBody {...props} />);
   });
 
   it('renders without crashing', () => {
@@ -33,7 +33,7 @@ describe('PageTreePage', () => {
 
   it('will call onWillMount on componentWillMount', () => {
     const onWillMount = jest.fn();
-    shallow(<PageTreePage {...props} onWillMount={onWillMount} />);
+    shallow(<PageTreePageBody {...props} onWillMount={onWillMount} />);
     expect(onWillMount).toHaveBeenCalled();
   });
 });
