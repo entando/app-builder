@@ -1580,6 +1580,7 @@ export default {
     'app.filterTypesSelect.organizationName': 'Nome dell\'organizzazione',
     'app.filterTypesSelect.bundleGroup': 'Gruppo pacchetto',
     'hub.bundle.installation': 'Installazione del pacchetto',
+    'hub.bundle.uninstallation': 'Disinstallazione del pacchetto',
     'app.deploy': 'Distribuire',
     'app.deployed': 'Schierato',
     'app.undeploy': 'Annulla distribuzione',

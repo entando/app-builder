@@ -1000,6 +1000,7 @@ export default {
     'app.filterTypesSelect.organizationName': 'Nome da organização',
     'app.filterTypesSelect.bundleGroup': 'Grupo de Pacotes',
     'hub.bundle.installation': 'Instalação do pacote',
+    'hub.bundle.uninstallation': 'Desinstalação do pacote',
     'app.deploy': 'Implantar',
     'app.deployed': 'Implantado',
     'app.undeploy': 'Desimplantar',
