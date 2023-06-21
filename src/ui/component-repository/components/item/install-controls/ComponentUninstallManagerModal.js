@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { getComponentUsageList, getECRComponentSelected } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
-import ComponentEasyUninstall from 'ui/component-repository/components/item/install-controls/ComponentEasyUninstall';
+import ComponentUninstallStart from 'ui/component-repository/components/item/install-controls/ComponentUninstallStart';
 
 const ComponentUninstallManagerModal = () => {
   const componentUsageList = useSelector(getComponentUsageList);
@@ -19,6 +19,7 @@ const ComponentUninstallManagerModal = () => {
   const buttons = [
     <Button
       bsStyle="primary"
+      disabled={cannotBeUninstalled}
       type="submit"
       className="ComponentUninstallManagerModal__uninstall-button"
       id="ComponentUninstallManagerModal__uninstall-button"
@@ -38,17 +39,16 @@ const ComponentUninstallManagerModal = () => {
         <Spinner loading size="lg" />
       );
     }
-    return !cannotBeUninstalled ? <div>Scenario2</div> : (
-      <ComponentEasyUninstall
-        bundle={{
-        name: selectedEcrComponent.title,
-        description: selectedEcrComponent.description,
-        version: (selectedEcrComponent.installedJob || {}).componentVersion ||
-        (selectedEcrComponent.latestVersion || {}).version,
-        componentTypes: selectedEcrComponent.componentTypes,
-      }}
-      />
-    );
+    return (<ComponentUninstallStart
+      bundle={{
+      name: selectedEcrComponent.title,
+      description: selectedEcrComponent.description,
+      version: (selectedEcrComponent.installedJob || {}).componentVersion ||
+      (selectedEcrComponent.latestVersion || {}).version,
+      componentTypes: selectedEcrComponent.componentTypes,
+    }}
+      componentDependencies={cannotBeUninstalled ? componentUsageList : []}
+    />);
   };
 
   return (

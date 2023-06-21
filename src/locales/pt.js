@@ -1031,5 +1031,6 @@ export default {
     'componentRepository.refreshBundleVersions': 'Atualizar as versões disponíveis do pacote',
     'componentRepository.bundle.installVersionsRefreshed': 'Atualizado',
     'componentRepository.hub.epcInstalledTip': 'Para atualizar corretamente o menu EPC, atualize a página do AppBuilder em seu navegador',
+    'ecr.componentUninstallError': 'Message error - Is not possible to uninstall the {name} component because it is used by the following components:',
   },
 };

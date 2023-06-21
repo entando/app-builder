@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import ComponentDependenciesTable from 'ui/component-repository/components/item/install-controls/ComponentDependenciesTable';
 
-const ComponentEasyUninstall = (props) => {
+const ComponentUninstallStart = (props) => {
   const {
     bundle: {
       name, description, version, componentTypes,
     },
+    componentDependencies,
   } = props;
+
+  const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0;
+
   return (
     <div className="BundlePreview">
       <div className="BundlePreview__info">
@@ -38,21 +43,49 @@ const ComponentEasyUninstall = (props) => {
         <div className="BundlePreview__description-title">
           <FormattedMessage id="app.filterTypesSelect.description" />
         </div>
-        <div className="BundlePreview__description-body">
+        <div className="BundlePreview__description-body BundlePreview__description-body--error">
           {description}
         </div>
       </div>
+      {
+        autoUninstallNotPossible ? (
+          <div className="BundlePreview__error-wrapper">
+            <p className="BundlePreview__error-message">
+              <FormattedMessage
+                id="ecr.componentUninstallError"
+                values={{ name }}
+              />
+            </p>
+            <div className="BundlePreview__divider" />
+          </div>
+        ) : null
+      }
+      {
+        autoUninstallNotPossible ? (
+          <ComponentDependenciesTable
+            dependencies={componentDependencies.filter(c => c.hasExternal)}
+          />
+        ) : null
+      }
     </div>
   );
 };
 
-ComponentEasyUninstall.propTypes = {
+ComponentUninstallStart.propTypes = {
   bundle: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     version: PropTypes.string.isRequired,
     componentTypes: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  componentDependencies: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    code: PropTypes.string.isRequired,
+  })),
 };
 
-export default ComponentEasyUninstall;
+ComponentUninstallStart.defaultProps = {
+  componentDependencies: [],
+};
+
+export default ComponentUninstallStart;

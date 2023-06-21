@@ -73,6 +73,10 @@
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
+
+    &--error {
+      margin-bottom: 16px;
+    }
   }
 
   &__select-version {
@@ -132,6 +136,20 @@
       font-weight: 600;
       line-height: 16px;
     }
+  }
+
+  &__error-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error-message {
+    color: $color-bundle-uninstall-error;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
   }
 }
 
