@@ -4,6 +4,8 @@ import { Paginator, Spinner, Alert } from 'patternfly-react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { DataTable } from '@entando/datatable';
 import DeletePageModalContainer from 'ui/pages/common/DeletePageModalContainer';
+import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer';
+import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import paginatorMessages from 'ui/paginatorMessages';
 
 class PageListSearchTable extends Component {
@@ -125,6 +127,8 @@ class PageListSearchTable extends Component {
           {this.renderTable()}
         </Spinner>
         <DeletePageModalContainer />
+        <PublishPageModalContainer />
+        <UnpublishPageModalContainer />
       </div>
     );
   }

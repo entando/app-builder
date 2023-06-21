@@ -543,8 +543,9 @@ describe('state/pages/actions', () => {
       store.dispatch(sendDeletePage(DASHBOARD_PAYLOAD)).then(() => {
         expect(deletePage).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', REMOVE_PAGE);
+        expect(actions).toHaveLength(2);
+        expect(actions[0]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[1]).toHaveProperty('type', REMOVE_PAGE);
         expect(history.push).toHaveBeenCalledWith(ROUTE_PAGE_TREE);
         done();
       }).catch(done.fail);

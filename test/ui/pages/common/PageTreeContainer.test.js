@@ -119,7 +119,7 @@ describe('PageTreeContainer', () => {
     it('should dispatch an action if onClickDelete is called', () => {
       props.onClickDelete({ code: 'pagecode' });
       expect(setVisibleModal).toHaveBeenCalledWith(MODAL_ID);
-      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode', page: { code: 'pagecode' } });
     });
 
     it('should dispatch an action if onClickClone is called', () => {
@@ -130,13 +130,13 @@ describe('PageTreeContainer', () => {
     it('should dispatch an action if onClickPublish is called', () => {
       props.onClickPublish({ code: 'pagecode', status: 'publish' });
       expect(setVisibleModal).toHaveBeenCalledWith(PUBLISH_MODAL_ID);
-      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode', page: { code: 'pagecode', status: 'publish' } });
     });
 
     it('should dispatch an action if onClickUnPublish is called', () => {
       props.onClickUnPublish({ code: 'pagecode', status: 'unpublish' });
       expect(setVisibleModal).toHaveBeenCalledWith(UNPUBLISH_MODAL_ID);
-      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode' });
+      expect(setInfo).toHaveBeenCalledWith({ type: 'page', code: 'pagecode', page: { code: 'pagecode', status: 'unpublish' } });
     });
 
     it('should dispatch an action if "onClickDetails" is called', () => {
