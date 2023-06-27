@@ -1,0 +1,151 @@
+name: PR-CYCLE
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - develop
+      - epic/*
+      - release/*
+
+env:
+  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
+  ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
+  ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
+  ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
+  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
+  ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
+  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
+  ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
+  PPL_CONTEXT: ${{ toJson(github) }}
+  LOCAL_CLONE_DIR: "local-checkout"
+
+jobs:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # PREPARE
+
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      SCAN_MATRIX: ${{ steps.START.outputs.SCAN_MATRIX }}
+    steps:
+      #~
+      - name: "PR PIPELINE START"
+        id: START
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run \
+            .. @checkout-branch --lcd "$LOCAL_CLONE_DIR" \
+            .. status-report \
+            .. @setup-feature-flags "PR_PREFLIGHT_CHECKS" "BOM_CHECK" "BOM" \
+            .. @setup-features-list "SCAN_MATRIX" --prefix "MTX-NPM-,MTX-SCAN-" \
+          ;
+      - name: "PR preflight checks"
+        if: steps.START.outputs.PR_PREFLIGHT_CHECKS != 'false'
+        id: pr-preflight-checks
+        run: |
+          ~/ppl-run pr-preflight-checks --lcd "$LOCAL_CLONE_DIR"
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # FULL-BUILD
+
+  full-build:
+    needs: [ 'prepare' ]
+    runs-on: ubuntu-latest
+    env:
+      ENTANDO_BOT_TOKEN: "${{ secrets.ENTANDO_BOT_TOKEN }}"
+      ENTANDO_OPT_OKD_LOGIN_TOKEN: "${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        id: CHECKOUT
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run checkout-branch \
+            --lcd "$LOCAL_CLONE_DIR" \
+            --token "$ENTANDO_BOT_TOKEN" \
+          ;
+      #~ NODE
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+          restore-keys: ${{ runner.os }}-npm
+      #~ BUILD
+      - name: "FULL BUILD"
+        env:
+          ENTANDO_OPT_SONAR_PROJECT_KEY: "${{ secrets.ENTANDO_OPT_SONAR_PROJECT_KEY }}"
+          SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |
+          ~/ppl-run generic FULL-BUILD --lcd "$LOCAL_CLONE_DIR"
+
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # SCANS
+  scans:
+    needs: [ 'prepare', 'full-build' ]
+    runs-on: ubuntu-latest
+    if: ${{ needs.prepare.outputs.SCAN_MATRIX != '' }}
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        scan-type: ${{fromJson(needs.prepare.outputs.SCAN_MATRIX)}}
+
+    steps:
+      #~ CHECKOUT
+      - name: "CHECKOUT"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+          ~/ppl-run checkout-branch pr --lcd "$LOCAL_CLONE_DIR"
+      #~ NODE
+      - name: "Set up Node 14"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      #~ NPM CACHE
+      - name: "Cache NPM Packages"
+        id: package-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm
+          restore-keys: |
+            ${{ runner.os }}-npm-matrix-${{ matrix.scan-type }}
+            ${{ runner.os }}-npm-matrix-
+            ${{ runner.os }}-npm-
+      #~ SCAN
+      - name: "Run the matrix step ${{ matrix.scan-type }}"
+        run: |
+          SCAN_TYPE="${{ matrix.scan-type }}"
+          case "$SCAN_TYPE" in
+            MTX-MVN-SCAN-SONAR)
+              export GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+              export SONAR_TOKEN="${{ secrets.SONAR_TOKEN }}"
+              export ENTANDO_OPT_SONAR_PROJECT_KEY="${{ secrets.ENTANDO_OPT_SONAR_PROJECT_KEY }}"
+              ;;
+            MTX-SCAN-SNYK)
+              export SNYK_TOKEN="${{ secrets.SNYK_TOKEN }}"
+              ;;
+            MTX-MVN-POST-DEPLOYMENT-TESTS)
+              export ENTANDO_OPT_OKD_LOGIN_TOKEN="${{ secrets.ENTANDO_OPT_OKD_LOGIN_TOKEN }}"
+              export ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS="${{ secrets.ENTANDO_OPT_IMAGE_REGISTRY_CREDENTIALS }}"
+              export ENTANDO_OPT_DOCKER_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}"
+              export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+              export ENTANDO_OPT_TEST_TLS_CRT="${{ secrets.ENTANDO_OPT_TEST_TLS_CRT }}"
+              export ENTANDO_OPT_TEST_TLS_KEY="${{ secrets.ENTANDO_OPT_TEST_TLS_KEY }}"
+              ;;
+          esac
+          ~/ppl-run generic "$SCAN_TYPE" npm --id "$SCAN_TYPE" --lcd "$LOCAL_CLONE_DIR"
