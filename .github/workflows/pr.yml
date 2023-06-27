@@ -73,7 +73,7 @@ jobs:
       #~ NODE
       - uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 12.x
       #~ NPM CACHE
       - name: "Cache NPM Packages"
         id: package-cache
