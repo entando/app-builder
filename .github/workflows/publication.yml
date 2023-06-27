@@ -50,10 +50,10 @@ jobs:
             .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;
       #~ NODE
-      - name: "Set up Node 14"
+      - name: "Set up Node 12"
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 12.x
       #~ NPM CACHE
       - name: "Cache NPM Packages"
         id: package-cache
@@ -112,10 +112,10 @@ jobs:
             .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;
       #~ NODE
-      - name: "Set up Node 14"
+      - name: "Set up Node 12"
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 12.x
       #~ NPM CACHE
       - name: "Cache NPM Packages"
         id: package-cache
@@ -150,10 +150,10 @@ jobs:
             .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
           ;
       #~ NODE
-      - name: "Set up Node 14"
+      - name: "Set up Node 12"
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 12.x
       #~ NPM CACHE
       - name: "Cache NPM Packages"
         id: package-cache
