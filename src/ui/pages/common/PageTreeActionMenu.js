@@ -28,13 +28,13 @@ class PageTreeActionMenu extends Component {
     const {
       page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
       onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
-      onClickViewPublishedPage, onClickPreview, myGroupIds,
+      onClickViewPublishedPage, onClickPreview, myGroupIds, isSearchMode,
     } = this.props;
 
     const disableDueToLackOfGroupAccess = !myGroupIds.includes(page.ownerGroup);
 
     let disabled = false;
-    if (!page.isEmpty && page.status === PAGE_STATUS_PUBLISHED) {
+    if (!page.isEmpty && page.status === PAGE_STATUS_PUBLISHED && !isSearchMode) {
       disabled = true;
     }
     if (page.expanded) {
@@ -42,7 +42,7 @@ class PageTreeActionMenu extends Component {
     }
 
     const disablePublishAction = (page.status === PAGE_STATUS_UNPUBLISHED &&
-      page.parentStatus === PAGE_STATUS_UNPUBLISHED)
+      page.parentStatus === PAGE_STATUS_UNPUBLISHED && !isSearchMode)
       || disableDueToLackOfGroupAccess;
     const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
       (
@@ -176,6 +176,7 @@ PageTreeActionMenu.propTypes = {
   domain: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
+  isSearchMode: PropTypes.bool,
 };
 
 PageTreeActionMenu.defaultProps = {
@@ -190,6 +191,7 @@ PageTreeActionMenu.defaultProps = {
   onClickViewPublishedPage: null,
   onClickPreview: null,
   myGroupIds: [],
+  isSearchMode: false,
 };
 
 export default PageTreeActionMenu;

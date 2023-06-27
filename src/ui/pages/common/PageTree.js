@@ -191,6 +191,7 @@ class PageTree extends Component {
         locale={this.props.locale}
         domain={this.props.domain}
         myGroupIds={this.props.myGroupIds}
+        isSearchMode={!!this.props.searchPages}
       />
     );
   }
