@@ -1,0 +1,42 @@
+name: Post-Merge
+
+on:
+  push:
+    branches:
+      - develop
+      - epic/*
+      - release/*
+
+env:
+  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
+  ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
+  ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
+  ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
+  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
+  ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
+  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
+  ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
+  PPL_CONTEXT: ${{ toJson(github) }}
+  LOCAL_CLONE_DIR: "local-checkout"
+
+
+jobs:
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # SNAPSHOT TAG
+  
+  add-version-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "ADD SNAPSHOT TAG"
+        run: |
+          ${{ secrets.ENTANDO_OPT_PPL_INSTALL_CMD }}
+
+          ~/ppl-run pr-status-report \
+          .. checkout-branch base \
+                --id "CHECKOUT-BASE" \
+                --lcd "$LOCAL_CLONE_DIR" \
+                --token "${{ secrets.ENTANDO_BOT_TOKEN }}" \
+          .. publication tag-git-version \
+                --id "TAG-VERSION" \
+                --lcd "$LOCAL_CLONE_DIR"
