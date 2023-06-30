@@ -21,7 +21,9 @@ export class AccountFormBody extends Component {
   }
 
   render() {
-    const { username, onEdit, onModalFormSubmit } = this.props;
+    const {
+      username, onEdit, onModalFormSubmit, onModalClose,
+    } = this.props;
 
     const modalTitle = (
       <Modal.Title><FormattedMessage id="user.myProfile.passwordSection" /></Modal.Title>
@@ -96,6 +98,7 @@ export class AccountFormBody extends Component {
           modalClassName="MyProfileAccountForm__modal"
           modalTitle={modalTitle}
           buttons={modalButtons}
+          modalCloseCleanup={onModalClose}
         >
           {formFields}
         </GenericModalContainer>
@@ -109,6 +112,7 @@ AccountFormBody.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onModalFormSubmit: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  onModalClose: PropTypes.func.isRequired,
 };
 
 const AccountForm = reduxForm({
