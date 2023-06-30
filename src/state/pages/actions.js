@@ -212,6 +212,13 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
     const response = await deletePage(page);
     const json = await response.json();
     if (response) {
+      dispatch(addToast({
+        id: 'app.deleted',
+        values: {
+          type: 'page',
+          code: page.code,
+        },
+      }, TOAST_SUCCESS));
       dispatch(removePage(page));
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if ((page.tourProgress !== APP_TOUR_STARTED && successRedirect) || page.redirectToPageTree) {
