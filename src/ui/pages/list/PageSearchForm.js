@@ -32,7 +32,7 @@ const selectedTypeSearchParamMap = {
 export const PageSearchFormBody = ({ intl, onSubmit }) => {
   const initialValues = {
     pageCodeToken: '',
-    searchType: 'code', // Default search type
+    searchType: 'code',
   };
 
   const onformSubmit = (values) => {
