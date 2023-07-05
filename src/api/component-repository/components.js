@@ -9,7 +9,7 @@ import {
   COMPONENT_INSTALL_PLAN,
   GET_COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
-import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getECRComponent = base64EncodedUrl => (
   makeRequest({
@@ -69,7 +69,7 @@ export const getECRComponentUninstall = code => (
 );
 
 export const getComponentUsage = code => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${code}/usage`,
     domain: '/digital-exchange',
     method: METHODS.GET,
