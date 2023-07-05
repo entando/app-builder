@@ -27,12 +27,12 @@ const BundleGroupAutoCompleteBody = (props) => {
   const page = useSelector(getCurrentPage);
   const pageSize = useSelector(getPageSize);
   useEffect(
-    () => { dispatch(fetchBundleGroups(activeRegistry.url)); },
-    [activeRegistry.url, dispatch],
+    () => { dispatch(fetchBundleGroups(activeRegistry.id)); },
+    [activeRegistry.id, dispatch],
   );
 
   const submitHandler = handleSubmit(values => onSubmit(
-    values, activeRegistry.url,
+    values, activeRegistry.id,
     { page, pageSize },
   ));
 

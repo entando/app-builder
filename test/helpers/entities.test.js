@@ -302,7 +302,7 @@ describe('getPayloadForForm', () => {
       attributes: [
         {
           code: 'someComposite',
-          elements: [
+          compositeelements: [
             { code: 'textChild', values: { [DEFAULT_LANGUAGE]: 'random text' } },
             { code: 'booleanChild', value: false },
           ],
@@ -604,7 +604,7 @@ describe('getPayloadForApi', () => {
       }],
       testAssertions: (formAttr) => {
         const attribute = formAttr.attributes.find(attr => attr.code === 'myAttribute');
-        expect(attribute).toHaveProperty('elements', [
+        expect(attribute).toHaveProperty('compositeelements', [
           { code: 'textChild', values: { [DEFAULT_LANGUAGE]: 'random text' } },
           { code: 'booleanChild', value: false },
         ]);

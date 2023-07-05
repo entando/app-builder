@@ -51,6 +51,7 @@ export const mapStateToProps = (state, { match: { params } }) => {
   if (!selectedPage) {
     return {};
   }
+
   return {
     pageCode: selectedPage.code,
     pageName: getSelectedPageLocaleTitle(state),

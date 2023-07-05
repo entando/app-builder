@@ -5,13 +5,3 @@ export const getDomain = () => {
   const { DOMAIN } = getRuntimeEnv();
   return DOMAIN;
 };
-
-const getResource = () => {
-  if (process.env.USE_REMOTE_MFE || process.env.NODE_ENV === 'production') {
-    return 'cmsresources';
-  }
-
-  return 'resources';
-};
-
-export const getResourcePath = resource => `${getDomain()}/${getResource()}/${resource}`;

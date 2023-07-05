@@ -14,7 +14,7 @@ import {
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
   setReferenceSelectedPage, clonePage, clearTree, sendPutPageSettings, sendPatchPage,
-  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages, setEditPage,
+  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages, setEditPage, setVirtualRoot,
 } from 'state/pages/actions';
 
 import {
@@ -22,6 +22,7 @@ import {
   SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, CLEAR_SEARCH, SEARCH_PAGES,
   SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, SET_DASHBOARD_PAGES,
   SET_EDIT_PAGE,
+  SET_VIRTUAL_ROOT,
 } from 'state/pages/types';
 
 import { SET_PUBLISHED_PAGE_CONFIG } from 'state/page-config/types';
@@ -205,6 +206,12 @@ describe('state/pages/actions', () => {
     const action = setPageLoaded(PAGE_CODE);
     expect(action.type).toBe(SET_PAGE_LOADED);
     expect(action.payload).toEqual({ pageCode: PAGE_CODE });
+  });
+
+  it('setVirtualRoot() should return a well formed action', () => {
+    const action = setVirtualRoot(true);
+    expect(action.type).toBe(SET_VIRTUAL_ROOT);
+    expect(action.payload).toEqual(true);
   });
 
   it('setPageExpanded() should return a well formed action', () => {

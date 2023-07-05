@@ -12,6 +12,7 @@ import PageTreeContainer from 'ui/pages/common/PageTreeContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
+import { withPermissionValues } from 'ui/auth/withPermissions';
 
 class PageTreePage extends Component {
   componentWillMount() {
@@ -119,4 +120,6 @@ PageTreePage.defaultProps = {
   searchPageCodeToken: '',
 };
 
-export default PageTreePage;
+export const PageTreePageBody = PageTreePage;
+
+export default withPermissionValues(PageTreePage);

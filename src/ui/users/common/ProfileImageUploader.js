@@ -5,13 +5,12 @@ import { useDispatch } from 'react-redux';
 import md5 from 'md5';
 
 import { uploadFile } from 'state/file-browser/actions';
-import { getResourcePath } from 'helpers/resourcePath';
+import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 
 const FILE_BROWSER_PATH = 'static/profile';
 const GRAVATAR = 'GRAVATAR';
 const GRAVATAR_URL = 'https://pt.gravatar.com/avatar';
 const publicUrl = process.env.PUBLIC_URL;
-const imageProvider = getResourcePath(FILE_BROWSER_PATH);
 
 const toMd5 = string => md5(string.trim().toLowerCase());
 
@@ -21,6 +20,8 @@ const ProfileImageUploader = ({
   const [edit, setEdit] = useState(false);
   const inputFileRef = useRef(null);
   const dispatch = useDispatch();
+
+  const imageProvider = useDynamicResourceUrl(FILE_BROWSER_PATH);
 
   const onFileChange = ({ target: { files } }) => {
     dispatch(uploadFile(files[0], FILE_BROWSER_PATH)).then(() => onChange(files[0].name));

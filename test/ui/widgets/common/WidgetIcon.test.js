@@ -11,6 +11,18 @@ jest.mock('react-redux', () => ({
 
 describe('WidgetIcon', () => {
   it('renders the icon in props', () => {
+    useSelector.mockImplementation(callback => callback({
+      widgets: {
+        map: {
+          test: {
+            icon: 'font-awesome:fa-archive',
+          },
+        },
+      },
+      currentTenant: {
+        currentTenant: {},
+      },
+    }));
     const { container } = render(<WidgetIcon icon="font-awesome:fa-archive" />);
     expect(container.firstChild).toHaveClass('fa');
     expect(container.firstChild).toHaveClass('fa-archive');
@@ -25,6 +37,9 @@ describe('WidgetIcon', () => {
           },
         },
       },
+      currentTenant: {
+        currentTenant: {},
+      },
     }));
     const { container } = render(<WidgetIcon widgetId="test" />);
     expect(container.firstChild).toHaveClass('fa');
@@ -32,6 +47,18 @@ describe('WidgetIcon', () => {
   });
 
   it('renders an icon from assets using a img element', () => {
+    useSelector.mockImplementation(callback => callback({
+      widgets: {
+        map: {
+          test: {
+            icon: 'font-awesome:fa-archive',
+          },
+        },
+      },
+      currentTenant: {
+        currentTenant: {},
+      },
+    }));
     const { container } = render(<WidgetIcon icon="asset:my_asset" />);
     expect(container.firstChild.tagName).toBe('IMG');
     expect(container.firstChild.src.includes('my_asset.svg')).toBe(true);

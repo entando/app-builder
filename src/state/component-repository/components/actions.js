@@ -4,6 +4,7 @@ import {
   clearErrors,
   TOAST_ERROR,
   TOAST_WARNING,
+  TOAST_SUCCESS,
 } from '@entando/messages';
 import {
   SET_ECR_COMPONENTS,
@@ -231,6 +232,10 @@ export const pollECRComponentInstallStatus = (componentCode, stepFunction) => di
           dispatch(finishComponentInstallation(componentCode, res.payload));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          dispatch(addToast(
+            { id: 'componentRepository.hub.epcInstalledTip' },
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(componentInstallationFailed(componentCode));
           if (res.payload.installErrorMessage) {
@@ -334,9 +339,10 @@ export const installECRComponent = (component, version, logProgress, resolvedIns
         // check for conflicts on install plan before install
         postECRComponentInstallPlan(component, version)
           .then((response) => {
-            response.json().then(({ payload: installPlan }) => {
+            response.json().then((responseJson) => {
+              const { payload: installPlan, message } = responseJson;
               if (!installPlan) {
-                dispatch(addToast(DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+                dispatch(addToast(message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
                 dispatch(toggleLoading(loadingId));
               } else if (!installPlan.hasConflicts) {
                 // no conflicts
@@ -414,6 +420,10 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
           dispatch(finishComponentUninstall(componentCode));
           dispatch(fetchSelectedBundleStatusWithCode(componentCode));
           dispatch(fetchMfeConfigList());
+          dispatch(addToast(
+            { id: 'componentRepository.hub.epcInstalledTip' },
+            TOAST_SUCCESS,
+          ));
         } else {
           dispatch(componentUninstallFailed(componentCode));
         }

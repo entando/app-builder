@@ -55,6 +55,11 @@ export class AppSettingsFormBody extends Component {
             name="wizard"
           />
           <Field
+            label={<FormLabel labelId="user.myProfile.disableContentMenu" />}
+            component={SwitchInput}
+            name="disableContentMenu"
+          />
+          <Field
             label={
               <FormLabel
                 helpId="user.myProfile.translationWarningHelp"

@@ -20,7 +20,9 @@ import {
   ADD_PAGES, SET_PAGE_LOADING, SET_PAGE_LOADED, SET_PAGE_EXPANDED, SET_PAGE_PARENT, SET_VIEWPAGES,
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
-  SET_DASHBOARD_PAGES, SET_EDIT_PAGE,
+  SET_DASHBOARD_PAGES,
+  SET_EDIT_PAGE,
+  SET_VIRTUAL_ROOT,
 } from 'state/pages/types';
 import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
@@ -35,6 +37,9 @@ import { getAppTourProgress } from 'state/app-tour/selectors';
 
 const INVALID_PAGE_POSITION_ERROR = { id: 'page.invalidPositionError' };
 const INVALID_PAGE_POSITION_STATUS_CODE = 422;
+
+const INVALID_PAGE_CHILD_POSITION_ERROR = { id: 'page.invalidChildPositionError' };
+const INVALID_PAGE_CHILD_POSITION_STATUS_CODE = 400;
 
 const RESET_FOR_CLONE = {
   code: '',
@@ -174,6 +179,11 @@ export const setEditPage = page => (
   }
 );
 
+export const setVirtualRoot = virtualRoot => ({
+  type: SET_VIRTUAL_ROOT,
+  payload: virtualRoot,
+});
+
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const json = await response.json();
@@ -229,23 +239,22 @@ export const fetchPageTree = pageCode => async (dispatch) => {
       fetchPage(pageCode)(dispatch),
       fetchPageChildren(pageCode)(dispatch),
     ]);
+    const rootMetadata = responses[1] ? responses[1].metaData : {};
+    const { virtualRoot } = rootMetadata;
+    dispatch(setVirtualRoot(!!virtualRoot));
     return [responses[0].payload].concat(responses[1].payload);
   }
   const response = await fetchPageChildren(pageCode)(dispatch);
   return response.payload;
 };
 
-/**
- * will call:
- * http://confluence.entando.org/display/E5/Page+Tree
- * /pages
- */
+
 export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
   (dispatch, getState) => {
     const state = getState();
     const pageStatus = getStatusMap(state)[pageCode];
     const toExpand = (!pageStatus || !pageStatus.expanded);
-    const toLoad = (toExpand && (!pageStatus || !pageStatus.loaded));
+    const toLoad = (toExpand && (!pageStatus || pageStatus.expanded === undefined));
     if (toLoad) {
       dispatch(setPageLoading(pageCode));
       return fetchPageTree(pageCode)(dispatch)
@@ -284,6 +293,8 @@ export const setPageParent = (pageCode, newParentCode) => (dispatch, getState) =
         dispatch(setPageParentSync(pageCode, oldParentCode, newParentCode));
       } else if (response && response.status === INVALID_PAGE_POSITION_STATUS_CODE) {
         dispatch(addToast(INVALID_PAGE_POSITION_ERROR, TOAST_ERROR));
+      } else if (response && response.status === INVALID_PAGE_CHILD_POSITION_STATUS_CODE) {
+        dispatch(addToast(INVALID_PAGE_CHILD_POSITION_ERROR, TOAST_ERROR));
       } else {
         response.json().then((json) => {
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

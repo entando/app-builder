@@ -6,6 +6,25 @@ import { Checkbox } from 'react-bootstrap';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { FormattedMessage } from 'react-intl';
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED } from 'state/app-tour/const';
+import { v4 as uuidv4 } from 'uuid';
+import { withPermissionValues } from 'ui/auth/withPermissions';
+
+// This mutes warnings and errors of the library
+// eslint-disable-next-line no-console
+const originalWarn = console.warn;
+
+// eslint-disable-next-line no-console
+console.warn = (message, ...args) => {
+  if (
+    typeof message === 'string' &&
+    message.includes("Please check the 'steps' Tour prop Array at position")
+  ) {
+    return; // Ignore the warning
+  }
+
+  // Log the warning
+  originalWarn.apply(console, [message, ...args]);
+};
 
 const mouseClickEvents = ['mouseover', 'hover', 'mousedown', 'click', 'mouseup'];
 export const simulateMouseClick = (element) => {
@@ -128,8 +147,9 @@ class AppTour extends React.Component {
     const parentCodeValue = addPageformikValues.parentCode || '';
     const pageModelValue = addPageformikValues.pageModel || '';
 
-    const getStep3Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-3 > a');
-    const getStep4Element = () => document.getElementsByTagName('app-builder-menu')[0].shadowRoot.querySelector('.app-tour-step-4 > a');
+    const mfeAppBuilderMenu = document.getElementsByTagName('app-builder-menu') ? document.getElementsByTagName('app-builder-menu')[0] : null;
+    const getStep3Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-3 > a') : document.querySelector('.app-tour-step-3 > a'));
+    const getStep4Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-4 > a') : document.querySelector('.app-tour-step-4 > a'));
 
     const step5Element = document.querySelector('.app-tour-step-5');
     const step8Element = document.querySelector('.PageTreeSelector__select-area');
@@ -454,16 +474,21 @@ class AppTour extends React.Component {
   render() {
     const {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset, isDismissed,
+      isSuperuser,
     } = this.props;
     // sessionStorage is persistent between rerenders
     // and is cleared out when the current tab is closed,
     // if the wizard is completed or close on a session live, users won't see it anymore.
-    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed) return null;
+    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed || !isSuperuser) {
+      return null;
+    }
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
     const scrollDuration = appTourLastStep === 5 ? 600 : 150;
     const scrollLock = window.innerWidth > 1024;
+    const needsUpdate = appTourLastStep === 11 ? `give-me-force-update-${uuidv4()}` : 'no-force-update';
     return (
       <Tour
+        key={needsUpdate}
         steps={this.generateSteps()}
         isOpen={wizardEnabled}
         showNumber={false}
@@ -520,6 +545,7 @@ AppTour.propTypes = {
     isActive: PropTypes.bool,
     isDefault: PropTypes.bool,
   })),
+  isSuperuser: PropTypes.bool.isRequired,
 };
 
 AppTour.defaultProps = {
@@ -536,4 +562,4 @@ AppTour.defaultProps = {
   languages: [],
 };
 
-export default AppTour;
+export default withPermissionValues(AppTour);

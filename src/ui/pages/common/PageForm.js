@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withFormik, Form, Field } from 'formik';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { Button } from 'react-bootstrap';
+import { required, maxLength } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { isUndefined } from 'lodash';
 import * as Yup from 'yup';
@@ -20,6 +21,9 @@ import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContain
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
 import { validateCodeField } from 'helpers/formikValidations';
+import { codeWithDash } from 'helpers/attrValidation';
+
+const maxLength30 = maxLength(30);
 
 
 const msgs = defineMessages({
@@ -340,6 +344,7 @@ export class PageFormBody extends Component {
               tourClass="app-tour-step-7"
               label={<FormLabel labelId="app.code" helpId="pages.pageForm.codeHelp" required />}
               placeholder={intl.formatMessage(msgs.appCode)}
+              validate={[required, codeWithDash, maxLength30]}
               disabled={isEditMode}
             />
 

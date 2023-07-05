@@ -6,6 +6,8 @@ import { getUsername } from '@entando/apimanager';
 import { fetchMfeConfigList } from 'state/mfe/actions';
 import StartupWaitScreen from 'ui/app/StartupWaitScreen';
 import RowSpinner from 'ui/pages/common/RowSpinner';
+import { selectCurrentTenant, selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
 
 const MFE_MANDATORY_SLOT = ['primary-menu'];
 
@@ -18,9 +20,11 @@ function isReady(payload) {
 export default function MfeDownloadManager(props) {
   const { children } = props;
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isPolling, setIsPolling] = useState(false);
   const currentUserName = useSelector(getUsername);
+  const currentTenant = useSelector(selectCurrentTenant);
+  const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
 
   useEffect(() => {
     // wait until apiManager is not initialised and only after that fetch the mfe config list
@@ -28,6 +32,7 @@ export default function MfeDownloadManager(props) {
       let configPolling;
 
       const fetchConfig = () => {
+        setLoading(true);
         clearTimeout(configPolling);
         dispatch(fetchMfeConfigList('', false)).then((res) => {
           if (isReady(res.payload)) {
@@ -46,12 +51,21 @@ export default function MfeDownloadManager(props) {
           configPolling = setTimeout(fetchConfig, 10000);
         });
       };
+      if (isPrimaryTenant) {
+        fetchConfig();
+      }
+    }
+  }, [dispatch, currentUserName, isPrimaryTenant]);
 
-      fetchConfig();
+  useEffect(() => {
+    if (currentUserName) {
+      dispatch(fetchCurrentTenant());
     }
   }, [dispatch, currentUserName]);
 
-  if (loading) {
+  // check if currentTenant is empty object
+  if (loading || currentTenant === undefined ||
+    (currentTenant !== null && Object.keys(currentTenant).length === 0)) {
     return <div className="shell-preload"><RowSpinner loading /></div>;
   } else if (isPolling) {
     return <StartupWaitScreen />;

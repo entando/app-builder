@@ -6,14 +6,22 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
-import { getDomain, getResourcePath } from 'helpers/resourcePath';
+import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
+import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
+import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
+import { getUserPreferences } from 'state/user-preferences/selectors';
 
 const MfeContainer = ({ id, history }) => {
   const { assetLoading, mfe } = useMfe({ mfeId: id });
   const locale = useSelector(getLocale);
   const permissions = useSelector(getLoggedUserPermissions);
   const systemReport = useSelector(getSystemReport);
+  const currentSystemConfigurationAdvancedSearchOn =
+  useSelector(selectCurrSystemConfigAdvancedSearch);
+  const userPreferences = useSelector(getUserPreferences) || {};
+
+  const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
   useEffect(() => {
     const entandoWindow = window.entando || {};
@@ -25,6 +33,8 @@ const MfeContainer = ({ id, history }) => {
       lang: locale,
       adminConsoleUrl: getDomain(),
       systemReport,
+      advancedSearchOn: currentSystemConfigurationAdvancedSearchOn,
+      disableContentMenu: userPreferences.disableContentMenu,
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
@@ -33,10 +43,12 @@ const MfeContainer = ({ id, history }) => {
 
     entandoWindow.epc = entandoWindow.epc || {};
     entandoWindow.epc[mfe.widgetName] =
-      entandoWindow.epc[mfe.widgetName] || { basePath: getResourcePath(mfe.assetsBasePath) };
+      entandoWindow.epc[mfe.widgetName] || { basePath: mfeResourceBasePath };
 
     window.entando = entandoWindow;
-  }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport]);
+  }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport,
+    mfeResourceBasePath, currentSystemConfigurationAdvancedSearchOn,
+    userPreferences.disableContentMenu]);
 
   const params = {
     config: {

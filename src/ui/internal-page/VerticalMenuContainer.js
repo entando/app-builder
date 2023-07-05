@@ -16,7 +16,8 @@ import {
   ROUTE_PAGE_TREE, ROUTE_FRAGMENT_LIST,
   ROUTE_PAGE_CONFIG, ROUTE_LABELS_AND_LANGUAGES, ROUTE_PAGE_TEMPLATE_LIST,
   ROUTE_RELOAD_CONFIG, ROUTE_DATABASE_LIST, ROUTE_FILE_BROWSER,
-  ROUTE_PAGE_SETTINGS, ROUTE_ECR_COMPONENT_LIST,
+  ROUTE_PAGE_SETTINGS,
+  // ROUTE_ECR_COMPONENT_LIST,
   ROUTE_DASHBOARD, ROUTE_USER_LIST, ROUTE_ROLE_LIST,
   ROUTE_GROUP_LIST, ROUTE_PROFILE_TYPE_LIST, ROUTE_USER_RESTRICTIONS, ROUTE_WIDGET_LIST,
   ROUTE_EMAIL_CONFIG,
@@ -28,12 +29,13 @@ import {
   EDIT_USER_PROFILES_PERMISSION, CRUD_USERS_PERMISSION,
   VIEW_USERS_AND_PROFILES_PERMISSION, CRUD_CONTENTS_PERMISSION,
   VALIDATE_CONTENTS_PERMISSION, MANAGE_RESOURCES_PERMISSION,
-  MANAGE_CATEGORIES_PERMISSION, ENTER_ECR_PERMISSION,
+  MANAGE_CATEGORIES_PERMISSION,
+  // ENTER_ECR_PERMISSION,
 } from 'state/permissions/const';
 
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
-import getRuntimeEnv from 'helpers/getRuntimeEnv';
+// import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { HOMEPAGE_CODE } from 'state/pages/const';
 import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
@@ -42,6 +44,8 @@ import { dismissedWizardKey } from 'ui/app-tour/constant';
 import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
 import { getAppTourlastStep } from 'state/app-tour/selectors';
+import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
+import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
@@ -49,7 +53,7 @@ const {
 
 const publicUrl = process.env.PUBLIC_URL;
 
-const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
+const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAdvancedSearchOn) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION,
     VALIDATE_CONTENTS_PERMISSION,
@@ -151,19 +155,28 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport) => {
           />
         )
       }
+      {
+        currSysConfigAdvancedSearchOn && (
+          <SecondaryItem
+            id="menu-solar-config"
+            title={intl.formatMessage({ id: 'cms.menu.solarConfig', defaultMessage: 'SOLR configuration' })}
+            href={adminConsoleUrl('do/jpsolr/config')}
+          />
+        )
+      }
     </Item>
   );
 };
 
-const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
+// const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
 
-const renderComponentRepositoryMenuItem = (history, intl) => (
-  COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
-    id="component-repository"
-    onClick={() => history.push(ROUTE_ECR_COMPONENT_LIST)}
-    iconClass="fa fa-cart-plus"
-    title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
-  />) : '');
+// const renderComponentRepositoryMenuItem = (history, intl) => (
+//   COMPONENT_REPOSITORY_UI_ENABLED ? (<Item
+//     id="component-repository"
+//     onClick={() => history.push(ROUTE_ECR_COMPONENT_LIST)}
+//     iconClass="fa fa-cart-plus"
+//     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
+//   />) : '');
 
 const getHeader = onStartTutorial => (
   <Masthead>
@@ -187,6 +200,7 @@ const EntandoMenu = ({
   const [openPath, setOpenPath] = useState(null);
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
   const systemReport = useSelector(getSystemReport);
+  const currSystemConfigAdvancedSearchOn = useSelector(selectCurrSystemConfigAdvancedSearch);
 
   useEffect(() => {
     onMount();
@@ -304,7 +318,7 @@ const EntandoMenu = ({
             MANAGE_CATEGORIES_PERMISSION,
             VALIDATE_CONTENTS_PERMISSION,
           ], userPermissions) &&
-          renderCmsMenuItems(intl, userPermissions, systemReport)
+          renderCmsMenuItems(intl, userPermissions, systemReport, currSystemConfigAdvancedSearchOn)
         }
         {
 
@@ -360,11 +374,11 @@ const EntandoMenu = ({
           )
         }
 
-        {
+        {/* {
           (hasAccess(SUPERUSER_PERMISSION, userPermissions)
             || hasAccess(ENTER_ECR_PERMISSION, userPermissions))
           && renderComponentRepositoryMenuItem(history, intl)
-        }
+        } */}
         {
           hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
             <Item
@@ -449,11 +463,12 @@ MfeMenuContainer.propTypes = {
 const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
+  const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
 
   // TODO: remove when we have the ECR API is implemented
   const isMFEMenuEnabled = process.env.USE_MFE || false;
 
-  return isMFEMenuEnabled
+  return isMFEMenuEnabled && isPrimaryTenant
     ?
       <MfeMenuContainer
         menuId={mfeMenu.id}

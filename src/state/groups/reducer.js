@@ -68,6 +68,7 @@ export const selected = (state = {}, action = {}) => {
   switch (action.type) {
     case SET_SELECTED_GROUP: {
       return {
+        ...state,
         ...action.payload.group,
         referenceKeyList: getRefKeyList(action.payload.group),
       };

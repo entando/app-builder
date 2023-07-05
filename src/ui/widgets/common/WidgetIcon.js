@@ -4,9 +4,8 @@ import cx from 'classnames';
 import { useSelector } from 'react-redux';
 
 import { getWidgetIcon } from 'state/widgets/selectors';
-import { getResourcePath } from 'helpers/resourcePath';
+import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 
-const imageProvider = getResourcePath('static/widget-icons');
 const publicUrl = process.env.PUBLIC_URL;
 const fallbackIcon = `${publicUrl}/images/puzzle-piece-solid.svg`;
 
@@ -15,6 +14,8 @@ const WidgetIcon = ({
 }) => {
   const storeIcon = useSelector(getWidgetIcon(widgetId));
   const [iconType, iconName] = (icon || storeIcon || '').split(':');
+
+  const imageProvider = useDynamicResourceUrl('static/widget-icons');
 
   return iconType === 'font-awesome'
     ? <span className={cx('fa', iconName, 'WidgetIcon', small && 'WidgetIcon--small', className)} />

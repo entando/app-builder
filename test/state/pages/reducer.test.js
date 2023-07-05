@@ -10,6 +10,7 @@ import {
   setFreePages, setSelectedPage, removePage, updatePage, setSearchPages, clearSearch,
   setReferenceSelectedPage, clearTree, collapseAll, setBatchExpanded, setDashboardPages,
   setEditPage,
+  setVirtualRoot,
 } from 'state/pages/actions';
 
 import { HOMEPAGE_CODE } from 'state/pages/const';
@@ -155,6 +156,17 @@ describe('state/pages/reducer', () => {
 
         newState = reducer(newState, setPageExpanded(PAGE_CODE, false));
         expect(newState.statusMap[PAGE_CODE].expanded).toBe(false);
+      });
+    });
+
+    describe('action SET_VIRTUAL_ROOT', () => {
+      let newState;
+      it('should set the virtual root to true', () => {
+        newState = reducer(state, setVirtualRoot(true));
+        expect(newState.virtualRoot).toBe(true);
+
+        newState = reducer(newState, setVirtualRoot(false));
+        expect(newState.virtualRoot).toBe(false);
       });
     });
 

@@ -368,19 +368,32 @@ const RouteComponent = () => {
 
 class App extends Component {
   componentDidMount() {
-    const { username, fetchUserPreferences } = this.props;
+    const {
+      username, fetchUserPreferences, fetchCurrentTenantInfo, fetchCurrentSystemConfiguration,
+    } = this.props;
 
     // prevent calling the userPreferences API on login screen
     if (username) {
       fetchUserPreferences(username);
+      if (!process.env.USE_MFE) {
+        fetchCurrentTenantInfo();
+      }
+      fetchCurrentSystemConfiguration();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { username, fetchPlugins, fetchUserPreferences } = this.props;
+    const {
+      username, fetchPlugins, fetchUserPreferences, fetchCurrentTenantInfo,
+      fetchCurrentSystemConfiguration,
+    } = this.props;
     if (username && username !== prevProps.username) {
       fetchPlugins();
       fetchUserPreferences(username);
+      if (!process.env.USE_MFE) {
+        fetchCurrentTenantInfo();
+      }
+      fetchCurrentSystemConfiguration();
     }
   }
 
@@ -421,7 +434,9 @@ App.propTypes = {
   isReady: PropTypes.bool,
   fetchPlugins: PropTypes.func,
   fetchUserPreferences: PropTypes.func,
+  fetchCurrentTenantInfo: PropTypes.func,
   loggedUserPrefloading: PropTypes.bool,
+  fetchCurrentSystemConfiguration: PropTypes.func,
 };
 
 App.defaultProps = {
@@ -429,8 +444,10 @@ App.defaultProps = {
   auth: { enabled: false },
   fetchPlugins: () => {},
   fetchUserPreferences: () => {},
+  fetchCurrentTenantInfo: () => {},
   isReady: false,
   loggedUserPrefloading: false,
+  fetchCurrentSystemConfiguration: () => {},
 };
 
 export default withAuth(App);

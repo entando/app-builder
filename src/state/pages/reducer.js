@@ -19,6 +19,7 @@ import {
   COLLAPSE_ALL,
   SET_DASHBOARD_PAGES,
   SET_EDIT_PAGE,
+  SET_VIRTUAL_ROOT,
 } from 'state/pages/types';
 
 // creates a map from an array
@@ -294,6 +295,14 @@ export const editPage = (state = {}, action = {}) => {
   }
 };
 
+export const virtualRoot = (state = false, action = {}) => {
+  switch (action.type) {
+    case SET_VIRTUAL_ROOT:
+      return action.payload;
+    default: return state;
+  }
+};
+
 export default combineReducers({
   map: reducer,
   childrenMap,
@@ -305,4 +314,5 @@ export default combineReducers({
   search,
   dashboard,
   editPage,
+  virtualRoot,
 });

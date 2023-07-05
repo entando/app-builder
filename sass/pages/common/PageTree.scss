@@ -6,6 +6,15 @@
     padding: 0;
   }
 
+  &__no-drag  {
+    button {
+      cursor: default;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
   &__drag-handle {
     width: 25px;
     height: 25px;
@@ -37,8 +46,7 @@
 
   &__tree-column-td--empty {
     .TreeNodeExpandedIcon {
-      opacity: 0;
-      visibility: hidden;
+      display: none;
     }
   }
 
