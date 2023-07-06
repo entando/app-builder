@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
 import { Form, Button, Modal } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { required, matchElement } from '@entando/utils';
-
+import { Formik, Field } from 'formik';
 import RenderTextInput from 'ui/common/form/RenderTextInput';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
@@ -20,21 +19,20 @@ export class AccountFormBody extends Component {
     return true;
   }
 
+  onSubmit = (values) => {
+    const { onModalFormSubmit } = this.props;
+    onModalFormSubmit(values);
+  };
+
   render() {
-    const {
-      username, onEdit, onModalFormSubmit, onModalClose,
-    } = this.props;
+    const { username, onEdit,  } = this.props;
 
     const modalTitle = (
       <Modal.Title><FormattedMessage id="user.myProfile.passwordSection" /></Modal.Title>
     );
 
     const modalButtons = [
-      <Button
-        id="savebtn"
-        bsStyle="primary"
-        onClick={onModalFormSubmit}
-      >
+      <Button id="savebtn" bsStyle="primary" type="submit">
         <FormattedMessage id="app.save" />
       </Button>,
     ];
@@ -72,37 +70,45 @@ export class AccountFormBody extends Component {
     );
 
     return (
-      <Form
-        horizontal
-        className="MyProfileAccountForm"
+      <Formik
+        initialValues={{
+          oldPassword: '',
+          newPassword: '',
+          newPasswordConfirm: '',
+        }}
+        onSubmit={this.onSubmit}
       >
-        <FormSectionTitle titleId="user.myProfile.accountSection" />
-        <RenderTextInput
-          label={<FormattedMessage id="user.username" />}
-          input={{ value: username }}
-          disabled
-        />
-        <RenderTextInput
-          label={<FormattedMessage id="user.password" />}
-          // Display fake password value
-          input={{ value: '**********' }}
-          type="password"
-          help="*"
-          disabled
-        />
-        <Button className="pull-right" bsStyle="primary" onClick={onEdit}>
-          <FormattedMessage id="user.myProfile.passwordSection" />
-        </Button>
-        <GenericModalContainer
-          modalId={FORM_ID}
-          modalClassName="MyProfileAccountForm__modal"
-          modalTitle={modalTitle}
-          buttons={modalButtons}
-          modalCloseCleanup={onModalClose}
-        >
-          {formFields}
-        </GenericModalContainer>
-      </Form>
+        {({ handleSubmit }) => (
+          <Form horizontal  className="MyProfileAccountForm" onSubmit={handleSubmit} >
+            <FormSectionTitle titleId="user.myProfile.accountSection" />
+            <RenderTextInput
+              label={<FormattedMessage id="user.username" />}
+              input={{ value: username }}
+              disabled
+            />
+            <RenderTextInput
+              label={<FormattedMessage id="user.password" />}
+              // Display fake password value
+              input={{ value: '**********' }}
+              type="password"
+              help="*"
+              disabled
+            />
+            <Button className="pull-right" bsStyle="primary" onClick={onEdit}>
+              <FormattedMessage id="user.myProfile.passwordSection" />
+            </Button>
+            <GenericModalContainer
+              modalId={FORM_ID}
+              modalClassName="MyProfileAccountForm__modal"
+              modalTitle={modalTitle}
+              buttons={modalButtons}
+              // modalCloseCleanup={onModalClose}
+            >
+              {formFields}
+            </GenericModalContainer>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }
@@ -112,12 +118,11 @@ AccountFormBody.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onModalFormSubmit: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  onModalClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  //onModalClose: PropTypes.func.isRequired,
 };
 
-const AccountForm = reduxForm({
-  form: FORM_ID,
-})(AccountFormBody);
+const AccountForm = AccountFormBody;
 
 AccountForm.FORM_ID = FORM_ID;
 
