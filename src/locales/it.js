@@ -1611,7 +1611,7 @@ export default {
     'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
     'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
     'componentRepository.hub.epcInstalledTip': 'Per aggiornare il menu EPC, aggiorna la pagina di AppBuilder nel tuo browser',
-    'ecr.componentUninstallError': 'Message error - Is not possible to uninstall the {name}',
+    'ecr.componentUninstallError': 'Messaggio di errore: non è possibile disinstallare il {name}',
     'ecr.componentPartiallyDeleted': 'Alcuni elementi del bundle sono stati cancellati manualmente. Per disinstallare completamente il bundle e ripulire il sistema da ogni referenza interna, procedere con la disinstallazione.',
   },
 };
