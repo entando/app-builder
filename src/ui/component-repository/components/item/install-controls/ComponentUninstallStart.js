@@ -9,6 +9,7 @@ const ComponentUninstallStart = (props) => {
       name, description, version, componentTypes,
     },
     componentDependencies,
+    dependenciesPartiallyDeleted,
   } = props;
 
   const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0;
@@ -48,6 +49,19 @@ const ComponentUninstallStart = (props) => {
         </div>
       </div>
       {
+        dependenciesPartiallyDeleted ? (
+          <div className="BundlePreview__error-wrapper">
+            <p className="BundlePreview__description-body BundlePreview__description-body--error">
+              <FormattedMessage
+                id="ecr.componentPartiallyDeleted"
+                values={{ name }}
+              />
+            </p>
+            <div className="BundlePreview__divider" />
+          </div>
+        ) : null
+      }
+      {
         autoUninstallNotPossible ? (
           <div className="BundlePreview__error-wrapper">
             <p className="BundlePreview__error-message">
@@ -82,10 +96,12 @@ ComponentUninstallStart.propTypes = {
     type: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
   })),
+  dependenciesPartiallyDeleted: PropTypes.bool,
 };
 
 ComponentUninstallStart.defaultProps = {
   componentDependencies: [],
+  dependenciesPartiallyDeleted: false,
 };
 
 export default ComponentUninstallStart;

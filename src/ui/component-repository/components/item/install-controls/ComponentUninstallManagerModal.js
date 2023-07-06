@@ -19,7 +19,7 @@ const ComponentUninstallManagerModal = () => {
   const buttons = [
     <Button
       bsStyle="primary"
-      disabled={cannotBeUninstalled}
+      disabled={cannotBeUninstalled || usageDataLoading}
       type="submit"
       className="ComponentUninstallManagerModal__uninstall-button"
       id="ComponentUninstallManagerModal__uninstall-button"
@@ -48,6 +48,9 @@ const ComponentUninstallManagerModal = () => {
       componentTypes: selectedEcrComponent.componentTypes,
     }}
       componentDependencies={cannotBeUninstalled ? componentUsageList : []}
+      dependenciesPartiallyDeleted={
+      (componentUsageList || []).some(c => c.exist === false)
+      }
     />);
   };
 
