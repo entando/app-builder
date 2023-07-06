@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FieldArray } from 'formik';
-import { get } from 'lodash';
 
 export const getTouchErrorByField = (fieldName, { touched, errors }) => ({
-  touched: get(touched, fieldName, ''),
-  error: get(errors, fieldName, ''),
+  touched: touched ? touched[fieldName] : '',
+  error: errors ? errors[fieldName] : '',
 });
 
 export const MultiField = ({
