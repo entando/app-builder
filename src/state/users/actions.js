@@ -276,7 +276,7 @@ export const sendDeleteUserAuthorities = username => async (dispatch) => {
   }
 };
 
-export const sendPostMyPassword = data => async (dispatch) => {
+export const sendPostMyPassword = data => dispatch => new Promise(async (resolve) => {
   try {
     const response = await postMyPassword(data);
     const json = await response.json();
@@ -292,10 +292,11 @@ export const sendPostMyPassword = data => async (dispatch) => {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
+    resolve();
   } catch (e) {
     // do nothing
   }
-};
+});
 
 export const sendPostWizardSetting = (username, data) => async (dispatch) => {
   try {
