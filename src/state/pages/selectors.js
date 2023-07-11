@@ -20,12 +20,12 @@ export const getEditPage = state => state.pages.editPage;
 export const getIsVirtualRootOn = state => state.pages.virtualRoot;
 
 export const getSearchPages = createSelector(
-  [getSearchPagesRaw, getChildrenMap],
-  (pages, pageChildren) => {
+  [getSearchPagesRaw],
+  (pages) => {
     if (!pages) return pages;
     return pages.map(page => ({
       ...page,
-      isEmpty: pageChildren[page.code] && page.children.length === 0,
+      isEmpty: page.children.length === 0,
     }));
   },
 );

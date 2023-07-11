@@ -124,7 +124,7 @@ const childrenMap = (state = {}, action = {}) => {
     case REMOVE_PAGE: {
       const { parentCode, code } = action.payload.page;
       const newState = { ...state };
-      if (parentCode) {
+      if (parentCode && newState[parentCode]) {
         newState[parentCode] = newState[parentCode].filter(f => f !== code);
       }
       delete newState[code];

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getUsername } from '@entando/apimanager';
-import { submit } from 'redux-form';
+import { reset, submit } from 'redux-form';
 
 import { sendPostMyPassword } from 'state/users/actions';
 import AccountForm from 'ui/users/my-profile/AccountForm';
@@ -21,6 +21,9 @@ export const mapDispatchToProps = dispatch => ({
   },
   onModalFormSubmit: () => {
     dispatch(submit(AccountForm.FORM_ID));
+  },
+  onModalClose: () => {
+    dispatch(reset(AccountForm.FORM_ID));
   },
 });
 

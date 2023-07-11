@@ -72,7 +72,7 @@ export const getPayloadForForm = (
         break;
       }
       case TYPE_DATE: {
-        formAttr[code] = changeDateFormat(value, API_DATE_FORMAT, FORM_DATE_FORMAT);
+        formAttr[code] = value ? changeDateFormat(value, API_DATE_FORMAT, FORM_DATE_FORMAT) : null;
         break;
       }
       case TYPE_TIMESTAMP: {
@@ -80,7 +80,8 @@ export const getPayloadForForm = (
         formAttr[`${code}_ts_hours`] = zeroFill(momentDate.hours());
         formAttr[`${code}_ts_minutes`] = zeroFill(momentDate.minutes());
         formAttr[`${code}_ts_seconds`] = zeroFill(momentDate.seconds());
-        formAttr[code] = changeDateFormat(value, API_TIMESTAMP_FORMAT, FORM_DATE_FORMAT);
+        formAttr[code] = value ? changeDateFormat(value, API_TIMESTAMP_FORMAT, FORM_DATE_FORMAT) :
+          null;
         break;
       }
       case TYPE_HYPERTEXT:

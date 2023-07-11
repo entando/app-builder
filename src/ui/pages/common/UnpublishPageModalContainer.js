@@ -8,7 +8,7 @@ import { getPagesMap } from 'state/pages/selectors';
 
 export const mapStateToProps = state => ({
   info: getInfo(state),
-  page: getPagesMap(state)[getInfo(state).code],
+  page: getInfo(state).page || getPagesMap(state)[getInfo(state).code],
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -72,15 +72,15 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onClickDelete: (page) => {
     dispatch(setVisibleModal(MODAL_ID));
-    dispatch(setInfo({ type: 'page', code: page.code }));
+    dispatch(setInfo({ type: 'page', code: page.code, page }));
   },
   onClickPublish: (page) => {
     dispatch(setVisibleModal(PUBLISH_MODAL_ID));
-    dispatch(setInfo({ type: 'page', code: page.code }));
+    dispatch(setInfo({ type: 'page', code: page.code, page }));
   },
   onClickUnPublish: (page) => {
     dispatch(setVisibleModal(UNPUBLISH_MODAL_ID));
-    dispatch(setInfo({ type: 'page', code: page.code }));
+    dispatch(setInfo({ type: 'page', code: page.code, page }));
   },
   onClickDetails: (page) => {
     dispatch(setSelectedPage(page));

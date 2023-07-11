@@ -140,6 +140,9 @@
   @media (max-width: 768px) {
     text-align: left;
   }
+  @media (min-width: 768px) {
+    text-align: right;
+  }
 }
 
 .form-group .mobile-center { // sass-lint:disable-line class-name-format, force-element-nesting
