@@ -1,12 +1,9 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { reduxForm } from 'redux-form';
 import { clearErrors, addToast, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import SimpleWidgetConfigForm from 'ui/widgets/config/forms/SimpleWidgetConfigForm';
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { initConfigPage } from 'state/page-config/actions';
-
-export const ID = 'navigationBarWidgetForm';
 
 export const mapStateToProps = (state, ownProps) => ({
   initialValues: ownProps.widgetConfig || {},
@@ -35,11 +32,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-const SimpleWidgetConfigFormContainer = injectIntl(reduxForm({
-  form: ID,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-})(SimpleWidgetConfigForm));
+const SimpleWidgetConfigFormContainer = injectIntl(SimpleWidgetConfigForm);
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
