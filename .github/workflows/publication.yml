@@ -17,13 +17,12 @@ env:
   DOCKER_IMAGE_FILE: Dockerfile
   DOCKER_IMAGE_PUSH: true
   
-  
-  PUBLIC_URL: "/app-builder"
-  DOMAIN: "/entando-de-app"
-  USE_MOCKS: "false"
-  CI: "false"
-  COMPONENT_REPOSITORY_UI_ENABLED: "true"
-  KEYCLOAK_ENABLED: "true"
+#  PUBLIC_URL: "/app-builder"
+#  DOMAIN: "/entando-de-app"
+#  USE_MOCKS: "false"
+#  CI: "false"
+#  COMPONENT_REPOSITORY_UI_ENABLED: "true"
+#  KEYCLOAK_ENABLED: "true"
 
 jobs:
   
