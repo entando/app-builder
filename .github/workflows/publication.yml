@@ -40,15 +40,17 @@ jobs:
             .. @setup-feature-flags "PR_FORMAT_CHECK" "BOM_CHECK" "BOM" "POST_PUB_DOCKER_SCAN" "POST_DEP_TESTS" \
           ;
       #~ CHECKOUT
-      - name: "CHECKOUT"
-        id: CHECKOUT
-        run: |
-          ~/ppl-run \
-            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
-                  --lcd "$LOCAL_CLONE_DIR" \
-                  --token "$ENTANDO_BOT_TOKEN" \
-            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
-          ;
+#      - name: "CHECKOUT"
+#        id: CHECKOUT
+#        run: |
+#          ~/ppl-run \
+#            .. checkout-branch --id "CHECKOUT FOR PUBLICATION" \
+#                  --lcd "$LOCAL_CLONE_DIR" \
+#                  --token "$ENTANDO_BOT_TOKEN" \
+#            .. pr-preflight-checks --only flags --lcd "$LOCAL_CLONE_DIR" \
+#          ;
+      - name: Checkout
+        uses: actions/checkout@v3
       #~ NODE
       - name: "Set up Node 14"
         uses: actions/setup-node@v2
