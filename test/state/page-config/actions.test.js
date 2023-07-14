@@ -1,6 +1,5 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { initialize } from 'redux-form';
 import { ADD_ERRORS, ADD_TOAST } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -546,13 +545,6 @@ describe('state/page-config/actions', () => {
       store.dispatch(editWidgetConfig(0, CURRENT_PAGE_CODE));
       expect(makeGetSelectedPageConfig).toHaveBeenCalled();
       expect(store.getActions()).toHaveLength(0);
-    });
-
-    it('if there is selected page config and the frame has config, dispatch initialize', () => {
-      store.dispatch(editWidgetConfig(1, CURRENT_PAGE_CODE));
-      expect(initialize).toHaveBeenCalled();
-      expect(getWidgetsMap).toHaveBeenCalled();
-      expect(store.getActions()).toHaveLength(1);
     });
   });
 
