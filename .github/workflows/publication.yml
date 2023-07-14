@@ -64,16 +64,16 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-npm
       #~ PUBLISH  THE ARTIFACT
-      - name: "Publish package"
-        run: |
-          export ENTANDO_OPT_AWS_ACCESS_KEY_ID="${{ secrets.ENTANDO_OPT_AWS_ACCESS_KEY_ID }}"
-          export ENTANDO_OPT_AWS_SECRET_ACCESS_KEY="${{ secrets.ENTANDO_OPT_AWS_SECRET_ACCESS_KEY }}"
-
-          ~/ppl-run generic PUBLISH --id "PUBLICATION" \
-            --lcd "$LOCAL_CLONE_DIR"
-        env:
-          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+#      - name: "Publish package"
+#        run: |
+#          export ENTANDO_OPT_AWS_ACCESS_KEY_ID="${{ secrets.ENTANDO_OPT_AWS_ACCESS_KEY_ID }}"
+#          export ENTANDO_OPT_AWS_SECRET_ACCESS_KEY="${{ secrets.ENTANDO_OPT_AWS_SECRET_ACCESS_KEY }}"
+#
+#          ~/ppl-run generic PUBLISH --id "PUBLICATION" \
+#            --lcd "$LOCAL_CLONE_DIR"
+#        env:
+#          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+#          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       #~ UPDATE THE BOM (if required)
       - name: "BOM Update"
         if: steps.CHECKOUT.outputs.BOM_UPDATE_FLAG == 'true' && steps.START.outputs.BOM == 'true'
