@@ -6,27 +6,11 @@ on:
       - 'v*'
 
 env:
-  ENTANDO_OPT_USE_PPL_TAG: "v1.4.2"
-  ENTANDO_OPT_DATA_REPO: "${{ secrets.ENTANDO_OPT_DATA_REPO }}"
-  ENTANDO_OPT_DATA_REPO_TOKEN: "${{ secrets.ENTANDO_OPT_DATA_REPO_TOKEN }}"
-  ENTANDO_OPT_ENVIRONMENT_NAMES: "${{ secrets.ENTANDO_OPT_ENVIRONMENT_NAMES }}"
-  ENTANDO_OPT_FEATURES: "${{ secrets.ENTANDO_OPT_FEATURES }}"
-  ENTANDO_OPT_GLOBAL_FEATURES: "${{ secrets.ENTANDO_OPT_GLOBAL_FEATURES }}"
-  ENTANDO_OPT_LOG_LEVEL: "${{ secrets.ENTANDO_OPT_LOG_LEVEL }}"
-  ENTANDO_OPT_CUSTOM_ENV: "${{ secrets.ENTANDO_OPT_CUSTOM_ENV }}"
-  PPL_CONTEXT: ${{ toJson(github) }}
-  LOCAL_CLONE_DIR: "local-checkout"
-
+  ENTANDO_OPT_USE_PPL_TAG: "v2.0.0"
 
 jobs:
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # PUBLICATION
-
+  
   publication:
-    outputs:
-      POST_PUB_DOCKER_SCAN: ${{ steps.START.outputs.POST_PUB_DOCKER_SCAN }}
-      POST_DEP_TESTS: ${{ steps.START.outputs.POST_DEP_TESTS }}
     env:
       ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
       PUBLIC_URL: "/app-builder"
@@ -46,13 +30,6 @@ jobs:
         with:
           node-version: 14
 
-#      - name: "Cache NPM Packages"
-#        id: package-cache
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.npm
-#          key: ${{ runner.os }}-npm
-          
       - name: Install dependencies
         run: npm ci
 
