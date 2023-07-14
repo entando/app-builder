@@ -82,14 +82,134 @@ jobs:
             --token "$ENTANDO_BOT_TOKEN" \
           ;
       #~ PUBLISH TO DOCKER
-      - name: "Publish docker"
-        run: |
-          export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
-          export ENTANDO_OPT_DOCKER_ALT_LOGIN_URL="${{ secrets.ENTANDO_OPT_DOCKER_ALT_LOGIN }}"
-          export ENTANDO_OPT_DOCKER_ALT_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_ALT_USERNAME }}"
-          export ENTANDO_OPT_DOCKER_ALT_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_ALT_PASSWORD }}"
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # List of Docker Images to use as a base name for tags
+          images: |
+            bqueiroz/app-builder
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr,value={{base_ref}}
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+            type=raw,event=pr,value={{base_ref}}
 
-          ~/ppl-run docker publish --id "PUBLISH-DOCKER" --lcd "$LOCAL_CLONE_DIR"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}
+          password: ${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}
+
+# Uncomment this when we release for good?
+#      - name: Login to RHT
+#        uses: docker/login-action@v2
+#        with:
+#          registry: ${{ secrets.ENTANDO_RHT_DOCKER_REGISTRY }}
+#          username: ${{ secrets.ENTANDO_RHT_DOCKER_USERNAME }}
+#          password: ${{ secrets.ENTANDO_RHT_DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+
+# Previous publishing
+#      - name: "Publish docker"
+#        run: |
+#          export ENTANDO_OPT_DOCKER_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}"
+#          export ENTANDO_OPT_DOCKER_ALT_LOGIN_URL="${{ secrets.ENTANDO_OPT_DOCKER_ALT_LOGIN }}"
+#          export ENTANDO_OPT_DOCKER_ALT_USERNAME="${{ secrets.ENTANDO_OPT_DOCKER_ALT_USERNAME }}"
+#          export ENTANDO_OPT_DOCKER_ALT_PASSWORD="${{ secrets.ENTANDO_OPT_DOCKER_ALT_PASSWORD }}"
+#
+#          ~/ppl-run docker publish --id "PUBLISH-DOCKER" --lcd "$LOCAL_CLONE_DIR"
+          
+          
+#build-and-push:
+#    name: Build and Push
+#    runs-on: ubuntu-latest
+#    env:
+#      PUBLIC_URL: "/app-builder"
+#      DOMAIN: "/entando-de-app"
+#      USE_MOCKS: "false"
+#      CI: "false"
+#      COMPONENT_REPOSITORY_UI_ENABLED: "true"
+#      KEYCLOAK_ENABLED: "true"
+#    steps:
+##      - name: Install dependencies
+##        run: npm ci
+##
+##      - name: Build project
+##        run: npm run build --production
+#
+#      - name: Docker meta
+#        id: meta
+#        uses: docker/metadata-action@v4
+#        with:
+#          # List of Docker Images to use as a base name for tags
+#          images: |
+#            bqueiroz/app-builder
+#          # generate Docker tags based on the following events/attributes
+#          tags: |
+#            type=schedule
+#            type=ref,event=branch
+#            type=ref,event=pr,value={{base_ref}}
+#            type=ref,event=tag
+#            type=semver,pattern={{version}}
+#            type=semver,pattern={{major}}.{{minor}}
+#            type=semver,pattern={{major}}
+#            type=sha
+#            type=raw,event=pr,value={{base_ref}}
+#
+#      - name: Set up QEMU
+#        uses: docker/setup-qemu-action@v2
+#
+#      - name: Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v2
+#        with:
+#          platforms: linux/amd64,linux/arm64
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v2
+#        with:
+#          username: ${{ secrets.ENTANDO_OPT_DOCKER_USERNAME }}
+#          password: ${{ secrets.ENTANDO_OPT_DOCKER_PASSWORD }}
+#
+##      - name: Login to RHT
+##        uses: docker/login-action@v2
+##        with:
+##          registry: ${{ secrets.ENTANDO_RHT_DOCKER_REGISTRY }}
+##          username: ${{ secrets.ENTANDO_RHT_DOCKER_USERNAME }}
+##          password: ${{ secrets.ENTANDO_RHT_DOCKER_PASSWORD }}
+#
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: .
+#          file: Dockerfile
+#          push: true
+#          tags: ${{ steps.meta.outputs.tags }}
+#          labels: ${{ steps.meta.outputs.labels }}
+#          platforms: linux/amd64,linux/arm64
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
