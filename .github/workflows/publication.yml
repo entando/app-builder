@@ -10,8 +10,13 @@ env:
   ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
   
   NODE_VERSION: 14
+  BUILD_COMMANDS: npm ci; npm run build --production;
   DOCKER_IMAGE_BASE_NAME: entando/app-builder
   DOCKER_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
+  DOCKER_IMAGE_CONTEXT: .
+  DOCKER_IMAGE_FILE: Dockerfile
+  DOCKER_IMAGE_PUSH: true
+  
   
   PUBLIC_URL: "/app-builder"
   DOMAIN: "/entando-de-app"
@@ -34,11 +39,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build --production
+      - name: Run build commands
+        run: ${{ env.BUILD_COMMANDS }}
 
       - name: Docker meta
         id: meta
@@ -81,9 +83,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: Dockerfile
-          push: true
+          context: ${{ env.DOCKER_IMAGE_CONTEXT }}
+          file: ${{ env.DOCKER_IMAGE_FILE }}
+          push: ${{ env.DOCKER_IMAGE_PUSH }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
