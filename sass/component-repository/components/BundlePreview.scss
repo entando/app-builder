@@ -17,6 +17,10 @@
 
   &__meta {
     margin-left: 30px;
+
+    &--uninstall {
+      margin-left: 0;
+    }
   }
 
   &__bundle-name {
@@ -27,6 +31,10 @@
     font-style: normal;
     font-weight: 600;
     line-height: 22px;
+
+    &--uninstall {
+      margin-top: 13px;
+    }
   }
 
   &__hub-name {
@@ -65,6 +73,10 @@
     font-style: normal;
     font-weight: normal;
     line-height: 20px;
+
+    &--error {
+      margin-bottom: 16px;
+    }
   }
 
   &__select-version {
@@ -99,6 +111,46 @@
     font-weight: bold;
     line-height: 16px;
   }
+
+  &__versioning {
+    margin-top: 13px;
+    margin-right: 80px;
+    margin-left: auto;
+
+    // sass-lint:disable bem-depth
+    &__title {
+      color: $color-ecr-list-icon-active;
+      font-family: "Open Sans";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 16px;
+    }
+
+    &__version { // sass-lint:disable bem-depth
+      margin-left: 26px;
+      color: $color-ecr-list-icon-active;
+      font-family: "Open Sans";
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 16px;
+    }
+  }
+
+  &__error-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error-message {
+    color: $color-bundle-uninstall-error;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
 }
 
 .HubBundleManagement {
@@ -114,5 +166,11 @@
 
   &__deploy-action {
     margin-left: 10px;
+  }
+}
+
+.ComponentUninstallManagerModal {
+  &__uninstall-button {
+    margin-left: 13px !important; // sass-lint:disable-line no-important
   }
 }

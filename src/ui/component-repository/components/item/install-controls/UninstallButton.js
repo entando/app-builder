@@ -9,7 +9,7 @@ const UninstallButton = ({ component, onClickUninstall, disabled }) => (
   <Button
     bsStyle="success"
     disabled={disabled}
-    onClick={() => onClickUninstall(component.code)}
+    onClick={() => onClickUninstall(component)}
   >
     <FormattedMessage id="componentRepository.components.uninstall" />
     {component.installedJob && (

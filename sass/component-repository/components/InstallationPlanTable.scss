@@ -2,6 +2,10 @@
   height: 400px;
   overflow-y: auto;
 
+  &--error {
+    height: auto;
+  }
+
   &__dropdown-button,
   &__dropdown-button:hover {
     background: transparent;
