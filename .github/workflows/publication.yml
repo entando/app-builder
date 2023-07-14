@@ -7,8 +7,12 @@ on:
 
 env:
   PPL_TEMPLATE_VERSION: "v2.0.0"
-  NODE_VERSION: 14
   ENTANDO_BOT_TOKEN: ${{ secrets.ENTANDO_BOT_TOKEN }}
+  
+  NODE_VERSION: 14
+  DOCKER_IMAGE_BASE_NAME: entando/app-builder
+  DOCKER_IMAGE_ARCHITECTURE: linux/amd64,linux/arm64
+  
   PUBLIC_URL: "/app-builder"
   DOMAIN: "/entando-de-app"
   USE_MOCKS: "false"
@@ -41,7 +45,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            entando/app-builder
+            ${{ env.DOCKER_IMAGE_BASE_NAME }}
           tags: |
             type=schedule
             type=ref,event=branch
@@ -59,7 +63,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -82,4 +86,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ env.DOCKER_IMAGE_ARCHITECTURE }}
