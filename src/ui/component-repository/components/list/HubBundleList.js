@@ -4,10 +4,10 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 
 import HubBundleManagementModal, { HUB_BUNDLE_MANAGEMENT_MODAL_ID } from 'ui/component-repository/components/list/HubBundleManagementModal';
-import { ECR_COMPONENTS_GRID_VIEW } from 'state/component-repository/components/const';
+import { ECR_COMPONENTS_GRID_VIEW, ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 import paginatorMessages from 'ui/paginatorMessages';
 import { getCurrentPage, getPageSize, getTotalItems } from 'state/pagination/selectors';
-import { getECRComponentListViewMode } from 'state/component-repository/components/selectors';
+import { getECRComponentListViewMode, getECRComponentsUninstallationStatuses } from 'state/component-repository/components/selectors';
 import { fetchBundlesFromRegistry, fetchBundlesFromRegistryWithFilters, FETCH_BUNDLES_LOADING_STATE } from 'state/component-repository/hub/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getBundlesFromRegistry, getBundleStatuses, getSelectedRegistry, getBundleGroups } from 'state/component-repository/hub/selectors';
@@ -36,6 +36,7 @@ const HubBundleList = ({
   const bundleStatuses = useSelector(getBundleStatuses);
   const openedModal = useSelector(getVisibleModal);
   const bundleGroups = useSelector(getBundleGroups);
+  const componentUninstallationStatuses = useSelector(getECRComponentsUninstallationStatuses);
 
   useEffect(
     () => { dispatch(fetchBundlesFromRegistry(activeRegistry.id)); },
@@ -57,9 +58,14 @@ const HubBundleList = ({
   }, [activeRegistry.id, dispatch]);
 
   const openComponentManagementModal = useCallback((component) => {
+    if (componentUninstallationStatuses[component.code] ===
+      ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
+      dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
+      return;
+    }
     dispatch(setInfo({ type: 'Component', payload: component }));
     dispatch(setVisibleModal(HUB_BUNDLE_MANAGEMENT_MODAL_ID));
-  }, [dispatch]);
+  }, [componentUninstallationStatuses, dispatch]);
 
   const renderComponents = (viewMode === ECR_COMPONENTS_GRID_VIEW)
     ? (<BundleListGridView

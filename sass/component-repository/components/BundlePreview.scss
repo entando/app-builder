@@ -8,6 +8,12 @@
     display: flex;
   }
 
+  &__divider {
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 1px solid $color-extra-light-grey-border;
+  }
+
   &__image {
     > img {
       width: 70px;

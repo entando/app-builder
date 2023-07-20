@@ -1,32 +1,49 @@
 import React from 'react';
 import { Button, Modal, Spinner } from 'patternfly-react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
-import { getComponentUsageList, getECRComponentSelected } from 'state/component-repository/components/selectors';
+import { getComponentUsageList, getECRComponentSelected, getECRComponentUninstallStatus, getInstallUninstallProgress } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import ComponentUninstallStart from 'ui/component-repository/components/item/install-controls/ComponentUninstallStart';
+import { setInstallUninstallProgress, uninstallECRComponent } from 'state/component-repository/components/actions';
 
 const ComponentUninstallManagerModal = () => {
   const componentUsageList = useSelector(getComponentUsageList);
-  const usageDataLoading = useSelector(getLoading)['component-repository/component-usage'];
   const selectedEcrComponent = useSelector(getECRComponentSelected);
+  const componentUninstallStatus =
+  useSelector(state => getECRComponentUninstallStatus(state, { component: selectedEcrComponent }));
+  const progress = useSelector(getInstallUninstallProgress);
+  const usageDataLoading = useSelector(getLoading)['component-repository/component-usage'];
+  const loadingUninstallAction = useSelector(getLoading)[`deComponentInstallUninstall-${(selectedEcrComponent || {}).code || ''}`];
 
   const cannotBeUninstalled = (componentUsageList || []).some(c => c.hasExternal);
 
+  const dispatch = useDispatch();
+
   if (!selectedEcrComponent) return null;
 
-  const buttons = [
+  const onConfirmUninstall = () => {
+    const pollStepFunction = prg => dispatch(setInstallUninstallProgress(prg));
+    dispatch(uninstallECRComponent(selectedEcrComponent.code, pollStepFunction));
+  };
+
+  const buttons = !componentUninstallStatus && progress !== 1 ? [
     <Button
       bsStyle="primary"
-      disabled={cannotBeUninstalled || usageDataLoading}
+      disabled={cannotBeUninstalled || usageDataLoading || loadingUninstallAction}
       type="submit"
       className="ComponentUninstallManagerModal__uninstall-button"
       id="ComponentUninstallManagerModal__uninstall-button"
+      onClick={onConfirmUninstall}
     >
-      <FormattedMessage id="componentRepository.components.uninstall" />
+      {
+        !loadingUninstallAction ? (
+          <FormattedMessage id="componentRepository.components.uninstall" />
+        ) : <Spinner loading size="sm" />
+      }
     </Button>,
-  ];
+  ] : [];
 
 
   const modalTitle = (
@@ -48,6 +65,8 @@ const ComponentUninstallManagerModal = () => {
       componentTypes: selectedEcrComponent.componentTypes,
     }}
       componentDependencies={cannotBeUninstalled ? componentUsageList : []}
+      componentUninstallStatus={componentUninstallStatus}
+      progress={progress}
       dependenciesPartiallyDeleted={
       (componentUsageList || []).some(c => c.exist === false)
       }
@@ -58,6 +77,7 @@ const ComponentUninstallManagerModal = () => {
     <GenericModalContainer
       modalId={`uninstall-manager-for-${selectedEcrComponent.code}`}
       buttons={buttons}
+      cancelTextKey="app.close"
       className="ComponentUninstallManagerModal"
       modalTitle={modalTitle}
     >

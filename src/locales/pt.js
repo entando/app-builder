@@ -1033,5 +1033,8 @@ export default {
     'componentRepository.hub.epcInstalledTip': 'Para atualizar corretamente o menu EPC, atualize a página do AppBuilder em seu navegador',
     'ecr.componentUninstallError': 'Mensagem de erro - Não é possível desinstalar o {name}',
     'ecr.componentPartiallyDeleted': 'Alguns elementos do pacote foram excluídos manualmente. Para desinstalar completamente o pacote e limpar todas as referências internas, prossiga com a desinstalação.',
+    'componentRepository.components.elementsUninstalled': 'Elementos Desinstalados',
+    'hub.bundle.uninstalled': 'Pacote Desinstalado',
+    'componentRepository.components.someNotUninstalled': 'Alguns elementos não foram desinstalados',
   },
 };

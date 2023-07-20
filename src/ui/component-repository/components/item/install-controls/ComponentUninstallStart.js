@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import ComponentDependenciesTable from 'ui/component-repository/components/item/install-controls/ComponentDependenciesTable';
+import ComponentUninstallProcessState from './ComponentUninstallProcessState';
 
 const ComponentUninstallStart = (props) => {
   const {
@@ -10,6 +11,8 @@ const ComponentUninstallStart = (props) => {
     },
     componentDependencies,
     dependenciesPartiallyDeleted,
+    componentUninstallStatus,
+    progress,
   } = props;
 
   const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0;
@@ -40,46 +43,54 @@ const ComponentUninstallStart = (props) => {
           </span>
         </div>
       </div>
-      <div className="BundlePreview__description">
-        <div className="BundlePreview__description-title">
-          <FormattedMessage id="app.filterTypesSelect.description" />
-        </div>
-        <div className="BundlePreview__description-body BundlePreview__description-body--error">
-          {description}
-        </div>
-      </div>
       {
-        dependenciesPartiallyDeleted ? (
-          <div className="BundlePreview__error-wrapper">
-            <p className="BundlePreview__description-body BundlePreview__description-body--error">
-              <FormattedMessage
-                id="ecr.componentPartiallyDeleted"
-                values={{ name }}
+        !componentUninstallStatus && progress !== 1 ? (
+          <div>
+            <div className="BundlePreview__description">
+              <div className="BundlePreview__description-title">
+                <FormattedMessage id="app.filterTypesSelect.description" />
+              </div>
+              <div className="BundlePreview__description-body BundlePreview__description-body--error">
+                {description}
+              </div>
+            </div>
+            {
+            dependenciesPartiallyDeleted ? (
+              <div className="BundlePreview__error-wrapper">
+                <p className="BundlePreview__description-body BundlePreview__description-body--error">
+                  <FormattedMessage
+                    id="ecr.componentPartiallyDeleted"
+                    values={{ name }}
+                  />
+                </p>
+                <div className="BundlePreview__divider" />
+              </div>
+            ) : null
+          }
+            {
+            autoUninstallNotPossible ? (
+              <div className="BundlePreview__error-wrapper">
+                <p className="BundlePreview__error-message">
+                  <FormattedMessage
+                    id="ecr.componentUninstallError"
+                    values={{ name }}
+                  />
+                </p>
+                <div className="BundlePreview__divider" />
+              </div>
+            ) : null
+          }
+            {
+            autoUninstallNotPossible ? (
+              <ComponentDependenciesTable
+                dependencies={componentDependencies.filter(c => c.hasExternal)}
               />
-            </p>
-            <div className="BundlePreview__divider" />
+            ) : null
+          }
           </div>
-        ) : null
-      }
-      {
-        autoUninstallNotPossible ? (
-          <div className="BundlePreview__error-wrapper">
-            <p className="BundlePreview__error-message">
-              <FormattedMessage
-                id="ecr.componentUninstallError"
-                values={{ name }}
-              />
-            </p>
-            <div className="BundlePreview__divider" />
-          </div>
-        ) : null
-      }
-      {
-        autoUninstallNotPossible ? (
-          <ComponentDependenciesTable
-            dependencies={componentDependencies.filter(c => c.hasExternal)}
-          />
-        ) : null
+        ) : (
+          <ComponentUninstallProcessState componentUninstallStatus={componentUninstallStatus} />
+        )
       }
     </div>
   );
@@ -97,11 +108,15 @@ ComponentUninstallStart.propTypes = {
     code: PropTypes.string.isRequired,
   })),
   dependenciesPartiallyDeleted: PropTypes.bool,
+  componentUninstallStatus: PropTypes.string,
+  progress: PropTypes.number,
 };
 
 ComponentUninstallStart.defaultProps = {
   componentDependencies: [],
   dependenciesPartiallyDeleted: false,
+  componentUninstallStatus: '',
+  progress: 0,
 };
 
 export default ComponentUninstallStart;

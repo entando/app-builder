@@ -433,7 +433,7 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
           errors,
           payload,
         } = res;
-        if (payload && payload.status === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS) {
+        if (payload && payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
           dispatch(addToast(
             { id: 'componentRepository.components.notifyInProgress' },
             TOAST_WARNING,

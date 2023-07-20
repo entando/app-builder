@@ -13,11 +13,12 @@ const GenericModal = ({
   buttons,
   modalFooter,
   modalTitle,
+  cancelTextKey,
 }) => {
   const footer = modalFooter || (
     <Modal.Footer>
       <Button bsStyle="default" className="btn-cancel GenericModal__cancel" onClick={onCloseModal}>
-        <FormattedMessage id={buttons.length ? 'cms.label.cancel' : 'cms.label.okay'} />
+        <FormattedMessage id={buttons.length ? 'cms.label.cancel' : (cancelTextKey || 'cms.label.okay')} />
       </Button>
       {buttons.map(button => (
         <Button {...button.props} key={button.props.id} />
@@ -60,6 +61,7 @@ GenericModal.propTypes = {
   modalTitle: PropTypes.node,
   children: PropTypes.node.isRequired,
   modalFooter: PropTypes.node,
+  cancelTextKey: PropTypes.string,
   buttons: PropTypes.arrayOf(PropTypes.node),
 };
 
@@ -68,6 +70,7 @@ GenericModal.defaultProps = {
   modalClassName: '',
   modalTitle: '',
   modalFooter: '',
+  cancelTextKey: '',
   buttons: [],
   onOpenModal: () => {},
 };

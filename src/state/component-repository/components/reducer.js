@@ -280,7 +280,7 @@ const uninstallation = (state = {}, action = {}) => {
     case START_COMPONENT_UNINSTALLATION: {
       return {
         ...state,
-        [action.payload.code]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+        [action.payload.code]: ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
       };
     }
     case FINISH_COMPONENT_UNINSTALLATION:

@@ -69,6 +69,11 @@ export const getECRComponentUninstallStatus = createSelector(
   (uninstallation, component) => uninstallation[component.code],
 );
 
+export const getECRComponentsUninstallationStatuses = createSelector(
+  [state => state.componentRepositoryComponents.uninstallation],
+  uninstallation => uninstallation,
+);
+
 export const getComponentUsageList = state => (
   get(state, 'componentRepositoryComponents.usageList', [])
 );

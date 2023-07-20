@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import { fetchECRComponents, getInstallPlan } from 'state/component-repository/components/actions';
-import { getECRComponentList, getECRComponentListViewMode } from 'state/component-repository/components/selectors';
+import { getECRComponentList, getECRComponentListViewMode, getECRComponentsUninstallationStatuses } from 'state/component-repository/components/selectors';
 import { getLoading } from 'state/loading/selectors';
 import { getCurrentPage, getTotalItems, getPageSize } from 'state/pagination/selectors';
 import ComponentList from 'ui/component-repository/components/list/ComponentList';
@@ -22,6 +22,7 @@ export const mapStateToProps = state => ({
   pageSize: getPageSize(state),
   bundleStatuses: getBundleStatuses(state),
   openedModal: getVisibleModal(state),
+  componentUninstallationStatuses: getECRComponentsUninstallationStatuses(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -34,7 +35,11 @@ export const mapDispatchToProps = dispatch => ({
   getInstallPlan: (code) => {
     dispatch(getInstallPlan(code));
   },
-  openComponentManagementModal: (component) => {
+  openComponentManagementModal: (component, componentUninstallationStatuses) => {
+    if (componentUninstallationStatuses[component.code]) {
+      dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
+      return;
+    }
     dispatch(setInfo({ type: 'Component', payload: component }));
     dispatch(setVisibleModal(HUB_BUNDLE_MANAGEMENT_MODAL_ID));
   },
