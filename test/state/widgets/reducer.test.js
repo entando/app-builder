@@ -66,7 +66,7 @@ describe('state/widget-list/reducer', () => {
 
   describe('after action REMOVE_WIDGET', () => {
     it('should define the new state', () => {
-      state = reducer(state);
+      state = reducer(state, setSelectedWidget({ code: REMOVE_WIDGET }));
       const newState = reducer(state, removeWidget(REMOVE_WIDGET));
       expect(newState.list).not.toEqual(expect.arrayContaining([REMOVE_WIDGET]));
       expect(newState.map).not.toEqual(expect.objectContaining({ REMOVE_WIDGET }));
