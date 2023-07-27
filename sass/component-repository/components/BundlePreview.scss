@@ -76,6 +76,8 @@
 
     &--error {
       margin-bottom: 16px;
+      color: $color-bundle-uninstall-error;
+      font-weight: bold;
     }
   }
 

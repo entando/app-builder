@@ -44,7 +44,7 @@ const ComponentUninstallStart = (props) => {
         <div className="BundlePreview__description-title">
           <FormattedMessage id="app.filterTypesSelect.description" />
         </div>
-        <div className="BundlePreview__description-body BundlePreview__description-body--error">
+        <div className="BundlePreview__description-body">
           {description}
         </div>
       </div>
