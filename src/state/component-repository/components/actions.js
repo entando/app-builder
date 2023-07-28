@@ -50,6 +50,7 @@ import {
   ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
   ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
   ECR_COMPONENT_INSTALLATION_STATUS_ROLLBACK,
+  ECR_COMPONENT_UNINSTALLATION_STATUS_PARTIAL_COMPLETED,
 } from 'state/component-repository/components/const';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/component-repository/components/InstallationPlanModal';
@@ -129,10 +130,11 @@ export const componentInstallOngoingProgress = code => ({
   },
 });
 
-export const componentUninstallOngoingProgress = code => ({
+export const componentUninstallOngoingProgress = (code, apiResponsePayload) => ({
   type: COMPONENT_UNINSTALL_ONGOING_PROGRESS,
   payload: {
     code,
+    apiResponsePayload,
   },
 });
 
@@ -409,9 +411,10 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
       }) => payload && [
         ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
         ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+        ECR_COMPONENT_UNINSTALLATION_STATUS_PARTIAL_COMPLETED,
       ].includes(payload.status),
       timeout: POLLING_TIMEOUT_IN_MS,
-      stepFunction: payload => stepFunction(payload.progress),
+      stepFunction: payload => stepFunction(payload.progress, payload),
     })
       .then(({
         payload,
@@ -438,7 +441,7 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => 
             { id: 'componentRepository.components.notifyInProgress' },
             TOAST_WARNING,
           ));
-          dispatch(componentUninstallOngoingProgress(componentCode));
+          dispatch(componentUninstallOngoingProgress(componentCode, payload));
         } else {
           dispatch(addToast(
             { id: 'componentRepository.components.notifyFailedUninstall' },

@@ -61,12 +61,24 @@ const updateComponentInfo = (listState, componentIndex, newProps) => {
   return newListState;
 };
 
-const markComponentLastInstallStatus = (state, componentCode, lastInstallStatus) => {
+const markComponentLastInstallStatus = (
+  state, componentCode, lastInstallStatus,
+  apiResponsePayload,
+) => {
   const componentIndex = findComponentInListById(state, componentCode);
   if (componentIndex === -1) {
     return state;
   }
-  return updateComponentInfo(state, componentIndex, { lastInstallStatus });
+  if (apiResponsePayload) {
+    return updateComponentInfo(
+      state, componentIndex,
+      { lastInstallStatus, lastInstallApiResponse: apiResponsePayload },
+    );
+  }
+  return updateComponentInfo(
+    state, componentIndex,
+    { lastInstallStatus },
+  );
 };
 
 const markComponentLastStatusAsClear = (state, componentCode) => (
@@ -85,11 +97,12 @@ const markComponentLastStatusAsInstallInProgress = (state, componentCode) => (
   )
 );
 
-const markComponentLastStatusAsUninstallInProgress = (state, componentCode) => (
+const markComponentLastStatusAsUninstallInProgress = (state, componentCode, apiResponsePayload) => (
   markComponentLastInstallStatus(
     state,
     componentCode,
     ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+    apiResponsePayload,
   )
 );
 
@@ -140,7 +153,10 @@ const list = (state = [], action = {}) => {
       return markComponentLastStatusAsInstallInProgress(state, action.payload.code);
     }
     case COMPONENT_UNINSTALL_ONGOING_PROGRESS: {
-      return markComponentLastStatusAsUninstallInProgress(state, action.payload.code);
+      return markComponentLastStatusAsUninstallInProgress(
+        state, action.payload.code,
+        action.payload.apiResponsePayload,
+      );
     }
     default: return state;
   }

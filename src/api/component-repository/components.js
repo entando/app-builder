@@ -4,13 +4,14 @@ import {
   COMPONENT_INSTALLATION_CREATED,
   COMPONENT_INSTALLATION_COMPLETED,
   COMPONENT_UNINSTALLATION_CREATED,
-  COMPONENT_UNINSTALLATION_COMPLETED,
-  // COMPONENT_UNINSTALLATION_IN_PROGRESS,
+  // COMPONENT_UNINSTALLATION_COMPLETED,
+  // COMPONENT_UNINSTALLATION_ERROR,
+  COMPONENT_UNINSTALLATION_IN_PROGRESS,
   COMPONENT_USAGE_LIST,
   COMPONENT_INSTALL_PLAN,
   GET_COMPONENT_INSTALL_PLAN,
 } from 'test/mocks/component-repository/components';
-import { makeRequest, makeMockRequest, METHODS } from '@entando/apimanager';
+import { makeRequest, METHODS } from '@entando/apimanager';
 
 export const getECRComponent = base64EncodedUrl => (
   makeRequest({
@@ -49,7 +50,7 @@ export const getECRComponentInstall = code => (
 );
 
 export const postECRComponentUninstall = code => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${code}/uninstall`,
     domain: '/digital-exchange',
     body: {},
@@ -60,12 +61,13 @@ export const postECRComponentUninstall = code => (
 );
 
 export const getECRComponentUninstall = code => (
-  makeMockRequest({
+  makeRequest({
     uri: `/components/${code}/uninstall`,
     domain: '/digital-exchange',
     method: METHODS.GET,
-    mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
-    // mockResponse: COMPONENT_UNINSTALLATION_IN_PROGRESS,
+    // mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
+    mockResponse: COMPONENT_UNINSTALLATION_IN_PROGRESS,
+    // mockResponse: COMPONENT_UNINSTALLATION_ERROR,
     useAuthentication: true,
   })
 );

@@ -13,10 +13,10 @@ const ComponentUninstallStart = (props) => {
     dependenciesPartiallyDeleted,
     componentUninstallStatus,
     progress,
+    lastInstallApiResponse,
   } = props;
 
   const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0;
-
   return (
     <div className="BundlePreview">
       <div className="BundlePreview__info">
@@ -89,7 +89,12 @@ const ComponentUninstallStart = (props) => {
           }
           </div>
         ) : (
-          <ComponentUninstallProcessState componentUninstallStatus={componentUninstallStatus} />
+          <ComponentUninstallProcessState
+            progress={progress}
+            name={name}
+            lastInstallApiResponse={lastInstallApiResponse}
+            componentUninstallStatus={componentUninstallStatus}
+          />
         )
       }
     </div>
@@ -110,6 +115,7 @@ ComponentUninstallStart.propTypes = {
   dependenciesPartiallyDeleted: PropTypes.bool,
   componentUninstallStatus: PropTypes.string,
   progress: PropTypes.number,
+  lastInstallApiResponse: PropTypes.shape({}),
 };
 
 ComponentUninstallStart.defaultProps = {
@@ -117,6 +123,7 @@ ComponentUninstallStart.defaultProps = {
   dependenciesPartiallyDeleted: false,
   componentUninstallStatus: '',
   progress: 0,
+  lastInstallApiResponse: {},
 };
 
 export default ComponentUninstallStart;

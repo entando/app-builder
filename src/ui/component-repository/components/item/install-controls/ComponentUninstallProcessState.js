@@ -5,7 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import ComponentDependenciesTable from './ComponentDependenciesTable';
 
 const UninstallInProgressOrFinished = (props) => {
-  const showErrorTable = props.errorDependencies && props.errorDependencies.length > 0;
+  const { lastInstallApiResponse } = props;
+  const errorComponents = lastInstallApiResponse && lastInstallApiResponse.errorComponents;
+  const showErrorTable = errorComponents && errorComponents.length > 0;
   return (
     <div>
       <div className="BundlePreview__divider" />
@@ -33,7 +35,7 @@ const UninstallInProgressOrFinished = (props) => {
           <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
             {Math.floor(props.progress * 100)}% {props.progress === 1 ? <FormattedMessage id="hub.bundle.uninstalled" /> : null}
           </span>
-          <p className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
+          {/* <p className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
             <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-number">
               {props.current}/{props.total}
             </span>
@@ -41,7 +43,7 @@ const UninstallInProgressOrFinished = (props) => {
               id="componentRepository.components.elementsUninstalled"
             />
 
-          </p>
+          </p> */}
         </div>
       </div>
       {
@@ -56,7 +58,7 @@ const UninstallInProgressOrFinished = (props) => {
               <div className="BundlePreview__divider" />
             </div>
             <ComponentDependenciesTable
-              dependencies={props.errorDependencies}
+              dependencies={errorComponents}
             />
           </div>
           ) : null
@@ -66,41 +68,41 @@ const UninstallInProgressOrFinished = (props) => {
 };
 
 UninstallInProgressOrFinished.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   progress: PropTypes.number,
-  current: PropTypes.number,
-  total: PropTypes.number,
-  errorDependencies: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  // current: PropTypes.number,
+  // total: PropTypes.number,
+  lastInstallApiResponse: PropTypes.shape({
+    errorComponents: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.string,
+      type: PropTypes.string,
+      status: PropTypes.string,
+    })),
+  }).isRequired,
 };
 
-// @TODO remove this Irakli
 UninstallInProgressOrFinished.defaultProps = {
-  name: 'Menu Widget',
-  progress: 1,
-  current: 5,
-  total: 6,
+  progress: 0,
+  // current: 5,
+  // total: 6,
 };
 
 const ComponentUninstallProcessState = (props) => {
-  const { componentUninstallStatus, progress, errorDependencies } = props;
-  console.log('ComponentUninstallProcessState componentUninstallStatus', componentUninstallStatus);
+  const {
+    progress, lastInstallApiResponse, name,
+  } = props;
   return (<UninstallInProgressOrFinished
     progress={progress}
-    errorDependencies={errorDependencies}
+    name={name}
+    lastInstallApiResponse={lastInstallApiResponse}
   />);
 };
 
 ComponentUninstallProcessState.propTypes = {
-  componentUninstallStatus: PropTypes.string.isRequired,
+  // componentUninstallStatus: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
-  errorDependencies: PropTypes.arrayOf(PropTypes.shape({})),
-};
-
-ComponentUninstallProcessState.defaultProps = {
-  errorDependencies: [{
-    type: 'Menu Widget',
-    code: 'Menu Widget',
-  }],
+  lastInstallApiResponse: PropTypes.shape({}).isRequired,
 };
 
 export default ComponentUninstallProcessState;

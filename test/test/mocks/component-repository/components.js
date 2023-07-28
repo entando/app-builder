@@ -216,6 +216,30 @@ const componentInstallation = {
   user: 'admin',
   progress: 1,
   errorMessage: null,
+  id: '0010efcf-76fa-46d9-aa17-de59a355ef7a',
+  startedAt: '2023-07-21T07:27:32.568937',
+  finishedAt: '2023-07-21T07:27:37.830153',
+  userId: '',
+  status: 'UNINSTALL_PARTIAL_COMPLETED', // UNINSTALL_CREATED, UNINSTALL_IN_PROGRESS, UNINSTALL_PARTIAL_COMPLETED, UNINSTALL_ERROR, UNINSTALL_COMPLETED
+  uninstallErrorCode: '100',
+  uninstallErrorMessage: 'Error in deleting component from app-engine', // sample message, it might change based on the error
+  errorComponents: [
+    {
+      type: 'content',
+      code: 'NWS12',
+      status: 'failure',
+    },
+    {
+      type: 'page',
+      code: 'page1',
+      status: 'failure',
+    },
+    {
+      type: 'category',
+      code: 'cat1',
+      status: 'failure',
+    },
+  ],
 };
 
 export const COMPONENT_INSTALLATION_CREATED = {

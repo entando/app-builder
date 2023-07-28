@@ -11,6 +11,8 @@ import {
   setInstallUninstallProgress,
   setSelectedComponentInstallVersion,
   setInstallHasConflictingVersion,
+  startComponentUninstall,
+  componentUninstallOngoingProgress,
 } from 'state/component-repository/components/actions';
 import {
   getECRComponentLastInstallStatus,
@@ -37,11 +39,19 @@ export const mapStateToProps = (state, props) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => {
-  const pollStepFunction = progress => dispatch(setInstallUninstallProgress(progress));
+  const pollStepFunction = (progress, payload) => {
+    dispatch(setInstallUninstallProgress(progress));
+    // only needed for uninstall progress
+    if (payload && payload.componentId) {
+      dispatch(componentUninstallOngoingProgress(payload.componentId, payload));
+    }
+  };
 
   return ({
-    onInstall: (component, version) =>
-      dispatch(installECRComponent(component, version, pollStepFunction)),
+    onInstall: (component, version) => {
+      dispatch(componentUninstallOngoingProgress(component.code, {}));
+      return dispatch(installECRComponent(component, version, pollStepFunction));
+    },
     onClickInstallDropdown: (componentCode) => {
       dispatch(fetchECRComponentDetail(componentCode));
     },
@@ -55,6 +65,9 @@ export const mapDispatchToProps = (dispatch) => {
       }, 500);
       return dispatch(uninstallECRComponent(componentCode, pollStepFunction));
     },
+    startComponentUninstall: componentCode => dispatch(startComponentUninstall(componentCode)),
+    resetUninstallProgressPayload: componentCode =>
+      dispatch(componentUninstallOngoingProgress(componentCode, {})),
     onClickUninstall: (component) => {
       dispatch(fetchComponentUsage(component.code));
       dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
@@ -74,7 +87,10 @@ export const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   ...ownProps,
   onRetryAction: (version) => {
     if (ownProps.component && ownProps.component.installed) {
-      dispatchProps.onUninstall(ownProps.component.code);
+      // dispatchProps.onUninstall(ownProps.component.code);
+      dispatchProps.resetUninstallProgressPayload(ownProps.component.code);
+      dispatchProps.startComponentUninstall(ownProps.component.code);
+      dispatchProps.onClickUninstall(ownProps.component);
     } else {
       dispatchProps.onInstall(ownProps.component, version);
     }
