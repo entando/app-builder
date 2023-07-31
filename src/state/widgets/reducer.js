@@ -8,7 +8,6 @@ import {
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
 } from 'state/widgets/types';
-import { getSelectedWidget } from 'state/widgets/selectors';
 
 const list = (state = [], action = {}) => {
   switch (action.type) {
@@ -49,7 +48,7 @@ const selected = (state = null, action = {}) => {
     case REMOVE_WIDGET: {
       const { widgetCode } = action.payload;
       if (!state) return state;
-      const widget = getSelectedWidget(state);
+      const widget = state;
       return widget.code === widgetCode ? null : state;
     }
     default: return state;
