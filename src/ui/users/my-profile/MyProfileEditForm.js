@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
+import { withFormik, Field, FieldArray } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
@@ -15,7 +15,7 @@ import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
-import { getComponentType } from 'helpers/entities';
+import { getComponentType } from 'helpers/formikEntities';
 
 const defaultAttrCodes = ['fullname', 'email'];
 
@@ -45,7 +45,8 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
   }
   switch (component) {
     case TYPE_ENUMERATOR:
-    { const itemsList = items.split(separator);
+    {
+      const itemsList = items.split(separator);
       itemsList.forEach((item) => {
         options.push({ optionDisplayName: item, value: item });
       });
@@ -110,7 +111,7 @@ const field = (intl, attribute, disabled) => {
 const renderCompositeAttribute = (intl, compositeAttributes, disabled) =>
   compositeAttributes.map(attribute => field(intl, attribute, disabled));
 
-export class MyProfileEditFormBody extends Component {
+class MyProfileEditFormBody extends Component {
   constructor(props) {
     super(props);
 
@@ -118,20 +119,13 @@ export class MyProfileEditFormBody extends Component {
       editMode: false,
     };
 
-    this.submit = this.submit.bind(this);
     this.handleCancelClick = this.handleCancelClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
+    this.changeMode = this.changeMode.bind(this);
   }
 
   componentDidMount() {
     this.props.onMount(this.props.username);
-  }
-
-  submit(data) {
-    this.setState({
-      editMode: false,
-    });
-    this.props.onSubmit(data);
   }
 
   handleCancelClick() {
@@ -148,10 +142,16 @@ export class MyProfileEditFormBody extends Component {
     });
   }
 
+  changeMode() {
+    this.setState({
+      editMode: false,
+    });
+  }
+
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm,
+      userProfileForm, handleSubmit,
     } = this.props;
 
     const { editMode } = this.state;
@@ -164,12 +164,12 @@ export class MyProfileEditFormBody extends Component {
       rows={3}
       toggleElement={getComponentOptions(attribute.type, intl)}
       options={getEnumeratorOptions(
-            attribute.nestedAttribute.type,
-            attribute.nestedAttribute.enumeratorStaticItems,
-            attribute.nestedAttribute.enumeratorStaticItemsSeparator,
-            attribute.nestedAttribute.mandatory,
-            intl,
-          )}
+        attribute.nestedAttribute.type,
+        attribute.nestedAttribute.enumeratorStaticItems,
+        attribute.nestedAttribute.enumeratorStaticItemsSeparator,
+        attribute.nestedAttribute.mandatory,
+        intl,
+      )}
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
@@ -198,9 +198,9 @@ export class MyProfileEditFormBody extends Component {
               <Col xs={10}>
                 <Panel>
                   <Panel.Body>
-                    <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
-                    </FormSection>
+                    <div name={attribute.code}>
+                      {renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
+                    </div>
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -227,8 +227,9 @@ export class MyProfileEditFormBody extends Component {
       });
 
     const { profilepicture } = userProfileForm;
+
     return (
-      <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
+      <Form horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
         <input type="hidden" name="profilepicture" value={profilepicture} />
         <ProfileImageUploader
@@ -250,6 +251,10 @@ export class MyProfileEditFormBody extends Component {
               type="submit"
               bsStyle="primary"
               data-testid="profile_saveBtn"
+              onClick={() => {
+                this.changeMode();
+                handleSubmit();
+              }}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -280,7 +285,6 @@ export class MyProfileEditFormBody extends Component {
 MyProfileEditFormBody.propTypes = {
   onMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
@@ -332,9 +336,14 @@ MyProfileEditFormBody.defaultProps = {
   userProfileForm: {},
 };
 
-const MyProfileEditForm = reduxForm({
-  form: 'UserProfile',
+const MyProfileEditForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
   enableReinitialize: true,
-})(MyProfileEditFormBody);
+  handleSubmit(values, { props }) {
+    const { onSubmit } = props;
+    onSubmit(values);
+  },
+  optionDisplayName: 'optionDisplayName',
+})(injectIntl(MyProfileEditFormBody));
 
-export default injectIntl(MyProfileEditForm);
+export default MyProfileEditForm;
