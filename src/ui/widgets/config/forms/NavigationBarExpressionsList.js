@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-import { FormattedMessage, intlShape } from 'react-intl';
-import { Button, Row, Col, ButtonGroup, Alert, Spinner } from 'patternfly-react';
+import { FormattedMessage,intlShape } from 'react-intl';
+import { Button,Row,Col,ButtonGroup,Alert,Spinner } from 'patternfly-react';
 
 const messages = {
   current: 'widget.navigationBar.config.this',
@@ -16,8 +16,8 @@ const messages = {
 };
 
 const getSpec = ({
-  spec, specSuperLevel, specAbsLevel, targetCode,
-}, pages, language) => {
+  spec,specSuperLevel,specAbsLevel,targetCode,
+},pages,language) => {
   switch (spec) {
     case 'super':
       return specSuperLevel;
@@ -32,7 +32,7 @@ const getSpec = ({
   }
 };
 
-const getOperator = ({ operator, operatorSubtreeLevel }, intl) => {
+const getOperator = ({ operator,operatorSubtreeLevel },intl) => {
   const name = <FormattedMessage id={messages[operator] || 'operator'} />;
   switch (operator) {
     case 'subtree':
@@ -50,26 +50,34 @@ const getOperator = ({ operator, operatorSubtreeLevel }, intl) => {
   }
 };
 
-const generateListItemString = (expression, pages, language, intl) => {
+const generateListItemString = (expression,pages,language,intl) => {
   const { spec } = expression;
+  console.log("Pages", pages);
   return (
     <React.Fragment>
       {'  '}
       <FormattedMessage id={messages[spec] || 'spec'} />
       {'  '}
-      {getSpec(expression, pages, language)}
+      {getSpec(expression,pages,language)}
       {'  '}
       <label className="label label-default" title="Operator"><span className="icon fa fa-angle-right" /></label>
       {'  '}
-      {getOperator(expression, intl)}
+      {getOperator(expression,intl)}
     </React.Fragment>
   );
 };
 
 const NavigationBarExpressionsList = ({
-  fields, pages, language, loading, intl, navSpec,
+  fields,
+  pages,
+  language,
+  loading,
+  intl,
+  navSpec,
 }) => {
-  const renderList = fields.map((_, i) => {
+  console.log("FIELDS", fields);
+  // console.log("Pages", pages);
+  const renderList = fields && fields.map((_,i) => {
     const expression = fields.get(i) || {};
     return (
       <li className="list-group-item" key={uuidv4()}>
@@ -80,7 +88,7 @@ const NavigationBarExpressionsList = ({
             <label className="label label-default">
               <FormattedMessage id="widget.navigationBar.config.page" defaultMessage="Page" />
             </label>
-            {generateListItemString(expression, pages, language, intl)}
+            {generateListItemString(expression,pages,language,intl)}
           </Col>
           <Col md={4} sm={4} xs={5}>
             <div className="btn-toolbar pull-right">
@@ -88,17 +96,17 @@ const NavigationBarExpressionsList = ({
                 {
                   i !== 0
                   && (
-                  <Button onClick={() => fields.swap(i, i - 1)}>
-                    <span className="icon fa fa-sort-asc" />
-                  </Button>
+                    <Button onClick={() => fields.swap(i,i - 1)}>
+                      <span className="icon fa fa-sort-asc" />
+                    </Button>
                   )
                 }
                 {
                   i !== fields.length - 1
                   && (
-                  <Button onClick={() => fields.swap(i, i + 1)}>
-                    <span className="icon fa fa-sort-desc" />
-                  </Button>
+                    <Button onClick={() => fields.swap(i,i + 1)}>
+                      <span className="icon fa fa-sort-desc" />
+                    </Button>
                   )
                 }
               </ButtonGroup>
@@ -140,7 +148,7 @@ const NavigationBarExpressionsList = ({
 NavigationBarExpressionsList.propTypes = {
   intl: intlShape.isRequired,
   fields: PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    name: PropTypes.oneOfType([PropTypes.func,PropTypes.string]),
     push: PropTypes.func,
     map: PropTypes.func,
     get: PropTypes.func,
