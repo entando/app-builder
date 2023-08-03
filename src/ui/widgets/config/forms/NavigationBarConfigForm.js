@@ -1,9 +1,9 @@
-import React,{ PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage,intlShape } from 'react-intl';
-import { withFormik,FieldArray } from 'formik';
-import { Button,Row,Col } from 'patternfly-react';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { withFormik, FieldArray } from 'formik';
+import { Button, Row, Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
@@ -15,18 +15,18 @@ import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
-class NavigationBarConfigForm extends PureComponent {
+class NavigationBarConfigFormBody extends PureComponent {
   componentDidMount() {
-    const { onDidMount,initialValues,fetchExpressions } = this.props;
+    const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
     if (!lodash.isEmpty(initialValues)) {
-      console.log("VALORI INIZIALI",initialValues)
+      console.log('VALORI INIZIALI', initialValues);
       fetchExpressions(this.props);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { initialValues,fetchExpressions } = this.props;
+    const { initialValues, fetchExpressions } = this.props;
     const { initialValues: prevValues } = prevProps;
     if (JSON.stringify(initialValues) !== JSON.stringify(prevValues)) {
       fetchExpressions(this.props);
@@ -62,7 +62,7 @@ class NavigationBarConfigForm extends PureComponent {
         onDiscard();
       }
     };
-    console.log("VALORI INIZIALI",this.props)
+    console.log('VALORI INIZIALI', this.props);
 
     const expressionsNotAvailable = !expressions || expressions.length === 0;
 
@@ -83,13 +83,16 @@ class NavigationBarConfigForm extends PureComponent {
                 />
                 <Col lg={6} md={10} smOffset={2} className="no-padding">
                   <FieldArray
-                    component={NavigationBarExpressionsList}
+                    render={field => (<NavigationBarExpressionsList
+                      fields={field}
+                      expressions={expressions}
+                      pages={pages}
+                      language={language}
+                      loading={loading}
+                      intl={intl}
+                      navSpec={initialValues.navSpec}
+                    />)}
                     name="expressions"
-                    pages={pages}
-                    language={language}
-                    loading={loading}
-                    intl={intl}
-                    navSpec={initialValues.navSpec}
                   />
                 </Col>
               </fieldset>
@@ -124,7 +127,7 @@ class NavigationBarConfigForm extends PureComponent {
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
                     addConfig={addConfig}
-                    onAddNewExpression={() => onAddNewExpression(addConfig,appTourProgress)}
+                    onAddNewExpression={() => onAddNewExpression(addConfig, appTourProgress)}
                     appTourProgress={appTourProgress}
                   />
                 </Col>
@@ -173,7 +176,7 @@ class NavigationBarConfigForm extends PureComponent {
   }
 }
 
-NavigationBarConfigForm.propTypes = {
+NavigationBarConfigFormBody.propTypes = {
   intl: intlShape.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
@@ -198,7 +201,7 @@ NavigationBarConfigForm.propTypes = {
   mode: PropTypes.string,
 };
 
-NavigationBarConfigForm.defaultProps = {
+NavigationBarConfigFormBody.defaultProps = {
   pages: [],
   dirty: false,
   language: 'en',
@@ -209,9 +212,13 @@ NavigationBarConfigForm.defaultProps = {
   mode: '',
 };
 
-export default withFormik({
+const NavigationBarConfigForm = withFormik({
   enableReinitialize: true,
   // keepDirtyOnReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+})(NavigationBarConfigFormBody);
 
-})(NavigationBarConfigForm);
+export default injectIntl(NavigationBarConfigForm);

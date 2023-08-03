@@ -1,8 +1,8 @@
-import React from 'react';
+import { Alert, Button, ButtonGroup, Col, Row, Spinner } from 'patternfly-react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, intlShape } from 'react-intl';
 import { v4 as uuidv4 } from 'uuid';
-import { FormattedMessage,intlShape } from 'react-intl';
-import { Button,Row,Col,ButtonGroup,Alert,Spinner } from 'patternfly-react';
 
 const messages = {
   current: 'widget.navigationBar.config.this',
@@ -16,8 +16,8 @@ const messages = {
 };
 
 const getSpec = ({
-  spec,specSuperLevel,specAbsLevel,targetCode,
-},pages,language) => {
+  spec, specSuperLevel, specAbsLevel, targetCode,
+}, pages, language) => {
   switch (spec) {
     case 'super':
       return specSuperLevel;
@@ -32,7 +32,7 @@ const getSpec = ({
   }
 };
 
-const getOperator = ({ operator,operatorSubtreeLevel },intl) => {
+const getOperator = ({ operator, operatorSubtreeLevel }, intl) => {
   const name = <FormattedMessage id={messages[operator] || 'operator'} />;
   switch (operator) {
     case 'subtree':
@@ -50,35 +50,37 @@ const getOperator = ({ operator,operatorSubtreeLevel },intl) => {
   }
 };
 
-const generateListItemString = (expression,pages,language,intl) => {
+const generateListItemString = (expression, pages, language, intl) => {
   const { spec } = expression;
-  console.log("Pages", pages);
+  console.log('Pages', pages);
   return (
     <React.Fragment>
       {'  '}
       <FormattedMessage id={messages[spec] || 'spec'} />
       {'  '}
-      {getSpec(expression,pages,language)}
+      {getSpec(expression, pages, language)}
       {'  '}
       <label className="label label-default" title="Operator"><span className="icon fa fa-angle-right" /></label>
       {'  '}
-      {getOperator(expression,intl)}
+      {getOperator(expression, intl)}
     </React.Fragment>
   );
 };
 
 const NavigationBarExpressionsList = ({
   fields,
+  expressions,
   pages,
   language,
   loading,
   intl,
   navSpec,
 }) => {
-  console.log("FIELDS", fields);
+  console.log('FIELDS', expressions);
   // console.log("Pages", pages);
-  const renderList = fields && fields.map((_,i) => {
-    const expression = fields.get(i) || {};
+  const renderList = expressions.map((_, i) => {
+    expressions.prototype = { ...expressions.prototype, ...fields };
+    const expression = expressions[i] || {};
     return (
       <li className="list-group-item" key={uuidv4()}>
         <Row className="NavigationBarConfigForm__expression-row">
@@ -88,7 +90,7 @@ const NavigationBarExpressionsList = ({
             <label className="label label-default">
               <FormattedMessage id="widget.navigationBar.config.page" defaultMessage="Page" />
             </label>
-            {generateListItemString(expression,pages,language,intl)}
+            {generateListItemString(expression, pages, language, intl)}
           </Col>
           <Col md={4} sm={4} xs={5}>
             <div className="btn-toolbar pull-right">
@@ -96,15 +98,15 @@ const NavigationBarExpressionsList = ({
                 {
                   i !== 0
                   && (
-                    <Button onClick={() => fields.swap(i,i - 1)}>
+                    <Button onClick={() => fields.swap(i, i - 1)}>
                       <span className="icon fa fa-sort-asc" />
                     </Button>
                   )
                 }
                 {
-                  i !== fields.length - 1
+                  i !== expressions.length - 1
                   && (
-                    <Button onClick={() => fields.swap(i,i + 1)}>
+                    <Button onClick={() => fields.swap(i, i + 1)}>
                       <span className="icon fa fa-sort-desc" />
                     </Button>
                   )
@@ -129,7 +131,7 @@ const NavigationBarExpressionsList = ({
   return (
     <Spinner loading={isLoading}>
       {
-        (!fields || !fields.length) ? (
+        (!expressions || !expressions.length) ? (
           <Alert type="info">
             <FormattedMessage id="widget.navigationBar.config.noExpressions" />
           </Alert>
@@ -147,15 +149,31 @@ const NavigationBarExpressionsList = ({
 
 NavigationBarExpressionsList.propTypes = {
   intl: intlShape.isRequired,
-  fields: PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.func,PropTypes.string]),
+  /* fields: PropTypes.shape({
+    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     push: PropTypes.func,
     map: PropTypes.func,
     get: PropTypes.func,
     remove: PropTypes.func,
     length: PropTypes.number,
     swap: PropTypes.func,
+  }).isRequired, */
+  fields: PropTypes.shape({
+    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    move: PropTypes.func,
+    swap: PropTypes.func,
+    push: PropTypes.func,
+    insert: PropTypes.func,
+    unshift: PropTypes.func,
+    pop: PropTypes.func,
+    remove: PropTypes.func,
+    form: PropTypes.shape({
+      initialValues: PropTypes.shape({
+        expressions: PropTypes.arrayOf({}).isRequired,
+      }),
+    }),
   }).isRequired,
+  expressions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string,
   navSpec: PropTypes.string,
