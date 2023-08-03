@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React,{ PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
-import { FieldArray } from 'redux-form';
-import { Button, Row, Col } from 'patternfly-react';
+import { FormattedMessage,intlShape } from 'react-intl';
+import { withFormik,FieldArray } from 'formik';
+import { Button,Row,Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 
@@ -15,17 +15,18 @@ import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
-export default class NavigationBarConfigForm extends PureComponent {
+class NavigationBarConfigForm extends PureComponent {
   componentDidMount() {
-    const { onDidMount, initialValues, fetchExpressions } = this.props;
+    const { onDidMount,initialValues,fetchExpressions } = this.props;
     onDidMount(this.props);
     if (!lodash.isEmpty(initialValues)) {
+      console.log("VALORI INIZIALI",initialValues)
       fetchExpressions(this.props);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { initialValues, fetchExpressions } = this.props;
+    const { initialValues,fetchExpressions } = this.props;
     const { initialValues: prevValues } = prevProps;
     if (JSON.stringify(initialValues) !== JSON.stringify(prevValues)) {
       fetchExpressions(this.props);
@@ -61,6 +62,7 @@ export default class NavigationBarConfigForm extends PureComponent {
         onDiscard();
       }
     };
+    console.log("VALORI INIZIALI",this.props)
 
     const expressionsNotAvailable = !expressions || expressions.length === 0;
 
@@ -122,7 +124,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
                     addConfig={addConfig}
-                    onAddNewExpression={() => onAddNewExpression(addConfig, appTourProgress)}
+                    onAddNewExpression={() => onAddNewExpression(addConfig,appTourProgress)}
                     appTourProgress={appTourProgress}
                   />
                 </Col>
@@ -206,3 +208,10 @@ NavigationBarConfigForm.defaultProps = {
   appTourProgress: '',
   mode: '',
 };
+
+export default withFormik({
+  enableReinitialize: true,
+  // keepDirtyOnReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+
+})(NavigationBarConfigForm);
