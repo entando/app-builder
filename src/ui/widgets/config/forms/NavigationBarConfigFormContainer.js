@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { reduxForm, submit, formValueSelector, arrayPush, change } from 'redux-form';
+import { reduxForm, submit, formValueSelector, arrayPush, change, arrayRemove, arraySwap } from 'redux-form';
 import { clearErrors, addToast, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 import NavigationBarConfigForm from 'ui/widgets/config/forms/NavigationBarConfigForm';
@@ -108,6 +108,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     if (appTourProgress === APP_TOUR_STARTED) {
       dispatch(setAppTourLastStep(16));
     }
+  },
+  onRemoveExpression: (index) => {
+    dispatch(arrayRemove(NavigationBarWidgetID, 'expressions', index));
+  },
+  onSwapExpressions: (indexA, indexB) => {
+    dispatch(arraySwap(NavigationBarWidgetID, 'expressions', indexA, indexB));
   },
   onSpecificPageChoose: (chosenPage, appTourProgress) => {
     if (appTourProgress === APP_TOUR_STARTED && chosenPage) {
