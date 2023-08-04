@@ -20,7 +20,6 @@ class NavigationBarConfigFormBody extends PureComponent {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
     if (!lodash.isEmpty(initialValues)) {
-      console.log('VALORI INIZIALI', initialValues);
       fetchExpressions(this.props);
     }
   }
@@ -46,6 +45,8 @@ class NavigationBarConfigFormBody extends PureComponent {
       language,
       pages,
       onAddNewExpression,
+      onRemoveExpression,
+      onSwapExpressions,
       addConfig,
       expressions,
       loading,
@@ -54,7 +55,7 @@ class NavigationBarConfigFormBody extends PureComponent {
       appTourProgress,
       mode,
     } = this.props;
-
+    
     const handleCancelClick = () => {
       if (dirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
@@ -62,7 +63,6 @@ class NavigationBarConfigFormBody extends PureComponent {
         onDiscard();
       }
     };
-    console.log('VALORI INIZIALI', this.props);
 
     const expressionsNotAvailable = !expressions || expressions.length === 0;
 
@@ -83,17 +83,19 @@ class NavigationBarConfigFormBody extends PureComponent {
                 />
                 <Col lg={6} md={10} smOffset={2} className="no-padding">
                   <FieldArray
-                    render={field => (<NavigationBarExpressionsList
-                      fields={field}
+                    name="expressions"
+                  >
+                    {() => (<NavigationBarExpressionsList
                       expressions={expressions}
                       pages={pages}
                       language={language}
                       loading={loading}
                       intl={intl}
                       navSpec={initialValues.navSpec}
+                      remove={(index) => { onRemoveExpression(index); }}
+                      swap={(indexA, indexB) => onSwapExpressions(indexA, indexB)}
                     />)}
-                    name="expressions"
-                  />
+                  </FieldArray>
                 </Col>
               </fieldset>
             </Col>
@@ -189,6 +191,8 @@ NavigationBarConfigFormBody.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
+  onRemoveExpression: PropTypes.func.isRequired,
+  onSwapExpressions: PropTypes.func.isRequired,
   addConfig: PropTypes.shape({}),
   expressions: PropTypes.arrayOf(PropTypes.shape({})),
   initialValues: PropTypes.shape({
@@ -214,7 +218,7 @@ NavigationBarConfigFormBody.defaultProps = {
 
 const NavigationBarConfigForm = withFormik({
   enableReinitialize: true,
-  // keepDirtyOnReinitialize: true,
+  keepDirtyOnReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
   handleSubmit: (values, { props: { onSubmit } }) => {
     onSubmit(values);

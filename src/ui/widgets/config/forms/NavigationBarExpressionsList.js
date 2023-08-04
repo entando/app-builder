@@ -52,7 +52,6 @@ const getOperator = ({ operator, operatorSubtreeLevel }, intl) => {
 
 const generateListItemString = (expression, pages, language, intl) => {
   const { spec } = expression;
-  console.log('Pages', pages);
   return (
     <React.Fragment>
       {'  '}
@@ -68,18 +67,16 @@ const generateListItemString = (expression, pages, language, intl) => {
 };
 
 const NavigationBarExpressionsList = ({
-  fields,
   expressions,
   pages,
   language,
   loading,
   intl,
   navSpec,
+  remove,
+  swap,
 }) => {
-  console.log('FIELDS', expressions);
-  // console.log("Pages", pages);
-  const renderList = expressions.map((_, i) => {
-    expressions.prototype = { ...expressions.prototype, ...fields };
+  const renderList = expressions && expressions.map((_, i) => {
     const expression = expressions[i] || {};
     return (
       <li className="list-group-item" key={uuidv4()}>
@@ -98,7 +95,7 @@ const NavigationBarExpressionsList = ({
                 {
                   i !== 0
                   && (
-                    <Button onClick={() => fields.swap(i, i - 1)}>
+                    <Button onClick={() => swap(i, i - 1)}>
                       <span className="icon fa fa-sort-asc" />
                     </Button>
                   )
@@ -106,7 +103,7 @@ const NavigationBarExpressionsList = ({
                 {
                   i !== expressions.length - 1
                   && (
-                    <Button onClick={() => fields.swap(i, i + 1)}>
+                    <Button onClick={() => swap(i, i + 1)}>
                       <span className="icon fa fa-sort-desc" />
                     </Button>
                   )
@@ -115,8 +112,8 @@ const NavigationBarExpressionsList = ({
               <Button
                 className="NavigationBarConfigForm__btn-remove"
                 title="Delete"
-                onClick={() => fields.remove(i)}
-                onKeyDown={() => fields.remove(i)}
+                onClick={() => remove(i)}
+                onKeyDown={() => remove(i)}
               >
                 <span className="fa fa-trash-o fa-lg" />
               </Button>
@@ -149,35 +146,13 @@ const NavigationBarExpressionsList = ({
 
 NavigationBarExpressionsList.propTypes = {
   intl: intlShape.isRequired,
-  /* fields: PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    push: PropTypes.func,
-    map: PropTypes.func,
-    get: PropTypes.func,
-    remove: PropTypes.func,
-    length: PropTypes.number,
-    swap: PropTypes.func,
-  }).isRequired, */
-  fields: PropTypes.shape({
-    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
-    move: PropTypes.func,
-    swap: PropTypes.func,
-    push: PropTypes.func,
-    insert: PropTypes.func,
-    unshift: PropTypes.func,
-    pop: PropTypes.func,
-    remove: PropTypes.func,
-    form: PropTypes.shape({
-      initialValues: PropTypes.shape({
-        expressions: PropTypes.arrayOf({}).isRequired,
-      }),
-    }),
-  }).isRequired,
   expressions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string,
   navSpec: PropTypes.string,
   loading: PropTypes.bool,
+  remove: PropTypes.func.isRequired,
+  swap: PropTypes.func.isRequired,
 };
 
 NavigationBarExpressionsList.defaultProps = {
