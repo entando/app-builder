@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
-import { FieldArray } from 'redux-form';
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
+import { withFormik, FieldArray } from 'formik';
 import { Button, Row, Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -15,7 +15,7 @@ import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
-export default class NavigationBarConfigForm extends PureComponent {
+class NavigationBarConfigFormBody extends PureComponent {
   componentDidMount() {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
@@ -45,6 +45,8 @@ export default class NavigationBarConfigForm extends PureComponent {
       language,
       pages,
       onAddNewExpression,
+      onRemoveExpression,
+      onSwapExpressions,
       addConfig,
       expressions,
       loading,
@@ -53,7 +55,7 @@ export default class NavigationBarConfigForm extends PureComponent {
       appTourProgress,
       mode,
     } = this.props;
-
+    
     const handleCancelClick = () => {
       if (dirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
@@ -81,14 +83,19 @@ export default class NavigationBarConfigForm extends PureComponent {
                 />
                 <Col lg={6} md={10} smOffset={2} className="no-padding">
                   <FieldArray
-                    component={NavigationBarExpressionsList}
                     name="expressions"
-                    pages={pages}
-                    language={language}
-                    loading={loading}
-                    intl={intl}
-                    navSpec={initialValues.navSpec}
-                  />
+                  >
+                    {() => (<NavigationBarExpressionsList
+                      expressions={expressions}
+                      pages={pages}
+                      language={language}
+                      loading={loading}
+                      intl={intl}
+                      navSpec={initialValues.navSpec}
+                      remove={(index) => { onRemoveExpression(index); }}
+                      swap={(indexA, indexB) => onSwapExpressions(indexA, indexB)}
+                    />)}
+                  </FieldArray>
                 </Col>
               </fieldset>
             </Col>
@@ -171,7 +178,7 @@ export default class NavigationBarConfigForm extends PureComponent {
   }
 }
 
-NavigationBarConfigForm.propTypes = {
+NavigationBarConfigFormBody.propTypes = {
   intl: intlShape.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
@@ -184,6 +191,8 @@ NavigationBarConfigForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
+  onRemoveExpression: PropTypes.func.isRequired,
+  onSwapExpressions: PropTypes.func.isRequired,
   addConfig: PropTypes.shape({}),
   expressions: PropTypes.arrayOf(PropTypes.shape({})),
   initialValues: PropTypes.shape({
@@ -196,7 +205,7 @@ NavigationBarConfigForm.propTypes = {
   mode: PropTypes.string,
 };
 
-NavigationBarConfigForm.defaultProps = {
+NavigationBarConfigFormBody.defaultProps = {
   pages: [],
   dirty: false,
   language: 'en',
@@ -206,3 +215,14 @@ NavigationBarConfigForm.defaultProps = {
   appTourProgress: '',
   mode: '',
 };
+
+const NavigationBarConfigForm = withFormik({
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+})(NavigationBarConfigFormBody);
+
+export default injectIntl(NavigationBarConfigForm);
