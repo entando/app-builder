@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit,
+      userProfileForm, handleSubmit, setFieldValue,
     } = this.props;
 
     const { editMode } = this.state;
@@ -234,7 +234,10 @@ class MyProfileEditFormBody extends Component {
         <input type="hidden" name="profilepicture" value={profilepicture} />
         <ProfileImageUploader
           image={profilepicture}
-          onChange={onChangeProfilePicture}
+          onChange={(e) => {
+            onChangeProfilePicture(e);
+            setFieldValue('profilepicture', e);
+          }}
           gravatarEmail={userEmail}
           editable={editMode}
         />
@@ -285,6 +288,7 @@ class MyProfileEditFormBody extends Component {
 MyProfileEditFormBody.propTypes = {
   onMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
