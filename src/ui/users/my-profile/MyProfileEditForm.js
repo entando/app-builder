@@ -5,7 +5,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
-
+import { required } from '@entando/utils';
 import RenderListField from 'ui/common/form/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -102,7 +102,7 @@ const field = (intl, attribute, disabled) => {
         {...labelProp}
         helpText={getHelpMessage(attribute.validationRules, intl)}
         required={attribute.mandatory}
-      />}
+        />}
       disabled={disabled}
     />
   );
@@ -342,6 +342,16 @@ MyProfileEditFormBody.defaultProps = {
 
 const MyProfileEditForm = withFormik({
   mapPropsToValues: ({ initialValues }) => initialValues,
+  validate: (values) => {
+    const errors = {};
+    if (required(values.fullname)) {
+      errors.fullname = <FormattedMessage id="validateForm.required" />;
+    }
+    if (required(values.email)) {
+      errors.email = <FormattedMessage id="validateForm.required" />;
+    }
+    return errors;
+  },
   enableReinitialize: true,
   handleSubmit(values, { props }) {
     const { onSubmit } = props;
