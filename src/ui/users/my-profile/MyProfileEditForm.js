@@ -5,7 +5,7 @@ import { withFormik, Field, FieldArray } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
-import { required } from '@entando/utils';
+import { required, email } from '@entando/utils';
 import RenderListField from 'ui/common/form/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit, setFieldValue,
+      userProfileForm, handleSubmit, setFieldValue, isValid
     } = this.props;
 
     const { editMode } = this.state;
@@ -253,6 +253,7 @@ class MyProfileEditFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
+              disabled={!isValid}
               data-testid="profile_saveBtn"
               onClick={() => {
                 this.changeMode();
@@ -332,6 +333,7 @@ MyProfileEditFormBody.propTypes = {
     profilepicture: PropTypes.string,
   }),
   onChangeProfilePicture: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
 };
 
 MyProfileEditFormBody.defaultProps = {
@@ -349,6 +351,9 @@ const MyProfileEditForm = withFormik({
     }
     if (required(values.email)) {
       errors.email = <FormattedMessage id="validateForm.required" />;
+    }
+    if (email(values.email)) {
+      errors.email = <FormattedMessage id="validateForm.email" />;
     }
     return errors;
   },
