@@ -1,8 +1,8 @@
-import { Alert, Button, ButtonGroup, Col, Row, Spinner } from 'patternfly-react';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { Button, Row, Col, ButtonGroup, Alert, Spinner } from 'patternfly-react';
 
 const messages = {
   current: 'widget.navigationBar.config.this',
@@ -67,17 +67,10 @@ const generateListItemString = (expression, pages, language, intl) => {
 };
 
 const NavigationBarExpressionsList = ({
-  expressions,
-  pages,
-  language,
-  loading,
-  intl,
-  navSpec,
-  remove,
-  swap,
+  fields, pages, language, loading, intl, navSpec,
 }) => {
-  const renderList = expressions && expressions.map((_, i) => {
-    const expression = expressions[i] || {};
+  const renderList = fields.map((_, i) => {
+    const expression = fields.get(i) || {};
     return (
       <li className="list-group-item" key={uuidv4()}>
         <Row className="NavigationBarConfigForm__expression-row">
@@ -95,25 +88,25 @@ const NavigationBarExpressionsList = ({
                 {
                   i !== 0
                   && (
-                    <Button onClick={() => swap(i, i - 1)}>
-                      <span className="icon fa fa-sort-asc" />
-                    </Button>
+                  <Button onClick={() => fields.swap(i, i - 1)}>
+                    <span className="icon fa fa-sort-asc" />
+                  </Button>
                   )
                 }
                 {
-                  i !== expressions.length - 1
+                  i !== fields.length - 1
                   && (
-                    <Button onClick={() => swap(i, i + 1)}>
-                      <span className="icon fa fa-sort-desc" />
-                    </Button>
+                  <Button onClick={() => fields.swap(i, i + 1)}>
+                    <span className="icon fa fa-sort-desc" />
+                  </Button>
                   )
                 }
               </ButtonGroup>
               <Button
                 className="NavigationBarConfigForm__btn-remove"
                 title="Delete"
-                onClick={() => remove(i)}
-                onKeyDown={() => remove(i)}
+                onClick={() => fields.remove(i)}
+                onKeyDown={() => fields.remove(i)}
               >
                 <span className="fa fa-trash-o fa-lg" />
               </Button>
@@ -128,7 +121,7 @@ const NavigationBarExpressionsList = ({
   return (
     <Spinner loading={isLoading}>
       {
-        (!expressions || !expressions.length) ? (
+        (!fields || !fields.length) ? (
           <Alert type="info">
             <FormattedMessage id="widget.navigationBar.config.noExpressions" />
           </Alert>
@@ -146,13 +139,19 @@ const NavigationBarExpressionsList = ({
 
 NavigationBarExpressionsList.propTypes = {
   intl: intlShape.isRequired,
-  expressions: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  fields: PropTypes.shape({
+    name: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    push: PropTypes.func,
+    map: PropTypes.func,
+    get: PropTypes.func,
+    remove: PropTypes.func,
+    length: PropTypes.number,
+    swap: PropTypes.func,
+  }).isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   language: PropTypes.string,
   navSpec: PropTypes.string,
   loading: PropTypes.bool,
-  remove: PropTypes.func.isRequired,
-  swap: PropTypes.func.isRequired,
 };
 
 NavigationBarExpressionsList.defaultProps = {
