@@ -102,7 +102,7 @@ const field = (intl, attribute, disabled) => {
         {...labelProp}
         helpText={getHelpMessage(attribute.validationRules, intl)}
         required={attribute.mandatory}
-        />}
+      />}
       disabled={disabled}
     />
   );
@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit, setFieldValue, isValid
+      userProfileForm, handleSubmit, setFieldValue, isValid,
     } = this.props;
 
     const { editMode } = this.state;

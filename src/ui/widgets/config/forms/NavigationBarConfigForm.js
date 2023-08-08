@@ -55,7 +55,7 @@ class NavigationBarConfigFormBody extends PureComponent {
       appTourProgress,
       mode,
     } = this.props;
-    
+
     const handleCancelClick = () => {
       if (dirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
