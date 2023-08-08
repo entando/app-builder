@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit, setFieldValue, isValid,
+      userProfileForm, handleSubmit, setFieldValue, isValid, resetForm,
     } = this.props;
 
     const { editMode } = this.state;
@@ -264,7 +264,10 @@ class MyProfileEditFormBody extends Component {
             </Button>
             <Button
               className="pull-right"
-              onClick={this.handleCancelClick}
+              onClick={() => {
+                this.handleCancelClick();
+                resetForm();
+              }}
               style={{ marginRight: '12px' }}
               data-testid="profile_cancelBtn"
             >
@@ -289,6 +292,7 @@ class MyProfileEditFormBody extends Component {
 MyProfileEditFormBody.propTypes = {
   onMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
