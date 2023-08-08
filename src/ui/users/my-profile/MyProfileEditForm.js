@@ -231,7 +231,7 @@ class MyProfileEditFormBody extends Component {
     return (
       <Form horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
-        <input type="hidden" name="profilepicture" value={profilepicture} />
+        <input type="hidden" name="profilepicture" />
         <ProfileImageUploader
           image={profilepicture}
           onChange={(e) => {
