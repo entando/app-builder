@@ -33,7 +33,9 @@ const UninstallInProgressOrFinished = (props) => {
         </div>
         <div className="ComponentUninstallProcessState__in-progress-body-progress-footer-wrapper">
           <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
-            {Math.floor(props.progress * 100)}% {props.progress === 1 ? <FormattedMessage id="hub.bundle.uninstalled" /> : null}
+            {/* {Math.floor(props.progress * 100)}%
+            {props.progress === 1 ? <FormattedMessage id="hub.bundle.uninstalled" /> : null} */}
+            {`${Math.floor(props.progress * 100)}%`}
           </span>
           {/* <p className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
             <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-number">

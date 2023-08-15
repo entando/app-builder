@@ -72,7 +72,7 @@ const ComponentUninstallManagerModal = () => {
     }
     return (<ComponentUninstallStart
       bundle={{
-      name: selectedEcrComponent.title,
+      name: (selectedEcrComponent.lastJob || {}).componentName || selectedEcrComponent.title,
       description: selectedEcrComponent.description,
       version: (selectedEcrComponent.installedJob || {}).componentVersion ||
       (selectedEcrComponent.latestVersion || {}).version,

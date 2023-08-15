@@ -16,7 +16,9 @@ const ComponentUninstallStart = (props) => {
     lastInstallApiResponse,
   } = props;
 
-  const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0;
+  const autoUninstallNotPossible = componentDependencies && componentDependencies.length > 0 &&
+    componentDependencies.filter(c => c.hasExternal).length > 0;
+
   return (
     <div className="BundlePreview">
       <div className="BundlePreview__info">
@@ -43,27 +45,6 @@ const ComponentUninstallStart = (props) => {
           </span>
         </div>
       </div>
-      <div className="BundlePreview__description">
-        <div className="BundlePreview__description-title">
-          <FormattedMessage id="app.filterTypesSelect.description" />
-        </div>
-        <div className="BundlePreview__description-body">
-          {description}
-        </div>
-      </div>
-      {
-        dependenciesPartiallyDeleted ? (
-          <div className="BundlePreview__error-wrapper">
-            <p className="BundlePreview__description-body BundlePreview__description-body--error">
-              <FormattedMessage
-                id="ecr.componentPartiallyDeleted"
-                values={{ name }}
-              />
-            </p>
-            <div className="BundlePreview__divider" />
-          </div>
-        ) : null
-      }
       {
         !componentUninstallStatus && progress !== 1 ? (
           <div>
@@ -71,7 +52,7 @@ const ComponentUninstallStart = (props) => {
               <div className="BundlePreview__description-title">
                 <FormattedMessage id="app.filterTypesSelect.description" />
               </div>
-              <div className="BundlePreview__description-body BundlePreview__description-body--error">
+              <div className="BundlePreview__description-body BundlePreview__description-body">
                 {description}
               </div>
             </div>

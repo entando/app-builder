@@ -81,9 +81,30 @@ const markComponentLastInstallStatus = (
   );
 };
 
-const markComponentLastStatusAsClear = (state, componentCode) => (
-  markComponentLastInstallStatus(state, componentCode, '')
-);
+const markComponentLastUninstallStatus = (
+  state, componentCode, lastUninstallStatus,
+  apiResponsePayload,
+) => {
+  const componentIndex = findComponentInListById(state, componentCode);
+  if (componentIndex === -1) {
+    return state;
+  }
+  if (apiResponsePayload) {
+    return updateComponentInfo(
+      state, componentIndex,
+      { lastUninstallStatus, lastInstallApiResponse: apiResponsePayload },
+    );
+  }
+  return updateComponentInfo(
+    state, componentIndex,
+    { lastUninstallStatus },
+  );
+};
+
+const markComponentLastStatusAsClear = (state, componentCode) => {
+  markComponentLastInstallStatus(state, componentCode, '');
+  return markComponentLastUninstallStatus(state, componentCode, '');
+};
 
 const markComponentLastStatusAsError = (state, componentCode) => (
   markComponentLastInstallStatus(state, componentCode, ECR_COMPONENT_INSTALLATION_STATUS_ERROR)
@@ -98,7 +119,7 @@ const markComponentLastStatusAsInstallInProgress = (state, componentCode) => (
 );
 
 const markComponentLastStatusAsUninstallInProgress = (state, componentCode, apiResponsePayload) => (
-  markComponentLastInstallStatus(
+  markComponentLastUninstallStatus(
     state,
     componentCode,
     ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
