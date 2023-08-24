@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
 import ToggleButtonGroupField from 'ui/widgets/config/forms/ToggleButtonGroupField';
@@ -12,7 +12,7 @@ const NavigationBarTargetPage = ({
 }) => (
   <div>
     <ButtonToolbar>
-      <Field name="addConfig.spec" component={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }}>
+      <Field name="addConfig.spec" as={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }}>
         <ToggleButton
           value="current"
         >

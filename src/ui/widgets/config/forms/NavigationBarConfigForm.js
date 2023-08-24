@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { FieldArray } from 'redux-form';
+import { withFormik, FieldArray, Form } from 'formik';
 import { Button, Row, Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -15,7 +15,7 @@ import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
-export default class NavigationBarConfigForm extends PureComponent {
+class NavigationBarConfigFormBody extends PureComponent {
   componentDidMount() {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
@@ -71,7 +71,7 @@ export default class NavigationBarConfigForm extends PureComponent {
           {' '}
           <FormattedMessage id="widget.navigationBar.config.title" defaultMessage="Navigation - Bar" />
         </h5>
-        <form onSubmit={handleSubmit} className="form-horizontal">
+        <Form onSubmit={handleSubmit} className="form-horizontal">
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -138,7 +138,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                     type="submit"
                     bsStyle="primary"
                     disabled={invalid || submitting || expressionsNotAvailable}
-                    onClick={onSave}
+
                   >
                     <FormattedMessage id="app.save" />
                   </Button>
@@ -165,13 +165,13 @@ export default class NavigationBarConfigForm extends PureComponent {
               <AppTourContainer />
             </Row>
           }
-        </form>
+        </Form>
       </div>
     );
   }
 }
 
-NavigationBarConfigForm.propTypes = {
+NavigationBarConfigFormBody.propTypes = {
   intl: intlShape.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
@@ -196,7 +196,7 @@ NavigationBarConfigForm.propTypes = {
   mode: PropTypes.string,
 };
 
-NavigationBarConfigForm.defaultProps = {
+NavigationBarConfigFormBody.defaultProps = {
   pages: [],
   dirty: false,
   language: 'en',
@@ -206,3 +206,14 @@ NavigationBarConfigForm.defaultProps = {
   appTourProgress: '',
   mode: '',
 };
+
+const NavigationBarConfigForm = withFormik({
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+})(NavigationBarConfigFormBody);
+
+export default NavigationBarConfigForm;

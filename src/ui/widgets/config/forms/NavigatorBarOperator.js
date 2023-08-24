@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Col, Button } from 'patternfly-react';
 
