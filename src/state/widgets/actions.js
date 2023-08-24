@@ -16,6 +16,8 @@ import {
   REMOVE_PARENT_WIDGET,
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
+  SET_EXPRESSIONS,
+  SET_ADD_CONFIG,
 } from 'state/widgets/types';
 import { history, ROUTE_WIDGET_EDIT, ROUTE_WIDGET_LIST } from 'app-init/router';
 import { CONTINUE_SAVE_TYPE } from 'state/widgets/const';
@@ -66,6 +68,19 @@ export const setWidgetInfo = widgetInfo => ({
   type: SET_WIDGET_INFO,
   payload: {
     widgetInfo,
+  },
+});
+
+export const setExpression = expressions => ({
+  type: SET_EXPRESSIONS,
+  payload: {
+    expressions,
+  },
+});
+export const setAddConfig = addConfig => ({
+  type: SET_ADD_CONFIG,
+  payload: {
+    addConfig,
   },
 });
 

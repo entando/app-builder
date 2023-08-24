@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -64,7 +64,7 @@ InternalServletConfigFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
-const InternalServletConfigForm = reduxForm({
+const InternalServletConfigForm = withFormik({
   form: 'widgetConfigForm',
 })(InternalServletConfigFormBody);
 

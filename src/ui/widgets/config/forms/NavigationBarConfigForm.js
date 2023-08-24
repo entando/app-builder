@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
-import { withFormik, FieldArray } from 'formik';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { withFormik, FieldArray, Form } from 'formik';
 import { Button, Row, Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -73,7 +73,7 @@ class NavigationBarConfigFormBody extends PureComponent {
           {' '}
           <FormattedMessage id="widget.navigationBar.config.title" defaultMessage="Navigation - Bar" />
         </h5>
-        <form onSubmit={handleSubmit} className="form-horizontal">
+        <Form onSubmit={handleSubmit} className="form-horizontal">
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -145,7 +145,7 @@ class NavigationBarConfigFormBody extends PureComponent {
                     type="submit"
                     bsStyle="primary"
                     disabled={invalid || submitting || expressionsNotAvailable}
-                    onClick={onSave}
+
                   >
                     <FormattedMessage id="app.save" />
                   </Button>
@@ -172,7 +172,7 @@ class NavigationBarConfigFormBody extends PureComponent {
               <AppTourContainer />
             </Row>
           }
-        </form>
+        </Form>
       </div>
     );
   }
@@ -225,4 +225,4 @@ const NavigationBarConfigForm = withFormik({
   },
 })(NavigationBarConfigFormBody);
 
-export default injectIntl(NavigationBarConfigForm);
+export default NavigationBarConfigForm;
