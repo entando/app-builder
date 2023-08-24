@@ -8,8 +8,6 @@ export const getWidgetsIdList = state => state.widgets.list;
 export const getWidgetsMap = state => state.widgets.map;
 export const getSelectedWidget = state => state.widgets.selected;
 export const getSelectedParentWidget = state => state.widgets.selectedParent;
-export const getExpressions = state => state.widgets.expressions;
-export const getAddConfig = state => state.widgets.addConfig;
 
 export const getSelectedWidgetDefaultUi = state => get(state.widgets.selected, 'guiFragments[0].defaultUi');
 

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { submit, arrayPush, change, arrayRemove, arraySwap } from 'redux-form';
 import { clearErrors, addToast, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 import NavigationBarConfigForm from 'ui/widgets/config/forms/NavigationBarConfigForm';
@@ -12,13 +11,12 @@ import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
-import { sendGetNavigatorNavspecFromExpressions, sendGetNavigatorExpressionsFromNavspec, setExpression, setAddConfig } from 'state/widgets/actions';
+import { sendGetNavigatorNavspecFromExpressions, sendGetNavigatorExpressionsFromNavspec } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
 import { HOMEPAGE_CODE } from 'state/pages/const';
-import { getAddConfig, getExpressions } from 'state/widgets/selectors';
 
 export const NavigationBarWidgetID = 'navigationBarWidgetForm';
 
@@ -27,28 +25,26 @@ export const mapStateToProps = (state, ownProps) => ({
   pages: getSearchPages(state) || [],
   language: getLocale(state),
   widgetCode: ownProps.widgetCode,
-  addConfig: getAddConfig(state),
-  expressions: getExpressions(state),
   loading: getLoading(state).expressionList,
   appTourProgress: getAppTourProgress(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onDidMount: ({ appTourProgress }) => {
+  onDidMount: ({ appTourProgress, setFieldValue }) => {
     if (appTourProgress === APP_TOUR_STARTED) {
-      dispatch(setAddConfig({ spec: 'code', targetCode: HOMEPAGE_CODE }));
+      setFieldValue('addConfig', { spec: 'code', targetCode: HOMEPAGE_CODE });
     }
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
   },
-  fetchExpressions: () => {
+  fetchExpressions: ({ setFieldValue }) => {
     const { widgetConfig } = ownProps || {};
     const { navSpec } = widgetConfig || {};
     if (navSpec) {
       dispatch(sendGetNavigatorExpressionsFromNavspec(navSpec)).then((res) => {
         if (res) {
           const { expressions = [] } = res;
-          return dispatch(setExpression(expressions));
+          return setFieldValue('expressions', expressions);
         }
         return dispatch(addToast(
           'Error',
@@ -87,10 +83,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       ));
     });
   },
-  onSave: () => {
+  onSave: (submitForm) => {
     dispatch(setAppTourLastStep(17));
     dispatch(setVisibleModal(''));
-    dispatch(submit(NavigationBarWidgetID));
+    submitForm();
   },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => {
@@ -98,19 +94,31 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     const { history, pageCode } = ownProps;
     history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
   },
-  onAddNewExpression: (config, appTourProgress) => {
-    const newExpression = { ...config };
-    newExpression.specSuperLevel = config.specSuperLevel || 1;
-    newExpression.specAbsLevel = config.specAbsLevel || 1;
-    newExpression.operatorSubtreeLevel = config.operatorSubtreeLevel || '1';
-    dispatch(arrayPush(NavigationBarWidgetID, 'expressions', newExpression));
+  onAddNewExpression: (values, appTourProgress, setFieldValue) => {
+    const newExpression = { ...values.addConfig };
+    newExpression.specSuperLevel = values.addConfig.specSuperLevel || 1;
+    newExpression.specAbsLevel = values.addConfig.specAbsLevel || 1;
+    newExpression.operatorSubtreeLevel = values.addConfig.operatorSubtreeLevel || '1';
+    setFieldValue('expressions', [...values.expressions, newExpression]);
     if (appTourProgress === APP_TOUR_STARTED) {
       dispatch(setAppTourLastStep(16));
     }
   },
-  onSpecificPageChoose: (chosenPage, appTourProgress) => {
+  onRemoveExpression: (index, setFieldValue, values) => {
+    const { expressions } = values;
+    expressions.splice(index, 1);
+    setFieldValue('expressions', expressions);
+  },
+  onSwapExpressions: (indexA, indexB, setFieldValue, values) => {
+    const { expressions } = values;
+    const temp = expressions[indexA];
+    expressions[indexA] = expressions[indexB];
+    expressions[indexB] = temp;
+    setFieldValue('expressions', expressions);
+  },
+  onSpecificPageChoose: (chosenPage, appTourProgress, setFieldValue) => {
     if (appTourProgress === APP_TOUR_STARTED && chosenPage) {
-      dispatch(change('navigationBarWidgetForm', 'addConfig.spec', 'code'));
+      setFieldValue('addConfig.spec', 'code');
       dispatch(setAppTourLastStep(15));
     }
   },
