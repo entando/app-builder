@@ -7,8 +7,6 @@ import {
   REMOVE_PARENT_WIDGET,
   SET_WIDGETS_TOTAL,
   SET_WIDGET_INFO,
-  SET_EXPRESSIONS,
-  SET_ADD_CONFIG,
 } from 'state/widgets/types';
 import { getSelectedWidget } from 'state/widgets/selectors';
 
@@ -88,23 +86,6 @@ const info = (state = {}, action = {}) => {
   }
 };
 
-const expressions = (state = [], action = {}) => {
-  switch (action.type) {
-    case SET_EXPRESSIONS: {
-      return action.payload.expressions;
-    }
-    default: return state;
-  }
-};
-const addConfig = (state = {}, action = {}) => {
-  switch (action.type) {
-    case SET_ADD_CONFIG: {
-      return action.payload.addConfig;
-    }
-    default: return state;
-  }
-};
-
 export default combineReducers({
   list,
   map,
@@ -112,6 +93,4 @@ export default combineReducers({
   selectedParent,
   total,
   info,
-  expressions,
-  addConfig,
 });

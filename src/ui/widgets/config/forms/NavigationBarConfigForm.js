@@ -35,10 +35,10 @@ class NavigationBarConfigFormBody extends PureComponent {
   render() {
     const {
       handleSubmit,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       intl,
-      dirty,
+      isDirty,
       onCancel,
       onDiscard,
       onSave,
@@ -47,24 +47,26 @@ class NavigationBarConfigFormBody extends PureComponent {
       onAddNewExpression,
       onRemoveExpression,
       onSwapExpressions,
-      addConfig,
-      expressions,
       loading,
       initialValues,
       onSpecificPageChoose,
       appTourProgress,
       mode,
+      values,
+      handleChange,
+      setFieldValue,
+      submitForm,
     } = this.props;
 
     const handleCancelClick = () => {
-      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
+      if (isDirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
       } else {
         onDiscard();
       }
     };
 
-    const expressionsNotAvailable = !expressions || expressions.length === 0;
+    const expressionsNotAvailable = !values.expressions || values.expressions.length === 0;
 
     return (
       <div className="NavigationBarConfigForm">
@@ -86,14 +88,15 @@ class NavigationBarConfigFormBody extends PureComponent {
                     name="expressions"
                   >
                     {() => (<NavigationBarExpressionsList
-                      expressions={expressions}
+                      expressions={values.expressions}
                       pages={pages}
                       language={language}
                       loading={loading}
                       intl={intl}
                       navSpec={initialValues.navSpec}
-                      remove={(index) => { onRemoveExpression(index); }}
-                      swap={(indexA, indexB) => onSwapExpressions(indexA, indexB)}
+                      remove={(index) => { onRemoveExpression(index, setFieldValue, values); }}
+                      swap={(indexA, indexB) =>
+                        onSwapExpressions(indexA, indexB, setFieldValue, values)}
                     />)}
                   </FieldArray>
                 </Col>
@@ -114,6 +117,7 @@ class NavigationBarConfigFormBody extends PureComponent {
                     language={language}
                     onSpecificPageChoose={onSpecificPageChoose}
                     appTourProgress={appTourProgress}
+                    handleChange={handleChange}
                   />
                 </Col>
               </fieldset>
@@ -128,8 +132,9 @@ class NavigationBarConfigFormBody extends PureComponent {
                 />
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
-                    addConfig={addConfig}
-                    onAddNewExpression={() => onAddNewExpression(addConfig, appTourProgress)}
+                    addConfig={values.addConfig}
+                    onAddNewExpression={() =>
+                      onAddNewExpression(values, appTourProgress, setFieldValue)}
                     appTourProgress={appTourProgress}
                   />
                 </Col>
@@ -144,8 +149,8 @@ class NavigationBarConfigFormBody extends PureComponent {
                     className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
                     type="submit"
                     bsStyle="primary"
-                    disabled={invalid || submitting || expressionsNotAvailable}
-
+                    disabled={!isValid || isSubmitting || expressionsNotAvailable}
+                    onClick={() => onSave(submitForm)}
                   >
                     <FormattedMessage id="app.save" />
                   </Button>
@@ -161,8 +166,8 @@ class NavigationBarConfigFormBody extends PureComponent {
                   appTourProgress !== APP_TOUR_STARTED && (
                     <ConfirmCancelModalContainer
                       contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                      invalid={invalid}
-                      submitting={submitting}
+                      invalid={!isValid}
+                      submitting={isSubmitting}
                       onSave={onSave}
                       onDiscard={onDiscard}
                     />
@@ -183,18 +188,16 @@ NavigationBarConfigFormBody.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   language: PropTypes.string,
-  dirty: PropTypes.bool,
+  isDirty: PropTypes.bool.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
   onRemoveExpression: PropTypes.func.isRequired,
   onSwapExpressions: PropTypes.func.isRequired,
-  addConfig: PropTypes.shape({}),
-  expressions: PropTypes.arrayOf(PropTypes.shape({})),
   initialValues: PropTypes.shape({
     navSpec: PropTypes.string,
   }).isRequired,
@@ -203,14 +206,18 @@ NavigationBarConfigFormBody.propTypes = {
   onSpecificPageChoose: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   mode: PropTypes.string,
+  values: PropTypes.shape({
+    addConfig: PropTypes.shape({}),
+    expressions: PropTypes.arrayOf(PropTypes.shape()),
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
 };
 
 NavigationBarConfigFormBody.defaultProps = {
   pages: [],
-  dirty: false,
   language: 'en',
-  addConfig: {},
-  expressions: [],
   loading: null,
   appTourProgress: '',
   mode: '',
@@ -219,7 +226,13 @@ NavigationBarConfigFormBody.defaultProps = {
 const NavigationBarConfigForm = withFormik({
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
-  mapPropsToValues: ({ initialValues }) => initialValues,
+  mapPropsToValues: ({ initialValues }) => (
+    {
+      ...initialValues,
+      addConfig: initialValues.addConfig || {},
+      expressions: initialValues.expressions || [],
+    }
+  ),
   handleSubmit: (values, { props: { onSubmit } }) => {
     onSubmit(values);
   },

@@ -15,7 +15,7 @@ const msgs = defineMessages({
 export const InternalServletConfigFormBody = ({ intl, handleSubmit }) => (
   <form
     className="InternalServletConfigForm"
-    onSubmit={(ev) => { ev.preventDefault(); handleSubmit(); }}
+    onSubmit={handleSubmit}
   >
     <h5>
       <i className="fa fa-puzzle-piece" />
@@ -66,6 +66,7 @@ InternalServletConfigFormBody.propTypes = {
 
 const InternalServletConfigForm = withFormik({
   form: 'widgetConfigForm',
+  handleSubmit: (values, { props: { onSubmit } }) => { onSubmit(values); },
 })(InternalServletConfigFormBody);
 
 export default injectIntl(InternalServletConfigForm);

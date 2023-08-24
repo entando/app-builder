@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { act } from 'react-dom/test-utils';
 import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import InternalServletConfigForm from 'ui/widgets/config/forms/InternalServletConfigForm';
@@ -9,14 +9,14 @@ const handleSubmit = jest.fn();
 const EVENT = { preventDefault: jest.fn() };
 
 jest.unmock('react-redux');
-jest.unmock('redux-form');
+jest.unmock('formik');
 
 describe('InternalServletConfigForm', () => {
   let component;
   beforeEach(() => {
     component = mount(mockRenderWithIntlAndStore(<InternalServletConfigForm
       widgetId="formAction"
-      handleSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     />));
   });
 
