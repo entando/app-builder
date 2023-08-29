@@ -401,63 +401,74 @@ export const getInstallPlan = component => dispatch => (
   })
 );
 
-export const pollECRComponentUninstallStatus = (componentCode, stepFunction) => dispatch => (
-  new Promise((resolve) => {
-    dispatch(startComponentUninstall(componentCode));
-    pollApi({
-      apiFn: () => getECRComponentUninstall(componentCode),
-      stopPollingConditionFn: ({
-        payload,
-      }) => payload && [
-        ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
-        ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
-        ECR_COMPONENT_UNINSTALLATION_STATUS_PARTIAL_COMPLETED,
-      ].includes(payload.status),
-      timeout: POLLING_TIMEOUT_IN_MS,
-      stepFunction: payload => stepFunction(payload.progress, payload),
-    })
-      .then(({
-        payload,
-      }) => {
-        if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
-          dispatch(finishComponentUninstall(componentCode));
-          dispatch(fetchSelectedBundleStatusWithCode(componentCode));
-          dispatch(fetchMfeConfigList());
-          dispatch(addToast(
-            { id: 'componentRepository.hub.epcInstalledTip' },
-            TOAST_SUCCESS,
-          ));
-        } else {
-          dispatch(componentUninstallFailed(componentCode));
-        }
-      })
-      .catch((res) => {
-        const {
-          errors,
+export const pollECRComponentUninstallStatus = (componentCode, stepFunction, pollInBackground) =>
+  dispatch => (
+    new Promise((resolve) => {
+      if (!pollInBackground) {
+        dispatch(startComponentUninstall(componentCode));
+      }
+      pollApi({
+        apiFn: () => getECRComponentUninstall(componentCode),
+        stopPollingConditionFn: ({
           payload,
-        } = res;
-        if (payload && payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
-          dispatch(addToast(
-            { id: 'componentRepository.components.notifyInProgress' },
-            TOAST_WARNING,
-          ));
-          dispatch(componentUninstallOngoingProgress(componentCode, payload));
-        } else {
-          dispatch(addToast(
-            { id: 'componentRepository.components.notifyFailedUninstall' },
-            TOAST_WARNING,
-          ));
-          dispatch(componentUninstallFailed(componentCode));
-        }
-        if (errors && errors.length) {
-          dispatch(addErrors(errors.map(err => err.message)));
-          errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
-        }
-        resolve(res);
+        }) => payload && [
+          ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED,
+          ECR_COMPONENT_UNINSTALLATION_STATUS_ERROR,
+          ECR_COMPONENT_UNINSTALLATION_STATUS_PARTIAL_COMPLETED,
+        ].includes(payload.status),
+        timeout: POLLING_TIMEOUT_IN_MS,
+        stepFunction: payload => stepFunction(payload.progress, payload),
       })
-      .finally(() => resolve());
-  })
-);
+        .then((response) => {
+          const {
+            payload,
+          } = response;
+          if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
+            dispatch(finishComponentUninstall(componentCode));
+            dispatch(fetchSelectedBundleStatusWithCode(componentCode));
+            dispatch(fetchMfeConfigList());
+            if (!pollInBackground) {
+              dispatch(addToast(
+                { id: 'componentRepository.hub.epcInstalledTip' },
+                TOAST_SUCCESS,
+              ));
+            }
+          } else if (!pollInBackground) {
+            dispatch(componentUninstallFailed(componentCode));
+          }
+        })
+        .catch((res) => {
+          const {
+            errors,
+            payload,
+          } = res;
+          // if response code is 404 then do nothing
+          // (this will happen if we refresh the page while uninstalling)
+          if (res.status === 404) {
+            return resolve();
+          }
+          if (payload && payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
+            dispatch(addToast(
+              { id: 'componentRepository.components.notifyInProgress' },
+              TOAST_WARNING,
+            ));
+            dispatch(componentUninstallOngoingProgress(componentCode, payload));
+          } else {
+            dispatch(addToast(
+              { id: 'componentRepository.components.notifyFailedUninstall' },
+              TOAST_WARNING,
+            ));
+            dispatch(componentUninstallFailed(componentCode));
+          }
+          if (errors && errors.length) {
+            dispatch(addErrors(errors.map(err => err.message)));
+            errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
+          }
+          return resolve(res);
+        })
+        .finally(() => resolve());
+    })
+  );
 
 export const uninstallECRComponent = (componentCode, logProgress) => dispatch => (
   new Promise((resolve) => {
