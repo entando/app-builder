@@ -162,39 +162,53 @@ describe('App', () => {
     expect(component.find(PageTreePageContainer).exists()).toBe(true);
   });
 
-  it('route to widget list page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_LIST);
-    expect(component.find(ListWidgetPageContainer).exists()).toBe(true);
+  it('route to widget list page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_LIST);
+      expect(component.find(ListWidgetPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to widget entry page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_ADD);
-    expect(component.find(AddWidgetPage).exists()).toBe(true);
+  it('route to widget entry page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_ADD);
+      expect(component.find(AddWidgetPage).exists()).toBe(true);
+    });
   });
 
-  it('route to widget edit page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_EDIT);
-    expect(component.find(EditWidgetPageContainer).exists()).toBe(true);
+  it('route to widget edit page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_EDIT);
+      expect(component.find(EditWidgetPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to widget edit page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_CONFIG);
-    expect(component.find(WidgetConfigPageContainer).exists()).toBe(true);
+  it('route to widget edit page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_CONFIG);
+      expect(component.find(WidgetConfigPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to add fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_ADD);
-    expect(component.find(AddFragmentPage).exists()).toBe(true);
+  it('route to add fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_ADD);
+      expect(component.find(AddFragmentPage).exists()).toBe(true);
+    });
   });
 
-  it('route to edit fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_EDIT);
-    expect(component.find(EditFragmentPageContainer).exists()).toBe(true);
+  it('route to edit fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_EDIT);
+      expect(component.find(EditFragmentPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to detail fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_DETAIL);
-    expect(component.find(DetailFragmentPageContainer).exists()).toBe(true);
+  it('route to detail fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_DETAIL);
+      expect(component.find(DetailFragmentPageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to add page page', () => {
@@ -212,9 +226,11 @@ describe('App', () => {
     expect(component.find(PageSettingsPage).exists()).toBe(true);
   });
 
-  it('route to list fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_LIST);
-    expect(component.find(ListFragmentPage).exists()).toBe(true);
+  it('route to list fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_LIST);
+      expect(component.find(ListFragmentPage).exists()).toBe(true);
+    });
   });
 
   it('route to page config page', () => {
