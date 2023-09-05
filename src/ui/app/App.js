@@ -64,6 +64,8 @@ import {
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
   ROUTE_PROFILE_TYPE_EDIT,
@@ -125,14 +127,13 @@ import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
-import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
-import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
+import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
+import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 
 import PageLayout from 'ui/app/PageLayout';
@@ -188,6 +189,9 @@ const ComponentListPageDisabled = React.lazy(() => import('ui/component-reposito
 const SettingsListPage = React.lazy(() => import('ui/component-repository/settings/list/SettingsListPage'));
 const SettingsEditPage = React.lazy(() => import('ui/component-repository/settings/edit/SettingsEditPage'));
 const SettingsAddPage = React.lazy(() => import('ui/component-repository/settings/add/SettingsAddPage'));
+const ReloadConfigPage = React.lazy(() => import('ui/reload-configuration/ReloadConfigPage'));
+const ReloadConfirmPage = React.lazy(() => import('ui/reload-configuration/ReloadConfirmPage'));
+const MonolistProfilePageContainer = React.lazy(() => import('ui/profile-types/attributes/monolist/MonolistProfilePageContainer'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -407,9 +411,21 @@ const RouteComponent = () => {
         renderWithSuspense(<EditProfileTypeAttributePage />)}
       />
       <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
-      <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
-      <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
-      <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
+      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
+      <Route
+        path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD}
+        render={() => renderWithSuspense(<MonolistProfilePageContainer />)}
+      />
+      <Route
+        exact
+        path={ROUTE_RELOAD_CONFIG}
+        render={() => renderWithSuspense(<ReloadConfigPage />)}
+      />
+      <Route
+        path={ROUTE_RELOAD_CONFIRM}
+        render={() => renderWithSuspense(<ReloadConfirmPage />)}
+      />
       { /* static routes */}
       <Route path={ROUTE_ABOUT} render={() => renderWithSuspense(<AboutPage />)} />
       <Route path={ROUTE_LICENSE} render={() => renderWithSuspense(<LicensePage />)} />
