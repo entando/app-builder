@@ -63,8 +63,6 @@ import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
-  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
@@ -188,8 +186,6 @@ const UploadFileBrowserPage = React.lazy(() => import('ui/file-browser/upload/Up
 const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFolderPage'));
 const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
 const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
-const AddDataTypeAttributePage = React.lazy(() => import('ui/data-types/attributes/AddDataTypeAttributePage'));
-const EditDataTypeAttributePage = React.lazy(() => import('ui/data-types/attributes/EditDataTypeAttributePage'));
 const AddProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/AddProfileTypeAttributePage'));
 const EditProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/EditProfileTypeAttributePage'));
 
@@ -407,16 +403,6 @@ const RouteComponent = () => {
       <Route
         path={ROUTE_PLUGIN_CONFIG_PAGE}
         render={() => renderWithSuspense(<PluginConfigPageContainer />)}
-      />
-      <Route
-        path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD}
-        render={() =>
-        renderWithSuspense(<AddDataTypeAttributePage />)}
-      />
-      <Route
-        path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT}
-        render={() =>
-        renderWithSuspense(<EditDataTypeAttributePage />)}
       />
       <Route
         path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD}
