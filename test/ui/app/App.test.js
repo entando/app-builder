@@ -54,6 +54,10 @@ import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
+import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
+import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
+import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
+import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 
 import {
   ROUTE_HOME,
@@ -101,6 +105,10 @@ import {
   ROUTE_DATABASE_LIST,
   ROUTE_DATABASE_ADD,
   ROUTE_DATABASE_REPORT,
+  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
+  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
@@ -374,6 +382,34 @@ describe('App', () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
       expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to add data type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATA_TYPE_ATTRIBUTE_ADD);
+      expect(component.find(AddDataTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to edit data type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATA_TYPE_ATTRIBUTE_EDIT);
+      expect(component.find(EditDataTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to add profile type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD);
+      expect(component.find(AddProfileTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to edit profile type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT);
+      expect(component.find(EditProfileTypeAttributePage).exists()).toBe(true);
     });
   });
 
