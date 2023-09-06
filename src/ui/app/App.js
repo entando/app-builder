@@ -92,6 +92,7 @@ import {
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
   ROUTE_FORBIDDEN,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -192,6 +193,7 @@ const SettingsAddPage = React.lazy(() => import('ui/component-repository/setting
 const ReloadConfigPage = React.lazy(() => import('ui/reload-configuration/ReloadConfigPage'));
 const ReloadConfirmPage = React.lazy(() => import('ui/reload-configuration/ReloadConfirmPage'));
 const MonolistProfilePageContainer = React.lazy(() => import('ui/profile-types/attributes/monolist/MonolistProfilePageContainer'));
+const MonolistPageContainer = React.lazy(() => import('ui/data-types/attributes/monolist/MonolistPageContainer'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -425,6 +427,10 @@ const RouteComponent = () => {
       <Route
         path={ROUTE_RELOAD_CONFIRM}
         render={() => renderWithSuspense(<ReloadConfirmPage />)}
+      />
+      <Route
+        path={ROUTE_ATTRIBUTE_MONOLIST_ADD}
+        render={() => renderWithSuspense(<MonolistPageContainer />)}
       />
       { /* static routes */}
       <Route path={ROUTE_ABOUT} render={() => renderWithSuspense(<AboutPage />)} />
