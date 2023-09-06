@@ -10,6 +10,7 @@ import {
   COMPONENT_USAGE_LIST,
   COMPONENT_INSTALL_PLAN,
   GET_COMPONENT_INSTALL_PLAN,
+  GET_COMPONENT_CURRENT_JOB_STATUS,
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 
@@ -68,6 +69,16 @@ export const getECRComponentUninstall = code => (
     // mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     mockResponse: COMPONENT_UNINSTALLATION_IN_PROGRESS,
     // mockResponse: COMPONENT_UNINSTALLATION_ERROR,
+    useAuthentication: true,
+  })
+);
+
+export const getECRComponentCurrentJobStatus = code => (
+  makeRequest({
+    uri: `/components/${code}/lastJob`,
+    domain: '/digital-exchange',
+    method: METHODS.GET,
+    mockResponse: GET_COMPONENT_CURRENT_JOB_STATUS,
     useAuthentication: true,
   })
 );

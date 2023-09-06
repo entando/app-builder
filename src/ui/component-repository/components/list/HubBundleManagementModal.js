@@ -10,10 +10,10 @@ import { getLoading } from 'state/loading/selectors';
 import { getBundleGroups, getSelectedRegistry, getSelectedBundleStatus } from 'state/component-repository/hub/selectors';
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 import {
-  componentUninstallOngoingProgress,
+  // componentUninstallOngoingProgress,
   fetchECRComponentDetail,
-  pollECRComponentUninstallStatus,
-  setInstallUninstallProgress,
+  // pollECRComponentCurrentUninstallJob,
+  // setInstallUninstallProgress,
   setSelectedECRComponent,
 } from 'state/component-repository/components/actions';
 import {
@@ -23,7 +23,7 @@ import {
 } from 'state/component-repository/components/selectors';
 import { INSTALLED, INSTALLED_NOT_DEPLOYED, DEPLOYED, NOT_FOUND, INVALID_REPO_URL } from 'state/component-repository/hub/const';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
-import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS, ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
+import { ECR_COMPONENT_CURRENT_JOB_STATUS_UNINSTALLING, ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS, ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { setVisibleModal } from 'state/modal/actions';
 
@@ -158,22 +158,25 @@ const HubBundleManagementModal = () => {
   }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status,
     redeployed]);
 
-  useEffect(() => {
-    const pollStepFunction = (progress, newPayload) => {
-      dispatch(setInstallUninstallProgress(progress));
-      if (newPayload && newPayload.componentId) {
-        dispatch(componentUninstallOngoingProgress(newPayload.componentId, newPayload));
-      }
-    };
-    if (component && component.code) {
-      dispatch(pollECRComponentUninstallStatus(component.code, pollStepFunction, true));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, component.code]);
+  // useEffect(() => {
+  //   const pollStepFunction = (progress, newPayload) => {
+  //     dispatch(setInstallUninstallProgress(progress));
+  //     if (newPayload && newPayload.componentId) {
+  //       dispatch(componentUninstallOngoingProgress(newPayload.componentId, newPayload));
+  //     }
+  //   };
+  //   if (component && component.code) {
+  //     dispatch(pollECRComponentCurrentUninstallJob(component.code, pollStepFunction, true));
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dispatch, component.code]);
 
   useEffect(() => {
     if (lastInstallApiResponse &&
-      lastInstallApiResponse.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS) {
+      (lastInstallApiResponse.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS
+      ||
+      lastInstallApiResponse.status === ECR_COMPONENT_CURRENT_JOB_STATUS_UNINSTALLING)
+    ) {
       dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
     }
   }, [component.code, dispatch, lastInstallApiResponse]);

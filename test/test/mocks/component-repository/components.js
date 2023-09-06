@@ -489,3 +489,9 @@ export const GET_COMPONENT_INSTALL_PLAN = {
   customInstallation: false,
 };
 
+export const GET_COMPONENT_CURRENT_JOB_STATUS = {
+  payload: {
+    status: 'uninstalling', // 'installing'
+  },
+  errors: [],
+};

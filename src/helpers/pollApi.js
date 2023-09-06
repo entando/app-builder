@@ -9,7 +9,7 @@ const pollApi = ({
           if (stepFunction) {
             stepFunction(data.payload || {});
           }
-          if (stopPollingConditionFn(data)) {
+          if (stopPollingConditionFn && stopPollingConditionFn(data)) {
             resolve(data);
           } else if (Number(new Date()) < endTime) {
             setTimeout(checkCondition, interval, resolve, reject);
@@ -24,6 +24,8 @@ const pollApi = ({
       } else {
         reject(response);
       }
+    }).catch((error) => {
+      reject(error);
     });
   };
   return new Promise(checkCondition);
