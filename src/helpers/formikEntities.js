@@ -1,12 +1,12 @@
 import moment from 'moment';
 import padStart from 'lodash/padStart';
 import first from 'lodash/first';
-import SwitchRenderer from 'ui/common/formik-field/SwitchRenderer';
+import RenderSwitchInput from 'ui/common/formik-field/RenderSwitchInput';
 import RenderDatePickerInput from 'ui/common/formik-field/RenderDatePickerInput';
 import RenderTextAreaInput from 'ui/common/formik-field/RenderTextAreaInput';
 import RenderDateTimePickerInput from 'ui/common/formik-field/RenderDateTimePickerInput';
 import RenderRadioInput from 'ui/common/formik-field/RenderRadioInput';
-import RenderSelectInput from 'ui/common/formik-field/RenderSelectInput';
+import SelectInput from 'ui/common/formik-field/SelectInput';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_CHECKBOX, TYPE_DATE, TYPE_TIMESTAMP, TYPE_LONGTEXT,
@@ -29,7 +29,7 @@ export const getComponentType = (component) => {
     case TYPE_THREESTATE:
       return RenderRadioInput;
     case TYPE_CHECKBOX:
-      return SwitchRenderer;
+      return RenderSwitchInput;
     case TYPE_DATE:
       return RenderDatePickerInput;
     case TYPE_TIMESTAMP:
@@ -39,7 +39,7 @@ export const getComponentType = (component) => {
       return RenderTextAreaInput;
     case TYPE_ENUMERATOR:
     case TYPE_ENUMERATOR_MAP:
-      return RenderSelectInput;
+      return SelectInput;
     default: return RenderTextInput;
   }
 };
