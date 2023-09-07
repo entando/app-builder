@@ -44,6 +44,10 @@ import FileBrowserPageContainer from 'ui/file-browser/list/ListFilesPage';
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderPage';
 import PluginsPageContainer from 'ui/plugins/PluginsPageContainer';
 import PluginConfigPageContainer from 'ui/plugins/PluginConfigPageContainer';
+import PagesClonePage from 'ui/pages/clone/PagesClonePage';
+import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
+import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
+import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
 // component repository
 import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
 import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
@@ -93,6 +97,10 @@ import {
   ROUTE_FILE_BROWSER_CREATE_FOLDER,
   ROUTE_PLUGINS,
   ROUTE_PLUGIN_CONFIG_PAGE,
+  ROUTE_PAGE_CLONE,
+  ROUTE_PAGE_DETAIL,
+  ROUTE_PAGE_TEMPLATE_LIST,
+  ROUTE_PAGE_TEMPLATE_CLONE,
   // component repository
   ROUTE_ECR_COMPONENT_LIST,
   ROUTE_ECR_CONFIG_LIST,
@@ -157,9 +165,11 @@ describe('App', () => {
     expect(component.find(DashboardPage).exists()).toBe(true);
   });
 
-  it('route to page tree page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_TREE);
-    expect(component.find(PageTreePageContainer).exists()).toBe(true);
+  it('route to page tree page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TREE);
+      expect(component.find(PageTreePageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to widget list page', () => {
@@ -197,19 +207,38 @@ describe('App', () => {
     expect(component.find(DetailFragmentPageContainer).exists()).toBe(true);
   });
 
-  it('route to add page page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_ADD);
-    expect(component.find(PagesAddPageContainer).exists()).toBe(true);
+  it('route to add page page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_ADD);
+      expect(component.find(PagesAddPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to edit page page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_EDIT);
-    expect(component.find(PagesEditPage).exists()).toBe(true);
+  it('route to edit page page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_EDIT);
+      expect(component.find(PagesEditPage).exists()).toBe(true);
+    });
   });
 
-  it('route to page settings page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_SETTINGS);
-    expect(component.find(PageSettingsPage).exists()).toBe(true);
+  it('route to page clone', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_CLONE);
+      expect(component.find(PagesClonePage).exists()).toBe(true);
+    });
+  });
+  it('route to page detail', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_DETAIL);
+      expect(component.find(PagesDetailPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to page settings page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_SETTINGS);
+      expect(component.find(PageSettingsPage).exists()).toBe(true);
+    });
   });
 
   it('route to list fragment page', () => {
@@ -217,9 +246,18 @@ describe('App', () => {
     expect(component.find(ListFragmentPage).exists()).toBe(true);
   });
 
-  it('route to page config page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_CONFIG);
-    expect(component.find(PageConfigPageContainer).exists()).toBe(true);
+  it('route to page config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_CONFIG);
+      expect(component.find(PageConfigPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to page template list', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_LIST);
+      expect(component.find(PageTemplateListPage).exists()).toBe(true);
+    });
   });
 
   it('route to add data model page', () => {
@@ -313,19 +351,32 @@ describe('App', () => {
     });
   });
 
-  it('route to add page template page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_ADD);
-    expect(component.find(PageTemplateAddPage).exists()).toBe(true);
+  it('route to add page template page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_ADD);
+      expect(component.find(PageTemplateAddPage).exists()).toBe(true);
+    });
   });
 
-  it('route to edit page template page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_EDIT);
-    expect(component.find(PageTemplateEditPage).exists()).toBe(true);
+  it('route to edit page template page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_EDIT);
+      expect(component.find(PageTemplateEditPage).exists()).toBe(true);
+    });
   });
 
-  it('route to page template detail page', () => {
-    const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_DETAIL);
-    expect(component.find(PageTemplateDetailPageContainer).exists()).toBe(true);
+  it('route to page template clone page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_CLONE);
+      expect(component.find(PageTemplateClonePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to page template detail page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PAGE_TEMPLATE_DETAIL);
+      expect(component.find(PageTemplateDetailPageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to page file browser page', async () => {

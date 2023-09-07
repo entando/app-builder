@@ -18,12 +18,27 @@ import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import SeoInfo from 'ui/pages/common/SeoInfo';
 import FindTemplateModalContainer from 'ui/pages/common/FindTemplateModalContainer';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
-import { complementTitlesForActiveLanguages } from 'ui/pages/add/PagesAddFormContainer';
 import { codeWithDash } from 'helpers/attrValidation';
 
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
 
+const getDefaultLanguage = (languages) => {
+  const defaultLang = { code: 'en' };
+  if (!languages || languages.length === 0) return defaultLang;
+  const defaultFiltered = languages.filter(lang => lang.isDefault);
+  if (defaultFiltered && defaultFiltered.length > 0) return defaultFiltered[0];
+  return defaultLang;
+};
+
+const complementTitlesForActiveLanguages = (existingTitles, languages) => {
+  const defaultLang = getDefaultLanguage(languages);
+  const defaultLangTitle = existingTitles && existingTitles[defaultLang.code];
+  return languages.reduce((acc, curr) => ({
+    ...acc,
+    [curr.code]: existingTitles[curr.code] || defaultLangTitle,
+  }), {});
+};
 
 const msgs = defineMessages({
   chooseAnOption: {

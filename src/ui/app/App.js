@@ -97,7 +97,7 @@ import {
 import LoginFormContainer from 'ui/login/LoginFormContainer';
 import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
-import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
+
 import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
 import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
 import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
@@ -109,17 +109,8 @@ import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
 import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
 import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
 import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
-import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
-import PagesEditPage from 'ui/pages/edit/PagesEditPage';
-import PagesClonePage from 'ui/pages/clone/PagesClonePage';
-import PagesDetailPageContainer from 'ui/pages/detail/PagesDetailPageContainer';
-import PageSettingsPage from 'ui/pages/settings/PageSettings';
-import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
-import PageTemplateListPage from 'ui/page-templates/list/PageTemplateListPage';
-import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
-import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
-import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
-import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
+
+
 import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
 import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
 import DataModelListPage from 'ui/data-models/list/DataModelListPage';
@@ -191,6 +182,21 @@ const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFold
 const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
 const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
 
+/* Page Section */
+const PageTreePageContainer = React.lazy(() => import('ui/pages/list/PageTreePageContainer'));
+const PagesAddPageContainer = React.lazy(() => import('ui/pages/add/PagesAddPageContainer'));
+const PagesEditPage = React.lazy(() => import('ui/pages/edit/PagesEditPage'));
+const PagesClonePage = React.lazy(() => import('ui/pages/clone/PagesClonePage'));
+const PagesDetailPageContainer = React.lazy(() => import('ui/pages/detail/PagesDetailPageContainer'));
+const PageSettingsPage = React.lazy(() => import('ui/pages/settings/PageSettings'));
+const PageConfigPageContainer = React.lazy(() => import('ui/pages/config/PageConfigPageContainer'));
+const PageTemplateListPage = React.lazy(() => import('ui/page-templates/list/PageTemplateListPage'));
+const PageTemplateAddPage = React.lazy(() => import('ui/page-templates/add/PageTemplateAddPage'));
+const PageTemplateEditPage = React.lazy(() => import('ui/page-templates/edit/PageTemplateEditPage'));
+const PageTemplateClonePage = React.lazy(() => import('ui/page-templates/clone/PageTemplateClonePage'));
+const PageTemplateDetailPageContainer = React.lazy(() => import('ui/page-templates/detail/PageTemplateDetailPageContainer'));
+
+
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
 
@@ -232,19 +238,69 @@ const RouteComponent = () => {
       />
       <Route path={ROUTE_DASHBOARD} component={DashboardPage} />
       {/* page */}
-      <Route exact path={ROUTE_PAGE_TREE} component={PageTreePageContainer} />
-      <Route path={ROUTE_PAGE_ADD} component={PagesAddPageContainer} />
-      <Route path={ROUTE_PAGE_EDIT} component={PagesEditPage} />
-      <Route path={ROUTE_PAGE_CLONE} component={PagesClonePage} />
-      <Route path={ROUTE_PAGE_DETAIL} component={PagesDetailPageContainer} />
-      <Route path={ROUTE_PAGE_SETTINGS} component={PageSettingsPage} />
-      <Route path={ROUTE_PAGE_CONFIG} component={PageConfigPageContainer} />
+      <Route
+        exact
+        path={ROUTE_PAGE_TREE}
+        render={() =>
+        renderWithSuspense(<PageTreePageContainer />)}
+      />
+      <Route
+        path={ROUTE_PAGE_ADD}
+        render={() =>
+         renderWithSuspense(<PagesAddPageContainer />)}
+      />
+      <Route
+        path={ROUTE_PAGE_EDIT}
+        render={() =>
+        renderWithSuspense(<PagesEditPage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_CLONE}
+        render={() =>
+        renderWithSuspense(<PagesClonePage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_DETAIL}
+        render={() =>
+        renderWithSuspense(<PagesDetailPageContainer />)}
+      />
+      <Route
+        path={ROUTE_PAGE_SETTINGS}
+        render={() =>
+        renderWithSuspense(<PageSettingsPage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_CONFIG}
+        render={() =>
+         renderWithSuspense(<PageConfigPageContainer />)}
+      />
       {/* page template */}
-      <Route exact path={ROUTE_PAGE_TEMPLATE_LIST} component={PageTemplateListPage} />
-      <Route path={ROUTE_PAGE_TEMPLATE_ADD} component={PageTemplateAddPage} />
-      <Route path={ROUTE_PAGE_TEMPLATE_EDIT} component={PageTemplateEditPage} />
-      <Route path={ROUTE_PAGE_TEMPLATE_CLONE} component={PageTemplateClonePage} />
-      <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
+      <Route
+        exact
+        path={ROUTE_PAGE_TEMPLATE_LIST}
+        render={() =>
+        renderWithSuspense(<PageTemplateListPage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_TEMPLATE_ADD}
+        render={() =>
+        renderWithSuspense(<PageTemplateAddPage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_TEMPLATE_EDIT}
+        render={() =>
+        renderWithSuspense(<PageTemplateEditPage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_TEMPLATE_CLONE}
+        render={() =>
+        renderWithSuspense(<PageTemplateClonePage />)}
+      />
+      <Route
+        path={ROUTE_PAGE_TEMPLATE_DETAIL}
+        render={() =>
+        renderWithSuspense(<PageTemplateDetailPageContainer />)}
+      />
       {/* widgets */}
       <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
       <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
