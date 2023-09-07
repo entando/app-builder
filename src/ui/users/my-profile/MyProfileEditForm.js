@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit, setFieldValue, isValid, resetForm,values,
+      handleSubmit, setFieldValue, isValid, resetForm, values,
     } = this.props;
 
     const { editMode } = this.state;
@@ -295,6 +295,9 @@ MyProfileEditFormBody.propTypes = {
   setFieldValue: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
+  values: PropTypes.shape({
+    profilepicture: PropTypes.string,
+  }),
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     code: PropTypes.string,
@@ -343,6 +346,7 @@ MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
   userEmail: undefined,
   userProfileForm: {},
+  values: {},
 };
 
 const MyProfileEditForm = withFormik({

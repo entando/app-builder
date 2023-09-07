@@ -38,7 +38,7 @@ export const mapDispatchToProps = dispatch => ({
   },
   onChangeProfilePicture: (setFieldValue, picture) => {
     setFieldValue('profilepicture', picture);
-  },    
+  },
 });
 
 export default connect(
