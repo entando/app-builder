@@ -151,7 +151,7 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm, handleSubmit, setFieldValue, isValid, resetForm,
+      userProfileForm, handleSubmit, setFieldValue, isValid, resetForm,values,
     } = this.props;
 
     const { editMode } = this.state;
@@ -226,7 +226,7 @@ class MyProfileEditFormBody extends Component {
         return field(intl, attribute, !editMode);
       });
 
-    const { profilepicture } = userProfileForm;
+    const { profilepicture } = values;
 
     return (
       <Form horizontal className="MyProfileEditForm">
@@ -235,8 +235,7 @@ class MyProfileEditFormBody extends Component {
         <ProfileImageUploader
           image={profilepicture}
           onChange={(e) => {
-            onChangeProfilePicture(e);
-            setFieldValue('profilepicture', e);
+            onChangeProfilePicture(setFieldValue, e);
           }}
           gravatarEmail={userEmail}
           editable={editMode}
