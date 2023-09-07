@@ -126,12 +126,7 @@ import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
-// component repository
-import ComponentListPage from 'ui/component-repository/components/list/ComponentListPage';
-import ComponentListPageDisabled from 'ui/component-repository/components/list/ComponentListPageDisabled';
-import SettingsListPage from 'ui/component-repository/settings/list/SettingsListPage';
-import SettingsEditPage from 'ui/component-repository/settings/edit/SettingsEditPage';
-import SettingsAddPage from 'ui/component-repository/settings/add/SettingsAddPage';
+
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
@@ -182,6 +177,13 @@ const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFold
 const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
 const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
 
+// component repository
+const ComponentListPage = React.lazy(() => import('ui/component-repository/components/list/ComponentListPage'));
+const ComponentListPageDisabled = React.lazy(() => import('ui/component-repository/components/list/ComponentListPageDisabled'));
+const SettingsListPage = React.lazy(() => import('ui/component-repository/settings/list/SettingsListPage'));
+const SettingsEditPage = React.lazy(() => import('ui/component-repository/settings/edit/SettingsEditPage'));
+const SettingsAddPage = React.lazy(() => import('ui/component-repository/settings/add/SettingsAddPage'));
+
 /* Page Section */
 const PageTreePageContainer = React.lazy(() => import('ui/pages/list/PageTreePageContainer'));
 const PagesAddPageContainer = React.lazy(() => import('ui/pages/add/PagesAddPageContainer'));
@@ -195,7 +197,6 @@ const PageTemplateAddPage = React.lazy(() => import('ui/page-templates/add/PageT
 const PageTemplateEditPage = React.lazy(() => import('ui/page-templates/edit/PageTemplateEditPage'));
 const PageTemplateClonePage = React.lazy(() => import('ui/page-templates/clone/PageTemplateClonePage'));
 const PageTemplateDetailPageContainer = React.lazy(() => import('ui/page-templates/detail/PageTemplateDetailPageContainer'));
-
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -416,32 +417,24 @@ const RouteComponent = () => {
       <Route
         exact
         path={ROUTE_ECR_COMPONENT_LIST}
-        render={() => (
-          (COMPONENT_REPOSITORY_UI_ENABLED) ?
-            <ComponentListPage /> : <ComponentListPageDisabled />
-        )}
+        render={() => renderWithSuspense(COMPONENT_REPOSITORY_UI_ENABLED ?
+          <ComponentListPage /> : <ComponentListPageDisabled />)}
       />
       <Route
         exact
         path={ROUTE_ECR_CONFIG_LIST}
-        render={() => (
-          (COMPONENT_REPOSITORY_UI_ENABLED) ?
-            <SettingsListPage /> : <ComponentListPageDisabled />
-        )}
+        render={() => renderWithSuspense(COMPONENT_REPOSITORY_UI_ENABLED ?
+          <SettingsListPage /> : <ComponentListPageDisabled />)}
       />
       <Route
         path={ROUTE_ECR_CONFIG_EDIT}
-        render={() => (
-          (COMPONENT_REPOSITORY_UI_ENABLED) ?
-            <SettingsEditPage /> : <ComponentListPageDisabled />
-        )}
+        render={() => renderWithSuspense(COMPONENT_REPOSITORY_UI_ENABLED ?
+          <SettingsEditPage /> : <ComponentListPageDisabled />)}
       />
       <Route
         path={ROUTE_ECR_CONFIG_ADD}
-        render={() => (
-          (COMPONENT_REPOSITORY_UI_ENABLED) ?
-            <SettingsAddPage /> : <ComponentListPageDisabled />
-        )}
+        render={() => renderWithSuspense((COMPONENT_REPOSITORY_UI_ENABLED) ?
+          <SettingsAddPage /> : <ComponentListPageDisabled />)}
       />
       {/* email config */}
       <Route

@@ -414,6 +414,34 @@ describe('App', () => {
     });
   });
 
+  it('route to database list', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_LIST);
+      expect(component.find(ListDatabasePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to database add page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_ADD);
+      expect(component.find(AddDatabasePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to database report', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_DATABASE_REPORT);
+      expect(component.find(ReportDatabasePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to plugins page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PLUGINS);
+      expect(component.find(PluginsPageContainer).exists()).toBe(true);
+    });
+  });
+
   it('route to plugins page', async () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PLUGINS);
@@ -429,30 +457,33 @@ describe('App', () => {
   });
 
   describe('component repository', () => {
-    beforeAll(() => {
-      jest.resetModules();
-      delete process.env.COMPONENT_REPOSITORY_UI_ENABLED;
-    });
-
     describe('component repository disabled', () => {
-      it('routes to the disable page on ROUTE_ECR_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
-        expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+      it('routes to the disable page on ROUTE_ECR_COMPONENT_LIST', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
+          expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+        });
       });
 
-      it('routes to the disable page on ROUTE_ECR_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
-        expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_LIST', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
+          expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+        });
       });
 
-      it('routes to the disable page on ROUTE_ECR_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
-        expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_EDIT', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
+          expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+        });
       });
 
-      it('routes to the disable page on ROUTE_ECR_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
-        expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+      it('routes to the disable page on ROUTE_ECR_CONFIG_ADD', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
+          expect(component.find(ComponentListPageDisabled).exists()).toBe(true);
+        });
       });
     });
 
@@ -461,24 +492,32 @@ describe('App', () => {
         process.env.COMPONENT_REPOSITORY_UI_ENABLED = true;
       });
 
-      it('routes to the component list page page on ROUTE_ECR_COMPONENT_LIST', () => {
-        const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
-        expect(component.find(ComponentListPage).exists()).toBe(true);
+      it('routes to the component list page page on ROUTE_ECR_COMPONENT_LIST', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_COMPONENT_LIST);
+          expect(component.find(ComponentListPage).exists()).toBe(true);
+        });
       });
 
-      it('routes to the component list page page on ROUTE_ECR_CONFIG_LIST', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
-        expect(component.find(SettingsListPage).exists()).toBe(true);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_LIST', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_LIST);
+          expect(component.find(SettingsListPage).exists()).toBe(true);
+        });
       });
 
-      it('routes to the component list page page on ROUTE_ECR_CONFIG_EDIT', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
-        expect(component.find(SettingsEditPage).exists()).toBe(true);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_EDIT', async () => {
+        await waitFor(async () => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_EDIT);
+          expect(component.find(SettingsEditPage).exists()).toBe(true);
+        });
       });
 
-      it('routes to the component list page page on ROUTE_ECR_CONFIG_ADD', () => {
-        const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
-        expect(component.find(SettingsAddPage).exists()).toBe(true);
+      it('routes to the component list page page on ROUTE_ECR_CONFIG_ADD', async () => {
+        await waitFor(() => {
+          const component = mountWithRoute(ROUTE_ECR_CONFIG_ADD);
+          expect(component.find(SettingsAddPage).exists()).toBe(true);
+        });
       });
     });
   });
