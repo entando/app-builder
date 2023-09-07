@@ -57,12 +57,6 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-  ROUTE_DATA_MODEL_LIST,
-  ROUTE_DATA_MODEL_ADD,
-  ROUTE_DATA_MODEL_EDIT,
-  ROUTE_DATA_TYPE_LIST,
-  ROUTE_DATA_TYPE_ADD,
-  ROUTE_DATA_TYPE_EDIT,
   ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
   ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
@@ -120,18 +114,12 @@ import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
 import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
 import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
 import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
-import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
-import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
-import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
-import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
-import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
-import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
@@ -261,14 +249,6 @@ const RouteComponent = () => {
       <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
       <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
-      {/* data models */}
-      <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
-      <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
-      <Route path={ROUTE_DATA_MODEL_EDIT} component={EditDataModelPage} />
-      {/* data type */}
-      <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
-      <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
-      <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
       {/* user */}
       <Route exact path={ROUTE_USER_LIST} render={() => renderWithSuspense(<UserListPage />)} />
       <Route path={ROUTE_USER_ADD} render={() => renderWithSuspense(<AddUserPage />)} />
