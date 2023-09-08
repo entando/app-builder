@@ -63,8 +63,6 @@ import {
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
-  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
@@ -132,12 +130,8 @@ import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
-import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
-import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
-import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 
-import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
-import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
+import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 
@@ -185,6 +179,8 @@ const UploadFileBrowserPage = React.lazy(() => import('ui/file-browser/upload/Up
 const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFolderPage'));
 const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
 const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
+const AddProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/AddProfileTypeAttributePage'));
+const EditProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/EditProfileTypeAttributePage'));
 
 // component repository
 const ComponentListPage = React.lazy(() => import('ui/component-repository/components/list/ComponentListPage'));
@@ -400,10 +396,16 @@ const RouteComponent = () => {
         path={ROUTE_PLUGIN_CONFIG_PAGE}
         render={() => renderWithSuspense(<PluginConfigPageContainer />)}
       />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
-      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />
-      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT} component={EditProfileTypeAttributePage} />
+      <Route
+        path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD}
+        render={() =>
+        renderWithSuspense(<AddProfileTypeAttributePage />)}
+      />
+      <Route
+        path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT}
+        render={() =>
+        renderWithSuspense(<EditProfileTypeAttributePage />)}
+      />
       <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
       <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
       <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
