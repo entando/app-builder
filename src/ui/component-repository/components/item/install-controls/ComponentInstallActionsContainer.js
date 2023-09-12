@@ -55,9 +55,9 @@ export const mapDispatchToProps = (dispatch) => {
       }, 500);
       return dispatch(uninstallECRComponent(componentCode, pollStepFunction));
     },
-    onClickUninstall: (componentCode) => {
-      dispatch(fetchComponentUsage(componentCode));
-      dispatch(setVisibleModal(componentCode));
+    onClickUninstall: (component) => {
+      dispatch(fetchComponentUsage(component.code));
+      dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
     },
     recheckInstallStatus:
       componentCode => dispatch(pollECRComponentInstallStatus(componentCode, pollStepFunction)),

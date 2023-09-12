@@ -270,7 +270,30 @@ export const COMPONENT_USAGE_LIST = [{
   code: 'test-page',
   type: 'page',
   usage: 2,
-}];
+},
+{
+  type: 'category',
+  code: 'jeff_bundle_category',
+  exist: true,
+  usage: 1,
+  hasExternal: true,
+  references: [
+    {
+      componentType: 'content',
+      referenceType: 'internal',
+      code: 'NWS12',
+      online: true,
+    },
+  ],
+},
+{
+  type: 'group',
+  code: 'jeff_bundle_group',
+  usage: 0,
+  hasExternal: false,
+  references: [],
+},
+];
 
 export const COMPONENT_INSTALL_PLAN = {
   hasConflicts: true,

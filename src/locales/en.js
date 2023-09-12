@@ -1583,6 +1583,7 @@ export default {
     'app.filterTypesSelect.organizationName': 'Organization Name',
     'app.filterTypesSelect.bundleGroup': 'Bundle Group',
     'hub.bundle.installation': 'Bundle Installation',
+    'hub.bundle.uninstallation': 'Bundle Uninstallation',
     'app.deploy': 'Deploy',
     'app.deployed': 'Deployed',
     'app.undeploy': 'Undeploy',
@@ -1612,5 +1613,7 @@ export default {
     'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
     'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
     'componentRepository.hub.epcInstalledTip': 'To correctly update the EPC menu, please refresh the AppBuilder page on your browser',
+    'ecr.componentUninstallError': 'Message error - Is not possible to uninstall the {name}',
+    'ecr.componentPartiallyDeleted': 'Some elements of the bundle were deleted manually. To completely uninstall the bundle and clear every internal reference please proceed with uninstallation.',
   },
 };

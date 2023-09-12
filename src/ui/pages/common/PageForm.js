@@ -100,6 +100,8 @@ export class PageFormBody extends Component {
             name="parentCode"
             pages={pages}
             onPageSelect={pageTemplateDisabled ? () => {} : null}
+            validate={[required]}
+            disabled={readOnly}
           />
         </div>
       );
