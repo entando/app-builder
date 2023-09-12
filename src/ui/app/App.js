@@ -96,17 +96,7 @@ import LoginFormContainer from 'ui/login/LoginFormContainer';
 import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
-import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
-import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
-import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
-import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
-import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
-import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
-import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
-import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
-import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
-import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
-import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
+
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PagesClonePage from 'ui/pages/clone/PagesClonePage';
@@ -129,8 +119,6 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
-import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
-
 import PageLayout from 'ui/app/PageLayout';
 import RowSpinner from 'ui/pages/common/RowSpinner';
 import entandoApps from 'entando-apps';
@@ -142,6 +130,18 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
+const ListWidgetPageContainer = React.lazy(() => import('ui/widgets/list/ListWidgetPageContainer'));
+const AddWidgetPage = React.lazy(() => import('ui/widgets/add/AddWidgetPage'));
+const EditWidgetPageContainer = React.lazy(() => import('ui/widgets/edit/EditWidgetPageContainer'));
+const NewUserWidgetPage = React.lazy(() => import('ui/widgets/newUserWidget/NewUserWidgetPage'));
+const DetailWidgetPageContainer = React.lazy(() => import('ui/widgets/detail/DetailWidgetPageContainer'));
+const WidgetConfigPageContainer = React.lazy(() => import('ui/widgets/config/WidgetConfigPageContainer'));
+const CloneWidgetPage = React.lazy(() => import('ui/widgets/clone/CloneWidgetPage'));
+const ListFragmentPage = React.lazy(() => import('ui/fragments/list/ListFragmentPage'));
+const AddFragmentPage = React.lazy(() => import('ui/fragments/add/AddFragmentPage'));
+const EditFragmentPageContainer = React.lazy(() => import('ui/fragments/edit/EditFragmentPageContainer'));
+const CloneFragmentPageContainer = React.lazy(() => import('ui/fragments/clone/CloneFragmentPageContainer'));
+const DetailFragmentPageContainer = React.lazy(() => import('ui/fragments/detail/DetailFragmentPageContainer'));
 const PluginConfigPageContainer = React.lazy(() => import('ui/plugins/PluginConfigPageContainer'));
 const PluginsPageContainer = React.lazy(() => import('ui/plugins/PluginsPageContainer'));
 const EditUserProfilePage = React.lazy(() => import('ui/user-profile/edit/EditUserProfilePage'));
@@ -244,19 +244,57 @@ const RouteComponent = () => {
       <Route path={ROUTE_PAGE_TEMPLATE_CLONE} component={PageTemplateClonePage} />
       <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
       {/* widgets */}
-      <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
-      <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_NEW_USERWIDGET} component={NewUserWidgetPage} />
-      <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
-      <Route path={ROUTE_CLONE_WIDGET} component={CloneWidgetPage} />
+      <Route
+        exact
+        path={ROUTE_WIDGET_LIST}
+        render={() => renderWithSuspense(<ListWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_ADD}
+        render={() => renderWithSuspense(<AddWidgetPage />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_EDIT}
+        render={() => renderWithSuspense(<EditWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_NEW_USERWIDGET}
+        render={() => renderWithSuspense(<NewUserWidgetPage />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_DETAIL}
+        render={() => renderWithSuspense(<DetailWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_CONFIG}
+        render={() => renderWithSuspense(<WidgetConfigPageContainer />)}
+      />
+      <Route
+        path={ROUTE_CLONE_WIDGET}
+        render={() => renderWithSuspense(<CloneWidgetPage />)}
+      />
       {/* fragments */}
-      <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
-      <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
-      <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
-      <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
-      <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
+      <Route
+        exact
+        path={ROUTE_FRAGMENT_LIST}
+        render={() => renderWithSuspense(<ListFragmentPage />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_ADD}
+        render={() => renderWithSuspense(<AddFragmentPage />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_EDIT}
+        render={() => renderWithSuspense(<EditFragmentPageContainer />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_CLONE}
+        render={() => renderWithSuspense(<CloneFragmentPageContainer />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_DETAIL}
+        render={() => renderWithSuspense(<DetailFragmentPageContainer />)}
+      />
       {/* data models */}
       <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
       <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
