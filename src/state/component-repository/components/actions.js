@@ -425,9 +425,7 @@ export const pollECRComponentUninstallStatus = (componentCode, stepFunction, pol
           const {
             payload,
           } = response;
-          console.log('pollECRComponentUninstallStatus response', response);
           if (payload.status === ECR_COMPONENT_UNINSTALLATION_STATUS_COMPLETED) {
-            console.log('pollECRComponentUninstallStatus completed');
             dispatch(finishComponentUninstall(componentCode));
             dispatch(fetchSelectedBundleStatusWithCode(componentCode));
             dispatch(fetchMfeConfigList());
@@ -474,7 +472,6 @@ export const pollECRComponentCurrentUninstallJob =
   (componentCode, stepFunction) =>
     dispatch => (
       new Promise((resolve, reject) => {
-        console.log('pollECRComponentCurrentUninstallJob starte');
         dispatch(startComponentUninstall(componentCode));
         pollApi({
           apiFn: () => getECRComponentCurrentJobStatus(componentCode),
@@ -490,7 +487,6 @@ export const pollECRComponentCurrentUninstallJob =
             }
           })
           .catch((res) => {
-            console.log('pollECRComponentCurrentUninstallJob got 404 so started normal poll');
             dispatch(pollECRComponentUninstallStatus(componentCode, stepFunction, true));
             resolve(res);
           })
@@ -559,7 +555,6 @@ export const fetchECRComponents = (paginationMetadata = {
               } else if (
                 lastJob && lastJob.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS
               ) {
-                console.log('lastJob', lastJob);
                 dispatch(pollECRComponentCurrentUninstallJob(
                   lastJob.componentId,
                   pollStepFunction,
