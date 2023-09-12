@@ -56,6 +56,10 @@ import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
 import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
 import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
+import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
+import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
+import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
+import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 
 import {
   ROUTE_HOME,
@@ -105,6 +109,10 @@ import {
   ROUTE_DATABASE_REPORT,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
   ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_RELOAD_CONFIG,
+  ROUTE_RELOAD_CONFIRM,
+  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
@@ -409,11 +417,38 @@ describe('App', () => {
     });
   });
 
-
   it('route to add profile type attribute page', async () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD);
       expect(component.find(AddProfileTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to reload config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_RELOAD_CONFIG);
+      expect(component.find(ReloadConfigPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to reload config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_RELOAD_CONFIRM);
+      expect(component.find(ReloadConfirmPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to profile add monolist attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD);
+      expect(component.find(MonolistProfilePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to profile monolist container page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD);
+      expect(component.find(MonolistPageContainer).exists()).toBe(true);
     });
   });
 
