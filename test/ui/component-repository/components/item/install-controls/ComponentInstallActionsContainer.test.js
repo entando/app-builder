@@ -59,7 +59,7 @@ describe('ComponentInstallActionsContainer', () => {
     });
 
     it('should dispatch an action if onSave is called', () => {
-      props.onInstall();
+      props.onInstall({});
       expect(dispatchMock).toHaveBeenCalled();
     });
 

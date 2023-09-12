@@ -61,17 +61,50 @@ const updateComponentInfo = (listState, componentIndex, newProps) => {
   return newListState;
 };
 
-const markComponentLastInstallStatus = (state, componentCode, lastInstallStatus) => {
+const markComponentLastInstallStatus = (
+  state, componentCode, lastInstallStatus,
+  apiResponsePayload,
+) => {
   const componentIndex = findComponentInListById(state, componentCode);
   if (componentIndex === -1) {
     return state;
   }
-  return updateComponentInfo(state, componentIndex, { lastInstallStatus });
+  if (apiResponsePayload) {
+    return updateComponentInfo(
+      state, componentIndex,
+      { lastInstallStatus, lastInstallApiResponse: apiResponsePayload },
+    );
+  }
+  return updateComponentInfo(
+    state, componentIndex,
+    { lastInstallStatus },
+  );
 };
 
-const markComponentLastStatusAsClear = (state, componentCode) => (
-  markComponentLastInstallStatus(state, componentCode, '')
-);
+const markComponentLastUninstallStatus = (
+  state, componentCode, lastUninstallStatus,
+  apiResponsePayload,
+) => {
+  const componentIndex = findComponentInListById(state, componentCode);
+  if (componentIndex === -1) {
+    return state;
+  }
+  if (apiResponsePayload) {
+    return updateComponentInfo(
+      state, componentIndex,
+      { lastUninstallStatus, lastInstallApiResponse: apiResponsePayload },
+    );
+  }
+  return updateComponentInfo(
+    state, componentIndex,
+    { lastUninstallStatus },
+  );
+};
+
+const markComponentLastStatusAsClear = (state, componentCode) => {
+  markComponentLastInstallStatus(state, componentCode, '');
+  return markComponentLastUninstallStatus(state, componentCode, '');
+};
 
 const markComponentLastStatusAsError = (state, componentCode) => (
   markComponentLastInstallStatus(state, componentCode, ECR_COMPONENT_INSTALLATION_STATUS_ERROR)
@@ -85,11 +118,12 @@ const markComponentLastStatusAsInstallInProgress = (state, componentCode) => (
   )
 );
 
-const markComponentLastStatusAsUninstallInProgress = (state, componentCode) => (
-  markComponentLastInstallStatus(
+const markComponentLastStatusAsUninstallInProgress = (state, componentCode, apiResponsePayload) => (
+  markComponentLastUninstallStatus(
     state,
     componentCode,
     ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
+    apiResponsePayload,
   )
 );
 
@@ -140,7 +174,10 @@ const list = (state = [], action = {}) => {
       return markComponentLastStatusAsInstallInProgress(state, action.payload.code);
     }
     case COMPONENT_UNINSTALL_ONGOING_PROGRESS: {
-      return markComponentLastStatusAsUninstallInProgress(state, action.payload.code);
+      return markComponentLastStatusAsUninstallInProgress(
+        state, action.payload.code,
+        action.payload.apiResponsePayload,
+      );
     }
     default: return state;
   }
@@ -280,7 +317,7 @@ const uninstallation = (state = {}, action = {}) => {
     case START_COMPONENT_UNINSTALLATION: {
       return {
         ...state,
-        [action.payload.code]: ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS,
+        [action.payload.code]: ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS,
       };
     }
     case FINISH_COMPONENT_UNINSTALLATION:

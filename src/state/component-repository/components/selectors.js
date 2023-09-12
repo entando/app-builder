@@ -59,6 +59,11 @@ export const getECRComponentLastInstallStatus = (state, props) => {
   return get(state, `componentRepositoryComponents.list[${listIdx}].lastInstallStatus`, '');
 };
 
+export const getECRComponentLastInstallApiResponsePayload = (state, props) => {
+  const listIdx = findComponentInListById(get(state, 'componentRepositoryComponents.list', []), props.component.code);
+  return get(state, `componentRepositoryComponents.list[${listIdx}].lastInstallApiResponse`, {});
+};
+
 export const getECRComponentInstallationStatus = createSelector(
   [state => state.componentRepositoryComponents.installation, (state, props) => props.component],
   (installation, component) => installation[component.code],
@@ -67,6 +72,11 @@ export const getECRComponentInstallationStatus = createSelector(
 export const getECRComponentUninstallStatus = createSelector(
   [state => state.componentRepositoryComponents.uninstallation, (state, props) => props.component],
   (uninstallation, component) => uninstallation[component.code],
+);
+
+export const getECRComponentsUninstallationStatuses = createSelector(
+  [state => state.componentRepositoryComponents.uninstallation],
+  uninstallation => uninstallation,
 );
 
 export const getComponentUsageList = state => (

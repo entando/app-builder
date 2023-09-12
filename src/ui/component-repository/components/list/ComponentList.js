@@ -44,6 +44,7 @@ class ComponentList extends Component {
       openComponentManagementModal,
       bundleStatuses,
       openedModal,
+      componentUninstallationStatuses,
     } = this.props;
 
     const pagination = {
@@ -56,14 +57,16 @@ class ComponentList extends Component {
           components={componentRepositoryComponents}
           locale={intl.locale}
           onClickInstallPlan={getInstallPlan}
-          openComponentManagementModal={openComponentManagementModal}
+          openComponentManagementModal={args =>
+            openComponentManagementModal(args, componentUninstallationStatuses)}
           bundleStatuses={bundleStatuses}
       />)
       : (<ComponentListListView
           components={componentRepositoryComponents}
           locale={intl.locale}
           onClickInstallPlan={getInstallPlan}
-          openComponentManagementModal={openComponentManagementModal}
+          openComponentManagementModal={args =>
+            openComponentManagementModal(args, componentUninstallationStatuses)}
           bundleStatuses={bundleStatuses}
       />);
 
@@ -118,6 +121,9 @@ ComponentList.propTypes = {
     installedVersion: PropTypes.string,
   })),
   openedModal: PropTypes.string,
+  componentUninstallationStatuses: PropTypes.shape({
+    code: PropTypes.string,
+  }),
 };
 
 ComponentList.defaultProps = {
@@ -128,6 +134,7 @@ ComponentList.defaultProps = {
   openComponentManagementModal: () => {},
   bundleStatuses: [],
   openedModal: '',
+  componentUninstallationStatuses: {},
 };
 
 export default injectIntl(ComponentList);

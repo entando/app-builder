@@ -19,7 +19,7 @@ import {
   GET_ECR_COMPONENT_OK,
   COMPONENT_USAGE_LIST,
 } from 'test/mocks/component-repository/components';
-import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
+import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS, ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 
 describe('Component repository reducer', () => {
   describe('filter reducer', () => {
@@ -375,9 +375,9 @@ describe('uninstallation reducer', () => {
       expect(state).toHaveProperty('uninstallation');
       expect(Object.keys(state.uninstallation)).toHaveLength(2);
       expect(state).toHaveProperty('uninstallation.test3');
-      expect(state).toHaveProperty('uninstallation.test3', ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+      expect(state).toHaveProperty('uninstallation.test3', ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS);
       expect(state).toHaveProperty('uninstallation.test4');
-      expect(state).toHaveProperty('uninstallation.test4', ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS);
+      expect(state).toHaveProperty('uninstallation.test4', ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS);
     });
   });
 

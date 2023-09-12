@@ -16,11 +16,13 @@ import {
 import {
   getECRComponentList, getECRComponentSelected, getECRComponentInstallationStatus,
   getECRComponentUninstallStatus,
+  getECRComponentLastInstallApiResponsePayload,
 } from 'state/component-repository/components/selectors';
 import { INSTALLED, INSTALLED_NOT_DEPLOYED, DEPLOYED, NOT_FOUND, INVALID_REPO_URL } from 'state/component-repository/hub/const';
 import { ECR_LOCAL_REGISTRY_NAME } from 'state/component-repository/hub/reducer';
-import { ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
+import { ECR_COMPONENT_CURRENT_JOB_STATUS_UNINSTALLING, ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS, ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS } from 'state/component-repository/components/const';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { setVisibleModal } from 'state/modal/actions';
 
 export const HUB_BUNDLE_MANAGEMENT_MODAL_ID = 'HubBundleManagementModalId';
 
@@ -64,7 +66,8 @@ const HubBundleManagementModal = () => {
   );
 
   const component = { ...(selectedECRComponent || {}), ...(ecrComponent || {}) };
-
+  const lastInstallApiResponse = useSelector(state =>
+    getECRComponentLastInstallApiResponsePayload(state, { component })) || {};
   const isComponentInstalling =
     useSelector(state => getECRComponentInstallationStatus(state, {
       component:
@@ -74,7 +77,7 @@ const HubBundleManagementModal = () => {
     useSelector(state => getECRComponentUninstallStatus(state, {
       component:
         { code: component.code },
-    })) === ECR_COMPONENT_INSTALLATION_STATUS_IN_PROGRESS;
+    })) === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS;
 
   const belongingBundleGroup = useMemo(() => {
     const belongingBundleGroups = bundlegroups
@@ -151,6 +154,16 @@ const HubBundleManagementModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status,
     redeployed]);
+
+  useEffect(() => {
+    if (lastInstallApiResponse &&
+      (lastInstallApiResponse.status === ECR_COMPONENT_UNINSTALLATION_STATUS_IN_PROGRESS
+      ||
+      lastInstallApiResponse.status === ECR_COMPONENT_CURRENT_JOB_STATUS_UNINSTALLING)
+    ) {
+      dispatch(setVisibleModal(`uninstall-manager-for-${component.code}`));
+    }
+  }, [component.code, dispatch, lastInstallApiResponse]);
 
   const refreshVersionsButton = (
     <OverlayTrigger

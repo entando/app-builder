@@ -1581,6 +1581,7 @@ export default {
     'app.filterTypesSelect.bundleGroup': 'Gruppo pacchetto',
     'hub.bundle.installation': 'Installazione del pacchetto',
     'hub.bundle.uninstallation': 'Disinstallazione del pacchetto',
+    'hub.bundle.uninstalled': 'Pacchetto Disinstallato',
     'app.deploy': 'Distribuire',
     'app.deployed': 'Schierato',
     'app.undeploy': 'Annulla distribuzione',
@@ -1613,5 +1614,7 @@ export default {
     'componentRepository.hub.epcInstalledTip': 'Per aggiornare il menu EPC, aggiorna la pagina di AppBuilder nel tuo browser',
     'ecr.componentUninstallError': 'Messaggio di errore: non è possibile disinstallare il {name}',
     'ecr.componentPartiallyDeleted': 'Alcuni elementi del bundle sono stati cancellati manualmente. Per disinstallare completamente il bundle e ripulire il sistema da ogni referenza interna, procedere con la disinstallazione.',
+    'componentRepository.components.elementsUninstalled': 'Elementi Disinstallati',
+    'componentRepository.components.someNotUninstalled': 'Alcuni elementi non sono stati disinstallati',
   },
 };

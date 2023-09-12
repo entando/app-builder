@@ -1,0 +1,49 @@
+.ComponentUninstallProcessState {
+  &__in-progress-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 17px;
+  }
+
+  &__in-progress-body-progress-bar-text {
+    margin-bottom: 13px;
+    font-family: "Open Sans";
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  &__in-progress-body-progress-bar {
+    position: relative;
+    width: 100%;
+    height: 5px;
+    margin-bottom: 11px;
+    border: 1px solid $color-ecr-component-installed-button-border;
+    background-color: $color-ultra-grey-border;
+  }
+
+  &__current-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0; // Use the CSS variable to set the width of the child div
+    height: 100%;
+    background-color: $color-mid-blue;
+
+    &--finished {
+      background-color: $color-mid-green;
+    }
+
+    &--partial-error {
+      background-color: $color-mid-orange;
+    }
+  }
+
+  &__in-progress-body-progress-bar-number {
+    margin-right: 5px;
+  }
+
+  &__in-progress-body-progress-footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+}
