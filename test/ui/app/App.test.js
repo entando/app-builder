@@ -60,6 +60,10 @@ import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
 import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
+import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
+import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
+import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
+import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
 
 import {
   ROUTE_HOME,
@@ -113,6 +117,10 @@ import {
   ROUTE_RELOAD_CONFIRM,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_WIDGET_DETAIL,
+  ROUTE_CLONE_WIDGET,
+  ROUTE_FRAGMENT_CLONE,
+  ROUTE_WIDGET_NEW_USERWIDGET,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
@@ -472,6 +480,34 @@ describe('App', () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT);
       expect(component.find(EditProfileTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to new user widget page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_NEW_USERWIDGET);
+      expect(component.find(NewUserWidgetPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to widget detail page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_DETAIL);
+      expect(component.find(DetailWidgetPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to clone widget page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_CLONE_WIDGET);
+      expect(component.find(CloneWidgetPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_CLONE);
+      expect(component.find(CloneFragmentPageContainer).exists()).toBe(true);
     });
   });
 
