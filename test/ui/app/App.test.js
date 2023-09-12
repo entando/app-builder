@@ -452,13 +452,6 @@ describe('App', () => {
     });
   });
 
-  describe('component repository', () => {
-    beforeAll(() => {
-      jest.resetModules();
-      delete process.env.COMPONENT_REPOSITORY_UI_ENABLED;
-    });
-  });
-
   it('route to edit profile type attribute page', async () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT);
