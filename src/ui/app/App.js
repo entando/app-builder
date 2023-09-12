@@ -92,7 +92,6 @@ import {
   ROUTE_CLONE_WIDGET,
   ROUTE_EMAIL_CONFIG,
   ROUTE_FORBIDDEN,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
 } from 'app-init/router';
 
 import LoginFormContainer from 'ui/login/LoginFormContainer';
@@ -132,7 +131,6 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
-import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
 import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
@@ -412,7 +410,6 @@ const RouteComponent = () => {
         render={() =>
         renderWithSuspense(<EditProfileTypeAttributePage />)}
       />
-      <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
       <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
       <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
       <Route
