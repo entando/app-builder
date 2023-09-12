@@ -64,8 +64,6 @@ import {
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
-  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
   ROUTE_PROFILE_TYPE_EDIT,
@@ -131,8 +129,6 @@ import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
 import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
-import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
-import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 
 import PageLayout from 'ui/app/PageLayout';
@@ -410,8 +406,6 @@ const RouteComponent = () => {
         render={() =>
         renderWithSuspense(<EditProfileTypeAttributePage />)}
       />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
       <Route
         path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD}
         render={() => renderWithSuspense(<MonolistProfilePageContainer />)}
