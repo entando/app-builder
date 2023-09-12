@@ -11,13 +11,9 @@ import { componentUninstallOngoingProgress, setInstallUninstallProgress, setSele
 const ComponentUninstallManagerModal = () => {
   const componentUsageList = useSelector(getComponentUsageList);
   const selectedEcrComponent = useSelector(getECRComponentSelected);
-  // const componentUninstallStatus =
-  // useSelector(state => getECRComponentUninstallStatus(state,
-  // { component: selectedEcrComponent }));
   const lastInstallApiResponse = useSelector(state =>
     getECRComponentLastInstallApiResponsePayload(state, { component: selectedEcrComponent })) || {};
   const { progress, status: componentUninstallStatus } = lastInstallApiResponse;
-  // const progress = useSelector(getInstallUninstallProgress);
   const usageDataLoading = useSelector(getLoading)['component-repository/component-usage'];
   const loadingUninstallAction = useSelector(getLoading)[`deComponentInstallUninstall-${(selectedEcrComponent || {}).code || ''}`];
 

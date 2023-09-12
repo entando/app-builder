@@ -33,19 +33,8 @@ const UninstallInProgressOrFinished = (props) => {
         </div>
         <div className="ComponentUninstallProcessState__in-progress-body-progress-footer-wrapper">
           <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
-            {/* {Math.floor(props.progress * 100)}%
-            {props.progress === 1 ? <FormattedMessage id="hub.bundle.uninstalled" /> : null} */}
             {`${Math.floor(props.progress * 100)}%`}
           </span>
-          {/* <p className="ComponentUninstallProcessState__in-progress-body-progress-bar-text">
-            <span className="ComponentUninstallProcessState__in-progress-body-progress-bar-number">
-              {props.current}/{props.total}
-            </span>
-            <FormattedMessage
-              id="componentRepository.components.elementsUninstalled"
-            />
-
-          </p> */}
         </div>
       </div>
       {
@@ -72,8 +61,6 @@ const UninstallInProgressOrFinished = (props) => {
 UninstallInProgressOrFinished.propTypes = {
   name: PropTypes.string.isRequired,
   progress: PropTypes.number,
-  // current: PropTypes.number,
-  // total: PropTypes.number,
   lastInstallApiResponse: PropTypes.shape({
     errorComponents: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string,
@@ -85,8 +72,6 @@ UninstallInProgressOrFinished.propTypes = {
 
 UninstallInProgressOrFinished.defaultProps = {
   progress: 0,
-  // current: 5,
-  // total: 6,
 };
 
 const ComponentUninstallProcessState = (props) => {
@@ -101,7 +86,6 @@ const ComponentUninstallProcessState = (props) => {
 };
 
 ComponentUninstallProcessState.propTypes = {
-  // componentUninstallStatus: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
   lastInstallApiResponse: PropTypes.shape({}).isRequired,

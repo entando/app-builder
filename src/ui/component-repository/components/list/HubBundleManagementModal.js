@@ -10,10 +10,7 @@ import { getLoading } from 'state/loading/selectors';
 import { getBundleGroups, getSelectedRegistry, getSelectedBundleStatus } from 'state/component-repository/hub/selectors';
 import ComponentInstallActionsContainer from 'ui/component-repository/components/item/install-controls/ComponentInstallActionsContainer';
 import {
-  // componentUninstallOngoingProgress,
   fetchECRComponentDetail,
-  // pollECRComponentCurrentUninstallJob,
-  // setInstallUninstallProgress,
   setSelectedECRComponent,
 } from 'state/component-repository/components/actions';
 import {
@@ -157,19 +154,6 @@ const HubBundleManagementModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, payload.gitRepoAddress, payload.repoUrl, selectedBundleStatus.status,
     redeployed]);
-
-  // useEffect(() => {
-  //   const pollStepFunction = (progress, newPayload) => {
-  //     dispatch(setInstallUninstallProgress(progress));
-  //     if (newPayload && newPayload.componentId) {
-  //       dispatch(componentUninstallOngoingProgress(newPayload.componentId, newPayload));
-  //     }
-  //   };
-  //   if (component && component.code) {
-  //     dispatch(pollECRComponentCurrentUninstallJob(component.code, pollStepFunction, true));
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dispatch, component.code]);
 
   useEffect(() => {
     if (lastInstallApiResponse &&
