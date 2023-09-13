@@ -12,7 +12,7 @@ import { getLoading } from 'state/loading/selectors';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
-import { APP_TOUR_HOMEPAGE_CODEREF, APP_TOUR_CANCELLED } from 'state/app-tour/const';
+import { APP_TOUR_HOMEPAGE_CODEREF, APP_TOUR_STARTED } from 'state/app-tour/const';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 
@@ -32,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(toggleLoading('pageTree'));
     dispatch(handleExpandPage())
       .then(() => {
-        if (appTourProgress && appTourProgress !== APP_TOUR_CANCELLED && isSuperuser) {
+        if (appTourProgress === APP_TOUR_STARTED && isSuperuser) {
           dispatch(handleExpandPage(APP_TOUR_HOMEPAGE_CODEREF)).finally(() => dispatch(toggleLoading('pageTree')));
         } else {
           dispatch(toggleLoading('pageTree'));
