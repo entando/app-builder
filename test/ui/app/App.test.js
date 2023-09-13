@@ -22,9 +22,6 @@ import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PageSettingsPage from 'ui/pages/settings/PageSettings';
 import PageConfigPageContainer from 'ui/pages/config/PageConfigPageContainer';
-import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
-import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
-import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
 import UserListPage from 'ui/users/list/UserListPage';
 import UserAuthorityPageContainer from 'ui/users/authority/UserAuthorityPageContainer';
 import UserRestrictionsPage from 'ui/users/restrictions/UserRestrictionsPage';
@@ -35,7 +32,6 @@ import DetailUserPage from 'ui/users/detail/DetailUserPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
-import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import LabelsAndLanguagesPageContainer from 'ui/labels/list/LabelsAndLanguagesPageContainer';
 import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
 import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
@@ -81,10 +77,6 @@ import {
   ROUTE_PAGE_EDIT,
   ROUTE_PAGE_SETTINGS,
   ROUTE_PAGE_CONFIG,
-  ROUTE_DATA_MODEL_ADD,
-  ROUTE_DATA_MODEL_EDIT,
-  ROUTE_DATA_MODEL_LIST,
-  ROUTE_DATA_TYPE_LIST,
   ROUTE_USER_LIST,
   ROUTE_USER_AUTHORITY,
   ROUTE_USER_ADD,
@@ -256,26 +248,6 @@ describe('App', () => {
   it('route to page config page', () => {
     const component = mountWithRoute(ROUTE_PAGE_CONFIG);
     expect(component.find(PageConfigPageContainer).exists()).toBe(true);
-  });
-
-  it('route to add data model page', () => {
-    const component = mountWithRoute(ROUTE_DATA_MODEL_ADD);
-    expect(component.find(AddDataModelPage).exists()).toBe(true);
-  });
-
-  it('route to edit data model page', () => {
-    const component = mountWithRoute(ROUTE_DATA_MODEL_EDIT);
-    expect(component.find(EditDataModelPage).exists()).toBe(true);
-  });
-
-  it('route to data model list page', () => {
-    const component = mountWithRoute(ROUTE_DATA_MODEL_LIST);
-    expect(component.find(DataModelListPage).exists()).toBe(true);
-  });
-
-  it('route to data type list page', () => {
-    const component = mountWithRoute(ROUTE_DATA_TYPE_LIST);
-    expect(component.find(ListDataTypePage).exists()).toBe(true);
   });
 
   it('route to user list page', async () => {

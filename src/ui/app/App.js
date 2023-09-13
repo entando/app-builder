@@ -57,9 +57,6 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-  ROUTE_DATA_MODEL_LIST,
-  ROUTE_DATA_MODEL_ADD,
-  ROUTE_DATA_MODEL_EDIT,
   ROUTE_DATA_TYPE_LIST,
   ROUTE_DATA_TYPE_ADD,
   ROUTE_DATA_TYPE_EDIT,
@@ -108,9 +105,6 @@ import PageTemplateAddPage from 'ui/page-templates/add/PageTemplateAddPage';
 import PageTemplateEditPage from 'ui/page-templates/edit/PageTemplateEditPage';
 import PageTemplateClonePage from 'ui/page-templates/clone/PageTemplateClonePage';
 import PageTemplateDetailPageContainer from 'ui/page-templates/detail/PageTemplateDetailPageContainer';
-import AddDataModelPage from 'ui/data-models/add/AddDataModelPage';
-import EditDataModelPage from 'ui/data-models/edit/EditDataModelPage';
-import DataModelListPage from 'ui/data-models/list/DataModelListPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -295,10 +289,6 @@ const RouteComponent = () => {
         path={ROUTE_FRAGMENT_DETAIL}
         render={() => renderWithSuspense(<DetailFragmentPageContainer />)}
       />
-      {/* data models */}
-      <Route exact path={ROUTE_DATA_MODEL_LIST} component={DataModelListPage} />
-      <Route path={ROUTE_DATA_MODEL_ADD} component={AddDataModelPage} />
-      <Route path={ROUTE_DATA_MODEL_EDIT} component={EditDataModelPage} />
       {/* data type */}
       <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
       <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
