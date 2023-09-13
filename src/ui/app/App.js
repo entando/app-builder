@@ -57,8 +57,9 @@ import {
   ROUTE_ROLE_DETAIL,
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
-  ROUTE_DATA_TYPE_ATTRIBUTE_ADD,
-  ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_DATA_TYPE_LIST,
+  ROUTE_DATA_TYPE_ADD,
+  ROUTE_DATA_TYPE_EDIT,
   ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
@@ -92,17 +93,7 @@ import LoginFormContainer from 'ui/login/LoginFormContainer';
 import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 import PageTreePageContainer from 'ui/pages/list/PageTreePageContainer';
-import ListWidgetPageContainer from 'ui/widgets/list/ListWidgetPageContainer';
-import AddWidgetPage from 'ui/widgets/add/AddWidgetPage';
-import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
-import EditWidgetPageContainer from 'ui/widgets/edit/EditWidgetPageContainer';
-import WidgetConfigPageContainer from 'ui/widgets/config/WidgetConfigPageContainer';
-import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
-import ListFragmentPage from 'ui/fragments/list/ListFragmentPage';
-import AddFragmentPage from 'ui/fragments/add/AddFragmentPage';
-import EditFragmentPageContainer from 'ui/fragments/edit/EditFragmentPageContainer';
-import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
-import DetailFragmentPageContainer from 'ui/fragments/detail/DetailFragmentPageContainer';
+
 import PagesAddPageContainer from 'ui/pages/add/PagesAddPageContainer';
 import PagesEditPage from 'ui/pages/edit/PagesEditPage';
 import PagesClonePage from 'ui/pages/clone/PagesClonePage';
@@ -118,16 +109,9 @@ import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
-import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
-import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
-import AddDataTypeAttributePage from 'ui/data-types/attributes/AddDataTypeAttributePage';
-import EditDataTypeAttributePage from 'ui/data-types/attributes/EditDataTypeAttributePage';
-import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
-
-import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
-import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
-import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
+import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
+import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
+import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
 import PageLayout from 'ui/app/PageLayout';
 import RowSpinner from 'ui/pages/common/RowSpinner';
@@ -140,6 +124,18 @@ import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
 
+const ListWidgetPageContainer = React.lazy(() => import('ui/widgets/list/ListWidgetPageContainer'));
+const AddWidgetPage = React.lazy(() => import('ui/widgets/add/AddWidgetPage'));
+const EditWidgetPageContainer = React.lazy(() => import('ui/widgets/edit/EditWidgetPageContainer'));
+const NewUserWidgetPage = React.lazy(() => import('ui/widgets/newUserWidget/NewUserWidgetPage'));
+const DetailWidgetPageContainer = React.lazy(() => import('ui/widgets/detail/DetailWidgetPageContainer'));
+const WidgetConfigPageContainer = React.lazy(() => import('ui/widgets/config/WidgetConfigPageContainer'));
+const CloneWidgetPage = React.lazy(() => import('ui/widgets/clone/CloneWidgetPage'));
+const ListFragmentPage = React.lazy(() => import('ui/fragments/list/ListFragmentPage'));
+const AddFragmentPage = React.lazy(() => import('ui/fragments/add/AddFragmentPage'));
+const EditFragmentPageContainer = React.lazy(() => import('ui/fragments/edit/EditFragmentPageContainer'));
+const CloneFragmentPageContainer = React.lazy(() => import('ui/fragments/clone/CloneFragmentPageContainer'));
+const DetailFragmentPageContainer = React.lazy(() => import('ui/fragments/detail/DetailFragmentPageContainer'));
 const PluginConfigPageContainer = React.lazy(() => import('ui/plugins/PluginConfigPageContainer'));
 const PluginsPageContainer = React.lazy(() => import('ui/plugins/PluginsPageContainer'));
 const EditUserProfilePage = React.lazy(() => import('ui/user-profile/edit/EditUserProfilePage'));
@@ -173,6 +169,8 @@ const UploadFileBrowserPage = React.lazy(() => import('ui/file-browser/upload/Up
 const CreateFolderPage = React.lazy(() => import('ui/file-browser/add/CreateFolderPage'));
 const CreateTextFilePage = React.lazy(() => import('ui/file-browser/add/CreateTextFilePage'));
 const EditTextFilePage = React.lazy(() => import('ui/file-browser/edit/EditTextFilePage'));
+const AddProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/AddProfileTypeAttributePage'));
+const EditProfileTypeAttributePage = React.lazy(() => import('ui/profile-types/attributes/EditProfileTypeAttributePage'));
 
 // component repository
 const ComponentListPage = React.lazy(() => import('ui/component-repository/components/list/ComponentListPage'));
@@ -180,6 +178,10 @@ const ComponentListPageDisabled = React.lazy(() => import('ui/component-reposito
 const SettingsListPage = React.lazy(() => import('ui/component-repository/settings/list/SettingsListPage'));
 const SettingsEditPage = React.lazy(() => import('ui/component-repository/settings/edit/SettingsEditPage'));
 const SettingsAddPage = React.lazy(() => import('ui/component-repository/settings/add/SettingsAddPage'));
+const ReloadConfigPage = React.lazy(() => import('ui/reload-configuration/ReloadConfigPage'));
+const ReloadConfirmPage = React.lazy(() => import('ui/reload-configuration/ReloadConfirmPage'));
+const MonolistProfilePageContainer = React.lazy(() => import('ui/profile-types/attributes/monolist/MonolistProfilePageContainer'));
+const MonolistPageContainer = React.lazy(() => import('ui/data-types/attributes/monolist/MonolistPageContainer'));
 
 export const renderWithSuspense = component =>
   <Suspense fallback={<Spinner loading />}>{component}</Suspense>;
@@ -236,19 +238,61 @@ const RouteComponent = () => {
       <Route path={ROUTE_PAGE_TEMPLATE_CLONE} component={PageTemplateClonePage} />
       <Route path={ROUTE_PAGE_TEMPLATE_DETAIL} component={PageTemplateDetailPageContainer} />
       {/* widgets */}
-      <Route exact path={ROUTE_WIDGET_LIST} component={ListWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_ADD} component={AddWidgetPage} />
-      <Route path={ROUTE_WIDGET_EDIT} component={EditWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_NEW_USERWIDGET} component={NewUserWidgetPage} />
-      <Route path={ROUTE_WIDGET_DETAIL} component={DetailWidgetPageContainer} />
-      <Route path={ROUTE_WIDGET_CONFIG} component={WidgetConfigPageContainer} />
-      <Route path={ROUTE_CLONE_WIDGET} component={CloneWidgetPage} />
+      <Route
+        exact
+        path={ROUTE_WIDGET_LIST}
+        render={() => renderWithSuspense(<ListWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_ADD}
+        render={() => renderWithSuspense(<AddWidgetPage />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_EDIT}
+        render={() => renderWithSuspense(<EditWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_NEW_USERWIDGET}
+        render={() => renderWithSuspense(<NewUserWidgetPage />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_DETAIL}
+        render={() => renderWithSuspense(<DetailWidgetPageContainer />)}
+      />
+      <Route
+        path={ROUTE_WIDGET_CONFIG}
+        render={() => renderWithSuspense(<WidgetConfigPageContainer />)}
+      />
+      <Route
+        path={ROUTE_CLONE_WIDGET}
+        render={() => renderWithSuspense(<CloneWidgetPage />)}
+      />
       {/* fragments */}
-      <Route exact path={ROUTE_FRAGMENT_LIST} component={ListFragmentPage} />
-      <Route path={ROUTE_FRAGMENT_ADD} component={AddFragmentPage} />
-      <Route path={ROUTE_FRAGMENT_EDIT} component={EditFragmentPageContainer} />
-      <Route path={ROUTE_FRAGMENT_CLONE} component={CloneFragmentPageContainer} />
-      <Route path={ROUTE_FRAGMENT_DETAIL} component={DetailFragmentPageContainer} />
+      <Route
+        exact
+        path={ROUTE_FRAGMENT_LIST}
+        render={() => renderWithSuspense(<ListFragmentPage />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_ADD}
+        render={() => renderWithSuspense(<AddFragmentPage />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_EDIT}
+        render={() => renderWithSuspense(<EditFragmentPageContainer />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_CLONE}
+        render={() => renderWithSuspense(<CloneFragmentPageContainer />)}
+      />
+      <Route
+        path={ROUTE_FRAGMENT_DETAIL}
+        render={() => renderWithSuspense(<DetailFragmentPageContainer />)}
+      />
+      {/* data type */}
+      <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
+      <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
+      <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
       {/* user */}
       <Route exact path={ROUTE_USER_LIST} render={() => renderWithSuspense(<UserListPage />)} />
       <Route path={ROUTE_USER_ADD} render={() => renderWithSuspense(<AddUserPage />)} />
@@ -380,14 +424,33 @@ const RouteComponent = () => {
         path={ROUTE_PLUGIN_CONFIG_PAGE}
         render={() => renderWithSuspense(<PluginConfigPageContainer />)}
       />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_ADD} component={AddDataTypeAttributePage} />
-      <Route path={ROUTE_DATA_TYPE_ATTRIBUTE_EDIT} component={EditDataTypeAttributePage} />
-      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD} component={AddProfileTypeAttributePage} />
-      <Route path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT} component={EditProfileTypeAttributePage} />
-      <Route path={ROUTE_ATTRIBUTE_MONOLIST_ADD} component={MonolistPageContainer} />
-      <Route path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD} component={MonolistProfilePageContainer} />
-      <Route exact path={ROUTE_RELOAD_CONFIG} component={ReloadConfigPage} />
-      <Route path={ROUTE_RELOAD_CONFIRM} component={ReloadConfirmPage} />
+      <Route
+        path={ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD}
+        render={() =>
+        renderWithSuspense(<AddProfileTypeAttributePage />)}
+      />
+      <Route
+        path={ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT}
+        render={() =>
+        renderWithSuspense(<EditProfileTypeAttributePage />)}
+      />
+      <Route
+        path={ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD}
+        render={() => renderWithSuspense(<MonolistProfilePageContainer />)}
+      />
+      <Route
+        exact
+        path={ROUTE_RELOAD_CONFIG}
+        render={() => renderWithSuspense(<ReloadConfigPage />)}
+      />
+      <Route
+        path={ROUTE_RELOAD_CONFIRM}
+        render={() => renderWithSuspense(<ReloadConfirmPage />)}
+      />
+      <Route
+        path={ROUTE_ATTRIBUTE_MONOLIST_ADD}
+        render={() => renderWithSuspense(<MonolistPageContainer />)}
+      />
       { /* static routes */}
       <Route path={ROUTE_ABOUT} render={() => renderWithSuspense(<AboutPage />)} />
       <Route path={ROUTE_LICENSE} render={() => renderWithSuspense(<LicensePage />)} />

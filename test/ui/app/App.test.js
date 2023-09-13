@@ -50,6 +50,16 @@ import PageNotFoundContainer from 'ui/app/PageNotFoundContainer';
 import ListDatabasePage from 'ui/database/list/ListDatabasePage';
 import AddDatabasePageContainer from 'ui/database/add/AddDatabasePageContainer';
 import ReportDatabasePageContainer from 'ui/database/report/ReportDatabasePageContainer';
+import AddProfileTypeAttributePage from 'ui/profile-types/attributes/AddProfileTypeAttributePage';
+import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfileTypeAttributePage';
+import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
+import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
+import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
+import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
+import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
+import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
+import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
+import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
 
 import {
   ROUTE_HOME,
@@ -93,6 +103,16 @@ import {
   ROUTE_DATABASE_LIST,
   ROUTE_DATABASE_ADD,
   ROUTE_DATABASE_REPORT,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
+  ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+  ROUTE_RELOAD_CONFIG,
+  ROUTE_RELOAD_CONFIRM,
+  ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
+  ROUTE_ATTRIBUTE_MONOLIST_ADD,
+  ROUTE_WIDGET_DETAIL,
+  ROUTE_CLONE_WIDGET,
+  ROUTE_FRAGMENT_CLONE,
+  ROUTE_WIDGET_NEW_USERWIDGET,
 } from 'app-init/router';
 import { mountWithIntl } from 'test/legacyTestUtils';
 
@@ -154,39 +174,53 @@ describe('App', () => {
     expect(component.find(PageTreePageContainer).exists()).toBe(true);
   });
 
-  it('route to widget list page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_LIST);
-    expect(component.find(ListWidgetPageContainer).exists()).toBe(true);
+  it('route to widget list page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_LIST);
+      expect(component.find(ListWidgetPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to widget entry page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_ADD);
-    expect(component.find(AddWidgetPage).exists()).toBe(true);
+  it('route to widget entry page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_ADD);
+      expect(component.find(AddWidgetPage).exists()).toBe(true);
+    });
   });
 
-  it('route to widget edit page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_EDIT);
-    expect(component.find(EditWidgetPageContainer).exists()).toBe(true);
+  it('route to widget edit page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_EDIT);
+      expect(component.find(EditWidgetPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to widget edit page', () => {
-    const component = mountWithRoute(ROUTE_WIDGET_CONFIG);
-    expect(component.find(WidgetConfigPageContainer).exists()).toBe(true);
+  it('route to widget edit page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_CONFIG);
+      expect(component.find(WidgetConfigPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to add fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_ADD);
-    expect(component.find(AddFragmentPage).exists()).toBe(true);
+  it('route to add fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_ADD);
+      expect(component.find(AddFragmentPage).exists()).toBe(true);
+    });
   });
 
-  it('route to edit fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_EDIT);
-    expect(component.find(EditFragmentPageContainer).exists()).toBe(true);
+  it('route to edit fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_EDIT);
+      expect(component.find(EditFragmentPageContainer).exists()).toBe(true);
+    });
   });
 
-  it('route to detail fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_DETAIL);
-    expect(component.find(DetailFragmentPageContainer).exists()).toBe(true);
+  it('route to detail fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_DETAIL);
+      expect(component.find(DetailFragmentPageContainer).exists()).toBe(true);
+    });
   });
 
   it('route to add page page', () => {
@@ -204,9 +238,11 @@ describe('App', () => {
     expect(component.find(PageSettingsPage).exists()).toBe(true);
   });
 
-  it('route to list fragment page', () => {
-    const component = mountWithRoute(ROUTE_FRAGMENT_LIST);
-    expect(component.find(ListFragmentPage).exists()).toBe(true);
+  it('route to list fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_LIST);
+      expect(component.find(ListFragmentPage).exists()).toBe(true);
+    });
   });
 
   it('route to page config page', () => {
@@ -374,6 +410,76 @@ describe('App', () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_PLUGIN_CONFIG_PAGE);
       expect(component.find(PluginConfigPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to add profile type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD);
+      expect(component.find(AddProfileTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to reload config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_RELOAD_CONFIG);
+      expect(component.find(ReloadConfigPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to reload config page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_RELOAD_CONFIRM);
+      expect(component.find(ReloadConfirmPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to profile add monolist attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD);
+      expect(component.find(MonolistProfilePageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to profile monolist container page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD);
+      expect(component.find(MonolistPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to edit profile type attribute page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT);
+      expect(component.find(EditProfileTypeAttributePage).exists()).toBe(true);
+    });
+  });
+
+  it('route to new user widget page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_NEW_USERWIDGET);
+      expect(component.find(NewUserWidgetPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to widget detail page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_WIDGET_DETAIL);
+      expect(component.find(DetailWidgetPageContainer).exists()).toBe(true);
+    });
+  });
+
+  it('route to clone widget page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_CLONE_WIDGET);
+      expect(component.find(CloneWidgetPage).exists()).toBe(true);
+    });
+  });
+
+  it('route to fragment page', async () => {
+    await waitFor(async () => {
+      const component = mountWithRoute(ROUTE_FRAGMENT_CLONE);
+      expect(component.find(CloneFragmentPageContainer).exists()).toBe(true);
     });
   });
 
