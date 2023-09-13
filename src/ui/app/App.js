@@ -93,7 +93,6 @@ import LoginFormContainer from 'ui/login/LoginFormContainer';
 import ToastsContainer from 'ui/app/ToastsContainer';
 import DashboardPage from 'ui/dashboard/DashboardPage';
 
-import NewUserWidgetPage from 'ui/widgets/newUserWidget/NewUserWidgetPage';
 import ListGroupPage from 'ui/groups/list/ListGroupPage';
 import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
@@ -127,6 +126,7 @@ const DetailFragmentPageContainer = React.lazy(() => import('ui/fragments/detail
 const PluginConfigPageContainer = React.lazy(() => import('ui/plugins/PluginConfigPageContainer'));
 const PluginsPageContainer = React.lazy(() => import('ui/plugins/PluginsPageContainer'));
 const EditUserProfilePage = React.lazy(() => import('ui/user-profile/edit/EditUserProfilePage'));
+const NewUserWidgetPage = React.lazy(() => import('ui/widgets/newUserWidget/NewUserWidgetPage'));
 const EmailConfigPage = React.lazy(() => import('ui/email-config/EmailConfigPage'));
 const DetailRolePage = React.lazy(() => import('ui/roles/detail/DetailRolePage'));
 const EditRolePage = React.lazy(() => import('ui/roles/edit/EditRolePage'));
