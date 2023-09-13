@@ -12,6 +12,8 @@ const ModuleScopePlugin = require('react-dev-utils-for-webpack4/ModuleScopePlugi
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
+// const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin');
+
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -142,6 +144,11 @@ module.exports = {
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
+      // new UnusedFilesWebpackPlugin({
+      //   failOnUnused: true,
+      //   patterns: ['src/**/*.jsx', 'src/**/*.js', 'sass/**/*.scss'],
+      //   ignore: ['**/pt.js', '**/browser.js', '**/init.js'],
+      // }),
     ],
   },
   module: {
@@ -298,6 +305,12 @@ module.exports = {
 
 
     new DuplicatePackageCheckerPlugin(),
+
+    // new UnusedFilesWebpackPlugin({
+    //   failOnUnused: true,
+    //   patterns: ['src/**/*.jsx', 'src/**/*.js', 'sass/**/*.scss'],
+    //   ignore: ['**/pt.js', '**/browser.js', '**/init.js'],
+    // }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
