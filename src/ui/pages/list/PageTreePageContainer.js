@@ -32,7 +32,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(toggleLoading('pageTree'));
     dispatch(handleExpandPage())
       .then(() => {
-        if (appTourProgress !== APP_TOUR_CANCELLED && isSuperuser) {
+        if (appTourProgress && appTourProgress !== APP_TOUR_CANCELLED && isSuperuser) {
           dispatch(handleExpandPage(APP_TOUR_HOMEPAGE_CODEREF)).finally(() => dispatch(toggleLoading('pageTree')));
         } else {
           dispatch(toggleLoading('pageTree'));
