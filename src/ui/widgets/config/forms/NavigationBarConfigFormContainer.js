@@ -106,15 +106,17 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onRemoveExpression: (index, setFieldValue, values) => {
     const { expressions } = values;
-    expressions.splice(index, 1);
-    setFieldValue('expressions', expressions);
+    const newExpressions = [...expressions];
+    newExpressions.splice(index, 1);
+    setFieldValue('expressions', newExpressions);
   },
   onSwapExpressions: (indexA, indexB, setFieldValue, values) => {
     const { expressions } = values;
+    const newExpressions = [...expressions];
     const temp = expressions[indexA];
-    expressions[indexA] = expressions[indexB];
-    expressions[indexB] = temp;
-    setFieldValue('expressions', expressions);
+    newExpressions[indexA] = newExpressions[indexB];
+    newExpressions[indexB] = temp;
+    setFieldValue('expressions', newExpressions);
   },
   onSpecificPageChoose: (chosenPage, appTourProgress, setFieldValue) => {
     if (appTourProgress === APP_TOUR_STARTED && chosenPage) {
