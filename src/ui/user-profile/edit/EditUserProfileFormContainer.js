@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { change, formValueSelector, destroy } from 'redux-form';
 import { getUserProfile } from 'state/user-profile/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchProfileTypes, fetchProfileType } from 'state/profile-types/actions';
@@ -20,7 +19,6 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   defaultLanguage: getDefaultLanguage(state),
   languages: getActiveLanguages(state),
   profileTypes: getProfileTypesOptions(state),
-  selectedProfileType: formValueSelector('UserProfile')(state, 'typeCode'),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -29,15 +27,12 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchUserProfile(username));
   },
-  onWillUnmount: () => {
-    dispatch(destroy('ProfileType'));
-  },
   onSubmit: (userprofile) => {
     dispatch(updateUserProfile(userprofile));
   },
-  onProfileTypeChange: (newTypeCode, profileTypes) => {
+  onProfileTypeChange: (newTypeCode, profileTypes, setFieldValue) => {
     const profileType = profileTypes.filter(profile => profile.value === newTypeCode)[0] || {};
-    dispatch(change('UserProfile', 'typeDescription', profileType.text));
+    setFieldValue('typeCode', profileType.text);
     dispatch(fetchProfileType(newTypeCode));
   },
 });
