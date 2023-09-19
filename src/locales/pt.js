@@ -1003,6 +1003,7 @@ export default {
     'app.filterTypesSelect.organizationName': 'Nome da organização',
     'app.filterTypesSelect.bundleGroup': 'Grupo de Pacotes',
     'hub.bundle.installation': 'Instalação do pacote',
+    'hub.bundle.uninstallation': 'Desinstalação do pacote',
     'app.deploy': 'Implantar',
     'app.deployed': 'Implantado',
     'app.undeploy': 'Desimplantar',
@@ -1032,5 +1033,7 @@ export default {
     'componentRepository.refreshBundleVersions': 'Atualizar as versões disponíveis do pacote',
     'componentRepository.bundle.installVersionsRefreshed': 'Atualizado',
     'componentRepository.hub.epcInstalledTip': 'Para atualizar corretamente o menu EPC, atualize a página do AppBuilder em seu navegador',
+    'ecr.componentUninstallError': 'Mensagem de erro - Não é possível desinstalar o {name}',
+    'ecr.componentPartiallyDeleted': 'Alguns elementos do pacote foram excluídos manualmente. Para desinstalar completamente o pacote e limpar todas as referências internas, prossiga com a desinstalação.',
   },
 };
