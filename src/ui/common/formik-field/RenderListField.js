@@ -50,9 +50,8 @@ class RenderListField extends Component {
     const {
       attributeType, options, optionValue,
       optionDisplayName, label, nestedAttribute, intl,
-      push, remove, form,
+      push, remove, form, name,
     } = this.props;
-    console.log(this.props);
     return (
       <div>
         <FormGroup>
@@ -67,14 +66,14 @@ class RenderListField extends Component {
             </Button>
           </label>
           <Col xs={10}>
-            {form.values.map((name, index) => (
-              <Panel key={name}>
+            {form.values[name] && form.values[name].map((itemName, index) => (
+              <Panel key={itemName}>
                 <Panel.Heading>
                   <b>{index + 1}</b>
                   <div className="pull-right">
                     <ButtonGroup>
                       {this.buttonMoveUp(index)}
-                      {this.buttonMoveDown(index, fields.length)}
+                      {this.buttonMoveDown(index, form.values[name].length)}
                     </ButtonGroup>
 
                     <Button
@@ -89,14 +88,14 @@ class RenderListField extends Component {
                 <Panel.Body>
                   {attributeType === TYPE_COMPOSITE ? (
                     <CompositeField
-                      fieldName={name}
+                      fieldName={itemName}
                       attribute={nestedAttribute}
                       intl={intl}
                       noLabel
                     />
                   ) : (
                     <Field
-                      name={name}
+                      name={itemName}
                       type="text"
                       component={getComponentType(attributeType)}
                       label={index + 1}
@@ -139,6 +138,7 @@ RenderListField.propTypes = {
   form: PropTypes.shape({
     values: PropTypes.shape({}).isRequired,
   }).isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 RenderListField.defaultProps = {

@@ -285,16 +285,22 @@ const UserForm = withFormik({
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
   mapPropsToValues: ({
-    userProfileAttributes, userCurrentProfileType, username, initialValues,
+    userProfileAttributes, userCurrentProfileType, username, initialValues, profileTypesAttributes,
   }) => {
-    let attributes;
+    let attributes = {};
     if (userProfileAttributes && userProfileAttributes.length > 0) {
-      attributes = userProfileAttributes.reduce((accumulator, item) =>
-        ({ ...accumulator, [item.code]: item.value || '' }), {});
+      attributes = userProfileAttributes.reduce((accumulator, item) => {
+        const type = profileTypesAttributes
+              && profileTypesAttributes.find(attr => attr.code === item.code).type;
+        if (type === TYPE_LIST || type === TYPE_MONOLIST) {
+          return ({ ...accumulator, [item.code]: item.value || [] });
+        }
+        return ({ ...accumulator, [item.code]: item.value || '' });
+      }, {});
     }
 
     return {
-      ...initialValues, id: username || '', typeCode: userCurrentProfileType || '', ...(attributes || {}),
+      ...initialValues, id: username || '', typeCode: userCurrentProfileType || '', ...attributes,
     };
   },
   handleSubmit: (values, { props: { onSubmit } }) => {
