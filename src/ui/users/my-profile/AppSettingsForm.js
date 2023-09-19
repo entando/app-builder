@@ -144,6 +144,7 @@ export class AppSettingsFormBody extends Component {
                   selectedValues={[]}
                   labelKey="text"
                   valueKey="value"
+                  emptyOptionTextId="app.chooseAnOption"
                   name="defaultContentJoinGroups"
                 />)}
                 name="defaultContentJoinGroups"
