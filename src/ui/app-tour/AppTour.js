@@ -60,6 +60,7 @@ class AppTour extends React.Component {
   componentDidMount() {
     window.addEventListener(LISTEN_TUTORIAL_START, this.listenTutorialStart);
     window.addEventListener(LISTEN_TUTORIAL_NEXT_STEP, this.listenTutorialNextStep);
+    this.props.checkIfWizardCanBeShown(this.props.isSuperuser);
   }
 
   componentDidUpdate(prevProps) {
@@ -464,12 +465,13 @@ class AppTour extends React.Component {
   render() {
     const {
       wizardEnabled, appTourLastStep, appTourProgress, lockBodyScroll, customOffset, isDismissed,
-      isSuperuser,
+      isSuperuser, wizardCanBeShown,
     } = this.props;
     // sessionStorage is persistent between rerenders
     // and is cleared out when the current tab is closed,
     // if the wizard is completed or close on a session live, users won't see it anymore.
-    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed || !isSuperuser) {
+    if (!wizardEnabled || appTourProgress === APP_TOUR_CANCELLED || isDismissed || !isSuperuser ||
+      !wizardCanBeShown) {
       return null;
     }
     const maskName = [1, 12, 14, 15].includes(appTourLastStep) ? 'Mask' : '';
@@ -534,6 +536,8 @@ AppTour.propTypes = {
   onAppTourFinish: PropTypes.func.isRequired,
   isDismissed: PropTypes.bool,
   isSuperuser: PropTypes.bool.isRequired,
+  wizardCanBeShown: PropTypes.oneOfType([PropTypes.bool, undefined]),
+  checkIfWizardCanBeShown: PropTypes.func.isRequired,
 };
 
 AppTour.defaultProps = {
@@ -551,6 +555,7 @@ AppTour.defaultProps = {
   customOffset: 0,
   publishStatus: false,
   isDismissed: false,
+  wizardCanBeShown: undefined,
 };
 
 export default withPermissionValues(AppTour);

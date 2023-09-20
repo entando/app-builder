@@ -2,16 +2,18 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { LinkMenuItem } from '@entando/menu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import InfoDropdown from 'ui/internal-page/InfoDropdown';
 import { setVisibleModal } from 'state/modal/actions';
 import { MODAL_ID as ABOUT_MODAL_ID } from 'ui/about/AboutInfoModal';
 import { MODAL_ID as LICENSE_MODAL_ID } from 'ui/license/LicenseInfoModal';
 import { withPermissionValues } from 'ui/auth/withPermissions';
+import { getWizardCanBeShown } from 'state/app-tour/selectors';
 
 const InfoMenu = ({ onStartTutorial, isSuperuser }) => {
   const dispatch = useDispatch();
+  const wizardCanBeShown = useSelector(getWizardCanBeShown);
 
   const handleAboutClick = useCallback(
     () => dispatch(setVisibleModal(ABOUT_MODAL_ID)),
@@ -52,7 +54,7 @@ const InfoMenu = ({ onStartTutorial, isSuperuser }) => {
         </a>
       </li>
       {
-        isSuperuser ? (
+        isSuperuser && wizardCanBeShown ? (
           <LinkMenuItem
             id="info-menu-start-tutorial"
             to="#"

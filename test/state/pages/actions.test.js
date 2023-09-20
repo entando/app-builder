@@ -14,7 +14,7 @@ import {
   fetchPageForm, sendPutPage, setFreePages, fetchFreePages, fetchPageSettings, publishSelectedPage,
   unpublishSelectedPage, loadSelectedPage, removePage, sendDeletePage, clearSearchPage, clearSearch,
   setReferenceSelectedPage, clonePage, clearTree, sendPutPageSettings, sendPatchPage,
-  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages, setVirtualRoot,
+  fetchPageTreeAll, setBatchExpanded, fetchDashboardPages, setVirtualRoot, fetchIfPageExists,
 } from 'state/pages/actions';
 
 import {
@@ -47,6 +47,7 @@ jest.mock('state/page-config/selectors', () => ({
 }));
 
 jest.mock('state/pages/selectors', () => ({
+  getPage: jest.fn(),
   getStatusMap: jest.fn(),
   getPagesMap: jest.fn(),
   getChildrenMap: jest.fn(),
@@ -934,6 +935,22 @@ describe('fetchDashboardPages', () => {
       e.errors.forEach((error, index) => {
         expect(error.message).toEqual(actions[0].payload.errors[index]);
       });
+    });
+  });
+});
+
+describe('fetchIfPageExists', () => {
+  it('fetchIfPageExists promise should resolve true if page exists', () => {
+    getPage.mockImplementation(mockApi({ payload: HOMEPAGE_PAYLOAD }));
+    return fetchIfPageExists('homepage').then((exists) => {
+      expect(exists).toBe(true);
+    });
+  });
+
+  it('fetchIfPageExists promise should resolve false if page does not exist', () => {
+    getPage.mockImplementation(mockApi({ errors: true }));
+    return fetchIfPageExists('homepage').then((exists) => {
+      expect(exists).toBe(false);
     });
   });
 });
