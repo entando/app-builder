@@ -66,7 +66,7 @@ class RenderListField extends Component {
             </Button>
           </label>
           <Col xs={10}>
-            {fields && fields.map((name, index) => (
+            {fields.map((name, index) => (
               <Panel key={name}>
                 <Panel.Heading>
                   <b>{index + 1}</b>
