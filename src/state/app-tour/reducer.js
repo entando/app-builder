@@ -3,6 +3,7 @@ import {
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
   SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
   SET_EXISTING_PAGES,
+  SET_WIZARD_CAN_BE_SHOWN,
 } from 'state/app-tour/types';
 import { APP_TOUR_STARTED } from './const';
 
@@ -45,8 +46,16 @@ const appTour = (state = {}, action = {}) => {
         existingPages: action.payload,
       };
     }
+    case SET_WIZARD_CAN_BE_SHOWN: {
+      return {
+        ...state,
+        wizardCanBeShown: action.payload,
+      };
+    }
     case CLEAR_APP_TOUR_PROGRESS: {
-      return {};
+      return {
+        wizardCanBeShown: state.wizardCanBeShown,
+      };
     }
     default: return state;
   }

@@ -5,6 +5,7 @@ import {
   CLEAR_APP_TOUR_PROGRESS, SET_TOUR_CREATED_PAGE,
   SET_PUBLISH_STATUS, SET_WIZARD_ENABLED,
   SET_EXISTING_PAGES,
+  SET_WIZARD_CAN_BE_SHOWN,
 } from 'state/app-tour/types';
 import { getWizardEnabled } from 'state/app-tour/selectors';
 import { getUserPreferences } from 'api/userPreferences';
@@ -41,6 +42,11 @@ export const setPublishStatus = status => ({
 export const setWizardEnabled = enabled => ({
   type: SET_WIZARD_ENABLED,
   payload: enabled,
+});
+
+export const setWizardCanBeShown = canBeShown => ({
+  type: SET_WIZARD_CAN_BE_SHOWN,
+  payload: canBeShown,
 });
 
 export const fetchWizardEnabled = username => (dispatch, getState) => (

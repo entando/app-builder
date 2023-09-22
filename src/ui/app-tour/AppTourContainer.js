@@ -4,13 +4,13 @@ import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
 
 import AppTour from 'ui/app-tour/AppTour';
-import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage, getWizardEnabled } from 'state/app-tour/selectors';
+import { getAppTourlastStep, getAppTourProgress, getPublishStatus, getTourCreatedPage, getWizardCanBeShown, getWizardEnabled } from 'state/app-tour/selectors';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { setAppTourLastStep, setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
+import { setAppTourLastStep, setAppTourProgress, setPublishStatus, setWizardCanBeShown } from 'state/app-tour/actions';
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
-import { sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
+import { fetchIfPageExists, sendDeletePage, unpublishSelectedPage } from 'state/pages/actions';
 import { ROUTE_DASHBOARD, ROUTE_PAGE_ADD, ROUTE_PAGE_TREE } from 'app-init/router';
 import { initConfigPage, configOrUpdatePageWidget } from 'state/page-config/actions';
 import { updateUserPreferences } from 'state/user-preferences/actions';
@@ -42,9 +42,23 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     tourCreatedPageCode: pageCode,
     publishStatus: getPublishStatus(state),
     isDismissed,
+    wizardCanBeShown: getWizardCanBeShown(state),
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({
+  checkIfWizardCanBeShown: (isSuperuser) => {
+    if (isSuperuser) {
+      fetchIfPageExists(APP_TOUR_HOMEPAGE_CODEREF).then((response) => {
+        if (response) {
+          dispatch(setWizardCanBeShown(true));
+        } else {
+          dispatch(setWizardCanBeShown(false));
+        }
+      }).catch(() => {
+        dispatch(setWizardCanBeShown(false));
+      });
+    }
+  },
   onToggleDontShow: (disableWizard, username) => {
     dispatch(updateUserPreferences(username, { wizard: !disableWizard, showToast: false }));
   },

@@ -31,7 +31,7 @@ import { toggleLoading } from 'state/loading/actions';
 import { getDefaultLanguage } from 'state/languages/selectors';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
-import { setExistingPages } from 'state/app-tour/actions';
+import { setExistingPages, setWizardCanBeShown } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 
 const INVALID_PAGE_POSITION_ERROR = { id: 'page.invalidPositionError' };
@@ -194,6 +194,11 @@ export const fetchPage = wrapApiCall(getPage);
 export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
+export const fetchIfPageExists = pageCode => new Promise((resolve) => {
+  getPage(pageCode).then(response => resolve(response.ok)).catch(() => resolve(false));
+});
+
+
 export const fetchViewPages = () => dispatch => new Promise((resolve) => {
   getViewPages().then((response) => {
     response.json().then((json) => {
@@ -220,6 +225,9 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
         },
       }, TOAST_SUCCESS));
       dispatch(removePage(page));
+      if (page.code === APP_TOUR_HOMEPAGE_CODEREF) {
+        dispatch(setWizardCanBeShown(false));
+      }
       if (page.tourProgress === APP_TOUR_CANCELLED) return;
       if ((page.tourProgress !== APP_TOUR_STARTED && successRedirect) || page.redirectToPageTree) {
         history.push(ROUTE_PAGE_TREE);

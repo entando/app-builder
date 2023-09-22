@@ -27,6 +27,8 @@ const props = {
   onAddBannerWidget: jest.fn(),
   onAddContentListWidget: jest.fn(),
   onAddSitemapMenu: jest.fn(),
+  checkIfWizardCanBeShown: jest.fn(),
+  wizardCanBeShown: true,
 };
 
 jest.unmock('react-redux');

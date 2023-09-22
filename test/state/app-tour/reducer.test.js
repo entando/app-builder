@@ -2,11 +2,12 @@ import reducer from 'state/app-tour/reducer';
 import {
   setAppTourProgress, setAppTourLastStep, setWizardEnabled,
   setTourCreatedPage, clearAppTourProgress, setPublishStatus,
-  setExistingPages,
+  setExistingPages, setWizardCanBeShown,
 } from 'state/app-tour/actions';
 import {
   getAppTourProgress, getAppTourlastStep, getExistingPages,
   getTourCreatedPage, getPublishStatus, getWizardEnabled,
+  getWizardCanBeShown,
 } from 'state/app-tour/selectors';
 
 describe('state/permssions/reducer', () => {
@@ -96,6 +97,17 @@ describe('state/permssions/reducer', () => {
     it('should define the publish status payload', () => {
       expect(getAppTourProgress({ appTour: newState })).toEqual(undefined);
       expect(getAppTourlastStep({ appTour: newState })).toEqual(undefined);
+    });
+  });
+
+  describe('after action setWizardCanBeShown', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setWizardCanBeShown(true));
+    });
+
+    it('should define the correct wizard can be shown payload', () => {
+      expect(getWizardCanBeShown({ appTour: newState })).toEqual(true);
     });
   });
 });

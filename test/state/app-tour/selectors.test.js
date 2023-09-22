@@ -2,6 +2,7 @@ import {
   getAppTourProgress, getAppTourlastStep,
   getTourCreatedPage, getPublishStatus,
   getWizardEnabled, getExistingPages,
+  getWizardCanBeShown,
 } from 'state/app-tour/selectors';
 
 const TEST_STATE = {
@@ -12,6 +13,7 @@ const TEST_STATE = {
     status: 'published',
     wizardEnabled: true,
     existingPages: [{ code: '1' }],
+    wizardCanBeShown: true,
   },
 };
 
@@ -44,5 +46,10 @@ describe('state/app-tour/selectors', () => {
   it('verify getExistingPages selector', () => {
     expect(getExistingPages(TEST_STATE))
       .toEqual(TEST_STATE.appTour.existingPages);
+  });
+
+  it('verify getWizardCanBeShown selector', () => {
+    expect(getWizardCanBeShown(TEST_STATE))
+      .toEqual(TEST_STATE.appTour.wizardCanBeShown);
   });
 });
