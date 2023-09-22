@@ -195,13 +195,7 @@ export const fetchPageInfo = wrapApiCall(SEO_ENABLED ? getPageSEO : getPage);
 export const fetchPageChildren = wrapApiCall(getPageChildren);
 
 export const fetchIfPageExists = pageCode => new Promise((resolve) => {
-  getPage(pageCode).then((response) => {
-    if (response.ok) {
-      resolve(true);
-    } else {
-      resolve(false);
-    }
-  }).catch(() => resolve(false));
+  getPage(pageCode).then(response => resolve(response.ok)).catch(() => resolve(false));
 });
 
 
