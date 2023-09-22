@@ -226,7 +226,7 @@ export class PageFormBody extends Component {
                   </Button>
                 </Col>
               </Row>
-              <FindTemplateModalContainer isEditMode={isEditMode} />
+              <FindTemplateModalContainer setFieldValue={setFieldValue} isEditMode={isEditMode} />
               <FormGroup>
                 <label htmlFor="displayedInMenu" className="col-xs-2 control-label">
                   <FormLabel
