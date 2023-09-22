@@ -74,7 +74,7 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
 
 const userProfileValidators = {};
 
-const UserProfileField = ({ attribute, intl }) => {
+const UserProfileField = ({ attribute, intl, setFieldValue }) => {
   const { validationRules } = attribute || {};
   const {
     minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
@@ -142,6 +142,7 @@ const UserProfileField = ({ attribute, intl }) => {
     validate={value => validationFunc(value, validateArray)}
     readOnly={readOnlyFields.includes(attribute.code)}
     data-testid={`UserProfileForm__${attribute.code}Field`}
+    onPickDate={value => setFieldValue(attribute.code, value)}
   />);
 };
 
@@ -163,6 +164,7 @@ const basicAttributeShape = PropTypes.shape({
 UserProfileField.propTypes = {
   attribute: basicAttributeShape.isRequired,
   intl: intlShape.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export const CompositeField = ({

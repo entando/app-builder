@@ -7,6 +7,7 @@ import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions'
 import { getSelectedProfileTypeAttributes, getProfileTypesOptions } from 'state/profile-types/selectors';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import UserProfileForm from 'ui/user-profile/common/UserProfileForm';
+import { getPayloadForForm } from 'helpers/formikEntities';
 
 const EDIT_MODE = 'edit';
 
@@ -19,6 +20,12 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   defaultLanguage: getDefaultLanguage(state),
   languages: getActiveLanguages(state),
   profileTypes: getProfileTypesOptions(state),
+  initialValues: getPayloadForForm(
+    params.username, getUserProfile(state),
+    getSelectedProfileTypeAttributes(state),
+    getDefaultLanguage(state),
+    getActiveLanguages(state),
+  ),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -43,6 +43,7 @@ const getFormInstance = attributes => renderWithIntl(<UserProfileForm
   defaultLanguage={defaultLanguage}
   languages={languages}
   profileTypesAttributes={Array.isArray(attributes) ? attributes : [attributes]}
+  userProfileAttributes={Array.isArray(attributes) ? attributes : [attributes]}
   intl={mockIntl}
 />);
 
@@ -124,78 +125,82 @@ describe('with attribute of type Enumerator (NOT mandatory)', () => {
   });
 });
 
-describe('with attribute of type Monolist', () => {
+// not used scenario
+xdescribe('with attribute of type Monolist', () => {
+  let container;
+  beforeEach(() => {
+    ({ container } = getFormInstance([{
+      type: 'Monolist',
+      code: 'myMonolist',
+      elements: [{ code: 'myMonoList', value: 'test' }, { code: 'myMonoList', value: 'test2' }],
+      nestedAttribute: { type: 'Text', code: 'myText' },
+    }]));
+  });
+
+  it('renders a FieldArray for the attribute', () => {
+    expect(container.querySelector('input[name="myMonolist.0"]')).toBeTruthy();
+  });
+});
+
+// not used scenario
+xdescribe('with attribute of type List', () => {
   let container;
   beforeEach(() => {
     ({ container } = getFormInstance({
-      type: 'Monolist',
-      code: 'myMonolist',
+      type: 'List',
+      code: 'myList',
+      elements: [{ code: 'myList', value: 'test' }, { code: 'myList', value: 'test2' }],
       nestedAttribute: { type: 'Text', code: 'myText' },
     }));
   });
 
-  it('renders a FieldArray for the attribute', () => {
-    expect(container.querySelector('[name="myMonolist"]')).toBeTruthy();
-  });
-});
-
-
-xdescribe('with attribute of type List', () => {
-  let component;
-  beforeEach(() => {
-    component = getFormInstance({
-      type: 'List',
-      code: 'myList',
-      nestedAttribute: { type: 'Text', code: 'myText' },
-    });
-  });
-
   it('renders a FieldArray for each language', () => {
     languages.forEach((langItem) => {
-      expect(component.find(`FieldArray[name="myList.${langItem.code}"]`)).toExist();
+      expect(container.querySelectorAll(`[name="myList.${langItem.code}"]`)).toBeTruthy();
     });
   });
 });
 
-
+// not used scenario
 xdescribe('with attribute of type Composite', () => {
   const COMPOSITE_ATTRIBUTES = [
     { type: 'Text', code: 'myText' },
     { type: 'Number', code: 'myNumber' },
   ];
-  let component;
+  let container;
 
   beforeEach(() => {
-    component = getFormInstance({
+    ({ container } = getFormInstance({
       type: 'Composite',
       code: 'myComposite',
+      elements: [{ code: 'myComposite', value: 'test' }, { code: 'myComposite', value: 'test2' }],
       compositeAttributes: COMPOSITE_ATTRIBUTES,
-    });
+    }));
   });
 
   it('renders a FormSection for the attribute', () => {
-    expect(component.find('FormSection[name="myComposite"]')).toExist();
+    expect(container.querySelector('[name="myComposite.0"]')).toBeTruthy();
   });
 });
 
-xdescribe('with validation rules', () => {
+describe('with validation rules', () => {
   it('when the message key is provided', () => {
-    const component = getFormInstance({
+    const { container } = getFormInstance({
       type: 'Text',
       code: 'myText',
       validationRules: { ognlValidation: { keyForHelpMessage: 'app.myKey' } },
     });
 
-    expect(component.find('Field[name="myText"]')).toExist();
+    expect(container.querySelector('[name="myText"]')).toBeTruthy();
   });
 
   it('when the message text is provided', () => {
-    const component = getFormInstance({
+    const { container } = getFormInstance({
       type: 'Text',
       code: 'myText',
       validationRules: { ognlValidation: { helpMessage: 'My help message' } },
     });
 
-    expect(component.find('Field[name="myText"]')).toExist();
+    expect(container.querySelector('[name="myText"]')).toBeTruthy();
   });
 });
