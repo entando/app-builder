@@ -84,33 +84,36 @@ export class UserProfileFormBody extends Component {
       handleSubmit, invalid, submitting, defaultLanguage, languages,
       profileTypesAttributes, intl, profileTypes, onProfileTypeChange, setFieldValue,
     } = this.props;
-
-    const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
+    const renderFieldArray = (attributeCode, attribute, renderComponent, language) => (<FieldArray
       key={attributeCode}
-      component={component}
-      attributeType={attribute.nestedAttribute.type}
-      nestedAttribute={attribute.nestedAttribute}
       name={attributeCode}
       rows={3}
-      toggleElement={getComponentOptions(attribute.type, intl)}
-      options={getEnumeratorOptions(
+      render={arrayHelpers => renderComponent({
+          ...arrayHelpers,
+          ibuteType: attribute.nestedAttribute.type,
+          nestedAttribute: attribute.nestedAttribute,
+          toggleElement: getComponentOptions(attribute.type, intl),
+          options: getEnumeratorOptions(
             attribute.nestedAttribute.type,
             attribute.nestedAttribute.enumeratorStaticItems,
             attribute.nestedAttribute.enumeratorStaticItemsSeparator,
             attribute.nestedAttribute.mandatory,
             intl,
-          )}
-      optionValue="value"
-      optionDisplayName="optionDisplayName"
-      label={<FormLabel
-        labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
-        helpText={getHelpMessage(attribute.validationRules, intl)}
-        required={attribute.mandatory}
-      />}
-      defaultLanguage={defaultLanguage}
-      languages={languages}
-      intl={intl}
-      language={language && language.code}
+          ),
+          optionValue: 'value',
+          optionDisplayName: 'optionDisplayName',
+          label: <FormLabel
+            labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
+            helpText={getHelpMessage(attribute.validationRules, intl)}
+            required={attribute.mandatory}
+          />,
+          defaultLanguage,
+          languages,
+          intl,
+          language: language && language.code,
+        })
+      }
+
     />);
 
     const showProfileFields = (
@@ -127,7 +130,7 @@ export class UserProfileFormBody extends Component {
         if (attribute.type === TYPE_LIST) {
           return languages.map(lang => (
             <div key={lang.code}>
-              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
+              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, props => <RenderListField {...props} />, lang)}
             </div>
           ));
         }
@@ -135,7 +138,13 @@ export class UserProfileFormBody extends Component {
           return (
             <Row key={attribute.code}>
               <Col xs={12}>
-                {renderFieldArray(attribute.code, attribute, RenderListField)}
+                {
+                  renderFieldArray(
+                    attribute.code,
+                    attribute,
+                    props => <RenderListField {...props} />,
+                  )
+                }
               </Col>
             </Row>
           );
@@ -145,6 +154,7 @@ export class UserProfileFormBody extends Component {
             key={attribute.name}
             attribute={attribute}
             intl={intl}
+            setFieldValue={setFieldValue}
           />);
       })
     );
@@ -284,25 +294,7 @@ const UserForm = withFormik({
   form: 'UserProfile',
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
-  mapPropsToValues: ({
-    userProfileAttributes, userCurrentProfileType, username, initialValues, profileTypesAttributes,
-  }) => {
-    let attributes = {};
-    if (userProfileAttributes && userProfileAttributes.length > 0) {
-      attributes = userProfileAttributes.reduce((accumulator, item) => {
-        const type = profileTypesAttributes
-              && profileTypesAttributes.find(attr => attr.code === item.code).type;
-        if (type === TYPE_LIST || type === TYPE_MONOLIST) {
-          return ({ ...accumulator, [item.code]: item.value || [] });
-        }
-        return ({ ...accumulator, [item.code]: item.value || '' });
-      }, {});
-    }
-
-    return {
-      ...initialValues, id: username || '', typeCode: userCurrentProfileType || '', ...attributes,
-    };
-  },
+  mapPropsToValues: ({ initialValues }) => initialValues,
   handleSubmit: (values, { props: { onSubmit } }) => {
     onSubmit(values);
   },

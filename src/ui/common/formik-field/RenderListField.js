@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Field } from 'formik';
 import { TYPE_COMPOSITE } from 'state/data-types/const';
-import { getComponentType } from 'helpers/entities';
+import { getComponentType } from 'helpers/formikEntities';
 import { CompositeField } from 'ui/user-profile/common/UserProfileField';
 import { Button, ButtonGroup, Col, FormGroup } from 'patternfly-react';
 import Panel from 'react-bootstrap/lib/Panel';
@@ -66,8 +66,8 @@ class RenderListField extends Component {
             </Button>
           </label>
           <Col xs={10}>
-            {form.values[name] && form.values[name].map((itemName, index) => (
-              <Panel key={itemName}>
+            {form.initialValues[name] && form.initialValues[name].map((item, index) => (
+              <Panel key={item}>
                 <Panel.Heading>
                   <b>{index + 1}</b>
                   <div className="pull-right">
@@ -88,14 +88,14 @@ class RenderListField extends Component {
                 <Panel.Body>
                   {attributeType === TYPE_COMPOSITE ? (
                     <CompositeField
-                      fieldName={itemName}
+                      fieldName={`${name}.${index}`}
                       attribute={nestedAttribute}
                       intl={intl}
                       noLabel
                     />
                   ) : (
                     <Field
-                      name={itemName}
+                      name={`${name}.${index}`}
                       type="text"
                       component={getComponentType(attributeType)}
                       label={index + 1}
@@ -115,15 +115,8 @@ class RenderListField extends Component {
 }
 
 RenderListField.propTypes = {
-  fields: PropTypes.shape({
-    push: PropTypes.func,
-    map: PropTypes.func,
-    remove: PropTypes.func,
-    swap: PropTypes.func,
-    length: PropTypes.number,
-  }).isRequired,
-  nestedAttribute: PropTypes.shape({}).isRequired,
-  attributeType: PropTypes.string.isRequired,
+  nestedAttribute: PropTypes.shape({}),
+  attributeType: PropTypes.string,
   label: PropTypes.node,
   options: PropTypes.arrayOf(PropTypes.shape({
     optionDisplayName: PropTypes.string,
@@ -137,6 +130,7 @@ RenderListField.propTypes = {
   swap: PropTypes.func.isRequired,
   form: PropTypes.shape({
     values: PropTypes.shape({}).isRequired,
+    initialValues: PropTypes.shape({}).isRequired,
   }).isRequired,
   name: PropTypes.string.isRequired,
 };
@@ -146,6 +140,8 @@ RenderListField.defaultProps = {
   options: [],
   optionValue: 'value',
   optionDisplayName: 'optionDisplayName',
+  nestedAttribute: null,
+  attributeType: null,
 };
 
 export default RenderListField;
