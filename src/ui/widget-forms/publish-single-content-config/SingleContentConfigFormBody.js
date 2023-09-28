@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { reduxForm, Field } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { get, isEmpty } from 'lodash';
 import { Button, Row, Col, DropdownButton, MenuItem } from 'patternfly-react';
 import SectionTitle from 'ui/common/SectionTitle';
@@ -10,12 +10,9 @@ import ContentsFilterModalContainer from 'ui/widget-forms/contents-filter/Conten
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 import { getContentById } from 'api/contents';
 
-import { SINGLE_CONTENT_CONFIG } from 'ui/widget-forms/const';
 import ContentTableRow from 'ui/widget-forms/publish-single-content-config/ContentTableRow';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
-
-export const SingleContentConfigContainerId = `widgets.${SINGLE_CONTENT_CONFIG}`;
 
 export class SingleContentConfigFormBody extends PureComponent {
   constructor(props) {
@@ -25,11 +22,12 @@ export class SingleContentConfigFormBody extends PureComponent {
       contentLoading: false,
     };
     this.handleContentSelect = this.handleContentSelect.bind(this);
+    this.renderFormFields = this.renderFormFields.bind(this);
   }
 
   componentDidMount() {
-    const { onDidMount } = this.props;
-    onDidMount();
+    const { onDidMount, setFieldValue } = this.props;
+    onDidMount(setFieldValue);
 
     // fetch content from URL params
     const queryString = window.location.search;
@@ -72,13 +70,20 @@ export class SingleContentConfigFormBody extends PureComponent {
   }
 
   handleContentSelect(selectedContent, closeModal = true) {
-    const { onSelectContent, loadContentTypeDetails } = this.props;
+    const {
+      onSelectContent, loadContentTypeDetails, setFieldValue, putPrefixField,
+    } = this.props;
     const contentId = get(selectedContent, 'contentId', get(selectedContent, 'id', ''));
     const typeCodeSub = contentId ? contentId.substr(0, 3) : '';
     const contentTypeCode = get(selectedContent, 'typeCode', typeCodeSub);
-    loadContentTypeDetails(contentTypeCode);
+    loadContentTypeDetails(contentTypeCode, setFieldValue);
     this.setState({ selectedContent });
-    onSelectContent(selectedContent, closeModal);
+    // if closeModal is true, it means we selected content from modal
+    // and now we need to reset contentModelId to default
+    if (closeModal) {
+      setFieldValue(putPrefixField('modelId'), 'default');
+    }
+    onSelectContent(selectedContent, closeModal, setFieldValue);
   }
 
   enclosedWithForm(fields) {
@@ -94,11 +99,12 @@ export class SingleContentConfigFormBody extends PureComponent {
     const {
       onCancel,
       onDiscard,
-      invalid,
+      isValid,
       dirty,
-      submitting,
+      isSubmitting,
       appTourProgress,
       onSave,
+      submitForm,
     } = this.props;
 
     const { selectedContent } = this.state;
@@ -120,8 +126,8 @@ export class SingleContentConfigFormBody extends PureComponent {
               className="pull-right AddContentTypeFormBody__save--btn app-tour-step-21"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting || !contentExists}
-              onClick={onSave}
+              disabled={!isValid || isSubmitting || !contentExists}
+              onClick={() => onSave(submitForm)}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -141,18 +147,17 @@ export class SingleContentConfigFormBody extends PureComponent {
   renderFormFields() {
     const {
       contentTemplates,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       intl,
       showFilterModal,
       onDiscard,
-      ownerGroup,
-      joinGroups,
-      extFormName,
       putPrefixField,
       contentTypes,
       onClickAddContent,
       appTourProgress,
+      values,
+      parentField,
     } = this.props;
 
     const { selectedContent } = this.state;
@@ -262,14 +267,14 @@ export class SingleContentConfigFormBody extends PureComponent {
         </div>
         <ContentsFilterModalContainer
           modalTitleText={intl.formatMessage({ id: 'cms.contents.modal.filter.title' })}
-          invalid={invalid}
-          submitting={submitting}
+          invalid={!isValid}
+          submitting={isSubmitting}
           onSave={this.handleContentSelect}
           onDiscard={onDiscard}
-          ownerGroup={ownerGroup}
-          joinGroups={joinGroups}
+          ownerGroup={values.ownerGroup}
+          joinGroups={values.joinGroups}
           compatibility={{
-            joinGroups, ownerGroup,
+            joinGroups: values.joinGroups, ownerGroup: values.ownerGroup,
           }}
         />
         <NoDefaultWarningModal />
@@ -287,20 +292,21 @@ export class SingleContentConfigFormBody extends PureComponent {
             </Col>
           </Row>
         )}
-        {!extFormName && this.renderActionButtons()}
+        {!parentField && this.renderActionButtons()}
       </div>
     );
   }
 
   render() {
     const {
-      extFormName,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       intl,
       onSave,
       onDiscard,
       appTourProgress,
+      parentField,
+      submitForm,
     } = this.props;
 
     const formFields = this.renderFormFields();
@@ -309,15 +315,16 @@ export class SingleContentConfigFormBody extends PureComponent {
       <Fragment>
         <Row>
           <Col xs={12}>
-            {extFormName ? formFields : this.enclosedWithForm(formFields)}
+            {/* {putPrefixField ? formFields : this.enclosedWithForm(this.renderFormFields)} */}
+            {this.enclosedWithForm(formFields)}
           </Col>
         </Row>
-        {!extFormName && appTourProgress !== APP_TOUR_STARTED && (
+        {!parentField && appTourProgress !== APP_TOUR_STARTED && (
           <ConfirmCancelModalContainer
             contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
-            invalid={invalid}
-            submitting={submitting}
-            onSave={onSave}
+            invalid={!isValid}
+            submitting={isSubmitting}
+            onSave={() => onSave(submitForm)}
             onDiscard={onDiscard}
           />
         )}
@@ -331,8 +338,6 @@ SingleContentConfigFormBody.propTypes = {
   contentTemplates: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
   chosenContent: PropTypes.shape({
     id: PropTypes.string,
     contentId: PropTypes.string,
@@ -344,9 +349,6 @@ SingleContentConfigFormBody.propTypes = {
   showFilterModal: PropTypes.func.isRequired,
   onSelectContent: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  ownerGroup: PropTypes.string,
-  joinGroups: PropTypes.arrayOf(PropTypes.string),
-  extFormName: PropTypes.string,
   putPrefixField: PropTypes.func,
   onClickAddContent: PropTypes.func.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.shape({
@@ -355,22 +357,38 @@ SingleContentConfigFormBody.propTypes = {
   })),
   appTourProgress: PropTypes.string,
   loadContentTypeDetails: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  values: PropTypes.shape({
+    ownerGroup: PropTypes.string,
+    joinGroups: PropTypes.arrayOf(PropTypes.string),
+  }),
+  setFieldValue: PropTypes.func.isRequired,
+  parentField: PropTypes.string,
+  submitForm: PropTypes.func.isRequired,
 };
 
 SingleContentConfigFormBody.defaultProps = {
   chosenContent: {},
   dirty: false,
-  ownerGroup: '',
-  joinGroups: [],
-  extFormName: '',
   handleSubmit: () => {},
-  invalid: false,
-  submitting: false,
   putPrefixField: name => name,
   contentTypes: {},
   appTourProgress: '',
+  values: {
+    ownerGroup: '',
+    joinGroups: [],
+  },
+  parentField: '',
 };
 
-export default reduxForm({
-  form: SingleContentConfigContainerId,
+const SingleContentConfigForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  enableReinitialize: true,
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values, setSubmitting);
+  },
+  displayName: 'SingleContentConfigFormBodyFormik',
 })(SingleContentConfigFormBody);
+
+export default SingleContentConfigForm;
