@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, withFormik } from 'formik';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { InputGroup, Button, Row, Col } from 'patternfly-react';
-
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 import { required, maxLength } from '@entando/utils';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import RenderSelectInput from 'ui/common/formik-field/SelectInput';
@@ -116,7 +116,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
                 }
-                validate={[required, uppercaseThreeLetters]}
+                validate={value =>
+                  convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, uppercaseThreeLetters],
+                  )
+                }
                 disabled={isEdit}
               />
               <Field
@@ -125,7 +130,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.name" helpId="app.help.name" required />
                  }
-                validate={[required, maxLength50]}
+                validate={
+                  value => convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, maxLength50],
+                  )
+                }
               />
               {renderSelectOption()}
               {renderAttributeTable()}
