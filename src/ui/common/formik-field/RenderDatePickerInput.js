@@ -19,7 +19,7 @@ class RenderDatePickerInput extends Component {
 
   handleChange(date) {
     const {
-      dateFormat, field, onPickDate, maxDate, minDate,
+      dateFormat, field, onPickDate, maxDate, minDate, form: { setFieldValue },
     } = this.props;
     const value = !isNull(date) ? date.format(dateFormat) : '';
     const dateValue = moment(value, dateFormat);
@@ -27,6 +27,7 @@ class RenderDatePickerInput extends Component {
     if (minDate && dateValue < minDate) return;
     field.onChange(value);
     onPickDate(value);
+    setFieldValue(field.name, value);
   }
 
   render() {
@@ -94,6 +95,10 @@ RenderDatePickerInput.propTypes = {
   field: PropTypes.shape({
     onChange: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    name: PropTypes.string,
+  }).isRequired,
+  form: PropTypes.shape({
+    setFieldValue: PropTypes.func,
   }).isRequired,
   meta: PropTypes.shape({
     touched: PropTypes.bool,
