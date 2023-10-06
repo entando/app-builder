@@ -58,9 +58,6 @@ import {
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
   ROUTE_DATA_TYPE_LIST,
-  ROUTE_DATA_TYPE_ADD,
-  ROUTE_DATA_TYPE_EDIT,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_PROFILE_TYPE_LIST,
   ROUTE_PROFILE_TYPE_ADD,
   ROUTE_PROFILE_TYPE_EDIT,
@@ -98,8 +95,6 @@ import AddGroupPage from 'ui/groups/add/AddGroupPage';
 import EditGroupPage from 'ui/groups/edit/EditGroupPage';
 import DetailGroupPage from 'ui/groups/detail/DetailGroupPage';
 import ListDataTypePage from 'ui/data-types/list/ListDataTypePage';
-import AddDataTypesPage from 'ui/data-types/add/AddDataTypesPage';
-import EditDataTypesPage from 'ui/data-types/edit/EditDataTypesPage';
 
 import PageLayout from 'ui/app/PageLayout';
 import RowSpinner from 'ui/pages/common/RowSpinner';
@@ -169,7 +164,7 @@ const SettingsAddPage = React.lazy(() => import('ui/component-repository/setting
 const ReloadConfigPage = React.lazy(() => import('ui/reload-configuration/ReloadConfigPage'));
 const ReloadConfirmPage = React.lazy(() => import('ui/reload-configuration/ReloadConfirmPage'));
 const MonolistProfilePageContainer = React.lazy(() => import('ui/profile-types/attributes/monolist/MonolistProfilePageContainer'));
-const MonolistPageContainer = React.lazy(() => import('ui/data-types/attributes/monolist/MonolistPageContainer'));
+
 
 /* Page Section */
 const PageTreePageContainer = React.lazy(() => import('ui/pages/list/PageTreePageContainer'));
@@ -343,8 +338,6 @@ const RouteComponent = () => {
       />
       {/* data type */}
       <Route exact path={ROUTE_DATA_TYPE_LIST} component={ListDataTypePage} />
-      <Route path={ROUTE_DATA_TYPE_ADD} component={AddDataTypesPage} />
-      <Route path={ROUTE_DATA_TYPE_EDIT} component={EditDataTypesPage} />
       {/* user */}
       <Route exact path={ROUTE_USER_LIST} render={() => renderWithSuspense(<UserListPage />)} />
       <Route path={ROUTE_USER_ADD} render={() => renderWithSuspense(<AddUserPage />)} />
@@ -498,10 +491,6 @@ const RouteComponent = () => {
       <Route
         path={ROUTE_RELOAD_CONFIRM}
         render={() => renderWithSuspense(<ReloadConfirmPage />)}
-      />
-      <Route
-        path={ROUTE_ATTRIBUTE_MONOLIST_ADD}
-        render={() => renderWithSuspense(<MonolistPageContainer />)}
       />
       { /* static routes */}
       <Route path={ROUTE_ABOUT} render={() => renderWithSuspense(<AboutPage />)} />
