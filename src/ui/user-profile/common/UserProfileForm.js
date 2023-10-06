@@ -90,7 +90,7 @@ export class UserProfileFormBody extends Component {
       rows={3}
       render={arrayHelpers => renderComponent({
           ...arrayHelpers,
-          ibuteType: attribute.nestedAttribute.type,
+          attributeType: attribute.nestedAttribute.type,
           nestedAttribute: attribute.nestedAttribute,
           toggleElement: getComponentOptions(attribute.type, intl),
           options: getEnumeratorOptions(
