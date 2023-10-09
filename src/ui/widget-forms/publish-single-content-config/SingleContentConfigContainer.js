@@ -5,11 +5,10 @@ import { injectIntl } from 'react-intl';
 import { routeConverter } from '@entando/utils';
 import { getContentTemplateList } from 'state/content-template/selectors';
 import { adminConsoleUrl } from 'helpers/urlUtils';
-import SingleContentConfigForm, { SingleContentConfigFormBody, SingleContentConfigContainerId } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigFormBody';
+import SingleContentConfigForm, { SingleContentConfigFormBody } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigFormBody';
 import { fetchContentTemplateList } from 'state/content-template/actions';
 import { sendPutWidgetConfig } from 'state/page-config/actions';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
-import { formValueSelector, submit, change } from 'redux-form';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { NoDefaultWarningModalId } from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
@@ -25,11 +24,17 @@ import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
 
+const INITIAL_VALUES = {
+  chosenContent: {},
+  contentId: '',
+  chosenContentType: '',
+  modelId: '',
+  contentDescription: '',
+  joinGroups: [],
+  ownerGroup: '',
+};
+
 export const mapStateToProps = (state, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', SingleContentConfigContainerId);
-  const parentField = get(ownProps, 'input.name', '');
-  const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
-  const formSelect = formValueSelector(formToUse);
   let widgetConfig = null;
   if (ownProps.widgetConfig !== null && ownProps.widgetConfig !== undefined) {
     const { contents, ...rest } = ownProps.widgetConfig;
@@ -38,31 +43,29 @@ export const mapStateToProps = (state, ownProps) => {
   return {
     contentTemplates: getContentTemplateList(state),
     contentType: getSelectedContentType(state),
-    initialValues: widgetConfig || {},
+    initialValues: widgetConfig || INITIAL_VALUES,
     chosenContent: widgetConfig,
-    ownerGroup: formSelect(state, putPrefixField('ownerGroup')),
-    joinGroups: formSelect(state, putPrefixField('joinGroups')),
     contentTypes: getContentTypeList(state),
     appTourProgress: getAppTourProgress(state),
   };
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', SingleContentConfigContainerId);
   const parentField = get(ownProps, 'input.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
-    onDidMount: () => {
+    onDidMount: (setFieldValue) => {
       dispatch(fetchContentTypeListPaged({ page: 1, pageSize: 0 }));
       dispatch(fetchContentTemplateList({ page: 1, pageSize: 0 }));
       dispatch(fetchPage(ownProps.pageCode, PAGE_STATUS_DRAFT)).then((res) => {
         const { ownerGroup, joinGroups } = res.payload || {};
-        dispatch(change(formToUse, putPrefixField('ownerGroup'), ownerGroup));
-        dispatch(change(formToUse, putPrefixField('joinGroups'), joinGroups));
+        setFieldValue(putPrefixField('ownerGroup'), ownerGroup);
+        setFieldValue(putPrefixField('joinGroups'), joinGroups);
       });
     },
+    parentField,
     putPrefixField,
-    onSubmit: (values) => {
+    onSubmit: (values, setSubmitting) => {
       dispatch(clearErrors());
       const {
         pageCode, frameId, intl, history, widgetCode,
@@ -80,6 +83,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         return dispatch(setVisibleModal(NoDefaultWarningModalId));
       }
       return dispatch(sendPutWidgetConfig(pageCode, frameId, configItem)).then((res) => {
+        setSubmitting(false);
         if (res) {
           dispatch(addToast(
             intl.formatMessage({ id: 'widget.update.success' }),
@@ -88,17 +92,18 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch(setAppTourLastStep(22));
           history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
         }
-      });
+      }).catch(() => setSubmitting(false));
     },
-    onSave: () => {
+    onSave: (submitForm) => {
       dispatch(setAppTourLastStep(22));
       dispatch(setVisibleModal(''));
-      dispatch(submit(SingleContentConfigContainerId));
+      submitForm();
     },
-    loadContentTypeDetails: contentTypeCode => dispatch(fetchContentType(contentTypeCode, false))
-      .then(ctype => (
-        dispatch(change(formToUse, putPrefixField('chosenContentType'), ctype))
-      )),
+    loadContentTypeDetails: (contentTypeCode, setFieldValue) =>
+      dispatch(fetchContentType(contentTypeCode, false))
+        .then((ctype) => {
+          setFieldValue(putPrefixField('chosenContentType'), ctype);
+        }),
     onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
     onDiscard: () => {
       dispatch(setVisibleModal(''));
@@ -111,9 +116,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       }
       dispatch(setVisibleModal(ContentsFilterModalID));
     },
-    onSelectContent: (selectContent, andCloseModal = true) => {
-      dispatch(change(formToUse, putPrefixField('contentId'), selectContent.id));
-      dispatch(change(formToUse, putPrefixField('contentDescription'), selectContent.description));
+    onSelectContent: (selectContent, andCloseModal = true, setFieldValue) => {
+      setFieldValue(putPrefixField('contentId'), selectContent.id);
+      setFieldValue(putPrefixField('contentDescription'), selectContent.description);
       if (andCloseModal) {
         dispatch(setVisibleModal(''));
         dispatch(setAppTourLastStep(21));
