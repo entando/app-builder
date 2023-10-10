@@ -25,6 +25,16 @@ export const MultiField = ({
   />
 );
 
+export const convertReduxValidationsToFormikValidations = (value, validators) => {
+  let errors = null;
+  validators.forEach((validator) => {
+    const validate = validator(value);
+    if (validate) errors = validate;
+  });
+
+  return errors;
+};
+
 MultiField.propTypes = {
   name: PropTypes.string.isRequired,
   component: PropTypes.elementType.isRequired,
