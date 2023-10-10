@@ -147,7 +147,6 @@ export class SingleContentConfigFormBody extends PureComponent {
   renderFormFields() {
     const {
       contentTemplates,
-      isValid,
       isSubmitting,
       intl,
       showFilterModal,
@@ -267,7 +266,7 @@ export class SingleContentConfigFormBody extends PureComponent {
         </div>
         <ContentsFilterModalContainer
           modalTitleText={intl.formatMessage({ id: 'cms.contents.modal.filter.title' })}
-          invalid={!isValid}
+          invalid={false}
           submitting={isSubmitting}
           onSave={this.handleContentSelect}
           onDiscard={onDiscard}
