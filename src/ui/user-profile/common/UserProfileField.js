@@ -5,12 +5,11 @@ import { Row, Col } from 'patternfly-react';
 import { FormattedMessage, defineMessages, intlShape } from 'react-intl';
 import { required, minLength, maxLength, minValue, maxValue } from '@entando/utils';
 import Panel from 'react-bootstrap/lib/Panel';
-import { Field, FormSection } from 'redux-form';
+import { Field, FieldArray } from 'formik';
 import RegexParser from 'regex-parser';
-
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import { TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP } from 'state/data-types/const';
-import { getComponentType } from 'helpers/entities';
+import { getComponentType } from 'helpers/formikEntities';
 import FormLabel from 'ui/common/form/FormLabel';
 
 const readOnlyFields = ['profilepicture'];
@@ -75,7 +74,7 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
 
 const userProfileValidators = {};
 
-const UserProfileField = ({ attribute, intl }) => {
+const UserProfileField = ({ attribute, intl, setFieldValue }) => {
   const { validationRules } = attribute || {};
   const {
     minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
@@ -111,6 +110,16 @@ const UserProfileField = ({ attribute, intl }) => {
   generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
   generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
 
+
+  const validationFunc = (value, validationFuncList) => {
+    let validation = null;
+    validationFuncList.forEach((func) => {
+      const validate = func(value);
+      if (validate) validation = validate;
+    });
+    return validation;
+  };
+
   return (<Field
     component={getComponentType(attribute.type)}
     name={attribute.code}
@@ -130,9 +139,10 @@ const UserProfileField = ({ attribute, intl }) => {
       helpText={getHelpMessage(attribute.validationRules, intl)}
       required={attribute.mandatory}
     />}
-    validate={validateArray}
+    validate={value => validationFunc(value, validateArray)}
     readOnly={readOnlyFields.includes(attribute.code)}
     data-testid={`UserProfileForm__${attribute.code}Field`}
+    onPickDate={value => setFieldValue(attribute.code, value)}
   />);
 };
 
@@ -154,6 +164,7 @@ const basicAttributeShape = PropTypes.shape({
 UserProfileField.propTypes = {
   attribute: basicAttributeShape.isRequired,
   intl: intlShape.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export const CompositeField = ({
@@ -179,11 +190,11 @@ export const CompositeField = ({
       )}
       <Col xs={noLabel ? 12 : 10}>
         {renderWithPanel((
-          <FormSection name={compositeFieldName}>
-            {attribute.compositeAttributes.map(attr => (
+          <FieldArray name={compositeFieldName}>
+            { attribute.compositeAttributes.map(attr => (
               <UserProfileField key={`${compositeFieldName}.${attr.code}`} attribute={attr} intl={intl} />
             ))}
-          </FormSection>
+          </FieldArray>
         ))}
       </Col>
     </Row>
