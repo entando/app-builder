@@ -28,7 +28,8 @@ const maxLength70 = maxLength(70);
 export const validateFieldValueForFormikValidators = (value, validators) => {
   let error = null;
   validators.forEach((validator) => {
-    error = validator(value);
+    const validationError = validator(value);
+    if (validationError) error = validationError;
   });
   return error;
 };
