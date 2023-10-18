@@ -24,6 +24,7 @@ const SelectInput = ({
   intl,
   hasLabel,
   xsClass,
+  onChange,
 }) => {
   const { touched, error } = getTouchErrorByField(field.name, form);
 
@@ -74,6 +75,12 @@ const SelectInput = ({
           className="form-control SelectInput"
           disabled={disabled}
           ref={forwardedRef}
+          onChange={(e) => {
+            field.onChange(e);
+            if (onChange) {
+              onChange(e);
+            }
+          }}
         >
           {defaultOption}
           {optionsList}
@@ -88,6 +95,7 @@ SelectInput.propTypes = {
   intl: intlShape.isRequired,
   field: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    onChange: PropTypes.func,
   }).isRequired,
   form: PropTypes.shape({
     touched: PropTypes.shape({}),
@@ -114,6 +122,8 @@ SelectInput.propTypes = {
   inputSize: PropTypes.number,
   disabled: PropTypes.bool,
   hasLabel: PropTypes.bool,
+  onChange: PropTypes.func,
+
 };
 
 SelectInput.defaultProps = {
@@ -133,6 +143,7 @@ SelectInput.defaultProps = {
   disabled: false,
   hasLabel: true,
   forwardedRef: null,
+  onChange: null,
 };
 
 const IntlWrappedSelectInput = injectIntl(SelectInput);

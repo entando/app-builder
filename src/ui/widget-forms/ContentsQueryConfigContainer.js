@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { clearErrors, addToast, TOAST_SUCCESS } from '@entando/messages';
 import { get, isUndefined, isNull } from 'lodash';
 import { injectIntl } from 'react-intl';
-import { change, formValueSelector, submit, getFormValues } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 
@@ -15,7 +14,7 @@ import { fetchContentTemplatesByContentType } from 'state/content-template/actio
 
 import { getContentTypeList, getSelectedContentType } from 'state/content-type/selectors';
 import { getCategoryTree } from 'state/categories/selectors';
-import ContentsQueryConfig, { ContentsQueryContainerId, ContentsQueryFormBody } from 'ui/widget-forms/ContentsQueryConfig';
+import ContentsQueryConfig from 'ui/widget-forms/ContentsQueryConfig';
 import { getContentTemplateList } from 'state/content-template/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPagesRaw } from 'state/pages/selectors';
@@ -27,11 +26,23 @@ import { NoDefaultWarningModalId } from 'ui/widget-forms/publish-single-content-
 const nopage = { page: 1, pageSize: 0 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', ContentsQueryContainerId);
   const parentField = get(ownProps, 'input.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
+
+  const INITIAL_VALUES = {
+    [putPrefixField('contentType')]: '',
+    [putPrefixField('modelId')]: '',
+    [putPrefixField('maxElemForItem')]: '',
+    [putPrefixField('maxElements')]: '',
+    [putPrefixField('categories')]: [],
+    [putPrefixField('filters')]: [],
+    [putPrefixField('pageLink')]: '',
+    [putPrefixField('userFilters')]: [],
+    orClauseCategoryFilter: '',
+  };
+
   return {
-    initialValues: ownProps.widgetConfig,
+    initialValues: ownProps.widgetConfig || INITIAL_VALUES,
     language: getLocale(state),
     languages: getActiveLanguages(state),
     contentTypes: getContentTypeList(state),
@@ -39,16 +50,11 @@ export const mapStateToProps = (state, ownProps) => {
     pages: getSearchPagesRaw(state),
     categories: getCategoryTree(state),
     contentTemplates: getContentTemplateList(state),
-    selectedContentType: formValueSelector(formToUse)(state, putPrefixField('contentType')),
-    selectedCategories: formValueSelector(formToUse)(state, putPrefixField('categories')),
-    selectedInclusiveOr: formValueSelector(formToUse)(state, putPrefixField('orClauseCategoryFilter')),
-    widgetConfigFormData: getFormValues(formToUse)(state),
     defaultLanguageCode: getDefaultLanguage(state),
   };
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', ContentsQueryContainerId);
   const parentField = get(ownProps, 'input.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
@@ -85,26 +91,30 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         });
       }
     },
-    onResetFilterOption: (name, i) => (
-      dispatch(change(formToUse, `${name}.[${i}].option`, ''))
-    ),
-    onChangeFilterAttribute: (name, i, value) => (
-      dispatch(change(formToUse, `${name}.[${i}].attributeFilter`, value))
-    ),
-    onChangeFilterValue: (name, i, value) => (
-      dispatch(change(formToUse, `${name}.[${i}]`, value))
-    ),
+    onResetFilterOption: (name, i, value, setFieldValue) => {
+      setFieldValue(`${name}.${i}.option`, '');
+      setFieldValue(`${name}.${i}.key`, value);
+    },
+    onChangeFilterAttribute: (name, i, value, setFieldValue) => {
+      setFieldValue(`${name}.${i}.attributeFilter`, value);
+    },
+    onChangeFilterValue: (name, i, value, setFieldValue) => {
+      setFieldValue(`${name}.${i}`, value);
+    },
 
-    onChangeContentType: (contentType) => {
+    onChangeContentType: (contentType, setFieldValue) => {
       if (contentType) {
         dispatch(fetchContentTemplatesByContentType(contentType));
         dispatch(fetchContentType(contentType, false))
-          .then(ctype => dispatch(change(formToUse, putPrefixField('contentTypeDetails'), ctype)));
+          .then(ctype => setFieldValue(putPrefixField('contentTypeDetails'), ctype));
       }
     },
-    onResetModelId: () => dispatch(change(formToUse, putPrefixField('modelId'), '')),
-    onToggleInclusiveOr: value => dispatch(change(formToUse, putPrefixField('orClauseCategoryFilter'), value === 'true' ? '' : 'true')),
-    onSave: () => { dispatch(setVisibleModal('')); dispatch(submit(ContentsQueryContainerId)); },
+    onResetModelId: setFieldValue => setFieldValue(putPrefixField('modelId'), ''),
+    onToggleInclusiveOr: (value, setFieldValue) => setFieldValue(putPrefixField('orClauseCategoryFilter'), value === 'true' ? '' : 'true'),
+    onSave: () => {
+      console.log('onSave');
+      dispatch(setVisibleModal(''));
+    },
     onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
     onDiscard: () => {
       dispatch(setVisibleModal(''));
@@ -114,10 +124,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export const formBody = connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false,
-})(injectIntl(ContentsQueryFormBody));
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {
+export const formBody = connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
 })(injectIntl(ContentsQueryConfig));

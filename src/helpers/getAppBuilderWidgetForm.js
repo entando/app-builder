@@ -5,7 +5,7 @@ import NavigationBarConfigFormContainer from 'ui/widgets/config/forms/Navigation
 import SimpleWidgetConfigFormContainer from 'ui/widgets/config/forms/SimpleWidgetConfigFormContainer';
 import SingleContentConfigContainer, { formBody as SingleContentConfigBody } from 'ui/widget-forms/publish-single-content-config/SingleContentConfigContainer';
 import MultipleContentsConfigContainer, { formBody as MultipleContentsConfigBody } from 'ui/widget-forms/MultipleContentsConfigContainer';
-import ContentsQueryConfigContainer, { formBody as ContentsQueryFormBody } from 'ui/widget-forms/ContentsQueryConfigContainer';
+import { formBody } from 'ui/widget-forms/ContentsQueryConfigContainer';
 
 const appsWidgetForms = apps.reduce((obj, app) => ({
   ...obj,
@@ -23,8 +23,8 @@ const cmsWidgetForms = {
     body: SingleContentConfigBody,
   },
   listViewerConfig: {
-    default: ContentsQueryConfigContainer,
-    body: ContentsQueryFormBody,
+    default: formBody,
+    body: formBody,
   },
   rowListViewerConfig: {
     default: MultipleContentsConfigContainer,
