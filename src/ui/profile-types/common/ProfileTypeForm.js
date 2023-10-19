@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { InputGroup, Button, Row, Col } from 'patternfly-react';
-
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 import { required, maxLength } from '@entando/utils';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 import DeleteAttributeModalContainer from 'ui/profile-types/attributes/DeleteAttributeModalContainer';
@@ -116,7 +116,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
                 }
-                validate={[required, uppercaseThreeLetters]}
+                validate={value =>
+                  convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, uppercaseThreeLetters],
+                  )
+                }
                 disabled={isEdit}
               />
               <Field
@@ -125,7 +130,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.name" helpId="app.help.name" required />
                  }
-                validate={[required, maxLength50]}
+                validate={
+                  value => convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, maxLength50],
+                  )
+                }
               />
               {renderSelectOption()}
               {renderAttributeTable()}
@@ -194,8 +204,16 @@ ProfileTypeFormBody.defaultProps = {
   dirty: false,
 };
 
-const ProfileTypeForm = injectIntl(reduxForm({
-  form: 'ProfileType',
+const ProfileTypeForm = injectIntl(withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => ({
+    ...initialValues,
+    code: (initialValues && initialValues.code) || '',
+    name: (initialValues && initialValues.name) || '',
+  }),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
 })(ProfileTypeFormBody));
 
 export default ProfileTypeForm;

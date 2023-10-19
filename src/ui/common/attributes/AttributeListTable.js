@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { FieldArray } from 'redux-form';
+import { FieldArray } from 'formik';
 import { Col } from 'patternfly-react';
 import AttributeListTableActions from 'ui/common/attributes/AttributeListTableActions';
 
@@ -35,15 +35,18 @@ const AttributeListTable = ({
         </thead>
         <tbody>
           <FieldArray
-            attributes={attributes}
-            onClickDelete={onClickDelete}
-            onMoveUp={onMoveUp}
-            onMoveDown={onMoveDown}
-            entityCode={entityCode}
-            routeToEdit={routeToEdit}
             name="attributes"
-            component={AttributeListTableActions}
-            rerenderOnEveryChange
+            render={formik => (<AttributeListTableActions
+              {...formik}
+              attributes={attributes}
+              onClickDelete={onClickDelete}
+              onMoveUp={onMoveUp}
+              onMoveDown={onMoveDown}
+              entityCode={entityCode}
+              routeToEdit={routeToEdit}
+              rerenderOnEveryChange
+            />)}
+
           />
         </tbody>
       </table>

@@ -25,7 +25,6 @@ export const MultiField = ({
   />
 );
 
-
 export const convertReduxValidationsToFormikValidations = (value, validators) => {
   let errors = null;
   validators.forEach((validator) => {

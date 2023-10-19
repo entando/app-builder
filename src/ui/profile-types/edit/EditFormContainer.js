@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
-import { formValueSelector, submit } from 'redux-form';
 
 import {
   fetchProfileTypeAttributes, sendPutProfileType, fetchProfileType,
@@ -13,7 +12,8 @@ import {
 import {
   getSelectedProfileTypeAttributes,
   getProfileTypeAttributesIdList,
-
+  getAttributeTypeSelectFromProfileType,
+  getSelectedProfileType,
 } from 'state/profile-types/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
 import { MODAL_ID } from 'ui/profile-types/attributes/DeleteAttributeModal';
@@ -33,8 +33,9 @@ export const mapStateToProps = (state, { match: { params } }) => (
     profileTypeCode: params.profiletypeCode,
     attributes: getSelectedProfileTypeAttributes(state),
     attributesType: getProfileTypeAttributesIdList(state),
-    attributeCode: formValueSelector('ProfileType')(state, 'type'),
+    attributeCode: getAttributeTypeSelectFromProfileType(state),
     routeToEdit: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
+    initialValues: getSelectedProfileType(state),
   }
 );
 
@@ -65,7 +66,7 @@ export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => {
     dispatch(sendPutProfileType(values));
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('ProfileType')); },
+  onSave: () => { dispatch(setVisibleModal('')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PROFILE_TYPE_LIST)); },
 });
