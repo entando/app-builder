@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, FormSection } from 'redux-form';
+import { withFormik, Form } from 'formik';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
@@ -31,8 +31,9 @@ import {
   TYPE_THREESTATE,
   TYPE_TIMESTAMP,
 } from 'state/profile-types/const';
+import { selectedAttributeSectionFieldsAndOgnlValidation } from 'ui/common/attributes/AttributeFormUtils';
 
-export class AttributeFormBody extends Component {
+class AttributeFormBody extends Component {
   componentDidMount() {
     this.props.onDidMount();
   }
@@ -48,8 +49,6 @@ export class AttributeFormBody extends Component {
       attributesList,
       handleSubmit,
       onCancel,
-      onSubmit,
-      allowedRoles,
       invalid,
       submitting,
       intl,
@@ -85,6 +84,7 @@ export class AttributeFormBody extends Component {
     };
 
     const renderSelectedAttribute = () => {
+      if (!selectedAttributeType) return null;
       switch (selectedAttributeType.code) {
         case TYPE_BOOLEAN: return null;
         case TYPE_CHECKBOX: return null;
@@ -99,16 +99,8 @@ export class AttributeFormBody extends Component {
               attributeType={selectedAttributeType}
               attributesList={attributesList}
             />;
-        case TYPE_NUMBER: return (
-          <FormSection name="validationRules">
-            <AttributesNumber {...this.props} />
-          </FormSection>
-        );
-        case TYPE_DATE: return (
-          <FormSection name="validationRules">
-            <AttributesDateSettings />
-          </FormSection>
-        );
+        case TYPE_NUMBER: return <AttributesNumber {...this.props} />;
+        case TYPE_DATE: return <AttributesDateSettings {...this.props} />;
         case TYPE_ENUMERATOR: return (
           <AttributeEnumSettings
             enumeratorExtractorBeans={selectedAttributeType.enumeratorExtractorBeans}
@@ -126,19 +118,12 @@ export class AttributeFormBody extends Component {
               {...this.props}
             /> : null;
         }
-        default: return (
-          <FormSection name="validationRules">
-            <AttributeHypeLongMonoTextSettings {...this.props} />
-          </FormSection>
-        );
+        default: return <AttributeHypeLongMonoTextSettings {...this.props} />;
       }
     };
 
     const renderOgnlValidation = () => (
-      !isComposite ?
-        <FormSection name="validationRules">
-          <AttributeOgnlValidation />
-        </FormSection> : null
+      !isComposite ? <AttributeOgnlValidation /> : null
     );
 
     const header = () => {
@@ -166,12 +151,7 @@ export class AttributeFormBody extends Component {
     };
 
     return (
-      <form
-        onSubmit={handleSubmit(values => (
-            onSubmit(values, allowedRoles, mode)
-          ))}
-        className="form-horizontal"
-      >
+      <Form onSubmit={handleSubmit} className="form-horizontal">
         <Row>
           <Col xs={12}>
             {header()}
@@ -215,7 +195,7 @@ export class AttributeFormBody extends Component {
             />
           </Col>
         </Row>
-      </form>
+      </Form>
     );
   }
 }
@@ -286,8 +266,39 @@ AttributeFormBody.defaultProps = {
   dirty: false,
 };
 
-const AttributeForm = reduxForm({
-  form: 'addAttribute',
+
+const AttributeForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({
+    initialValues, isIndexable, isSearchable, selectedAttributeType, mode,
+  }) => {
+    const isComposite = mode === MODE_ADD_COMPOSITE;
+
+    return ({
+      ...initialValues,
+      // AttributeInfo
+      type: (initialValues && initialValues.type) || '',
+      code: initialValues.code || '',
+      name: initialValues.name || '',
+      mandatory: false,
+      ...(isIndexable ? { indexable: false } : {}),
+      ...(isSearchable ? { listFilter: false } : {}),
+      ...(isComposite ? { compositeAttributeType: initialValues.compositeAttributeType || '' } : {}),
+      // Roles
+      joinRoles: initialValues.joinRoles || [],
+      // selectedAttributeType
+      ...(initialValues
+        && selectedAttributeSectionFieldsAndOgnlValidation(
+          selectedAttributeType,
+          initialValues,
+          mode,
+          isComposite,
+        )),
+    });
+  },
+  handleSubmit: (values, { props: { onSubmit, allowedRoles, mode } }) => {
+    onSubmit(values, allowedRoles, mode);
+  },
 })(AttributeFormBody);
 
 export default AttributeForm;
