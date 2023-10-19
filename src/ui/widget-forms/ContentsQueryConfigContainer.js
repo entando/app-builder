@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { clearErrors, addToast, TOAST_SUCCESS } from '@entando/messages';
+import { clearErrors } from '@entando/messages';
 import { get, isUndefined, isNull } from 'lodash';
 import { injectIntl } from 'react-intl';
 import { routeConverter } from '@entando/utils';
@@ -67,7 +67,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     putPrefixField,
     onSubmit: (values) => {
       const {
-        pageCode, frameId, widgetCode, history, intl,
+        pageCode, frameId, widgetCode,
       } = ownProps;
       const { contentTypeDetails, ...checkedValues } = values;
       if (values.modelId === '') delete checkedValues.modelId;
@@ -79,17 +79,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 
       if ((isUndefined(values.modelId) || values.modelId === '') && isNull(contentTypeDetails.defaultContentModelList)) {
         dispatch(setVisibleModal(NoDefaultWarningModalId));
-      } else {
-        dispatch(sendPutWidgetConfig(pageCode, frameId, configItem)).then((res) => {
-          if (res) {
-            dispatch(addToast(
-              intl.formatMessage({ id: 'widget.update.success' }),
-              TOAST_SUCCESS,
-            ));
-            history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
-          }
-        });
       }
+
+      return dispatch(sendPutWidgetConfig(pageCode, frameId, configItem));
     },
     onResetFilterOption: (name, i, value, setFieldValue) => {
       setFieldValue(`${name}.${i}.option`, '');
@@ -111,8 +103,8 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onResetModelId: setFieldValue => setFieldValue(putPrefixField('modelId'), ''),
     onToggleInclusiveOr: (value, setFieldValue) => setFieldValue(putPrefixField('orClauseCategoryFilter'), value === 'true' ? '' : 'true'),
-    onSave: () => {
-      console.log('onSave');
+    onSave: (submitForm) => {
+      submitForm();
       dispatch(setVisibleModal(''));
     },
     onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
@@ -120,6 +112,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setVisibleModal(''));
       const { history, pageCode } = ownProps;
       history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
+    },
+    continueWithDispatch: (dispatchValue) => {
+      dispatch(dispatchValue);
     },
   };
 };

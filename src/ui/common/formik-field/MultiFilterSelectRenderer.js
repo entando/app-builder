@@ -18,13 +18,13 @@ class MultiFilterSelectRenderer extends Component {
     }
     const {
       selectedValues, allMode,
-      push,
+      push, form: { setFieldValue }, name,
     } = this.props;
 
     const allBool = allMode && this.select.value === 'all';
 
     if (allBool) {
-      // fields.removeAll();
+      setFieldValue(name, []);
     }
 
     if (this.select.value && !selectedValues.includes(this.select.value) && !allBool) {
@@ -104,8 +104,10 @@ class MultiFilterSelectRenderer extends Component {
 
 
 MultiFilterSelectRenderer.propTypes = {
-
-
+  name: PropTypes.string.isRequired,
+  form: PropTypes.shape({
+    setFieldValue: PropTypes.func,
+  }).isRequired,
   push: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({})).isRequired,

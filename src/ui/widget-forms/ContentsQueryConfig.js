@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { addToast, TOAST_SUCCESS } from '@entando/messages';
+import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Field, FieldArray, withFormik } from 'formik';
 import { Collapse } from 'react-collapse';
 import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
-import { required, maxLength } from '@entando/utils';
+import { routeConverter, required, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import RenderSelectInput from 'ui/common/formik-field/SelectInput';
@@ -85,11 +87,10 @@ class ContentsQueryFormBody extends Component {
       onResetModelId,
       intl, onChangeFilterValue, onResetFilterOption, onChangeFilterAttribute,
       languages, onToggleInclusiveOr, extFormName,
-      invalid, dirty, onCancel, onDiscard, putPrefixField,
+      isValid, isDirty, isSubmitting, onCancel, onDiscard, putPrefixField,
       widgetConfigFormData, defaultLanguageCode, values, setFieldValue, handleSubmit,
-      onSave,
+      onSave, submitForm,
     } = this.props;
-    console.log(this.props);
     const {
       publishingSettings, filters: filtersPanel,
       extraOptions, frontendFilters: frontendFiltersPanel,
@@ -134,8 +135,8 @@ class ContentsQueryFormBody extends Component {
               value,
               langCode === defaultLanguageCode
               && defaultLangLinkTextRequired
-            ? [required, maxLength70] : [maxLength70],
-)
+              ? [required, maxLength70] : [maxLength70],
+            )
           }
         />
       )) : null;
@@ -187,8 +188,8 @@ class ContentsQueryFormBody extends Component {
         className="pull-right AddContentTypeFormBody__save--btn"
         type="submit"
         bsStyle="primary"
-        disabled={invalid}
-        onClick={() => { onSave(); handleSubmit(); }}
+        disabled={!isValid || isSubmitting}
+        onClick={() => { onSave(submitForm); handleSubmit(); }}
       >
         <FormattedMessage id="app.save" />
       </Button>
@@ -228,7 +229,7 @@ class ContentsQueryFormBody extends Component {
     const handleCollapseExtraOptions = () => this.collapseSection('extraOptions');
     const handleCollapseFrontendFilters = () => this.collapseSection('frontendFilters');
     const handleCancelClick = () => {
-      if (dirty) {
+      if (isDirty) {
         onCancel();
       } else {
         onDiscard();
@@ -412,12 +413,12 @@ class ContentsQueryFormBody extends Component {
                       name={putPrefixField('pageLink')}
                       label={
                         <FormLabel labelId="widget.form.page" required={!!pageIsRequired} />
-                    }
+                      }
                       validate={value =>
-                        (
-                          pageIsRequired ?
-                            convertReduxValidationsToFormikValidations(value, [required]) : []
-                        )
+                        convertReduxValidationsToFormikValidations(
+                          value,
+                          pageIsRequired ? [required] : [],
+                          )
                       }
                       options={normalizedPages}
                       optionValue="code"
@@ -494,8 +495,9 @@ class ContentsQueryFormBody extends Component {
               </WidgetConfigPortal>
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
-                invalid={invalid}
-                onClick={() => { onSave(); handleSubmit(); }}
+                submitting={isSubmitting}
+                invalid={!isValid}
+                onClick={() => { onSave(submitForm); handleSubmit(); }}
                 onDiscard={onDiscard}
               />
             </Col>
@@ -528,7 +530,7 @@ ContentsQueryFormBody.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
+  submitForm: PropTypes.func.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.shape({})),
   contentType: PropTypes.shape({
     attributes: PropTypes.arrayOf(PropTypes.shape({})),
@@ -544,7 +546,9 @@ ContentsQueryFormBody.propTypes = {
   onToggleInclusiveOr: PropTypes.func.isRequired,
   onResetModelId: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
-  dirty: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isDirty: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -561,7 +565,9 @@ ContentsQueryFormBody.propTypes = {
 };
 
 ContentsQueryFormBody.defaultProps = {
-  invalid: false,
+  isValid: false,
+  isDirty: false,
+  isSubmitting: false,
   languages: [],
   contentTypes: [],
   contentType: {},
@@ -569,7 +575,6 @@ ContentsQueryFormBody.defaultProps = {
   categories: [],
   pages: [],
   selectedCategories: [],
-  dirty: false,
   extFormName: '',
   putPrefixField: name => name,
   cloneMode: false,
@@ -584,10 +589,31 @@ ContentsQueryFormBody.defaultProps = {
 
 const ContentsQueryConfig = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ initialValues }) => ({ ...initialValues }),
-  handleSubmit(values, { props: { onSubmit } }) {
-    console.log('handleSubmit');
-    onSubmit(values);
+  mapPropsToValues: ({ initialValues, languages }) => ({
+    ...initialValues,
+    ...languages.reduce((acc, item) => ({
+      ...acc,
+      [`title_${item.code}`]: '',
+      [`linkDescr__${item.code}`]: '',
+    }), {}),
+  }),
+  handleSubmit(values, {
+    setSubmitting,
+    props: {
+      onSubmit, history, intl, continueWithDispatch, pageCode,
+    },
+  }) {
+    onSubmit(values)
+      .then((res) => {
+        if (res) {
+          continueWithDispatch(addToast(
+            intl.formatMessage({ id: 'widget.update.success' }),
+            TOAST_SUCCESS,
+          ));
+          history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
+        }
+      })
+      .finally(() => setSubmitting(false));
   },
 })(ContentsQueryFormBody);
 
