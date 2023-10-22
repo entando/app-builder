@@ -18,21 +18,13 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import IconUploader from 'ui/common/formik-field/IconUploader';
 import RenderDropdownTypeaheadInput from 'ui/common/formik-field/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
 export const MODE_CLONE = 'clone';
 const maxLength30 = maxLength(30);
 const maxLength70 = maxLength(70);
-
-export const validateFieldValueForFormikValidators = (value, validators) => {
-  let error = null;
-  validators.forEach((validator) => {
-    const validationError = validator(value);
-    if (validationError) error = validationError;
-  });
-  return error;
-};
 
 export const validateWidgetCode = value => (
   value && /^[0-9a-zA-Z_\-.]+$/i.test(value) ?
@@ -146,7 +138,8 @@ export class WidgetFormBody extends Component {
               name={`titles.${langCode}`}
               label={<FormLabel langLabelText={langCode} labelId="app.title" required />}
               placeholder={intl.formatMessage(msgTitle.label)}
-              validate={val => validateFieldValueForFormikValidators(val, [required, maxLength70])}
+              validate={val =>
+                convertReduxValidationsToFormikValidations(val, [required, maxLength70])}
               onChange={(ev) => {
                 if (onChangeDefaultTitle && langCode === 'en') {
                   onChangeDefaultTitle(ev.currentTarget.value, setFieldValue);
@@ -250,7 +243,7 @@ export class WidgetFormBody extends Component {
           <FormLabel labelId="widget.page.create.code" helpId="app.help.codeWithDash" required />
         }
         placeholder={intl.formatMessage(msgs.codePlaceholder)}
-        validate={val => validateFieldValueForFormikValidators(
+        validate={val => convertReduxValidationsToFormikValidations(
           val,
           [required, validateWidgetCode, maxLength30],
         )}
@@ -304,7 +297,8 @@ export class WidgetFormBody extends Component {
                         cols={50}
                         rows={8}
                         className="form-control"
-                        validate={val => validateFieldValueForFormikValidators(val, [required])}
+                        validate={val =>
+                          convertReduxValidationsToFormikValidations(val, [required])}
                       />
                     </Tab>
                   }
@@ -314,7 +308,7 @@ export class WidgetFormBody extends Component {
                       component={JsonCodeEditorRenderer}
                       name="configUi"
                       validate={val =>
-                        validateFieldValueForFormikValidators(val, configUiValidationRules)}
+                        convertReduxValidationsToFormikValidations(val, configUiValidationRules)}
                     />
                   </Tab>
 
@@ -373,7 +367,7 @@ export class WidgetFormBody extends Component {
                   labelKey="name"
                   valueKey="code"
                   placeholder={intl.formatMessage(msgs.chooseAnOption)}
-                  validate={val => validateFieldValueForFormikValidators(val, [required])}
+                  validate={val => convertReduxValidationsToFormikValidations(val, [required])}
                 />
                 <Field
                   name="widgetCategory"
@@ -390,7 +384,7 @@ export class WidgetFormBody extends Component {
                       required
                     />
                   }
-                  validate={val => validateFieldValueForFormikValidators(val, [required])}
+                  validate={val => convertReduxValidationsToFormikValidations(val, [required])}
                 />
 
                 {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
