@@ -15,19 +15,11 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 import { MULTIPLE_CONTENTS_CONFIG } from 'ui/widget-forms/const';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 const maxLength70 = maxLength(70);
 
 export const MultipleContentsConfigContainerId = `widgets.${MULTIPLE_CONTENTS_CONFIG}`;
-
-export const validateFieldValueForFormikValidators = (value, validators) => {
-  let error = null;
-  validators.forEach((validator) => {
-    const validationError = validator(value);
-    if (validationError) error = validationError;
-  });
-  return error;
-};
 
 export class ContentConfigFormBody extends PureComponent {
   constructor(props) {
@@ -128,7 +120,7 @@ export class ContentConfigFormBody extends PureComponent {
           component={RenderTextInput}
           name={putPrefixField(`title_${langCode}`)}
           label={<FormLabel langLabelText={langCode} labelId="app.title" />}
-          validate={val => validateFieldValueForFormikValidators(val, [maxLength70])}
+          validate={val => convertReduxValidationsToFormikValidations(val, [maxLength70])}
         />
       )) : null;
 
@@ -146,7 +138,7 @@ export class ContentConfigFormBody extends PureComponent {
                 required={langCode === defaultLanguageCode && defaultLangLinkTextRequired}
               />
           )}
-            validate={val => validateFieldValueForFormikValidators(
+            validate={val => convertReduxValidationsToFormikValidations(
             val,
             langCode === defaultLanguageCode && defaultLangLinkTextRequired
             ? [required, maxLength70] : [maxLength70],
@@ -197,7 +189,8 @@ export class ContentConfigFormBody extends PureComponent {
                     <FormLabel labelId="widget.form.page" required={!!pageIsRequired} />
             }
                   validate={val =>
-                    validateFieldValueForFormikValidators(val, pageIsRequired ? [required] : [])}
+                    convertReduxValidationsToFormikValidations(val, pageIsRequired ?
+                      [required] : [])}
                   options={normalizedPages}
                   optionValue="code"
                   optionDisplayName="name"
