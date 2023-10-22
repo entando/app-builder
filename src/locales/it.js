@@ -1579,6 +1579,7 @@ export default {
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Il nome del registro deve essere univoco',
     'hub.newRegistry.url.error': 'L\'URL del registro deve essere univoco',
+    'hub.newRegistry.protocol.error': 'AppBuilder si trova in un dominio certificato ed è pertanto possibile aggiungere solo registry con un url di tipo HTTPS',
     'hub.editRegistry.alert': 'Sottomettere questo modulo sostituirà l\'esistente API Key. Se non ne verrà inviata alcuna, quella precedente verrà eliminata.',
     'app.filterTypesSelect.organizationName': 'Nome dell\'organizzazione',
     'app.filterTypesSelect.bundleGroup': 'Gruppo pacchetto',

@@ -999,6 +999,7 @@ export default {
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'O nome do registro deve ser único',
     'hub.newRegistry.url.error': 'O URL do registro deve ser exclusivo',
+    'hub.newRegistry.protocol.error': 'O AppBuilder está localizado em um domínio certificado e portanto é possível adicionar apenas registros com URL HTTPS',
     'hub.editRegistry.alert': 'Ao enviar este formulário, a API Key existente será substituída. Se nenhuma for enviada, a antiga será excluída.',
     'app.filterTypesSelect.organizationName': 'Nome da organização',
     'app.filterTypesSelect.bundleGroup': 'Grupo de Pacotes',
