@@ -15,48 +15,44 @@ import { getSearchPagesRaw } from 'state/pages/selectors';
 import { getActiveLanguages, getDefaultLanguage } from 'state/languages/selectors';
 import { sendPutWidgetConfig } from 'state/page-config/actions';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
-import { formValueSelector, submit, change, arrayPush, getFormValues } from 'redux-form';
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { PAGE_STATUS_DRAFT } from 'state/pages/const';
 
-export const mapStateToProps = (state, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', MultipleContentsConfigContainerId);
-  const parentField = get(ownProps, 'input.name', '');
-  const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
-  return {
-    contentTemplates: getContentTemplateList(state),
-    initialValues: ownProps.widgetConfig || {},
-    languages: getActiveLanguages(state),
-    pages: getSearchPagesRaw(state),
-    language: getLocale(state),
-    widgetCode: ownProps.widgetCode,
-    chosenContents: formValueSelector(formToUse)(state, putPrefixField('contents')),
-    chosenContentTypes: formValueSelector(formToUse)(state, putPrefixField('chosenContentTypes')),
-    ownerGroup: formValueSelector(formToUse)(state, putPrefixField('ownerGroup')),
-    joinGroups: formValueSelector(formToUse)(state, putPrefixField('joinGroups')),
-    widgetConfigFormData: getFormValues(formToUse)(state),
-    defaultLanguageCode: getDefaultLanguage(state),
-  };
+const EMPTY_INITIAL_VALUES = {
+  contents: [],
+  chosenContentTypes: [],
+  ownerGroup: '',
+  joinGroups: [],
+  widgetConfigFormData: {},
 };
 
+export const mapStateToProps = (state, ownProps) => ({
+  contentTemplates: getContentTemplateList(state),
+  initialValues: ownProps.widgetConfig || EMPTY_INITIAL_VALUES,
+  languages: getActiveLanguages(state),
+  pages: getSearchPagesRaw(state),
+  language: getLocale(state),
+  widgetCode: ownProps.widgetCode,
+  defaultLanguageCode: getDefaultLanguage(state),
+});
+
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const formToUse = get(ownProps, 'extFormName', MultipleContentsConfigContainerId);
-  const parentField = get(ownProps, 'input.name', '');
+  const parentField = get(ownProps, 'field.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
-    onDidMount: () => {
+    onDidMount: (setFieldValue) => {
       dispatch(fetchContentTemplateList({ page: 1, pageSize: 0 }));
       dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
       dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
       dispatch(fetchPage(ownProps.pageCode, PAGE_STATUS_DRAFT)).then((res) => {
         const { ownerGroup, joinGroups } = res.payload || {};
-        dispatch(change(formToUse, putPrefixField('ownerGroup'), ownerGroup));
-        dispatch(change(formToUse, putPrefixField('joinGroups'), joinGroups));
+        setFieldValue(putPrefixField('ownerGroup'), ownerGroup);
+        setFieldValue(putPrefixField('joinGroups'), joinGroups);
       });
     },
     putPrefixField,
-    onSubmit: ({ chosenContentTypes, ...values }) => {
+    onSubmit: ({ chosenContentTypes = [], ...values }) => {
       dispatch(clearErrors());
       const {
         pageCode, frameId, intl, history,
@@ -98,15 +94,16 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         }
       });
     },
-    pushContentTypeDetails: contentTypeCodes => (
-      contentTypeCodes.forEach(contentTypeCode => (
-        dispatch(fetchContentType(contentTypeCode, false))
-          .then(ctype => (
-            dispatch(arrayPush(formToUse, putPrefixField('chosenContentTypes'), ctype))
-          ))
-      ))
-    ),
-    onSave: () => { dispatch(setVisibleModal('')); dispatch(submit(MultipleContentsConfigContainerId)); },
+    pushContentTypeDetails: (contentTypeCodes, currentContentTypes, setFieldValue) => {
+      const promises = contentTypeCodes.map(contentTypeCode =>
+        dispatch(fetchContentType(contentTypeCode, false)));
+      Promise.all(promises)
+        .then((contentTypes) => {
+          const newContentTypes = [...currentContentTypes, ...contentTypes];
+          setFieldValue(putPrefixField('chosenContentTypes'), newContentTypes);
+        });
+    },
+    onSave: (submitForm) => { dispatch(setVisibleModal('')); submitForm(MultipleContentsConfigContainerId); },
     onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
     onDiscard: () => {
       dispatch(setVisibleModal(''));
