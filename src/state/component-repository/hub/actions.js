@@ -223,7 +223,7 @@ export const sendDeleteRegistry = registryId => dispatch => (
 );
 
 export const sendPostRegistry = registryObject => dispatch => (
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     addRegistry(registryObject).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -243,13 +243,13 @@ export const sendPostRegistry = registryObject => dispatch => (
       });
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
-    }).finally(() => {
+      reject();
     });
   })
 );
 
 export const sendPutRegistry = registryObject => dispatch => (
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     updateRegistry(registryObject).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
@@ -269,6 +269,7 @@ export const sendPutRegistry = registryObject => dispatch => (
       });
     }).catch((err) => {
       dispatch(addToast(err.message || DEFAULT_BE_ERROR_MESSAGE, TOAST_ERROR));
+      reject();
     });
   })
 );
