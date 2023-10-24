@@ -8,7 +8,7 @@ import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors'
 import MyProfileEditForm from 'ui/users/my-profile/MyProfileEditForm';
 import { getPayloadForForm } from 'helpers/entities';
 import { getUserProfile, getUserEmail } from 'state/user-profile/selectors';
-import { getUserProfileForm } from 'state/forms/selectors';
+// import { getUserProfileForm } from 'state/forms/selectors';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
@@ -22,7 +22,7 @@ export const mapStateToProps = state => ({
     getActiveLanguages(state),
   ),
   userEmail: getUserEmail(state),
-  userProfileForm: getUserProfileForm(state),
+  // userProfileForm: getUserProfileForm(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

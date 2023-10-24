@@ -362,11 +362,10 @@ describe('state/users/actions', () => {
         store.dispatch(sendPostMyPassword({})).then(() => {
           expect(postMyPassword).toHaveBeenCalledWith({});
           const actions = store.getActions();
-          expect(actions).toHaveLength(4);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(actions[1]).toHaveProperty('type', CLEAR_ERRORS);
-          expect(actions[2]).toHaveProperty('type', '@@redux-form/RESET');
-          expect(actions[3]).toHaveProperty('type', SET_VISIBLE_MODAL);
+          expect(actions[2]).toHaveProperty('type', SET_VISIBLE_MODAL);
           done();
         }).catch(done.fail);
       });

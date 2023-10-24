@@ -100,7 +100,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       submitForm();
     },
     loadContentTypeDetails: (contentTypeCode, setFieldValue) =>
-      dispatch(fetchContentType(contentTypeCode, false))
+      dispatch(fetchContentType(contentTypeCode))
         .then((ctype) => {
           setFieldValue(putPrefixField('chosenContentType'), ctype);
         }),

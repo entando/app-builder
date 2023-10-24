@@ -65,7 +65,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     } else {
       dispatch(initWidgetConfigPageWithConfigData(pageCode, parentCode, parseInt(frameId, 10)));
     }
-    dispatch(initNewUserWidget(parentCode, true));
+    dispatch(initNewUserWidget(parentCode));
   },
   onSubmit: (values, saveType) => {
     const { config: configFields, parentType } = values;

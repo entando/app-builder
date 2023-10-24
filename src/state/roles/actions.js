@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 
 import {
@@ -65,7 +64,6 @@ export const fetchRole = roleCode => dispatch =>
     getRole(roleCode).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
-          dispatch(initialize('role', data.payload));
           dispatch(setSelected(data.payload));
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));

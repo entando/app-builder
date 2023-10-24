@@ -104,7 +104,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
         entityCode: profileTypeAttributeCode,
       })),
       selectedAttributeType,
-      'attribute',
     ));
   },
   onClickDelete: (attributeCode, isMonolistCompositeType) => {

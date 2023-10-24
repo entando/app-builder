@@ -213,7 +213,13 @@ describe('editContent thunks', () => {
       editContent: { workMode: WORK_MODE_ADD, contentType: { typeCode: 'NEWS', typeDescription: 'News' } },
       languages,
       currentUser: { username: 'admin' },
-      form: { editcontentform: { values: {} } },
+      contentType: {
+        selected: {
+          type: 'List',
+          compositeAttributes: {},
+          attributes: [{ type: 'Boolean' }],
+        },
+      },
     });
     store
       .dispatch(saveContent({ attributes: [{ value: 'test' }] })).then(() => done());

@@ -1,4 +1,3 @@
-import { initialize, reset } from 'redux-form';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { getUsername } from '@entando/apimanager';
 
@@ -122,8 +121,7 @@ export const fetchUserForm = username => dispatch => (
     getUser(username).then((response) => {
       dispatch(toggleLoading('form'));
       if (response.ok) {
-        response.json().then((json) => {
-          dispatch(initialize('user', json.payload));
+        response.json().then(() => {
           dispatch(toggleLoading('form'));
           resolve();
         });
@@ -286,7 +284,6 @@ export const sendPostMyPassword = data => dispatch => new Promise(async (resolve
         TOAST_SUCCESS,
       ));
       dispatch(clearErrors());
-      dispatch(reset('myprofile-account'));
       dispatch(setVisibleModal(''));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));

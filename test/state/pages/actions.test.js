@@ -611,7 +611,6 @@ describe('state/pages/actions', () => {
       getPageSettings.mockImplementation(mockApi({ payload: { a: 'b' } }));
       store.dispatch(fetchPageSettings()).then(() => {
         expect(getPageSettings).toHaveBeenCalled();
-        expect(initialize).toHaveBeenCalledWith('settings', { a: 'b' });
         done();
       }).catch(done.fail);
     });
@@ -835,9 +834,8 @@ describe('clearSearchPage', () => {
   it('calls action clearSearch and initialize form search ', () => {
     store.dispatch(clearSearchPage());
     const actions = store.getActions();
-    expect(actions).toHaveLength(2);
+    expect(actions).toHaveLength(1);
     expect(actions[0]).toHaveProperty('type', CLEAR_SEARCH);
-    expect(initialize).toHaveBeenCalled();
   });
 });
 
@@ -883,9 +881,8 @@ describe('clonePage', () => {
   it('when clonePage succeeds, should call router PAGE_ADD and initialize FORM', (done) => {
     store.dispatch(clonePage('page')).then(() => {
       const actions = store.getActions();
-      expect(actions).toHaveLength(1);
+      expect(actions).toHaveLength(0);
       expect(history.push).toHaveBeenCalledWith(`${ROUTE_PAGE_CLONE}?pageCode=undefined`);
-      expect(initialize).toHaveBeenCalled();
       done();
     }).catch(done.fail);
   });

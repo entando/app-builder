@@ -91,7 +91,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
         entityCode: params.entityCode,
       })),
       code,
-      'addAttribute',
     ));
   },
   onClickDelete: (attributeCode) => {

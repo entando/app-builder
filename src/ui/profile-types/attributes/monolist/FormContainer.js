@@ -64,7 +64,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
           }))
         ),
         '',
-        'attribute',
       ));
     } else {
       dispatch(fetchAttributeFromProfileType('attribute', profileTypeCode, attributeCode));
@@ -95,7 +94,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
         entityCode: profileTypeCode,
       })),
       type,
-      'addAttribute',
     ));
   },
   onClickDelete: (attributeCode) => {

@@ -200,19 +200,7 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[1];
-          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(initializeAction).toHaveProperty('payload');
-          expect(initializeAction.payload).toEqual({
-            code: WIDGET.code,
-            titles: WIDGET.titles,
-            group: WIDGET.group,
-            configUi: '',
-            customUi: WIDGET.guiFragments[0].customUi,
-            icon: WIDGET.icon,
-          });
+          expect(actions).toHaveLength(2);
           done();
         }).catch(done.fail);
       });
@@ -221,19 +209,7 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET_NULL_GROUP }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[1];
-          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(initializeAction).toHaveProperty('payload');
-          expect(initializeAction.payload).toEqual({
-            code: WIDGET_NULL_GROUP.code,
-            titles: WIDGET_NULL_GROUP.titles,
-            group: FREE_ACCESS_GROUP_VALUE,
-            configUi: '',
-            customUi: WIDGET_NULL_GROUP.guiFragments[0].customUi,
-            icon: WIDGET.icon,
-          });
+          expect(actions).toHaveLength(2);
           done();
         }).catch(done.fail);
       });
@@ -242,8 +218,8 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          const selectWidgetAction = actions[2];
+          expect(actions).toHaveLength(2);
+          const selectWidgetAction = actions[1];
           expect(selectWidgetAction).toHaveProperty('type', SET_SELECTED_WIDGET);
           expect(selectWidgetAction).toHaveProperty('payload');
           expect(selectWidgetAction.payload).toMatchObject({ widget: WIDGET });
