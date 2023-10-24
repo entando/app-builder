@@ -26,7 +26,7 @@ import { NoDefaultWarningModalId } from 'ui/widget-forms/publish-single-content-
 const nopage = { page: 1, pageSize: 0 };
 
 export const mapStateToProps = (state, ownProps) => {
-  const parentField = get(ownProps, 'input.name', '');
+  const parentField = get(ownProps, 'field.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
 
   const INITIAL_VALUES = {
@@ -55,7 +55,7 @@ export const mapStateToProps = (state, ownProps) => {
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const parentField = get(ownProps, 'input.name', '');
+  const parentField = get(ownProps, 'field.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
     onDidMount: () => {
