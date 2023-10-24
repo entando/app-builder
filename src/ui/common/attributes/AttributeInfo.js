@@ -1,44 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
 import { required, maxLength } from '@entando/utils';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderSwitchInput from 'ui/common/formik-field/RenderSwitchInput';
 import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
+
 
 const maxLength10 = maxLength(10);
 const maxLength50 = maxLength(50);
 
 const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
-  const renderSearchable = () => {
+  const renderIndexable = () => {
     const html = (
       <FormGroup>
         <label htmlFor="indexable" className="col-xs-2 control-label">
           <FormLabel labelId="app.indexable" />
         </label>
         <Col xs={4}>
-          <Field component={SwitchRenderer} name="indexable" />
+          <Field component={RenderSwitchInput} name="indexable" />
         </Col>
       </FormGroup>
     );
-    return isSearchable ? html : null;
+    return isIndexable ? html : null;
   };
 
-  const renderIndexable = () => {
+  const renderSearchable = () => {
     const html = (
       <FormGroup>
         <label htmlFor="listFilter" className="col-xs-2 control-label">
           <FormLabel labelId="app.filterList" />
         </label>
         <Col xs={4}>
-          <Field component={SwitchRenderer} name="listFilter" />
+          <Field component={RenderSwitchInput} name="listFilter" />
         </Col>
       </FormGroup>
     );
-    return isIndexable ? html : null;
+    return isSearchable ? html : null;
   };
 
   return (
@@ -65,7 +67,8 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
             label={
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
-            validate={[required, maxLength10]}
+            validate={value =>
+              convertReduxValidationsToFormikValidations(value, [required, maxLength10])}
             disabled={mode === MODE_EDIT}
           />
           <Field
@@ -74,14 +77,14 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
             label={
               <FormLabel labelId="app.name" helpId="app.help.name" />
           }
-            validate={[maxLength50]}
+            validate={value => convertReduxValidationsToFormikValidations(value, [maxLength50])}
           />
           <FormGroup>
             <label htmlFor="mandatory" className="col-xs-2 control-label">
               <FormLabel labelId="app.mandatory" />
             </label>
             <Col xs={4}>
-              <Field component={SwitchRenderer} name="mandatory" />
+              <Field component={RenderSwitchInput} name="mandatory" />
             </Col>
           </FormGroup>
           {renderSearchable()}

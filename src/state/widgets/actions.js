@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { get, pick } from 'lodash';
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
@@ -102,22 +101,11 @@ export const getSingleWidgetInfo = widgetCode => dispatch => (
   )).catch(() => {})
 );
 
-export const initNewUserWidget = (widgetCode, isCloning = false) => (dispatch) => {
+export const initNewUserWidget = widgetCode => (dispatch) => {
   toggleLoading('fetchWidget');
   dispatch(getSingleWidgetInfo(widgetCode)).then(({ ok, json }) => {
     if (ok) {
-      const config = get(json.payload, 'parameters', [])
-        .reduce((acc, curr) => ({
-          ...acc,
-          [curr.code]: '',
-        }), {});
       dispatch(setSelectedParentWidget(json.payload));
-      if (!isCloning) {
-        dispatch(initialize('widget', {
-          parentType: json.payload.code,
-          config,
-        }));
-      }
     } else {
       dispatch(removeParentWidget());
     }
@@ -132,7 +120,6 @@ export const fetchWidget = widgetCode => dispatch => new Promise((resolve) => {
       newPayload.configUi = !newPayload.configUi ? '' : JSON.stringify(newPayload.configUi, null, 2);
       newPayload.group = newPayload.group || FREE_ACCESS_GROUP_VALUE;
       const userWidgetInitDispatches = () => {
-        dispatch(initialize('widget', newPayload));
         dispatch(setSelectedWidget(json.payload));
         toggleLoading('fetchWidget');
         resolve();
@@ -231,7 +218,9 @@ export const sendPostWidgets = (widgetObject, saveType) => dispatch =>
         }
         resolve();
       });
-    }).catch(() => {});
+    }).catch(() => {
+      resolve();
+    });
   });
 
 export const sendPutWidgets = (widgetObject, saveType) => (dispatch, getState) => {

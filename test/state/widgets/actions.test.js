@@ -1,7 +1,6 @@
 import { isFSA } from 'flux-standard-action';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { initialize } from 'redux-form';
 import { ADD_TOAST, ADD_ERRORS } from '@entando/messages';
 
 import { mockApi } from 'test/testUtils';
@@ -27,7 +26,6 @@ import {
   removeWidget,
   setWidgetInfo,
   fetchWidgetInfo,
-  FREE_ACCESS_GROUP_VALUE,
   sendGetNavigatorNavspecFromExpressions,
   sendGetNavigatorExpressionsFromNavspec,
   uploadIcon,
@@ -196,44 +194,20 @@ describe('state/widgets/actions', () => {
     });
 
     describe('fetchWidget', () => {
-      it('if API response is ok, initializes the form with widget information', (done) => {
+      it('if API response is ok, set widget information in redux', (done) => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[1];
-          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(initializeAction).toHaveProperty('payload');
-          expect(initializeAction.payload).toEqual({
-            code: WIDGET.code,
-            titles: WIDGET.titles,
-            group: WIDGET.group,
-            configUi: '',
-            customUi: WIDGET.guiFragments[0].customUi,
-            icon: WIDGET.icon,
-          });
+          expect(actions).toHaveLength(2);
           done();
         }).catch(done.fail);
       });
 
-      it('if API response is ok but widget group value is null, initializes the form with widget information and - free - as group value', (done) => {
+      it('if API response is ok but widget group value is null, set with widget information and - free - as group value into state', (done) => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET_NULL_GROUP }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          expect(initialize).toHaveBeenCalled();
-          const initializeAction = actions[1];
-          expect(initializeAction).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(initializeAction).toHaveProperty('payload');
-          expect(initializeAction.payload).toEqual({
-            code: WIDGET_NULL_GROUP.code,
-            titles: WIDGET_NULL_GROUP.titles,
-            group: FREE_ACCESS_GROUP_VALUE,
-            configUi: '',
-            customUi: WIDGET_NULL_GROUP.guiFragments[0].customUi,
-            icon: WIDGET.icon,
-          });
+          expect(actions).toHaveLength(2);
           done();
         }).catch(done.fail);
       });
@@ -242,8 +216,8 @@ describe('state/widgets/actions', () => {
         getWidget.mockImplementationOnce(mockApi({ payload: WIDGET }));
         store.dispatch(fetchWidget()).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
-          const selectWidgetAction = actions[2];
+          expect(actions).toHaveLength(2);
+          const selectWidgetAction = actions[1];
           expect(selectWidgetAction).toHaveProperty('type', SET_SELECTED_WIDGET);
           expect(selectWidgetAction).toHaveProperty('payload');
           expect(selectWidgetAction.payload).toMatchObject({ widget: WIDGET });

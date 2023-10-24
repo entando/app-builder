@@ -37,7 +37,6 @@ import {
   getParentSelectedAttribute,
   getIsMonolistCompositeAttributeType,
   getMonolistAttributeType,
-  getFormTypeValue,
   getActionModeProfileTypeSelectedAttribute,
 } from 'state/profile-types/selectors';
 import {
@@ -515,14 +514,13 @@ export const fetchProfileTypeAttribute = (
   selectedAttributeType = '',
   formName,
 ) => (dispatch, getState) => new Promise((resolve) => {
-  let typeAttribute = profileTypeAttributeCode;
+  const typeAttribute = profileTypeAttributeCode;
 
   const checkCompositeSubAttribute = selectedAttributeType === TYPE_COMPOSITE
     || ([TYPE_MONOLIST, TYPE_LIST].includes(selectedAttributeType)
       && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
   if (checkCompositeSubAttribute) {
-    typeAttribute = getFormTypeValue(getState(), formName);
     dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
     const selectedAttr = getProfileTypeSelectedAttribute(getState());
     dispatch(pushParentSelectedAttribute(selectedAttr));
@@ -537,12 +535,6 @@ export const fetchProfileTypeAttribute = (
           dispatch(setSelectedAttribute(json.payload));
           switch (actionMode) {
             case MODE_ADD_ATTRIBUTE_COMPOSITE: {
-              dispatch(initialize(formName, {
-                type: json.payload.code,
-                compositeAttributeType: TYPE_COMPOSITE,
-                code: '',
-                name: '',
-              }));
               break;
             }
             case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {

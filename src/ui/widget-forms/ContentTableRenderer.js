@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -7,19 +7,15 @@ import { Button, ButtonGroup } from 'patternfly-react';
 import ContentsFilterBrowserContainer from 'ui/widget-forms/contents-filter/ContentsFilterBrowserContainer';
 
 const ContentTableRenderer = ({
-  fields, contentTemplates, intl, multipleContentsMode, ownerGroup, joinGroups,
+  arrayHelpers, contentTemplates, intl, multipleContentsMode, ownerGroup, joinGroups, values, name,
 }) => {
-  const handlePickContent = content => fields.push({
+  const handlePickContent = content => arrayHelpers.push({
     ...content, contentId: content.id, modelId: null, contentDescription: content.description,
   });
 
-  const contentRowIds = fields.map((field, i) => {
-    const content = fields.get(i);
-    return content.id;
-  });
+  const contentRowIds = values.map(content => content.id);
 
-  const renderContentRows = fields.map((field, i) => {
-    const content = fields.get(i);
+  const renderContentRows = values.map((content, i) => {
     const contentTypeCode = content.typeCode || content.contentId.substr(0, 3);
     const filterByCode = contentTemplate => contentTemplate.contentType === contentTypeCode;
     const contentTemplatesByContentType = [{ id: 'default', descr: intl.formatMessage({ id: 'widget.form.default' }) },
@@ -35,8 +31,8 @@ const ContentTableRenderer = ({
       <tr key={`${content.contentId}-${i}`}>
         <td className="text-center" style={{ verticalAlign: 'middle' }}>
           <div
-            onClick={() => fields.remove(i)}
-            onKeyDown={() => fields.remove(i)}
+            onClick={() => arrayHelpers.remove(i)}
+            onKeyDown={() => arrayHelpers.remove(i)}
             tabIndex={0}
             role="button"
           >
@@ -46,18 +42,18 @@ const ContentTableRenderer = ({
         <td>
           {content.contentId} - {content.contentDescription}
           <Field
-            name={`${field}.contentId`}
+            name={`${name}[${i}].contentId`}
             component="span"
           />
           <Field
-            name={`${field}.contentDescription`}
+            name={`${name}[${i}].contentDescription`}
             component="span"
           />
         </td>
         <td>
           <Field
             component="select"
-            name={`${field}.modelId`}
+            name={`${name}[${i}].modelId`}
             className="form-control"
           >
             {contentTemplateOptions}
@@ -68,12 +64,12 @@ const ContentTableRenderer = ({
           <td className="text-center">
             <ButtonGroup bsSize="small">
               {i !== 0 && (
-              <Button onClick={() => fields.swap(i, i - 1)}>
+              <Button onClick={() => arrayHelpers.swap(i, i - 1)}>
                 <span className="icon fa fa-sort-asc" />
               </Button>
               )}
-              {i !== fields.length - 1 && (
-              <Button onClick={() => fields.swap(i, i + 1)}>
+              {i !== values.length - 1 && (
+              <Button onClick={() => arrayHelpers.swap(i, i + 1)}>
                 <span className="icon fa fa-sort-desc" />
               </Button>
               )}
@@ -125,22 +121,25 @@ const ContentTableRenderer = ({
 
 ContentTableRenderer.propTypes = {
   intl: intlShape.isRequired,
-  fields: PropTypes.shape({
-    push: PropTypes.func,
-    get: PropTypes.func,
-    remove: PropTypes.func,
-    swap: PropTypes.func,
-    map: PropTypes.func,
-    length: PropTypes.number,
-  }).isRequired,
   multipleContentsMode: PropTypes.bool,
   contentTemplates: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   ownerGroup: PropTypes.string.isRequired,
   joinGroups: PropTypes.arrayOf(PropTypes.string).isRequired,
+  name: PropTypes.string.isRequired,
+  arrayHelpers: PropTypes.shape({
+    push: PropTypes.func,
+    remove: PropTypes.func,
+    swap: PropTypes.func,
+    form: PropTypes.shape({
+      values: PropTypes.shape({}),
+    }),
+  }).isRequired,
+  values: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 ContentTableRenderer.defaultProps = {
   multipleContentsMode: true,
+  values: [],
 };
 
 export default ContentTableRenderer;

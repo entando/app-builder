@@ -6,7 +6,7 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
 import { required, email } from '@entando/utils';
-import RenderListField from 'ui/common/form/RenderListField';
+import RenderListField from 'ui/common/formik-field/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';

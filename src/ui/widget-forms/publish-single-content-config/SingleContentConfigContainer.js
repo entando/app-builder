@@ -51,7 +51,7 @@ export const mapStateToProps = (state, ownProps) => {
 };
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
-  const parentField = get(ownProps, 'input.name', '');
+  const parentField = get(ownProps, 'field.name', '');
   const putPrefixField = field => (parentField !== '' ? `${parentField}.${field}` : field);
   return {
     onDidMount: (setFieldValue) => {
