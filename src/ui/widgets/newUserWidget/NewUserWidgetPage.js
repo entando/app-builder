@@ -16,17 +16,22 @@ export const NewUserWidgetPageBody = () => (
     <Grid fluid>
       <Row>
         <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.uxComponents" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-              <FormattedMessage id="menu.uxComponents.widget" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
-            </BreadcrumbItem>
-          </Breadcrumb>
+          <div>
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <FormattedMessage id="menu.uxComponents" />
+              </BreadcrumbItem>
+              <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
+                <FormattedMessage id="menu.uxComponents.widget" />
+              </BreadcrumbItem>
+              <BreadcrumbItem active>
+                <FormattedMessage id="app.add" />
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div>
+            <div id="widget-button-holder" />
+          </div>
         </Col>
       </Row>
       <Row>
