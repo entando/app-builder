@@ -27,14 +27,14 @@ export class ProfileTypeFormBody extends Component {
     const {
       attributesType, mode, handleSubmit,
       onAddAttribute, isValid, isSubmitting,
-      profileTypeCode, intl,
-      dirty, onCancel, onDiscard, onSave, values,
+      profileTypeCode, values, intl,
+      isDirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEdit = mode === 'edit';
 
     const handleCancelClick = () => {
-      if (dirty) {
+      if (isDirty) {
         onCancel();
       } else {
         onDiscard();
@@ -183,15 +183,18 @@ ProfileTypeFormBody.propTypes = {
   onAddAttribute: PropTypes.func,
   attributesType: PropTypes.arrayOf(PropTypes.string).isRequired,
   isValid: PropTypes.bool,
-  isSubmitting: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool,
   mode: PropTypes.string,
   profileTypeCode: PropTypes.string,
-  dirty: PropTypes.bool,
+  attributeCode: PropTypes.string,
+  isDirty: PropTypes.bool,
   onSave: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   values: PropTypes.shape({
-    type: PropTypes.string,
+    type: PropTypes.shape({
+      code: PropTypes.string,
+    }),
   }).isRequired,
 };
 
@@ -199,10 +202,11 @@ ProfileTypeFormBody.defaultProps = {
   onWillMount: () => {},
   onAddAttribute: () => {},
   isValid: false,
+  isSubmitting: false,
   mode: 'add',
   profileTypeCode: '',
-
-  dirty: false,
+  attributeCode: '',
+  isDirty: false,
 };
 
 const ProfileTypeForm = injectIntl(withFormik({
