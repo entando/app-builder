@@ -11,7 +11,7 @@ import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 
-const maxLength10 = maxLength(10);
+const maxLength15 = maxLength(15);
 const maxLength50 = maxLength(50);
 
 const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
@@ -68,7 +68,7 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
             validate={value =>
-              convertReduxValidationsToFormikValidations(value, [required, maxLength10])}
+              convertReduxValidationsToFormikValidations(value, [required, maxLength15])}
             disabled={mode === MODE_EDIT}
           />
           <Field

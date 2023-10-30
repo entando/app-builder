@@ -12,7 +12,6 @@ import {
 import {
   getSelectedProfileTypeAttributes,
   getProfileTypeAttributesIdList,
-  getAttributeTypeSelectFromProfileType,
   getSelectedProfileType,
 } from 'state/profile-types/selectors';
 import { setVisibleModal, setInfo } from 'state/modal/actions';
@@ -33,7 +32,6 @@ export const mapStateToProps = (state, { match: { params } }) => (
     profileTypeCode: params.profiletypeCode,
     attributes: getSelectedProfileTypeAttributes(state),
     attributesType: getProfileTypeAttributesIdList(state),
-    attributeCode: getAttributeTypeSelectFromProfileType(state),
     routeToEdit: ROUTE_PROFILE_TYPE_ATTRIBUTE_EDIT,
     initialValues: getSelectedProfileType(state),
   }
@@ -45,8 +43,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchProfileType(profileTypeCode));
     dispatch(fetchProfileTypeAttributes());
   },
-  onAddAttribute: ({ attributeCode, profileTypeCode }) => {
-    dispatch(fetchProfileTypeAttribute(profileTypeCode, attributeCode, () => (
+  onAddAttribute: ({ values, profileTypeCode }) => {
+    dispatch(fetchProfileTypeAttribute(profileTypeCode, values.type, () => (
       history.push(routeConverter(
         ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD,
         { entityCode: profileTypeCode },

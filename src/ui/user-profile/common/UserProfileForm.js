@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import { required } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import UserProfileField, { CompositeField } from 'ui/user-profile/common/UserProfileField';
+import { UserProfileField, CompositeField } from 'ui/user-profile/common/UserProfileField';
 import FormLabel from 'ui/common/form/FormLabel';
 import RenderListField from 'ui/common/formik-field/RenderListField';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
