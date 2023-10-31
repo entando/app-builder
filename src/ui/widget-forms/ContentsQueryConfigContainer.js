@@ -38,7 +38,7 @@ export const mapStateToProps = (state, ownProps) => {
     [putPrefixField('filters')]: [],
     [putPrefixField('pageLink')]: '',
     [putPrefixField('userFilters')]: [],
-    orClauseCategoryFilter: '',
+    [putPrefixField('orClauseCategoryFilter')]: '',
   };
 
   return {
@@ -65,6 +65,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchSearchPages(nopage));
     },
     putPrefixField,
+    parentField,
     onSubmit: (values) => {
       const {
         pageCode, frameId, widgetCode,
@@ -77,7 +78,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       const configItem = Object.assign({ config: checkedValues }, { code: widgetCode });
       dispatch(clearErrors());
 
-      if ((isUndefined(values.modelId) || values.modelId === '') && isNull(contentTypeDetails.defaultContentModelList)) {
+      if ((isUndefined(values.modelId) || values.modelId === '')
+       && isNull(contentTypeDetails)
+      && isNull(contentTypeDetails.defaultContentModelList)) {
         dispatch(setVisibleModal(NoDefaultWarningModalId));
       }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { addToast, TOAST_SUCCESS } from '@entando/messages';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Field, FieldArray, withFormik } from 'formik';
+import { Field, FieldArray, withFormik, getIn } from 'formik';
 import { Collapse } from 'react-collapse';
 import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
 import { routeConverter, required, maxLength } from '@entando/utils';
@@ -103,7 +103,7 @@ class ContentsQueryFormBody extends Component {
 
     const normalizedLanguages = languages.map(lang => lang.code);
 
-    const defaultPageValue = values[putPrefixField('pageLink')];
+    const defaultPageValue = getIn(values, putPrefixField('pageLink'));
     const defaultLangLinkTextRequired = defaultPageValue !== null && defaultPageValue !== undefined && defaultPageValue !== '';
 
     const renderTitleFields = !isUndefined(normalizedLanguages) ? normalizedLanguages
@@ -149,7 +149,7 @@ class ContentsQueryFormBody extends Component {
 
     const inclusiveOrOptions = [{ id: 'true', label: intl.formatMessage({ id: 'widget.form.inclusiveOr' }) }];
 
-    const renderCategories = values.categories;
+    const renderCategories = getIn(values, putPrefixField('categories'));
 
     const getListAttributeFilters = () => {
       if (!contentType.attributes) {
@@ -168,12 +168,14 @@ class ContentsQueryFormBody extends Component {
         bsStyle="default"
         type="button"
         disabled={
-          !!values.categories && (values.categories.length < 2 && values.categories.length !== 0)
+          !!getIn(values, putPrefixField('categories'))
+          && (getIn(values, putPrefixField('categories')).length < 2
+          && getIn(values, putPrefixField('categories')).length !== 0)
         }
-        active={Boolean(values.orClauseCategoryFilter)}
-        onClick={() => onToggleInclusiveOr(values.orClauseCategoryFilter, setFieldValue)}
+        active={Boolean(getIn(values, putPrefixField('orClauseCategoryFilter')))}
+        onClick={() => onToggleInclusiveOr(getIn(values, putPrefixField('orClauseCategoryFilter')), setFieldValue)}
         className={`ContentsQueryForm__inclusiveOr
-    ${values.orClauseCategoryFilter ? 'ContentsQueryForm__inclusiveOr--active' : ''}`}
+    ${getIn(values, putPrefixField('orClauseCategoryFilter')) ? 'ContentsQueryForm__inclusiveOr--active' : ''}`}
       >
         <FormattedMessage
           id="widget.form.inclusiveOr"
@@ -182,7 +184,7 @@ class ContentsQueryFormBody extends Component {
       </Button>
     );
 
-    const renderSaveButton = values.contentType
+    const renderSaveButton = getIn(values, putPrefixField('contentType'))
       && (
       <Button
         className="pull-right AddContentTypeFormBody__save--btn"
@@ -262,7 +264,7 @@ class ContentsQueryFormBody extends Component {
             </fieldset>
           </Col>
         </Row>
-        <div className={values.contentType ? 'visible' : 'hidden'}>
+        <div className={getIn(values, putPrefixField('contentType')) ? 'visible' : 'hidden'}>
           <Row className="InfoFormBody">
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -380,7 +382,7 @@ class ContentsQueryFormBody extends Component {
                             (name, index, attributeFilter) =>
                              onChangeFilterAttribute(name, index, attributeFilter, setFieldValue)
                           }
-                          filterName="filters"
+                          filterName={putPrefixField('filters')}
                           attributeFilterChoices={attributeFilters}
                         />)}
                       />
@@ -562,6 +564,7 @@ ContentsQueryFormBody.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.string),
     orClauseCategoryFilter: PropTypes.string,
   }),
+  initialValues: PropTypes.shape({}).isRequired,
 };
 
 ContentsQueryFormBody.defaultProps = {
@@ -589,14 +592,23 @@ ContentsQueryFormBody.defaultProps = {
 
 const ContentsQueryConfig = withFormik({
   enableReinitialize: true,
-  mapPropsToValues: ({ initialValues, languages }) => ({
-    ...initialValues,
-    ...languages.reduce((acc, item) => ({
-      ...acc,
-      [`title_${item.code}`]: '',
-      [`linkDescr__${item.code}`]: '',
-    }), {}),
-  }),
+  mapPropsToValues: ({ initialValues, languages, parentField }) => {
+    let formValues = {
+      ...initialValues,
+      ...languages.reduce((acc, item) => ({
+        ...acc,
+        [`title_${item.code}`]: initialValues[`title_${item.code}`] || '',
+        [`linkDescr_${item.code}`]: initialValues[`linkDescr_${item.code}`] || '',
+      }), {}),
+    };
+    if (parentField) {
+      formValues = {
+        [parentField]: formValues,
+      };
+    }
+
+    return formValues;
+  },
   handleSubmit(values, {
     setSubmitting,
     props: {

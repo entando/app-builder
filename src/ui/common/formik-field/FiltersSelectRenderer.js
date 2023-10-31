@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field } from 'formik';
+import { Field, getIn } from 'formik';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import { FormattedMessage, intlShape } from 'react-intl';
@@ -34,7 +34,7 @@ const FiltersSelectRenderer = (props) => {
     onChangeFilterValue(name, index, value)
   );
 
-  const renderFilters = form.values[name] && form.values[name].map((filter, i) => {
+  const renderFilters = getIn(form.values, name) && getIn(form.values, name).map((filter, i) => {
     const { key } = filter;
     return (
       // eslint-disable-next-line react/no-array-index-key
@@ -62,7 +62,7 @@ const FiltersSelectRenderer = (props) => {
           </Field>
         </td>
         <td>
-          {filterName === 'filters' && (
+          {(filterName === 'filters' || filterName === 'config.filters') && (
             <FilterValueOptionSelector
               value={filter}
               intl={intl}
@@ -95,7 +95,7 @@ const FiltersSelectRenderer = (props) => {
               )
             }
             {
-              i !== form.values[name].length - 1
+              i !== getIn(form.values, name).length - 1
               && (
               <Button onClick={() => swap(i, i + 1)}>
                 <span className="icon fa fa-sort-desc" />
