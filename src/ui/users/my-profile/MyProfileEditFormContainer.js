@@ -22,7 +22,6 @@ export const mapStateToProps = state => ({
     getActiveLanguages(state),
   ),
   userEmail: getUserEmail(state),
-  // userProfileForm: getUserProfileForm(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -49,27 +49,6 @@ export const getSelectedPageTemplateDefaultConfig = createSelector(
   },
 );
 
-// export const getFormPageTemplate = createSelector(
-//   [getPageTemplateForm],
-//   pageTemplateForm => convertPageTemplateForm(pageTemplateForm),
-// );
-
-// export const getPageTemplateFormCellMap = createSelector(
-//   [getFormPageTemplate],
-//   getCellMap,
-// );
-
-// export const getPageTemplateFormErrors = createSelector(
-//   [getFormPageTemplate],
-//   (formPageTemplate) => {
-//     const errors = validatePageTemplate(formPageTemplate);
-//     if (errors && errors.length) {
-//       return errors;
-//     }
-//     return [];
-//   },
-// );
-
 export const getSelectedPageTemplatePageRefs = createSelector(
   [getSelectedPageTemplate],
   pageTemplate => pageTemplate && pageTemplate.pageReferences,
