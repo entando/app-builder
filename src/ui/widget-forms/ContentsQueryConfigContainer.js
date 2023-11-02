@@ -14,7 +14,7 @@ import { fetchContentTemplatesByContentType } from 'state/content-template/actio
 
 import { getContentTypeList, getSelectedContentType } from 'state/content-type/selectors';
 import { getCategoryTree } from 'state/categories/selectors';
-import ContentsQueryConfig from 'ui/widget-forms/ContentsQueryConfig';
+import ContentsQueryConfig, { ContentsQueryFormBody } from 'ui/widget-forms/ContentsQueryConfig';
 import { getContentTemplateList } from 'state/content-template/selectors';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPagesRaw } from 'state/pages/selectors';
@@ -122,7 +122,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-
 export const formBody = connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(injectIntl(ContentsQueryFormBody));
+
+export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,
 })(injectIntl(ContentsQueryConfig));

@@ -28,7 +28,7 @@ const CATEGORY_HOME = 'home';
 const elementNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20]
   .map(i => Object.assign({}, { code: i, name: i }));
 
-class ContentsQueryFormBody extends Component {
+export class ContentsQueryFormBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,10 +56,10 @@ class ContentsQueryFormBody extends Component {
   componentDidUpdate(prevProps) {
     const { values: prevValues } = prevProps;
     const {
-      onChangeContentType, values: currentValues, setFieldValue,
+      onChangeContentType, values: currentValues, setFieldValue, putPrefixField,
     } = this.props;
-    if (prevValues.contentType !== currentValues.contentType) {
-      onChangeContentType(currentValues.contentType, setFieldValue);
+    if (getIn(prevValues, putPrefixField('contentType')) !== getIn(currentValues, putPrefixField('contentType'))) {
+      onChangeContentType(getIn(currentValues, putPrefixField('contentType')), setFieldValue);
     }
   }
 
@@ -351,7 +351,7 @@ class ContentsQueryFormBody extends Component {
                         <Field
                           component={ButtonComponent}
                           toggleElement={inclusiveOrOptions}
-                          name="orClauseCategoryFilter"
+                          name={putPrefixField('orClauseCategoryFilter')}
                         />
                         <span className="help-block">
                           <FormattedMessage id="widget.form.inclusiveOrTip" />
@@ -510,18 +510,33 @@ class ContentsQueryFormBody extends Component {
     );
   }
 
+  renderWithForm(formContent) {
+    const { handleSubmit } = this.props;
+    const onSubmit = (ev) => {
+      ev.preventDefault();
+      handleSubmit();
+    };
+    return (
+      <form onSubmit={onSubmit} className="form-horizontal ContentsQueryForm">
+        {formContent}
+      </form>
+    );
+  }
+
 
   render() {
+    const { extFormName } = this.props;
+
     const formFields = this.renderFormFields();
     return (
-      <form className="form-horizontal ContentsQueryForm">
+      <Fragment>
         <h5>
           <span className="icon fa fa-puzzle-piece" title="Widget" />
           {' '}
           <FormattedMessage id="widget.contentsQuery.config.title" defaultMessage="Content Search Query" />
         </h5>
-        {formFields}
-      </form>
+        {extFormName ? formFields : this.renderWithForm(formFields)}
+      </Fragment>
     );
   }
 }
