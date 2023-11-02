@@ -49,8 +49,8 @@ class AttributeFormBody extends Component {
       attributesList,
       handleSubmit,
       onCancel,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       intl,
       onDiscard,
       onSave,
@@ -174,7 +174,7 @@ class AttributeFormBody extends Component {
               className="pull-right AttributeForm__continue--btn"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
             >
               <FormattedMessage id={labelsubmit} />
             </Button>
@@ -182,14 +182,14 @@ class AttributeFormBody extends Component {
               onClick={handleCancelClick}
               className="pull-right ContentTypeAttributeForm__cancel-btn"
               type="reset"
-              disabled={submitting}
+              disabled={isSubmitting}
             >
               <FormattedMessage id="cms.label.cancel" />
             </Button>
             <ConfirmCancelModalContainer
               contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
-              invalid={invalid}
-              submitting={submitting}
+              invalid={!isValid}
+              submitting={isSubmitting}
               onSave={onSave}
               onDiscard={() => onDiscard(mode)}
             />
@@ -208,8 +208,8 @@ AttributeFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   dataTypeAttributeCode: PropTypes.string,
   profileTypeAttributeCode: PropTypes.string,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   initialValues: PropTypes.shape({
     type: PropTypes.string.isRequired,
   }),
@@ -249,8 +249,8 @@ AttributeFormBody.propTypes = {
 
 AttributeFormBody.defaultProps = {
   onDidMount: () => {},
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   dataTypeAttributeCode: '',
   profileTypeAttributeCode: '',
   initialValues: {},
@@ -268,6 +268,7 @@ AttributeFormBody.defaultProps = {
 
 
 const AttributeForm = withFormik({
+  validateOnMount: true,
   enableReinitialize: true,
   mapPropsToValues: ({
     initialValues, isIndexable, isSearchable, selectedAttributeType, mode,
