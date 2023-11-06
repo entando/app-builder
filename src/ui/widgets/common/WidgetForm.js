@@ -18,6 +18,7 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import IconUploader from 'ui/widgets/common/IconUploader';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
+import { MODE_ADD_NEW } from 'ui/widgets/newUserWidget/NewUserWidgetFormContainer';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -368,7 +369,8 @@ export class WidgetFormBody extends Component {
                   validate={[required]}
                 />
 
-                {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
+                {((mode === MODE_EDIT || mode === MODE_CLONE || mode === MODE_ADD_NEW)
+                && parentWidget) && (
                   <div className="form-group">
                     <Col xs={2} className="text-right">
                       <ControlLabel>

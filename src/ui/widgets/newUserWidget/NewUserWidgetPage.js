@@ -12,10 +12,10 @@ import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const NewUserWidgetPageBody = () => (
-  <InternalPage className="AddWidgetPage">
+  <InternalPage className="AddWidgetPage EditWidgetPage WidgetPage">
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
+      <Row className="WidgetPage__header">
+        <Col xs={12} className="WidgetPage__top">
           <div>
             <Breadcrumb>
               <BreadcrumbItem>

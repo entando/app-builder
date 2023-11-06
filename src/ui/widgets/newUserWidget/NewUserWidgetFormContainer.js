@@ -21,7 +21,10 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
+export const MODE_ADD_NEW = 'addNew';
+
 export const mapStateToProps = state => ({
+  mode: MODE_ADD_NEW,
   groups: getGroupsList(state),
   parentWidget: getSelectedParentWidget(state),
   parentWidgetParameters: getSelectedParentWidgetParameters(state),
