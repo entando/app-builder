@@ -9,7 +9,7 @@ import { sendPutWidgetConfig } from 'state/page-config/actions';
 import { fetchSearchPages } from 'state/pages/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchCategoryTreeAll } from 'state/categories/actions';
-import { fetchContentTypeListPaged, fetchContentType } from 'state/content-type/actions';
+import { fetchContentTypeListPaged, fetchContentType, setSelectedContentType } from 'state/content-type/actions';
 import { fetchContentTemplatesByContentType } from 'state/content-template/actions';
 
 import { getContentTypeList, getSelectedContentType } from 'state/content-type/selectors';
@@ -96,7 +96,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     onChangeFilterValue: (name, i, value, setFieldValue) => {
       setFieldValue(`${name}.${i}`, value);
     },
-
+    setSelectedContentType: (contentType) => {
+      dispatch(fetchContentTemplatesByContentType(contentType.code));
+      dispatch(setSelectedContentType(contentType));
+    },
     onChangeContentType: (contentType, setFieldValue) => {
       if (contentType) {
         dispatch(fetchContentTemplatesByContentType(contentType));

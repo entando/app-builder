@@ -57,7 +57,13 @@ export class ContentsQueryFormBody extends Component {
     const { values: prevValues } = prevProps;
     const {
       onChangeContentType, values: currentValues, setFieldValue, putPrefixField,
+      contentType, initialValues, setSelectedContentType, contentTypes,
     } = this.props;
+    if (initialValues.contentType !== '' && !contentType.code) {
+      const selectedContentTypeFromForm = contentTypes
+        .find(ctype => ctype.code === initialValues.contentType);
+      if (selectedContentTypeFromForm) setSelectedContentType(selectedContentTypeFromForm);
+    }
     if (getIn(prevValues, putPrefixField('contentType')) !== getIn(currentValues, putPrefixField('contentType'))) {
       onChangeContentType(getIn(currentValues, putPrefixField('contentType')), setFieldValue);
     }
@@ -548,9 +554,11 @@ ContentsQueryFormBody.propTypes = {
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
+  setSelectedContentType: PropTypes.func.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.shape({})),
   contentType: PropTypes.shape({
     attributes: PropTypes.arrayOf(PropTypes.shape({})),
+    code: PropTypes.string,
   }),
   contentTemplates: PropTypes.arrayOf(PropTypes.shape({})),
   pages: PropTypes.arrayOf(PropTypes.shape({})),
@@ -579,7 +587,9 @@ ContentsQueryFormBody.propTypes = {
     categories: PropTypes.arrayOf(PropTypes.string),
     orClauseCategoryFilter: PropTypes.string,
   }),
-  initialValues: PropTypes.shape({}).isRequired,
+  initialValues: PropTypes.shape({
+    contentType: PropTypes.string,
+  }).isRequired,
 };
 
 ContentsQueryFormBody.defaultProps = {
