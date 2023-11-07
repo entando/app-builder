@@ -57,9 +57,9 @@ const typeDate = (initialValues, isComposite) => ({
   validationRules: {
     ...initialValues.validationRules,
     ...ognlValidation(initialValues, isComposite),
-    rangeStartDate: initialValues.validationRules.rangeStartDate || '',
-    rangeEndDate: initialValues.validationRules.rangeEndDate || '',
-    equalDate: initialValues.validationRules.equalDate || '',
+    rangeStartDate: (initialValues.validationRules && initialValues.validationRules.rangeStartDate) || '',
+    rangeEndDate: (initialValues.validationRules && initialValues.validationRules.rangeEndDate) || '',
+    equalDate: (initialValues.validationRules && initialValues.validationRules.equalDate) || '',
   },
 });
 
