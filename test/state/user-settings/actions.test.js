@@ -50,11 +50,10 @@ describe('state/user-settings/actions', () => {
         store.dispatch(fetchUserSettings()).then(() => {
           const actions = store.getActions();
           expect(getUserSettings).toHaveBeenCalled();
-          expect(actions).toHaveLength(4);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', SET_USER_SETTINGS);
-          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { setPage } from 'state/pagination/actions';
@@ -39,15 +38,6 @@ const INVALID_PAGE_POSITION_STATUS_CODE = 422;
 const INVALID_PAGE_CHILD_POSITION_ERROR = { id: 'page.invalidChildPositionError' };
 const INVALID_PAGE_CHILD_POSITION_STATUS_CODE = 400;
 
-const RESET_FOR_CLONE = {
-  code: '',
-  titles: '',
-  parentCode: '',
-  fullTitles: '',
-  fullPath: '',
-  status: '',
-  references: {},
-};
 
 const noopPromise = arg => Promise.resolve(arg);
 
@@ -440,13 +430,8 @@ export const fetchFreePages = () => async (dispatch) => {
   }
 };
 
-export const clonePage = (page, redirectTo = null) => async (dispatch) => {
+export const clonePage = (page, redirectTo = null) => async () => {
   try {
-    const json = await fetchPage(page.code)(dispatch);
-    dispatch(initialize('page', {
-      ...json.payload,
-      ...RESET_FOR_CLONE,
-    }));
     let pageCloneUrl = `${ROUTE_PAGE_CLONE}?pageCode=${page.code}`;
     if (redirectTo) {
       pageCloneUrl += `&redirectTo=${redirectTo}`;
@@ -463,9 +448,7 @@ export const fetchPageSettings = () => async (dispatch) => {
     const response = await getPageSettings();
     const json = await response.json();
     dispatch(toggleLoading('pageSettings'));
-    if (response.ok) {
-      dispatch(initialize('settings', json.payload));
-    } else {
+    if (!response.ok) {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
@@ -635,11 +618,9 @@ export const fetchSearchPages = (page = { page: 1, pageSize: 10 }, params = '') 
 
 export const clearSearchPage = () => (dispatch) => {
   dispatch(clearSearch());
-  dispatch(initialize('pageSearch', {}));
 };
 
-export const initPageForm = (pageData, redirectTo = null) => (dispatch) => {
-  dispatch(initialize('page', pageData));
+export const initPageForm = (pageData, redirectTo = null) => () => {
   let pageAddUrl = `${ROUTE_PAGE_ADD}?parentCode=${pageData.parentCode}`;
   if (redirectTo) {
     pageAddUrl += `&redirectTo=${redirectTo}`;

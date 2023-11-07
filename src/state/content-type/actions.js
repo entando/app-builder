@@ -35,7 +35,6 @@ import {
   getActionModeContentTypeSelectedAttribute,
   getContentTypeAttributesIdList,
   getMonolistAttributeType,
-  getFormTypeValue,
   getSelectedAttributeType,
   getContentTypeSelectedAttributeType,
   getContentTypeSelectedAttribute,
@@ -46,7 +45,6 @@ import {
   getNewAttributeComposite,
   getSelectedContentType,
 } from 'state/content-type/selectors';
-import { initialize } from 'redux-form';
 
 import {
   TYPE_MONOLIST,
@@ -231,18 +229,12 @@ export const fetchContentTypeListPaged = (
     .catch(() => {});
 });
 
-export const fetchContentType = (
-  contentTypeCode,
-  initForm = true,
-) => dispatch => new Promise((resolve, reject) => {
+export const fetchContentType = contentTypeCode => dispatch => new Promise((resolve, reject) => {
   getContentType(contentTypeCode)
     .then((response) => {
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedContentType(json.payload));
-          if (initForm) {
-            dispatch(initialize('ContentType', json.payload));
-          }
           resolve(json.payload);
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
@@ -380,16 +372,14 @@ export const fetchContentTypeAttributeRef = (
   contentTypeAttributeCode,
   routeFunc,
   selectedAttributeType = '',
-  formName,
 ) => (dispatch, getState) => new Promise((resolve) => {
-  let typeAttribute = contentTypeAttributeCode;
+  const typeAttribute = contentTypeAttributeCode;
 
   const checkCompositeSubAttribute = selectedAttributeType === TYPE_COMPOSITE
       || (selectedAttributeType === TYPE_MONOLIST
         && getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
   if (checkCompositeSubAttribute) {
-    typeAttribute = getFormTypeValue(getState(), formName);
     dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
     const selectedAttr = getContentTypeSelectedAttribute(getState());
     dispatch(pushParentSelectedAttribute(selectedAttr));
@@ -403,32 +393,6 @@ export const fetchContentTypeAttributeRef = (
         response.json().then((json) => {
           if (response.ok) {
             dispatch(setSelectedAttributeRef(json.payload));
-            switch (actionMode) {
-              case MODE_ADD_ATTRIBUTE_COMPOSITE: {
-                dispatch(initialize(formName, {
-                  type: json.payload.code,
-                  compositeAttributeType: TYPE_COMPOSITE,
-                  code: '',
-                  name: '',
-                }));
-                break;
-              }
-              case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
-                dispatch(initialize(formName, { type: json.payload.code }));
-                break;
-              }
-              case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
-                const nestedAttribute = {
-                  ...json.payload,
-                  type: json.payload.code,
-                  compositeAttributeType: TYPE_COMPOSITE,
-                };
-                dispatch(initialize(formName, { nestedAttribute }));
-                break;
-              }
-              default:
-                break;
-            }
             if (routeFunc && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
               routeFunc();
             }
@@ -517,7 +481,6 @@ export const fetchAttributeFromContentType = (formName, contentTypeCode, attribu
           }
           const actionMode = getActionModeContentTypeSelectedAttribute(getState());
           if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-            dispatch(initialize(formName, payload));
             dispatch(setSelectedContentTypeAttribute(json.payload));
             dispatch(fetchContentTypeAttributeRef(
               contentTypeCode,
@@ -585,10 +548,6 @@ export const sendPutAttributeFromContentType = (
             type === TYPE_MONOLIST
             && getIsMonolistCompositeAttributeType(getState())
           )) {
-            dispatch(initialize('attribute', {
-              ...json.payload,
-              compositeAttributeType: TYPE_COMPOSITE,
-            }));
             if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE
               || mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE) {
               history.push(routeConverter(ROUTE_CMS_CONTENT_TYPE_ATTRIBUTE_EDIT, {

@@ -327,7 +327,7 @@ describe('state/profile-types/actions ', () => {
         getProfileType.mockImplementationOnce(mockApi({ payload: PROFILE_TYPES }));
         store.dispatch(fetchProfileType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_PROFILE_TYPE);
           expect(actions[0]).toHaveProperty('payload');
           expect(actions[0].payload).toMatchObject({ profileType: PROFILE_TYPES });
@@ -392,9 +392,8 @@ describe('state/profile-types/actions ', () => {
         store.dispatch(fetchAttributeFromProfileType('attribute', 'AAA', 'Date')).then(() => {
           expect(getAttributeFromProfileType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_PROFILETYPE);
           done();
         }).catch(done.fail);
       });

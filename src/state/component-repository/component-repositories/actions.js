@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { toggleLoading } from 'state/loading/actions';
 
@@ -59,15 +58,12 @@ export const fetchComponentRepositories = (page = { page: 1, pageSize: 10 }, par
   })
 );
 
-export const fetchComponentRepository = (id, initForm = false) => dispatch => (
+export const fetchComponentRepository = id => dispatch => (
   new Promise((resolve) => {
     getComponentRepository(id).then((response) => {
       response.json().then((data) => {
         if (response.ok) {
           dispatch(setSelectedComponentRepository(data.payload));
-          if (initForm) {
-            dispatch(initialize('ecrSettings', data.payload));
-          }
         } else {
           dispatch(addErrors(data.errors.map(err => err.message)));
           data.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));

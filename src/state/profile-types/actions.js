@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { METHODS } from '@entando/apimanager';
 import { routeConverter } from '@entando/utils';
 import moment from 'moment';
@@ -334,7 +333,6 @@ export const fetchProfileType = profileTypeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedProfileType(json.payload));
-          dispatch(initialize('ProfileType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -352,7 +350,6 @@ export const fetchMyProfileType = () => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedProfileType(json.payload));
-          dispatch(initialize('ProfileType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -417,10 +414,6 @@ export const sendPutAttributeFromProfileType = (
           [TYPE_MONOLIST, TYPE_LIST].includes(json.payload.type)
           && getIsMonolistCompositeAttributeType(getState())
         )) {
-          dispatch(initialize('attribute', {
-            ...json.payload,
-            compositeAttributeType: TYPE_COMPOSITE,
-          }));
           if (mode === MODE_ADD_ATTRIBUTE_COMPOSITE
             || mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE
           ) {
@@ -512,7 +505,6 @@ export const fetchProfileTypeAttribute = (
   profileTypeAttributeCode,
   routeFunc,
   selectedAttributeType = '',
-  formName,
 ) => (dispatch, getState) => new Promise((resolve) => {
   const typeAttribute = profileTypeAttributeCode;
 
@@ -533,26 +525,6 @@ export const fetchProfileTypeAttribute = (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedAttribute(json.payload));
-          switch (actionMode) {
-            case MODE_ADD_ATTRIBUTE_COMPOSITE: {
-              break;
-            }
-            case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
-              dispatch(initialize(formName, { type: json.payload.code }));
-              break;
-            }
-            case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
-              const nestedAttribute = {
-                ...json.payload,
-                type: json.payload.code,
-                compositeAttributeType: TYPE_COMPOSITE,
-              };
-              dispatch(initialize(formName, { nestedAttribute }));
-              break;
-            }
-            default:
-              break;
-          }
           if (routeFunc && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
             routeFunc();
           }
@@ -636,7 +608,6 @@ export const fetchAttributeFromProfileType = (formName, profileTypeCode, attribu
         }
         const actionMode = getActionModeProfileTypeSelectedAttribute(getState());
         if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-          dispatch(initialize(formName, payload));
           dispatch(setSelectedAttributeProfileType(json.payload));
           dispatch(fetchProfileTypeAttribute(
             profileTypeCode,

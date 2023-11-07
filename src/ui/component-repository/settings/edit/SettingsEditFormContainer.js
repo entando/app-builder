@@ -9,7 +9,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: (id) => { dispatch(fetchComponentRepository(id, true)); },
+  onWillMount: (id) => { dispatch(fetchComponentRepository(id)); },
   onSubmit: (data) => { dispatch(sendPutComponentRepository(data)); },
 });
 

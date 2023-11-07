@@ -92,7 +92,8 @@ describe('state/component-repository/component-repositories/actions', () => {
 
   describe('fetchComponentRepositories', () => {
     beforeEach(() => {
-      getComponentRepositories.mockImplementation(mockApi({ payload: LIST_COMPONENT_REPOSITORIES_OK }));
+      getComponentRepositories
+        .mockImplementation(mockApi({ payload: LIST_COMPONENT_REPOSITORIES_OK }));
     });
 
     it('fetchComponentRepositories calls setComponentRepositories and setPage actions', (done) => {
@@ -147,13 +148,11 @@ describe('state/component-repository/component-repositories/actions', () => {
     });
 
     it('prepopulates the form if initForm is true', (done) => {
-      store.dispatch(fetchComponentRepository(12, true)).then(() => {
+      store.dispatch(fetchComponentRepository(12)).then(() => {
         expect(getComponentRepository).toHaveBeenCalledWith(12);
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
+        expect(actions).toHaveLength(1);
         expect(actions[0]).toHaveProperty('type', SET_SELECTED_COMPONENT_REPOSITORY);
-        expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-        expect(actions[1]).toHaveProperty('meta.form', 'ecrSettings');
         done();
       }).catch(done.fail);
     });

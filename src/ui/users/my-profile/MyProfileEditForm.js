@@ -330,14 +330,6 @@ MyProfileEditFormBody.propTypes = {
   })).isRequired,
   intl: intlShape.isRequired,
   userEmail: PropTypes.string,
-  userProfileForm: PropTypes.shape({
-    email: PropTypes.string,
-    fullname: PropTypes.string,
-    id: PropTypes.string,
-    typeCode: PropTypes.string,
-    typeDescription: PropTypes.string,
-    profilepicture: PropTypes.string,
-  }),
   onChangeProfilePicture: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
 };
@@ -345,7 +337,6 @@ MyProfileEditFormBody.propTypes = {
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
   userEmail: undefined,
-  userProfileForm: {},
   values: {},
 };
 
