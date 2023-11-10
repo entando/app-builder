@@ -18,8 +18,8 @@ import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelMod
 import IconUploader from 'ui/widgets/common/IconUploader';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
-import { MODE_ADD_NEW } from 'ui/widgets/newUserWidget/NewUserWidgetFormContainer';
 
+export const MODE_ADD_NEW = 'addNew';
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
 export const MODE_CLONE = 'clone';
