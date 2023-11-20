@@ -200,6 +200,14 @@ describe('getNextPageCode', () => {
       separator: '_',
     })).toBe('hello_world_app_3');
   });
+
+  it('hello_world_app_11', () => {
+    expect(getNextPageCode({
+      pages: [{ code: 'hello_world_app_10' }],
+      pattern: 'hello_world_app',
+      separator: '_',
+    })).toBe('hello_world_app_11');
+  });
 });
 
 describe('PagesAddFormContainer', () => {
