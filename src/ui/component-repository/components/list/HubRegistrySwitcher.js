@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useCallback } from 'react';
 import { Row, Col, DropdownKebab, MenuItem, Icon } from 'patternfly-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -16,18 +16,21 @@ const DEFAULT_ECR_REGISTRY = {
   url: '',
 };
 
+const ACTIVE_REGISTRY_KEY = 'activeRegistry';
+
 const HubRegistrySwitcher = () => {
   const activeRegistry = useSelector(getSelectedRegistry);
   const registries = useSelector(getRegistries);
   const dispatch = useDispatch();
 
-  const handleRegistryChange = (registry) => {
+  const handleRegistryChange = useCallback((registry) => {
     if (registry.name !== activeRegistry.name) {
       dispatch(setFetchedBundleGroups([]));
       dispatch(setFetchedBundlesFromRegistry([]));
       dispatch(setActiveRegistry(registry));
+      localStorage.setItem(ACTIVE_REGISTRY_KEY, registry.url);
     }
-  };
+  }, [activeRegistry, dispatch]);
 
   const handleNewRegistryClick = () => {
     dispatch(setVisibleModal(ADD_NEW_REGISTRY_MODAL_ID));
@@ -48,9 +51,16 @@ const HubRegistrySwitcher = () => {
   useEffect(() => { dispatch(fetchRegistries()); }, [dispatch]);
 
   useEffect(() => {
-    handleRegistryChange(DEFAULT_ECR_REGISTRY);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const activeRegistryUrl = localStorage.getItem(ACTIVE_REGISTRY_KEY);
+    if (activeRegistryUrl) {
+      const registry = registries.find(reg => reg.url === activeRegistryUrl);
+      if (registry) {
+        handleRegistryChange(registry);
+      }
+    } else {
+      handleRegistryChange(DEFAULT_ECR_REGISTRY);
+    }
+  }, [handleRegistryChange, registries]);
 
   return (
     <Row className="HubRegistrySwitcher">
