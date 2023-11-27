@@ -29,7 +29,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onWillMount: ({ username }) => {
+  onDidMount: ({ username }) => {
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchUserProfile(username));
@@ -39,8 +39,12 @@ export const mapDispatchToProps = dispatch => ({
   },
   onProfileTypeChange: (newTypeCode, profileTypes, setFieldValue) => {
     const profileType = profileTypes.filter(profile => profile.value === newTypeCode)[0] || {};
-    setFieldValue('typeCode', profileType.text);
-    dispatch(fetchProfileType(newTypeCode));
+    if (profileType.value) {
+      dispatch(fetchProfileType(profileType.value)).then(() => {
+        setFieldValue('typeCode', profileType.value);
+        setFieldValue('typeDescription', profileType.text);
+      });
+    }
   },
 });
 

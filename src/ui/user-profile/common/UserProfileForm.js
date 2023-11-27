@@ -75,8 +75,8 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 export class UserProfileFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
+  componentDidMount() {
+    this.props.onDidMount(this.props);
   }
 
   render() {
@@ -240,7 +240,7 @@ export class UserProfileFormBody extends Component {
 
 UserProfileFormBody.propTypes = {
   intl: intlShape.isRequired,
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -283,7 +283,7 @@ UserProfileFormBody.propTypes = {
 UserProfileFormBody.defaultProps = {
   invalid: false,
   submitting: false,
-  onWillMount: null,
+  onDidMount: null,
   profileTypesAttributes: [],
   profileTypes: [],
   onProfileTypeChange: () => {},
@@ -293,7 +293,6 @@ UserProfileFormBody.defaultProps = {
 const UserForm = withFormik({
   form: 'UserProfile',
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
   handleSubmit: (values, { props: { onSubmit } }) => {
     onSubmit(values);
