@@ -35,11 +35,13 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(fetchUserProfile(username));
   },
   onSubmit: (userprofile) => {
-    dispatch(updateUserProfile(userprofile));
+    if (userprofile.typeCode && userprofile.typeCode.length > 0) {
+      dispatch(updateUserProfile(userprofile));
+    }
   },
   onProfileTypeChange: (newTypeCode, profileTypes, setFieldValue) => {
     const profileType = profileTypes.filter(profile => profile.value === newTypeCode)[0] || {};
-    if (profileType.value) {
+    if (profileType.value && profileType.value.length > 0) {
       dispatch(fetchProfileType(profileType.value)).then(() => {
         setFieldValue('typeCode', profileType.value);
         setFieldValue('typeDescription', profileType.text);
