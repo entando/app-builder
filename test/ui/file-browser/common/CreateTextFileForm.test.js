@@ -1,12 +1,14 @@
 import React from 'react';
 import 'test/enzyme-init';
-import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
-import { required } from '@entando/utils';
+import { shallowWithIntl, mockIntl, mockRenderWithRouter } from 'test/legacyTestUtils';
 
-import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
-import { CreateTextFileFormBody, maxLength50 } from 'ui/file-browser/common/CreateTextFileForm';
+import RenderTextAreaInput from 'ui/common/formik-field/RenderTextAreaInput';
+import CreateTextFileForm, { CreateTextFileFormBody } from 'ui/file-browser/common/CreateTextFileForm';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { renderWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
+const onSubmit = jest.fn();
 
 describe('CreateTextFileForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -41,8 +43,6 @@ describe('CreateTextFileForm', () => {
   it('has RenderTextInput', () => {
     const element = createTextFileForm.find('Field[name="name"]');
     expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('validate', [required, maxLength50]);
   });
 
   it('has select', () => {
@@ -50,7 +50,6 @@ describe('CreateTextFileForm', () => {
     expect(element.exists()).toBe(true);
     const props = element.props();
     expect(props).toHaveProperty('component', 'select');
-    expect(props).toHaveProperty('validate', [required]);
   });
 
   it('has RenderTextAreaInput', () => {
@@ -58,7 +57,6 @@ describe('CreateTextFileForm', () => {
     expect(element.exists()).toBe(true);
     const props = element.props();
     expect(props).toHaveProperty('component', RenderTextAreaInput);
-    expect(props).toHaveProperty('validate', [required]);
   });
 
   it('has a Buttons  save and cancel', () => {
@@ -81,10 +79,25 @@ describe('CreateTextFileForm', () => {
     expect(submitButton.prop('disabled')).toBe(true);
   });
 
-  it('on form submit calls handleSubmit', () => {
-    createTextFileForm = buildCreateTextFileForm();
-    const preventDefault = jest.fn();
-    createTextFileForm.find('form').simulate('submit', { preventDefault });
-    expect(handleSubmit).toHaveBeenCalled();
+  it('on form submit calls handleSubmit', async () => {
+    const props = {
+      isSubmitting: false,
+      isValid: true,
+      onSubmit,
+      handleSubmit,
+      intl: mockIntl,
+      initialValues: {
+        name: 'nametest',
+        content: 'contento',
+        extension: '.txt',
+      },
+      history: { location: {} },
+    };
+    renderWithIntl(mockRenderWithRouter(<CreateTextFileForm {...props} />));
+    const btn = screen.getByRole('button', { name: /save/i });
+    await fireEvent.click(btn);
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
   });
 });

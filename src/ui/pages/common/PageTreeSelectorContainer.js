@@ -8,11 +8,31 @@ import { handleExpandPage, fetchPageTreeAll, collapseAll } from 'state/pages/act
 import { getPageTreePages } from 'state/pages/selectors';
 import { getLoading } from 'state/loading/selectors';
 
-export const mapStateToProps = (state, { pages, onPageSelect = null }) => ({
-  pages: pages || getPageTreePages(state),
-  loading: getLoading(state).pageTree,
-  onPageSelect,
-});
+export const mapStateToProps = (state, {
+  pages, onPageSelect = null, input, field,
+}) => {
+  const onChange = (input || {}).onChange ? input.onChange : (val) => {
+    (field || {}).onChange({
+      target: {
+        value: val,
+        id: field.name,
+        name: field.name,
+      },
+    });
+  };
+  return ({
+    pages: pages || getPageTreePages(state),
+    loading: getLoading(state).pageTree,
+    onPageSelect,
+    // support both redux-form and formik
+    input: {
+      ...(input || {}),
+      ...(field || {}),
+      value: (input || {}).value || (field || {}).value || '',
+      onChange,
+    },
+  });
+};
 
 export const mapDispatchToProps = dispatch => ({
   onExpandPage: pageCode =>

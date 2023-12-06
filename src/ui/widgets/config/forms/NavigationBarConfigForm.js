@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { FieldArray } from 'redux-form';
+import { withFormik, FieldArray, Form } from 'formik';
 import { Button, Row, Col } from 'patternfly-react';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
@@ -15,7 +15,7 @@ import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { MODE_CLONE } from 'ui/widgets/common/WidgetForm';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
-export default class NavigationBarConfigForm extends PureComponent {
+class NavigationBarConfigFormBody extends PureComponent {
   componentDidMount() {
     const { onDidMount, initialValues, fetchExpressions } = this.props;
     onDidMount(this.props);
@@ -35,34 +35,38 @@ export default class NavigationBarConfigForm extends PureComponent {
   render() {
     const {
       handleSubmit,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       intl,
-      dirty,
+      isDirty,
       onCancel,
       onDiscard,
       onSave,
       language,
       pages,
       onAddNewExpression,
-      addConfig,
-      expressions,
+      onRemoveExpression,
+      onSwapExpressions,
       loading,
       initialValues,
       onSpecificPageChoose,
       appTourProgress,
       mode,
+      values,
+      handleChange,
+      setFieldValue,
+      submitForm,
     } = this.props;
 
     const handleCancelClick = () => {
-      if (dirty && appTourProgress !== APP_TOUR_STARTED) {
+      if (isDirty && appTourProgress !== APP_TOUR_STARTED) {
         onCancel();
       } else {
         onDiscard();
       }
     };
 
-    const expressionsNotAvailable = !expressions || expressions.length === 0;
+    const expressionsNotAvailable = !values.expressions || values.expressions.length === 0;
 
     return (
       <div className="NavigationBarConfigForm">
@@ -71,7 +75,7 @@ export default class NavigationBarConfigForm extends PureComponent {
           {' '}
           <FormattedMessage id="widget.navigationBar.config.title" defaultMessage="Navigation - Bar" />
         </h5>
-        <form onSubmit={handleSubmit} className="form-horizontal">
+        <Form onSubmit={handleSubmit} className="form-horizontal">
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -81,14 +85,20 @@ export default class NavigationBarConfigForm extends PureComponent {
                 />
                 <Col lg={6} md={10} smOffset={2} className="no-padding">
                   <FieldArray
-                    component={NavigationBarExpressionsList}
                     name="expressions"
-                    pages={pages}
-                    language={language}
-                    loading={loading}
-                    intl={intl}
-                    navSpec={initialValues.navSpec}
-                  />
+                  >
+                    {() => (<NavigationBarExpressionsList
+                      expressions={values.expressions}
+                      pages={pages}
+                      language={language}
+                      loading={loading}
+                      intl={intl}
+                      navSpec={initialValues.navSpec}
+                      remove={(index) => { onRemoveExpression(index, setFieldValue, values); }}
+                      swap={(indexA, indexB) =>
+                        onSwapExpressions(indexA, indexB, setFieldValue, values)}
+                    />)}
+                  </FieldArray>
                 </Col>
               </fieldset>
             </Col>
@@ -107,6 +117,7 @@ export default class NavigationBarConfigForm extends PureComponent {
                     language={language}
                     onSpecificPageChoose={onSpecificPageChoose}
                     appTourProgress={appTourProgress}
+                    handleChange={handleChange}
                   />
                 </Col>
               </fieldset>
@@ -121,8 +132,9 @@ export default class NavigationBarConfigForm extends PureComponent {
                 />
                 <Col lg={12} md={12} className="no-padding">
                   <NavigatorBarOperator
-                    addConfig={addConfig}
-                    onAddNewExpression={() => onAddNewExpression(addConfig, appTourProgress)}
+                    addConfig={values.addConfig}
+                    onAddNewExpression={() =>
+                      onAddNewExpression(values, appTourProgress, setFieldValue)}
                     appTourProgress={appTourProgress}
                   />
                 </Col>
@@ -137,8 +149,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                     className="pull-right NavigationBarConfigForm__save-btn app-tour-step-16"
                     type="submit"
                     bsStyle="primary"
-                    disabled={invalid || submitting || expressionsNotAvailable}
-                    onClick={onSave}
+                    disabled={!isValid || isSubmitting || expressionsNotAvailable}
+                    onClick={() => onSave(submitForm)}
                   >
                     <FormattedMessage id="app.save" />
                   </Button>
@@ -154,8 +166,8 @@ export default class NavigationBarConfigForm extends PureComponent {
                   appTourProgress !== APP_TOUR_STARTED && (
                     <ConfirmCancelModalContainer
                       contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-                      invalid={invalid}
-                      submitting={submitting}
+                      invalid={!isValid}
+                      submitting={isSubmitting}
                       onSave={onSave}
                       onDiscard={onDiscard}
                     />
@@ -165,27 +177,27 @@ export default class NavigationBarConfigForm extends PureComponent {
               <AppTourContainer />
             </Row>
           }
-        </form>
+        </Form>
       </div>
     );
   }
 }
 
-NavigationBarConfigForm.propTypes = {
+NavigationBarConfigFormBody.propTypes = {
   intl: intlShape.isRequired,
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   language: PropTypes.string,
-  dirty: PropTypes.bool,
+  isDirty: PropTypes.bool.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   onAddNewExpression: PropTypes.func.isRequired,
-  addConfig: PropTypes.shape({}),
-  expressions: PropTypes.arrayOf(PropTypes.shape({})),
+  onRemoveExpression: PropTypes.func.isRequired,
+  onSwapExpressions: PropTypes.func.isRequired,
   initialValues: PropTypes.shape({
     navSpec: PropTypes.string,
   }).isRequired,
@@ -194,15 +206,36 @@ NavigationBarConfigForm.propTypes = {
   onSpecificPageChoose: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string,
   mode: PropTypes.string,
+  values: PropTypes.shape({
+    addConfig: PropTypes.shape({}),
+    expressions: PropTypes.arrayOf(PropTypes.shape()),
+  }).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
 };
 
-NavigationBarConfigForm.defaultProps = {
+NavigationBarConfigFormBody.defaultProps = {
   pages: [],
-  dirty: false,
   language: 'en',
-  addConfig: {},
-  expressions: [],
   loading: null,
   appTourProgress: '',
   mode: '',
 };
+
+const NavigationBarConfigForm = withFormik({
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => (
+    {
+      ...initialValues,
+      addConfig: initialValues.addConfig || {},
+      expressions: initialValues.expressions || [],
+    }
+  ),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+})(NavigationBarConfigFormBody);
+
+export default NavigationBarConfigForm;

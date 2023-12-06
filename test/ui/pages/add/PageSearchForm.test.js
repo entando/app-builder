@@ -1,34 +1,78 @@
 import React from 'react';
-
 import 'test/enzyme-init';
-import { mount } from 'enzyme';
-import PageSearchForm from 'ui/pages/list/PageSearchForm';
-import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import { shallowWithIntl, mockIntl, mockRenderWithRouter } from 'test/legacyTestUtils';
+
+import PageSearchForm, { PageSearchFormBody } from 'ui/pages/list/PageSearchForm';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { Formik } from 'formik';
+import { renderWithIntl } from '../../../test/testUtils';
 
 
-const handleSubmitMock = jest.fn();
-const EVENT = { preventDefault: jest.fn() };
-
-jest.unmock('react-redux');
-jest.unmock('redux-form');
+const handleSubmit = jest.fn();
+const onSubmit = jest.fn();
 
 describe('PageSearchForm', () => {
   beforeEach(jest.clearAllMocks);
 
-  let component;
+  let pageSearchForm;
+
+  let submitting;
+
   beforeEach(() => {
-    component = mount(mockRenderWithIntlAndStore(<PageSearchForm
-      handleSubmit={handleSubmitMock}
-    />));
+    submitting = false;
   });
-  it('renders without crashing', () => {
-    expect(component.exists()).toBe(true);
+
+  const buildPageSearchForm = () => {
+    const props = {
+      submitting,
+      handleSubmit,
+      intl: mockIntl,
+      values: {
+        searchType: 'name',
+      },
+      handleChange: jest.fn(),
+    };
+
+    return shallowWithIntl(<PageSearchFormBody {...props} />);
+  };
+
+  it('root component renders without crashing', () => {
+    pageSearchForm = buildPageSearchForm();
+    expect(pageSearchForm.exists()).toBe(true);
   });
-  it('has the PageSearchForm class', () => {
-    expect(component.exists('.PageSearchForm')).toBe(true);
-  });
-  it('form onSubmit calls handleSubmit', () => {
-    component.find('form').simulate('submit', EVENT);
-    expect(handleSubmitMock).toHaveBeenCalled();
+
+  it('on form submit calls handleSubmit', async () => {
+    const props = {
+      isSubmitting: false,
+      onSubmit,
+      handleSubmit,
+      intl: mockIntl,
+      initialValues: {
+        name: 'name',
+        code: 'namecode',
+      },
+      values: {
+        searchType: 'name',
+      },
+      handleChange: jest.fn(),
+    };
+
+    // eslint-disable-next-line function-paren-newline
+    renderWithIntl(mockRenderWithRouter(
+      <Formik
+        initialValues={props.initialValues}
+        onSubmit={props.onSubmit}
+      >{
+        ({ handleSubmit: handleSubmitFormik }) => (
+          <PageSearchForm {...props} handleSubmit={handleSubmitFormik} />
+
+        )
+      }
+      </Formik>));
+    const btn = screen.getByRole('button', { name: /search/i });
+    await fireEvent.click(btn);
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
   });
 });

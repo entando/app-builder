@@ -1,5 +1,4 @@
 import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
-import { initialize, formValueSelector, change } from 'redux-form';
 import moment from 'moment';
 import { isEmpty, pickBy, isObject, cloneDeep } from 'lodash';
 
@@ -60,15 +59,6 @@ export const fetchContent = params => dispatch => new Promise((resolve, reject) 
           const content = json.payload;
           dispatch(setContentEntry(content));
           dispatch(setJoinedCategories(content.categories));
-          const {
-            mainGroup, groups, description, status,
-          } = content;
-          dispatch(initialize('editcontentform', {
-            mainGroup,
-            groups,
-            description,
-            ...(status !== 'PUBLIC' && { status }),
-          }));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           reject();
@@ -105,9 +95,7 @@ export const copyAttributeEngValue = (attribute, attributeType) => (dispatch, ge
   }
 };
 
-export const duplicateEngFieldValues = () => (dispatch, getState) => {
-  const state = getState();
-
+export const duplicateEngFieldValues = () => (dispatch) => {
   const traverseAttributes = (attributeValues, attributeList) => {
     const mappedAttributes = attributeList.reduce(
       (curr, attribute) => ({ ...curr, [attribute.code]: attribute }),
@@ -143,17 +131,6 @@ export const duplicateEngFieldValues = () => (dispatch, getState) => {
       }
     });
   };
-
-  const mainAttributeValues = formValueSelector('editcontentform')(state, 'attributes');
-
-  dispatch(change(
-    'editcontentform',
-    'attributes',
-    traverseAttributes(
-      mainAttributeValues,
-      getSelectedContentTypeAttributes(state),
-    ),
-  ));
 };
 
 export const setOwnerGroupDisable = disabled => ({

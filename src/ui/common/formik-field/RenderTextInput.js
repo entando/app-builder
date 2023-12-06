@@ -19,6 +19,7 @@ export const RenderTextInputBody = ({
   xsClass,
   forwardedRef,
   endButtons,
+  onChange,
   ...others
 }) => {
   const { restProps } = others;
@@ -43,6 +44,12 @@ export const RenderTextInputBody = ({
             className="form-control RenderTextInput"
             disabled={disabled}
             {...restProps}
+            onChange={(e) => {
+              field.onChange(e);
+              if (onChange) {
+                onChange(e);
+              }
+            }}
           />
           {endButtons && (
             <div className="RenderTextAreaInput__endbuttons">
@@ -51,7 +58,7 @@ export const RenderTextInputBody = ({
           )}
         </div>
         {append && <span className="AppendedLabel">{append}</span>}
-        {touched && (error && <span className="help-block">{error}</span>)}
+        {touched && (error && <span role="alert" className="help-block">{error}</span>)}
       </Col>
     </div>
   );
@@ -60,6 +67,7 @@ export const RenderTextInputBody = ({
 RenderTextInputBody.propTypes = {
   field: PropTypes.shape({
     name: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
   }),
   forwardedRef: PropTypes.oneOfType([
     PropTypes.func,
@@ -86,6 +94,7 @@ RenderTextInputBody.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  onChange: PropTypes.func,
 };
 
 RenderTextInputBody.defaultProps = {
@@ -106,6 +115,7 @@ RenderTextInputBody.defaultProps = {
   forwardedRef: null,
   endButtons: null,
   form: {},
+  onChange: null,
 };
 
 export default React.forwardRef((props, ref) => (

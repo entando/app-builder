@@ -498,7 +498,7 @@ describe('state/content-type/actions ', () => {
           .dispatch(fetchContentType('AAA'))
           .then(() => {
             const actions = store.getActions();
-            expect(actions).toHaveLength(2);
+            expect(actions).toHaveLength(1);
             expect(actions[0]).toHaveProperty('type', SET_SELECTED_CONTENT_TYPE);
             expect(actions[0]).toHaveProperty('payload');
             expect(actions[0].payload).toMatchObject({
@@ -596,9 +596,8 @@ describe('state/content-type/actions ', () => {
           .then(() => {
             expect(getAttributeFromContentType).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(2);
-            expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-            expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_CONTENTTYPE);
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_CONTENTTYPE);
             done();
           })
           .catch(done.fail);
@@ -638,10 +637,10 @@ describe('state/content-type/actions ', () => {
           .dispatch(fetchAttributeFromContentType('attribute', 'AAA', 'mlstc'))
           .then(() => {
             const actions = store.getActions();
-            expect(actions).toHaveLength(2);
-            expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_CONTENTTYPE);
-            expect(actions[1].payload.attribute.type).toEqual('Date');
-            expect(actions[1].payload.attribute.code).toEqual('mlstc');
+            expect(actions).toHaveLength(1);
+            expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_CONTENTTYPE);
+            expect(actions[0].payload.attribute.type).toEqual('Date');
+            expect(actions[0].payload.attribute.code).toEqual('mlstc');
             done();
           })
           .catch(done.fail);
@@ -893,9 +892,9 @@ describe('state/content-type/actions ', () => {
         store
           .dispatch(fetchContentTypeAttributeRef('AA1', 'TYPE_COMPOSITE', routeFunc, TYPE_COMPOSITE))
           .then(() => {
-            expect(getContentTypeAttribute).not.toHaveBeenCalled();
+            expect(getContentTypeAttribute).toHaveBeenCalled();
             const actions = store.getActions();
-            expect(actions).toHaveLength(2);
+            expect(actions).toHaveLength(3);
             expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
             expect(actions[0]).toHaveProperty('payload', {
               actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE,
@@ -919,9 +918,8 @@ describe('state/content-type/actions ', () => {
           .then(() => {
             const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
             expect(getContentTypeAttribute).toHaveBeenCalled();
-            expect(actions).toHaveLength(2);
+            expect(actions).toHaveLength(1);
             expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-            expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
             done();
           })
           .catch(done.fail);

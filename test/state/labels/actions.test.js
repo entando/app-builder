@@ -5,9 +5,9 @@ import { ADD_ERRORS } from '@entando/messages';
 
 import {
   setLabels, updateLabelSync, fetchLabels, updateLabel, createLabel,
-  removeLabelSync, removeLabel, fetchLabel, setLabelFilters,
+  removeLabelSync, removeLabel, fetchLabel, setLabelFilters, setSearchTerm,
 } from 'state/labels/actions';
-import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_LABEL_FILTERS } from 'state/labels/types';
+import { SET_LABELS, UPDATE_LABEL, REMOVE_LABEL, SET_LABEL_FILTERS, SET_SELECTED_LABEL, SET_SEARCH_TERM } from 'state/labels/types';
 import { getLabelsMap } from 'state/labels/selectors';
 import { SET_PAGE } from 'state/pagination/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
@@ -72,6 +72,14 @@ jest.mock('state/labels/selectors', () => ({
 
 describe('state/labels/actions', () => {
   beforeEach(jest.clearAllMocks);
+
+  describe('setSearchTerm', () => {
+    it('test setGroups action sets the correct type', () => {
+      const action = setSearchTerm('term');
+      expect(action).toHaveProperty('type', SET_SEARCH_TERM);
+      expect(action).toHaveProperty('payload', { searchTerm: 'term' });
+    });
+  });
 
   describe('setLabels', () => {
     let action;
@@ -308,9 +316,8 @@ describe('state/labels/actions', () => {
       store.dispatch(fetchLabel(HELLO_LABEL.key)).then(() => {
         expect(getLabel).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
+        expect(actions[0]).toHaveProperty('type', SET_SELECTED_LABEL);
         expect(actions[0]).toHaveProperty('payload', HELLO_LABEL);
-        expect(actions[0]).toHaveProperty('meta', { form: 'label' });
         done();
       }).catch(done.fail);
     });

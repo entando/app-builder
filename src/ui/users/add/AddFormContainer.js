@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { destroy, submit } from 'redux-form';
-import { withRouter } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
 import { fetchProfileTypes } from 'state/profile-types/actions';
@@ -12,26 +12,42 @@ import { ROUTE_USER_LIST } from 'app-init/router';
 
 import UserForm from 'ui/users/common/UserForm';
 
-export const mapStateToProps = state => ({
-  profileTypes: getProfileTypesOptions(state),
-});
+const AddFormContainer = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const profileTypes = useSelector(getProfileTypesOptions);
 
-export const mapDispatchToProps = (dispatch, { history }) => ({
-  onSubmit: (user) => {
-    const { saveType } = user;
-    dispatch(sendPostUser(user, saveType === 'editProfile'));
-  },
-  onWillMount: () => {
-    dispatch(destroy('user'));
+  const handleMount = useCallback(() => {
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
-  },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('user')); },
-  onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
-  onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_USER_LIST)); },
-});
+  }, [dispatch]);
 
-const AddFormContainer = connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false,
-})(UserForm);
+  const handleSubmit = useCallback((user, submitType) => {
+    dispatch(sendPostUser(user, submitType === 'saveAndEditProfile'));
+  }, [dispatch]);
 
-export default withRouter(AddFormContainer);
+  const handleCancel = useCallback(() => {
+    dispatch(setVisibleModal(ConfirmCancelModalID));
+  }, [dispatch]);
+
+  const handleDiscard = useCallback(() => {
+    dispatch(setVisibleModal(''));
+    history.push(routeConverter(ROUTE_USER_LIST));
+  }, [dispatch, history]);
+
+  const handleModalSave = useCallback(() => {
+    dispatch(setVisibleModal(''));
+  }, [dispatch]);
+
+  return (
+    <UserForm
+      profileTypes={profileTypes}
+      onMount={handleMount}
+      onSubmit={handleSubmit}
+      onCancel={handleCancel}
+      onDiscard={handleDiscard}
+      onModalSave={handleModalSave}
+    />
+  );
+};
+
+export default AddFormContainer;

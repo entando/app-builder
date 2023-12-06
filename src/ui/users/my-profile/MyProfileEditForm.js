@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { reduxForm, Field, FieldArray, FormSection } from 'redux-form';
+import { withFormik, FieldArray } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
-
-import RenderListField from 'ui/common/form/RenderListField';
+import { required, email } from '@entando/utils';
+import RenderListField from 'ui/common/formik-field/RenderListField';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
 import FormLabel from 'ui/common/form/FormLabel';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
@@ -15,9 +15,7 @@ import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
-import { getComponentType } from 'helpers/entities';
-
-const defaultAttrCodes = ['fullname', 'email'];
+import { UserProfileField } from 'ui/user-profile/common/UserProfileField';
 
 const getComponentOptions = (component, intl) => {
   const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
@@ -45,7 +43,8 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
   }
   switch (component) {
     case TYPE_ENUMERATOR:
-    { const itemsList = items.split(separator);
+    {
+      const itemsList = items.split(separator);
       itemsList.forEach((item) => {
         options.push({ optionDisplayName: item, value: item });
       });
@@ -74,43 +73,7 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
-const field = (intl, attribute, disabled) => {
-  const labelProp = defaultAttrCodes.includes(attribute.code) ? ({
-    labelId: `user.table.${attribute.code}`,
-  }) : ({
-    labelText: attribute.name,
-  });
-
-  return (
-    <Field
-      key={attribute.code}
-      component={getComponentType(attribute.type)}
-      name={attribute.code}
-      rows={3}
-      toggleElement={getComponentOptions(attribute.type, intl)}
-      options={getEnumeratorOptions(
-        attribute.type,
-        attribute.enumeratorStaticItems,
-        attribute.enumeratorStaticItemsSeparator,
-        attribute.mandatory,
-        intl,
-      )}
-      optionValue="value"
-      optionDisplayName="optionDisplayName"
-      label={<FormLabel
-        {...labelProp}
-        helpText={getHelpMessage(attribute.validationRules, intl)}
-        required={attribute.mandatory}
-      />}
-      disabled={disabled}
-    />
-  );
-};
-
-const renderCompositeAttribute = (intl, compositeAttributes, disabled) =>
-  compositeAttributes.map(attribute => field(intl, attribute, disabled));
-
-export class MyProfileEditFormBody extends Component {
+class MyProfileEditFormBody extends Component {
   constructor(props) {
     super(props);
 
@@ -118,20 +81,13 @@ export class MyProfileEditFormBody extends Component {
       editMode: false,
     };
 
-    this.submit = this.submit.bind(this);
     this.handleCancelClick = this.handleCancelClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
+    this.changeMode = this.changeMode.bind(this);
   }
 
   componentDidMount() {
     this.props.onMount(this.props.username);
-  }
-
-  submit(data) {
-    this.setState({
-      editMode: false,
-    });
-    this.props.onSubmit(data);
   }
 
   handleCancelClick() {
@@ -148,13 +104,31 @@ export class MyProfileEditFormBody extends Component {
     });
   }
 
+  changeMode() {
+    this.setState({
+      editMode: false,
+    });
+  }
+
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm,
+      handleSubmit, setFieldValue, isValid, resetForm, values, isSubmitting,
     } = this.props;
 
     const { editMode } = this.state;
+
+    const field = (attribute, disabled) => (
+      <UserProfileField
+        key={attribute.code}
+        attribute={attribute}
+        intl={intl}
+        disabled={disabled}
+      />
+    );
+
+    const renderCompositeAttribute = (compositeAttributes, disabled) =>
+      compositeAttributes.map(attribute => field(attribute, disabled));
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
       key={attributeCode}
@@ -164,12 +138,12 @@ export class MyProfileEditFormBody extends Component {
       rows={3}
       toggleElement={getComponentOptions(attribute.type, intl)}
       options={getEnumeratorOptions(
-            attribute.nestedAttribute.type,
-            attribute.nestedAttribute.enumeratorStaticItems,
-            attribute.nestedAttribute.enumeratorStaticItemsSeparator,
-            attribute.nestedAttribute.mandatory,
-            intl,
-          )}
+        attribute.nestedAttribute.type,
+        attribute.nestedAttribute.enumeratorStaticItems,
+        attribute.nestedAttribute.enumeratorStaticItemsSeparator,
+        attribute.nestedAttribute.mandatory,
+        intl,
+      )}
       optionValue="value"
       optionDisplayName="optionDisplayName"
       label={<FormLabel
@@ -198,9 +172,9 @@ export class MyProfileEditFormBody extends Component {
               <Col xs={10}>
                 <Panel>
                   <Panel.Body>
-                    <FormSection name={attribute.code}>
-                      { renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
-                    </FormSection>
+                    <div name={attribute.code}>
+                      {renderCompositeAttribute(attribute.compositeAttributes, !editMode)}
+                    </div>
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -223,17 +197,20 @@ export class MyProfileEditFormBody extends Component {
             </Row>
           );
         }
-        return field(intl, attribute, !editMode);
+        return field(attribute, !editMode);
       });
 
-    const { profilepicture } = userProfileForm;
+    const { profilepicture } = values;
+
     return (
-      <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
+      <Form horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
-        <input type="hidden" name="profilepicture" value={profilepicture} />
+        <input type="hidden" name="profilepicture" />
         <ProfileImageUploader
           image={profilepicture}
-          onChange={onChangeProfilePicture}
+          onChange={(e) => {
+            onChangeProfilePicture(setFieldValue, e);
+          }}
           gravatarEmail={userEmail}
           editable={editMode}
         />
@@ -249,13 +226,21 @@ export class MyProfileEditFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
+              disabled={!isValid || isSubmitting}
               data-testid="profile_saveBtn"
+              onClick={() => {
+                this.changeMode();
+                handleSubmit();
+              }}
             >
               <FormattedMessage id="app.save" />
             </Button>
             <Button
               className="pull-right"
-              onClick={this.handleCancelClick}
+              onClick={() => {
+                this.handleCancelClick();
+                resetForm();
+              }}
               style={{ marginRight: '12px' }}
               data-testid="profile_cancelBtn"
             >
@@ -280,9 +265,13 @@ export class MyProfileEditFormBody extends Component {
 MyProfileEditFormBody.propTypes = {
   onMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
+  values: PropTypes.shape({
+    profilepicture: PropTypes.string,
+  }),
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     code: PropTypes.string,
@@ -315,26 +304,38 @@ MyProfileEditFormBody.propTypes = {
   })).isRequired,
   intl: intlShape.isRequired,
   userEmail: PropTypes.string,
-  userProfileForm: PropTypes.shape({
-    email: PropTypes.string,
-    fullname: PropTypes.string,
-    id: PropTypes.string,
-    typeCode: PropTypes.string,
-    typeDescription: PropTypes.string,
-    profilepicture: PropTypes.string,
-  }),
   onChangeProfilePicture: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
   userEmail: undefined,
-  userProfileForm: {},
+  values: {},
 };
 
-const MyProfileEditForm = reduxForm({
-  form: 'UserProfile',
+const MyProfileEditForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validate: (values) => {
+    const errors = {};
+    if (required(values.fullname)) {
+      errors.fullname = <FormattedMessage id="validateForm.required" />;
+    }
+    if (required(values.email)) {
+      errors.email = <FormattedMessage id="validateForm.required" />;
+    }
+    if (email(values.email)) {
+      errors.email = <FormattedMessage id="validateForm.email" />;
+    }
+    return errors;
+  },
   enableReinitialize: true,
-})(MyProfileEditFormBody);
+  handleSubmit(values, { props }) {
+    const { onSubmit } = props;
+    onSubmit(values);
+  },
+  optionDisplayName: 'optionDisplayName',
+})(injectIntl(MyProfileEditFormBody));
 
-export default injectIntl(MyProfileEditForm);
+export default MyProfileEditForm;

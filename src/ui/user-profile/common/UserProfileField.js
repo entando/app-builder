@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Row, Col } from 'patternfly-react';
 import { FormattedMessage, defineMessages, intlShape } from 'react-intl';
 import { required, minLength, maxLength, minValue, maxValue } from '@entando/utils';
 import Panel from 'react-bootstrap/lib/Panel';
-import { Field, FormSection } from 'redux-form';
+import { Field, FieldArray } from 'formik';
 import RegexParser from 'regex-parser';
-
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import { TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP } from 'state/data-types/const';
-import { getComponentType } from 'helpers/entities';
+import { getComponentType } from 'helpers/formikEntities';
 import FormLabel from 'ui/common/form/FormLabel';
 
 const readOnlyFields = ['profilepicture'];
@@ -73,43 +72,57 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
   }
 };
 
-const userProfileValidators = {};
+export const generateValidatorFunc = (
+  value, validatorFuncName, validatorFunc,
+  validatorArray, parseValueFunc, customErrorId,
+) => {
+  const userProfileValidators = {};
+  if (value === null || value === undefined) {
+    return;
+  }
+  const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
+  if (!userProfileValidators[validatorFuncName]) {
+    userProfileValidators[validatorFuncName] = {};
+  }
+  if (!userProfileValidators[validatorFuncName][value]) {
+    userProfileValidators[validatorFuncName] = {
+      ...userProfileValidators[validatorFuncName],
+      [value]: validatorFunc(parsedValue, customErrorId),
+    };
+  }
+  validatorArray.push(userProfileValidators[validatorFuncName][value]);
+};
 
-const UserProfileField = ({ attribute, intl }) => {
+export const UserProfileField = ({
+  attribute, intl, setFieldValue, disabled,
+}) => {
   const { validationRules } = attribute || {};
   const {
     minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
   } = validationRules || {};
 
-  const generateValidatorFunc = (
-    value, validatorFuncName, validatorFunc,
-    validatorArray, parseValueFunc, customErrorId,
-  ) => {
-    if (value === null || value === undefined) {
-      return;
-    }
-    const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
-    if (!userProfileValidators[validatorFuncName]) {
-      userProfileValidators[validatorFuncName] = {};
-    }
-    if (!userProfileValidators[validatorFuncName][value]) {
-      userProfileValidators[validatorFuncName] = {
-        ...userProfileValidators[validatorFuncName],
-        [value]: validatorFunc(parsedValue, customErrorId),
-      };
-    }
-    validatorArray.push(userProfileValidators[validatorFuncName][value]);
-  };
+  const vArray = useMemo(() => {
+    const validateArray = [...(attribute.mandatory ? [required] : [])];
+    generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
+    generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
+    generateValidatorFunc(
+      regex, 'regex', matchRegex, validateArray, RegexParser,
+      attribute.type === 'Email' && 'validateForm.email',
+    );
+    generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
+    generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
+    return validateArray;
+  }, [attribute.mandatory, attribute.type, rangeEndNumber, rangeStartNumber,
+    regex, textMaxLen, textMinLen]);
 
-  const validateArray = [...(attribute.mandatory ? [required] : [])];
-  generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
-  generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
-  generateValidatorFunc(
-    regex, 'regex', matchRegex, validateArray, RegexParser,
-    attribute.type === 'Email' && 'validateForm.email',
-  );
-  generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
-  generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
+  const validationFunc = (value, validationFuncList) => {
+    let validation = null;
+    validationFuncList.forEach((func) => {
+      const validate = func(value);
+      if (validate) validation = validate;
+    });
+    return validation;
+  };
 
   return (<Field
     component={getComponentType(attribute.type)}
@@ -130,9 +143,11 @@ const UserProfileField = ({ attribute, intl }) => {
       helpText={getHelpMessage(attribute.validationRules, intl)}
       required={attribute.mandatory}
     />}
-    validate={validateArray}
+    validate={value => validationFunc(value, vArray)}
     readOnly={readOnlyFields.includes(attribute.code)}
     data-testid={`UserProfileForm__${attribute.code}Field`}
+    onPickDate={value => setFieldValue(attribute.code, value)}
+    disabled={disabled}
   />);
 };
 
@@ -154,6 +169,12 @@ const basicAttributeShape = PropTypes.shape({
 UserProfileField.propTypes = {
   attribute: basicAttributeShape.isRequired,
   intl: intlShape.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+UserProfileField.defaultProps = {
+  disabled: false,
 };
 
 export const CompositeField = ({
@@ -179,11 +200,11 @@ export const CompositeField = ({
       )}
       <Col xs={noLabel ? 12 : 10}>
         {renderWithPanel((
-          <FormSection name={compositeFieldName}>
-            {attribute.compositeAttributes.map(attr => (
+          <FieldArray name={compositeFieldName}>
+            { attribute.compositeAttributes.map(attr => (
               <UserProfileField key={`${compositeFieldName}.${attr.code}`} attribute={attr} intl={intl} />
             ))}
-          </FormSection>
+          </FieldArray>
         ))}
       </Col>
     </Row>
@@ -221,5 +242,3 @@ CompositeField.defaultProps = {
   fieldName: '',
   noLabel: false,
 };
-
-export default UserProfileField;

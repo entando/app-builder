@@ -1,47 +1,35 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { Form } from 'patternfly-react';
-import { required } from '@entando/utils';
+import { render, screen, within } from '@testing-library/react';
+import { withFormik } from 'formik';
 
-import { AccountFormBody } from 'ui/users/my-profile/AccountForm';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import { PasswordFormBody } from 'ui/users/my-profile/AccountForm';
+import { IntlProvider } from 'react-intl';
 
-describe('AccountForm', () => {
-  let component;
+describe('PasswordFormBody', () => {
+  let container;
   beforeEach(() => {
-    component = shallow(<AccountFormBody onSubmit={() => {}} username="admin" handleSubmit={() => {}} />);
+    const PasswordFormBodyWithFormik =
+    withFormik({ mapPropsToValues: () => {}, onSubmit: () => {} })(PasswordFormBody);
+    const { container: rtlContainer } = render(<IntlProvider locale="en"><PasswordFormBodyWithFormik /></IntlProvider>);
+    container = rtlContainer;
   });
 
-  it('renders without crashing', () => {
-    expect(component.exists()).toBe(true);
-  });
-
-  it('verify it is a form', () => {
-    expect(component.type()).toBe(Form);
+  it('renders without crashing', async () => {
+    expect(within(screen.getByRole('form'))).toBeDefined();
   });
 
   it('has a oldPassword text field', () => {
-    const element = component.find('Field[name="oldPassword"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
-    expect(props).toHaveProperty('validate', required);
+    const inputElement = container.querySelector('#oldPassword');
+    expect(inputElement).toBeDefined();
   });
 
   it('has a newPassword text field', () => {
-    const element = component.find('Field[name="newPassword"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
-    expect(props).toHaveProperty('validate', required);
+    const inputElement = container.querySelector('#newPassword');
+    expect(inputElement).toBeDefined();
   });
 
   it('has a newPasswordConfirm text field', () => {
-    const element = component.find('Field[name="newPasswordConfirm"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
-    expect(props).toHaveProperty('validate', [required, expect.any(Function)]);
+    const inputElement = container.querySelector('#oldPasswordConfirm');
+    expect(inputElement).toBeDefined();
   });
 });

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { routeConverter } from '@entando/utils';
-import { formValueSelector, submit } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
 import { fetchProfileTypeAttributes, sendPostProfileType, setSelectedAttribute } from 'state/profile-types/actions';
@@ -14,7 +13,10 @@ import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
 export const mapStateToProps = state => ({
   mode: 'add',
   attributesType: getProfileTypeAttributesIdList(state),
-  attributeCode: formValueSelector('ProfileType')(state, 'type'),
+  initialValues: {
+    code: '',
+    name: '',
+  },
 });
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
@@ -28,7 +30,7 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
       code: values.code && values.code.toUpperCase(),
     }));
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('ProfileType')); },
+  onSave: () => { dispatch(setVisibleModal('')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_PROFILE_TYPE_LIST)); },
 });

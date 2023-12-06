@@ -5,10 +5,10 @@ import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
 import { routeConverter, hasAccess } from '@entando/utils';
+import { adminConsoleUrl } from 'helpers/urlUtils';
 
 import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 
-import { adminConsoleUrl } from 'helpers/urlUtils';
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
@@ -230,13 +230,7 @@ const EntandoMenu = ({
         hiddenIcons={false}
         hideMasthead={false}
         hoverDisabled
-        onNavigate={({ href, onClick }) => {
-          if (href) {
-            window.location.href = href;
-          } else {
-            onClick();
-          }
-        }}
+        onNavigate={e => e.onClick()}
         pinnableMenus={false}
         hoverPath={openPath}
         onItemClick={handleItemClick}

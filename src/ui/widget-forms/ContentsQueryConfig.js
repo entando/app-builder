@@ -1,23 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { addToast, TOAST_SUCCESS } from '@entando/messages';
+import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, FieldArray, withFormik, getIn } from 'formik';
 import { Collapse } from 'react-collapse';
 import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
-import { required, maxLength } from '@entando/utils';
+import { routeConverter, required, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
-
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import SectionTitle from 'ui/common/SectionTitle';
-import MultiFilterSelectRenderer from 'ui/common/form/MultiFilterSelectRenderer';
-import FiltersSelectRenderer from 'ui/common/form/FiltersSelectRenderer';
+import MultiFilterSelectRenderer from 'ui/common/formik-field/MultiFilterSelectRenderer';
+import FiltersSelectRenderer from 'ui/common/formik-field/FiltersSelectRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
-
 import { CONTENTS_QUERY_CONFIG } from 'ui/widget-forms/const';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 export const ContentsQueryContainerId = `widgets.${CONTENTS_QUERY_CONFIG}`;
 
@@ -53,10 +54,18 @@ export class ContentsQueryFormBody extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { selectedContentType: prevContentType } = prevProps;
-    const { selectedContentType, onChangeContentType } = this.props;
-    if (selectedContentType !== prevContentType) {
-      onChangeContentType(selectedContentType);
+    const { values: prevValues } = prevProps;
+    const {
+      onChangeContentType, values: currentValues, setFieldValue, putPrefixField,
+      contentType, initialValues, setSelectedContentType, contentTypes,
+    } = this.props;
+    if (initialValues.contentType !== '' && !contentType.code) {
+      const selectedContentTypeFromForm = contentTypes
+        .find(ctype => ctype.code === initialValues.contentType);
+      if (selectedContentTypeFromForm) setSelectedContentType(selectedContentTypeFromForm);
+    }
+    if (getIn(prevValues, putPrefixField('contentType')) !== getIn(currentValues, putPrefixField('contentType'))) {
+      onChangeContentType(getIn(currentValues, putPrefixField('contentType')), setFieldValue);
     }
   }
 
@@ -81,11 +90,12 @@ export class ContentsQueryFormBody extends Component {
   renderFormFields() {
     const {
       contentTypes, contentType, contentTemplates, categories, pages,
-      onResetModelId, selectedContentType, selectedCategories,
+      onResetModelId,
       intl, onChangeFilterValue, onResetFilterOption, onChangeFilterAttribute,
-      languages, onToggleInclusiveOr, selectedInclusiveOr, extFormName,
-      invalid, submitting, dirty, onCancel, onDiscard, onSave, putPrefixField,
-      widgetConfigFormData, defaultLanguageCode,
+      languages, onToggleInclusiveOr, extFormName,
+      isValid, isDirty, isSubmitting, onCancel, onDiscard, putPrefixField,
+      widgetConfigFormData, defaultLanguageCode, values, setFieldValue, handleSubmit,
+      onSave, submitForm,
     } = this.props;
     const {
       publishingSettings, filters: filtersPanel,
@@ -99,7 +109,7 @@ export class ContentsQueryFormBody extends Component {
 
     const normalizedLanguages = languages.map(lang => lang.code);
 
-    const defaultPageValue = widgetConfigFormData[putPrefixField('pageLink')];
+    const defaultPageValue = getIn(values, putPrefixField('pageLink'));
     const defaultLangLinkTextRequired = defaultPageValue !== null && defaultPageValue !== undefined && defaultPageValue !== '';
 
     const renderTitleFields = !isUndefined(normalizedLanguages) ? normalizedLanguages
@@ -109,7 +119,7 @@ export class ContentsQueryFormBody extends Component {
           component={RenderTextInput}
           name={putPrefixField(`title_${langCode}`)}
           label={<FormLabel langLabelText={langCode} labelId="app.title" />}
-          validate={[maxLength70]}
+          validate={value => convertReduxValidationsToFormikValidations(value, [maxLength70])}
         />
       )) : null;
 
@@ -125,9 +135,15 @@ export class ContentsQueryFormBody extends Component {
               labelId="widget.form.linkText"
               required={langCode === defaultLanguageCode && defaultLangLinkTextRequired}
             />
-)}
-          validate={langCode === defaultLanguageCode && defaultLangLinkTextRequired
-            ? [required, maxLength70] : [maxLength70]}
+          )}
+          validate={value =>
+            convertReduxValidationsToFormikValidations(
+              value,
+              langCode === defaultLanguageCode
+              && defaultLangLinkTextRequired
+              ? [required, maxLength70] : [maxLength70],
+            )
+          }
         />
       )) : null;
 
@@ -139,7 +155,7 @@ export class ContentsQueryFormBody extends Component {
 
     const inclusiveOrOptions = [{ id: 'true', label: intl.formatMessage({ id: 'widget.form.inclusiveOr' }) }];
 
-    const renderCategories = selectedCategories;
+    const renderCategories = getIn(values, putPrefixField('categories'));
 
     const getListAttributeFilters = () => {
       if (!contentType.attributes) {
@@ -157,11 +173,15 @@ export class ContentsQueryFormBody extends Component {
       <Button
         bsStyle="default"
         type="button"
-        disabled={selectedCategories.length < 2 && selectedCategories.length !== 0}
-        active={Boolean(selectedInclusiveOr)}
-        onClick={() => onToggleInclusiveOr(selectedInclusiveOr)}
+        disabled={
+          !!getIn(values, putPrefixField('categories'))
+          && (getIn(values, putPrefixField('categories')).length < 2
+          && getIn(values, putPrefixField('categories')).length !== 0)
+        }
+        active={Boolean(getIn(values, putPrefixField('orClauseCategoryFilter')))}
+        onClick={() => onToggleInclusiveOr(getIn(values, putPrefixField('orClauseCategoryFilter')), setFieldValue)}
         className={`ContentsQueryForm__inclusiveOr
-    ${selectedInclusiveOr ? 'ContentsQueryForm__inclusiveOr--active' : ''}`}
+    ${getIn(values, putPrefixField('orClauseCategoryFilter')) ? 'ContentsQueryForm__inclusiveOr--active' : ''}`}
       >
         <FormattedMessage
           id="widget.form.inclusiveOr"
@@ -170,14 +190,14 @@ export class ContentsQueryFormBody extends Component {
       </Button>
     );
 
-    const renderSaveButton = selectedContentType
+    const renderSaveButton = getIn(values, putPrefixField('contentType'))
       && (
       <Button
         className="pull-right AddContentTypeFormBody__save--btn"
         type="submit"
         bsStyle="primary"
-        disabled={invalid || submitting}
-        onClick={onSave}
+        disabled={!isValid || isSubmitting}
+        onClick={() => { onSave(submitForm); handleSubmit(); }}
       >
         <FormattedMessage id="app.save" />
       </Button>
@@ -211,13 +231,13 @@ export class ContentsQueryFormBody extends Component {
       ...attributeFilters.map(({ code }) => ({ [code]: [] })),
     };
 
-    const handleContentTypeChange = () => onResetModelId();
+    const handleContentTypeChange = () => onResetModelId(setFieldValue);
     const handleCollapsePublishingSettings = () => this.collapseSection('publishingSettings');
     const handleCollapseFilters = () => this.collapseSection('filters');
     const handleCollapseExtraOptions = () => this.collapseSection('extraOptions');
     const handleCollapseFrontendFilters = () => this.collapseSection('frontendFilters');
     const handleCancelClick = () => {
-      if (dirty) {
+      if (isDirty) {
         onCancel();
       } else {
         onDiscard();
@@ -234,21 +254,23 @@ export class ContentsQueryFormBody extends Component {
                 noRequired
               />
               <Field
-                component={RenderSelectInput}
                 name={putPrefixField('contentType')}
                 label={
                   <FormLabel labelId="dataModel.type" />
-                  }
+                }
                 options={contentTypes}
                 optionValue="code"
                 optionDisplayName="name"
                 defaultOptionId="app.enumerator.none"
-                onChange={handleContentTypeChange}
+                component={RenderSelectInput}
+                onChange={() => {
+                  handleContentTypeChange();
+                }}
               />
             </fieldset>
           </Col>
         </Row>
-        <div className={selectedContentType ? 'visible' : 'hidden'}>
+        <div className={getIn(values, putPrefixField('contentType')) ? 'visible' : 'hidden'}>
           <Row className="InfoFormBody">
             <Col xs={12}>
               <fieldset className="no-padding">
@@ -320,19 +342,22 @@ export class ContentsQueryFormBody extends Component {
                     </label>
                     <Col xs={12} sm={10}>
                       <FieldArray
-                        component={MultiFilterSelectRenderer}
                         name={putPrefixField('categories')}
-                        options={allCategories}
-                        selectedValues={renderCategories}
-                        labelKey="name"
-                        valueKey="code"
-                        allMode
+                        render={formik => (<MultiFilterSelectRenderer
+                          {...formik}
+                          options={allCategories}
+                          selectedValues={renderCategories}
+                          labelKey="name"
+                          valueKey="code"
+                          allMode
+                        />)}
+
                       />
                       <div className="ContentsQueryForm__inclusiveOr">
                         <Field
                           component={ButtonComponent}
                           toggleElement={inclusiveOrOptions}
-                          name="orClauseCategoryFilter"
+                          name={putPrefixField('orClauseCategoryFilter')}
                         />
                         <span className="help-block">
                           <FormattedMessage id="widget.form.inclusiveOrTip" />
@@ -347,15 +372,25 @@ export class ContentsQueryFormBody extends Component {
                     </label>
                     <Col xs={12} sm={10}>
                       <FieldArray
-                        intl={intl}
-                        component={FiltersSelectRenderer}
                         name={putPrefixField('filters')}
-                        options={filters}
-                        onResetFilterOption={onResetFilterOption}
-                        onChangeFilterValue={onChangeFilterValue}
-                        onChangeFilterAttribute={onChangeFilterAttribute}
-                        filterName="filters"
-                        attributeFilterChoices={attributeFilters}
+                        render={formik => (<FiltersSelectRenderer
+                          {...formik}
+                          intl={intl}
+                          options={filters}
+                          onResetFilterOption={
+                            (name, i, value) => onResetFilterOption(name, i, value, setFieldValue)
+                          }
+                          onChangeFilterValue={
+                            (name, index, value) =>
+                             onChangeFilterValue(name, index, value, setFieldValue)
+                          }
+                          onChangeFilterAttribute={
+                            (name, index, attributeFilter) =>
+                             onChangeFilterAttribute(name, index, attributeFilter, setFieldValue)
+                          }
+                          filterName={putPrefixField('filters')}
+                          attributeFilterChoices={attributeFilters}
+                        />)}
                       />
                     </Col>
                   </FormGroup>
@@ -386,8 +421,13 @@ export class ContentsQueryFormBody extends Component {
                       name={putPrefixField('pageLink')}
                       label={
                         <FormLabel labelId="widget.form.page" required={!!pageIsRequired} />
-                    }
-                      validate={pageIsRequired ? [required] : []}
+                      }
+                      validate={value =>
+                        convertReduxValidationsToFormikValidations(
+                          value,
+                          pageIsRequired ? [required] : [],
+                          )
+                      }
                       options={normalizedPages}
                       optionValue="code"
                       optionDisplayName="name"
@@ -418,16 +458,27 @@ export class ContentsQueryFormBody extends Component {
                     </label>
                     <Col xs={12} sm={10}>
                       <FieldArray
-                        intl={intl}
-                        component={FiltersSelectRenderer}
                         name={putPrefixField('userFilters')}
-                        options={frontendFilters}
-                        suboptions={frontendFiltersSuboptions}
-                        onResetFilterOption={onResetFilterOption}
-                        onChangeFilterValue={onChangeFilterValue}
-                        onChangeFilterAttribute={onChangeFilterAttribute}
-                        filterName="frontendFilters"
-                        attributeFilterChoices={attributeFilters}
+                        render={formik => (<FiltersSelectRenderer
+                          {...formik}
+                          intl={intl}
+                          options={frontendFilters}
+                          suboptions={frontendFiltersSuboptions}
+                          onResetFilterOption={
+                            (name, i, value) => onResetFilterOption(name, i, value, setFieldValue)
+                          }
+                          onChangeFilterValue={
+                            (name, index, value) =>
+                             onChangeFilterValue(name, index, value, setFieldValue)
+                          }
+                          onChangeFilterAttribute={
+                            (name, index, attributeFilter) =>
+                             onChangeFilterAttribute(name, index, attributeFilter, setFieldValue)
+                          }
+                          filterName={putPrefixField('userFilters')}
+                          attributeFilterChoices={attributeFilters}
+                        />)}
+
                       />
                     </Col>
                   </FormGroup>
@@ -452,9 +503,9 @@ export class ContentsQueryFormBody extends Component {
               </WidgetConfigPortal>
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={onSave}
+                submitting={isSubmitting}
+                invalid={!isValid}
+                onClick={() => { onSave(submitForm); handleSubmit(); }}
                 onDiscard={onDiscard}
               />
             </Col>
@@ -478,8 +529,10 @@ export class ContentsQueryFormBody extends Component {
     );
   }
 
+
   render() {
     const { extFormName } = this.props;
+
     const formFields = this.renderFormFields();
     return (
       <Fragment>
@@ -500,11 +553,12 @@ ContentsQueryFormBody.propTypes = {
   languages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  submitForm: PropTypes.func.isRequired,
+  setSelectedContentType: PropTypes.func.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.shape({})),
   contentType: PropTypes.shape({
     attributes: PropTypes.arrayOf(PropTypes.shape({})),
+    code: PropTypes.string,
   }),
   contentTemplates: PropTypes.arrayOf(PropTypes.shape({})),
   pages: PropTypes.arrayOf(PropTypes.shape({})),
@@ -516,9 +570,10 @@ ContentsQueryFormBody.propTypes = {
   onChangeContentType: PropTypes.func.isRequired,
   onToggleInclusiveOr: PropTypes.func.isRequired,
   onResetModelId: PropTypes.func.isRequired,
-  selectedContentType: PropTypes.string,
-  selectedInclusiveOr: PropTypes.string,
-  dirty: PropTypes.bool,
+  setFieldValue: PropTypes.func.isRequired,
+  isValid: PropTypes.bool,
+  isDirty: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
@@ -527,11 +582,20 @@ ContentsQueryFormBody.propTypes = {
   cloneMode: PropTypes.bool,
   widgetConfigFormData: PropTypes.shape({}),
   defaultLanguageCode: PropTypes.string,
+  values: PropTypes.shape({
+    contentType: PropTypes.string,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    orClauseCategoryFilter: PropTypes.string,
+  }),
+  initialValues: PropTypes.shape({
+    contentType: PropTypes.string,
+  }).isRequired,
 };
 
 ContentsQueryFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isDirty: false,
+  isSubmitting: false,
   languages: [],
   contentTypes: [],
   contentType: {},
@@ -539,18 +603,55 @@ ContentsQueryFormBody.defaultProps = {
   categories: [],
   pages: [],
   selectedCategories: [],
-  selectedContentType: '',
-  selectedInclusiveOr: '',
-  dirty: false,
   extFormName: '',
   putPrefixField: name => name,
   cloneMode: false,
   widgetConfigFormData: {},
   defaultLanguageCode: 'en',
+  values: {
+    contentType: '',
+    categories: [],
+    orClauseCategoryFilter: '',
+  },
 };
 
-const ContentsQueryConfig = reduxForm({
-  form: ContentsQueryContainerId,
+const ContentsQueryConfig = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues, languages, parentField }) => {
+    let formValues = {
+      ...initialValues,
+      ...languages.reduce((acc, item) => ({
+        ...acc,
+        [`title_${item.code}`]: initialValues[`title_${item.code}`] || '',
+        [`linkDescr_${item.code}`]: initialValues[`linkDescr_${item.code}`] || '',
+      }), {}),
+    };
+    if (parentField) {
+      formValues = {
+        [parentField]: formValues,
+      };
+    }
+
+    return formValues;
+  },
+  handleSubmit(values, {
+    setSubmitting,
+    props: {
+      onSubmit, history, intl, continueWithDispatch, pageCode,
+    },
+  }) {
+    onSubmit(values)
+      .then((res) => {
+        if (res) {
+          continueWithDispatch(addToast(
+            intl.formatMessage({ id: 'widget.update.success' }),
+            TOAST_SUCCESS,
+          ));
+          history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
+        }
+      })
+      .finally(() => setSubmitting(false));
+  },
 })(ContentsQueryFormBody);
 
 export default ContentsQueryConfig;

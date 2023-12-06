@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import { required } from '@entando/utils';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
+import * as Yup from 'yup';
 
 import FormLabel from 'ui/common/form/FormLabel';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import { METATAG_TYPE_OPTIONS } from 'ui/pages/common/const';
 
-const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
+const SeoMetadataFormBody = ({ handleSubmit, isValid, readOnly }) => (
   <div className="SeoInfo__addmetadata">
     <legend className="SeoInfo__addmetadata--head">
       <FormLabel helpId="app.seo.addMetatagHelp" labelId="app.seo.addMetatag" />
@@ -23,7 +23,6 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
             component={RenderTextInput}
             name="metakey"
             label={<FormLabel labelId="app.seo.addMetatagKey" />}
-            validate={[required]}
             disabled={readOnly}
           />
         </Col>
@@ -33,7 +32,6 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
             options={METATAG_TYPE_OPTIONS}
             name="metatype"
             label={<FormLabel labelId="app.seo.addMetatagType" />}
-            validate={[required]}
             disabled={readOnly}
           />
         </Col>
@@ -42,7 +40,6 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
             component={RenderTextInput}
             name="metavalue"
             label={<FormLabel labelId="app.seo.addMetatagValue" />}
-            validate={[required]}
             disabled={readOnly}
           />
         </Col>
@@ -51,7 +48,7 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
             className="pull-right"
             type="submit"
             bsStyle="primary"
-            disabled={invalid || readOnly}
+            disabled={!isValid || readOnly}
             onClick={handleSubmit}
           >
             <FormattedMessage id="app.add" />
@@ -64,20 +61,35 @@ const SeoMetadataFormBody = ({ handleSubmit, invalid, readOnly }) => (
 
 SeoMetadataFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
+  isValid: PropTypes.bool,
   readOnly: PropTypes.bool,
 };
 
 SeoMetadataFormBody.defaultProps = {
-  invalid: false,
+  isValid: false,
   readOnly: false,
 };
 
-const SeoMetadataForm = reduxForm({
-  form: 'SeoMetadataForm',
-  initialValues: {
-    metatype: get(METATAG_TYPE_OPTIONS, '0.value', ''),
+const SeoMetadataForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => ({
+    ...initialValues, metatype: get(METATAG_TYPE_OPTIONS, '0.value', ''), metakey: '', metavalue: '',
+  }),
+  validateOnMount: true,
+  validationSchema: () => (
+    Yup.object().shape({
+      metakey: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      metatype: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      metavalue: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+    })),
+  handleSubmit: (
+    values,
+    {
+      props: { onSubmit },
+    },
+  ) => {
+    onSubmit(values);
   },
+  displayName: 'SeoMetadataForm',
 })(SeoMetadataFormBody);
 
 export default SeoMetadataForm;

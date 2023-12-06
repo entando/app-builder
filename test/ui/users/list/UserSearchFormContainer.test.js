@@ -5,6 +5,9 @@ import { PROFILE_TYPES_NORMALIZED, PROFILE_TYPES_OPTIONS } from 'test/mocks/prof
 
 const TEST_STATE = {
   profileTypes: PROFILE_TYPES_NORMALIZED.profileTypes,
+  users: {
+    searchTerm: '',
+  },
 };
 
 const page = 1;
@@ -20,15 +23,15 @@ describe('FragmentSearchFormContainer', () => {
   it('maps profileTypes property state in UserSearchFormContainer', () => {
     expect(mapStateToProps(TEST_STATE)).toEqual({
       profileTypes: PROFILE_TYPES_OPTIONS,
-      initialValues: { withProfile: 'all' },
+      initialValues: { withProfile: 'all', username: '' },
 
     });
   });
 
-  it('verify that onWillMount is defined by mapDispatchToProps', () => {
+  it('verify that onDidMount is defined by mapDispatchToProps', () => {
     const result = mapDispatchToProps(dispatchMock);
-    expect(result.onWillMount).toBeDefined();
-    result.onWillMount();
+    expect(result.onDidMount).toBeDefined();
+    result.onDidMount();
     expect(dispatchMock).toHaveBeenCalled();
   });
   it('verify that onSubmit is defined by mapDispatchToProps', () => {

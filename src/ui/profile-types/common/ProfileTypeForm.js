@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { InputGroup, Button, Row, Col } from 'patternfly-react';
-
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 import { required, maxLength } from '@entando/utils';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTable from 'ui/common/attributes/AttributeListTable';
 import DeleteAttributeModalContainer from 'ui/profile-types/attributes/DeleteAttributeModalContainer';
@@ -26,15 +26,15 @@ export class ProfileTypeFormBody extends Component {
   render() {
     const {
       attributesType, mode, handleSubmit,
-      onAddAttribute, invalid, submitting,
-      profileTypeCode, attributeCode, intl,
-      dirty, onCancel, onDiscard, onSave,
+      onAddAttribute, isValid, isSubmitting,
+      profileTypeCode, values, intl,
+      isDirty, onCancel, onDiscard, onSave,
     } = this.props;
 
     const isEdit = mode === 'edit';
 
     const handleCancelClick = () => {
-      if (dirty) {
+      if (isDirty) {
         onCancel();
       } else {
         onDiscard();
@@ -84,7 +84,7 @@ export class ProfileTypeFormBody extends Component {
                   className="pull-right ProfileTypeForm__add"
                   bsStyle="primary"
                   onClick={() => onAddAttribute(this.props)}
-                  disabled={invalid || submitting || !attributeCode}
+                  disabled={!isValid || isSubmitting || !values.type}
                 >
                   <FormattedMessage
                     id="app.add"
@@ -116,7 +116,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.code" helpId="app.add.attribute.code" required />
                 }
-                validate={[required, uppercaseThreeLetters]}
+                validate={value =>
+                  convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, uppercaseThreeLetters],
+                  )
+                }
                 disabled={isEdit}
               />
               <Field
@@ -125,7 +130,12 @@ export class ProfileTypeFormBody extends Component {
                 label={
                   <FormLabel labelId="app.name" helpId="app.help.name" required />
                  }
-                validate={[required, maxLength50]}
+                validate={
+                  value => convertReduxValidationsToFormikValidations(
+                    value,
+                    [required, maxLength50],
+                  )
+                }
               />
               {renderSelectOption()}
               {renderAttributeTable()}
@@ -137,8 +147,8 @@ export class ProfileTypeFormBody extends Component {
           <Col xs={12}>
             <ConfirmCancelModalContainer
               contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-              invalid={invalid}
-              submitting={submitting}
+              invalid={!isValid}
+              submitting={isSubmitting}
               onSave={onSave}
               onDiscard={onDiscard}
             />
@@ -146,7 +156,7 @@ export class ProfileTypeFormBody extends Component {
               className="pull-right ProfileTypeForm__save-btn"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -172,30 +182,43 @@ ProfileTypeFormBody.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onAddAttribute: PropTypes.func,
   attributesType: PropTypes.arrayOf(PropTypes.string).isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   mode: PropTypes.string,
   profileTypeCode: PropTypes.string,
   attributeCode: PropTypes.string,
-  dirty: PropTypes.bool,
+  isDirty: PropTypes.bool,
   onSave: PropTypes.func.isRequired,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  values: PropTypes.shape({
+    type: PropTypes.shape({
+      code: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 ProfileTypeFormBody.defaultProps = {
   onWillMount: () => {},
   onAddAttribute: () => {},
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   mode: 'add',
   profileTypeCode: '',
   attributeCode: '',
-  dirty: false,
+  isDirty: false,
 };
 
-const ProfileTypeForm = injectIntl(reduxForm({
-  form: 'ProfileType',
+const ProfileTypeForm = injectIntl(withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => ({
+    ...initialValues,
+    code: (initialValues && initialValues.code) || '',
+    name: (initialValues && initialValues.name) || '',
+  }),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
 })(ProfileTypeFormBody));
 
 export default ProfileTypeForm;

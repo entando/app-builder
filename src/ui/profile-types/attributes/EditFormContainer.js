@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { METHODS } from '@entando/apimanager';
-import { formValueSelector, submit } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 
@@ -27,6 +26,9 @@ import {
   getProfileTypeSelectedAttributeRoleChoices,
   getSelectedCompositeAttributes,
   getIsMonolistCompositeAttributeType,
+  getAttributeSelectFromProfileType,
+  getSelectedAttributeNestedType,
+  getProfileTypeSelectedAttributeJoinRoles,
 } from 'state/profile-types/selectors';
 import { MODE_EDIT_COMPOSITE, MODE_ADD_ATTRIBUTE_COMPOSITE } from 'state/profile-types/const';
 import {
@@ -38,7 +40,7 @@ import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 export const mapStateToProps = (state, { match: { params } }) => {
-  const joinAllowedOptions = formValueSelector('attribute')(state, 'joinRoles') || [];
+  const joinAllowedOptions = getProfileTypeSelectedAttributeJoinRoles(state) || [];
   return {
     mode: getActionModeProfileTypeSelectedAttribute(state) || 'edit',
     attributeCode: params.attributeCode,
@@ -56,7 +58,8 @@ export const mapStateToProps = (state, { match: { params } }) => {
     isIndexable: getProfileTypeSelectedAttributeIndexable(state),
     compositeAttributes: getSelectedCompositeAttributes(state),
     isMonolistCompositeType: getIsMonolistCompositeAttributeType(state),
-    nestedAttributeComposite: formValueSelector('attribute')(state, 'nestedAttribute.type') || '',
+    nestedAttributeComposite: getSelectedAttributeNestedType(state),
+    initialValues: getAttributeSelectFromProfileType(state),
   };
 };
 
@@ -66,7 +69,7 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
     dispatch(fetchProfileTypeAttributes());
     dispatch(fetchAttributeFromProfileType('attribute', profileTypeAttributeCode, attributeCode));
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('attribute')); },
+  onSave: () => { dispatch(setVisibleModal('')); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: (mode) => {
     dispatch(setVisibleModal(''));
@@ -91,15 +94,16 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
     ));
   },
   onAddAttribute: (props) => {
-    const { attributeCode, profileTypeAttributeCode, selectedAttributeType } = props;
+    const {
+      attributeCode, profileTypeAttributeCode, selectedAttributeType, values: { type },
+    } = props;
     dispatch(fetchProfileTypeAttribute(
       profileTypeAttributeCode,
-      attributeCode,
+      type || attributeCode,
       () => history.push(routeConverter(ROUTE_PROFILE_TYPE_ATTRIBUTE_ADD, {
         entityCode: profileTypeAttributeCode,
       })),
       selectedAttributeType,
-      'attribute',
     ));
   },
   onClickDelete: (attributeCode, isMonolistCompositeType) => {

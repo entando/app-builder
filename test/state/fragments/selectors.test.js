@@ -4,7 +4,7 @@ import { getListWidget } from 'state/widgets/selectors';
 
 import {
   getFragments, getWidgetTypes, getPlugins, getFragmentSelected,
-  getWidgetTypesOptions, getPluginsOptions, getFragmentList, getFilters,
+  getWidgetTypesOptions, getPluginsOptions, getFragmentList, getFilters, getFragmentSettings,
 } from 'state/fragments/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
@@ -24,6 +24,7 @@ const MOCK_STATE = {
     selected: FRAGMENT_PAYLOAD,
     plugins: PLUGINS_PAYLOAD,
     filters: FILTERS_OK,
+    settings: { enableEditingWhenEmptyDefaultGui: false },
   },
 };
 
@@ -55,6 +56,9 @@ describe('state/fragments/selectors', () => {
   });
   it('verify getFragmentList selector', () => {
     expect(getFragmentList(MOCK_STATE)).toEqual(list);
+  });
+  it('verify getFragmentSettings selector', () => {
+    expect(getFragmentSettings(MOCK_STATE)).toEqual(MOCK_STATE.fragments.settings);
   });
   it('getWidgetTypes(state) returns the widgetTypes list', () => {
     const selected = getWidgetTypes(MOCK_STATE);

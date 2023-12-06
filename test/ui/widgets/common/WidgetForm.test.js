@@ -4,28 +4,32 @@ import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
 import { WidgetFormBody, renderDefaultUIField } from 'ui/widgets/common/WidgetForm';
 import { LANGUAGES_LIST as LANGUAGES } from 'test/mocks/languages';
 
-const handleSubmit = jest.fn();
+const onSubmit = jest.fn();
 const onWillMount = jest.fn();
+const setFieldValue = jest.fn();
+const handleSubmit = jest.fn();
 
 describe('WidgetForm', () => {
   let widgetForm = null;
-  let submitting;
-  let invalid;
+  let isSubmitting;
+  let isValid;
   let groups;
 
 
   beforeEach(() => {
-    submitting = false;
-    invalid = false;
+    isSubmitting = false;
+    isValid = true;
     groups = [];
   });
 
   const buildWidgetForm = (mode) => {
     const props = {
-      submitting,
-      invalid,
+      isSubmitting,
+      isValid,
+      onSubmit,
       handleSubmit,
       onWillMount,
+      setFieldValue,
       groups,
       mode,
       languages: LANGUAGES,
@@ -99,7 +103,7 @@ describe('WidgetForm', () => {
 
 
   it('disables submit buttons while submitting', () => {
-    submitting = true;
+    isSubmitting = true;
     widgetForm = buildWidgetForm();
     const regularSaveButton = widgetForm.find('#regularSaveButton');
     expect(regularSaveButton.prop('disabled')).toEqual(true);
@@ -108,7 +112,7 @@ describe('WidgetForm', () => {
   });
 
   it('disables submit buttons if form is invalid', () => {
-    invalid = true;
+    isValid = false;
     widgetForm = buildWidgetForm();
     const regularSaveButton = widgetForm.find('#regularSaveButton');
     expect(regularSaveButton.prop('disabled')).toEqual(true);
@@ -116,10 +120,10 @@ describe('WidgetForm', () => {
     expect(continueSaveButton.prop('disabled')).toEqual(true);
   });
 
-  it('on form submit calls handleSubmit', () => {
+  it('on form submit calls handleSubmit', async () => {
     widgetForm = buildWidgetForm();
     const preventDefault = jest.fn();
-    widgetForm.find('form').simulate('submit', { preventDefault });
+    await widgetForm.find('#regularSaveButton').simulate('click', { preventDefault });
     expect(handleSubmit).toHaveBeenCalled();
   });
 });

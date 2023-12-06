@@ -3,8 +3,8 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
-import { FieldArray } from 'redux-form';
-import RoleSelectRenderer from 'ui/common/form/RoleSelectRenderer';
+import { FieldArray } from 'formik';
+import RoleSelectRenderer from 'ui/common/formik-field/RoleSelectRenderer';
 
 class AttributeRole extends Component {
   componentWillMount() {
@@ -12,7 +12,7 @@ class AttributeRole extends Component {
   }
 
   render() {
-    const { joinAllowedOptions, allowedRoles, allRoles } = this.props;
+    const { allowedRoles, allRoles, form } = this.props;
 
     const selectAllowedOptions = allowedRoles.map(item => (
       {
@@ -31,7 +31,7 @@ class AttributeRole extends Component {
     const getAttributeRoleLabel = item => item && `${item.value} - ${item.text}`;
 
     const roleWrapper = () => {
-      if (isEmpty(allowedRoles) && isEmpty(joinAllowedOptions)) {
+      if (isEmpty(allowedRoles) && isEmpty(form.initialValues.joinRoles)) {
         return (
           <FormGroup>
             <Col xs={10}>
@@ -48,14 +48,17 @@ class AttributeRole extends Component {
           </label>
           <Col xs={10}>
             <FieldArray
-              component={RoleSelectRenderer}
               name="joinRoles"
-              options={selectAllowedOptions}
-              allRoles={allOptions}
-              selectedValues={joinAllowedOptions}
-              valueKey="value"
-              labelFn={getAttributeRoleLabel}
-              emptyOptionTextId="app.chooseARole"
+              render={formik => (<RoleSelectRenderer
+                {...formik}
+                options={selectAllowedOptions}
+                allRoles={allOptions}
+                valueKey="value"
+                labelFn={getAttributeRoleLabel}
+                emptyOptionTextId="app.chooseARole"
+
+              />)}
+
             />
           </Col>
         </FormGroup>
@@ -88,6 +91,11 @@ AttributeRole.propTypes = {
     descr: PropTypes.string,
   })),
   joinAllowedOptions: PropTypes.arrayOf(PropTypes.string),
+  form: PropTypes.shape({
+    initialValues: PropTypes.shape({
+      joinRoles: PropTypes.arrayOf(),
+    }),
+  }),
 };
 
 AttributeRole.defaultProps = {
@@ -95,6 +103,9 @@ AttributeRole.defaultProps = {
   allowedRoles: [],
   allRoles: [],
   joinAllowedOptions: [],
+  form: {
+    initialValues: {},
+  },
 };
 
 

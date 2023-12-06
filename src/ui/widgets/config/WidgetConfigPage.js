@@ -199,7 +199,7 @@ WidgetConfigPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}),
 };
 
 WidgetConfigPage.defaultProps = {
@@ -207,6 +207,7 @@ WidgetConfigPage.defaultProps = {
   widgetConfig: null,
   onDidMount: null,
   onWillUnmount: null,
+  history: {},
 };
 
 export default WidgetConfigPage;

@@ -1,30 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { ToggleButton, ButtonToolbar } from 'react-bootstrap';
 
 import ToggleButtonGroupField from 'ui/widgets/config/forms/ToggleButtonGroupField';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 
 const NavigationBarTargetPage = ({
-  intl, pages, language, onSpecificPageChoose, appTourProgress,
+  intl, pages, language, onSpecificPageChoose, appTourProgress, handleChange, setFieldValue,
 }) => (
   <div>
     <ButtonToolbar>
-      <Field name="addConfig.spec" component={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }}>
+      <Field name="addConfig.spec" component={ToggleButtonGroupField} onBlur={(e) => { e.preventDefault(); }} >
         <ToggleButton
           value="current"
+          onChange={handleChange}
         >
           <FormattedMessage id="widget.navigationBar.config.this" />
         </ToggleButton>
         <ToggleButton
           value="parent"
+          onChange={handleChange}
         >
           <FormattedMessage id="widget.navigationBar.config.parent" />
         </ToggleButton>
         <ToggleButton
           value="super"
+          onChange={handleChange}
         >
           <span><FormattedMessage id="widget.navigationBar.config.fromThis" /></span>
           <Field
@@ -38,6 +41,7 @@ const NavigationBarTargetPage = ({
         </ToggleButton>
         <ToggleButton
           value="abs"
+          onChange={handleChange}
         >
           <span><FormattedMessage id="widget.navigationBar.config.fromRoot" /></span>
           <Field
@@ -51,14 +55,18 @@ const NavigationBarTargetPage = ({
         </ToggleButton>
         <ToggleButton
           value="code"
+          onChange={handleChange}
           className="app-tour-step-14"
         >
           <span><FormattedMessage id="widget.navigationBar.config.specific" /></span>
           <Field
             name="addConfig.targetCode"
-            component="select"
+            as="select"
             disabled={appTourProgress === APP_TOUR_STARTED}
-            onChange={e => onSpecificPageChoose(e.target.value, appTourProgress)}
+            onChange={(e) => {
+              onSpecificPageChoose(e.target.value, appTourProgress, setFieldValue);
+              handleChange(e);
+            }}
           >
             <option key="chooseOption" value="">{intl.formatMessage({ id: 'app.chooseAnOption' })}</option>
             {pages.map(page => (
@@ -80,6 +88,8 @@ NavigationBarTargetPage.propTypes = {
   language: PropTypes.string.isRequired,
   onSpecificPageChoose: PropTypes.func.isRequired,
   appTourProgress: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
 };
 
 export default NavigationBarTargetPage;

@@ -2,9 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { clearErrors } from '@entando/messages';
-import { submit, reduxForm } from 'redux-form';
-import { injectIntl } from 'react-intl';
-import { WidgetFormBody } from 'ui/widgets/common/WidgetForm';
+import WidgetForm from 'ui/widgets/common/WidgetForm';
 import { get } from 'lodash';
 import { fetchLanguages } from 'state/languages/actions';
 import { removePageWidget, updatePageWidget } from 'state/page-config/actions';
@@ -23,6 +21,9 @@ import { convertConfigObject, stringifyMultiContentsConfigArray } from 'helpers/
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 import { MULTIPLE_CONTENTS_CONFIG } from 'ui/widget-forms/const';
+import { getUserPreferences } from 'state/user-preferences/selectors';
+import { getMyGroupPermissions } from 'state/permissions/selectors';
+import { MANAGE_PAGES_PERMISSION, SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 const CONFIG_SIMPLE_PARAMETER = 'configSimpleParameter';
 const MODE_CLONE = 'clone';
@@ -31,9 +32,17 @@ export const mapStateToProps = (state, { match: { params } }) => {
   const { pageCode, parentCode, frameId } = params;
   const pageConfig = getConfigMap(state) || {};
   const config = get(pageConfig, `${pageCode}.${frameId}.config`, {});
+  const userPreferences = getUserPreferences(state);
+  const groupWithPagePermission = getMyGroupPermissions(state)
+    .find(({ permissions }) => (
+      permissions.includes(SUPERUSER_PERMISSION) || permissions.includes(MANAGE_PAGES_PERMISSION)
+    ));
+  const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
+    || (groupWithPagePermission && groupWithPagePermission.group);
   const initialValues = {
     config,
     parentType: parentCode,
+    group: defaultOwnerGroup,
   };
   const widget = getSelectedWidget(state);
   return ({
@@ -65,7 +74,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     } else {
       dispatch(initWidgetConfigPageWithConfigData(pageCode, parentCode, parseInt(frameId, 10)));
     }
-    dispatch(initNewUserWidget(parentCode, true));
+    dispatch(initNewUserWidget(parentCode));
   },
   onSubmit: (values, saveType) => {
     const { config: configFields, parentType } = values;
@@ -100,15 +109,12 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
       { pageCode, framePos: frameId, widgetCode: values.code },
     ));
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
+  onSave: (submitForm) => { dispatch(setVisibleModal('')); submitForm('widget'); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_WIDGET_LIST)); },
+  onChangeDefaultTitle: (title, setFieldValue) =>
+    setFieldValue('code', title.replace(/\W/g, '_').toLowerCase()),
 });
-
-const WidgetForm = injectIntl(reduxForm({
-  form: 'widget',
-  enableReinitialize: true,
-})(WidgetFormBody));
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,

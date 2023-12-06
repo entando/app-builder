@@ -92,10 +92,9 @@ describe('state/file-browser/actions', () => {
         store.dispatch(fetchFile('file.txt', ['.txt'])).then(() => {
           expect(getFile).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(3);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
-          expect(initialize).toHaveBeenCalledWith('CreateTextFileForm', { content: window.atob('base64') });
-          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[1]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });

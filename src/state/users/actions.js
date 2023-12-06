@@ -1,4 +1,3 @@
-import { initialize, reset } from 'redux-form';
 import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { getUsername } from '@entando/apimanager';
 
@@ -19,7 +18,7 @@ import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
 import { history, ROUTE_USER_LIST, ROUTE_USER_PROFILE } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
-import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL, SET_USER_SEARCH_TERM } from 'state/users/types';
 import { setVisibleModal } from 'state/modal/actions';
 
 
@@ -50,6 +49,11 @@ export const setUsersTotal = usersTotal => ({
   payload: {
     usersTotal,
   },
+});
+
+export const setUserSearchTerm = searchTerm => ({
+  type: SET_USER_SEARCH_TERM,
+  payload: searchTerm,
 });
 
 // thunk
@@ -117,8 +121,7 @@ export const fetchUserForm = username => dispatch => (
     getUser(username).then((response) => {
       dispatch(toggleLoading('form'));
       if (response.ok) {
-        response.json().then((json) => {
-          dispatch(initialize('user', json.payload));
+        response.json().then(() => {
           dispatch(toggleLoading('form'));
           resolve();
         });
@@ -202,7 +205,6 @@ export const fetchUserAuthorities = username => async (dispatch) => {
     const json = await response.json();
     if (response.ok) {
       dispatch(setSelectedUserAuthorities(username, json.payload));
-      dispatch(initialize('autorityForm', { groupRolesCombo: json.payload }));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -243,6 +245,11 @@ export const sendPutUserAuthorities = (authorities, username) => async (dispatch
     const json = await response.json();
     if (response.ok) {
       history.push(ROUTE_USER_LIST);
+      dispatch(addToast(
+        { id: 'user.authority.success' },
+        TOAST_SUCCESS,
+      ));
+      dispatch(clearErrors());
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -267,7 +274,7 @@ export const sendDeleteUserAuthorities = username => async (dispatch) => {
   }
 };
 
-export const sendPostMyPassword = data => async (dispatch) => {
+export const sendPostMyPassword = data => dispatch => new Promise(async (resolve) => {
   try {
     const response = await postMyPassword(data);
     const json = await response.json();
@@ -277,16 +284,16 @@ export const sendPostMyPassword = data => async (dispatch) => {
         TOAST_SUCCESS,
       ));
       dispatch(clearErrors());
-      dispatch(reset('myprofile-account'));
       dispatch(setVisibleModal(''));
     } else {
       dispatch(addErrors(json.errors.map(e => e.message)));
       json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
     }
+    resolve();
   } catch (e) {
     // do nothing
   }
-};
+});
 
 export const sendPostWizardSetting = (username, data) => async (dispatch) => {
   try {

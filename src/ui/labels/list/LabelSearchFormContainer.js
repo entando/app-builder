@@ -8,7 +8,7 @@ const DEFAULT_PAGE = { page: 1, pageSize: 10 };
 export const mapDispatchToProps = dispatch => ({
   onSubmit: (values) => {
     dispatch(setLabelFilters({ keyword: values.key }));
-    dispatch(fetchLabels(DEFAULT_PAGE));
+    dispatch(fetchLabels({ page: 1, pageSize: 10 }));
   },
   onUnmount: () => {
     dispatch(setLabelFilters({ keyword: '' }));

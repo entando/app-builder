@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import EmailConfigSmtpServer from 'ui/email-config/EmailConfigSmtpServer';
 import {
@@ -8,9 +8,11 @@ import {
   sendTestEmail,
   testEmailConfig,
 } from 'state/email-config/actions';
+import { getSmtpServer } from 'state/email-config/selectors';
 
 const EmailConfigSmtpServerContainer = () => {
   const dispatch = useDispatch();
+  const initialValues = useSelector(getSmtpServer);
 
   useEffect(() => {
     dispatch(fetchSMTPServerSettings());
@@ -36,6 +38,7 @@ const EmailConfigSmtpServerContainer = () => {
       onSubmit={handleSubmit}
       onTestConfig={handleTestConfig}
       onSendTestEmail={handleSendTestEmail}
+      initialValues={initialValues}
     />
   );
 };

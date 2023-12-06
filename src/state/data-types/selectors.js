@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { formValueSelector } from 'redux-form';
 import { get, isEmpty, isUndefined } from 'lodash';
 import {
   TYPE_MONOLIST,
@@ -115,4 +114,3 @@ export const getIsMonolistComposteAttributeType =
 export const getNewAttributeComposite =
     createSelector([getSelectedDataType], sel => sel.newAttributeComposite);
 
-export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');

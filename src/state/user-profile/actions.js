@@ -1,12 +1,8 @@
 import { addToast, addErrors, TOAST_ERROR, TOAST_SUCCESS } from '@entando/messages';
-import { getUsername } from '@entando/apimanager';
-
-import { initialize } from 'redux-form';
-
 import { getUserProfile, putUserProfile, getMyUserProfile, putMyUserProfile } from 'api/userProfile';
 import { SET_USER_PROFILE } from 'state/user-profile/types';
 import { fetchProfileType, fetchMyProfileType } from 'state/profile-types/actions';
-import { getPayloadForForm, getPayloadForApi } from 'helpers/entities';
+import { getPayloadForApi } from 'helpers/entities';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 
@@ -19,19 +15,12 @@ export const setUserProfile = profile => ({
   },
 });
 
-export const fetchUserProfile = username => (dispatch, getState) => new Promise((resolve) => {
+export const fetchUserProfile = username => dispatch => new Promise((resolve) => {
   getUserProfile(username).then((response) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserProfile(json.payload));
         dispatch(fetchProfileType(json.payload.typeCode)).then(() => {
-          const state = getState();
-          dispatch(initialize('UserProfile', getPayloadForForm(
-            username, json.payload,
-            getSelectedProfileTypeAttributes(state),
-            getDefaultLanguage(state),
-            getActiveLanguages(state),
-          )));
           resolve();
         });
       } else {
@@ -72,19 +61,12 @@ export const updateUserProfile = (profile, successRedirect = true) =>
   });
 
 
-export const fetchMyUserProfile = () => (dispatch, getState) => new Promise((resolve) => {
+export const fetchMyUserProfile = () => dispatch => new Promise((resolve) => {
   getMyUserProfile().then((response) => {
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setUserProfile(json.payload));
         dispatch(fetchMyProfileType(json.payload.typeCode)).then(() => {
-          const state = getState();
-          dispatch(initialize('UserProfile', getPayloadForForm(
-            getUsername(state), json.payload,
-            getSelectedProfileTypeAttributes(state),
-            getDefaultLanguage(state),
-            getActiveLanguages(state),
-          )));
           resolve();
         });
       } else {
