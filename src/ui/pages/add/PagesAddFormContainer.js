@@ -30,21 +30,35 @@ const getNextPageProperty = ({
   pattern,
   separator,
 }) => {
-  const indexes = pages
-    .map(page => page[property])
-    .filter(Boolean)
-    .map((propertyValue) => {
-      const regex = new RegExp(`${pattern}[${separator}]*(?<currentIndex>\\d)*$`);
-      const result = propertyValue.match(regex);
-      if (!result) {
-        return null;
+  // Regex to match the pattern with an optional number at the end.
+  const regex = new RegExp(`^${pattern}(?:${separator}(?<currentIndex>\\d+))?$`);
+  let maxIndex = 0; // Assume no pages are found initially.
+
+  pages.forEach((page) => {
+    const propertyValue = page[property];
+    if (propertyValue) {
+      const match = propertyValue.match(regex);
+      if (match) {
+        if (match.groups.currentIndex) {
+          // If there's a number, parse it and compare.
+          const currentIndex = parseInt(match.groups.currentIndex, 10);
+          if (currentIndex > maxIndex) {
+            maxIndex = currentIndex;
+          }
+        } else {
+          // If there's no number, it's the base pattern.
+          maxIndex = Math.max(maxIndex, 1);
+        }
       }
-      const currentIndexStr = result.groups.currentIndex;
-      return currentIndexStr ? Number(currentIndexStr) : 1;
-    })
-    .filter(Boolean);
-  const nextIndex = !indexes.length ? null : Math.max(...indexes) + 1;
-  return `${pattern}${nextIndex ? `${separator}${nextIndex}` : ''}`;
+    }
+  });
+
+  if (maxIndex === 0) {
+    // If no matching pages are found, return the base pattern.
+    return pattern;
+  }
+  // If matching pages are found, increment and return.
+  return `${pattern}${separator}${maxIndex + 1}`;
 };
 
 export const getNextPageName = ({ pages, pattern, separator }) => getNextPageProperty({
