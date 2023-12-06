@@ -12,21 +12,26 @@ import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const NewUserWidgetPageBody = () => (
-  <InternalPage className="AddWidgetPage">
+  <InternalPage className="AddWidgetPage EditWidgetPage WidgetPage">
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.uxComponents" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-              <FormattedMessage id="menu.uxComponents.widget" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
-            </BreadcrumbItem>
-          </Breadcrumb>
+      <Row className="WidgetPage__header">
+        <Col xs={12} className="WidgetPage__top">
+          <div>
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <FormattedMessage id="menu.uxComponents" />
+              </BreadcrumbItem>
+              <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
+                <FormattedMessage id="menu.uxComponents.widget" />
+              </BreadcrumbItem>
+              <BreadcrumbItem active>
+                <FormattedMessage id="app.add" />
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div>
+            <div id="widget-button-holder" />
+          </div>
         </Col>
       </Row>
       <Row>
