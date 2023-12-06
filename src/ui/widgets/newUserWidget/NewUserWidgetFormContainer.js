@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 import { submit } from 'redux-form';
 import { clearErrors } from '@entando/messages';
-import WidgetForm from 'ui/widgets/common/WidgetForm';
+import WidgetForm, { MODE_ADD_NEW } from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
@@ -22,6 +22,7 @@ import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 
 export const mapStateToProps = state => ({
+  mode: MODE_ADD_NEW,
   groups: getGroupsList(state),
   parentWidget: getSelectedParentWidget(state),
   parentWidgetParameters: getSelectedParentWidgetParameters(state),

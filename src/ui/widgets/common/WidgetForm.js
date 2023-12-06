@@ -19,6 +19,7 @@ import IconUploader from 'ui/widgets/common/IconUploader';
 import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
 
+export const MODE_ADD_NEW = 'addNew';
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
 export const MODE_CLONE = 'clone';
@@ -368,7 +369,8 @@ export class WidgetFormBody extends Component {
                   validate={[required]}
                 />
 
-                {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
+                {((mode === MODE_EDIT || mode === MODE_CLONE || mode === MODE_ADD_NEW)
+                && parentWidget) && (
                   <div className="form-group">
                     <Col xs={2} className="text-right">
                       <ControlLabel>

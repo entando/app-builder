@@ -79,6 +79,7 @@ import {
   MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE,
   MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE,
 } from 'state/profile-types/const';
+import { TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP } from 'state/content-type/const';
 
 // Profile type
 export const setProfileTypes = profileTypes => ({
@@ -486,6 +487,7 @@ export const sendDeleteAttributeFromProfileType = attributeCode => (dispatch, ge
   })
 );
 
+export const excludeTypes = [TYPE_COMPOSITE, TYPE_LIST, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP];
 
 export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, params = '') => (dispatch, getState) => (
   new Promise((resolve) => {
@@ -495,7 +497,9 @@ export const fetchProfileTypeAttributes = (page = { page: 1, pageSize: 0 }, para
         if (response.ok) {
           const list = getProfileTypeAttributesIdList(getState());
           if (!list || list.length === 0) {
-            dispatch(setProfileTypeAttributes(json.payload));
+            const exludedAttributes = json.payload ?
+              json.payload.filter(attribute => !excludeTypes.includes(attribute)) : [];
+            dispatch(setProfileTypeAttributes(exludedAttributes));
           }
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
