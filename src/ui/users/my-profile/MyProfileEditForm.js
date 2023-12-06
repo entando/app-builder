@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { withFormik, Field, FieldArray } from 'formik';
+import { withFormik, FieldArray } from 'formik';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Panel } from 'react-bootstrap';
 import { Form, Button, Row, Col } from 'patternfly-react';
@@ -15,9 +15,7 @@ import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
-import { getComponentType } from 'helpers/formikEntities';
-
-const defaultAttrCodes = ['fullname', 'email'];
+import { UserProfileField } from 'ui/user-profile/common/UserProfileField';
 
 const getComponentOptions = (component, intl) => {
   const booleanOptions = getTranslatedOptions(intl, BOOLEAN_OPTIONS);
@@ -75,42 +73,6 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 
-const field = (intl, attribute, disabled) => {
-  const labelProp = defaultAttrCodes.includes(attribute.code) ? ({
-    labelId: `user.table.${attribute.code}`,
-  }) : ({
-    labelText: attribute.name,
-  });
-
-  return (
-    <Field
-      key={attribute.code}
-      component={getComponentType(attribute.type)}
-      name={attribute.code}
-      rows={3}
-      toggleElement={getComponentOptions(attribute.type, intl)}
-      options={getEnumeratorOptions(
-        attribute.type,
-        attribute.enumeratorStaticItems,
-        attribute.enumeratorStaticItemsSeparator,
-        attribute.mandatory,
-        intl,
-      )}
-      optionValue="value"
-      optionDisplayName="optionDisplayName"
-      label={<FormLabel
-        {...labelProp}
-        helpText={getHelpMessage(attribute.validationRules, intl)}
-        required={attribute.mandatory}
-      />}
-      disabled={disabled}
-    />
-  );
-};
-
-const renderCompositeAttribute = (intl, compositeAttributes, disabled) =>
-  compositeAttributes.map(attribute => field(intl, attribute, disabled));
-
 class MyProfileEditFormBody extends Component {
   constructor(props) {
     super(props);
@@ -151,10 +113,22 @@ class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      handleSubmit, setFieldValue, isValid, resetForm, values,
+      handleSubmit, setFieldValue, isValid, resetForm, values, isSubmitting,
     } = this.props;
 
     const { editMode } = this.state;
+
+    const field = (attribute, disabled) => (
+      <UserProfileField
+        key={attribute.code}
+        attribute={attribute}
+        intl={intl}
+        disabled={disabled}
+      />
+    );
+
+    const renderCompositeAttribute = (compositeAttributes, disabled) =>
+      compositeAttributes.map(attribute => field(attribute, disabled));
 
     const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
       key={attributeCode}
@@ -199,7 +173,7 @@ class MyProfileEditFormBody extends Component {
                 <Panel>
                   <Panel.Body>
                     <div name={attribute.code}>
-                      {renderCompositeAttribute(intl, attribute.compositeAttributes, !editMode)}
+                      {renderCompositeAttribute(attribute.compositeAttributes, !editMode)}
                     </div>
                   </Panel.Body>
                 </Panel>
@@ -223,7 +197,7 @@ class MyProfileEditFormBody extends Component {
             </Row>
           );
         }
-        return field(intl, attribute, !editMode);
+        return field(attribute, !editMode);
       });
 
     const { profilepicture } = values;
@@ -252,7 +226,7 @@ class MyProfileEditFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               data-testid="profile_saveBtn"
               onClick={() => {
                 this.changeMode();
@@ -332,6 +306,7 @@ MyProfileEditFormBody.propTypes = {
   userEmail: PropTypes.string,
   onChangeProfilePicture: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
 
 MyProfileEditFormBody.defaultProps = {

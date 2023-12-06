@@ -3,7 +3,7 @@ import { routeConverter } from '@entando/utils';
 import { withRouter } from 'react-router-dom';
 
 import { fetchProfileTypeAttributes, sendPostProfileType, setSelectedAttribute } from 'state/profile-types/actions';
-import { getProfileTypeAttributesIdList, getAttributeTypeSelectFromProfileType } from 'state/profile-types/selectors';
+import { getProfileTypeAttributesIdList } from 'state/profile-types/selectors';
 import { setVisibleModal } from 'state/modal/actions';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
@@ -13,7 +13,6 @@ import ProfileTypeForm from 'ui/profile-types/common/ProfileTypeForm';
 export const mapStateToProps = state => ({
   mode: 'add',
   attributesType: getProfileTypeAttributesIdList(state),
-  attributeCode: getAttributeTypeSelectFromProfileType(state),
   initialValues: {
     code: '',
     name: '',
