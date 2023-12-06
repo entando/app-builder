@@ -80,7 +80,7 @@ export const WidgetListTableBody = ({
       const { values: { code, locked, hasConfig } } = cellinfo;
       return (
         <div data-testid={`${code}-actions`}>
-          <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>
+          <DropdownKebab pullRight id={`WidgetListRow-dropdown-${code}`}>
             {hasConfig && (
               <MenuItem
                 className="WidgetListRow__menu-item-addwidget"

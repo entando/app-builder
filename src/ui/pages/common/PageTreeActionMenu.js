@@ -98,7 +98,7 @@ class PageTreeActionMenu extends Component {
 
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
-        <DropdownKebab pullRight id="WidgetListRow-dropown">
+        <DropdownKebab pullRight id={`WidgetListRow-dropdown-${page.code}`}>
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-add"
             onSelect={this.handleClick(onClickAdd)}

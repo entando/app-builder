@@ -31,7 +31,7 @@ const DetailWidgetElement = ({ widgetInfo }) => {
             </td>
             <td className="DetailWidgetElement__td text-center">{data[info].frameDraft}</td>
             <td className="DetailWidgetElement__td text-center">
-              <DropdownKebab pullRight id="DetailWidgetElement-dropown">
+              <DropdownKebab pullRight id={`DetailWidgetElement-dropdown-${info}`}>
                 <LinkMenuItem
                   id={`go-page-detail-${info}`}
                   to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode: info })}
