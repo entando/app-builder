@@ -82,7 +82,7 @@ export class UserProfileFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, isValid, isSubmitting, defaultLanguage, languages,
+      handleSubmit, isValid, isSubmitting, defaultLanguage, languages, values,
       profileTypesAttributes, intl, profileTypes, onProfileTypeChange, setFieldValue,
     } = this.props;
     const renderFieldArray = (attributeCode, attribute, renderComponent, language) => (<FieldArray
@@ -116,6 +116,8 @@ export class UserProfileFormBody extends Component {
       }
 
     />);
+
+    console.log({ values, props: this.props });
 
     const showProfileFields = (
       profileTypesAttributes.map((attribute) => {
@@ -279,6 +281,7 @@ UserProfileFormBody.propTypes = {
   onProfileTypeChange: PropTypes.func,
   setFieldValue: PropTypes.func.isRequired,
   errors: PropTypes.shape({}).isRequired,
+  values: PropTypes.shape({}).isRequired,
 };
 
 UserProfileFormBody.defaultProps = {

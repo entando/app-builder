@@ -40,13 +40,16 @@ export const mapDispatchToProps = dispatch => ({
     }
   },
   onProfileTypeChange: (newTypeCode, profileTypes, setFieldValue) => {
+    console.log('onProfileTypeChange', newTypeCode, profileTypes, setFieldValue);
     const profileType = profileTypes.filter(profile => profile.value === newTypeCode)[0] || {};
     if (profileType.value && profileType.value.length > 0) {
+      console.log('IN IF');
       dispatch(fetchProfileType(profileType.value)).then(() => {
         setFieldValue('typeCode', profileType.value);
         setFieldValue('typeDescription', profileType.text);
       });
     } else {
+      console.log('IN ELSE');
       dispatch(setSelectedProfileType({ code: '', attributes: [] }));
     }
   },
