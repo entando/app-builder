@@ -65,6 +65,7 @@ import {
   handlerAttributeFromProfileType,
   sendMoveAttributeUp,
   sendMoveAttributeDown,
+  excludeTypes,
 } from 'state/profile-types/actions';
 import {
   postProfileType,
@@ -526,7 +527,7 @@ describe('state/profile-types/actions ', () => {
           expect(actions[1]).toHaveProperty('type', SET_ATTRIBUTES);
           expect(actions[1]).toHaveProperty('payload');
           expect(actions[1]).toHaveProperty('payload.attributes');
-          expect(actions[1]).toHaveProperty('payload.attributes', PROFILE_TYPES_ATTRIBUTES);
+          expect(actions[1]).toHaveProperty('payload.attributes', PROFILE_TYPES_ATTRIBUTES.filter(att => !excludeTypes.includes(att)));
           expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
