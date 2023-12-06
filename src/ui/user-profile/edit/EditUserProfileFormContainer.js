@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getUserProfile } from 'state/user-profile/selectors';
 import { fetchLanguages } from 'state/languages/actions';
-import { fetchProfileTypes, fetchProfileType } from 'state/profile-types/actions';
+import { fetchProfileTypes, fetchProfileType, setSelectedProfileType } from 'state/profile-types/actions';
 import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
 import { getSelectedProfileTypeAttributes, getProfileTypesOptions } from 'state/profile-types/selectors';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
@@ -46,6 +46,8 @@ export const mapDispatchToProps = dispatch => ({
         setFieldValue('typeCode', profileType.value);
         setFieldValue('typeDescription', profileType.text);
       });
+    } else {
+      dispatch(setSelectedProfileType({ code: '', attributes: [] }));
     }
   },
 });

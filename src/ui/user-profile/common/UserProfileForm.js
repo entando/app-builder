@@ -16,6 +16,7 @@ import { TEST_ID_USER_PROFILE_FORM } from 'ui/test-const/user-test-const';
 import { withFormik, Field, FieldArray } from 'formik';
 import SelectInput from 'ui/common/formik-field/SelectInput';
 import { RenderTextInputBody } from 'ui/common/formik-field/RenderTextInput';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 export const matchRegex = (regex, customErrorId) => val => ((val && regex && !regex.test(val)) ?
   (<FormattedMessage id={customErrorId || 'validateForm.regex'} values={{ regex }} />) : undefined);
@@ -81,7 +82,7 @@ export class UserProfileFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, invalid, submitting, defaultLanguage, languages,
+      handleSubmit, isValid, isSubmitting, defaultLanguage, languages,
       profileTypesAttributes, intl, profileTypes, onProfileTypeChange, setFieldValue,
     } = this.props;
     const renderFieldArray = (attributeCode, attribute, renderComponent, language) => (<FieldArray
@@ -209,7 +210,7 @@ export class UserProfileFormBody extends Component {
                   defaultOptionId="form.select.chooseOne"
                   label={<FormLabel labelId="user.profileType" required />}
                   name="typeCode"
-                  validate={[required]}
+                  validate={value => convertReduxValidationsToFormikValidations(value, [required])}
                 />
               </div>
               <hr />
@@ -226,7 +227,7 @@ export class UserProfileFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
               data-testid={TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON}
             >
               <FormattedMessage id="app.save" />
@@ -242,8 +243,8 @@ UserProfileFormBody.propTypes = {
   intl: intlShape.isRequired,
   onDidMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   defaultLanguage: PropTypes.string.isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
@@ -281,8 +282,8 @@ UserProfileFormBody.propTypes = {
 };
 
 UserProfileFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
+  isValid: false,
+  isSubmitting: false,
   onDidMount: null,
   profileTypesAttributes: [],
   profileTypes: [],
