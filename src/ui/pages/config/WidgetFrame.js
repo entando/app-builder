@@ -52,7 +52,7 @@ class WidgetFrame extends Component {
 
       actionsMenu = (
         <DropdownKebab
-          id="WidgetFrame__menu-button"
+          id={`WidgetFrame__menu-button-${frameName.replace(/\s/g, '_')}`}
           className="WidgetFrame__menu-button"
           pullRight
         >
