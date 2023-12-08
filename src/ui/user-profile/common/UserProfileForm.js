@@ -117,8 +117,6 @@ export class UserProfileFormBody extends Component {
 
     />);
 
-    console.log({ values, props: this.props });
-
     const showProfileFields = (
       profileTypesAttributes.map((attribute) => {
         if (attribute.type === TYPE_COMPOSITE) {
