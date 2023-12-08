@@ -82,7 +82,7 @@ export class UserProfileFormBody extends Component {
 
   render() {
     const {
-      handleSubmit, isValid, isSubmitting, defaultLanguage, languages, values,
+      handleSubmit, isValid, isSubmitting, defaultLanguage, languages,
       profileTypesAttributes, intl, profileTypes, onProfileTypeChange, setFieldValue,
     } = this.props;
     const renderFieldArray = (attributeCode, attribute, renderComponent, language) => (<FieldArray
