@@ -23,8 +23,10 @@ export const RenderSwitchInputBody = ({
   const { restProps } = others;
   const { touched, error } = getTouchErrorByField(field.name, form);
 
+  const switchValue = field.value === 'true' || field.value === true;
+
   const handleChange = (el, val) => {
-    const returnVal = !!val || val === 'true';
+    const returnVal = !!val || val === 'true' || val === true;
     field.onChange({ target: { name: field.name, value: returnVal } });
   };
 
@@ -48,6 +50,7 @@ export const RenderSwitchInputBody = ({
             className=""
             disabled={disabled}
             {...restProps}
+            value={switchValue}
             onChange={handleChange}
           />
         </div>

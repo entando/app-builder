@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 const onSubmit = jest.fn();
 const handleSubmit = jest.fn();
-const onWillMount = jest.fn();
+const onDidMount = jest.fn();
 const invalid = false;
 const submitting = false;
 const defaultLanguage = 'en';
@@ -20,7 +20,7 @@ describe('UserProfileForm', () => {
   it('renders without crashing', () => {
     const { getByTestId } = renderWithIntl(<UserProfileForm
       onSubmit={onSubmit}
-      onWillMount={onWillMount}
+      onDidMount={onDidMount}
       handleSubmit={handleSubmit}
       invalid={invalid}
       submitting={submitting}
@@ -36,7 +36,7 @@ describe('UserProfileForm', () => {
 
 const getFormInstance = attributes => renderWithIntl(<UserProfileForm
   onSubmit={onSubmit}
-  onWillMount={onWillMount}
+  onDidMount={onDidMount}
   handleSubmit={handleSubmit}
   invalid={invalid}
   submitting={submitting}

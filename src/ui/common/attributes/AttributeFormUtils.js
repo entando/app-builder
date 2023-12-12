@@ -47,9 +47,9 @@ const typeNumber = (initialValues, isComposite) => ({
   validationRules: {
     ...initialValues.validationRules,
     ...ognlValidation(initialValues, isComposite),
-    rangeStartNumber: initialValues.validationRules.rangeStartNumber || '',
-    rangeEndNumber: initialValues.validationRules.rangeEndNumber || '',
-    equalNumber: initialValues.validationRules.equalNumber || '',
+    rangeStartNumber: initialValues.validationRules ? initialValues.validationRules.rangeStartNumber : '',
+    rangeEndNumber: initialValues.validationRules ? initialValues.validationRules.rangeEndNumber : '',
+    equalNumber: initialValues.validationRules ? initialValues.validationRules.equalNumber : '',
   },
 });
 
@@ -76,7 +76,7 @@ const typeEnumerationMap = (initialValues, isComposite, selectedAttributeType) =
   ...{
     enumeratorStaticItems: initialValues.enumeratorStaticItems || '',
     enumeratorStaticItemsSeparator: initialValues.enumeratorStaticItemsSeparator || '',
-    ...(selectedAttributeType.enumeratorMapExtractorBeans.length > 0) ? { enumeratorExtractorBean: initialValues.enumeratorExtractorBean || '' } : {},
+    ...(selectedAttributeType.enumeratorMapExtractorBeans && selectedAttributeType.enumeratorMapExtractorBeans.length > 0) ? { enumeratorExtractorBean: initialValues.enumeratorExtractorBean || '' } : {},
   },
   ...{
     validationRules: {
