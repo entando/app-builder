@@ -45,13 +45,16 @@ export const getComponentType = (component) => {
 };
 
 export const getPayloadForForm = (
-  username, userProfile, selectedProfileType,
-  defaultLanguage,
+  username, userProfile, selectedProfileTypeAttributes,
+  defaultLanguage, activeLanguages, selectedProfileType,
 ) => {
   const formAttr = {
     id: username,
-    typeCode: userProfile.typeCode,
-    typeDescription: userProfile.typeDescription,
+    typeCode: (selectedProfileType && selectedProfileType.typeCode != null) ?
+      selectedProfileType.typeCode : userProfile.typeCode,
+    typeDescription: (selectedProfileType && selectedProfileType.typeDescription != null) ?
+      selectedProfileType.typeDescription :
+      userProfile.typeDescription,
   };
 
   userProfile.attributes.forEach((attr) => {
@@ -60,7 +63,8 @@ export const getPayloadForForm = (
     } = attr;
 
     const attrType =
-      selectedProfileType ? selectedProfileType.find(type => type.code === code) || {} : {};
+    selectedProfileTypeAttributes ?
+      selectedProfileTypeAttributes.find(type => type.code === code) || {} : {};
     switch (attrType.type) {
       case TYPE_BOOLEAN:
       case TYPE_THREESTATE: {
@@ -93,7 +97,7 @@ export const getPayloadForForm = (
         break;
       }
       case TYPE_MONOLIST: {
-        const childProfileType = selectedProfileType.find(item => item.code === code);
+        const childProfileType = selectedProfileTypeAttributes.find(item => item.code === code);
         if (Array.isArray(elements) && childProfileType && childProfileType.nestedAttribute) {
           formAttr[code] = elements.map(element =>
             getPayloadForForm(
@@ -117,7 +121,7 @@ export const getPayloadForForm = (
         break;
       }
       case TYPE_COMPOSITE: {
-        const childProfileType = selectedProfileType.find(item => item.code === code);
+        const childProfileType = selectedProfileTypeAttributes.find(item => item.code === code);
         if (compositeelements && childProfileType) {
           formAttr[code] = getPayloadForForm(
             username, { attributes: compositeelements },

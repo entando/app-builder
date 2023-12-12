@@ -4,7 +4,7 @@ import { getUserProfile } from 'state/user-profile/selectors';
 import { fetchLanguages } from 'state/languages/actions';
 import { fetchProfileTypes, fetchProfileType, setSelectedProfileType } from 'state/profile-types/actions';
 import { fetchUserProfile, updateUserProfile } from 'state/user-profile/actions';
-import { getSelectedProfileTypeAttributes, getProfileTypesOptions } from 'state/profile-types/selectors';
+import { getSelectedProfileTypeAttributes, getProfileTypesOptions, getSelectedProfileType } from 'state/profile-types/selectors';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import UserProfileForm from 'ui/user-profile/common/UserProfileForm';
 import { getPayloadForForm } from 'helpers/formikEntities';
@@ -25,6 +25,7 @@ export const mapStateToProps = (state, { match: { params } }) => ({
     getSelectedProfileTypeAttributes(state),
     getDefaultLanguage(state),
     getActiveLanguages(state),
+    getSelectedProfileType(state),
   ),
 });
 
@@ -49,7 +50,9 @@ export const mapDispatchToProps = dispatch => ({
     } else {
       setFieldValue('typeCode', '');
       setFieldValue('typeDescription', '');
-      dispatch(setSelectedProfileType({ code: '', attributes: [] }));
+      dispatch(setSelectedProfileType({
+        code: '', typeCode: '', typeDescription: '', attributes: [],
+      }));
     }
   },
 });
