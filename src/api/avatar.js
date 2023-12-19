@@ -36,3 +36,4 @@ export const deleteAvatar = () =>
     mockResponse: FILE_BROWSER_FILE,
     useAuthentication: true,
   });
+
