@@ -138,6 +138,7 @@ export const getPageTreePages = createSelector(
           hasPublishedChildren,
           parentStatus,
           title,
+          children: pageChildren[pageCode],
         });
       })),
 );

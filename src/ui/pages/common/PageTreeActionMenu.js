@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { DropdownKebab, MenuItem } from 'patternfly-react';
-import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, HOMEPAGE_CODE } from 'state/pages/const';
 
 class PageTreeActionMenu extends Component {
   constructor(props) {
@@ -24,14 +24,14 @@ class PageTreeActionMenu extends Component {
     return () => handler && handler(this.props.page, this.props.domain);
   }
 
-  render() {
+  renderPublishOrUnpublishMenuItem(disableDueToLackOfGroupAccess) {
     const {
-      page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
-      onClickClone, onClickDelete, onClickPublish, onClickUnpublish,
-      onClickViewPublishedPage, onClickPreview, myGroupIds, isSearchMode,
+      page, onClickPublish, onClickUnpublish, isSearchMode,
     } = this.props;
-
-    const disableDueToLackOfGroupAccess = !myGroupIds.includes(page.ownerGroup);
+    const isUnpublishedPage = page.status === PAGE_STATUS_UNPUBLISHED;
+    const hasUnpublishedParent = page.parentStatus === PAGE_STATUS_UNPUBLISHED;
+    const hasChildren = page.children && page.children.length > 0;
+    const isHomepage = page.code === HOMEPAGE_CODE;
 
     let disabled = false;
     if (!page.isEmpty && page.status === PAGE_STATUS_PUBLISHED && !isSearchMode) {
@@ -41,10 +41,15 @@ class PageTreeActionMenu extends Component {
       disabled = page.hasPublishedChildren;
     }
 
-    const disablePublishAction = (page.status === PAGE_STATUS_UNPUBLISHED &&
-      page.parentStatus === PAGE_STATUS_UNPUBLISHED && !isSearchMode)
+    let disablePublishAction = false;
+    if (isHomepage) {
+      disablePublishAction = hasChildren && page.hasPublishedChildren;
+    } else {
+      disablePublishAction = (isUnpublishedPage && hasUnpublishedParent && !isSearchMode)
       || disableDueToLackOfGroupAccess;
-    const changePublishStatus = page.status === PAGE_STATUS_PUBLISHED ?
+    }
+
+    return page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
           disabled={disabled || disableDueToLackOfGroupAccess}
@@ -64,8 +69,11 @@ class PageTreeActionMenu extends Component {
           <FormattedMessage id="app.publish" />
         </MenuItem>
       );
+  }
 
-    const viewPublishedPage = page.status === PAGE_STATUS_PUBLISHED ?
+  renderViewPublishedPageMenuItem() {
+    const { page, onClickViewPublishedPage } = this.props;
+    return page.status === PAGE_STATUS_PUBLISHED ?
       (
         <MenuItem
           disabled={false}
@@ -83,10 +91,17 @@ class PageTreeActionMenu extends Component {
           <FormattedMessage id="pageTree.viewPublishedPage" />
         </MenuItem>
       );
+  }
 
-    const disableDelete = !page.isEmpty || page.status === PAGE_STATUS_PUBLISHED ||
-      page.status === PAGE_STATUS_DRAFT || disableDueToLackOfGroupAccess;
-    const renderDeleteItem = () => (
+  renderDeleteMenuItem(disableDueToLackOfGroupAccess) {
+    const { page, onClickDelete } = this.props;
+    const isPublished = page.status === PAGE_STATUS_PUBLISHED;
+    const isHomepage = page.code === HOMEPAGE_CODE;
+    const hasStatusDraft = page.status === PAGE_STATUS_DRAFT;
+
+    const disableDelete = !page.isEmpty || isPublished || isHomepage ||
+      hasStatusDraft || disableDueToLackOfGroupAccess;
+    return (
       <MenuItem
         disabled={disableDelete}
         className="PageTreeActionMenuButton__menu-item-delete"
@@ -95,6 +110,14 @@ class PageTreeActionMenu extends Component {
         <FormattedMessage id="app.delete" />
       </MenuItem>
     );
+  }
+
+  render() {
+    const {
+      page, onClickAdd, onClickEdit, onClickConfigure, onClickDetails,
+      onClickClone, onClickPreview, myGroupIds,
+    } = this.props;
+    const disableDueToLackOfGroupAccess = !myGroupIds.includes(page.ownerGroup);
 
     return (
       <div onClick={e => e.stopPropagation()} role="none" data-testid={`${page.code}-actions`}>
@@ -130,7 +153,7 @@ class PageTreeActionMenu extends Component {
           >
             <FormattedMessage id="app.clone" />
           </MenuItem>
-          {changePublishStatus}
+          {this.renderPublishOrUnpublishMenuItem(disableDueToLackOfGroupAccess)}
           {onClickDetails && (
             <MenuItem
               className="PageTreeActionMenuButton__menu-item-details"
@@ -139,14 +162,14 @@ class PageTreeActionMenu extends Component {
               <FormattedMessage id="app.details" />
             </MenuItem>
           )}
-          {renderDeleteItem()}
+          {this.renderDeleteMenuItem(disableDueToLackOfGroupAccess)}
           <MenuItem
             className="PageTreeActionMenuButton__menu-item-preview"
             onClick={this.handleClickPreview(onClickPreview)}
           >
             <FormattedMessage id="app.preview" />
           </MenuItem>
-          {viewPublishedPage}
+          {this.renderViewPublishedPageMenuItem()}
         </DropdownKebab>
       </div>
     );
@@ -162,6 +185,7 @@ PageTreeActionMenu.propTypes = {
     code: PropTypes.string,
     parentStatus: PropTypes.string,
     ownerGroup: PropTypes.string,
+    children: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   onClickAdd: PropTypes.func,
   onClickEdit: PropTypes.func,
