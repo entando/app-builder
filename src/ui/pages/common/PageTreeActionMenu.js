@@ -30,7 +30,6 @@ class PageTreeActionMenu extends Component {
     } = this.props;
     const isUnpublishedPage = page.status === PAGE_STATUS_UNPUBLISHED;
     const hasUnpublishedParent = page.parentStatus === PAGE_STATUS_UNPUBLISHED;
-    const hasChildren = page.children && page.children.length > 0;
     const isHomepage = page.code === HOMEPAGE_CODE;
 
     let disabled = false;
@@ -41,13 +40,9 @@ class PageTreeActionMenu extends Component {
       disabled = page.hasPublishedChildren;
     }
 
-    let disablePublishAction = false;
-    if (isHomepage) {
-      disablePublishAction = hasChildren && page.hasPublishedChildren;
-    } else {
-      disablePublishAction = (isUnpublishedPage && hasUnpublishedParent && !isSearchMode)
-      || disableDueToLackOfGroupAccess;
-    }
+    const disablePublishAction = (
+      isUnpublishedPage && hasUnpublishedParent && !isSearchMode && !isHomepage
+    ) || disableDueToLackOfGroupAccess;
 
     return page.status === PAGE_STATUS_PUBLISHED ?
       (
@@ -185,7 +180,6 @@ PageTreeActionMenu.propTypes = {
     code: PropTypes.string,
     parentStatus: PropTypes.string,
     ownerGroup: PropTypes.string,
-    children: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   onClickAdd: PropTypes.func,
   onClickEdit: PropTypes.func,
