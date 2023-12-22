@@ -151,7 +151,7 @@ export class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm,
+      avatar,
     } = this.props;
 
     const { editMode } = this.state;
@@ -226,13 +226,12 @@ export class MyProfileEditFormBody extends Component {
         return field(intl, attribute, !editMode);
       });
 
-    const { profilepicture } = userProfileForm;
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
-        <input type="hidden" name="profilepicture" value={profilepicture} />
+        <input type="hidden" name="profilepicture" value={avatar} />
         <ProfileImageUploader
-          image={profilepicture}
+          image={avatar}
           onChange={onChangeProfilePicture}
           gravatarEmail={userEmail}
           editable={editMode}
@@ -324,12 +323,14 @@ MyProfileEditFormBody.propTypes = {
     profilepicture: PropTypes.string,
   }),
   onChangeProfilePicture: PropTypes.func.isRequired,
+  avatar: PropTypes.string,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
   userEmail: undefined,
   userProfileForm: {},
+  avatar: '',
 };
 
 const MyProfileEditForm = reduxForm({
