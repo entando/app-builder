@@ -77,7 +77,7 @@ export const WidgetListTableBody = ({
       className: 'text-center',
     },
     Cell: (cellinfo) => {
-      const { values: { code }, original: { locked, hasConfig } } = cellinfo;
+      const { values: { code }, original: { locked, hasConfig, used } } = cellinfo;
       return (
         <div data-testid={`${code}-actions`}>
           <DropdownKebab pullRight id={`WidgetListRow-dropdown-${code}`}>
@@ -95,7 +95,7 @@ export const WidgetListTableBody = ({
             >
               <FormattedMessage id="app.edit" />
             </MenuItem>
-            {!locked && (
+            {!locked && used === 0 && (
               <MenuItem
                 className="WidgetListRow__menu-item-delete"
                 onClick={() => onDelete(code)}
