@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, MenuItem } from 'patternfly-react';
 import { useDispatch } from 'react-redux';
 import md5 from 'md5';
-
-import { uploadFile } from 'state/file-browser/actions';
+import { uploadAvatar } from 'state/avatar/actions';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 
 const FILE_BROWSER_PATH = 'static/profile';
@@ -24,7 +23,7 @@ const ProfileImageUploader = ({
   const imageProvider = useDynamicResourceUrl(FILE_BROWSER_PATH);
 
   const onFileChange = ({ target: { files } }) => {
-    dispatch(uploadFile(files[0], FILE_BROWSER_PATH)).then(() => onChange(files[0].name));
+    dispatch(uploadAvatar(files[0])).then(() => onChange(files[0].name));
   };
 
   const handleUploadClick = () => {
