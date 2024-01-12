@@ -18,12 +18,23 @@ const ProfileImageUploader = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const inputFileRef = useRef(null);
+  const imageRef = useRef(null);
   const dispatch = useDispatch();
 
   const imageProvider = useDynamicResourceUrl(FILE_BROWSER_PATH);
 
   const onFileChange = ({ target: { files } }) => {
-    dispatch(uploadAvatar(files[0])).then(() => onChange(files[0].name));
+    const file = files[0];
+    if (file) {
+      dispatch(uploadAvatar(files[0])).then(() => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          imageRef.current.src = fr.result;
+          onChange(file.name);
+        };
+        fr.readAsDataURL(file);
+      });
+    }
   };
 
   const handleUploadClick = () => {
@@ -51,7 +62,7 @@ const ProfileImageUploader = ({
             className="ProfileImageUploader__file-upload"
           />
           <button type="button">
-            <img src={userPicture} alt="user profile"className="ProfileImageUploader__picture" />
+            <img ref={imageRef} src={userPicture} alt="user profile"className="ProfileImageUploader__picture" />
           </button>
         </Dropdown.Toggle>
         <Dropdown.Menu>
