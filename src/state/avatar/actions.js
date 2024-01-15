@@ -25,7 +25,7 @@ export const uploadAvatar =
         const requestObject = await createFileObject(avatar);
         const response = await postAvatar(requestObject);
         const avatarCreated = await response.json();
-        dispatch(setAvatarFilename(avatarCreated.payload.filename));
+        dispatch(setAvatarFilename(`${avatarCreated.payload.filename}?${Date.now()}`));
         dispatch(toggleLoading(loader));
         dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
       } catch (error) {
@@ -41,7 +41,7 @@ export const fetchAvatar = (loader = 'fetchAvatar') => async (dispatch) => {
     dispatch(toggleLoading(loader));
     const response = await getAvatar();
     const avatar = await response.json();
-    if (avatar.payload.filename) dispatch(setAvatarFilename(avatar.payload.filename));
+    if (avatar.payload.filename) dispatch(setAvatarFilename(`${avatar.payload.filename}?${Date.now()}`));
     dispatch(toggleLoading(loader));
   } catch (error) {
     dispatch(toggleLoading(loader));
