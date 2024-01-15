@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { reset, change } from 'redux-form';
+import { reset } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
 import { fetchMyUserProfile, updateMyUserProfile } from 'state/user-profile/actions';
 import { fetchLanguages } from 'state/languages/actions';
-import { fetchAvatar } from 'state/avatar/actions';
+import { fetchAvatar, removeAvatar } from 'state/avatar/actions';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
 import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
 import MyProfileEditForm from 'ui/users/my-profile/MyProfileEditForm';
@@ -41,7 +41,11 @@ export const mapDispatchToProps = dispatch => ({
   onCancel: () => {
     dispatch(reset('UserProfile'));
   },
-  onChangeProfilePicture: picture => dispatch(change('UserProfile', 'profilepicture', picture)),
+  onChangeProfilePicture: (picture) => {
+    if (picture === '') {
+      dispatch(removeAvatar());
+    }
+  },
 });
 
 export default connect(

@@ -229,12 +229,11 @@ export class MyProfileEditFormBody extends Component {
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
-        <input type="hidden" name="profilepicture" value={avatar} />
         <ProfileImageUploader
           image={avatar}
           onChange={onChangeProfilePicture}
           gravatarEmail={userEmail}
-          editable={editMode}
+          editable
         />
 
         <div className="MyProfileEditForm__attributes">
@@ -320,7 +319,6 @@ MyProfileEditFormBody.propTypes = {
     id: PropTypes.string,
     typeCode: PropTypes.string,
     typeDescription: PropTypes.string,
-    profilepicture: PropTypes.string,
   }),
   onChangeProfilePicture: PropTypes.func.isRequired,
   avatar: PropTypes.string,

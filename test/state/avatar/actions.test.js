@@ -11,6 +11,9 @@ describe('createFileObject', () => {
 });
 
 describe('uploadAvatar', () => {
+  beforeAll(() => {
+    global.Date.now = jest.fn(() => new Date('2019-04-07T10:20:30Z').getTime());
+  });
   it('should upload avatar successfully', async () => {
     const avatar = new File(['test data'], 'test.png', { type: 'image/png' });
     const dispatch = jest.fn();
@@ -20,7 +23,7 @@ describe('uploadAvatar', () => {
     await uploadAvatar(avatar)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
-    expect(dispatch).toHaveBeenCalledWith({ payload: { filename: 'test.png' }, type: 'avatar/filename' });
+    expect(dispatch).toHaveBeenCalledWith({ payload: { filename: `test.png?${new Date('2019-04-07T10:20:30Z').getTime()}` }, type: 'avatar/filename' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { message: { id: 'fileBrowser.uploadFileComplete' }, type: 'success' }, type: 'toasts/add-toast' });
     expect(dispatch).toHaveBeenCalledTimes(4);
@@ -45,12 +48,16 @@ describe('uploadAvatar', () => {
 
 
 describe('fetchAvatar', () => {
+  beforeAll(() => {
+    global.Date.now = jest.fn(() => new Date('2019-04-07T10:20:30Z').getTime());
+  });
+
   it('should retrieve the avatar successfully', async () => {
     const dispatch = jest.fn();
     jest.spyOn(apiHelper, 'getAvatar').mockResolvedValue({ json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
     await fetchAvatar()(dispatch);
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'fetchAvatar' }, type: 'loading/toggle-loading' });
-    expect(dispatch).toHaveBeenCalledWith({ payload: { filename: 'test.png' }, type: 'avatar/filename' });
+    expect(dispatch).toHaveBeenCalledWith({ payload: { filename: `test.png?${new Date('2019-04-07T10:20:30Z').getTime()}` }, type: 'avatar/filename' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'fetchAvatar' }, type: 'loading/toggle-loading' });
     expect(dispatch).toHaveBeenCalledTimes(3);
   });
