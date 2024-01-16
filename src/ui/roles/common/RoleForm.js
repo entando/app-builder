@@ -194,6 +194,7 @@ RoleFormBody.defaultProps = {
 
 const RoleForm = withFormik({
   enableReinitialize: true,
+  validateOnMount: true,
   mapPropsToValues: ({ initialValues }) => initialValues,
   validationSchema: ({ intl }) => (
     Yup.object().shape({
