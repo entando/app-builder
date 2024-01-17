@@ -472,6 +472,7 @@ export default {
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFiles': 'Upload files',
     'fileBrowser.uploadFileComplete': 'Upload file complete',
+    'fileBrowser.removeFileComplete': 'Remove file complete',
     'fileBrowser.uploadFileError': 'Error uploading file - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New folder name',

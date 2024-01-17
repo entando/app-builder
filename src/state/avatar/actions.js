@@ -32,8 +32,8 @@ export const uploadAvatar =
         const requestObject = await createFileObject(avatar);
         const response = await postAvatar(requestObject);
         const { payload } = await response.json();
-        const { filename, useGravatar } = payload;
-        dispatch(setUseGravatar(useGravatar));
+        const { filename } = payload;
+        dispatch(setUseGravatar(false));
         dispatch(setAvatarFilename(`${filename}?${Date.now()}`));
         dispatch(toggleLoading(loader));
         dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
@@ -95,7 +95,7 @@ export const removeAvatar =
         dispatch(setAvatarFilename(''));
         dispatch(setUseGravatar(false));
         dispatch(toggleLoading(loader));
-        dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
+        dispatch(addToast({ id: 'fileBrowser.removeFileComplete' }, TOAST_SUCCESS));
       } catch (error) {
         dispatch(toggleLoading(loader));
         const message = { id: 'fileBrowser.uploadFileError', values: { errmsg: error } };
