@@ -54,7 +54,7 @@ describe('fetchAvatar', () => {
 
   it('should retrieve the avatar successfully', async () => {
     const dispatch = jest.fn();
-    jest.spyOn(apiHelper, 'getAvatar').mockResolvedValue({ ok: true, json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
+    jest.spyOn(apiHelper, 'getAvatar').mockResolvedValue({ ok: true, json: () => Promise.resolve({ payload: { filename: 'test.png', useGravatar: false } }) });
     await fetchAvatar()(dispatch);
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'fetchAvatar' }, type: 'loading/toggle-loading' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { useGravatar: false }, type: 'avatar/useGravatar' });
