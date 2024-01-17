@@ -26,7 +26,7 @@ describe('uploadAvatar', () => {
     expect(dispatch).toHaveBeenCalledWith({ payload: { filename: `test.png?${new Date('2019-04-07T10:20:30Z').getTime()}` }, type: 'avatar/filename' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { message: { id: 'fileBrowser.uploadFileComplete' }, type: 'success' }, type: 'toasts/add-toast' });
-    expect(dispatch).toHaveBeenCalledTimes(4);
+    expect(dispatch).toHaveBeenCalledTimes(5);
   });
 
   it('should handle avatar upload error', async () => {
@@ -54,12 +54,13 @@ describe('fetchAvatar', () => {
 
   it('should retrieve the avatar successfully', async () => {
     const dispatch = jest.fn();
-    jest.spyOn(apiHelper, 'getAvatar').mockResolvedValue({ json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
+    jest.spyOn(apiHelper, 'getAvatar').mockResolvedValue({ ok: true, json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
     await fetchAvatar()(dispatch);
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'fetchAvatar' }, type: 'loading/toggle-loading' });
+    expect(dispatch).toHaveBeenCalledWith({ payload: { useGravatar: false }, type: 'avatar/useGravatar' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { filename: `test.png?${new Date('2019-04-07T10:20:30Z').getTime()}` }, type: 'avatar/filename' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'fetchAvatar' }, type: 'loading/toggle-loading' });
-    expect(dispatch).toHaveBeenCalledTimes(3);
+    expect(dispatch).toHaveBeenCalledTimes(4);
   });
 
   it('should handle avatar fetch error', async () => {

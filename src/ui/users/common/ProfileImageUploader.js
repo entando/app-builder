@@ -14,7 +14,7 @@ const publicUrl = process.env.PUBLIC_URL;
 const toMd5 = string => md5(string.trim().toLowerCase());
 
 const ProfileImageUploader = ({
-  image, onChange, gravatarEmail, editable,
+  image, onChange, gravatarEmail, editable, useGravatar, onSetGravatar,
 }) => {
   const [edit, setEdit] = useState(false);
   const inputFileRef = useRef(null);
@@ -44,7 +44,7 @@ const ProfileImageUploader = ({
   let userPicture = `${publicUrl}/images/user-icon.svg`;
   if (edit) {
     userPicture = `${publicUrl}/images/user-edit.svg`;
-  } else if (image === GRAVATAR && gravatarEmail) {
+  } else if (useGravatar && gravatarEmail) {
     userPicture = `${GRAVATAR_URL}/${toMd5(gravatarEmail)}`;
   } else if (image) {
     userPicture = `${imageProvider}/${image}`;
@@ -67,7 +67,7 @@ const ProfileImageUploader = ({
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <MenuItem eventKey="1" onClick={handleUploadClick}>Upload Image</MenuItem>
-          { gravatarEmail && <MenuItem eventKey="2" onClick={() => onChange(GRAVATAR)}>Use Gravatar</MenuItem>}
+          { gravatarEmail && <MenuItem eventKey="2" onClick={() => onSetGravatar(GRAVATAR)}>Use Gravatar</MenuItem>}
           <MenuItem eventKey="3" onClick={() => onChange('')}>Remove Image</MenuItem>
         </Dropdown.Menu>
       </Dropdown>
@@ -79,13 +79,16 @@ ProfileImageUploader.propTypes = {
   image: PropTypes.string,
   gravatarEmail: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onSetGravatar: PropTypes.func.isRequired,
   editable: PropTypes.bool,
+  useGravatar: PropTypes.bool,
 };
 
 ProfileImageUploader.defaultProps = {
   image: '',
   gravatarEmail: '',
   editable: false,
+  useGravatar: false,
 };
 
 export default ProfileImageUploader;

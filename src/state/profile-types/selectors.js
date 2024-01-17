@@ -6,6 +6,7 @@ import {
   TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/profile-types/const';
+import { getUserProfile } from 'state/user-profile/selectors';
 
 const NO_ATTRIBUTE_FOR_TYPE_MONOLIST = [TYPE_LIST, TYPE_MONOLIST];
 
@@ -180,3 +181,15 @@ export const getProfileTypeReferencesStatus = createSelector([getProfileTypeRefe
   }
   return { type: 'success', status: 'ready', profileTypesCode: [] };
 });
+
+export const getUserProfileEmail = createSelector(
+  [getSelectedProfileTypeAttributes, getUserProfile],
+  (selectedUserProfileAttributes, userProfile) => {
+    const emailAttribute = selectedUserProfileAttributes
+      && selectedUserProfileAttributes.find(attribute => attribute.roles && attribute.roles.find(role => role.code === 'userprofile:email'));
+    const { attributes } = userProfile;
+    const userProfileEmailAttribute =
+      attributes.find(attr => emailAttribute && attr.code === emailAttribute.code);
+    return userProfileEmailAttribute && userProfileEmailAttribute.value;
+  },
+);
