@@ -473,6 +473,7 @@ export default {
     'fileBrowser.uploadFiles': 'Upload files',
     'fileBrowser.uploadFileComplete': 'Upload file complete',
     'fileBrowser.removeFileComplete': 'Remove file complete',
+    'fileBrowser.errorTooLargeFile': 'Error: The image is too large. Maximum image size must be 5MB',
     'fileBrowser.uploadFileError': 'Error uploading file - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New folder name',

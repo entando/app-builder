@@ -31,12 +31,17 @@ export const uploadAvatar =
         dispatch(toggleLoading(loader));
         const requestObject = await createFileObject(avatar);
         const response = await postAvatar(requestObject);
-        const { payload } = await response.json();
-        const { filename } = payload;
-        dispatch(setUseGravatar(false));
-        dispatch(setAvatarFilename(`${filename}?${Date.now()}`));
+        const { ok, status } = response;
+        if (ok) {
+          const { payload } = await response.json();
+          const { filename } = payload;
+          dispatch(setUseGravatar(false));
+          dispatch(setAvatarFilename(`${filename}?${Date.now()}`));
+          dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
+        } else if (!ok && status === 413) {
+          dispatch(addToast({ id: 'fileBrowser.errorTooLargeFile' }, TOAST_ERROR));
+        }
         dispatch(toggleLoading(loader));
-        dispatch(addToast({ id: 'fileBrowser.uploadFileComplete' }, TOAST_SUCCESS));
       } catch (error) {
         dispatch(toggleLoading(loader));
         const message = { id: 'fileBrowser.uploadFileError', values: { errmsg: error } };

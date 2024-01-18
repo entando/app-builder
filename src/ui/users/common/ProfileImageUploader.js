@@ -25,16 +25,7 @@ const ProfileImageUploader = ({
 
   const onFileChange = ({ target: { files } }) => {
     const file = files[0];
-    if (file) {
-      dispatch(uploadAvatar(files[0])).then(() => {
-        const fr = new FileReader();
-        fr.onload = () => {
-          imageRef.current.src = fr.result;
-          onChange(file.name);
-        };
-        fr.readAsDataURL(file);
-      });
-    }
+    if (file) dispatch(uploadAvatar(file));
   };
 
   const handleUploadClick = () => {

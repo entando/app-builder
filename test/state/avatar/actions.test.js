@@ -18,7 +18,7 @@ describe('uploadAvatar', () => {
     const avatar = new File(['test data'], 'test.png', { type: 'image/png' });
     const dispatch = jest.fn();
     jest.spyOn(actionsHelper, 'createFileObject').mockResolvedValue({ filename: 'test.png', base64: 'base64encodedstring' });
-    jest.spyOn(apiHelper, 'postAvatar').mockResolvedValue({ json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
+    jest.spyOn(apiHelper, 'postAvatar').mockResolvedValue({ ok: true, json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
 
     await uploadAvatar(avatar)(dispatch);
 
@@ -27,6 +27,20 @@ describe('uploadAvatar', () => {
     expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
     expect(dispatch).toHaveBeenCalledWith({ payload: { message: { id: 'fileBrowser.uploadFileComplete' }, type: 'success' }, type: 'toasts/add-toast' });
     expect(dispatch).toHaveBeenCalledTimes(5);
+  });
+
+  it('should handle too large file error', async () => {
+    const avatar = new File(['test data'], 'test.png', { type: 'image/png' });
+    const dispatch = jest.fn();
+    jest.spyOn(actionsHelper, 'createFileObject').mockResolvedValue({ filename: 'test.png', base64: 'base64encodedstring' });
+    jest.spyOn(apiHelper, 'postAvatar').mockResolvedValue({ ok: false, status: 413, json: () => Promise.resolve({ payload: { filename: 'test.png' } }) });
+
+    await uploadAvatar(avatar)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
+    expect(dispatch).toHaveBeenCalledWith({ payload: { message: { id: 'fileBrowser.errorTooLargeFile' }, type: 'error' }, type: 'toasts/add-toast' });
+    expect(dispatch).toHaveBeenCalledWith({ payload: { id: 'uploadAvatar' }, type: 'loading/toggle-loading' });
+    expect(dispatch).toHaveBeenCalledTimes(3);
   });
 
   it('should handle avatar upload error', async () => {
