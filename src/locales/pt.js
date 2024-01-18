@@ -450,6 +450,7 @@ export default {
     'fileBrowser.createFolder': 'Criar pasta',
     'fileBrowser.uploadFiles': 'Upload Files',
     'fileBrowser.uploadFileComplete': 'Upload de arquivo concluído',
+    'fileBrowser.removeFileComplete': 'Remover arquivo concluído',
     'fileBrowser.uploadFileError': 'Erro no upload de arquivo - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nova da Nova Pasta',

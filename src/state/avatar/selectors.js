@@ -7,3 +7,8 @@ export const getAvatarFilename = createSelector(
   avatar => avatar.filename,
 );
 
+export const getUseGravatar = createSelector(
+  getAvatar,
+  avatar => avatar.useGravatar,
+);
+

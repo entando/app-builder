@@ -151,7 +151,7 @@ export class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      avatar,
+      avatar, useGravatar, onSetGravatar,
     } = this.props;
 
     const { editMode } = this.state;
@@ -233,6 +233,8 @@ export class MyProfileEditFormBody extends Component {
           image={avatar}
           onChange={onChangeProfilePicture}
           gravatarEmail={userEmail}
+          onSetGravatar={onSetGravatar}
+          useGravatar={useGravatar}
           editable
         />
 
@@ -281,6 +283,7 @@ MyProfileEditFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
+  onSetGravatar: PropTypes.string.isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     code: PropTypes.string,
@@ -322,6 +325,7 @@ MyProfileEditFormBody.propTypes = {
   }),
   onChangeProfilePicture: PropTypes.func.isRequired,
   avatar: PropTypes.string,
+  useGravatar: PropTypes.bool,
 };
 
 MyProfileEditFormBody.defaultProps = {
@@ -329,6 +333,7 @@ MyProfileEditFormBody.defaultProps = {
   userEmail: undefined,
   userProfileForm: {},
   avatar: '',
+  useGravatar: false,
 };
 
 const MyProfileEditForm = reduxForm({

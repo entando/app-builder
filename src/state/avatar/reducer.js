@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
-import { SET_AVATAR_FILE_NAME } from './types';
+import { SET_AVATAR_FILE_NAME, SET_USE_GRAVATAR } from './types';
 
 const initialState = {
   filename: '',
+  useGravatar: false,
 };
 
 const filename = (state = initialState.filename, action = {}) => {
@@ -15,7 +16,18 @@ const filename = (state = initialState.filename, action = {}) => {
   }
 };
 
+const useGravatar = (state = initialState.useGravatar, action = {}) => {
+  switch (action.type) {
+    case SET_USE_GRAVATAR: {
+      return action.payload.useGravatar;
+    }
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   filename,
+  useGravatar,
 });
 
