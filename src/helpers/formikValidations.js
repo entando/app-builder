@@ -30,6 +30,15 @@ export const validateCodeField = intl => (value, { createError, path }) => (
     })
 );
 
+export const validateCodeFieldExt = intl => (value, { createError, path }) => (
+  value && /^[0-9a-zA-Z_\-.]+$/i.test(value) ?
+    true :
+    createError({
+      message: intl.formatMessage({ id: 'validateForm.code' }),
+      path,
+    })
+);
+
 export const validateFragmentCodeField = intl => (value, { createError, path }) => (
   value && /^[0-9a-zA-Z_\-.]+$/i.test(value) ?
     true :

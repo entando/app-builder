@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Row, Col } from 'patternfly-react';
-import { validateCodeField, formatMessageRequired, formatMessageMaxLength } from 'helpers/formikValidations';
+import { validateCodeFieldExt, formatMessageRequired, formatMessageMaxLength } from 'helpers/formikValidations';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
@@ -160,13 +160,13 @@ const GroupForm = withFormik({
     Yup.object().shape({
       name: Yup.string()
         .required(intl.formatMessage(formatMessageRequired))
-        .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 })),
+        .max(100, intl.formatMessage(formatMessageMaxLength, { max: 100 })),
       code: Yup.string()
         .required(intl.formatMessage(formatMessageRequired))
-        .max(20, intl.formatMessage(formatMessageMaxLength, { max: 20 }))
+        .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 }))
         .test(
-          'validateCodeField',
-          validateCodeField(intl),
+          'validateCodeFieldExt',
+          validateCodeFieldExt(intl),
         ),
     })
   ),
