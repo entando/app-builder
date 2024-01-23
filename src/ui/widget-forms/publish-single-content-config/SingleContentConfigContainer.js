@@ -80,6 +80,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       };
 
       if ((isUndefined(values.modelId) || values.modelId === 'default') && isNull(chosenContentType.defaultContentModel)) {
+        setSubmitting(false);
         return dispatch(setVisibleModal(NoDefaultWarningModalId));
       }
       return dispatch(sendPutWidgetConfig(pageCode, frameId, configItem)).then((res) => {
