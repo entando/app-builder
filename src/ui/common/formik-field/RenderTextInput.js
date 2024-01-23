@@ -48,6 +48,8 @@ export const RenderTextInputBody = ({
               field.onChange(e);
               if (onChange) {
                 onChange(e);
+              } else if (restProps && restProps.onChange) {
+                restProps.onChange(e);
               }
             }}
           />
