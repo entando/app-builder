@@ -9,7 +9,7 @@ import FormLabel from 'ui/common/form/FormLabel';
 import SwitchRenderer from 'ui/common/form/SwitchRenderer';
 import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
 
-const maxLength10 = maxLength(10);
+const maxLength15 = maxLength(15);
 const maxLength50 = maxLength(50);
 
 const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
@@ -65,7 +65,7 @@ const AttributeInfo = ({ isSearchable, isIndexable, mode }) => {
             label={
               <FormLabel labelId="app.code" helpId="app.help.code" required />
           }
-            validate={[required, maxLength10]}
+            validate={[required, maxLength15]}
             disabled={mode === MODE_EDIT}
           />
           <Field
