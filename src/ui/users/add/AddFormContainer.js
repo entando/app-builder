@@ -21,9 +21,8 @@ const AddFormContainer = () => {
     dispatch(fetchProfileTypes({ page: 1, pageSize: 0 }));
   }, [dispatch]);
 
-  const handleSubmit = useCallback((user, submitType) => {
-    dispatch(sendPostUser(user, submitType === 'saveAndEditProfile'));
-  }, [dispatch]);
+  const handleSubmit = useCallback((user, submitType) =>
+    dispatch(sendPostUser(user, submitType === 'saveAndEditProfile')), [dispatch]);
 
   const handleCancel = useCallback(() => {
     dispatch(setVisibleModal(ConfirmCancelModalID));
