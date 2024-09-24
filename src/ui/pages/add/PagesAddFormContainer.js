@@ -86,7 +86,8 @@ export const mapStateToProps = (state) => {
   const userPreferences = getUserPreferences(state);
   const groupWithPagePermission = getMyGroupPermissions(state)
     .find(({ permissions }) => (
-      permissions.includes(SUPERUSER_PERMISSION) || permissions.includes(MANAGE_PAGES_PERMISSION)
+      permissions &&
+      (permissions.includes(SUPERUSER_PERMISSION) || permissions.includes(MANAGE_PAGES_PERMISSION))
     ));
   const defaultOwnerGroup = userPreferences.defaultPageOwnerGroup
     || (groupWithPagePermission && groupWithPagePermission.group);
