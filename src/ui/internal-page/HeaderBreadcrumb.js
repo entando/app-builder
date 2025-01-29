@@ -6,6 +6,7 @@ import { Breadcrumb } from 'patternfly-react';
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import Icon from 'ui/common/icon/Icon';
 
+const publicUrl = process.env.PUBLIC_URL;
 const HeaderBreadcrumb = ({ breadcrumbs, ...props }) => {
   const [container, setContainer] = useState(document.getElementById('header-breadcrumbs'));
 
@@ -23,7 +24,7 @@ const HeaderBreadcrumb = ({ breadcrumbs, ...props }) => {
     <Breadcrumb {...props} >
       <BreadcrumbItem>
         <Icon
-          src="/icons/app-builder-icon.svg"
+          src={`${publicUrl}/icons/app-builder-icon.svg`}
           type="svg"
           alt="app builder"
           className="VerticalMenu__headerBreadcrumbs__icon"
