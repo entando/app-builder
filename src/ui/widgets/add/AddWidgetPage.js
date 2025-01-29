@@ -6,7 +6,7 @@ import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
-import { Row, Col } from 'patternfly-react';
+
 import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 export const AddWidgetPageBody = () => (
