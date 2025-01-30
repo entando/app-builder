@@ -298,6 +298,7 @@ $fa-square-o: '\f096';
     color: $color-text-tertiary !important;
 
     &:hover, &:active, &:focus {
+    color: $color-brand-primary !important;
     text-decoration: none;
   }}
 }

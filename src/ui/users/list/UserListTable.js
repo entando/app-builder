@@ -47,10 +47,12 @@ class UserListTable extends Component {
           title: 'user.table.profileType',
           field: 'profileType',
           render: props => (
-            <Fragment>
-              {props.profileType.typeDescription}{' '}
-              <code>{props.profileType.typeCode}</code>
-            </Fragment>
+            props.profileType ?
+              <Fragment>
+                {props.profileType.typeDescription}
+                <code>{props.profileType.typeCode && props.profileType.typeCode}</code>
+              </Fragment>
+              : <Fragment />
           ),
         },
         {

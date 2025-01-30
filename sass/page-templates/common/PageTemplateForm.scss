@@ -1,4 +1,10 @@
 .PageTemplateForm {
+    padding-bottom: 20px;
+    
+    .form-group {
+        margin-right: 0;
+    }
+
     .FormLabel {
         justify-content: flex-end;
     }

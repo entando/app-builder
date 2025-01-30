@@ -60,11 +60,10 @@ const ComponentListActionsWrapper = () => {
               <ComponentListViewModeSwitcherContainer />
             </div>
             { !isLocalRegistry && (
-            <Button // TO DO - style button
+            <Button
               key="bundleRefetchButton"
-              // bsStyle="primary"
               disabled={loading}
-              className="ComponentListActions__refresh-button primary"
+              className="ComponentListActions__refresh-button btn-primary"
               onClick={handleRefreshBundles}
             >
               <FormattedMessage id="hub.bundle.refresh" />

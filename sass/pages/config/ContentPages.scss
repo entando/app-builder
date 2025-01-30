@@ -13,28 +13,34 @@
     border: 1px solid $color-content-07;
     border-radius: $radius-xxs;
 
-    input{
+    input {
       border: none;
       color: $color-text-tertiary;
       font-size: 14px;
       height: 30px;
       box-shadow: none;
-      //@TODO - container outline on focus
-
 
       &::placeholder {
           font-style: normal;
+      }
+    }
+
+    &:has(input:focus) {
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 136, 206, 0.6);
+      
+      input:focus {
+        box-shadow: unset;
       }
     }
   }
 
   // sass-lint:disable no-important class-name-format force-element-nesting
   &__pagetree-searchbtn.btn {
+    color: $color-text-tertiary;
     border: none;
-    border-left: 1px solid $color-neutral-grey;
     outline: none !important;
     box-shadow: none !important;
-    background-color: $color-neutral-grey;
+    background: none;
     height: 100%;
     border-radius: $radius-xxs;
   }
@@ -65,19 +71,16 @@
 
   &__pagetree-addbtn {
     background-color: $color-light-blue-2;
-    color: $color-primary-text;
 
     // sass-lint:disable nesting-depth force-element-nesting
     &:hover {
       background-color: $color-light-blue-hover;
-      color: $color-primary-text;
     }
 
     &:focus,
     &:focus:hover {
       outline: none;
       background-color: $color-light-blue-active;
-      color: $color-primary-text;
     }
     // sass-lint:enable nesting-depth force-element-nesting
   }
@@ -101,8 +104,6 @@
   &__search-table {
     & .table {
       margin-top: 0;
-      border: 1px solid $color-black;
-      color: $color-primary-text;
     }
 
     & thead,
@@ -113,13 +114,13 @@
     & tr {
       &.selected,
       &:hover {
-        background-color: $color-dragitem-bg;
+        background-color: $color-dark-blue;
       }
     }
 
     & th,
     & td {
-      border: 1px solid $color-black !important;
+      border: none;
     }
 
     & .dropdown-kebab-pf .btn {

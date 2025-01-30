@@ -1,7 +1,15 @@
 .PageListSearchTable {
   .table-bordered {
-    border: $color-border-grey solid 1px;
+    border: none;
     margin: 0;
+
+    tr {
+      border: 1px solid $color-border-grey;
+    }
+
+    th, td {
+      border: none;
+    }
   }
 
   .table-header {
@@ -20,13 +28,11 @@
       padding: 16px;
       border-left: 0;
       border-right: 0;
-      border-color: $color-border-grey;
     }
   }
 
   .table-row {
     td {
-      border: 1px solid $color-border-grey;
       border-left: 0;
       border-right: 0;
       

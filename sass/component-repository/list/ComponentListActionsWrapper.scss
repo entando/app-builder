@@ -79,6 +79,10 @@
                 width: fit-content;
             }
         }
+
+        .ComponentListActions__refresh-button {
+           color: #fff;
+        }
     }
 
     &__container-bundle-group {
@@ -121,15 +125,5 @@
                 position: unset;
             }
         }
-    }
-
-    //TO DO - refactor style
-    &__refresh-button {
-        background-color: $color-brand-primary;
-        color: white !important;
-    }
-
-    &__refresh-icon {
-        margin-left: 5px;
     }
 }

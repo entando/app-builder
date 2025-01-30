@@ -19,9 +19,9 @@
         outline: none;
     }
 
-    .btn-primary,
-    .btn-primary:active,
-    .btn-primary:focus {
+    &.btn-primary,
+    &.btn-primary:active,
+    &.btn-primary:focus {
         background-color: $color-brand-primary;
         border: none;
     }
