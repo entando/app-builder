@@ -1,12 +1,35 @@
 .PageTree {
 
+
+
   .PageTree__drag-handle {
     width: 30px;
-    height: 29px;
+    height: 30px;
     padding: 0;
+    background-color: transparent !important;
+    color: $color-brand-primary !important;
+    box-shadow: unset !important;
+
+    &:active {
+      background-color: transparent !important;
+    }
+
+    &:focus {
+      background-color: transparent !important;
+    }
+
+    &:hover:active {
+      background-color: transparent !important;
+    }
   }
 
-  &__no-drag  {
+  .PageTree__no-drag {
+    .PageTree__drag-handle {
+      display: none;
+    }
+  }
+
+  &__no-drag {
     button {
       cursor: default;
       opacity: 0;
@@ -35,10 +58,6 @@
     margin-left: 10px;
   }
 
-  .TreeNodeFolderIcon {
-    color: $color-pf-light-blue-400;
-  }
-
   &__icons-label {
     outline: 0;
     cursor: pointer;
@@ -48,6 +67,12 @@
     .TreeNodeExpandedIcon {
       display: none;
     }
+  }
+
+  .PageTree__container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
   }
 
   .PageTreeActionMenuButton,
@@ -68,20 +93,92 @@
     }
   }
 
+.Button {
+  font-weight: 600;
+}
+
   .PageStatusIcon {
-    line-height: 24px;
+    width: 8px;
+    height: 8px;
   }
 
   .PageTree__displayed-in-menu {
     line-height: 24px;
   }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .table-bordered {
+    border: $color-border-grey solid 1px;
+  }
+
+
+
+  .table-header {
+    background-color: #fff;
+    border-bottom: 1px solid $color-border-grey;
+
+    td {
+      border: 1px solid $color-border-grey;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+    }
+
+    .columnResizer {
+      border-bottom: 1px solid $color-border-grey;
+    }
+
+    th {
+      padding: 16px;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+      border-color: $color-border-grey;
+    }
+  }
+
+  .table-row {
+    border-bottom: 1px solid $color-border-grey;
+
+    td {
+      border: 0
+    }
+
+    .colForResize {
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid $color-border-grey;
+    }
+
+    &:hover {
+      .PageTree__page-name {
+        color: $color-brand-primary !important
+      }
+
+      .TreeNodeFolderIcon {
+        color: $color-brand-primary;
+      }
+    }
+  }
+
+  .table-cell {
+    padding-inline: 16px !important;
+    padding-block: 8px !important;
+  }
 }
+
 
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-.table-bordered > tbody > tr > td.PageTree__tree-column-td {
+.table-bordered>tbody>tr>td.PageTree__tree-column-td {
   padding: 0;
   line-height: 28px;
 }
+
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

@@ -39,7 +39,7 @@ export class LanguageFormBody extends Component {
       <div>
         <form onSubmit={this.onSubmit} className="LanguageForm form-horizontal">
           <FormGroup>
-            <Col xs={12}>
+            <Col xs={12} className="languageSelectGroup">
               <label className="control-label" htmlFor="language">
                 <FormattedMessage id="language.selectLanguage" />
               </label>

@@ -1,0 +1,129 @@
+.ComponentListActions {
+    &__container-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__container-header-title {
+        color: $color-black;
+        font-family: Inter;
+        font-size: 22px;
+        font-style: normal;
+        line-height: normal;
+    }
+
+    &__container-header-actionbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px 8px;
+        font-size: 12px;
+        color: $color-text-tertiary;
+
+        .btn {
+            font-size: 12px;
+            color: $color-text-tertiary;
+        }
+
+        .TabBarFilter .btn,
+        .ComponentListViewModeSwitcher .btn,
+        .CategoryFilter__dropdown-btn {
+            background-color: #fff;
+            border: 1px solid $color-content-07;
+
+            &.active {
+                color: $color-brand-primary;
+                background-color: $color-brand-background-primary;
+                box-shadow: none;
+            }
+        }
+
+        .dropdown-toggle {
+            height: 30px;
+        }
+
+        & > div:first-child {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        & > div:last-child {
+            padding-right: 0;
+        }
+
+        .SearchForm__container {
+            height: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .TabBarFilter {
+         align-items: center;
+        }
+
+        .FilterType button {
+            border-color: $color-content-07;
+            border-right: 0;
+        }
+    
+        .TabBarFilter > div,
+        .ComponentListViewModeSwitcher {
+            & > span {
+                display: block;
+                width: 70px;
+                text-align: right;
+            }
+        }
+
+        & > div:has(.CategoryFilter__dropdown-btn) {
+            ul {
+                left: unset;
+                width: fit-content;
+            }
+        }
+
+        .ComponentListActions__refresh-button {
+           color: #fff;
+        }
+    }
+
+    &__container-bundle-group {
+        input {
+            height: 28px;
+            border-radius: 0;
+            border: none;
+            font-size: 12px;
+            padding-block: 0;
+            box-shadow: none;
+
+            &::placeholder {
+                font-style: normal;
+            }
+        }
+
+        .DropdownTypeahead  {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            
+            & > div {
+                padding: 0;
+            }
+        }
+
+        .btn.active{
+            height: 30px;
+            border: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .SearchForm {
+            &__button-wrapper {
+                display: flex;
+            }
+
+            &__button-close {
+                position: unset;
+            }
+        }
+    }
+}

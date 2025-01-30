@@ -65,80 +65,83 @@ const HubRegistrySwitcher = () => {
   return (
     <Row className="HubRegistrySwitcher">
       <Col md={12}>
-        <div className="HubRegistrySwitcher__body">
-          <div className="HubRegistrySwitcher__data">
-            <div className="HubRegistrySwitcher__title">
-              {activeRegistry.name}
+        <div className="HubRegistrySwitcher__container">
+          <div className="HubRegistrySwitcher__body">
+            <div className="HubRegistrySwitcher__data">
+              <div className="HubRegistrySwitcher__title">
+                {activeRegistry.name}
+              </div>
+
             </div>
-            <div className="HubRegistrySwitcher__description">
-              {activeRegistry.url}
+            <div className="HubRegistrySwitcher__switcher">
+              <div className="HubRegistrySwitcher__switcher-label">
+                <FormattedMessage id="hub.selectRegistry" />
+              </div>
+              <div className="HubRegistrySwitcher__switcher-dropdown">
+                <DropdownKebab pullRight id="hub-registry-switcher">
+                  {
+                    registries.map(reg => (
+                      <MenuItem
+                        id={reg.name}
+                        key={reg.name}
+                        className="HubRegistrySwitcher__kebab-menu-item"
+                        disabled={reg.name === activeRegistry.name}
+                      >
+                        <div
+                          role="button"
+                          tabIndex={-1}
+                          onClick={() => handleRegistryChange(reg)}
+                          onKeyDown={() => handleDeleteRegistry(reg)}
+                          className="HubRegistrySwitcher__action-label"
+                        >
+                          <span
+                            style={{ visibility: reg.apiKeyPresent ? 'visible' : 'hidden' }}
+                            className="HubRegistrySwitcher__key-icon pficon pficon-key fa-lg"
+                          />
+                          {reg.name}
+                        </div>
+                        {
+                          reg.name !== ECR_LOCAL_REGISTRY_NAME && (
+                            <Fragment>
+                              <div
+                                role="button"
+                                tabIndex={-1}
+                                className="HubRegistrySwitcher__edit"
+                                onClick={() => handleEditRegistry(reg)}
+                                onKeyDown={() => handleEditRegistry(reg)}
+                              >
+                                <Icon size="lg" name="edit" />
+                              </div>
+                              <div
+                                role="button"
+                                tabIndex={-1}
+                                className="HubRegistrySwitcher__trash"
+                                onClick={() => handleDeleteRegistry(reg)}
+                                onKeyDown={() => handleDeleteRegistry(reg)}
+                              >
+                                <Icon size="lg" name="trash" />
+                              </div>
+                            </Fragment>
+                          )
+                        }
+                      </MenuItem>
+                    ))
+                  }
+                  <MenuItem
+                    id="addNewRegistry"
+                    className="HubRegistrySwitcher__kebab-menu-item--new"
+                    onClick={handleNewRegistryClick}
+                  >
+                    <div className="HubRegistrySwitcher__action-label--new">
+                      <FormattedMessage id="hub.newRegistry" />
+                    </div>
+                  </MenuItem>
+                </DropdownKebab>
+              </div>
             </div>
           </div>
-          <div className="HubRegistrySwitcher__switcher">
-            <div className="HubRegistrySwitcher__switcher-label">
-              <FormattedMessage id="hub.selectRegistry" />
-            </div>
-            <div className="HubRegistrySwitcher__switcher-dropdown">
-              <DropdownKebab pullRight id="hub-registry-switcher">
-                {
-                  registries.map(reg => (
-                    <MenuItem
-                      id={reg.name}
-                      key={reg.name}
-                      className="HubRegistrySwitcher__kebab-menu-item"
-                      disabled={reg.name === activeRegistry.name}
-                    >
-                      <div
-                        role="button"
-                        tabIndex={-1}
-                        onClick={() => handleRegistryChange(reg)}
-                        onKeyDown={() => handleDeleteRegistry(reg)}
-                        className="HubRegistrySwitcher__action-label"
-                      >
-                        <span
-                          style={{ visibility: reg.apiKeyPresent ? 'visible' : 'hidden' }}
-                          className="HubRegistrySwitcher__key-icon pficon pficon-key fa-lg"
-                        />
-                        {reg.name}
-                      </div>
-                      {
-                        reg.name !== ECR_LOCAL_REGISTRY_NAME && (
-                          <Fragment>
-                            <div
-                              role="button"
-                              tabIndex={-1}
-                              className="HubRegistrySwitcher__edit"
-                              onClick={() => handleEditRegistry(reg)}
-                              onKeyDown={() => handleEditRegistry(reg)}
-                            >
-                              <Icon size="lg" name="edit" />
-                            </div>
-                            <div
-                              role="button"
-                              tabIndex={-1}
-                              className="HubRegistrySwitcher__trash"
-                              onClick={() => handleDeleteRegistry(reg)}
-                              onKeyDown={() => handleDeleteRegistry(reg)}
-                            >
-                              <Icon size="lg" name="trash" />
-                            </div>
-                          </Fragment>
-                        )
-                      }
-                    </MenuItem>
-                  ))
-                }
-                <MenuItem
-                  id="addNewRegistry"
-                  className="HubRegistrySwitcher__kebab-menu-item--new"
-                  onClick={handleNewRegistryClick}
-                >
-                  <div className="HubRegistrySwitcher__action-label--new">
-                    <FormattedMessage id="hub.newRegistry" />
-                  </div>
-                </MenuItem>
-              </DropdownKebab>
-            </div>
+          <div className="HubRegistrySwitcher__description">
+            {activeRegistry.url}
           </div>
         </div>
       </Col>

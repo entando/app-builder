@@ -34,7 +34,7 @@ const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
 
 // thunks
 
-const getBase64 = file => (
+export const getBase64 = file => (
   new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

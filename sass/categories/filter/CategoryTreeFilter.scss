@@ -2,7 +2,7 @@
   &__title {
     margin-left: 5px;
     color: $color-space-grey;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 13px;
     font-style: normal;
     font-weight: bold;
@@ -28,7 +28,7 @@
   &__apply-button {
     width: 100%;
     margin-top: 10px;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-weight: 400;
 
     @media (min-width: 992px) {

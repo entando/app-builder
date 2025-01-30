@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import cx from 'classnames';
 import { Button, Icon } from 'patternfly-react';
 
 const msgs = defineMessages({
@@ -26,14 +27,12 @@ const RenderSearchFormInput = ({
       placeholder={intl.formatMessage(msgs.search)}
       {...others}
     />
-    {input.value ? (
-      <Button
-        className="btn-transparent SearchForm__button-close"
-        onClick={onClear}
-      >
-        <Icon name="close" />
-      </Button>
-    ) : null}
+    <Button
+      className={cx('btn-transparent SearchForm__button-close', !input.value && 'hidden')}
+      onClick={onClear}
+    >
+      <Icon name="close" />
+    </Button>
   </div>
 );
 

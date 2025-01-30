@@ -1,10 +1,8 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import GroupDetailTableContainer from 'ui/groups/detail/GroupDetailTableContainer';
 import { ROUTE_GROUP_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
@@ -12,22 +10,13 @@ import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const DetailGroupPageBody = () => (
   <InternalPage className="DetailGroupPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.userManagement' },
+      { label: 'menu.groups', to: ROUTE_GROUP_LIST },
+      { label: 'app.details', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.configuration" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_GROUP_LIST}>
-              <FormattedMessage id="menu.groups" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="app.details" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col xs={12}>
           <PageTitle

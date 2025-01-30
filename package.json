@@ -1,6 +1,6 @@
 {
   "name": "@entando/app-builder",
-  "version": "7.3.0",
+  "version": "7.3.0-SNAPSHOT",
   "author": "Entando",
   "homepage": "https://github.com/entando/app-builder",
   "license": "MIT",
@@ -30,6 +30,7 @@
     "html-webpack-plugin": "^3.2.0",
     "keycloak-js": "^18.0.1",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.469.0",
     "md5": "^2.3.0",
     "moment": "^2.22.1",
     "object-assign": "4.1.1",
@@ -82,8 +83,8 @@
     "lint": "eslint ./src",
     "coverage": "node scripts/test.js --env=jest-environment-jsdom-sixteen --coverage",
     "sass-lint": "sass-lint -v",
-    "precommit": "npm run lint && npm run sass-lint && npm run coverage",
-    "build-full": "npm run precommit && npm run import-plugins && node scripts/build.js",
+
+    
     "start-openshift": "npm install -g serve && serve -l 8080 -s build",
     "analyze": "source-map-explorer build/static/js/main.*",
     "app-install": "node apps/install.js",

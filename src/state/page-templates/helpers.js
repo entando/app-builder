@@ -222,7 +222,12 @@ const fixMissingSketch = (frames) => {
 };
 
 export const getCellMap = (pageTemplate) => {
-  if (!pageTemplate || !pageTemplate.configuration || !pageTemplate.configuration.frames) {
+  if (
+    !pageTemplate ||
+    !pageTemplate.configuration ||
+    !pageTemplate.configuration.frames ||
+    !pageTemplate.configuration.frames.length
+  ) {
     return null;
   }
   const errors = validatePageTemplate(pageTemplate);

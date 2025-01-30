@@ -1,5 +1,46 @@
 .ListWidgetPage {
-  .ListWidgetPage__add {
-    margin: 2em 2em 0 0;
- }
+  .ListWidgetPage__button-group {
+    padding-left: 0px;
+    padding-block: 6px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 2px;
+    background-color: #F9FAFB;
+    border: 1px solid $color-content-09;
+
+    .btn {
+      padding-inline: 18px;
+      font-weight: 600;
+    }
+  }
+
+  &__toggle-box, 
+  &__box {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__btn-toggle {
+    color: $color-text-tertiary !important;
+    font-weight: 500;
+  }
+  
+  &__toggle-box {
+    .ActiveButton, .btn[disabled] {
+        background-color:#FFFFFF !important;
+        box-shadow: 0px 2px 4px 0px rgba(52, 64, 81, 0.12) !important;
+        color: $color-text-secondary !important;
+    }
+
+    .CardItemCounter {
+      cursor: inherit;
+    }
+  }
+
+    &__box {
+      .btn[disabled] {
+        background-color: $color-content-09 !important;
+        color: $color-text-secondary !important;
+    }
+  }
 }

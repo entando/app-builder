@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Modal, Col, Row, Spinner, DropdownKebab, MenuItem, Button } from 'patternfly-react';
-
+import { Modal, Spinner, DropdownKebab, MenuItem, Button } from 'patternfly-react';
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
 import { ROUTE_PAGE_TEMPLATE_DETAIL } from 'app-init/router';
-import { TEMPLATE_THUMBNAIL } from 'ui/pages/common/const';
+import Search from 'ui/common/Search';
+import PageTemplatePreview from 'ui/page-templates/list/PageTemplatePreview';
 
 export const MODAL_ID = 'FindTemplateModal';
 
@@ -39,36 +39,29 @@ const FindTemplateModal = ({
     pageTemplates
       .filter(({ code, descr }) =>
         !searchValue || code.includes(searchValue) || descr.includes(searchValue))
-      .map(({ code, descr }) => (
-        <li
-          key={code}
-          className={`FindTemplateModal__template-list-li ${selected === code ? 'FindTemplateModal__template-list-li--selected' : ''}`}
-        >
-          <button className="FindTemplateModal__template-list-button" onClick={() => handleTemplateClick(code)}>
-            <img
-              src={TEMPLATE_THUMBNAIL[code] || TEMPLATE_THUMBNAIL.custom}
-              alt={descr}
+      .map(template => (
+        <div className="PageTemplateListTable">
+          <div className="Page_Template_List_Table">
+            <PageTemplatePreview
+              item={template}
+              actions={
+                <DropdownKebab id={`${template.code}-actions`}>
+                  <MenuItem
+                    onClick={() => {
+                      const templatePath = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', template.code);
+                      const link = `${global.location.href.split('/page')[0]}${templatePath}`;
+                      window.open(link);
+                    }}
+                  >
+                    <FormattedMessage id="app.details" />
+                  </MenuItem>
+                </DropdownKebab>
+              }
+              active={selected === template.code}
+              onClick={() => handleTemplateClick(template.code)}
             />
-          </button>
-          <DropdownKebab
-            className="FindTemplateModal__dropdown-kebab"
-            id={`${code}-actions`}
-            pullRight
-          >
-            <MenuItem
-              onClick={() => {
-              const templatePath = ROUTE_PAGE_TEMPLATE_DETAIL.replace(':pageTemplateCode', code);
-              const link = `${global.location.href.split('/page')[0]}${templatePath}`;
-              window.open(link);
-            }}
-            >
-              <FormattedMessage id="app.details" />
-            </MenuItem>
-          </DropdownKebab>
-          <div className="text-center FindTemplateModal__caption">
-            {descr}
           </div>
-        </li>
+        </div>
       ))
   );
 
@@ -96,16 +89,10 @@ const FindTemplateModal = ({
       modalCloseCleanup={handleModalClose}
     >
       <Spinner loading={!!loading}>
-        <Row>
-          <input className="FindTemplateModal__search-input" placeholder="Search Templates" onChange={handleSearchChange} />
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <ul className="FindTemplateModal__template-list">
-              {renderRows()}
-            </ul>
-          </Col>
-        </Row>
+        <Search className="FindTemplateModal__search-input" placeholder="Search Templates" onChange={handleSearchChange} reverse />
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {renderRows()}
+        </div>
       </Spinner>
     </GenericModalContainer>
   );

@@ -55,7 +55,7 @@
   &.table > tbody > &__row--selected {
     &,
     &:hover {
-      background-color: $color-dragitem-bg;
+      color:$color-neutral-grey;
     }
   }
   // sass-lint:enable force-element-nesting nesting-depth no-qualifying-elements class-name-format
@@ -79,15 +79,17 @@
 
 // Bootstrap overrides
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-.PageTreeCompact.table > tbody > tr:hover,
-.PageTreeCompact.table > tbody > tr:hover > td,
-.PageTreeCompact.table > tbody > tr:hover > th {
-  background-color: $color-dragitem-bg;
-}
+// .PageTreeCompact.table > tbody > tr:hover,
+// .PageTreeCompact.table > tbody > tr:hover > td,
+// .PageTreeCompact.table > tbody > tr:hover > th {
+//   background-color: $color-neutral-grey;
+// }
 
 .PageTreeCompact.table > tbody > tr > td {
   padding: 10px 0;
   border-top: 0;
-  color: $color-white;
+  font-weight: 600;
+  color: $color-primary-text;
+  vertical-align: middle;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

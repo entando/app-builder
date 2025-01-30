@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Paginator } from 'patternfly-react';
-import { Clearfix } from 'react-bootstrap';
+import { Paginator } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import { DataTable } from '@entando/datatable';
-
-import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import { ROUTE_PAGE_ADD } from 'app-init/router';
 import { formatDate, hasAccess } from '@entando/utils';
 import paginatorMessages from 'ui/paginatorMessages';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
-
 import ViewPermissionNoticeOverlay from 'ui/dashboard/ViewPermissionNoticeOverlay';
+import Icon from 'ui/common/icon/Icon';
+import Button from 'ui/common/Button';
+import StatusBadge from 'ui/pages/common/StatusBadge';
 
 class PagesList extends Component {
   constructor(props) {
@@ -25,13 +24,11 @@ class PagesList extends Component {
 
   componentDidMount() {
     const {
-      onWillMount,
-      columnOrder,
-      onSetColumnOrder,
-      userPermissions,
-    } = this.props;
+      onWillMount, columnOrder, onSetColumnOrder, userPermissions,
+    } =
+      this.props;
     if (!columnOrder.length) {
-      onSetColumnOrder(['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified']);
+      onSetColumnOrder(['pageModel', 'numWidget', 'status', 'lastModified']);
     }
     if (hasAccess(MANAGE_PAGES_PERMISSION, userPermissions)) {
       onWillMount();
@@ -39,30 +36,18 @@ class PagesList extends Component {
   }
 
   getColumnDefs() {
-    const { columnOrder, language } = this.props;
+    const { columnOrder } = this.props;
 
     const columnDefs = {
-      fullTitles: {
-        Header: <FormattedMessage id="app.name" />,
-        attributes: {
-          style: { width: '32%' },
-        },
-        Cell: (cellInfo) => {
-          const { row: { original: page } } = cellInfo;
-          return (
-            <EllipsisWithTooltip style={{ maxWidth: 208 }} placement="bottom">
-              {page.fullTitles[language]}
-            </EllipsisWithTooltip>
-          );
-        },
-      },
       pageModel: {
         Header: <FormattedMessage id="pages.pageForm.pageTemplate" />,
         attributes: {
-          style: { width: '20%' },
+          style: { width: '25%' },
         },
         Cell: (cellInfo) => {
-          const { row: { original: page } } = cellInfo;
+          const {
+            row: { original: page },
+          } = cellInfo;
           return (
             <EllipsisWithTooltip style={{ maxWidth: 120 }} placement="bottom">
               {page.pageModel}
@@ -72,19 +57,21 @@ class PagesList extends Component {
       },
       numWidget: {
         Header: <FormattedMessage id="dashboard.numberWidgets" />,
-        Cell: ({ value }) => `${value} widget(s)`,
+        Cell: ({ value }) => `${value} widget${value > 1 ? 's' : ''}`,
+        attributes: {
+          style: { width: '25%' },
+        },
       },
       status: {
         Header: <FormattedMessage id="pageTree.status" />,
         attributes: {
-          className: 'text-center',
-          style: { width: '10%' },
+          style: { width: '25%' },
         },
         Cell: (cellInfo) => {
-          const { row: { original: page } } = cellInfo;
-          return (
-            <PageStatusIcon status={page.status} />
-          );
+          const {
+            row: { original: page },
+          } = cellInfo;
+          return <StatusBadge status={page.status} />;
         },
         cellAttributes: {
           className: 'text-center',
@@ -93,7 +80,7 @@ class PagesList extends Component {
       lastModified: {
         Header: <FormattedMessage id="app.lastModified" />,
         attributes: {
-          style: { width: '19%' },
+          style: { width: '25%' },
         },
         Cell: ({ value }) => formatDate(value),
       },
@@ -116,36 +103,36 @@ class PagesList extends Component {
 
   render() {
     const {
-      pages,
-      onSetColumnOrder,
-      page,
-      pageSize: perPage,
+      pages, onSetColumnOrder, page, pageSize: perPage,
     } = this.props;
-    const pagination = {
-      page,
-      perPage,
-      perPageOptions: [5, 10, 15],
-    };
-
+    const pagination = { page, perPage, perPageOptions: [5, 10, 15] };
     const { intl } = this.props;
 
-    const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-      { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-    ), {});
+    const messages = Object.keys(paginatorMessages).reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr]: intl.formatMessage(paginatorMessages[curr]),
+      }),
+      {},
+    );
 
     const columns = this.getColumnDefs() || [];
 
     return (
       <div className="PagesList">
         <ViewPermissionNoticeOverlay viewPermissions={MANAGE_PAGES_PERMISSION}>
-          <h2>
-            <FormattedMessage id="app.pages" />
+          <h2 className="card-pf-title">
+            <div className="left-title">
+              <Icon name="pages" type="lucide" background className="primary" />
+              <FormattedMessage id="app.pages" />
+            </div>
             <Button
-              bsStyle="primary"
-              className="pull-right"
+              bsStyle="link"
+              className="primary pull-right"
               componentClass={Link}
               to={ROUTE_PAGE_ADD}
             >
+              <Icon name="plus" type="lucide" className="primary" />
               <FormattedMessage id="app.add" defaultMessage="Add" />
             </Button>
           </h2>
@@ -156,8 +143,10 @@ class PagesList extends Component {
               columnResizable
               onColumnReorder={onSetColumnOrder}
               classNames={{
-                table: 'PageTemplateListTable__table table-striped',
-                cell: 'FragmentListRow__td',
+                table: 'PageTemplateListTable__table table-bordered',
+                headerGroup: 'table-header',
+                row: 'table-row',
+                cell: 'table-cell',
               }}
             />
           </div>
@@ -169,7 +158,6 @@ class PagesList extends Component {
             onPerPageSelect={this.changePageSize}
             messages={messages}
           />
-          <Clearfix />
         </ViewPermissionNoticeOverlay>
       </div>
     );
@@ -182,10 +170,6 @@ PagesList.propTypes = {
   userPermissions: PropTypes.arrayOf(PropTypes.string),
   pages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
-    fullTitles: PropTypes.shape({
-      en: PropTypes.string,
-      it: PropTypes.string,
-    }),
     status: PropTypes.string,
     numWidget: PropTypes.number,
     lastModified: PropTypes.string,
@@ -193,7 +177,6 @@ PagesList.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
-  language: PropTypes.string.isRequired,
   columnOrder: PropTypes.arrayOf(PropTypes.string),
   onSetColumnOrder: PropTypes.func,
 };
@@ -201,8 +184,8 @@ PagesList.propTypes = {
 PagesList.defaultProps = {
   pages: [],
   userPermissions: [],
-  columnOrder: ['fullTitles', 'pageModel', 'numWidget', 'status', 'lastModified'],
-  onSetColumnOrder: () => {},
+  columnOrder: ['pageModel', 'numWidget', 'status', 'lastModified'],
+  onSetColumnOrder: () => { },
 };
 
 export default injectIntl(PagesList);

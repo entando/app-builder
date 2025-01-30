@@ -1,33 +1,114 @@
+// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
 .ListFragmentPage {
+  font-family: Inter;
+
   .FragmentListTable__table {
     margin: 2em 0 0 0;
- }
+  }
 
-}
+  .dropdown-menu {
+    a {
+      display: flex;
+      align-items: center;
+      color: $color-text-secondary;
 
-// Bootstrap overrides
-// sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
-.ListFragmentPage .nav-tabs > li.ListFragmentPage__header-tab > a {
-  height: 57px;
-  line-height: 43px;
-}
+      &:hover {
+        text-decoration: none;
+      }
+    }
 
-.ListFragmentPage .nav-tabs.nav-justified > .active > a {
-  border-bottom-color: $color-pf-black-300;
-}
+    .danger > a {
+      color: $color-error-primary;
+    }
+  }
+  
+  &__toolbar-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  &__tab-container {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 8px;
+    padding-inline: 16px;
+  }
 
-.ListFragmentPage .nav-tabs.nav-justified > :not(.active) > a {
-  background-color: $color-pf-black-200;
-}
+  &__header-tab {
+    display: flex;
+    align-items: baseline;
+    color: $color-text-tertiary;
+    column-gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    padding: 6px 16px;
+  
+    &.active, &.active:hover {
+      color: $color-brand-primary;
+      border-color: $color-brand-primary;
+    }
 
-.ListFragmentPage .nav-tabs.nav-justified > :not(.active):hover > a {
-  background-color: $color-pf-black-700;
-  color: $color-pf-white;
-  font-weight: 600;
-}
+    &:hover {
+      cursor: pointer;
+      border-color: $color-text-tertiary;
+    }
+  } 
 
-.ListFragmentPage .nav-tabs.nav-justified {
-  border: 1px solid $color-pf-black-300;
-  border-top: 0;
+  .FragmentListContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 16px;
+  }
+
+  &__search-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .FragmentSearchForm{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+
+    .form-control {
+      height: 28px;
+      width: 140px;
+      font-size: 12px;
+      padding-block: 0;
+
+      &::placeholder {
+        font-style: normal;
+      }
+    }
+
+    &__select-default-value {
+      color: $color-mid-grey;
+    }
+  }
+
+  .FragmentGrid__box {
+    .content-view-pf-pagination {
+      border: 1px solid $color-content-09;
+      border-top: none;
+    }
+  }
+
+  .FragmentGrid__container {
+    border: 1px solid $color-content-09;
+    background-color: #F9FAFB;
+    border-radius: $radius-xxs;
+  
+    .content-view-pf-pagination {
+      border: none;
+      border-top: 1px solid $color-border-grey;
+    }
+  }
+
+  .SettingsFragmentForm {
+    padding: 16px;
+  }
 }
-// sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format

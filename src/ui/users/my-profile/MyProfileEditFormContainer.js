@@ -1,15 +1,17 @@
 import { connect } from 'react-redux';
-import { reset, change } from 'redux-form';
+import { reset } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
 import { fetchMyUserProfile, updateMyUserProfile } from 'state/user-profile/actions';
 import { fetchLanguages } from 'state/languages/actions';
+import { fetchAvatar, removeAvatar, setGravatar } from 'state/avatar/actions';
 import { getDefaultLanguage, getActiveLanguages } from 'state/languages/selectors';
-import { getSelectedProfileTypeAttributes } from 'state/profile-types/selectors';
+import { getSelectedProfileTypeAttributes, getUserProfileEmail } from 'state/profile-types/selectors';
 import MyProfileEditForm from 'ui/users/my-profile/MyProfileEditForm';
 import { getPayloadForForm } from 'helpers/entities';
-import { getUserProfile, getUserEmail } from 'state/user-profile/selectors';
+import { getUserProfile } from 'state/user-profile/selectors';
 import { getUserProfileForm } from 'state/forms/selectors';
+import { getAvatarFilename, getUseGravatar } from 'state/avatar/selectors';
 
 export const mapStateToProps = state => ({
   username: getUsername(state),
@@ -22,14 +24,17 @@ export const mapStateToProps = state => ({
     getDefaultLanguage(state),
     getActiveLanguages(state),
   ),
-  userEmail: getUserEmail(state),
+  userEmail: getUserProfileEmail(state),
   userProfileForm: getUserProfileForm(state),
+  avatar: getAvatarFilename(state),
+  useGravatar: getUseGravatar(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   onMount: () => {
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyUserProfile());
+    dispatch(fetchAvatar());
   },
   onSubmit: (userprofile) => {
     dispatch(updateMyUserProfile(userprofile, false));
@@ -37,7 +42,12 @@ export const mapDispatchToProps = dispatch => ({
   onCancel: () => {
     dispatch(reset('UserProfile'));
   },
-  onChangeProfilePicture: picture => dispatch(change('UserProfile', 'profilepicture', picture)),
+  onChangeProfilePicture: (picture) => {
+    if (picture === '') {
+      dispatch(removeAvatar());
+    }
+  },
+  onSetGravatar: () => dispatch(setGravatar()),
 });
 
 export default connect(

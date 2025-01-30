@@ -1,33 +1,33 @@
-.SidebarFilter {
-  border: solid 1px $color-light-grey-border;
-  background: $color-white;
-  text-align: left;
+// .SidebarFilter {
+//   border: solid 1px $color-light-grey-border;
+//   background: $color-white;
+//   text-align: left;
 
-  &__title {
-    padding: 20px 15px;
-    border-bottom: 2px solid $color-extra-light-grey-border;
-    color: $color-black;
-    font-family: Open Sans;
-    font-size: 22px;
-    font-style: normal;
-    line-height: normal;
-  }
+//   &__title {
+//     padding: 20px 15px;
+//     border-bottom: 2px solid $color-extra-light-grey-border;
+//     color: $color-black;
+//     font-family: Inter;
+//     font-size: 22px;
+//     font-style: normal;
+//     line-height: normal;
+//   }
 
-  &__body {
-    .CheckboxGroup {
-      padding: 20px 15px;
-    }
+//   &__body {
+//     .CheckboxGroup {
+//       padding: 20px 15px;
+//     }
 
-    li {
-      margin-bottom: 15px;
-    }
+//     li {
+//       margin-bottom: 15px;
+//     }
 
-    label {
-      font-weight: normal;
+//     label {
+//       font-weight: normal;
 
-      &::before {
-        margin-right: 8px !important; // sass-lint:disable-line no-important
-      }
-    }
-  }
-}
+//       &::before {
+//         margin-right: 8px !important; // sass-lint:disable-line no-important
+//       }
+//     }
+//   }
+// }

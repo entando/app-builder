@@ -3,7 +3,6 @@
   &__content-edit {
     margin-bottom: 15px;
     padding: 10px 0;
-    border: 1px solid $color-pf-black-300;
     background-color: $color-pf-black-150;
   }
 
@@ -12,6 +11,102 @@
   }
 }
 
-.UserSearchForm {
-  background-color: $color-white;
+.UserListPage{
+
+  .formRow{
+    display: flex;
+    border: none;
+    outline: none;
+
+    .col-xs-6{
+      border: none;
+      outline: none;
+    }
+
+    .well{
+      border: none;
+      outline: none;
+      padding: 0;
+      box-shadow: none;
+      margin-bottom: 11px;
+
+
+      h3{
+        margin-top: 10px;
+      }
+    }
+
+    .UserSearchForm {
+      background-color: $color-white;
+      display: flex;
+      flex: 1;
+      justify-content: flex-start;
+      gap: 20px;
+
+     
+
+      .row{
+        display: flex;
+        align-items: center;
+      }
+    
+      .form-group{
+        display: flex;
+        margin: 0 !important;
+        border: none;
+
+        input{
+          padding: 6px 0px 6px 6px;
+          width: 100%;
+          min-width: 220px;
+          font-size: 14px;
+          font-style: normal;
+        }
+      }
+    }
+
+  }
+
+  .content-view-pf-pagination{
+    background-color: white;
+
+    .form-group{
+      align-items: center;
+      font-size: 14px;
+
+      .form-control{
+        font-size: 14px;
+      }
+   
+
+      .dropdown-toggle{
+        background-color: transparent;
+      }
+    } 
+  
+  }   
+
+  .pagination{
+    li > a{
+      border: none;
+      outline: none;
+      vertical-align: middle;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    li > a:hover{
+      background-color: $color-neutral-grey;
+      box-shadow: none;
+      background: none;
+    }
+
+  
+  }
+
 }
+

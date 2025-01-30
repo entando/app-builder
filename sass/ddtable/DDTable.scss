@@ -9,3 +9,16 @@
 .DDTable__tr--dnd-hover-medium {
   background: $color-pf-black-400;
 }
+
+.DDTable{
+
+  table{
+    margin-bottom: unset !important;
+    background-color: white;
+  }
+  
+  padding: 16px;
+  background-color: #F9FAFB;
+  border: 1px solid $color-content-09;
+  border-radius: 4px;
+}

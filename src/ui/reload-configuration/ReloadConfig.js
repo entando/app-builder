@@ -19,7 +19,7 @@ const ReloadConfig = ({ onReload }) => (
     <EmptyStateInfo className="ReloadConfig__info">
       <FormattedMessage id="reloadConfiguration.reload.confirm" />
     </EmptyStateInfo>
-    <EmptyStateAction>
+    <EmptyStateAction className="ReloadConfig__footer">
       <Button className="ReloadConfig__reload-button" bsStyle="danger" onClick={() => (onReload())}>
         <FormattedMessage id="app.reload" />
       </Button>

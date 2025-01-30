@@ -22,6 +22,7 @@ import {
   getMonolistAttributeType,
   getIsMonolistCompositeAttributeType,
   getNewAttributeComposite,
+  getUserProfileEmail,
 } from 'state/profile-types/selectors';
 
 const TEST_STATE = {
@@ -235,4 +236,46 @@ describe('state/users/selectors', () => {
     const res = getNewAttributeComposite(LIST_SELECTED4);
     expect(res).toEqual('boi');
   });
+
+  describe('getUserProfileEmail selector', () => {
+    it('should return undefined if selectedUserProfileAttributes is falsy', () => {
+      const result = getUserProfileEmail({
+        profileTypes: { selected: null }, userProfile: { attributes: [] },
+      });
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined if userProfile is falsy', () => {
+      const result = getUserProfileEmail({ profileTypes: { selected: [{ roles: [{ code: 'userprofile:email' }] }] }, userProfile: { attributes: [] } });
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined if emailAttribute is not found', () => {
+      const result = getUserProfileEmail({
+        profileTypes: { selected: [] }, userProfile: { attributes: [] },
+      });
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined if userProfileEmailAttribute is not found', () => {
+      const result = getUserProfileEmail({ profileTypes: { selected: { attributes: [{ roles: [{ code: 'invalid-role-code' }] }] } }, userProfile: { attributes: [] } });
+      expect(result).toBeUndefined();
+    });
+
+    it('should return userProfileEmailAttribute.value if all conditions are met', () => {
+      const selectedUserProfileAttributes = [{ code: 'email', roles: [{ code: 'userprofile:email' }] }];
+      const userProfile = {
+        attributes: [
+          { code: 'email', value: 'test@example.com' },
+          { code: 'other-attribute', value: 'other-value' },
+        ],
+      };
+
+      const result = getUserProfileEmail({
+        profileTypes: { selected: { attributes: selectedUserProfileAttributes } }, userProfile,
+      });
+      expect(result).toBe('test@example.com');
+    });
+  });
 });
+

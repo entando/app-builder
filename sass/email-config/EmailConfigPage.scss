@@ -3,13 +3,113 @@
     margin-bottom: 20px;
   }
 
-  &__tab {
-    // sass-lint:disable class-name-format nesting-depth no-important
-    &.active {
-      a {
-        border-bottom-color: $color-light-grey-border !important;
+  .header-container{
+    margin-left: -20px;
+    margin-right: -20px;
+    border-bottom: 1px solid $color-border-grey;
+    margin-bottom: 8px;
+
+    .header-content{
+      padding: 8px 20px 0px 20px !important;
+      display: flex ;
+      justify-content: space-between;
+
+      .button-group{
+        display: flex;
+
+        .btn-default{
+          background-color: unset;
+          box-shadow: none;
+          border: none;
+          border-bottom: 2px solid $color-border-grey;
+          border-radius: unset;
+
+          &:hover{
+            border-bottom: 2px solid $color-brand-primary;
+            color: black;
+          }
+
+          &.selected{
+            border-bottom: 2px solid $color-brand-primary;
+            color: black;
+          }
+
+          &:focus{
+            outline: unset;
+          }
+        }
+      } 
+    }
+  }
+
+  .PageTitle{
+    margin: unset;
+    display: flex;
+    align-items: center;
+
+    &__title{
+      margin: unset;
+    }
+
+    &__content{
+      width: fit-content;
+      margin-right: 16px;
+    }
+
+    &__header::after {
+      content: none;
+    }
+  }
+
+  .table{
+    margin-top: 8px;
+    thead {
+      background-color: #fff !important;
+      background-image: unset;
+      background: unset;
+
+      th{
+        border: unset;
+        padding: 16px;
+      }
+      
+  
+      td {
+        border-left: 0;
+        border-right: 0;
+      }
+  
+      .columnResizer {
+        border-bottom: 1px solid $color-border-grey;
       }
     }
-    // sass-lint:enable class-name-format nesting-depth no-important
+
+    tbody{
+      tr {
+        td {
+          background-color: #fff;
+          border: 1px solid $color-border-grey;
+          background-color: #fff !important;
+          border-left: 0;
+          border-right: 0;
+          text-overflow: ellipsis;
+          vertical-align: center !important;
+          padding: 16px;
+          font-size: 14px;
+        }
+      }
+    }
   }
+
+  .container-fluid {
+    padding-bottom: 16px;
+  }
+
+  // &__tab {
+  //   // sass-lint:disable class-name-format nesting-depth no-important
+  //   &.active, &.selected {
+  //     background-color: red;
+  //   }
+  //   // sass-lint:enable class-name-format nesting-depth no-important
+  // }
 }

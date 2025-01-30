@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const EmptyFrame = ({
   frameName, frameIsMainFrame, connectDropTarget, isOver,
 }) => {
@@ -9,13 +8,20 @@ const EmptyFrame = ({
   if (isOver) {
     classNameAr.push('EmptyFrame--drag-hover');
   }
-  if (frameIsMainFrame) {
-    classNameAr.push('EmptyFrame--main-frame');
-  }
+
   const frameNameString = typeof frameName === 'string' ? frameName : '';
   const component = (
-    <div className={classNameAr.join(' ')} data-testid={`WidgetFrame__${frameNameString.replace(/\s/g, '_')}`}>
-      <span className="EmptyFrame__frame-name" >{ frameNameString }</span>
+    <div
+      className={classNameAr.join(' ')}
+      data-testid={`WidgetFrame__${frameNameString.replace(/\s/g, '_')}`}
+    >
+      <span className="EmptyFrame__frame-name">{frameNameString}</span>
+
+      {frameIsMainFrame && (
+        <div className="main-frame">
+          <span>Main Frame</span>
+        </div>
+      )}
     </div>
   );
   if (connectDropTarget) {
@@ -24,9 +30,7 @@ const EmptyFrame = ({
   return component;
 };
 
-
 EmptyFrame.propTypes = {
-
   frameName: PropTypes.string.isRequired,
   frameIsMainFrame: PropTypes.bool.isRequired,
 
@@ -45,6 +49,5 @@ EmptyFrame.defaultProps = {
   connectDropTarget: null,
   isOver: false,
 };
-
 
 export default EmptyFrame;

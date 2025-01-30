@@ -44,12 +44,9 @@ export class UserSearchFormBody extends Component {
     const { intl } = this.props;
     return (
       <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well" data-testid={TEST_ID_USER_SEARCH_FORM.FORM}>
-        <h3><FormattedMessage id="app.search" /></h3>
+        <h3><FormattedMessage id="app.searchUser" /></h3>
         <FormGroup>
           <Row>
-            <label className="control-label col-sm-2" htmlFor="username">
-              <FormattedMessage id="user.table.username" />
-            </label>
             <Col sm={9}>
               <Field
                 id="username"

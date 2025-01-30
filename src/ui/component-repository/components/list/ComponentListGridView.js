@@ -43,7 +43,6 @@ const ComponentListGridView =
 
               <div className="ComponentList__component-body">
                 <div
-                  className="ComponentList__component-content"
                   role="button"
                   tabIndex={0}
                   onClick={() => openComponentManagementModal(component)}
@@ -59,6 +58,16 @@ const ComponentListGridView =
                     }
                   </p>
                   <h1>{component.title}</h1>
+                  <p className="ComponentList__description">{component.description}</p>
+                  <InstalledVersion
+                    version={(installedJob || {}).componentVersion ||
+                      (component.latestVersion || {}).version}
+                    installed={installed}
+                  />
+                  <DeploymentStatus bundleStatus={bundleStatus} />
+                </div>
+                <div className="ComponentList__component-footer">
+                  <ComponentInstallActionsContainer component={component} />
                   {
                     component.installed &&
                     <div>
@@ -77,16 +86,6 @@ const ComponentListGridView =
                       </Button>
                     </div>
                   }
-                  <p className="ComponentList__description">{component.description}</p>
-                  <InstalledVersion
-                    version={(installedJob || {}).componentVersion ||
-                      (component.latestVersion || {}).version}
-                    installed={installed}
-                  />
-                  <DeploymentStatus bundleStatus={bundleStatus} />
-                </div>
-                <div className="ComponentList__component-footer" style={{ display: 'none' }}>
-                  <ComponentInstallActionsContainer component={component} />
                 </div>
               </div>
             </div>

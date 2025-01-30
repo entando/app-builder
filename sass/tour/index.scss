@@ -11,7 +11,7 @@
     padding-left: 20px;
     background-color: $color-black;
     color: $color-white;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 13px;
     font-weight: 600;
     line-height: 17.7px;
@@ -26,7 +26,7 @@
     padding-left: 20px;
     background-color: $color-white;
     color: $color-ecr-list-icon-active;
-    font-family: "Open Sans";
+    font-family: "Inter";
 
     &--dark {
       background-color: rgba(41, 46, 52, 1); // sass-lint:disable-line variable-for-property

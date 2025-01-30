@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, MenuItem, Button, Paginator, Spinner } from 'patternfly-react';
+import { Grid, Row, Col, MenuItem, Button, Paginator, Spinner } from 'patternfly-react';
 import { Link } from 'react-router-dom';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import LabelSearchFormContainer from 'ui/labels/list/LabelSearchFormContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
@@ -12,6 +10,7 @@ import LanguageFormContainer from 'ui/labels/list/LanguageFormContainer';
 import LabelsTabsContainer from 'ui/labels/list/LabelsTabsContainer';
 import { ROUTE_LABEL_ADD } from 'app-init/router';
 import paginatorMessages from 'ui/paginatorMessages';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 const TAB_LANGUAGES = 'languages';
 const TAB_LABELS = 'labels';
@@ -63,7 +62,7 @@ class LabelsAndLanguagesPage extends Component {
         <Row>
           <Col xs={12}>
             <Row>
-              <Col xs={6} xsOffset={3}>
+              <Col xs={6}>
                 <LabelSearchFormContainer />
               </Col>
             </Row>
@@ -83,7 +82,7 @@ class LabelsAndLanguagesPage extends Component {
               </Col>
             </Row>
             <Row>
-              <Col xs={12}>
+              <Col xs={12} className="LabelsAndLanguagesPage__table-container">
                 <Spinner loading={!!this.props.loadingLabels}>
                   <LabelsTabsContainer />
                   <Paginator
@@ -103,44 +102,33 @@ class LabelsAndLanguagesPage extends Component {
     }
     return (
       <InternalPage className="LabelsAndLanguagesPage">
+        <HeaderBreadcrumb breadcrumbs={[{ label: 'menu.settings' }, { label: 'menu.labelsAndLanguages' }]} />
         <Grid fluid>
-          <Row>
-            <Col xs={12}>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.settings" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.labelsAndLanguages" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
-          </Row>
           <Row>
             <Col xs={12}>
               <div className="LabelsAndLanguagesPage__header-container">
                 <Row>
-                  <Col xs={6}>
-                    <PageTitle titleId="menu.labelsAndLanguages" helpId="labelsAndLanguages.help" />
+                  <Col xs={12} className="languagesAndLabelsHeader">
+                    <PageTitle titleId="menu.labelsAndLanguages" helpId="labelsAndLanguages.help" >
+                      <ul className="LabelsAndLanguagesPage__header-tabs nav nav-tabs nav-justified nav-tabs-pattern">
+                        <MenuItem
+                          className="LabelsAndLanguagesPage__header-tab LabelsAndLanguagesPage__header-tab-languages"
+                          active={this.props.activeTab === TAB_LANGUAGES}
+                          onClick={() => this.props.onClickTab(TAB_LANGUAGES)}
+                        >
+                          <FormattedMessage id="app.languages" />
+                        </MenuItem>
+                        <MenuItem
+                          className="LabelsAndLanguagesPage__header-tab  LabelsAndLanguagesPage__header-tab-labels"
+                          active={this.props.activeTab === TAB_LABELS}
+                          onClick={() => this.props.onClickTab(TAB_LABELS)}
+                        >
+                          <FormattedMessage id="app.systemLabels" />
+                        </MenuItem>
+                      </ul>
+                    </PageTitle>
                   </Col>
-                  <Col xs={6}>
-                    <ul className="nav nav-tabs nav-justified nav-tabs-pattern">
-                      <MenuItem
-                        className="LabelsAndLanguagesPage__header-tab LabelsAndLanguagesPage__header-tab-languages"
-                        active={this.props.activeTab === TAB_LANGUAGES}
-                        onClick={() => this.props.onClickTab(TAB_LANGUAGES)}
-                      >
-                        <FormattedMessage id="app.languages" />
-                      </MenuItem>
-                      <MenuItem
-                        className="LabelsAndLanguagesPage__header-tab  LabelsAndLanguagesPage__header-tab-labels"
-                        active={this.props.activeTab === TAB_LABELS}
-                        onClick={() => this.props.onClickTab(TAB_LABELS)}
-                      >
-                        <FormattedMessage id="app.systemLabels" />
-                      </MenuItem>
-                    </ul>
-                  </Col>
+
                 </Row>
               </div>
             </Col>

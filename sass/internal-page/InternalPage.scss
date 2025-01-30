@@ -2,10 +2,10 @@
   margin-bottom: 20px;
 
   // sass-lint:disable class-name-format
-  .breadcrumb {
-    margin-bottom: 0;
-    border-bottom: 1px solid $color-pf-black-300;
-  }
+  // .breadcrumb {
+  //   margin-bottom: 0;
+  //   border-bottom: 1px solid $color-pf-black-300;
+  // }
   // sass-lint:enable class-name-format
 
   &__page-title {
@@ -31,6 +31,7 @@
   &__icon {
     padding-left: 8px;
     font-size: 15px;
+    color: $color-text-tertiary;
   }
 
   &__link {
@@ -51,7 +52,6 @@
 
 .LanguageSelect {
   position: relative;
-  border: solid $color-pf-black-900;
   border-width: 0 0 0 1px;
 
   &__dropdown {
@@ -59,8 +59,8 @@
     padding-right: 24px;
     border: 0;
     outline: none;
-    background: $color-pf-black;
-    color: $color-pf-black-300;
+    background: $color-background-primary;
+    color: $color-text-tertiary;
     font-size: 11px;
     cursor: pointer;
     appearance: none;
@@ -69,7 +69,7 @@
   &__dropdown-vmenu {
     padding-top: 5px;
     padding-bottom: 5px;
-    background: $color-vmenu-header-bg-grey;
+    background: $color-background-primary;
     font-size: 12px;
   }
 
@@ -95,39 +95,75 @@
   &__fixed-bottom {
     position: fixed;
     bottom: 64px;
-    left: 0;
     border-bottom: 0;
   }
 }
 
 // sass-lint:disable force-element-nesting class-name-format no-important
 .nav-pf-vertical {
-  width: auto;
+    width: 214px;
+    border-right: 1px solid $color-neutral-grey;
+    padding: 10px 0 0 12px;
+    top: 54px;
 
   .secondary-nav-item-pf > a {
-    width: 214px;
     padding-left: 25px;
+    display: flex;
+    align-items: center;
+
+    &::after {
+      font-size: 14px;
+      padding: 0;
+    }
+  }
+
+  .nav-pf-secondary-nav .list-group-item > a {
+      height: 28px;
+      margin-left: 10px;
+    }
+
+  &:not(.collapsed) {
+    & > .list-group > .list-group-item > a {
+      display: flex;
+      column-gap: 14px;
+    }
+
+    & + .VerticalMenu__secondary-collapse-btn {
+      left: #{$nav-pf-vertical-width * 2};
+    }
+    & + .VerticalMenu__expand-collapse-btn {
+      justify-content: flex-end;
+      text-align: right;
+    }
   }
 
   &.collapsed {
-    + .VerticalMenu__secondary-collapse-btn {
-      left: 76px;
+    width: $sidebar-collapsed-width;
+    
+    .list-group-item.secondary-nav-item-pf {
+      & > a, &.active > a {
+        width: fit-content;
+
+        &:hover {
+          width: fit-content;
+        }
+      }
     }
 
     + .VerticalMenu__expand-collapse-btn {
-      width: 75px;
+      width: 39px;
       padding-right: 0 !important;
       padding-left: 0;
-      text-align: center;
+
+      a {
+        width: 24px;
+      }
     }
 
     .secondary-nav-item-pf > a::after {
       display: none;
     }
 
-    .nav-pf-secondary-nav .list-group-item > a {
-      width: 214px;
-    }
   }
 }
 // sass-lint:enable force-element-nesting class-name-format nesting-depth no-important
@@ -147,18 +183,27 @@
   top: 40px;
   bottom: 0;
   left: #{$nav-pf-vertical-width + 15};
-  width: calc(100% - #{$nav-pf-vertical-width} - 15px);
+  width: calc(100% - #{$nav-pf-vertical-width} - 25px);
   padding: 0;
 }
 
 .container-pf-nav-pf-vertical.collapsed-nav { //sass-lint:disable-line class-name-format force-element-nesting
-  left: 75px;
-  width: calc(100% - 75px);
+  left: $sidebar-collapsed-width;
+  width: calc(100% - 50px);
 }
 
 .container-pf-nav-pf-vertical.hidden-nav { //sass-lint:disable-line class-name-format force-element-nesting
   left: 0;
   width: 100%;
+}
+
+.navbar-pf-vertical {
+  background-color: $color-background-primary;
+  border-bottom: 1px solid $color-neutral-grey;
+
+  .navbar-toggle {
+    display: none;
+  }
 }
 
 .navbar-brand-txt { //sass-lint:disable-line class-name-format
@@ -169,48 +214,39 @@
 
 .navbar-brand-icon { //sass-lint:disable-line class-name-format
   position: absolute;
-  top: 18px;
+  top: 15px;
   height: 24px;
+  left: 8px;
 }
 
 .navbar-iconic { //sass-lint:disable-line class-name-format
+  display: flex;
+  align-items: center;
+
   a.dropdown-toggle { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    margin-top: 5px;
-    background: $color-vmenu-header-bg-grey;
-    color: $color-vmenu-header-text-grey;
-  }
+    background: $color-background-primary;
+    color: $color-text-tertiary;
 
-  a.dropdown-toggle:hover { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    background: $color-vmenu-header-bg-grey;
-    color: $color-white;
-    font-weight: bold;
-  }
-
-  a.dropdown-toggle:focus { //sass-lint:disable-line class-name-format force-element-nesting no-qualifying-elements
-    background: $color-vmenu-header-bg-grey;
-    color: $color-white;
-    font-weight: bold;
+    &:hover, &:focus {
+      background: $color-background-primary;
+      color: $color-text-secondary;
+      font-weight: bold;
+    }
   }
 
   .HomePageLink__link {
-    margin-top: 5px;
-    color: $color-vmenu-header-text-grey;
+    color: $color-text-tertiary;
   }
 
   .HomePageLink__link:hover {
-    background: $color-vmenu-header-bg-grey;
-    color: $color-white;
+    background: $color-background-primary;
+    color: $color-text-secondary;
     font-weight: bold;
   }
 
   .HomePageLink__link:focus {
-    background: $color-vmenu-header-bg-grey;
-    color: $color-white;
+    background: $color-background-primary;
     font-weight: bold;
-  }
-
-  .LanguageSelect {
-    margin-top: 15px;
   }
 }
 
@@ -242,10 +278,19 @@
   }
 }
 
-.nav-pf-secondary-nav {
-  left: 0;
-  width: #{$nav-pf-vertical-width + 14};
+ .collapsed .nav-pf-secondary-nav, .nav-pf-secondary-nav {
   z-index: 1031;
+  border: 1px solid $color-neutral-grey;
+}
+
+.collapsed .nav-pf-secondary-nav {
+  left: $sidebar-collapsed-width;
+}
+
+.nav-pf-secondary-nav {
+  width: #{$nav-pf-vertical-width + 35};
+  left: 212px;
+  top: 52px;
 }
 
 .nav-item-pf-header {
@@ -254,54 +299,101 @@
 }
 
 .nav-pf-secondary-nav .list-group-item > a {
-  width: #{$nav-pf-vertical-width + 14};
-  margin-left: 0;
-  padding-left: 52px;
+  width: #{$nav-pf-vertical-width};
 }
 
-.VerticalMenu__secondary-collapse-btn {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 40px;
-  height: 48px;
-  outline: none;
-  background-color: $color-extra-dark-grey;
-  color: $color-white;
-  font-size: 20px;
-  z-index: 1032;
 
-  &:hover,
-  &:active,
-  &:focus,
-  &:active:focus {
+.VerticalMenu {
+
+  &__secondary-collapse-btn, 
+  &__expand-collapse-btn {
     outline: none;
-    background-color: $color-extra-dark-grey;
-    color: $color-white;
+    border: none;
+    box-shadow: none;
+    background-color: $color-background-primary;
+    color: $color-text-tertiary;
+    font-size: 20px;
+
+    &:hover,
+    &:active,
+    &:focus,
+    &:active,
+    &:active:focus {
+      outline: none;
+      border: none;
+      background-color: $color-background-primary;
+      box-shadow: none;
+    }
+
+
+    &:hover {
+      color: $color-light-blue;
+    }
   }
-}
 
-.VerticalMenu__expand-collapse-btn {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 214px;
-  height: 64px;
-  padding-right: 20px !important;
-  outline: none;
-  background-color: $color-extra-dark-grey;
-  color: $color-white;
-  font-size: 20px;
-  text-align: right;
-  z-index: 1030;
+  &__secondary-collapse-btn {
+    position: fixed;
+    top: 61px;
+    left: #{$nav-pf-vertical-width + 30};
+    width: 40px;
+    height: 48px;
+    z-index: 1032;
+  }
 
-  &:hover,
-  &:active,
-  &:focus,
-  &:active:focus {
-    outline: none;
-    background-color: $color-extra-dark-grey;
-    color: $color-white;
+
+  &__expand-collapse-btn {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: #{$nav-pf-vertical-width + 10};
+    height: 64px;
+    padding-right: 20px !important;
+    z-index: 1030;
+  }
+
+  &__headerBreadcrumbs {
+    width: fit-content;
+
+    &__icon {
+      margin-inline: 6px 8px;
+    }
+  }
+
+  &__headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 40px);
+    float: right;
+    
+    .breadcrumb {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+
+      &.active {
+        color: $color-text-secondary;
+      }
+
+      &:not(.active) {
+        color: $color-text-tertiary;
+      }
+
+      .BreadcrumbItem{
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 600;
+
+        &:nth-child(n + 2)::before {
+          content: "/";
+          color: $color-text-tertiary;
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+    }
   }
 }
 
@@ -320,3 +412,104 @@
   background: $color-white;
   z-index: 2000;
 }
+
+.VerticalMenuContainer {
+  .nav-pf-vertical, 
+  .nav-pf-secondary-nav,
+  .list-group-item.active > a, 
+  .list-group-item > a {
+    background-color: $color-background-primary;
+  }
+
+  .list-group-item.active > a {
+    color: $color-dark-blue;
+  }
+
+  .nav-pf-vertical {
+    .list-group {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    & > .list-group {
+      row-gap: 8px;
+
+      & > .list-group-item > a {
+        display: flex;
+        align-items: center;
+        z-index: 1;
+      }
+    }
+
+    .list-group-item {
+      border: none;
+      margin-block: 2px;
+
+      &:hover, &.active {
+        .VerticalMenuContainer_Icon {
+          background-color: $color-light-blue;
+        }
+      }
+
+      a {
+        height: 28px;
+        color: $color-text-tertiary;
+        padding: 0;
+
+        .fa {
+          font-size: 16px;
+          margin-inline: -2px 0;
+        }
+      }
+
+      a, a:focus, a:active, a:hover {
+        background-color: $color-background-primary;
+      }
+
+      &.active {
+        a, a::after {
+          color: $color-light-blue;
+        }
+
+        a::before {
+          width: 28px;
+          height: 28px;
+          background: $color-dark-blue;
+          border-radius: $radius-s;
+          left: -4px;
+          z-index: -1;
+        }
+      }
+      }
+    }
+}
+
+.VerticalMenuContainer_Icon {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-color: $color-dim-grey;
+  mask-repeat: no-repeat;
+
+  &.Dashboard {  
+    mask: url('../public/icons/dashboard.svg');
+  }
+
+  &.Pages {  
+    mask: url('../public/icons/copy.svg');
+  }
+
+  &.Contents {  
+    mask: url('../public/icons/file.svg');
+  }
+
+  &.Components {  
+    mask: url('../public/icons/app-builder-icon.svg');
+  }
+
+  &.Users {  
+    mask: url('../public/icons/users.svg');
+  }
+}
+

@@ -1,0 +1,135 @@
+.ModalPageSettings {
+    display: flex;
+    justify-items: flex-end;
+    font-family: Inter;
+
+    .modal-dialog {
+        margin: 0;
+        display: grid;
+        min-height: 100vh;
+        width: 500px;
+
+        .modal-content {
+            padding: 32px 24px 24px 24px;
+
+            .modal-header {
+                background-color: transparent;
+                padding: 0;
+
+                .modal-title {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: $color-text-secondary;
+                }
+
+                .close {
+                    font-size: 30px;
+                }
+            }
+        }
+
+        .modal-body {
+            padding: 0;
+
+            .col-xs-12 {
+                padding-inline: 0;
+                // padding-inline: 10px;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                padding-bottom: 8px;
+                row-gap: 8px;
+
+                &>div {
+                    width: 100%;
+                    display: flex;
+                }
+
+                &:nth-child(n+5)>div {
+                    padding-inline: 0;
+                }
+                
+                &:has(.bootstrap-switch) {
+                    flex-direction: row;
+                    align-items: center;
+                    padding-block: 16px;
+
+                    &>div:nth-child(1n) {
+                        text-align: start;
+                    }
+
+                    &>div:nth-child(2n) {
+                        justify-content: flex-end;
+                        width: fit-content;
+                    }
+                }
+
+                div:has(.pull-right) {
+                    justify-content: flex-end;
+                }
+
+                label {
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+        
+                &:not(:nth-last-child(-n+1)) {
+                    border-bottom: 1px solid $color-content-08;
+                }
+
+                &:nth-last-child(-n+4) {
+                    display: flex;
+                }
+            }
+
+            &__required-icon {
+                margin-left: 3px;
+                color: $color-pf-black-800;
+                font-size: 9px;
+            }
+
+            &__popover-icon {
+                color: $color-brand-primary;
+            }
+
+            .btn-group > .RenderRadioInput__toggle-btn {
+                &:first-child {
+                    border-top-left-radius: $radius-xxs;
+                    border-bottom-left-radius: $radius-xxs;
+                }
+
+                &:last-child {
+                    border-top-right-radius: $radius-xxs;
+                    border-bottom-right-radius: $radius-xxs;
+                }
+            }
+
+            label, .text-right {
+                font-size: 14px;
+            }
+
+            .RenderRadioInput__toggle-btn {
+                background-color: $color-background-primary;
+                color: $color-text-secondary;
+                border: 1px solid $color-content-08;
+                box-shadow: none;
+                -webkit-box-shadow: none;
+                font-size: 14px;
+                font-weight: 600;
+
+                &.active {
+                background-color: #F0F6FF;
+                color: $color-brand-primary;
+                border: 1px solid $color-content-07;
+                }
+            }
+
+            .bootstrap-switch {
+                width: fit-content;
+            }
+        }
+    }
+}

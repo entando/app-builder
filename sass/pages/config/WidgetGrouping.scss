@@ -7,6 +7,8 @@
     padding-top: 10px;
     border: 0;
     overflow: hidden;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   &__item-area.odd::after { // sass-lint:disable-line class-name-format force-element-nesting
@@ -16,6 +18,6 @@
   }
 
   &:last-of-type {
-    border-bottom: 1px solid $color-black;
+    border-bottom: 1px solid $color-neutral-grey;
   }
 }

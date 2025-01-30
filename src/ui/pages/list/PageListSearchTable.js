@@ -60,7 +60,6 @@ class PageListSearchTable extends Component {
       page,
       pageSize,
       intl,
-      striped,
       selectedPage,
       rowAction,
       onRowClick,
@@ -102,9 +101,10 @@ class PageListSearchTable extends Component {
           onColumnReorder={onSetColumnOrderPageSearch}
           rowAttributes={getRowAttributes}
           classNames={{
-            table: `PageListSearchTable__table ${striped ? 'table-striped' : ''}`,
-            row: 'PageListSearchTable__row',
-            cell: 'PageListSearchRow__td',
+            table: 'PageListSearchTable__table table-bordered',
+            headerGroup: 'table-header',
+            row: 'table-row',
+            cell: 'table-cell',
           }}
         />
         <Paginator
@@ -147,7 +147,6 @@ PageListSearchTable.propTypes = {
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
   className: PropTypes.string,
-  striped: PropTypes.bool,
   onRowClick: PropTypes.func,
   onSearchPageChange: PropTypes.func.isRequired,
   pageSearchColumnOrder: PropTypes.arrayOf(PropTypes.string),
@@ -156,14 +155,13 @@ PageListSearchTable.propTypes = {
 };
 
 PageListSearchTable.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: () => { },
   loading: false,
   searchPages: [],
   selectedPage: {},
   className: '',
-  striped: true,
-  onRowClick: () => {},
-  onSetColumnOrderPageSearch: () => {},
+  onRowClick: () => { },
+  onSetColumnOrderPageSearch: () => { },
   pageSearchColumnOrder: ['code', 'fullTitles'],
   rowAction: null,
 };

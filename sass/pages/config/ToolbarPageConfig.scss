@@ -3,6 +3,8 @@
 .ToolbarPageConfig {
   position: relative;
   width: calc(100% + 20px);
+  font-family: "Inter", sans-serif;
+
 
   &__collapse-main {
     position: absolute;
@@ -10,9 +12,9 @@
     left: 0;
     width: 45px;
     height: 45px;
-    outline: none;
-    background-color: $color-black;
-    color: $color-white;
+    outline: none !important;
+    background-color: $color-white;
+    color: $color-primary-text;
     text-align: center;
     box-shadow: none;
 
@@ -26,13 +28,14 @@
 
     &:focus {
       outline: none;
-      background-color: $color-black;
-      color: $color-white;
+      background-color: $color-white;
+      color: $color-primary-text;
     }
 
+  
+
     &:hover {
-      background-color: $color-dragitem-bg;
-      color: $color-mid-blue;
+      color: $color-primary-text;
     }
     // sass-lint:enable class-name-format nesting-depth
   }
@@ -41,6 +44,23 @@
     position: relative;
     height: 100%;
     overflow: auto;
+
+    .btn-default{
+      border: none;
+      outline: none;
+    }
+
+    .btn:hover{
+      background-color: white;
+    }
+
+    .btn-default:focus{
+      box-shadow: none;
+    }
+
+    
+
+
   }
 
   &__tab-main {
@@ -48,8 +68,11 @@
 
     // sass-lint:disable class-name-format force-element-nesting nesting-depth no-qualifying-elements
     ul.nav {
-      border-bottom-color: $color-black;
-      background-color: $color-dragitem-bg;
+      background-color: $color-white;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid $color-neutral-grey;
+      
 
       &::before {
         display: block;
@@ -62,15 +85,22 @@
         min-width: 108px;
         height: 45px;
         background-color: transparent;
+        outline: none;
 
         & > a {
           width: 100%;
-          padding: 13px 10px;
+          padding: 13px 0px 13px 0px;
           border-color: transparent;
-          color: $color-white;
-          font-size: 12px;
+          color: $color-text-tertiary;
+          font-size: 14px;
           font-weight: bold;
           text-align: center;
+          cursor: pointer;
+
+          &:focus,:focus-visible{
+            outline: none;
+            border: none;
+          }
 
           .fa {
             margin-right: 5px;
@@ -81,32 +111,29 @@
 
           &:hover {
             border-color: transparent;
-            color: $color-mid-blue;
+            color: $color-primary-text;
 
             .fa {
-              color: $color-mid-blue;
+              color: $color-primary-text;
             }
           }
         }
 
-        &.active {
-          border: 1px solid $color-black;
-          border-bottom: transparent;
-        }
-
         &.active a {
-          height: calc(100% + 1px);
           border-top: 0;
           border-color: transparent;
-          background-color: $color-sidebar-dark-bg;
-          color: $color-white;
+          background-color: #FFF;
+          color: $color-primary-text;
+          height: calc(100% + 1px);
+          border-bottom: 1px solid $color-neutral-grey;
+          color: $color-brand-primary;
 
           &:hover {
-            color: $color-white;
+            color: $color-brand-primary;
           }
 
           .fa {
-            color: $color-mid-blue;
+            color: $color-primary-text;
           }
         }
       }
@@ -116,9 +143,9 @@
 
   &__drawer-pf-sidebar-right {
     height: 100%;
-    background-color: $color-sidebar-dark-bg;
-    box-shadow: 0 6px 12px rgba(3,3,3,.175);
+    background-color: #FFF;
     z-index: 10;
+    border-left: 1px solid $color-neutral-grey
   }
 
   &__drawer-pf-sidebar-right-expanded {
@@ -187,9 +214,14 @@
   // sass-lint:disable class-name-format force-element-nesting nesting-depth no-qualifying-elements
   .ToolbarPageConfig__collapse-main {
     width: 48px;
+   
 
     .fa {
-      color: $color-mid-blue;
+      color: $color-black;
+    }
+
+    .fa:hover{
+      color: $color-brand-primary;
     }
   }
 
@@ -232,6 +264,10 @@
 
     .tab-content {
       display: none;
+
+      .active{
+        padding: 20px;
+      }
     }
   }
   // sass-lint:enable class-name-format force-element-nesting nesting-depth no-qualifying-elements

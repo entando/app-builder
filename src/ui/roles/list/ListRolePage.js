@@ -1,11 +1,10 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import RoleListTableContainer from 'ui/roles/list/RoleListTableContainer';
 import { ROUTE_ROLE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
@@ -14,19 +13,12 @@ import { TEST_ID_ROLE_LIST_PAGE } from 'ui/test-const/role-test-const';
 
 export const ListRolePageBody = () => (
   <InternalPage className="ListRolePage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.userManagement' },
+      { label: 'menu.roles', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.userManagement" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.roles" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col md={12}>
           <PageTitle

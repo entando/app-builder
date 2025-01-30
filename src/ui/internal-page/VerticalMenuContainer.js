@@ -79,8 +79,8 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
     <Item
       id="apps-cms"
       key="cms"
-      onClick={() => {}}
-      iconClass="fa fa-file-text-o"
+      onClick={() => { }}
+      iconClass="VerticalMenuContainer_Icon Contents"
       title={intl.formatMessage({ id: 'menu.cms' })}
     >
       {
@@ -182,16 +182,19 @@ const getHeader = onStartTutorial => (
   <Masthead>
     <Brand
       href={`${publicUrl}${ROUTE_DASHBOARD}`}
-      iconImg={`${publicUrl}/images/entando-logo-white.svg`}
+      iconImg={`${publicUrl}/images/logo.svg`}
       img=""
       onClick={null}
     />
-    <VerticalNav.IconBar collapse>
-      <LanguageSelectContainer key="LanguageSelect" />
-      <HomePageLinkContainer key="projectLink" />
-      <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
-      <UserMenuContainer key="UserMenu" />
-    </VerticalNav.IconBar>
+    <div className="VerticalMenu__headerContainer">
+      <div id="header-breadcrumbs" className="VerticalMenu__headerBreadcrumbs" />
+      <VerticalNav.IconBar collapse>
+        <LanguageSelectContainer key="LanguageSelect" />
+        <HomePageLinkContainer key="projectLink" />
+        <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
+        <UserMenuContainer key="UserMenu" />
+      </VerticalNav.IconBar>
+    </div>
   </Masthead>);
 
 const EntandoMenu = ({
@@ -222,7 +225,7 @@ const EntandoMenu = ({
   };
 
   return (
-    <div className="safari-menu-fix">
+    <div className="safari-menu-fix VerticalMenuContainer">
       <VerticalNav
         blurDisabled
         dynamicBodyClasses
@@ -247,7 +250,7 @@ const EntandoMenu = ({
         <Item
           id="menu-dashboard"
           onClick={() => history.push(ROUTE_DASHBOARD)}
-          iconClass="fa fa-window-maximize"
+          iconClass="VerticalMenuContainer_Icon Dashboard"
           title={intl.formatMessage({ id: 'menu.dashboard', defaultMessage: 'Dashboard' })}
         />
         {
@@ -256,7 +259,7 @@ const EntandoMenu = ({
               id="menu-page-creator"
               className="app-tour-step-3"
               onClick={() => onNextStep(4)}
-              iconClass="fa fa-files-o"
+              iconClass="VerticalMenuContainer_Icon Pages"
               title={intl.formatMessage({ id: 'menu.pageDesigner', defaultMessage: 'Pages' })}
             >
               <SecondaryItem
@@ -300,8 +303,8 @@ const EntandoMenu = ({
           hasAccess(SUPERUSER_PERMISSION, userPermissions) && (
             <Item
               id="menu-ux-pattern"
-              onClick={() => {}}
-              iconClass="fa fa-object-ungroup"
+              onClick={() => { }}
+              iconClass="VerticalMenuContainer_Icon Components"
               title={intl.formatMessage({ id: 'menu.uxComponents', defaultMessage: 'Components' })}
             >
               <SecondaryItem
@@ -339,8 +342,8 @@ const EntandoMenu = ({
           && (
             <Item
               id="menu-user-settings"
-              onClick={() => {}}
-              iconClass="fa fa-users"
+              onClick={() => { }}
+              iconClass="VerticalMenuContainer_Icon Users"
               title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
             >
               <SecondaryItem
@@ -391,7 +394,7 @@ const EntandoMenu = ({
               className="VerticalAdminConsoleMenu__fixed-bottom"
               id="menu-configuration"
               title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
-              onClick={() => {}}
+              onClick={() => { }}
               iconClass="fa fa-cogs"
             >
               <SecondaryItem
@@ -443,9 +446,9 @@ const MfeMenuContainer = ({
   <div className="MfeMenuContainer">
     <div className="MfeMenuContainer__header-menu-container">
       {
-      headerId ? <MfeContainer id={headerId} />
-      : getHeader(onStartTutorial)
-    }
+        headerId ? <MfeContainer id={headerId} />
+          : getHeader(onStartTutorial)
+      }
     </div>
     {
       menuId && (

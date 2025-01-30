@@ -1,11 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Spinner } from 'patternfly-react';
 import { DDTable } from '@entando/ddtable';
 import { DataTable } from '@entando/datatable';
-
-import PageStatusIcon from 'ui/pages/common/PageStatusIcon';
 import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 import TreeNodeExpandedIcon from 'ui/common/tree-node/TreeNodeExpandedIcon';
 import RowSpinner from 'ui/pages/common/RowSpinner';
@@ -17,6 +15,7 @@ import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalConta
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
 import { HOMEPAGE_CODE, PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+import StatusBadge from './StatusBadge';
 
 
 export const getIsRootAndVirtual = (page, virtualRootOn) => {
@@ -51,20 +50,19 @@ class PageTree extends Component {
       onExpandAll,
       onCollapseAll,
       onExpandPage,
-      virtualRootOn,
     } = this.props;
 
     const columnDefs = {
       title: {
         Header: (
-          <Fragment>
+          <div className="header-container">
             <FormattedMessage id="pageTree.pageTree" />
             <div
               onClick={onExpandAll}
               onKeyDown={onExpandAll}
               role="button"
               tabIndex={-1}
-              className="PageTree PageTree__toggler PageTree__toggler--expand"
+              className="PageTree"
             >
               <span className="icon fa fa-plus-square" />
               <FormattedMessage id="pageTree.expand" />
@@ -74,16 +72,16 @@ class PageTree extends Component {
               onKeyDown={onCollapseAll}
               role="button"
               tabIndex={-2}
-              className="PageTree PageTree__toggler"
+              className="PageTree"
             >
               <span className="icon fa fa-minus-square" />
               <FormattedMessage id="pageTree.collapse" />
             </div>
-          </Fragment>
+          </div>
         ),
         attributes: {
           className: 'PageTree__thead-title',
-          style: { width: '70%' },
+          style: { width: '65%' },
         },
         Cell: ({ row: { original: page, index } }) => {
           const onClickExpand = () => {
@@ -92,60 +90,45 @@ class PageTree extends Component {
             }
           };
           return (
-            <span
-              role="button"
-              tabIndex={index}
-              className="PageTree__icons-label"
-              style={{ marginLeft: page.depth * 24 }}
-              onClick={onClickExpand}
-              onKeyDown={onClickExpand}
-            >
+            <span role="button" tabIndex={index} className="PageTree__icons-label" onClick={onClickExpand} onKeyDown={onClickExpand}>
               <TreeNodeExpandedIcon expanded={page.expanded} />
               <TreeNodeFolderIcon empty={page.isEmpty} />
-              <span className="PageTree__page-name">
-                {page.title}
-              </span>
+              <span className="PageTree__page-name">{page.title}</span>
               <RowSpinner loading={!!page.loading} />
             </span>
           );
         },
         cellAttributes: ({ row: page }) => {
-          const className = ['PageTree__tree-column-td'];
+          const className = ['PageTree__tree-column-td', 'PageTree__container'];
 
           // Remove arrow from page with no child
           if (page.isEmpty || page.original.isEmpty) {
             className.push('PageTree__tree-column-td--empty');
           }
           // No drag class is added if first level child and Virtual Root On
-          if (page.original.parentCode === HOMEPAGE_CODE && virtualRootOn) {
+          if (page.original.parentCode === page.original.code) {
             className.push('PageTree__no-drag');
           }
 
-          return { className: className.join(' ') };
+          return {
+            className: className.join(' '),
+            style: {
+              marginLeft: (page.original.depth - 1) * 30 < 0 ? 0 : (page.original.depth - 1) * 30,
+            },
+          };
         },
       },
       status: {
         Header: <FormattedMessage id="pageTree.status" />,
-        attributes: {
-          className: 'text-center PageTree__thead',
-          style: { width: '10%' },
-        },
+        attributes: { className: 'PageTree__thead', style: { width: '15%' } },
         Cell: this.renderStatusCell,
-        cellAttributes: {
-          className: 'text-center',
-        },
+        cellAttributes: { className: 'text-center', style: { verticalAlign: 'middle' } },
       },
       displayedInMenu: {
         Header: <FormattedMessage id="pageTree.displayedInMenu" />,
-        attributes: {
-          className: 'text-center PageTree__thead',
-          style: { width: '10%' },
-        },
+        attributes: { className: 'PageTree__thead', style: { width: '15%' } },
         Cell: ({ value }) => <FormattedMessage id={value ? 'app.yes' : 'app.no'} />,
-        cellAttributes: {
-          className: 'text-center',
-          style: { verticalAlign: 'middle' },
-        },
+        cellAttributes: { style: { fontSize: '14px', verticalAlign: 'middle' } },
       },
     };
 
@@ -176,23 +159,25 @@ class PageTree extends Component {
     }
 
     return (
-      <PageTreeActionMenu
-        page={page}
-        onClickAdd={this.props.onClickAdd}
-        onClickEdit={this.props.onClickEdit}
-        onClickConfigure={this.props.onClickConfigure}
-        onClickDetails={this.props.onClickDetails}
-        onClickClone={this.props.onClickClone}
-        onClickDelete={this.props.onClickDelete}
-        onClickPublish={this.props.onClickPublish}
-        onClickUnpublish={this.props.onClickUnPublish}
-        onClickViewPublishedPage={this.props.onClickViewPublishedPage}
-        onClickPreview={this.props.onClickPreview}
-        locale={this.props.locale}
-        domain={this.props.domain}
-        myGroupIds={this.props.myGroupIds}
-        isSearchMode={!!this.props.searchPages}
-      />
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <PageTreeActionMenu
+          page={page}
+          onClickAdd={this.props.onClickAdd}
+          onClickEdit={this.props.onClickEdit}
+          onClickConfigure={this.props.onClickConfigure}
+          onClickDetails={this.props.onClickDetails}
+          onClickClone={this.props.onClickClone}
+          onClickDelete={this.props.onClickDelete}
+          onClickPublish={this.props.onClickPublish}
+          onClickUnpublish={this.props.onClickUnPublish}
+          onClickViewPublishedPage={this.props.onClickViewPublishedPage}
+          onClickPreview={this.props.onClickPreview}
+          locale={this.props.locale}
+          domain={this.props.domain}
+          myGroupIds={this.props.myGroupIds}
+          isSearchMode={!!this.props.searchPages}
+        />
+      </div>
     );
   }
 
@@ -200,7 +185,7 @@ class PageTree extends Component {
     const isRootAndVirtual = getIsRootAndVirtual(args.row.original, this.props.virtualRootOn);
     if (isRootAndVirtual) return null;
     return (
-      <PageStatusIcon status={args.value} hide={isRootAndVirtual} />
+      <StatusBadge status={args.value} hide={isRootAndVirtual} />
     );
   }
 
@@ -213,21 +198,13 @@ class PageTree extends Component {
     } = this.props;
 
     const rowAction = {
-      Header: <FormattedMessage id="pageTree.actions" />,
-      attributes: {
-        className: 'text-center',
-        width: '10%',
-      },
+      Header: <div />,
+      attributes: { className: 'text-center', width: '5%' },
       Cell: this.renderActionCell,
-      cellAttributes: {
-        className: 'text-center',
-      },
+      cellAttributes: { className: 'text-center', style: { verticalAlign: 'middle' } },
     };
 
-    if (searchPages) {
-      return <PageListSearchTable rowAction={rowAction} {...this.props} />;
-    }
-
+    if (searchPages) return <PageListSearchTable rowAction={rowAction} {...this.props} />;
     const columns = this.getColumnDefs() || [];
 
     return (
@@ -240,8 +217,11 @@ class PageTree extends Component {
             columnResizable
             onColumnReorder={onSetColumnOrder}
             classNames={{
-              table: 'PageTree table-hover table-treegrid',
-              row: 'PageTree__row',
+              table: 'PageTree table-hover table-treegrid table-bordered',
+              headerGroup: 'table-header',
+              row: 'PageTree__row table-row',
+              cell: 'table-cell',
+
             }}
             rowReordering={{
               onDrop: this.handleDrop,
@@ -299,11 +279,11 @@ PageTree.propTypes = {
 PageTree.defaultProps = {
   pages: [],
   searchPages: null,
-  onDropPage: () => {},
-  onExpandPage: () => {},
-  onExpandAll: () => {},
-  onCollapseAll: () => {},
-  onSetColumnOrder: () => {},
+  onDropPage: () => { },
+  onExpandPage: () => { },
+  onExpandAll: () => { },
+  onCollapseAll: () => { },
+  onSetColumnOrder: () => { },
   columnOrder: ['title', 'status', 'displayedInMenu'],
   myGroupIds: [],
   virtualRootOn: false,

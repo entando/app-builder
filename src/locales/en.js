@@ -168,10 +168,12 @@ export default {
     'app.zuTitle': 'Zulu title',
     'app.save': 'Save',
     'app.saveAndContinue': 'Save and continue',
-    'app.dontSave': 'Don\'t save',
-    'app.confirmCancel': 'Save the current changes? All changes will be lost if you do not save now.',
+    'app.dontSave': "Don't save",
+    'app.confirmCancel':
+      'Save the current changes? All changes will be lost if you do not save now.',
     'app.upload': 'Upload',
     'app.search': 'Search',
+    'app.searchUser': 'Search Username',
     'app.back': 'Back',
     'app.submit': 'Submit',
     'app.fieldsRequired': 'Required fields',
@@ -191,16 +193,24 @@ export default {
     'app.noOptions': 'No further options',
     'app.noMatchOptions': 'No matches found',
     'app.add.attribute.code': 'You must insert 3 uppercase characters',
-    'app.help.code': 'You can insert uppercase and lowercase letters, numbers and special characters _',
-    'app.help.codeWithDash': 'Insert the page code. You can only use alphanumeric characters, and the \'_\' and \'-\' special characters.',
-    'app.help.name': 'You can insert a maximum of 50 characters, uppercase and lowercase letters, numbers and special characters.',
+    'app.help.code':
+      'You can insert uppercase and lowercase letters, numbers and special characters _',
+    'app.help.codeWithDash':
+      "Insert the page code. You can only use alphanumeric characters, and the '_' and '-' special characters.",
+    'app.help.name':
+      'You can insert a maximum of 50 characters, uppercase and lowercase letters, numbers and special characters.',
     'app.all': 'All',
     'app.reload': 'Reload',
+    'app.content': 'Content',
+    'app.contents': 'Contents',
+    'app.page': 'Page',
     'app.pages': 'Pages',
     'app.set': 'Set',
     'app.settings': 'Settings',
     'app.list': 'List',
+    'app.grid': 'Grid',
     'app.api': 'API',
+    'app.view': 'View',
     'app.preview': 'Preview',
     'app.restore': 'Restore',
     'app.languages': 'Languages',
@@ -209,13 +219,18 @@ export default {
     'app.mandatory': 'Mandatory',
     'app.filterList': 'Can be used as a filter in lists',
     'app.ognl.validation': 'OGNL - Validation',
-    'app.ognl.validation.help1': 'In this section insert attribute validation. ',
-    'app.ognl.validation.help2': 'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access the methods of the attribute without specifying it or using the prefix #attribute.',
-    'app.ognl.validation.help3': 'Use the system languages (#langs) map and the associated entity (#entity).',
-    'app.ognl.validation.help4': 'For the elements list or composite attributes, access the parent attribute (#parent), and for the elements of list attibutes access the index (#index).',
+    'app.ognl.validation.help1':
+      'In this section insert attribute validation. ',
+    'app.ognl.validation.help2':
+      'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access the methods of the attribute without specifying it or using the prefix #attribute.',
+    'app.ognl.validation.help3':
+      'Use the system languages (#langs) map and the associated entity (#entity).',
+    'app.ognl.validation.help4':
+      'For the elements list or composite attributes, access the parent attribute (#parent), and for the elements of list attibutes access the index (#index).',
     'app.ognl.expression': 'OGNL Expression ',
     'app.apply.expression': 'Apply this expression only to a filled attribute',
-    'app.ognl.validation.add.message.help': 'Insert a help and compilation error messages, or choose a key to bind them to a system Label.',
+    'app.ognl.validation.add.message.help':
+      'Insert a help and compilation error messages, or choose a key to bind them to a system Label.',
     'app.ognl.message': 'Help message',
     'app.help.message.key': 'Key for the help message',
     'app.error.message': 'Error message',
@@ -231,8 +246,10 @@ export default {
     'app.maxLength': 'Maximum length',
     'app.regexp': 'Regular expression',
     'app.enumeratorStaticItems': 'Elements',
-    'app.enumeratorStaticItems.help': 'Insert a configuration like \'lable1,lable2,lable3\'',
-    'app.enumeratorStaticItemsMap.help': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
+    'app.enumeratorStaticItems.help':
+      "Insert a configuration like 'lable1,lable2,lable3'",
+    'app.enumeratorStaticItemsMap.help':
+      "Insert a configuration like 'key1=value1,key2=value2,key3=value3'",
     'app.enumeratorStaticItemsSeparator': 'Separator',
     'app.enumeratorExtractorBean': 'Extractor bean name',
     'app.chooseARole': 'Choose a role',
@@ -267,7 +284,8 @@ export default {
     'app.created': 'The {type} {code} has been created',
     'app.updated': 'The {type} {code} has been updated',
     'app.deleted': 'The {type} {code} has been deleted',
-    'app.updateSettings.success': 'The settings have been updated successfully.',
+    'app.updateSettings.success':
+      'The settings have been updated successfully.',
     'app.timestamp.hours': 'Select hour',
     'app.timestamp.minutes': 'Select minute',
     'app.timestamp.seconds': 'Select second',
@@ -339,7 +357,8 @@ export default {
     'menu.apps': 'Apps',
     'menu.settings': 'Administration',
     'menu.emailConfig': 'Email Configuration',
-    'dashboard.cards.noPermission': 'You have no permission to visualize this data',
+    'dashboard.cards.noPermission':
+      'You have no permission to visualize this data',
     'dashboard.uxComponents.mfeWidgets': 'MFEs & Widgets',
     'dashboard.uxComponents.pageTemplates': 'Page Templates',
     'dashboard.pageStatus': 'Page Status',
@@ -363,13 +382,18 @@ export default {
     'pageTree.searchForm.title': 'Search for an existing page',
     'pageTree.searchForm.code': 'Page Code',
     'pageTree.viewPublishedPage': 'View Published Page',
-    'pageTreePage.help': 'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',
+    'pageTreePage.help':
+      'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',
     'pageDetails.title': 'Page Details',
-    'pageDetails.help': 'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',
+    'pageDetails.help':
+      'The TREE PAGES section allows users to manage existing, and add or move pages.  Users can also view and expand or collapse the site map and display all main nodes.  Users can also perform actions like: mobile or desktop preview, configure, edit, see details, clone or delete pages. Users can also display the state of drafts and  see if pages are in the menu list. ',
     'pageDetails.emptyContent': 'This page does not publish any content.',
-    'pageDetails.emptyContentLink': 'There is no content with a link pointing to this page.',
-    'validateForm.elements': 'Insert a configuration like \'key1=value1,key2=value2,key3=value3\'',
-    'validateForm.element': 'Insert a configuration like \'lable1,lable2,lable3\'',
+    'pageDetails.emptyContentLink':
+      'There is no content with a link pointing to this page.',
+    'validateForm.elements':
+      "Insert a configuration like 'key1=value1,key2=value2,key3=value3'",
+    'validateForm.element':
+      "Insert a configuration like 'lable1,lable2,lable3'",
     'validateForm.element.code': 'Code must be 3 uppercase letters',
     'validateForm.required': 'Field required',
     'validateForm.maxLength': 'Must be {max} characters or less.',
@@ -381,17 +405,28 @@ export default {
     'validateForm.email': 'Invalid email address.',
     'validateForm.invalidJson': 'Invalid JSON format: {msg}',
     'validateForm.alphaNumeric': 'Alphanumeric characters only.',
-    'validateForm.widgetCode': '{name} contains invalid characters. Only alphanumeric characters and the underscore are allowed',
-    'validateForm.passwordNotMatch': 'Confirm value doesn\'t match with Password value',
-    'validateForm.code.max10digits': 'Code contains invalid characters or has reached the maximum. Only 10 or less numeric characters are allowed.',
-    'validateForm.code': 'Code contains invalid characters. Only alphanumeric characters and the underscore are allowed.',
-    'validateForm.codeWithDash': 'Code contains invalid characters. Only alphanumeric characters and the underscore \'_\' and dash \'-\'are allowed',
-    'validateForm.fragmentCode': 'Code contains invalid characters. Only alphanumeric characters, the underscore, and the dash are allowed.',
-    'validateForm.widgetJSON.formatInvalid': 'Config UI must be a valid JSON Format',
-    'validateForm.widgetJSON.noCustomElement': 'Invalid Configuration: "customElement" property is missing',
-    'validateForm.widgetJSON.customElementString': 'Invalid Configuration: "customElement" property must be a string',
-    'validateForm.widgetJSON.resourcesInvalid': 'Invalid Configuration: "resources" must be an array - consist of code source location(s) of indicated custom element',
-    'validateForm.widgetJSON.resourcesNotString': 'Invalid Configuration: one of the "resources" is not a string. Please indicate all source locations into string-type',
+    'validateForm.widgetCode':
+      '{name} contains invalid characters. Only alphanumeric characters and the underscore are allowed',
+    'validateForm.passwordNotMatch':
+      "Confirm value doesn't match with Password value",
+    'validateForm.code.max10digits':
+      'Code contains invalid characters or has reached the maximum. Only 10 or less numeric characters are allowed.',
+    'validateForm.code':
+      'Code contains invalid characters. Only alphanumeric characters and the underscore are allowed.',
+    'validateForm.codeWithDash':
+      "Code contains invalid characters. Only alphanumeric characters and the underscore '_' and dash '-'are allowed",
+    'validateForm.fragmentCode':
+      'Code contains invalid characters. Only alphanumeric characters, the underscore, and the dash are allowed.',
+    'validateForm.widgetJSON.formatInvalid':
+      'Config UI must be a valid JSON Format',
+    'validateForm.widgetJSON.noCustomElement':
+      'Invalid Configuration: "customElement" property is missing',
+    'validateForm.widgetJSON.customElementString':
+      'Invalid Configuration: "customElement" property must be a string',
+    'validateForm.widgetJSON.resourcesInvalid':
+      'Invalid Configuration: "resources" must be an array - consist of code source location(s) of indicated custom element',
+    'validateForm.widgetJSON.resourcesNotString':
+      'Invalid Configuration: one of the "resources" is not a string. Please indicate all source locations into string-type',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Code',
     'widget.page.create.code.placeholder': 'Code',
@@ -402,7 +437,8 @@ export default {
     'widget.page.create.icon': 'Icon',
     'widget.page.create.parameters': 'Parameters',
     'widget.page.create.config': 'Configuration',
-    'widget.page.create.readonlyDefaultConfig': 'Make page widget config readonly',
+    'widget.page.create.readonlyDefaultConfig':
+      'Make page widget config readonly',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Edit widget',
@@ -410,8 +446,10 @@ export default {
     'widget.page.config.loading': 'Loading micro frontend...',
     'widget.page.config.error': 'Unable to load widget configuration',
     'widget.page.config.goToConfig': 'Go to widget default configuration',
-    'widget.page.config.readOnlyMessage': 'This is the default configuration for this widget. Do you want to change it?',
-    'widget.icon.description': 'Upload your Icon from the Icon Library or your Computer',
+    'widget.page.config.readOnlyMessage':
+      'This is the default configuration for this widget. Do you want to change it?',
+    'widget.icon.description':
+      'Upload your Icon from the Icon Library or your Computer',
     'widget.icon.iconLibrary': 'Icon Library',
     'widget.icon.upload': 'Upload',
     'widget.icon.insert': 'Insert',
@@ -434,9 +472,11 @@ export default {
     'widget.detail.table.framePosition': 'Frame position',
     'widget.detail.table.action.pageConfig': 'Page configuration',
     'widget.detail.table.action.pageDetails': 'Page details',
-    'widget.help': 'The WIDGET section allows users to manage existing or add new widgets. Widgets are objects used to display information and functionality or services on the pages of an application.',
+    'widget.help':
+      'The WIDGET section allows users to manage existing or add new widgets. Widgets are objects used to display information and functionality or services on the pages of an application.',
     'fragment.list.title': 'UX Fragments',
-    'fragment.help': 'The UX FRAGMENTS section allows users to manage existing or add new UX Fragments.  UX Fragments are single portions of a front-end interface used in Widgets (including plugins) and Page Templates.',
+    'fragment.help':
+      'The UX FRAGMENTS section allows users to manage existing or add new UX Fragments.  UX Fragments are single portions of a front-end interface used in Widgets (including plugins) and Page Templates.',
     'fragment.code': 'Code',
     'fragment.code.placeholder': 'Code',
     'fragment.tab.guiCode': 'Gui code',
@@ -446,11 +486,15 @@ export default {
     'fragment.detail.widgetType': 'Widget type',
     'fragment.detail.pluginCode': 'Plugin code',
     'fragment.detail.title.referencedFragments': 'Referenced UX fragments',
-    'fragment.detail.title.referencedPageTemplates': 'Referenced page templates',
+    'fragment.detail.title.referencedPageTemplates':
+      'Referenced page templates',
     'fragment.detail.title.referencedWidgetType': 'Referenced widget types',
-    'fragment.detail.emptyReferenceFragments': 'There are no referenced UX fragments',
-    'fragment.detail.emptyReferencePageTemplates': 'There are no referenced page templates',
-    'fragment.detail.emptyReferenceWidgetTypes': 'There are no referenced widget types',
+    'fragment.detail.emptyReferenceFragments':
+      'There are no referenced UX fragments',
+    'fragment.detail.emptyReferencePageTemplates':
+      'There are no referenced page templates',
+    'fragment.detail.emptyReferenceWidgetTypes':
+      'There are no referenced widget types',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.table.widgetType': 'Widget type',
     'fragment.table.plugin': 'Plugin',
@@ -458,7 +502,8 @@ export default {
     'fragment.table.clone': 'Clone {code}',
     'fragment.table.details': 'Details for: {code}',
     'fragment.form.edit.widgetType': 'Widget type',
-    'fragment.settings': 'Enable editing of UX fragment with empty default gui.',
+    'fragment.settings':
+      'Enable editing of UX fragment with empty default gui.',
     'fragment.settings.alert.success': 'The settings have been updated.',
     'fragment.settings.alert.error': 'The settings have not been updated.',
     'fragment.alert.error.fileExtension': 'This extension is not permitted.',
@@ -472,16 +517,21 @@ export default {
     'fileBrowser.createFolder': 'Create folder',
     'fileBrowser.uploadFiles': 'Upload files',
     'fileBrowser.uploadFileComplete': 'Upload file complete',
+    'fileBrowser.removeFileComplete': 'Remove file complete',
     'fileBrowser.uploadFileError': 'Error uploading file - {errmsg}',
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'New folder name',
-    'fileBrowser.createFolderSuccess': 'Folder \'{path}\' successfully created.',
-    'fileBrowser.createFolderError': 'An error has occurred during the creation of the folder \'{path}\'.',
-    'fileBrowser.deleteFolderSuccess': 'Folder \'{path}\' successfully deleted.',
-    'fileBrowser.deleteFolderError': 'An error has occurred during deletion of the folder \'{path}\'.',
-    'fileBrowser.deleteFileSuccess': 'File \'{path}\' successfully deleted.',
-    'fileBrowser.deleteFileError': 'An error has occurred during deletion of the file \'{path}\'.',
-    'fileBrowser.help': 'The file browser section lets system administrators  browse the file system folders.',
+    'fileBrowser.createFolderSuccess': "Folder '{path}' successfully created.",
+    'fileBrowser.createFolderError':
+      "An error has occurred during the creation of the folder '{path}'.",
+    'fileBrowser.deleteFolderSuccess': "Folder '{path}' successfully deleted.",
+    'fileBrowser.deleteFolderError':
+      "An error has occurred during deletion of the folder '{path}'.",
+    'fileBrowser.deleteFileSuccess': "File '{path}' successfully deleted.",
+    'fileBrowser.deleteFileError':
+      "An error has occurred during deletion of the file '{path}'.",
+    'fileBrowser.help':
+      'The file browser section lets system administrators  browse the file system folders.',
     'fileBrowser.textFile.placeholder': 'file content here...',
     'fileBrowser.textFile.content': 'Content',
     'pages.pageForm.info': 'Info',
@@ -489,9 +539,11 @@ export default {
     'pages.pageForm.pageGroups': 'Page groups',
     'pages.pageForm.settings': 'Settings',
     'pages.pageForm.ownerGroup': 'Owner group',
-    'pages.pageForm.ownerGroupHelp': 'You must set the owner group to define what kind of people (edited in Settings) are able to see this page.',
+    'pages.pageForm.ownerGroupHelp':
+      'You must set the owner group to define what kind of people (edited in Settings) are able to see this page.',
     'pages.pageForm.joinGroup': 'Join group',
-    'pages.pageForm.codeHelp': 'Insert the page code. You can only use alphanumeric characters, and the \'_\' and \'-\' special characters.',
+    'pages.pageForm.codeHelp':
+      "Insert the page code. You can only use alphanumeric characters, and the '_' and '-' special characters.",
     'pages.pageForm.pagePlacement': 'Select page placement',
     'pages.pageForm.pageTemplate': 'Page Template',
     'pages.pageForm.pageTemplateHelp': 'Select a page template',
@@ -502,12 +554,15 @@ export default {
     'pages.pageForm.seo': 'SEO',
     'pages.pageForm.seoHelp': 'Activate SEO on page',
     'pages.pageForm.charset': 'Charset',
-    'pages.pageForm.charsetHelp': 'Interprets a sequence of bytes as representation of characters. The default is set to the machine in use.',
+    'pages.pageForm.charsetHelp':
+      'Interprets a sequence of bytes as representation of characters. The default is set to the machine in use.',
     'pages.pageForm.mimeType': 'MimeType',
-    'pages.pageForm.mimeTypeHelp': 'Identifies the type of information (imagine, text..) that Entando gives back to the requesting browser.',
+    'pages.pageForm.mimeTypeHelp':
+      'Identifies the type of information (imagine, text..) that Entando gives back to the requesting browser.',
     'pages.pageForm.saveAndConfigure': 'Save and Design',
     'pages.pageForm.seoFriendlyCode': 'SEO-friendly Code',
-    'pages.pageForm.useExtDescSearch': 'When available, use extra description in search',
+    'pages.pageForm.useExtDescSearch':
+      'When available, use extra description in search',
     'pages.seoDescr': 'SEO: When available, use extra titles.',
     'pages.noPageFound': 'No pages found.',
     'pages.status.published': 'Published',
@@ -522,8 +577,10 @@ export default {
     'pages.designer.tabPageTree': 'Page Tree',
     'pages.designer.searchWidgetLabel': 'Search Widgets',
     'pages.fullPath': 'Full Path',
-    'pageSettings.help': 'The PAGE SETTING section allows the user to specify attributes and conditions for pages and define general page settings.',
-    'pageSettings.status.published': 'The updates to page {page} are online now.',
+    'pageSettings.help':
+      'The PAGE SETTING section allows the user to specify attributes and conditions for pages and define general page settings.',
+    'pageSettings.status.published':
+      'The updates to page {page} are online now.',
     'pageSettings.status.unpublished': 'The page {page} is offline now.',
     'pageSettings.input.homepage': 'Home Page',
     'pageSettings.input.404': 'Page for: 404 - Page not found',
@@ -535,25 +592,33 @@ export default {
     'pageSettings.input.baseURL.static': 'Static',
     'pageSettings.input.appendBaseURL': 'Append context name on BaseURL',
     'pageSettings.input.jsession': 'Use JSESSIONID',
-    'pageSettings.input.languageBrowser': 'Home page localization is selected by the requesting browser',
+    'pageSettings.input.languageBrowser':
+      'Home page localization is selected by the requesting browser',
     'pageSettings.input.pageTreeStyle': 'Choose the style of the page tree',
     'pageSettings.input.pageTreeStyle.classic': 'Classic',
     'pageSettings.input.pageTreeStyle.demand': 'Load nodes on demand',
     'pageSettings.input.pageTreeStyle.url': 'URL style',
     'pageSettings.input.pageTreeStyle.breadcrumbs': 'Breadcrumbs',
-    'pageSettings.baseUrl.help': 'The URLs are produced from the BASE URL defined in the context file (es.: www.entando.com/ site/ en/ pagecode.page).  URLs are RELEATIVE when the URL omits the BASE URL (es.: /site /en / pagecode.page). BUILT BY HTTP REQUEST PARAMETERS when the URL is generated from the request parameter generated by the preview request. STATIC when the generated URL is inserted in the BASE URL defined by the context file ( es.: www.entando.com/ site/ en/ pagecode.page)',
-    'pageSettings.jsession.help': 'Is a security requirement. Avoiding the JSESSIONID will insert the generated link from the site. You must have cookies activted.',
-    'pageSettings.appendBaseUrl.help': 'Add the context name to the BASE URL (es.: /site/) (unused with static BaseURL).',
+    'pageSettings.baseUrl.help':
+      'The URLs are produced from the BASE URL defined in the context file (es.: www.entando.com/ site/ en/ pagecode.page).  URLs are RELEATIVE when the URL omits the BASE URL (es.: /site /en / pagecode.page). BUILT BY HTTP REQUEST PARAMETERS when the URL is generated from the request parameter generated by the preview request. STATIC when the generated URL is inserted in the BASE URL defined by the context file ( es.: www.entando.com/ site/ en/ pagecode.page)',
+    'pageSettings.jsession.help':
+      'Is a security requirement. Avoiding the JSESSIONID will insert the generated link from the site. You must have cookies activted.',
+    'pageSettings.appendBaseUrl.help':
+      'Add the context name to the BASE URL (es.: /site/) (unused with static BaseURL).',
     'pageSettings.success': 'Page Settings have been updated.',
-    'dataModel.help': 'The DATA MODELS section allows the administrator to add or edit content data.  The Entando formatting engine,  based on models, is used to present content (or a portion of it) to users. Content data use Velocity templates and  are easily managed from the administration Interface.',
+    'dataModel.help':
+      'The DATA MODELS section allows the administrator to add or edit content data.  The Entando formatting engine,  based on models, is used to present content (or a portion of it) to users. Content data use Velocity templates and  are easily managed from the administration Interface.',
     'dataModel.type': 'Type',
     'dataModel.stylesheet': 'Style Sheet',
     'dataModel.model': 'Model',
-    'dataModel.deleteDataModelSuccess': 'Data model \'{id}\' successfully deleted',
-    'dataModel.deleteDataModelError': 'An error has occurred during deletion of the data model \'{id}\'',
+    'dataModel.deleteDataModelSuccess':
+      "Data model '{id}' successfully deleted",
+    'dataModel.deleteDataModelError':
+      "An error has occurred during deletion of the data model '{id}'",
     'dataModel.help.code': 'You can only insert numeric characters,',
     'dataType.list.title': 'Data Type',
-    'dataType.help': 'The DATA TYPES section allows users to add or edit data types.',
+    'dataType.help':
+      'The DATA TYPES section allows users to add or edit data types.',
     'dataType.table.status': 'Status',
     'dataType.table.status.0': 'Ok. Reload if you want.',
     'dataType.table.status.1': 'Reloading. Refresh this page.',
@@ -567,7 +632,8 @@ export default {
     'profileType.table.status.wip': 'Reloading. Refresh this page.',
     'profileType.listEmpty': 'There are no PROFILE TYPES available',
     'profileType.list.title': 'Profile Types',
-    'profileType.help': 'The PROFILE TYPES section allows users to add or edit user profile types.',
+    'profileType.help':
+      'The PROFILE TYPES section allows users to add or edit user profile types.',
     'ProfileType.type': 'Type',
     'ProfileType.created': 'PROFILE TYPE created succesfully',
     'ProfileType.refreshed': 'PROFILE TYPE reloaded succesfully',
@@ -576,14 +642,19 @@ export default {
     'pageConfig.applyDefaultWidget': 'Apply the default widget',
     'pageConfig.defaultWidgetApplied': 'Default widget applied',
     'pageConfig.onTheFlyPage': 'On-the-fly page',
-    'pageTemplate.error.overlapping': 'Frame "{frame1}" and "{frame2}" are overlapping',
-    'pageTemplate.error.pos': 'Frame "{frame}" "pos" property differs from its index',
-    'pageTemplate.error.sketchX1X2format': 'Frame "{frame}": sketch attributes x1 and x2 must be integers between 0 and 11, with x1 <= x2',
-    'pageTemplate.error.sketchY1Y2format': 'Frame "{frame}": sketch attributes y1 and y2 must be positive integers, with y1 <= y2',
+    'pageTemplate.error.overlapping':
+      'Frame "{frame1}" and "{frame2}" are overlapping',
+    'pageTemplate.error.pos':
+      'Frame "{frame}" "pos" property differs from its index',
+    'pageTemplate.error.sketchX1X2format':
+      'Frame "{frame}": sketch attributes x1 and x2 must be integers between 0 and 11, with x1 <= x2',
+    'pageTemplate.error.sketchY1Y2format':
+      'Frame "{frame}": sketch attributes y1 and y2 must be positive integers, with y1 <= y2',
     'pageTemplate.error.framesArray': 'configuration.frames must be an array',
     'pageTemplate.error.configuration': 'configuration is a required object',
     'user.list.title': 'Users',
-    'user.help': 'The USERS section allows users to add and manage users and lists, manage user profiles and authorizations, and assign roles and groups.',
+    'user.help':
+      'The USERS section allows users to add and manage users and lists, manage user profiles and authorizations, and assign roles and groups.',
     'user.table.status.active': 'Active',
     'user.table.status.disabled': 'Not active',
     'user.table.status.inactive': 'Not active',
@@ -608,25 +679,34 @@ export default {
     'user.profileType': 'Profile Type',
     'user.status': 'Status',
     'user.searchForm.users': 'Users',
-    'user.username.help': 'You can insert at least 4 - max 80 characters, lowercase letters, including numbers, \'.\' and  \'_\' special characters.',
-    'user.password.help': 'You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, \'.\' and  \'_\' special characters. ',
-    'user.validate.text': 'Contains invalid characters. You can use only alphanumeric characters, the dot \'.\' and the underscore \'_\'.',
+    'user.username.help':
+      "You can insert at least 4 - max 80 characters, lowercase letters, including numbers, '.' and  '_' special characters.",
+    'user.password.help':
+      "You can insert at least 8 - max 20 characters uppercase and lowercase letters, including numbers, '.' and  '_' special characters. ",
+    'user.validate.text':
+      "Contains invalid characters. You can use only alphanumeric characters, the dot '.' and the underscore '_'.",
     'user.registration': 'Registration',
     'user.lastLogin': 'Last login',
     'user.reset': 'Reset',
     'user.lastPasswordChange': 'Last password change',
     'user.restrictions.title': 'User restrictions',
-    'user.restrictions.help': 'The USER RESTRICTION section allows administrator to manage the expiration date for system users.',
+    'user.restrictions.help':
+      'The USER RESTRICTION section allows administrator to manage the expiration date for system users.',
     'user.restrictions.passwordSection': 'Password Expiration',
     'user.restrictions.avatarSection': 'Avatar',
     'user.restrictions.form.active': 'Password Always Active',
-    'user.restrictions.form.monthsSinceLastLogin': 'Number of months the password is valid.',
-    'user.restrictions.form.maxMonths': 'Number of months the password is valid after last access.',
-    'user.restrictions.form.gravatar': 'Enable gravatar integration (avatar of users)',
-    'user.restrictions.form.monthsSinceLastLogin.error': 'This value must be equal to or less than the previous field',
+    'user.restrictions.form.monthsSinceLastLogin':
+      'Number of months the password is valid.',
+    'user.restrictions.form.maxMonths':
+      'Number of months the password is valid after last access.',
+    'user.restrictions.form.gravatar':
+      'Enable gravatar integration (avatar of users)',
+    'user.restrictions.form.monthsSinceLastLogin.error':
+      'This value must be equal to or less than the previous field',
     'user.restrictions.months': 'month(s)',
     'user.restrictions.success': 'User restrictions have been updated',
-    'user.myProfile.help': 'The MY PROFILE section allows users to change their password and manage their profile information.',
+    'user.myProfile.help':
+      'The MY PROFILE section allows users to change their password and manage their profile information.',
     'user.myProfile.passwordSection': 'Change your password',
     'user.myProfile.accountSection': 'Edit my account',
     'user.myProfile.editProfileSection': 'Edit my profile',
@@ -644,14 +724,18 @@ export default {
     'user.profile.all': 'All',
     'user.profile.with': 'User with a profile',
     'user.profile.without': 'User without a profile',
-    'group.help': 'The GROUPS section allows administrators to manage existing or add new groups.',
+    'group.help':
+      'The GROUPS section allows administrators to manage existing or add new groups.',
     'group.listEmpty': 'There are no Groups available',
     'group.name': 'Name',
     'group.code': 'Code',
-    'group.name.help': 'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
-    'group.code.help': 'You can insert max 20 characters uppercase and lowercase letters, numbers and \'_\' special character.',
+    'group.name.help':
+      'You can insert max 50 uppercase and lowercase letters, numbers and special characters.',
+    'group.code.help':
+      "You can insert max 20 characters uppercase and lowercase letters, numbers and '_' special character.",
     'database.list.add': 'Create a backup',
-    'database.help': 'The DATABASE section allows system administrators to create backups and restore from the database.  The feature must be enabled.',
+    'database.help':
+      'The DATABASE section allows system administrators to create backups and restore from the database.  The feature must be enabled.',
     'database.noDatabaseYet': 'No backups available.',
     'database.inProgress': 'Backup in progress',
     'database.gotoList': 'Go to backup list',
@@ -662,7 +746,8 @@ export default {
     'database.dumpDate': 'Dump Date',
     'database.datasource': 'Datasource',
     'database.datasourceDetails': 'Datasource Details',
-    'labelsAndLanguages.help': 'The LABEL & LANGUAGE section allows users to manage labels and localizations. The first language configured in the system is the default language.  Labels are used to handle simple semi-static textual information and are not associated with particular objects.',
+    'labelsAndLanguages.help':
+      'The LABEL & LANGUAGE section allows users to manage labels and localizations. The first language configured in the system is the default language.  Labels are used to handle simple semi-static textual information and are not associated with particular objects.',
     'label.searchForm.code': 'Search by code',
     'label.searchForm.title': 'Search for existing label',
     'language.selectLanguage': 'Select Language',
@@ -676,11 +761,13 @@ export default {
     'modal.confirm.delete': 'Do you really want to delete {code}?',
     'modal.confirm.publish': 'Do you really want to publish {code}?',
     'modal.confirm.unpublish': 'Do you really want to unpublish {code}?',
-    'widgetConfig.help': 'The WIDGET CONFIGURATION section allows users to configure a generic widget for a specific frame of a page.',
+    'widgetConfig.help':
+      'The WIDGET CONFIGURATION section allows users to configure a generic widget for a specific frame of a page.',
     'widgetConfig.internalServlet.widgetName': 'Internal Servlet',
     'widgetConfig.internalServlet.parameters': 'Parameters',
     'widgetConfig.internalServlet.actionPath': 'actionPath',
-    'widgetConfig.internalServlet.actionPath.help': 'Path to an action or to a JSP. You must prepend \'/ExtStr2\' to any Struts2 action path',
+    'widgetConfig.internalServlet.actionPath.help':
+      "Path to an action or to a JSP. You must prepend '/ExtStr2' to any Struts2 action path",
     'group.detail.title.users': 'Users',
     'group.detail.title.widgetTypes': 'Widget Types',
     'group.detail.title.contents': 'Contents',
@@ -694,14 +781,18 @@ export default {
     'group.action.pageConfiguration': 'Page configuration',
     'group.action.manageAuthorization': 'Manage authorizations for',
     'group.content.lastEdit': 'Last edit',
-    'pageTemplates.help': 'The PAGE TEMPLATES section allows users to manage existing or add new page templates. The Page Template defines the page structure. A page template is characterized by two elements: scheme (the division of the page in smaller areas called frames) and decoration (the look and feel of the page).',
-    'pageTemplates.name.help': 'You can insert a max of 50 uppercase or lowercase letters, numbers and special characters.',
-    'pageTemplates.code.help': 'You can insert a max of 40 uppercase or lowercase letters, numbers and special characters.',
+    'pageTemplates.help':
+      'The PAGE TEMPLATES section allows users to manage existing or add new page templates. The Page Template defines the page structure. A page template is characterized by two elements: scheme (the division of the page in smaller areas called frames) and decoration (the look and feel of the page).',
+    'pageTemplates.name.help':
+      'You can insert a max of 50 uppercase or lowercase letters, numbers and special characters.',
+    'pageTemplates.code.help':
+      'You can insert a max of 40 uppercase or lowercase letters, numbers and special characters.',
     'pageTemplates.jsonConfiguration': 'JSON configuration',
     'pageTemplates.template': 'Template',
     'pageTemplates.templatePreview': 'Template preview',
     'pageTemplates.pluginCode': 'Plugin code',
-    'category.help': 'The CATEGORIES section allows users to manage the category tree and create new categories. Categories allow the classification of information; this classification is useful to present aggregated information to final users.',
+    'category.help':
+      'The CATEGORIES section allows users to manage the category tree and create new categories. Categories allow the classification of information; this classification is useful to present aggregated information to final users.',
     'category.tree': 'Categories tree',
     'category.settings': 'Categories settings',
     'category.treeStyle': 'Choose the style of the Category tree',
@@ -709,10 +800,13 @@ export default {
     'category.treeType.request': 'Load nodes on demand',
     'category.categoryForm.categoryPlacement': 'Tree position',
     'DataType.type': 'Type',
-    'role.help': 'The ROLES section allows users to create and manage the user roles.  Roles  allows administrators to grant permissions to various functions within applications to end users.',
+    'role.help':
+      'The ROLES section allows users to create and manage the user roles.  Roles  allows administrators to grant permissions to various functions within applications to end users.',
     'role.listEmpty': 'There are no ROLES available',
-    'role.name.help': 'You can insert a max of 50 uppercase and lowercase letters, numbers and special characters. ',
-    'role.code.help': 'You can insert a max of 20 uppercase and lowercase letters, numbers and special characters.',
+    'role.name.help':
+      'You can insert a max of 50 uppercase and lowercase letters, numbers and special characters. ',
+    'role.code.help':
+      'You can insert a max of 20 uppercase and lowercase letters, numbers and special characters.',
     'role.detail.referencedUsers': 'Referenced users',
     'role.detail.noPermissions': 'There are no permissions',
     'permission.listEmpty': 'There are no permissions available',
@@ -723,17 +817,25 @@ export default {
     'reference.jacmsResourceManager': 'Resources with this category',
     'reference.DataObjectManager': 'Data objects with this category',
     'reference.jpcollaborationIdeaManager': 'Ideas with this category',
-    'reference.noReferencejacmsContentManager': 'There is no referenced content',
-    'reference.noReferencejacmsResourceManager': 'There are no referenced resources',
-    'reference.noReferenceDataObjectManager': 'There are no referenced data objects',
-    'reference.noReferencejpcollaborationIdeaManager': 'There are no referenced ideas',
+    'reference.noReferencejacmsContentManager':
+      'There is no referenced content',
+    'reference.noReferencejacmsResourceManager':
+      'There are no referenced resources',
+    'reference.noReferenceDataObjectManager':
+      'There are no referenced data objects',
+    'reference.noReferencejpcollaborationIdeaManager':
+      'There are no referenced ideas',
     'references.referencedPages': 'Referenced pages',
     'reloadConfiguration.title': 'Reload configuration',
-    'reloadConfiguration.help': 'The RELOAD CONFIGURATION section allows users to reload the system configuration. This operation is necessary after modifying some parameters.',
+    'reloadConfiguration.help':
+      'The RELOAD CONFIGURATION section allows users to reload the system configuration. This operation is necessary after modifying some parameters.',
     'reloadConfiguration.reload.title': 'Reload the configuration',
-    'reloadConfiguration.reload.confirm': 'Are you sure you want to reload the configuration?',
-    'reloadConfiguration.confirm.success': 'The configuration has been reloaded.',
-    'reloadConfiguration.confirm.error': 'Something went wrong while reloading the configuration. Try again in a minute.',
+    'reloadConfiguration.reload.confirm':
+      'Are you sure you want to reload the configuration?',
+    'reloadConfiguration.confirm.success':
+      'The configuration has been reloaded.',
+    'reloadConfiguration.confirm.error':
+      'Something went wrong while reloading the configuration. Try again in a minute.',
     'activityStream.newPage': 'created a new page',
     'activityStream.editPage': 'edited a new page',
     'activityStream.deletePage': 'delete a page',
@@ -742,21 +844,27 @@ export default {
     'activityStream.modifyPage': 'modified a page',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Write a comment',
-    'reference.text': 'Reload the references for these entity types. Number of types to reload: {count}. ',
+    'reference.text':
+      'Reload the references for these entity types. Number of types to reload: {count}. ',
     'reference.reload': 'Click {link} to reload all data types.',
     'componentRepository.disabled.title': 'Component Repository is disabled.',
-    'componentRepository.disabled.help': 'Can be enabled by setting COMPONENT_REPOSITORY_UI_ENABLED env variable value in your .env file to true.',
+    'componentRepository.disabled.help':
+      'Can be enabled by setting COMPONENT_REPOSITORY_UI_ENABLED env variable value in your .env file to true.',
     'componentRepository.menuButton.title': 'Hub',
     'componentRepository.component.list.title': 'Entando Hub',
-    'componentRepository.component.help': 'Entando Hub is a repository from which users can install different widgets, components, fragments, page templates, content templates and content types.',
-    'componentRepository.sidebar.componentRepositoryFilterTitle': 'Component Repositories',
+    'componentRepository.component.help':
+      'Entando Hub is a repository from which users can install different widgets, components, fragments, page templates, content templates and content types.',
+    'componentRepository.sidebar.componentRepositoryFilterTitle':
+      'Component Repositories',
     'componentRepository.sidebar.categoryFilterTitle': 'Categories',
     'componentRepository.components.latestVersion': 'Latest Version',
     'componentRepository.components.notFound': 'No component available',
-    'componentRepository.des.notFound': 'No component repository have been registered yet, to add a new component repository click on the gear icon on the top-right corner of this page',
+    'componentRepository.des.notFound':
+      'No component repository have been registered yet, to add a new component repository click on the gear icon on the top-right corner of this page',
     'componentRepository.components.install': 'Install',
     'componentRepository.components.update': 'Update',
-    'componentRepository.components.installRollback': 'Installation has failed. The install has been rolled back',
+    'componentRepository.components.installRollback':
+      'Installation has failed. The install has been rolled back',
     'componentRepository.components.installing': 'Installing {version}',
     'componentRepository.components.uninstalling': 'Uninstalling {version}',
     'componentRepository.components.failedInstall': 'Installation Failure',
@@ -765,20 +873,28 @@ export default {
     'componentRepository.components.recheck': 'Re-check',
     'componentRepository.components.retry': 'Retry',
     'componentRepository.components.inprogress': 'In Progress',
-    'componentRepository.components.notifyInProgress': 'Installation still in progress. You can check again by refreshing the page.',
-    'componentRepository.components.notifyFailedInstall': 'An error has occured during installation.',
-    'componentRepository.components.notifyFailedUninstall': 'An error has occured during uninstallation.',
+    'componentRepository.components.notifyInProgress':
+      'Installation still in progress. You can check again by refreshing the page.',
+    'componentRepository.components.notifyFailedInstall':
+      'An error has occured during installation.',
+    'componentRepository.components.notifyFailedUninstall':
+      'An error has occured during uninstallation.',
     'componentRepository.components.uninstall': 'Uninstall',
-    'componentRepository.components.confirmUninstall': 'Do you really want to uninstall component {name}?',
+    'componentRepository.components.confirmUninstall':
+      'Do you really want to uninstall component {name}?',
     'componentRepository.components.cannotUninstall': 'Cannot Uninstall',
     'componentRepository.components.usage': 'Component usage: {usage}',
     'componentRepository.components.showInstallPlan': 'Install plan',
-    'componentRepository.components.showCustomInstallPlan': 'Custom install plan',
-    'componentRepository.components.installPlanFailed': 'Failed to recover the install plan',
-    'componentRepository.components.downgradeMessage': "Please be aware that downgrading a bundle to a previous version may result in a loss of features or data. You may wish to review the bundle's release notes before performing a downgrade.",
+    'componentRepository.components.showCustomInstallPlan':
+      'Custom install plan',
+    'componentRepository.components.installPlanFailed':
+      'Failed to recover the install plan',
+    'componentRepository.components.downgradeMessage':
+      "Please be aware that downgrading a bundle to a previous version may result in a loss of features or data. You may wish to review the bundle's release notes before performing a downgrade.",
     'componentRepository.components.downgrade': 'Downgrade',
     'componentRepository.components.conflict': 'Conflict',
-    'componentRepository.components.conflictMessage': "It has not been possible to determine if this operation could imply a downgrade. Please be aware that installing an older version may result in a loss of features or data. You may wish to review the bundle's release notes before proceeding.",
+    'componentRepository.components.conflictMessage':
+      "It has not been possible to determine if this operation could imply a downgrade. Please be aware that installing an older version may result in a loss of features or data. You may wish to review the bundle's release notes before proceeding.",
     'componentRepository.components.replace': 'Replace',
     'componentRepository.components.proceed': 'Do you want to proceed?',
     'componentRepository.sidebar.ratingFilter.title': 'Rating',
@@ -799,7 +915,8 @@ export default {
     'componentRepository.extraFilters.new': 'New',
     'componentRepository.extraFilters.installed': 'Installed',
     'componentRepository.settings.title': 'Component Repository settings',
-    'componentRepository.settings.help': 'In this section it is possible to setup and manage the settings of marketplaces within the Entando Hub.',
+    'componentRepository.settings.help':
+      'In this section it is possible to setup and manage the settings of marketplaces within the Entando Hub.',
     'componentRepository.settings.add': 'Add Component Repository',
     'componentRepository.settings.active': 'Active',
     'componentRepository.settings.address': 'Address',
@@ -841,7 +958,8 @@ export default {
     'singlePageSettings.generalSettings': 'General Settings',
     'singlePageSettings.pageTitle': 'Page Title',
     'singlePageSettings.updateSuccess': 'Page successfully updated',
-    'plugins.noPlugins': 'No installed plugins. See available plugins in the Component Repository',
+    'plugins.noPlugins':
+      'No installed plugins. See available plugins in the Component Repository',
     'plugins.installCallToAction': 'Go to Component Repository',
     'widgets.configUi': 'Config UI',
     'widgets.addWidget': 'Add Widget',
@@ -860,10 +978,14 @@ export default {
     'app.seo.addMetatagKey': 'Key',
     'app.seo.addMetatagType': 'Type',
     'app.seo.addMetatagValue': 'Value',
-    'app.pages.titleHelp': 'This serves as the title of your page for SEO purposes',
-    'app.seo.descriptionHelp': 'The meta description is a fragment of text that summarizes the content of the page',
-    'app.seo.keywordsHelp': 'The meta keywords is a fragment of text that indicates the main keywords of the page, comma separated.',
-    'app.seo.addMetatagHelp': 'In this section you can add a new metatag (custom or suggested by an internal catalog)',
+    'app.pages.titleHelp':
+      'This serves as the title of your page for SEO purposes',
+    'app.seo.descriptionHelp':
+      'The meta description is a fragment of text that summarizes the content of the page',
+    'app.seo.keywordsHelp':
+      'The meta keywords is a fragment of text that indicates the main keywords of the page, comma separated.',
+    'app.seo.addMetatagHelp':
+      'In this section you can add a new metatag (custom or suggested by an internal catalog)',
     'app.seo.inheritLangLabel': 'Inherit from default lang',
     'pagination.firstPage': 'First page',
     'pagination.previousPage': 'Previous page',
@@ -887,24 +1009,30 @@ export default {
     'widget.navigationBar.config.addNewExpression': 'Add a new expression',
     'widget.navigationBar.config.none': 'None (not specified)',
     'widget.navigationBar.config.allChildren': 'All children of the page',
-    'widget.navigationBar.config.fromTheRootToSelected': 'From the root to the selected page',
+    'widget.navigationBar.config.fromTheRootToSelected':
+      'From the root to the selected page',
     'widget.navigationBar.config.subtree': 'Subtree',
     'widget.navigationBar.config.noExpressions': 'Set some expressions..',
     'widget.update.success': 'Widget has been updated successfully.',
     'widget.navigationBar.config.subtreeDepthAbr': 'Subtree depth',
     'info.license': 'License',
-    'info.license.description': 'The Entando platform is 100% open source and as a whole is licensed under the LGPL v3.0. \n\nA free commercial open source license is available for Entando platform and the Entando Hub for customers with Gold and Platinum subscriptions.\nWith this license, you can freely extend or modify Entando without requiring the contribution of confidential IP back to the open source community.\n\nThe Subscription entitles you to receive support services, intended as maintenance and warranty of the software (bug fixing), for all the products and components subscribed throughout the period of the contract.',
+    'info.license.description':
+      'The Entando platform is 100% open source and as a whole is licensed under the LGPL v3.0. \n\nA free commercial open source license is available for Entando platform and the Entando Hub for customers with Gold and Platinum subscriptions.\nWith this license, you can freely extend or modify Entando without requiring the contribution of confidential IP back to the open source community.\n\nThe Subscription entitles you to receive support services, intended as maintenance and warranty of the software (bug fixing), for all the products and components subscribed throughout the period of the contract.',
     'info.license.type': 'LGPL v3.0 license',
     'info.about': 'About',
     'info.about.entandoPlatform': 'Entando Platform',
-    'info.about.entando': 'Entando is the leading open source Application Composition Platform for Kubernetes. It enables parallel teams to accelerate development and innovation of business capabilities on a modern, cloud-native, and Kubernetes-native stack.',
-    'info.about.docs': 'The documentation helps you learn about the Entando Platform and start exploring its features.\n To get started using the Entando Platform, visit',
+    'info.about.entando':
+      'Entando is the leading open source Application Composition Platform for Kubernetes. It enables parallel teams to accelerate development and innovation of business capabilities on a modern, cloud-native, and Kubernetes-native stack.',
+    'info.about.docs':
+      'The documentation helps you learn about the Entando Platform and start exploring its features.\n To get started using the Entando Platform, visit',
     'info.about.version': 'Version {version}',
-    'reference.text.success': 'References must be reloaded whenever a profile is modified.',
+    'reference.text.success':
+      'References must be reloaded whenever a profile is modified.',
     'reference.label.success': 'Everything is fine.',
     'reference.status.title': 'Reference status',
     'user.table.profileType': 'Profile Type',
-    'app.deleteRoleImpossible': 'Role cannot be deleted until it is removed from all the following users',
+    'app.deleteRoleImpossible':
+      'Role cannot be deleted until it is removed from all the following users',
     'app.saveAs': 'Save As',
     'menu.widgetClone': 'Clone widget',
     'widget.page.clone.pageTitle': 'Clone widget',
@@ -912,40 +1040,54 @@ export default {
     'user.myProfile.appSettingsSection': 'Preferences',
     'user.myProfile.disableContentMenu': 'Disable Content Menu',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
-    'user.myProfile.wizardToggleHelp': 'Enable or disable Welcome Wizard that guides you through the "Create first application" process',
+    'user.myProfile.wizardToggleHelp':
+      'Enable or disable Welcome Wizard that guides you through the "Create first application" process',
     'user.myProfile.translationWarning': 'Missing Translation Warning',
-    'user.myProfile.translationWarningHelp': 'Enable or disable the warning message to remember you to fill the translation fields of a content.',
+    'user.myProfile.translationWarningHelp':
+      'Enable or disable the warning message to remember you to fill the translation fields of a content.',
     'user.myProfile.loadOnPageSelect': 'Load on Page Select',
-    'user.myProfile.loadOnPageSelectHelp': 'Loads a page tree page in the page designer upon selecting it.',
+    'user.myProfile.loadOnPageSelectHelp':
+      'Loads a page tree page in the page designer upon selecting it.',
     'user.myProfile.defaultPageOwnerGroup': 'Default Page Owner Group',
-    'user.myProfile.defaultPageOwnerGroupHelp': 'Sets the default owner group when creating a page.',
+    'user.myProfile.defaultPageOwnerGroupHelp':
+      'Sets the default owner group when creating a page.',
     'user.myProfile.defaultPageJoinGroups': 'Default Page Join Groups',
-    'user.myProfile.defaultPageJoinGroupsHelp': 'Sets the default join groups when creating a page.',
+    'user.myProfile.defaultPageJoinGroupsHelp':
+      'Sets the default join groups when creating a page.',
     'user.myProfile.defaultContentOwnerGroup': 'Default Content Owner Group',
-    'user.myProfile.defaultContentOwnerGroupHelp': 'Sets the default owner group when creating a content.',
+    'user.myProfile.defaultContentOwnerGroupHelp':
+      'Sets the default owner group when creating a content.',
     'user.myProfile.defaultContentJoinGroups': 'Default Content Join Groups',
-    'user.myProfile.defaultContentJoinGroupsHelp': 'Sets the default join groups when creating a content.',
+    'user.myProfile.defaultContentJoinGroupsHelp':
+      'Sets the default join groups when creating a content.',
     'user.myProfile.defaultWidgetOwnerGroup': 'Default Widget Owner Group',
-    'user.myProfile.defaultWidgetOwnerGroupHelp': 'Sets the default owner group when creating a widget or MFE.',
+    'user.myProfile.defaultWidgetOwnerGroupHelp':
+      'Sets the default owner group when creating a widget or MFE.',
     'tour.start.welcome': 'Welcome to Entando',
     'tour.start.title': 'Create Your First Application',
-    'tour.start.description': 'Use this wizard to create your first page. It will guide you through all the required steps to create and design a page',
+    'tour.start.description':
+      'Use this wizard to create your first page. It will guide you through all the required steps to create and design a page',
     'tour.start.dontShow': 'Don’t show next time',
     'tour.step.2.main': 'Create Your First Application',
     'tour.step.2.title': 'Entando AppBuilder',
-    'tour.step.2.description': 'The AppBuilder is where you\'ll go to create all of your apps using web content, micro frontends, and microservices.',
+    'tour.step.2.description':
+      "The AppBuilder is where you'll go to create all of your apps using web content, micro frontends, and microservices.",
     'tour.step.cancel.title': 'Are you sure you want to exit the tutorial?',
     'app.next': 'Next',
     'tour.step.3.title': 'Create the Home Page',
-    'tour.step.3.description': 'The first step that we’ll want to do is to create our home page. Click Pages in the left sidebar.',
+    'tour.step.3.description':
+      'The first step that we’ll want to do is to create our home page. Click Pages in the left sidebar.',
     'tour.step.4.title': 'Page Management',
     'tour.step.4.description': 'Next, click Management.',
     'tour.step.5.title': 'Create a Page',
-    'tour.step.5.description': 'Here, you\'ll see a list of pages that represent the page tree of your site. Click Add to create a new page.',
+    'tour.step.5.description':
+      "Here, you'll see a list of pages that represent the page tree of your site. Click Add to create a new page.",
     'tour.step.6.title': 'Enter a Page Title',
-    'tour.step.6.description': 'This serves as the title of your page for SEO purposes.',
+    'tour.step.6.description':
+      'This serves as the title of your page for SEO purposes.',
     'tour.step.7.title': 'Enter a Page Code',
-    'tour.step.7.description': 'The page code is used to uniquely identify a page, and is also used for search. In our example, we’ll use ‘hello_world_app’ for the page code.',
+    'tour.step.7.description':
+      'The page code is used to uniquely identify a page, and is also used for search. In our example, we’ll use ‘hello_world_app’ for the page code.',
     'tour.step.8.title': 'Choose a place within your site for your page',
     'tour.step.8.description': 'Choose a place for your page',
     'tour.step.9.title': 'Choose the Owner Group',
@@ -953,35 +1095,50 @@ export default {
     'tour.step.10.title': 'Choose the Page Template',
     'tour.step.10.description': 'Choose the Page Template',
     'tour.step.11.title': 'Save and Design',
-    'tour.step.11.description': 'Once we save our settings, we can start designing our page.',
+    'tour.step.11.description':
+      'Once we save our settings, we can start designing our page.',
     'tour.step.12.title': 'Add Widgets',
-    'tour.step.12.description': 'On the right sidebar, expand the Page menu. Then drag & drop the Logo widget into the dotted grey \'Logo\' section on the page.',
+    'tour.step.12.description':
+      "On the right sidebar, expand the Page menu. Then drag & drop the Logo widget into the dotted grey 'Logo' section on the page.",
     'tour.step.13.title': 'Add Widgets',
-    'tour.step.13.description': 'Click Next to add pre-configured Navigation Menu widget to the page design for top level horizontal menu',
+    'tour.step.13.description':
+      'Click Next to add pre-configured Navigation Menu widget to the page design for top level horizontal menu',
     'tour.step.14.title': 'Add Widgets',
-    'tour.step.14.description': 'On the right sidebar, expand the CMS menu. Then drag & drop the Search Form widget into the dotted grey \'Search Form\' section on the page.',
+    'tour.step.14.description':
+      "On the right sidebar, expand the CMS menu. Then drag & drop the Search Form widget into the dotted grey 'Search Form' section on the page.",
     'tour.step.15.title': 'Add Widgets',
-    'tour.step.15.description': 'On the right sidebar, expand the System menu. Then drag & drop the Login widget into the dotted grey \'Login\' section on the page.',
+    'tour.step.15.description':
+      "On the right sidebar, expand the System menu. Then drag & drop the Login widget into the dotted grey 'Login' section on the page.",
     'tour.step.16.title': 'Add Widgets',
-    'tour.step.16.description': 'Click Next to add pre-configured Content widget to the page',
+    'tour.step.16.description':
+      'Click Next to add pre-configured Content widget to the page',
     'tour.step.17.title': 'Add Widgets',
-    'tour.step.17.description': 'Click Next to add pre-configured Content List widget to the page',
+    'tour.step.17.description':
+      'Click Next to add pre-configured Content List widget to the page',
     'tour.step.18.title': 'Add Widgets',
-    'tour.step.18.description': 'Click Next to add pre-configured Navigation Menu widget to add link for sitemap in the footer',
+    'tour.step.18.description':
+      'Click Next to add pre-configured Navigation Menu widget to add link for sitemap in the footer',
     'tour.step.19.title': 'Preview',
-    'tour.step.19.description': 'Click Preview to see what your page will look like before you publish the page.',
+    'tour.step.19.description':
+      'Click Preview to see what your page will look like before you publish the page.',
     'tour.step.20.title': 'Publish',
     'tour.step.20.description': 'Click Publish to see your page live.',
     'user.wizard.success': 'Wizard has been updated.',
-    'app.pages.friendlyCodeHelp': 'URL slug for the page. You can insert a max of 100 characters, lowercase letters, numbers or \'_\' and \'-\' special characters',
-    'validateForm.friendlyCode': 'Friendly Code must be lowercase letters, including numbers or  \'_\' special character.',
-    'validateForm.friendlyCodeWithDash': 'Friendly Code must only be made of lowercase letters, numbers or  \'_\' and \'-\' special characters.',
-    'validateForm.friendlyCodeUnique': 'Friendly Code must be unique for all languages.',
+    'app.pages.friendlyCodeHelp':
+      "URL slug for the page. You can insert a max of 100 characters, lowercase letters, numbers or '_' and '-' special characters",
+    'validateForm.friendlyCode':
+      "Friendly Code must be lowercase letters, including numbers or  '_' special character.",
+    'validateForm.friendlyCodeWithDash':
+      "Friendly Code must only be made of lowercase letters, numbers or  '_' and '-' special characters.",
+    'validateForm.friendlyCodeUnique':
+      'Friendly Code must be unique for all languages.',
     'app.startTutorial': 'Start Welcome Wizard',
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Sender Management',
-    'emailConfig.help': 'The Email Configuration plugin provides basic functionality to send email. This plugin is a prerequisite for all plugins that require email delivery.  Administrators must configure the network configuration and create at least one sender profile.',
-    'emailConfig.smtpServer.panelMsg': 'Host is mandatory. Port and Timeout if blank, will default to 25 and 10000. Please leave Username and Password blank if the SMTP server does not require authentication.',
+    'emailConfig.help':
+      'The Email Configuration plugin provides basic functionality to send email. This plugin is a prerequisite for all plugins that require email delivery.  Administrators must configure the network configuration and create at least one sender profile.',
+    'emailConfig.smtpServer.panelMsg':
+      'Host is mandatory. Port and Timeout if blank, will default to 25 and 10000. Please leave Username and Password blank if the SMTP server does not require authentication.',
     'emailConfig.smtpServer.generalSettings': 'General Settings',
     'emailConfig.smtpServer.active': 'Active',
     'emailConfig.smtpServer.debugMode': 'Debug Mode',
@@ -1086,15 +1243,18 @@ export default {
     'cms.label.date.placeholder': 'dd/mm/yyyy',
     'cms.label.presenter.placeholder': 'Press enter to save changes',
     'cms.label.modal.confirmdelete': 'Do you really want to delete {code}?',
-    'cms.label.modal.confirmDeleteVersion': 'Do you really want to permanently delete version {version}?',
-    'cms.label.modal.confirmRestore': 'Do you really want to restore version {version}? By confirming, the Latest Version will be replaced with this one.',
+    'cms.label.modal.confirmDeleteVersion':
+      'Do you really want to permanently delete version {version}?',
+    'cms.label.modal.confirmRestore':
+      'Do you really want to restore version {version}? By confirming, the Latest Version will be replaced with this one.',
     'cms.label.modal.confirmCancel': 'Do you want to save all changes?',
-    'cms.label.dontSave': 'Don\'t save',
+    'cms.label.dontSave': "Don't save",
     'cms.label.metadata': 'Metadata',
     'cms.contents.versioning.author': 'Author',
     'cms.versioning.list.lastModify': 'Last Modified',
     'cms.label.modal.confirmpublish': 'Do you really want to publish {code}?',
-    'cms.label.modal.confirmunpublish': 'Do you really want to unpublish {code}?',
+    'cms.label.modal.confirmunpublish':
+      'Do you really want to unpublish {code}?',
     'cms.label.yes': 'Yes',
     'cms.label.no': 'No',
     'cms.label.all': 'All',
@@ -1129,28 +1289,40 @@ export default {
     'cms.contenttemplate.searchFilter.valueName': 'Name',
     'cms.contenttemplate.list.contentTypeHeader': 'Content Type',
     'cms.contenttemplate.list.contentTypeIdHeader': 'Code',
-    'cms.contenttemplate.list.contentTemplateNameHeader': 'Content Template Name',
+    'cms.contenttemplate.list.contentTemplateNameHeader':
+      'Content Template Name',
     'cms.contenttemplate.list.actionsHeader': 'Actions',
     'cms.contenttemplate.list.infoDeleted': '{modelname} removed',
     'cms.contenttemplate.form.code': 'Code',
     'cms.contenttemplate.form.codePlaceholder': 'Code',
     'cms.contenttemplate.form.codeHelp': 'You can insert up to 10 numbers',
-    'cms.contenttemplate.form.nameHelp': 'You can insert up to 50 characters, including upper or lowercase letters, numbers and special characters',
-    'cms.contenttemplate.form.contentTypeHelp': 'Select one existing content type to use for the content template',
+    'cms.contenttemplate.form.nameHelp':
+      'You can insert up to 50 characters, including upper or lowercase letters, numbers and special characters',
+    'cms.contenttemplate.form.contentTypeHelp':
+      'Select one existing content type to use for the content template',
     'cms.contenttemplate.form.htmlmodel': 'HTML Model',
-    'cms.contenttemplate.form.htmlmodelHelp': 'Defines the HTML content structure using the content elements defined by the given content type.',
-    'cms.contenttemplate.form.htmlmodel.statusassist': 'Content assist is <strong>ON</strong>',
-    'cms.contenttemplate.form.htmlmodel.statusattrhelp': 'Help about attributes type is <strong>OFF</strong>',
-    'cms.contenttemplate.form.htmlmodel.statusadminconf': 'To change status, set in the admin configuration section.',
+    'cms.contenttemplate.form.htmlmodelHelp':
+      'Defines the HTML content structure using the content elements defined by the given content type.',
+    'cms.contenttemplate.form.htmlmodel.statusassist':
+      'Content assist is <strong>ON</strong>',
+    'cms.contenttemplate.form.htmlmodel.statusattrhelp':
+      'Help about attributes type is <strong>OFF</strong>',
+    'cms.contenttemplate.form.htmlmodel.statusadminconf':
+      'To change status, set in the admin configuration section.',
     'cms.contenttemplate.form.saved': 'Content Template "{modelname}" saved',
     'cms.contenttemplate.form.editassistant': 'Inline editing assistant',
     'cms.contenttemplate.form.stylesheet': 'Style Sheet',
-    'cms.contenttemplate.form.stylesheetHelp': 'Provides a stylesheet file to be used with the HTML model',
-    'cms.contenttemplate.form.editassist.dialog': 'Provides an example on how to activate <strong>INLINE EDITING</strong> for Entando labels<br /><br /><ol><li> Open a <strong>TAG</strong> like div p span... </li><li> add the class <strong>&#39;editContent&#39;</strong> to the TAG. Keep in mind that <strong>&#39;editContentText&#39;</strong> class can be used in case of a text-area. </li><li>then add <strong>data-content-id=&quot;$content.getId()&quot;</strong> </li><li>then add the attribute ID (TITLE) of the desidered label adding <strong>data-attr-id=&quot;TITLE&quot;</strong> and close the tag with &gt;. Please be careful when writing the attribute ID as it is <strong>case sensitive</strong> and it must match the label attribute in the next step </li><li>finally add the label of the desidered attribute that will be rendered on screen writing <strong>$content.TITLE.text</strong>.</li><li>Close the <strong>TAG</strong> (div p span ...) opened at the very beginning.</li></ol>Result should look like this:<br /><br /> OPEN TAG class=&quot;editContent&quot; data-content-id=&quot;$content.getId()&quot; data-attr-id=&quot;TITLE&quot;><br />$content.TITLE.text<br />CLOSE TAG',
-    'cms.contenttemplate.form.presscontext': '(press ctrl + space to open content assist menu)',
-    'cms.contenttemplate.delete.messageprompt': 'Are you sure you want to remove <strong>{id} ({descr})</strong>?',
+    'cms.contenttemplate.form.stylesheetHelp':
+      'Provides a stylesheet file to be used with the HTML model',
+    'cms.contenttemplate.form.editassist.dialog':
+      'Provides an example on how to activate <strong>INLINE EDITING</strong> for Entando labels<br /><br /><ol><li> Open a <strong>TAG</strong> like div p span... </li><li> add the class <strong>&#39;editContent&#39;</strong> to the TAG. Keep in mind that <strong>&#39;editContentText&#39;</strong> class can be used in case of a text-area. </li><li>then add <strong>data-content-id=&quot;$content.getId()&quot;</strong> </li><li>then add the attribute ID (TITLE) of the desidered label adding <strong>data-attr-id=&quot;TITLE&quot;</strong> and close the tag with &gt;. Please be careful when writing the attribute ID as it is <strong>case sensitive</strong> and it must match the label attribute in the next step </li><li>finally add the label of the desidered attribute that will be rendered on screen writing <strong>$content.TITLE.text</strong>.</li><li>Close the <strong>TAG</strong> (div p span ...) opened at the very beginning.</li></ol>Result should look like this:<br /><br /> OPEN TAG class=&quot;editContent&quot; data-content-id=&quot;$content.getId()&quot; data-attr-id=&quot;TITLE&quot;><br />$content.TITLE.text<br />CLOSE TAG',
+    'cms.contenttemplate.form.presscontext':
+      '(press ctrl + space to open content assist menu)',
+    'cms.contenttemplate.delete.messageprompt':
+      'Are you sure you want to remove <strong>{id} ({descr})</strong>?',
     'cms.contenttype.title': 'Content Types',
-    'cms.contenttype.titletip': 'The Content Types section allows the administrator to add or edit content types.',
+    'cms.contenttype.titletip':
+      'The Content Types section allows the administrator to add or edit content types.',
     'cms.contenttype.add.label': 'Add Content Type',
     'cms.contenttype.edit.label': 'Edit Content Type',
     'cms.contenttype.list.contentTypeNameHeader': 'Name',
@@ -1161,16 +1333,21 @@ export default {
     'cms.contenttype.list.status.0': 'Ok. Reload if desired.',
     'cms.contenttype.list.status.1': 'Reloading. Refresh this page.',
     'cms.contenttype.list.status.2': 'Stale status, please reload.',
-    'cms.contenttype.reference.text': 'Reload the references for these entity types: {types}. Number of types to reload: {count}. ',
-    'cms.contenttype.reference.reload': 'Click {link} to reload all content types.',
+    'cms.contenttype.reference.text':
+      'Reload the references for these entity types: {types}. Number of types to reload: {count}. ',
+    'cms.contenttype.reference.reload':
+      'Click {link} to reload all content types.',
     'cms.contenttype.attributes.label': 'Attributes',
-    'cms.contentType.helpattributes.label': 'The content types section allows the administrator to add or edited selected content type attributes.',
+    'cms.contentType.helpattributes.label':
+      'The content types section allows the administrator to add or edited selected content type attributes.',
     'cms.contenttype.datatype.label': 'Type',
     'cms.contenttype.datatype.code.label': 'Code',
     'cms.contenttype.form.type': 'Type',
     'cms.contenttype.form.code': 'Code',
-    'cms.contenttype.form.codeHelp': 'Insert characters, uppercase or lowercase letters, numbers and special characters _',
-    'cms.contenttype.attribute.codeHelp': 'You must insert 3 uppercase characters',
+    'cms.contenttype.form.codeHelp':
+      'Insert characters, uppercase or lowercase letters, numbers and special characters _',
+    'cms.contenttype.attribute.codeHelp':
+      'You must insert 3 uppercase characters',
     'cms.contenttype.attribute.label.listOf': 'List of',
     'cms.contenttype.form.name': 'Name',
     'cms.contenttype.form.role': 'Role',
@@ -1179,25 +1356,35 @@ export default {
     'cms.contenttype.form.filter': 'Filter',
     'cms.contenttype.form.actions': 'Actions',
     'cms.contenttype.form.filterList': 'Can be used as a filter in lists',
-    'cms.contenttype.form.metadata.defaultContentTemplate': 'Default content template',
-    'cms.contenttype.form.metadata.defaultContentTemplateLists': 'Default content template for lists',
+    'cms.contenttype.form.metadata.defaultContentTemplate':
+      'Default content template',
+    'cms.contenttype.form.metadata.defaultContentTemplateLists':
+      'Default content template for lists',
     'cms.contenttype.form.metadata.viewPage': 'Page for on-the-fly publishing',
     'cms.contenttype.alert.created': 'Content type created successfully',
     'cms.contenttype.attribute.add.title': 'Add Content Type Attribute',
     'cms.contenttype.attribute.edit.title': 'Edit Content Type Attribute',
     'cms.contenttype.enumeratorStaticItems': 'Elements',
-    'cms.contenttype.enumeratorStaticItems.help': 'Insert a configuration like "label1,label2,label3"',
-    'cms.contenttype.enumeratorStaticItemsMap.help': 'Insert a configuration like "key1=value1,key2=value2,key3=value3"',
+    'cms.contenttype.enumeratorStaticItems.help':
+      'Insert a configuration like "label1,label2,label3"',
+    'cms.contenttype.enumeratorStaticItemsMap.help':
+      'Insert a configuration like "key1=value1,key2=value2,key3=value3"',
     'cms.contenttype.enumeratorStaticItemsSeparator': 'Separator',
     'cms.contenttype.enumeratorExtractorBean': 'Extractor bean name',
     'cms.contenttype.ognl.validation': 'OGNL - Validation',
-    'cms.contenttype.ognl.validation.help1': 'In this section, insert the attribute validation. ',
-    'cms.contenttype.ognl.validation.help2': 'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access the methods of the attribute without specifying it or using the prefix #attribute.',
-    'cms.contenttype.ognl.validation.help3': 'Use the map of the system languages (#langs) and the associated entity (#entity).',
-    'cms.contenttype.ognl.validation.help4': 'For the elements list or composite attributes, access the parent attribute (#parent) and for the elements list attibutes use the index (#index).',
+    'cms.contenttype.ognl.validation.help1':
+      'In this section, insert the attribute validation. ',
+    'cms.contenttype.ognl.validation.help2':
+      'The OGNL expression must return a boolean value (true or false). In the expression, the object root is the attribute itself. You can access the methods of the attribute without specifying it or using the prefix #attribute.',
+    'cms.contenttype.ognl.validation.help3':
+      'Use the map of the system languages (#langs) and the associated entity (#entity).',
+    'cms.contenttype.ognl.validation.help4':
+      'For the elements list or composite attributes, access the parent attribute (#parent) and for the elements list attibutes use the index (#index).',
     'cms.contenttype.ognl.expression': 'OGNL Expression ',
-    'cms.contenttype.apply.expression': 'Apply this expression only to a filled attribute',
-    'cms.contenttype.ognl.validation.add.message.help': 'Insert help and compilation error messages, or choose a key to bind them to a system label.',
+    'cms.contenttype.apply.expression':
+      'Apply this expression only to a filled attribute',
+    'cms.contenttype.ognl.validation.add.message.help':
+      'Insert help and compilation error messages, or choose a key to bind them to a system label.',
     'cms.contenttype.ognl.message': 'Help message',
     'cms.contenttype.help.message': 'Help message',
     'cms.contenttype.help.message.key': 'Key for the help message',
@@ -1205,35 +1392,43 @@ export default {
     'cms.contenttype.error.message.key': 'Key for the error message',
     'cms.contenttype.labelrole.choose': 'Choose a role',
     'cms.contenttype.labelrole.assigned': 'Assigned role',
-    'cms.contenttype.labelrole.noroles': 'No roles available: they may have all been assigned.',
+    'cms.contenttype.labelrole.noroles':
+      'No roles available: they may have all been assigned.',
     'cms.contenttype.label.working': 'You are working on attribute:',
     'cms.contenttype.label.element.of': 'element of',
     'cms.contenttype.label.edit.attribute': 'Edit : attribute - ',
     'cms.contenttype.label.edit.Monolist': 'Edit : Monolist',
     'cms.contenttype.label.edit.List': 'Edit : List',
     'cms.contentsettings.title': 'Content Settings',
-    'cms.contentsettings.titletip': 'The CONTENT SETTINGS section allows the administrator to reload content references and indexes, and allows the mapping for some parameters in resource attributes.',
+    'cms.contentsettings.titletip':
+      'The CONTENT SETTINGS section allows the administrator to reload content references and indexes, and allows the mapping for some parameters in resource attributes.',
     'cms.contentsettings.label.reloadreferences': 'Reload the references',
     'cms.contentsettings.label.reloadindexes': 'Reload the indexes',
     'cms.contentsettings.label.reloadstatus': 'Ready',
     'cms.contentsettings.label.reloadstatus.0': 'Ready',
     'cms.contentsettings.label.reloadstatus.1': 'Reloading',
     'cms.contentsettings.label.reloadstatus.2': 'Error',
-    'cms.contentsettings.label.reloadstatus.remark.success': 'The operation was last successful on {date}',
-    'cms.contentsettings.label.reloadstatus.remark.failed': 'Last reload in {date}, failed',
-    'cms.contentsettings.cropvalueerror': 'Crop value invalid. Format must be "number:number"',
+    'cms.contentsettings.label.reloadstatus.remark.success':
+      'The operation was last successful on {date}',
+    'cms.contentsettings.label.reloadstatus.remark.failed':
+      'Last reload in {date}, failed',
+    'cms.contentsettings.cropvalueerror':
+      'Crop value invalid. Format must be "number:number"',
     'cms.contentsettings.cropratios.heading': 'Settings Image Crop Dimensions',
     'cms.contentsettings.cropratios.form.title': 'Add crop dimension',
     'cms.contentsettings.ratio.added.success': 'Crop ratio added successfully',
-    'cms.contentsettings.ratio.deleted.success': 'Crop ratio deleted successfully',
-    'cms.contentsettings.ratio.updated.success': 'Crop ratio updated successfully',
+    'cms.contentsettings.ratio.deleted.success':
+      'Crop ratio deleted successfully',
+    'cms.contentsettings.ratio.updated.success':
+      'Crop ratio updated successfully',
     'cms.contentsettings.label.resourcemap': 'Resource Metadata Mapping',
     'cms.contentsettings.form.addmetadata': 'Add Metadata',
     'cms.contentsettings.form.key': 'Key',
     'cms.contentsettings.form.mapping': 'Mapping',
     'cms.contentsettings.form.help': 'In this section, add new metadata',
     'cms.contentsettings.form.metadatamapping': 'Metadata Mapping',
-    'cms.contentsettings.form.metadatamapping.help': 'Comma delimited list of relationships between the metadata resource and the "{key}" parameter in the association of image resource to content attribute.',
+    'cms.contentsettings.form.metadatamapping.help':
+      'Comma delimited list of relationships between the metadata resource and the "{key}" parameter in the association of image resource to content attribute.',
     'cms.contentsettings.metadata.infoDeleted': '{name} removed',
     'cms.new': 'New',
     'cms.save': 'Save',
@@ -1260,33 +1455,42 @@ export default {
     'cms.contents.edit.groups.ownerGroup.button': 'Set group',
     'cms.contents.edit.groups.joinGroup.label': 'Join group',
     'cms.contents.edit.categories': 'Categories',
-    'cms.contents.edit.groups.ownerGroup.tooltip': 'Set the main group now, or some aspects may be unstable.',
+    'cms.contents.edit.groups.ownerGroup.tooltip':
+      'Set the main group now, or some aspects may be unstable.',
     'cms.contents.edit.tip': '* Required Fields',
     'cms.contents.edit.contentType.label': 'Content type',
     'cms.contents.edit.contentDescription.label': 'Name',
-    'cms.contents.edit.contentDescription.tooltip': 'Provide a name or the title will be used, if available.',
-    'cms.contents.edit.contentDescription.placeholder': 'Names help users archive, sort, and find contents.',
+    'cms.contents.edit.contentDescription.tooltip':
+      'Provide a name or the title will be used, if available.',
+    'cms.contents.edit.contentDescription.placeholder':
+      'Names help users archive, sort, and find contents.',
     'cms.contents.edit.version.label': 'Version',
     'cms.contents.edit.version.creator': 'created by',
     'cms.contents.edit.version.modifier': 'modified by',
     'cms.contents.edit.duplicate': 'Copy to all languages',
     'cms.contents.edit.label.duplicate': 'Duplicate Contents',
-    'cms.contents.edit.label.duplicateHelp': 'Copy and paste the content from this language tab to others',
+    'cms.contents.edit.label.duplicateHelp':
+      'Copy and paste the content from this language tab to others',
     'cms.contents.edit.copytext': 'Copy Text',
     'cms.contents.edit.copiedSuccessfully': 'Content copied successfully.',
     'cms.stickySave.lastAutoSave': 'Last save was: ',
     'cms.content.status.unpublished': 'Unpublished',
     'cms.content.status.unpublished.ready': 'Unpublished (ready)',
     'cms.content.status.pendingChanges': 'Published, with pending changes',
-    'cms.content.status.pendingChanges.publicNotEqualReady': 'Published, with pending changes (ready)',
-    'cms.content.status.pendingChanges.publicNotEqualDraft': 'Published, with pending changes',
+    'cms.content.status.pendingChanges.publicNotEqualReady':
+      'Published, with pending changes (ready)',
+    'cms.content.status.pendingChanges.publicNotEqualDraft':
+      'Published, with pending changes',
     'cms.content.status.published': 'Published',
-    'cms.contents.edit.titletip': 'The CONTENT section allows users to manage existing content, access content lists, and add new content. Users can also approve, suspend, or delete content. In Entando, Content is a structured element that represents a set of information built using Content Attributes.',
+    'cms.contents.edit.titletip':
+      'The CONTENT section allows users to manage existing content, access content lists, and add new content. Users can also approve, suspend, or delete content. In Entando, Content is a structured element that represents a set of information built using Content Attributes.',
     'cms.contents.edit.contentAttributes': 'Content Attributes',
-    'cms.contents.edit.contentAttributes.language': 'Attributes can only be edited in the default language section.',
+    'cms.contents.edit.contentAttributes.language':
+      'Attributes can only be edited in the default language section.',
     'cms.menu.contents': 'Management',
     'cms.contents.list.all': 'All',
-    'cms.contents.tip': 'The Content section allows users to manage existing content, access content lists, and add new content. Users can also approve, suspend, or delete content. In Entando, Content is a structured element that represents a set of information built using Content Attributes.',
+    'cms.contents.tip':
+      'The Content section allows users to manage existing content, access content lists, and add new content. Users can also approve, suspend, or delete content. In Entando, Content is a structured element that represents a set of information built using Content Attributes.',
     'cms.contents.quickSearchPlaceHolder': 'Search Content',
     'cms.contents.advancedFilters': 'Advanced Filters',
     'cms.contents.advancedFilters.invalidDatesRange': 'Invalid date range',
@@ -1325,8 +1529,10 @@ export default {
     'cms.contents.details': 'Details',
     'cms.contents.reloadReferences': 'Reload References',
     'cms.contents.categoriesToAdd': 'Select categories to add',
-    'cms.contents.chooseJoiningCategories': 'Choose the categories you want to join to the {number} selected content(s)!',
-    'cms.contents.joinCategoriesTip': 'This action will change the draft version of the selected content, not the online version. In order to view the changes in the online version, you need to approve the changes.',
+    'cms.contents.chooseJoiningCategories':
+      'Choose the categories you want to join to the {number} selected content(s)!',
+    'cms.contents.joinCategoriesTip':
+      'This action will change the draft version of the selected content, not the online version. In order to view the changes in the online version, you need to approve the changes.',
     'cms.contents.delete': 'Delete',
     'cms.contents.description': 'Name',
     'cms.contents.firstEditor': 'Created by',
@@ -1347,17 +1553,20 @@ export default {
     'cms.contents.selectGroup': 'Select a group',
     'cms.contents.selectCategory': 'Select a category',
     'cms.contents.selectCategories': 'Select categories',
-    'cms.contents.selectedContents': 'You have selected {number} content items, you can',
+    'cms.contents.selectedContents':
+      'You have selected {number} content items, you can',
     'cms.contents.saved': 'Saved',
     'cms.contents.modal.filter.title': 'Select one content item',
     'cms.contents.modal.missingTranslations.title': 'Missing Translations',
-    'cms.contents.modal.missingTranslations.content': 'There are some attributes with missing translations.',
+    'cms.contents.modal.missingTranslations.content':
+      'There are some attributes with missing translations.',
     'cms.linkconfig.title': 'Configure link content',
     'cms.linkconfig.attributes.heading': 'Additional attributes',
     'cms.linkconfig.pagetree': 'Pages',
     'cms.linkconfig.pageSelect': 'Choose a page',
     'cms.specialcharModal.title': 'Insert special character',
-    'validateForm.name.help': 'You can insert up to a maximum of 50 characters, including uppercase and lowercase letters, numbers and special characters.',
+    'validateForm.name.help':
+      'You can insert up to a maximum of 50 characters, including uppercase and lowercase letters, numbers and special characters.',
     'widget.form.sample': ' Sample form',
     'widget.form.linkText': 'Link text',
     'widget.form.text': 'Text',
@@ -1372,7 +1581,8 @@ export default {
     'widget.form.maxElements': 'Max total elements',
     'widget.form.default': 'Default',
     'widget.form.inclusiveOr': 'Use inclusive filter (OR)',
-    'widget.form.inclusiveOrTip': 'When active, filter the contents with an inclusive filter over the selected categories',
+    'widget.form.inclusiveOrTip':
+      'When active, filter the contents with an inclusive filter over the selected categories',
     'widget.form.creationDate': 'Created date',
     'widget.form.lastModify': 'Last modified',
     'widget.form.asc': 'Ascending',
@@ -1383,7 +1593,8 @@ export default {
     'widget.form.order': 'Order',
     'widget.form.reorder': 'Reorder',
     'widget.form.selectFilter': 'Select Filter',
-    'widget.form.extraOptionsDescription': 'If desired, customize the title of the widget or add a link to a page.',
+    'widget.form.extraOptionsDescription':
+      'If desired, customize the title of the widget or add a link to a page.',
     'widget.form.filteropt.creationDate': 'by creation date',
     'widget.form.filteropt.lastModify': 'by last modified',
     'widget.form.filterable.labelPresence': 'Filter by value presence',
@@ -1397,9 +1608,12 @@ export default {
     'widget.form.filterable.labelDateDelay': 'Delay (days)',
     'widget.form.filterable.valuePresence': 'value set',
     'widget.form.filterable.valueAbsence': 'value not set',
-    'widget.form.filterable.valueOnly': 'which contains: <strong>{value}</strong>',
-    'widget.form.filterable.valuePartial': 'which contains: <strong>{value}</strong> <em>{partial}</em>',
-    'widget.form.filterable.valueDateDelay': ' with delay: <strong>{delay}</strong> days',
+    'widget.form.filterable.valueOnly':
+      'which contains: <strong>{value}</strong>',
+    'widget.form.filterable.valuePartial':
+      'which contains: <strong>{value}</strong> <em>{partial}</em>',
+    'widget.form.filterable.valueDateDelay':
+      ' with delay: <strong>{delay}</strong> days',
     'widget.form.filterable.valuePartialPhrase': '(partial matching)',
     'widget.form.filterable.valuePartialLabel': 'partial matching',
     'widget.form.filterable.valueRangeStart': 'from <strong>{start}</strong>',
@@ -1413,9 +1627,12 @@ export default {
     'contentPicker.allStatuses': 'All',
     'contentPicker.allTypes': 'All',
     'contentPicker.searchPlaceholder': 'Search for content by name or code',
-    'widget.warning.nodefaulttemplate.title': 'Default content template not found',
-    'widget.warning.nodefaulttemplate.describe': 'There is no default content template for this content type. Either select a specific template or define a default content template for this type.',
-    'widget.warning.nodefaulttemplate.multidescribe': 'One of your contents have no default content template (list) of its content type. Please ensure all your content types of your given list has at lease a default content template.',
+    'widget.warning.nodefaulttemplate.title':
+      'Default content template not found',
+    'widget.warning.nodefaulttemplate.describe':
+      'There is no default content template for this content type. Either select a specific template or define a default content template for this type.',
+    'widget.warning.nodefaulttemplate.multidescribe':
+      'One of your contents have no default content template (list) of its content type. Please ensure all your content types of your given list has at lease a default content template.',
     'widget.singleContent.config.title': 'Content',
     'widget.singleContent.config.content': 'Content',
     'widget.singleContent.config.contentTemplate': 'Content template',
@@ -1570,13 +1787,15 @@ export default {
     'hub.newRegistry': 'New Registry',
     'hub.selectRegistry': 'Select Registry',
     'hub.localRegistry.title': 'Local Hub',
-    'hub.localRegistry.description': 'This is a local hub where all your deployed bundles are appearing as well as ECR components',
+    'hub.localRegistry.description':
+      'This is a local hub where all your deployed bundles are appearing as well as ECR components',
     'hub.newRegistry.name': 'Name',
     'hub.newRegistry.url': 'URL',
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Registry name must be unique',
     'hub.newRegistry.url.error': 'Registry URL must be unique',
-    'hub.editRegistry.alert': 'Submitting this form will replace the existing API Key. If none will be submitted, the old one will be deleted.',
+    'hub.editRegistry.alert':
+      'Submitting this form will replace the existing API Key. If none will be submitted, the old one will be deleted.',
     'app.filterTypesSelect.organizationName': 'Organization Name',
     'app.filterTypesSelect.bundleGroup': 'Bundle Group',
     'hub.bundle.installation': 'Bundle Installation',
@@ -1602,19 +1821,30 @@ export default {
     'componentRepository.categories.category': 'Category',
     'componentRepository.categories.group': 'Group',
     'componentRepository.components.installedVersion': 'Installed Version',
-    'componentRepository.components.genericError': 'An Error has occurred in the Application',
-    'page.invalidChildPositionError': 'A page belonging to a group cannot be placed as a child of the root',
-    'page.invalidPositionError': 'A page can only be a direct child of a page with the same owner group or free access',
-    'app.installFailed': 'An Error occurred and the Bundle could not be installed',
-    'app.uninstallFailed': 'An Error occurred and the Bundle could not be uninstalled',
+    'componentRepository.components.genericError':
+      'An Error has occurred in the Application',
+    'page.invalidChildPositionError':
+      'A page belonging to a group cannot be placed as a child of the root',
+    'page.invalidPositionError':
+      'A page can only be a direct child of a page with the same owner group or free access',
+    'app.installFailed':
+      'An Error occurred and the Bundle could not be installed',
+    'app.uninstallFailed':
+      'An Error occurred and the Bundle could not be uninstalled',
     'app.fetchBundlesFailed': 'Failed to fetch bundles from Registry',
     'user.authority.addNew': 'Add new Authorization',
-    'componentRepository.refreshBundleVersions': 'Refresh bundle available versions',
+    'componentRepository.refreshBundleVersions':
+      'Refresh bundle available versions',
     'componentRepository.bundle.installVersionsRefreshed': 'Refreshed',
-    'componentRepository.hub.epcInstalledTip': 'To correctly update the EPC menu, please refresh the AppBuilder page on your browser',
-    'ecr.componentUninstallError': 'Message error - Is not possible to uninstall the {name}',
-    'ecr.componentPartiallyDeleted': 'Some elements of the bundle were deleted manually. To completely uninstall the bundle and clear every internal reference please proceed with uninstallation.',
-    'componentRepository.components.elementsUninstalled': 'Elements Uninstalled',
-    'componentRepository.components.someNotUninstalled': 'Some components were not uninstalled',
+    'componentRepository.hub.epcInstalledTip':
+      'To correctly update the EPC menu, please refresh the AppBuilder page on your browser',
+    'ecr.componentUninstallError':
+      'Message error - Is not possible to uninstall the {name}',
+    'ecr.componentPartiallyDeleted':
+      'Some elements of the bundle were deleted manually. To completely uninstall the bundle and clear every internal reference please proceed with uninstallation.',
+    'componentRepository.components.elementsUninstalled':
+      'Elements Uninstalled',
+    'componentRepository.components.someNotUninstalled':
+      'Some components were not uninstalled',
   },
 };

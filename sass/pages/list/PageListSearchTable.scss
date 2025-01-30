@@ -1,21 +1,52 @@
 .PageListSearchTable {
-  &__table {
-    margin: 2em 0 0 0;
+  .table-bordered {
+    border: none;
+    margin: 0;
+
+    tr {
+      border: 1px solid $color-border-grey;
+    }
+
+    th, td {
+      border: none;
+    }
   }
 
-  &__th-lg {
-    width: 45%;
+  .table-header {
+    background-color: #fff;
+
+    td {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    .columnResizer {
+      border-bottom: 1px solid $color-border-grey;
+    }
+
+    th {
+      padding: 16px;
+      border-left: 0;
+      border-right: 0;
+    }
   }
 
-  &__th-md {
-    width: 25%;
+  .table-row {
+    td {
+      border-left: 0;
+      border-right: 0;
+      
+    }
+
+    .colForResize {
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid $color-border-grey;
+    }
   }
 
-  &__th-sm {
-    width: 10%;
-  }
-
-  &__th-xs {
-    width: 5%;
+  .table-cell {
+    font-size: 14px;
+    padding: 16px;
   }
 }

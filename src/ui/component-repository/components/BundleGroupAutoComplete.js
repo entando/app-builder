@@ -68,8 +68,6 @@ const BundleGroupAutoCompleteBody = (props) => {
         >
           <Icon name="search" />
         </Button>
-      </div>
-      <div className="SearchForm__button-wrapper">
         <Button
           className="btn-transparent SearchForm__button-close"
           onClick={clearSearch}

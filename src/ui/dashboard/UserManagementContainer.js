@@ -12,6 +12,7 @@ export const mapStateToProps = state => ({
   groups: getGroupsTotal(state),
 });
 
+
 export const mapDispatchToProps = (dispatch, props) => ({
   onDidMount: () => {
     dispatch(fetchUsersTotal());

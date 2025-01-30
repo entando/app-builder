@@ -2,7 +2,6 @@
 
 
 .DetailFragmentPage {
-  margin-top: 15px;
 
   &__div-search {
     border-top: 0;
@@ -16,6 +15,10 @@
     width: 5%;
     text-align: center;
     text-transform: capitalize;
+  }
+
+  .DetailFragmentTable {
+    margin-top: 20px;
   }
 
 }

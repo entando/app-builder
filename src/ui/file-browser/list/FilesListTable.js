@@ -67,7 +67,7 @@ class FilesListTable extends Component {
             <React.Fragment>
               <td className="FilesListRow__td">{file.size !== null ? `${file.size} byte` : null} </td>
               <td className="FilesListRow__td">{file.lastModifiedTime}</td>
-              <td className="FilesListRow__td">
+              <td className="FilesListRow__td center">
                 <FilesListMenuActions
                   file={file}
                   onClickDownload={onClickDownload}
@@ -143,7 +143,7 @@ class FilesListTable extends Component {
                 <th className="FilesListTable__th-lg">{renderUpLink()}</th>
                 <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.size" /></th>
                 <th className="FilesListTable__th-lg"><FormattedMessage id="fileBrowser.list.lastModifiedTime" /></th>
-                <th className="FilesListTable__th-lg"><FormattedMessage id="app.actions" /></th>
+                <th className="FilesListTable__th-lg center"><FormattedMessage id="app.actions" /></th>
               </tr>
             </thead>
             <tbody>

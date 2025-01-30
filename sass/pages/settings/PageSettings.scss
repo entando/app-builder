@@ -1,9 +1,59 @@
-.PageSettings__required-icon {
-  margin-left: 3px;
-  color: $color-pf-black-800;
-  font-size: 9px;
+.PageSettings {
+  font-family: Inter;
+
+  &__required-icon {
+    margin-left: 3px;
+    color: $color-pf-black-800;
+    font-size: 9px;
+  }
+
+  &__popover-icon {
+    color: $color-brand-primary;
+  }
+
+  .btn-group > .RenderRadioInput__toggle-btn {
+    &:first-child {
+      border-top-left-radius: $radius-xxs;
+      border-bottom-left-radius: $radius-xxs;
+    }
+
+    &:last-child {
+      border-top-right-radius: $radius-xxs;
+      border-bottom-right-radius: $radius-xxs;
+    }
+  }
+
+  label, .text-right {
+    font-size: 14px;
+  }
+
+  .RenderRadioInput__toggle-btn {
+    background-color: $color-background-primary;
+    color: $color-text-secondary;
+    border: 1px solid $color-content-08;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    font-size: 14px;
+    font-weight: 600;
+
+    &.active {
+      background-color: #F0F6FF;
+      color: $color-brand-primary;
+      border: 1px solid $color-content-07;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    padding-block: 16px;
+
+    &:not(:nth-last-child(-n+1)) {
+      border-bottom: 1px solid $color-content-08;
+    }
+
+  }
 }
 
-.PageSettings__popover-icon {
-  color: $color-pf-blue-500;
-}
+

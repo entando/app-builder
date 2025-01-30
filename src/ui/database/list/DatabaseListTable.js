@@ -23,7 +23,7 @@ class DatabaseListTable extends Component {
 
   renderTableRows() {
     return this.props.databases.map(database => (
-      <tr key={`${database.code}-${database.date}`}>
+      <tr key={`${database.code}-${database.date}`} className="table-row">
         <td className="DatabaseListRow__td">{database.code}</td>
         <td className="DatabaseListRow__td">
           <Link to={routeConverter(ROUTE_DATABASE_REPORT, { dumpCode: database.code })}>
@@ -63,12 +63,12 @@ class DatabaseListTable extends Component {
     return (
 
       <table className="DatabaseListTable__table table table-striped table-bordered">
-        <thead>
+        <thead className="table-header">
           <tr>
-            <th className="databasesListTable__th-lg"><FormattedMessage id="app.code" /></th>
-            <th className="databasesListTable__th-lg"><FormattedMessage id="app.date" /></th>
-            <th className="databasesListTable__th-lg"><FormattedMessage id="app.requiredTime" /></th>
-            <th className="databasesListTable__th-xs text-center">
+            <th className="table-header"><FormattedMessage id="app.code" /></th>
+            <th className="table-header"><FormattedMessage id="app.date" /></th>
+            <th className="table-header"><FormattedMessage id="app.requiredTime" /></th>
+            <th className="table-header text-center">
               <FormattedMessage id="app.actions" />
             </th>
           </tr>

@@ -1,0 +1,50 @@
+.StatusBadge--unpublished {
+  color: $color-unpublished;
+}
+
+.StatusBadge--published {
+  color: $color-published;
+}
+
+.StatusBadge--draft {
+  color: $color-draft;
+}
+
+.StatusBadge {
+  align-items: center;
+  gap: $spacing-4;
+  padding: 2px 10px 2px 10px;
+  border-radius: 30px;
+  font-size: 12px;
+  width: fit-content;
+  text-transform: capitalize;
+}
+
+.StatusBadge-container--published {
+  background-color: $color-green-light-new;
+  color: $color-published-600;
+}
+.StatusBadge-container--unpublished {
+  background-color: $color-unpublished-light;
+  color: $color-unpublished-new;
+}
+.StatusBadge-container--draft {
+  background-color: $color-draft-200;
+  color: $color-draft-500;
+}
+
+.StatusBadge-circle {
+  width: 6.67px;
+  height: 6.67px;
+  border-radius: 50%;
+}
+
+.StatusBadge-circle--published {
+  background-color: $color-published-600;
+}
+.StatusBadge-circle--draft {
+  background-color: $color-draft-500;
+}
+.StatusBadge-circle--unpublished {
+  background-color: $color-unpublished-new;
+}

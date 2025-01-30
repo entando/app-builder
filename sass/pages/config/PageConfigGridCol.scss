@@ -1,8 +1,13 @@
 .PageConfigGridCol {
+background-color: $color-white;
+border: 1px dashed $color-neutral-grey;
+
 
   &.PageConfigGridCol--frame {
     flex-grow: 1;
     min-height: 80px;
+    padding: 8px;
+    border: 0;
   }
 
   &.PageConfigGridCol--hole {

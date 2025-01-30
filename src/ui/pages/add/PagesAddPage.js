@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col } from 'patternfly-react';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PagesAddFormContainer from 'ui/pages/add/PagesAddFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AppTourContainer from 'ui/app-tour/AppTourContainer';
@@ -20,22 +19,13 @@ class PagesAddPage extends Component {
   render() {
     return (
       <InternalPage className="PagesAddPage">
+        <HeaderBreadcrumb breadcrumbs={[
+          { label: 'menu.pageDesigner' },
+          { label: 'menu.pageTree', to: { ROUTE_PAGE_TREE } },
+          { label: 'app.add', active: true },
+        ]}
+        />
         <Grid fluid>
-          <Row>
-            <Col xs={12}>
-              <Breadcrumb>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.pageDesigner" />
-                </BreadcrumbItem>
-                <BreadcrumbItem to={ROUTE_PAGE_TREE}>
-                  <FormattedMessage id="menu.pageTree" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="app.add" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
-          </Row>
           <Row>
             <Col xs={12}>
               <PageTitle titleId="app.add" helpId="pageTreePage.help" data-testid="add-new-page" />

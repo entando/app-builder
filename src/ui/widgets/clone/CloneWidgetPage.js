@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Breadcrumb } from 'patternfly-react';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTitle from 'ui/internal-page/PageTitle';
 import CloneWidgetFormContainer from 'ui/widgets/clone/CloneWidgetFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
@@ -18,31 +16,18 @@ class CloneWidgetPage extends Component {
   render() {
     return (
       <InternalPage className="CloneWidgetPage WidgetPage">
+        <HeaderBreadcrumb breadcrumbs={[
+          { label: 'menu.uxComponents' },
+          { label: 'menu.uxComponents.widget', to: ROUTE_WIDGET_LIST },
+          { label: 'menu.widgetClone' },
+          { customLabel: this.props.widgetName, active: true },
+
+        ]}
+        />
         <div className="WidgetPage__header">
-          <div className="WidgetPage__top">
-            <div>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxComponents" />
-                </BreadcrumbItem>
-                <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-                  <FormattedMessage id="menu.uxComponents.widget" />
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.widgetClone" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  {this.props.widgetName}
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </div>
-            <div>
-              <div id="widget-button-holder" />
-            </div>
-          </div>
-          <div>
-            <PageTitle titleId="widget.page.clone.pageTitle" helpId="widget.help" />
-          </div>
+          <PageTitle titleId="widget.page.clone.pageTitle" helpId="widget.help">
+            <div id="widget-button-holder" className="WidgetPage__header__btn-container" />
+          </PageTitle>
         </div>
 
         <div className="WidgetPage__body">

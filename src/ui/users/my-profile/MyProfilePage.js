@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Row, Col, Breadcrumb, Tabs, Tab } from 'patternfly-react';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import { Row, Col, Tabs, Tab } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import AccountFormContainer from 'ui/users/my-profile/AccountFormContainer';
 import MyProfileEditFormContainer from 'ui/users/my-profile/MyProfileEditFormContainer';
 import AppSettingsFormContainer from 'ui/users/my-profile/AppSettingsFormContainer';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 const msgs = defineMessages({
   profile: {
@@ -29,15 +28,12 @@ const MyProfilePage = ({ onTabSelect, intl }) => {
 
   return (
     <InternalPage className="MyProfilePage">
+      <HeaderBreadcrumb breadcrumbs={[
+        { label: 'app.myProfile', active: true },
+      ]}
+      />
       <div className="MyProfilePage__header">
         <div className="MyProfilePage__top">
-          <div>
-            <Breadcrumb>
-              <BreadcrumbItem active>
-                <FormattedMessage id="app.myProfile" />
-              </BreadcrumbItem>
-            </Breadcrumb>
-          </div>
           <div>
             <div id="widget-button-holder" />
           </div>

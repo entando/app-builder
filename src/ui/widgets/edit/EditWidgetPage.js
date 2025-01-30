@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Breadcrumb } from 'patternfly-react';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import EditWidgetFormContainer from 'ui/widgets/edit/EditWidgetFormContainer';
 import { ROUTE_WIDGET_LIST } from 'app-init/router';
 
@@ -17,33 +15,18 @@ class EditWidgetPage extends Component {
   render() {
     return (
       <InternalPage className="EditWidgetPage WidgetPage">
+        <HeaderBreadcrumb breadcrumbs={[
+          { label: 'menu.uxComponents' },
+          { label: 'menu.widgets', to: ROUTE_WIDGET_LIST },
+          { label: 'menu.widgetEdit' },
+          { customLabel: this.props.widgetName, active: true },
+          ]}
+        />
         <div className="WidgetPage__header">
-          <div className="WidgetPage__top">
-            <div>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.uxComponents" />
-                </BreadcrumbItem>
-                <BreadcrumbItem to={ROUTE_WIDGET_LIST}>
-                  <FormattedMessage id="menu.widgets" />
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.widgetEdit" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  {this.props.widgetName}
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </div>
-            <div>
-              <div id="widget-button-holder" />
-            </div>
-          </div>
-          <div>
-            <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help" />
-          </div>
+          <PageTitle titleId="widget.page.edit.pageTitle" helpId="widget.help">
+            <div id="widget-button-holder" />
+          </PageTitle>
         </div>
-
         <div className="WidgetPage__body">
           <EditWidgetFormContainer />
         </div>

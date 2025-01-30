@@ -2,6 +2,7 @@
   &__input-body {
     display: flex;
     border: 1px solid $color-vertical-grey;
+    border-radius: $radius-xxs;
 
     &:focus-within { // sass-lint:disable-line nesting-depth
       border-color: $color-mid-blue;

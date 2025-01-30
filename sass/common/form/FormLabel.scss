@@ -1,4 +1,6 @@
 .FormLabel {
+  display: flex;
+  font-family: Inter;
 
   &__language-label {
     margin-right: 5px;
@@ -9,5 +11,17 @@
     margin-left: 3px;
     font-size: 8px;
     vertical-align: super;
+  }
+
+  .btn-link {
+    font-size: 12px;
+    &:hover, &:focus {
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  .pficon-info{
+    font-size: 12px;
   }
 }

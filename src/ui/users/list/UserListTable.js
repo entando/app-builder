@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
+import { Col, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
 import DeleteUserModalContainer from 'ui/users/common/DeleteUserModalContainer';
 import { isEmpty } from 'lodash';
-import paginatorMessages from 'ui/paginatorMessages';
-import { TEST_ID_USER_LIST_TABLE } from 'ui/test-const/user-test-const';
+import UserTable from 'ui/users/common/UserTable';
 
 const USER_INACTIVE = 'inactive';
 
@@ -31,91 +30,89 @@ class UserListTable extends Component {
     this.props.onWillMount({ page: 1, pageSize });
   }
 
-  renderTableRows() {
-    const { users, intl } = this.props;
-    return users.map((user) => {
-      let userStatus = user.status;
-      if (!user.accountNotExpired && userStatus !== USER_INACTIVE) {
-        userStatus = 'accountExpired';
-      } else if (!user.credentialsNotExpired && userStatus !== USER_INACTIVE) {
-        userStatus = 'passwordExpired';
-      }
-      const msgs = defineMessages({
-        userStatus: {
-          id: `user.table.status.${userStatus}`,
-        },
-      });
-      const profileType = user.profileType || {};
-      return (
-        <tr key={user.username}>
-          <td className="UserListRow__td">{user.username}</td>
-          <td className="UserListRow__td">{profileType.typeDescription}{' '}<code>{profileType.typeCode}</code></td>
-          <td className="UserListRow__td">{user.profileAttributes.fullname}</td>
-          <td className="UserListRow__td">{user.profileAttributes.email}</td>
-          <td className="UserListRow__td text-center">
-            <UserStatus
-              status={userStatus}
-              title={intl.formatMessage(msgs.userStatus)}
-            />
-          </td>
-          <td className="UserListRow__td text-center" data-testid={`${user.username}-actions`}>
-            <UserListMenuActions
-              username={user.username}
-              hasProfile={!isEmpty(user.profileAttributes)}
-              {...this.props}
-            />
-          </td>
-        </tr>
-      );
-    });
-  }
-
   renderTable() {
     const {
       users, page, pageSize, intl,
     } = this.props;
 
     if (users.length > 0) {
-      const pagination = {
-        page,
-        perPage: pageSize,
-        perPageOptions: [5, 10, 15, 25, 50],
-      };
+      const pagination = { page, perPage: pageSize, perPageOptions: [5, 10, 15, 25, 50] };
 
-      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-      ), {});
+      const columns = [
+        {
+          title: 'user.table.username',
+          field: 'username',
+        },
+        {
+          title: 'user.table.profileType',
+          field: 'profileType',
+          render: props => (
+            props.profileType ?
+              <Fragment>
+                {props.profileType.typeDescription}
+                <code>{props.profileType.typeCode && props.profileType.typeCode}</code>
+              </Fragment>
+              : <Fragment />
+          ),
+        },
+        {
+          title: 'user.table.fullname',
+          field: 'profileAttribute',
+          render: props => props.profileAttributes.fullname,
+        },
+        {
+          title: 'user.table.email',
+          field: 'profileAttribute',
+          render: props => props.profileAttributes.email,
+        },
+        {
+          title: 'user.table.status',
+          field: 'status',
+          className: 'UserListTable__th-sm text-center',
+          render: (props) => {
+            let userStatus = props.status;
+            if (!props.accountNotExpired && userStatus !== USER_INACTIVE) {
+              userStatus = 'accountExpired';
+            } else if (!props.credentialsNotExpired && userStatus !== USER_INACTIVE) {
+              userStatus = 'passwordExpired';
+            }
+            const msgs = defineMessages({ userStatus: { id: `user.table.status.${userStatus}` } });
+            return (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <UserStatus
+                  status={userStatus}
+                  title={intl.formatMessage(msgs.userStatus)}
+                />
+              </div>
+            );
+          },
+        },
+        {
+          title: '',
+          field: 'actions',
+          className: 'UserListTable__th-xs text-center',
+          render: props => (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <UserListMenuActions
+                username={props.username}
+                hasProfile={!isEmpty(props.profileAttributes)}
+                {...this.props}
+              />
+            </div>
+          ),
+        },
+      ];
 
       return (
-        <Col xs={12}>
-          <table className="UserListTable__table table table-striped table-bordered" data-testid={TEST_ID_USER_LIST_TABLE.TABLE}>
-            <thead>
-              <tr>
-                <th><FormattedMessage id="user.table.username" /></th>
-                <th><FormattedMessage id="user.table.profileType" /></th>
-                <th><FormattedMessage id="user.table.fullname" /></th>
-                <th><FormattedMessage id="user.table.email" /></th>
-                <th className="UserListTable__th-sm text-center">
-                  <FormattedMessage id="user.table.status" />
-                </th>
-                <th className="UserListTable__th-xs text-center">
-                  <FormattedMessage id="app.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderTableRows()}
-            </tbody>
-          </table>
-          <Paginator
-            pagination={pagination}
-            viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
-            messages={messages}
-          />
-        </Col>
+        <UserTable
+          intl={intl}
+          columns={columns}
+          rows={users}
+          pagination={pagination}
+          totalItems={this.props.totalItems}
+          onChangePage={this.changePage}
+          onChangePageSize={this.changePageSize}
+        />
       );
     }
     return (
@@ -153,7 +150,7 @@ UserListTable.propTypes = {
 };
 
 UserListTable.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: () => { },
   loading: false,
   users: [],
 };

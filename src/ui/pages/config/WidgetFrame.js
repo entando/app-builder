@@ -6,53 +6,71 @@ import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_DETAIL, ROUTE_WIDGET_EDIT } from 'app-init/router';
-import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
+import {
+  WIDGET_STATUS_MATCH,
+  WIDGET_STATUS_DIFF,
+  WIDGET_STATUS_REMOVED,
+} from 'state/page-config/const';
 import WidgetIcon from 'ui/widgets/common/WidgetIcon';
-
 
 class WidgetFrame extends Component {
   render() {
     const {
-      widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
-      onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings, onClickSaveAs,
-      configUiName, widgetHasConfigForm,
+      widgetId,
+      widgetName,
+      widgetHasConfig,
+      widgetStatus,
+      frameId,
+      frameName,
+      frameIsMainFrame,
+      onClickDelete,
+      connectDragSource,
+      connectDropTarget,
+      isOver,
+      onClickSettings,
+      onClickSaveAs,
+      configUiName,
+      widgetHasConfigForm,
     } = this.props;
 
     let actionsMenu = null;
     if (widgetStatus !== WIDGET_STATUS_REMOVED) {
-      const configMenuItems = widgetHasConfig && (configUiName || widgetHasConfigForm) ?
-        [
-          (
+      const configMenuItems =
+        widgetHasConfig && (configUiName || widgetHasConfigForm)
+          ? [
             <MenuItem
               key="menu-settings"
               className="WidgetFrame__settings-btn"
               onClick={() => onClickSettings && onClickSettings(frameId)}
             >
               <FormattedMessage id="app.settings" />
-            </MenuItem>
-          ),
-        ] :
-        null;
-      const cloneMenuItems = widgetHasConfig && configUiName ? [
-        (
-          <MenuItem
-            key="menu-saveAs"
-            className="WidgetFrame__saveAs-btn"
-            onClick={() => onClickSaveAs && onClickSaveAs({
-              widgetId,
-              widgetHasConfig,
-              frameId,
-              configUiName,
-            })}
-          >
-            <FormattedMessage id="app.saveAs" />
-          </MenuItem>
-        ),
-      ] : null;
+            </MenuItem>,
+          ]
+          : null;
+      const cloneMenuItems =
+        widgetHasConfig && configUiName
+          ? [
+            <MenuItem
+              key="menu-saveAs"
+              className="WidgetFrame__saveAs-btn"
+              onClick={() =>
+                  onClickSaveAs &&
+                  onClickSaveAs({
+                    widgetId,
+                    widgetHasConfig,
+                    frameId,
+                    configUiName,
+                  })
+                }
+            >
+              <FormattedMessage id="app.saveAs" />
+            </MenuItem>,
+          ]
+          : null;
 
       actionsMenu = (
         <DropdownKebab
-          id="WidgetFrame__menu-button"
+          id={`WidgetFrame__menu-button-${frameName.replace(/\s/g, '_')}`}
           className="WidgetFrame__menu-button"
           pullRight
         >
@@ -75,7 +93,7 @@ class WidgetFrame extends Component {
             </Link>
           </li>
 
-          { configMenuItems }
+          {configMenuItems}
 
           {cloneMenuItems}
 
@@ -90,29 +108,64 @@ class WidgetFrame extends Component {
     }
 
     const classNameAr = ['WidgetFrame'];
+    const classNameInternalWidgetContent = ['WidgetFrame__content'];
     if (isOver) {
       classNameAr.push('WidgetFrame--drag-hover');
     }
-    if (frameIsMainFrame) {
-      classNameAr.push('WidgetFrame--main-frame');
-    }
+    // if (frameIsMainFrame) {
+    //   classNameAr.push('WidgetFrame--main-frame');
+    // }
     switch (widgetStatus) {
-      case WIDGET_STATUS_DIFF: classNameAr.push('WidgetFrame--status-diff'); break;
-      case WIDGET_STATUS_MATCH: classNameAr.push('WidgetFrame--status-match'); break;
-      case WIDGET_STATUS_REMOVED: classNameAr.push('WidgetFrame--status-removed'); break;
-      default: break;
+      case WIDGET_STATUS_DIFF:
+        classNameAr.push('WidgetFrame--status-diff');
+        classNameInternalWidgetContent.push('WidgetFrame--status-diff');
+        break;
+      case WIDGET_STATUS_MATCH:
+        classNameAr.push('WidgetFrame--status-match');
+        classNameInternalWidgetContent.push('WidgetFrame--status-match');
+        break;
+      case WIDGET_STATUS_REMOVED:
+        classNameAr.push('WidgetFrame--status-removed');
+        classNameInternalWidgetContent.push('WidgetFrame--status-removed');
+        break;
+      default:
+        break;
     }
+
     let component = (
       <div className={classNameAr.join(' ')}>
-        <div className="WidgetFrame__content" data-testid={`WidgetFrame__${frameName.replace(/\s/g, '_')}`}>
-          <div className="WidgetFrame__frame-name">
-            {frameName}
-          </div>
-          { actionsMenu }
-          <div className="WidgetFrame__descriptor">
-            <WidgetIcon widgetId={widgetId} />
-            { widgetName }
-          </div>
+        <div
+          className={classNameInternalWidgetContent.join(' ')}
+          data-testid={`WidgetFrame__${frameName.replace(/\s/g, '_')}`}
+        >
+          {widgetStatus !== WIDGET_STATUS_MATCH && (
+            <div className="content-widget">
+              <div />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div className="WidgetFrame__frame-name">{frameName}</div>
+                {frameIsMainFrame && (
+                  <div className="main-frame">
+                    <span>Main Frame</span>
+                  </div>
+                )}
+              </div>
+
+              {actionsMenu}
+            </div>
+          )}
+
+          {widgetStatus === WIDGET_STATUS_MATCH && (
+            <div className="content-widget">
+              <div />
+              <div className="WidgetFrame__descriptor">
+                <div className="WidgetIconContainer">
+                  <WidgetIcon widgetId={widgetId} />
+                </div>
+                {widgetName}
+              </div>
+              {actionsMenu}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -127,14 +180,16 @@ class WidgetFrame extends Component {
   }
 }
 
-
 WidgetFrame.propTypes = {
-
   frameName: PropTypes.string.isRequired,
   frameIsMainFrame: PropTypes.bool.isRequired,
   widgetName: PropTypes.string.isRequired,
   widgetHasConfig: PropTypes.bool,
-  widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),
+  widgetStatus: PropTypes.oneOf([
+    WIDGET_STATUS_MATCH,
+    WIDGET_STATUS_DIFF,
+    WIDGET_STATUS_REMOVED,
+  ]),
   configUiName: PropTypes.string,
   widgetHasConfigForm: PropTypes.bool,
 
@@ -167,6 +222,5 @@ WidgetFrame.defaultProps = {
   configUiName: null,
   widgetHasConfigForm: false,
 };
-
 
 export default WidgetFrame;

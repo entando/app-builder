@@ -1,31 +1,23 @@
 import React from 'react';
-import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import DatabaseListTableContainer from 'ui/database/list/DatabaseListTableContainer';
 import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 import { ROUTE_DATABASE_ADD } from 'app-init/router';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 export const DatabaseListPageBody = () => (
   <InternalPage className="DatabaseListPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.settings' }, { label: 'menu.database' },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.settings" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.database" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
+      <Row />
       <Row>
         <Col xs={12}>
           <PageTitle

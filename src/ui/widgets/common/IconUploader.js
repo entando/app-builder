@@ -74,7 +74,7 @@ const IconUploader = ({
                       </div>
             }
           </Spinner>
-          <div>
+          <div className="button-group">
             <Button
               type="button"
               bsStyle="default"

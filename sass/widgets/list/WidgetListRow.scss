@@ -8,4 +8,25 @@
   .WidgetIcon {
     vertical-align: middle;
   }
+
+  &__menu-item-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+
+  a {
+    display: flex;
+    align-items: center;
+    color: $color-text-secondary;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+   .danger > a {
+      color: $color-error-primary;
+    }
+  }
 }

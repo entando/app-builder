@@ -12,7 +12,7 @@ const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map(item =>
       </span>
     </td>
     <td className="ActiveLangTable__td">{item.name}</td>
-    <td className="ActiveLangTable__td text-center">
+    <td className="ActiveLangTable__td center">
       <Button
         bsStyle="link"
         className="ActiveLangTable__delete-tag-btn"
@@ -36,7 +36,7 @@ const renderTable = (activeLanguages, onDeactivateLang, defaultLanguage) => {
             <th className="ActiveLangTable__th-lg">
               <FormattedMessage id="app.name" />
             </th>
-            <th className="text-center ActiveLangTable__th-sm">
+            <th className="text-center ActiveLangTable__th-sm text-center">
               <FormattedMessage id="app.actions" />
             </th>
           </tr>

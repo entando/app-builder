@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
+import { Col, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import RoleListMenuActions from 'ui/roles/list/RoleListMenuActions';
 import DeleteUserRoleModalContainer from 'ui/roles/common/DeleteUserRoleModalContainer';
-import paginatorMessages from 'ui/paginatorMessages';
-import { TEST_ID_ROLE_LIST_TABLE } from 'ui/test-const/role-test-const';
+import UserTable from 'ui/users/common/UserTable';
 
 class RoleListTable extends Component {
   constructor(props) {
@@ -27,62 +26,44 @@ class RoleListTable extends Component {
     this.props.onWillMount({ page: 1, pageSize });
   }
 
-  renderTableRows() {
-    return this.props.roles.map(role => (
-      <tr key={role.code}>
-        <td className="RoleListRow__td">{role.name}</td>
-        <td className="RoleListRow__td">{role.code}</td>
-        <td className="RoleListRow__td text-center" data-testid={`${role.code}-actions`}>
-          <RoleListMenuActions
-            code={role.code}
-            onClickDelete={this.props.onClickDelete}
-          />
-        </td>
-      </tr>
-    ));
-  }
-
   renderTable() {
     const {
       roles, page, pageSize, intl,
     } = this.props;
 
     if (roles.length > 0) {
-      const pagination = {
-        page,
-        perPage: pageSize,
-        perPageOptions: [5, 10, 15, 25, 50],
-      };
+      const pagination = { page, perPage: pageSize, perPageOptions: [5, 10, 15, 25, 50] };
 
-      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-      ), {});
+      const columns = [
+        { title: 'app.name', field: 'name', className: 'RoleListTable__th-lg' },
+        { title: 'app.code', field: 'code', className: 'RoleListTable__th-lg' },
+        {
+          title: '',
+          field: 'actions',
+          className: 'RoleListTable__th-xs text-center',
+          render: props => (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <RoleListMenuActions
+                code={props.code}
+                onClickDelete={this.props.onClickDelete}
+              />
+            </div>
+          ),
+        },
+      ];
 
       return (
-        <Col xs={12}>
-          <table className="RoleListTable__table table table-striped table-bordered" data-testid={TEST_ID_ROLE_LIST_TABLE.TABLE}>
-            <thead>
-              <tr>
-                <th className="RoleListTable__th-lg"><FormattedMessage id="app.name" /></th>
-                <th className="RoleListTable__th-lg"><FormattedMessage id="app.code" /></th>
-                <th className="RoleListTable__th-xs text-center">
-                  <FormattedMessage id="app.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderTableRows()}
-            </tbody>
-          </table>
-          <Paginator
+        <div>
+          <UserTable
+            intl={intl}
+            columns={columns}
+            rows={roles}
             pagination={pagination}
-            viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
-            messages={messages}
+            totalItems={this.props.totalItems}
+            onChangePage={this.changePage}
+            onChangePageSize={this.changePageSize}
           />
-        </Col>
+        </div>
       );
     }
     return (

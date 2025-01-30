@@ -4,12 +4,15 @@
     padding: 0;
     list-style: none;
     overflow-y: auto;
+    height: fit-content;
+    max-height: 450px;
   }
 
   &__template-list-button {
-    padding: 0;
-    border: 0;
-    background: transparent;
+    padding: 10px;
+    border: 1px solid #CCE0FF;
+    border-radius: 4px;
+    background-color: $color-background-primary;
   }
 
   &__template-list-li {
@@ -31,6 +34,41 @@
 
   &__modal {
     width: 672px;
+      // background-color: purple;
+
+
+    .modal-content {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-radius: 8px;
+
+      .modal-header {
+        background: none;
+        padding: 0;
+
+        .modal-title {
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+
+
+      .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 0;
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0;
+        margin-top: 0;
+      }
+    }
   }
 
   &__caption {
@@ -38,7 +76,6 @@
   }
 
   &__search-input {
-    width: 50%;
-    margin: 22px;
+    border-radius: $radius-s;
   }
 }

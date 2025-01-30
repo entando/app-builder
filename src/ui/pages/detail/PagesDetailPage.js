@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Col, Row, Breadcrumb } from 'patternfly-react';
+import { Grid, Col, Row } from 'patternfly-react';
 import { Panel, Button } from 'react-bootstrap';
 
 import { ROUTE_HOME } from 'app-init/router';
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
 import EmptyData from 'ui/fragments/detail/EmptyData';
 
@@ -33,26 +33,18 @@ class PagesDetailPage extends Component {
 
     return (
       <InternalPage className="PagesDetailPage">
+        <HeaderBreadcrumb breadcrumbs={[
+          { label: 'menu.pageDesigner', to: ROUTE_HOME, active: true },
+          { label: 'menu.details' },
+        ]}
+        />
         <Grid fluid>
-          <Row>
-            <Col xs={12}>
-              <Breadcrumb>
-                <BreadcrumbItem to={ROUTE_HOME} active>
-                  <FormattedMessage id="menu.pageDesigner" />
-                </BreadcrumbItem>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.details" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
-          </Row>
           <PageTitle
             titleId="pageDetails.title"
             helpId="pageDetails.help"
           />
-          <Row className="PageConfigPage__toolbar-row">
+          <Row className="PagesDetailPage__toolbar-row">
             <Col xs={10}>
-
               <Button
                 className="PageConfigPage__info-btn"
                 bsStyle="info"

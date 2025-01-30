@@ -8,7 +8,7 @@
     margin-left: 10px;
     padding-top: 5px;
     float: right;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
   }
 
@@ -35,7 +35,7 @@
   }
 
   &__table {
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
     @media (min-width: 991px) {
       overflow: visible;
@@ -53,7 +53,7 @@
   &__selected-contents {
     padding: 10px 8px;
     background-color: $color-ultra-grey-border;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 13px;
 
     > button {

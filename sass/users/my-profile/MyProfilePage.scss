@@ -2,7 +2,6 @@
 .MyProfilePage {
   height: 100%;
   margin-bottom: 0;
-  background-color: $color-grey-background;
 
   &__tab {
     margin-top: 32px;
@@ -10,8 +9,7 @@
   }
 
   &__header {
-    padding: 20px;
-    border-bottom: solid 2px $color-grey-border;
+    padding-inline: 20px;
     background-color: $color-white;
   }
 
@@ -34,9 +32,6 @@
   }
 
   & .PageTitle__title {
-    margin-top: 40px;
-    margin-bottom: 0;
-
     & .pull-right {
       margin-left: 22px;
       float: none !important;
@@ -52,8 +47,8 @@
   &__body {
     margin: 21px;
     padding: 29px 21px;
-    border: solid 1px $color-grey-border;
-    background: $color-white;
+    border: solid 1px $color-border-grey;
+    border-radius: $radius-xxs;
 
     & .form-horizontal {
       height: 100%;

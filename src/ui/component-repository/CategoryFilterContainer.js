@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
+import { isAllCategoriesCategorySelected } from 'state/component-repository/categories/selectors';
 import { getECRCategoryFilters } from 'state/component-repository/components/selectors';
 import { filterByECRCategories } from 'state/component-repository/actions';
 import CategoryFilter from 'ui/component-repository/CategoryFilter';
@@ -16,6 +17,7 @@ export const mapDispatchToProps = dispatch => ({
 });
 
 export const mapStateToProps = (state, { intl }) => ({
+  showCategoryFilter: isAllCategoriesCategorySelected(state),
   componentRepositoryCategories: generateCRCategoryObjects(COMPONENT_REPOSITORY_CATEGORIES, intl),
   initialValues: { categories: getECRCategoryFilters(state) },
 });

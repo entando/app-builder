@@ -3,47 +3,105 @@
   width: 100%;
   height: 100%;
   margin: 0;
-  padding: 2px;
-  border: 1px dashed $color-pf-black-400;
+  padding: 8px;
+  background-color: $color-grey-background-tertiary;
+  border-radius: 4px;
+
 
   &__content {
     left: 10px;
     width: 100%;
+    padding: 8px;
     height: 100%;
-    padding: 5px;
-    border: 1px solid $color-pf-black-600;
-    border-radius: 3px;
+    border: 1.5px solid $color-border-primary;
+    border-radius: 4px;
     color: $color-pf-black-800;
     text-align: center;
     cursor: move;
+    background-color: $color-white;
+    outline: none;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 20px;
   }
 
   &__frame-name {
-    position: absolute;
-    left: 10px;
     color: $color-pf-black-400;
   }
 
-  &__menu-button {
-    position: absolute;
-    top: 2px;
-    right: 10px;
+  .content-widget{
+    display: flex;
+    width: fit-content;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex:1
   }
+
+  .main-frame {
+    display: flex;
+    padding: 6px;
+    background-color: $color-brand-primary;
+    color: $color-pf-black-100;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 4px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+
+
+
+
 
   &__descriptor {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     height: 100%;
+    border-color: $color-brand-primary;
+    gap:8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $color-brand-primary;
+
+    .WidgetIconContainer{
+      width: 25px;
+      height: 25px;
+      background-color: $color-background-icons;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      
+
+      .fa{
+        height: 13px;
+        color: $color-brand-primary;
+        font-size: 0.94em;
+      }
+
+      img{
+        height: 13px;
+        filter: invert(24%) sepia(91%) saturate(2456%) hue-rotate(211deg) brightness(100%) contrast(95%);
+      }
+    }
+
   }
 
   &--drag-hover {
-    border: 1px solid $color-pf-orange-300;
-    background: $color-pf-black-200;
+    border: 1.5px solid $color-brand-primary;
   }
 }
 
 .WidgetFrame--main-frame {
+  min-height: 120px;
   // Main frame label
   .WidgetFrame__frame-name:after {
     display: inline;
@@ -69,6 +127,10 @@
 
 .WidgetFrame--status-removed {
   background: $color-pf-black-100;
+
+  .content-widget{
+    justify-content: center;
+  }
 
   .WidgetFrame__content {
     border-color: transparent;

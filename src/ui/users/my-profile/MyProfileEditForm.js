@@ -151,7 +151,7 @@ export class MyProfileEditFormBody extends Component {
   render() {
     const {
       profileTypesAttributes, defaultLanguage, languages, intl, userEmail, onChangeProfilePicture,
-      userProfileForm,
+      avatar, useGravatar, onSetGravatar,
     } = this.props;
 
     const { editMode } = this.state;
@@ -226,16 +226,16 @@ export class MyProfileEditFormBody extends Component {
         return field(intl, attribute, !editMode);
       });
 
-    const { profilepicture } = userProfileForm;
     return (
       <Form onSubmit={this.props.handleSubmit(this.submit)} horizontal className="MyProfileEditForm">
         <FormSectionTitle titleId="user.myProfile.uploadImage" requireFields={false} />
-        <input type="hidden" name="profilepicture" value={profilepicture} />
         <ProfileImageUploader
-          image={profilepicture}
+          image={avatar}
           onChange={onChangeProfilePicture}
           gravatarEmail={userEmail}
-          editable={editMode}
+          onSetGravatar={onSetGravatar}
+          useGravatar={useGravatar}
+          editable
         />
 
         <div className="MyProfileEditForm__attributes">
@@ -283,6 +283,7 @@ MyProfileEditFormBody.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
+  onSetGravatar: PropTypes.string.isRequired,
   profileTypesAttributes: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
     code: PropTypes.string,
@@ -321,15 +322,18 @@ MyProfileEditFormBody.propTypes = {
     id: PropTypes.string,
     typeCode: PropTypes.string,
     typeDescription: PropTypes.string,
-    profilepicture: PropTypes.string,
   }),
   onChangeProfilePicture: PropTypes.func.isRequired,
+  avatar: PropTypes.string,
+  useGravatar: PropTypes.bool,
 };
 
 MyProfileEditFormBody.defaultProps = {
   profileTypesAttributes: [],
   userEmail: undefined,
   userProfileForm: {},
+  avatar: '',
+  useGravatar: false,
 };
 
 const MyProfileEditForm = reduxForm({

@@ -1,10 +1,8 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import { Grid, Row, Col } from 'patternfly-react';
 
 import InternalPage from 'ui/internal-page/InternalPage';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FilesListTableContainer from 'ui/file-browser/list/FilesListTableContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
@@ -14,19 +12,12 @@ import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ListFilesPageBody = () => (
   <InternalPage className="ListFilesPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.settings' },
+      { label: 'menu.fileBrowser', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.settings" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.fileBrowser" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col md={12}>
           <PageTitle
@@ -39,7 +30,7 @@ export const ListFilesPageBody = () => (
         <Col md={6}>
           <FileBreadcrumbContainer className="ListFilesPage__fileBreadcrumbContainer" />
         </Col>
-        <Col md={6}>
+        <Col md={6} className="btnGroup">
           <FileButtonsGroupContainer className="ListFilesPage__fileButtonsGroupContainer" />
         </Col>
       </Row>

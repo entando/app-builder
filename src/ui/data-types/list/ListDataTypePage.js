@@ -1,11 +1,11 @@
 import React from 'react';
-import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import DataTypeListTableContainer from 'ui/data-types/list/DataTypeListTableContainer';
 import { ROUTE_DATA_TYPE_ADD } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
@@ -13,19 +13,12 @@ import { SUPERUSER_PERMISSION } from 'state/permissions/const';
 
 export const ListDataTypePageBody = () => (
   <InternalPage className="ListDataTypePage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.data' },
+      { label: 'menu.dataType', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.data" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.dataType" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col xs={12}>
           <PageTitle

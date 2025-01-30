@@ -1,14 +1,17 @@
-.ComponentListViewModeSwitcher__btn {
-  border: 0;
-  background: none;
-  color: $color-ecr-list-icon;
-  font-size: 20px;
+.ComponentListViewModeSwitcher {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0 8px;
 
-  &:hover,
-  &:focus,
-  &:active,
-  &--selected {
-    outline: none;
-    color: $color-ecr-list-icon-active;
+  &__btn {
+    border: 0;
+    &:hover,
+    &:focus,
+    &:active,
+    &--selected {
+      outline: none;
+      color: $color-ecr-list-icon-active;
+    }
   }
 }

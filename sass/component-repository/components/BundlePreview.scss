@@ -32,7 +32,7 @@
   &__bundle-name {
     margin-top: 8px;
     color: $color-ecr-list-icon-active;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -46,7 +46,7 @@
   &__hub-name {
     margin-top: 5px;
     color: $color-mid-blue;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
     font-style: normal;
     font-weight: normal;
@@ -63,7 +63,7 @@
 
   &__description-title {
     color: $color-ecr-list-icon-active;
-    font-family: Open Sans;
+    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: bold;
@@ -74,7 +74,7 @@
     margin-top: 6px;
     margin-bottom: 35px;
     color: $color-grey-description;
-    font-family: Open Sans;
+    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: normal;
@@ -113,7 +113,7 @@
     margin-top: 4px;
     margin-right: 19px;
     color: $color-ecr-list-icon-active;
-    font-family: Open Sans;
+    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: bold;
@@ -128,7 +128,7 @@
     // sass-lint:disable bem-depth
     &__title {
       color: $color-ecr-list-icon-active;
-      font-family: "Open Sans";
+      font-family: "Inter";
       font-size: 12px;
       font-style: normal;
       font-weight: 700;
@@ -138,7 +138,7 @@
     &__version { // sass-lint:disable bem-depth
       margin-left: 26px;
       color: $color-ecr-list-icon-active;
-      font-family: "Open Sans";
+      font-family: "Inter";
       font-size: 12px;
       font-style: normal;
       font-weight: 600;
@@ -154,7 +154,7 @@
 
   &__error-message {
     color: $color-bundle-uninstall-error;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
     font-style: normal;
     font-weight: 400;

@@ -5,11 +5,10 @@ import {
   CardTitle,
   CardBody,
   AggregateStatusCount,
-  Icon,
-  Button,
 } from 'patternfly-react';
+import Icon from 'ui/common/icon/Icon';
+import Button from 'ui/common/Button';
 import { FormattedMessage } from 'react-intl';
-import { Clearfix } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
@@ -31,22 +30,23 @@ class Languages extends Component {
       <Card accented className="LanguagesCard">
         <ViewPermissionNoticeOverlay viewPermissions={[SUPERUSER_PERMISSION]}>
           <CardTitle>
-            <Icon size="lg" name="flag" />
-            <FormattedMessage id="dashboard.languages" />
+            <div className="left-title">
+              <Icon type="lucide" name="flag" background className="primary" />
+              <FormattedMessage id="dashboard.languages" />
+            </div>
             <Button
-              bsStyle="primary"
-              className="pull-right"
+              bsStyle="link"
+              className="primary pull-right"
               componentClass={Link}
               to={ROUTE_LABELS_AND_LANGUAGES}
             >
+              <Icon name="plus" type="lucide" className="primary" />
               <FormattedMessage id="app.details" />
             </Button>
-            <Clearfix />
           </CardTitle>
           <CardBody>
-            <span className="separator" />
             <AggregateStatusCount>
-              <b>{this.props.activeLanguages}</b>&nbsp;
+              {this.props.activeLanguages}&nbsp;
               <Link to={ROUTE_LABELS_AND_LANGUAGES}>
                 <FormattedMessage id="dashboard.activeLanguages" />
               </Link>

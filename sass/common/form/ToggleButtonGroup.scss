@@ -7,9 +7,18 @@
     }
 
     .btn-default.active {
-      border-color: $color-dark-grey;
-      background-color: $color-dark-grey;
-      color: $color-white;
+      background-color: #fff;
+      color: $color-primary-text;
+    }
+
+    .btn-default:hover{
+      border: none;
+      outline: none;
+    }
+
+    .btn-default:active{
+      border: none;
+      outline: none;
     }
 
     select {

@@ -1,0 +1,13 @@
+.ListFilesPage{
+    .btnGroup{
+        padding-right:unset ;
+        .pull-right{
+            display: flex;
+            gap: 8px;
+    
+            .btn{
+                border-radius: 6px !important;
+            }
+        }
+    }
+}

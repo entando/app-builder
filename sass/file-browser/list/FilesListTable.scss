@@ -10,4 +10,58 @@
   &__up-link {
     cursor: pointer;
   }
+
+  .table{
+    border: none;
+
+    tr {
+      border: 1px solid $color-border-grey;
+    
+      &:has(th:only-child > *:empty) {
+        border: unset;
+      }
+    }
+
+    th, td {
+      border: none;
+    }
+
+    thead {
+      background: none;
+
+      th{
+        padding: 16px;
+        
+        &.center {
+          text-align: center;
+        }
+      }
+      
+      .columnResizer {
+        border-bottom: 1px solid $color-border-grey;
+      }
+    }
+
+    tbody{
+      tr {
+        td {
+          background-color: #fff;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+          padding: 16px;
+          font-size: 14px;
+        
+          &.center {
+            display: flex;
+            justify-content: center;
+          }
+        }
+
+        &:hover{
+          background-color: $color-row-selected !important;
+          background: $color-row-selected !important;
+        }
+      }
+    }
+  }
 }

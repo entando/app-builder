@@ -13,43 +13,39 @@ export class SettingsFragmentFormBody extends React.Component {
   render() {
     return (
       <div className="SettingsFragmentForm">
-        <form onSubmit={this.props.handleSubmit} className="SettingsFragmentForm">
-          <Row>
-            <Col xs={12}>
-              <fieldset>
-                <FormGroup>
-                  <Row>
-                    <Col xs={3} className="col-label">
-                      <span className="display-block">
-                        <FormattedMessage id="fragment.settings" />
-                      </span>
-                    </Col>
-                    <Col xs={9} className="text-left">
-                      <Field
-                        component={SwitchRenderer}
-                        name="enableEditingWhenEmptyDefaultGui"
-                      />
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </fieldset>
-              <fieldset>
-                <FormGroup>
-                  <Row>
-                    <Col xs={12}>
-                      <Button
-                        type="submit"
-                        bsStyle="primary"
-                        className="pull-right"
-                      >
-                        <FormattedMessage id="app.save" />
-                      </Button>
-                    </Col>
-                  </Row>
-                </FormGroup>
-              </fieldset>
-            </Col>
-          </Row>
+        <form onSubmit={this.props.handleSubmit}>
+          <fieldset>
+            <FormGroup>
+              <Row>
+                <Col xs={3} className="col-label">
+                  <span className="display-block">
+                    <FormattedMessage id="fragment.settings" />
+                  </span>
+                </Col>
+                <Col xs={9} className="text-left">
+                  <Field
+                    component={SwitchRenderer}
+                    name="enableEditingWhenEmptyDefaultGui"
+                  />
+                </Col>
+              </Row>
+            </FormGroup>
+          </fieldset>
+          <fieldset>
+            <FormGroup>
+              <Row>
+                <Col xs={12}>
+                  <Button
+                    type="submit"
+                    bsStyle="primary"
+                    className="pull-right"
+                  >
+                    <FormattedMessage id="app.save" />
+                  </Button>
+                </Col>
+              </Row>
+            </FormGroup>
+          </fieldset>
         </form>
       </div>
 

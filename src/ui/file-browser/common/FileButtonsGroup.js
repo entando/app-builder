@@ -10,7 +10,7 @@ class FileButtonsGroup extends Component {
   renderButtons() {
     if ((this.props.pathInfo.currentPath !== '') || (this.props.pathInfo.protectedFolder !== null)) {
       return (
-        <ButtonGroup className="pull-right">
+        <ButtonGroup className="pull-right button-group-filelist">
           <Button
             type="button"
             className="pull-right FilesButtonGroup__createTextFile"

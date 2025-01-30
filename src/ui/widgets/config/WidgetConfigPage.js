@@ -2,11 +2,11 @@ import { get } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTitle from 'ui/internal-page/PageTitle';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
 import SelectedPageInfoTableContainer from 'ui/pages/common/SelectedPageInfoTableContainer';
@@ -120,30 +120,17 @@ class WidgetConfigPage extends Component {
 
     return (
       <InternalPage className="WidgetConfigPage">
+        <HeaderBreadcrumb breadcrumbs={[
+          { label: 'menu.pageDesigner' },
+          { label: 'menu.pageConfig', to: routeConverter(ROUTE_PAGE_CONFIG, { pageCode }) },
+          { label: 'menu.widget', active: true },
+        ]}
+        />
         <div className="WidgetConfigPage__header">
-          <div className="WidgetConfigPage__top">
-            <div>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.pageDesigner" />
-                </BreadcrumbItem>
-                <BreadcrumbItem to={routeConverter(ROUTE_PAGE_CONFIG, { pageCode })}>
-                  <FormattedMessage id="menu.pageConfig" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.widget" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </div>
-            <div>
-              <div id="widget-button-holder" />
-            </div>
-          </div>
-          <div>
-            <PageTitle titleId="menu.widget" helpId="widgetConfig.help" />
-          </div>
+          <PageTitle titleId="menu.widget" helpId="widgetConfig.help">
+            <div id="widget-button-holder" className="WidgetConfigPage__header__btn-container" />
+          </PageTitle>
         </div>
-
         <div className="WidgetConfigPage__body">
           <Grid fluid>
             <Row>

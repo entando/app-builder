@@ -1,5 +1,5 @@
-@import "~react-bootstrap-typeahead/css/Typeahead";
-@import "~patternfly/dist/sass/patternfly/variables";
+@import '~react-bootstrap-typeahead/css/Typeahead';
+@import '~patternfly/dist/sass/patternfly/variables';
 
 // breakpoints
 $screen-sm-min: 768px;
@@ -13,73 +13,87 @@ $color-rating-selected: #dff3fe;
 $color-rating-filter-star-empty: #979797;
 $color-rating-filter-star-filled: #f1c857;
 $color-icon-gray: #939597;
-$color-dark-grey: #4D5258;
-$color-dark-white: #D1D1D1;
-$color-light-blue: #39A5DC;
-$color-light-blue-2: #00A0DF;
+$color-dark-grey: #4d5258;
+$color-dark-white: #d1d1d1;
+$color-light-blue: #39a5dc;
+$color-light-blue-2: #00a0df;
 $color-light-blue-hover: #0188bd;
 $color-light-blue-active: #0176a4;
 $color-black: #000000;
 $color-white: #ffffff;
-$color-sidebar-filter-bg-grey: #E7E7E7;
-$color-sidebar-filter-border-grey: #DEDEDE;
-$color-ecr-component-date: #00B9F7;
+$color-sidebar-filter-bg-grey: #e7e7e7;
+$color-sidebar-filter-border-grey: #dedede;
+$color-ecr-component-date: #00b9f7;
 $color-ecr-component-text-grey: #828282;
-$color-ecr-component-tab-bar-bg-grey: #D8D8D8;
-$color-ecr-component-dark-grey: #4F4F4F;
-$color-ecr-component-installed-button: #3F9C35;
-$color-ecr-component-installed-button-border: #E0E0E0;
+$color-ecr-component-tab-bar-bg-grey: #d8d8d8;
+$color-ecr-component-dark-grey: #4f4f4f;
+$color-ecr-component-installed-button: #3f9c35;
+$color-ecr-component-installed-button-border: #e0e0e0;
 $color-ecr-component-inprogress-button: #f1c857;
 $color-ecr-component-failed-button: #c45500;
-$color-ecr-error-text: #A61302;
+$color-ecr-error-text: #a61302;
 $color-ecr-list-icon-active: #363636;
-$color-bundle-uninstall-error: #D30909;
-$color-ecr-list-icon: #BBBBBB;
-$color-ecr-component-border: #C3C3C3;
-$color-vmenu-header-bg-grey: #1D1D1D;
+$color-bundle-uninstall-error: #d30909;
+$color-ecr-list-icon: #bbbbbb;
+$color-ecr-component-border: #c3c3c3;
+$color-vmenu-header-bg-grey: #1d1d1d;
 $color-vmenu-header-text-grey: #c1c1c1;
 $dark-color-separator: #aaabad;
 $light-color-separator: #e5e5e5;
 $color-row-selected: #def3ff;
-$color-primary: #002F87;
+$color-primary: #002f87;
 $color-primary-dark: #032a73;
-$color-published: #6CA100;
-$color-unpublished: #A6A6A6;
-$color-draft: #F0AB00;
-$color-mid-blue: #0088CE;
-$color-mid-green: #3BB800;
-$color-mid-orange: #FCA907;
-$color-mid-blue-semi: rgba(0,136,206,.6);
+$color-published: #6ca100;
+$color-unpublished: #a6a6a6;
+$color-draft: #f0ab00;
+$color-mid-blue: #0088ce;
+$color-mid-green: #3bb800;
+$color-mid-orange: #fca907;
+$color-mid-blue-semi: rgba(0, 136, 206, 0.6);
 $color-row-selected: #def3ff;
-$color-tour-primary: #00A0DF;
-$color-border-gray: #BBBBBB;
-$color-sidebar-dark-bg: #393F44;
+$color-tour-primary: #00a0df;
+$color-blue-brand-primary:#1A75FF;
+$color-border-gray: #bbbbbb;
+$color-sidebar-dark-bg: #393f44;
 $color-dragitem-bg: #292e34;
-$color-transparent-black: rgba(0,0,0,.1);
+$color-transparent-black: rgba(0, 0, 0, 0.1);
 $color-grey-background: #f5f5f5;
 $color-grey-border: #dadada;
-$color-light-grey-border: #E3E3E3;
-$color-extra-light-grey-border: #F4F4F4;
-$color-light-grey-background: #FAFAFA;
-$color-extra-dark-grey: #1D1D1D;
-$color-grey-description: #72767B;
+$color-light-grey-border: #e3e3e3;
+$color-extra-light-grey-border: #f4f4f4;
+$color-light-grey-background: #fafafa;
+$color-extra-dark-grey: #1d1d1d;
+$color-grey-description: #72767b;
 $color-dump-table-code: #f4f5f7;
 
+$color-published-600: #39ac73;
+$color-green-new: #39c67b;
+$color-green-light-new: #ebf9f2;
+$color-draft-500: #ffb21a;
+$color-draft-400: #fbd26a;
+$color-draft-200: #faf1d9;
+$color-unpublished-new: #637083;
+$color-unpublished-light: #d8d8d8;
+$color-grey-background-tertiary:#F2F4F7;
+$color-border-primary:#99C2FF;
+$color-background-icons: #F0F6FF;
+
+
 //FontAwesome icons
-$fa-check: "\f00c";
-$fa-exclamation: "\f12a";
-$fa-spinner: "\f110";
-$fa-ban: "\f05e";
-$fa-adjust: "\f042";
-$fa-sitemap: "\f0e8";
-$fa-angle-right: "\f105";
-$fa-angle-double-left: "\f100";
-$fa-angle-double-right: "\f101";
-$fa-times: "\f00d";
-$fa-check-square: "\f14a";
-$fa-check-square-o: "\f046";
-$fa-square: "\f0c8";
-$fa-square-o: "\f096";
+$fa-check: '\f00c';
+$fa-exclamation: '\f12a';
+$fa-spinner: '\f110';
+$fa-ban: '\f05e';
+$fa-adjust: '\f042';
+$fa-sitemap: '\f0e8';
+$fa-angle-right: '\f105';
+$fa-angle-double-left: '\f100';
+$fa-angle-double-right: '\f101';
+$fa-times: '\f00d';
+$fa-check-square: '\f14a';
+$fa-check-square-o: '\f046';
+$fa-square: '\f0c8';
+$fa-square-o: '\f096';
 
 // Bootstrap custom styles
 // sass-lint:disable class-name-format
@@ -95,6 +109,15 @@ $fa-square-o: "\f096";
 .btn-entando-apply:hover,
 .btn-entando-apply:focus {
   background: $color-pf-black-100;
+}
+
+.bootstrap-switch {
+  border-radius: $radius-xxs;
+  border: 1px solid $color-content-07;
+
+  & .bootstrap-switch-handle-on.bootstrap-switch-primary {
+    background-color: $color-brand-primary;
+  }
 }
 
 .btn-transparent {
@@ -116,34 +139,80 @@ $fa-square-o: "\f096";
 }
 
 .btn {
-  padding: 2px 12px;
-  border: 0 !important; // sass-lint:disable-line no-important
+  padding: 4px 8px;
+  // border: 0 !important; // sass-lint:disable-line no-important
   background-image: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: none;
+
+  &:focus, &:focus:hover, &:active {
+    outline: none;
+  }
 }
+
 
 .btn-primary,
 .btn-primary:active,
 .btn-primary:focus {
-  background-color: $color-primary !important; // sass-lint:disable-line no-important
+  background-color: $color-brand-primary !important; // sass-lint:disable-line no-important
+  color: $color-background-icons;
 }
 
 .btn-primary:hover {
-  background-color: $color-primary;
+  background-color: $color-brand-primary;
 }
 
 .btn-primary:hover:active {
   background-color: $color-primary-dark !important; // sass-lint:disable-line no-important
 }
 
+
+
+.btn-link {
+  font-size: 16px;
+
+  &.secondary {
+    color: $color-content-3;
+  }
+}
+
+.btn-outlined-primary{
+  border: 1.5px solid $color-brand-primary;
+  border-radius: 4px;
+  background-color: #FFF;
+  color: $color-brand-primary;
+
+  &:focus{
+    outline: none;
+  }
+}
+
+.btn-outlined-secondary{
+  border: 1.5px solid $color-content-07;
+  border-radius: 4px;
+  background-color: #FFF;
+  color: $color-primary-text;
+  box-shadow: none;
+
+  &:focus, &:focus:hover {
+    outline: none;
+  }
+}
+
 .CodeMirror {
-  border: 1px solid $color-pf-black-400;
+  border: 1px $color-pf-black-400 solid;
 }
 
 .has-error {
   .CodeMirror,
   &.CodeMirror {
     border: 1px solid $color-pf-red;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px $color-pf-red-100;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px $color-pf-red-100;
   }
 }
 
@@ -152,7 +221,7 @@ $fa-square-o: "\f096";
   margin-left: 0;
 }
 
-.no-gutter > [class*="col-"] {
+.no-gutter > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
 }
@@ -190,5 +259,101 @@ $fa-square-o: "\f096";
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.div__border--solid-grey {
+  border: 1px solid $color-neutral-grey;
+  box-shadow: 0 1px 2px rgba(28, 39, 49, 0.08); // sass-lint:disable-line leading-zero
+}
+
+.form-control {
+  border: 1px solid $color-content-07;
+  border-radius: $radius-s;
+  font-size: 16px;
+  font-weight: 400;
+  height: fit-content;
+  padding: 6px;
+}
+
+.content-view-pf-pagination{
+  background-color: white;
+
+  .form-group{
+    align-items: center;
+    font-size: 14px;
+
+    .form-control{
+      font-size: 14px;
+    }
+    
+    input {
+      text-align: center;
+    }
+  } 
+}   
+
+.dropdown-toggle {
+  background-color: transparent;
+
+  &:has(.fa-ellipsis-v:first-child){
+    color: $color-text-tertiary !important;
+
+    &:hover, &:active, &:focus {
+    color: $color-brand-primary !important;
+    text-decoration: none;
+  }}
+}
+
+.pagination{
+  li > a{
+    border: none;
+    outline: none;
+    vertical-align: middle;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .disabled{ 
+    a,a:hover{
+      background: none;
+    }
+  }
+
+  li > a:hover{
+    background-color: $color-neutral-grey;
+    box-shadow: none;
+    background: none;
+  }
+
+  li > a.disabled{
+    background: none;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+a, a:hover {
+    color: $color-brand-primary;
+  }
+
+.popover {
+  color: $color-text-secondary;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.13);
+}
+
+* {
+  font-family: Inter;
+}
+
+
+
 
 // sass-lint:enable class-name-format

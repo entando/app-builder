@@ -19,4 +19,10 @@
   }
   // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
 
+  &__footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+
 }

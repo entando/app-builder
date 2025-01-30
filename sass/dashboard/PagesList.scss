@@ -1,11 +1,10 @@
-// sass-lint:disable class-name-format nesting-depth
+// sass-lint:disable class-name-format nesting-depth no-extend
 .PagesList {
   position: relative;
   height: auto;
   margin: 0 -10px;
   margin-bottom: 20px;
-  padding: 0 20px 20px 20px;
-  border: $color-pf-black-300 solid 1px;
+  padding: 0px 0px 20px 0px;
 
   @media (max-width: 1499px) {
     height: auto;
@@ -16,9 +15,11 @@
   }
 
   .PagesList__wrapper {
-    @media (max-width: 769px) {
-      width: 100%;
-      overflow-x: auto;
+    width: 100%;
+    overflow-x: hidden;
+
+    .tbody{
+      overflow-y: scroll;
     }
   }
 
@@ -27,17 +28,60 @@
     font-weight: 400;
   }
 
-  .btn {
-    &.pull-right {
-      margin-bottom: 10px;
-    }
-  }
-
   .PagesListTable__table {
     margin: 2em 0 0 0;
   }
 
   &__bottom-link {
     padding: 5px;
+  }
+
+  .table-bordered {
+    border: $color-border-grey solid 1px;
+  }
+
+  .table-header {
+    background-color: #fff;
+    border-right: 1px solid $color-border-grey;
+    
+
+    td {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    .columnResizer {
+      border-bottom: 1px solid $color-border-grey;
+    }
+
+    th {
+      padding: 16px;
+      border-left: 0;
+      border-right: 0;
+      border-color: $color-border-grey;
+    }
+  }
+
+  .table-row {
+    td {
+      border: 1px solid $color-border-grey;
+      border-left: 0;
+      border-right: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 10px;
+    }
+
+    .colForResize {
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid $color-border-grey;
+    }
+  }
+
+  .table-cell {
+    font-size: 14px;
+    padding: 16px;
   }
 }

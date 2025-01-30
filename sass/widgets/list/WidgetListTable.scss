@@ -1,4 +1,66 @@
 .WidgetListTable__type {
-  margin: 0 0 1em 0 ;
+  margin: 0 0 1em 0;
   border-bottom: 1px solid $color-pf-black-200;
+}
+
+.WidgetListTable {
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .table-bordered {
+    border: $color-border-grey solid 1px;
+  }
+
+  .table-header {
+    background-color: #fff;
+    border-bottom: 1px solid $color-border-grey;
+
+    td {
+      border: 1px solid $color-border-grey;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+    }
+
+    .columnResizer {
+      border-bottom: 1px solid $color-border-grey;
+    }
+
+    th {
+      padding: 16px;
+      border-left: 0;
+      border-right: 0;
+      border-bottom: 0;
+      border-color: $color-border-grey;
+    }
+  }
+
+  .table-row {
+    border-bottom: 1px solid $color-border-grey;
+
+    td {
+      border: 0
+    }
+
+    .colForResize {
+      border-left: 1px solid transparent;
+      border-right: 1px solid transparent;
+      border-bottom: 1px solid $color-border-grey;
+    }
+  }
+
+  .table-cell {
+    vertical-align: middle !important;
+    padding-inline: 16px !important;
+    padding-block: 8px !important;
+  }
+
+  .titles {
+    display: flex;
+    align-items: center;
+  } 
 }

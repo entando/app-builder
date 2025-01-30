@@ -1,5 +1,48 @@
 .DatabaseListTable {
+  .table-bordered {
+      tr {
+        border: 1px solid $color-border-grey;
+      }
+
+        th, td {
+        border: none;
+      }
+
+  }
+
+
   &__table {
-    margin: 2em 0 0
+    margin: 2em 0 0;  
+    
+  
+    
+
+    .table-header {
+      background-color: #fff;  
+
+      .columnResizer {
+        border-bottom: 1px solid $color-border-grey;
+      }
+  
+      .table-header {
+        padding: 16px;
+      }
+    }
+
+    tbody{
+      .table-row {
+        td {
+          background-color: #fff;
+          text-overflow: ellipsis;
+          vertical-align: center !important;
+          padding: 16px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  
+  .UserAuthorityTable__delete-tag-btn{
+    justify-self: center;
   }
 }

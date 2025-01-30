@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Row, Col, FormGroup, Button, DropdownButton, MenuItem } from 'patternfly-react';
+import { FormGroup /* , Button */ } from 'patternfly-react';
+import DropdownButton from 'ui/common/dropdown-button/DropdownButton';
+import Search from 'ui/common/Search';
 
 const msgs = defineMessages({
   code: {
@@ -35,50 +37,34 @@ export const PageSearchFormBody = ({ intl, handleSubmit, onSubmit }) => {
     <form
       onSubmit={handleSubmit(values =>
         onSubmit({ ...values, searchType: selectedTypeSearchParamMap[searchType] }))}
-      className="PageSearchForm form-horizontal well"
+      className="PageSearchForm"
     >
       <h3><FormattedMessage id="pageTree.searchForm.searchPageBy" /></h3>
       <FormGroup>
-        <Row>
-          <Col xs={12} sm={3} className="PageSearchForm__filter-searchby">
-            <DropdownButton
-              title={intl.formatMessage({ id: `pageTree.searchForm.${searchType}` })}
-              id="attribute"
-              onSelect={e => setSearchType(e)}
-              className="PageSearchForm__filter-searchby-dropdown"
-            >
-              {selectOptions.map(option => (
-                <MenuItem key={option.value} eventKey={option.value}>
-                  {intl.formatMessage({ id: option.label })}
-                </MenuItem>
-                ))}
-            </DropdownButton>
-          </Col>
-          <Col xs={12} sm={8}>
-            <Field
-              id="pagecode"
-              component="input"
-              className="form-control"
-              name="pageCodeToken"
-              placeholder={intl.formatMessage(msgs[searchType])}
-            />
-          </Col>
-        </Row>
+        <DropdownButton
+          title={intl.formatMessage({ id: `pageTree.searchForm.${searchType}` })}
+          id="attribute"
+          onSelect={e => setSearchType(e)}
+          className="PageSearchForm__filter-searchby-dropdown"
+          options={selectOptions}
+          intl={intl}
+        />
+        <Field
+          id="pagecode"
+          component={Search}
+          reverse
+          name="pageCodeToken"
+          placeholder={intl.formatMessage(msgs[searchType])}
+        />
+        {/* <Button
+          type="submit"
+          bsStyle="primary"
+          className="pull-right PageSearchForm__save"
+        >
+          <FormattedMessage id="app.search" />
+        </Button> */}
       </FormGroup>
-      <FormGroup>
-        <Row>
-          <Col xs={11}>
-            <Button
-              type="submit"
-              bsStyle="primary"
-              className="pull-right PageSearchForm__save"
-            >
-              <FormattedMessage id="app.search" />
-            </Button>
-          </Col>
-        </Row>
-      </FormGroup>
-    </form>
+    </form >
 
   );
 };

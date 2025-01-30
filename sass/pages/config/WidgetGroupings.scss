@@ -1,7 +1,7 @@
 @import "../../patternfly.scss";
 
 .WidgetGroupings {
-  background-color: $color-sidebar-dark-bg;
+  background-color: #FFF;
 
   &__right-menu-title {
     display: flex;
@@ -31,7 +31,7 @@
     display: flex;
     flex: 1;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin-left: 10px;
   }
 
@@ -44,7 +44,7 @@
     }
 
     &--selected {
-      color: $color-white;
+      color: $color-brand-primary;
     }
   }
 

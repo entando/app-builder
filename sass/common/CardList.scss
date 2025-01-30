@@ -1,0 +1,102 @@
+.CardList {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 10px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 320px));
+    grid-auto-rows: 1fr;
+    justify-content: space-between;
+    background: rgba(249, 250, 251, 1);
+}
+
+.CardItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid rgba(228, 231, 236, 1);
+  border-radius: 8px;
+  position: relative;
+}
+
+.CardItemActions {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+
+  .dropdown-kebab-pf .dropdown-menu.dropdown-menu-right {
+    width: max-content;
+    max-width: 320px;
+    overflow-wrap: anywhere;
+    padding: 8px;
+    
+    .dropdown-menu {
+      display: flex;
+      flex-direction: column;
+      row-gap: 6px;
+    }
+
+    .FragmentListMenuAction__menu-item-container {
+      display: flex;
+      align-items: stretch;
+      column-gap: 8px;
+      padding: 4px;
+
+      &:hover{
+        background-color: $color-neutral-grey;
+      }
+    }
+  }
+}
+
+.CardItemIconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(236, 249, 242, 1);
+  color: $color-green-new;
+  padding: 6px;
+  width: fit-content;
+  border-radius: 50%;
+
+  &>span {
+    height: 18px;
+  }
+}
+
+.CardItemLabel {
+  display: flex;
+  gap: 10px;
+  align-items: center
+}
+
+.CardItemTitle {
+  color: $color-brand-primary;
+  width: calc(100% - 10px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.CardItemCounter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(242, 244, 247, 1);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.CardItemSubtitle{
+  color: rgba(99, 112, 131, 1);
+}
+
+.CardItemCounter__popover {
+  font-weight: 600;
+}

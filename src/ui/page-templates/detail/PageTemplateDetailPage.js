@@ -1,35 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { Link } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import SelectedPageTemplateDetailTableContainer from 'ui/page-templates/detail/SelectedPageTemplateDetailTableContainer';
 import PageTemplatePageReferencesTableContainer from 'ui/page-templates/detail/PageTemplatePageReferencesTableContainer';
 import { ROUTE_PAGE_TEMPLATE_LIST, ROUTE_PAGE_TEMPLATE_EDIT } from 'app-init/router';
 
 export const PageTemplateDetailPageBody = ({ pageTemplateCode }) => (
   <InternalPage className="PageTemplateDetailPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.pageDesigner', active: true },
+      { label: 'menu.pageTemplates', to: ROUTE_PAGE_TEMPLATE_LIST },
+      { label: 'menu.pageTemplateDetails', active: true },
+      ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.pageDesigner" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_PAGE_TEMPLATE_LIST}>
-              <FormattedMessage id="menu.pageTemplates" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.pageTemplateDetails" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col xs={12}>
           <PageTitle titleId="menu.pageTemplateDetails" helpId="pageTemplates.help" />

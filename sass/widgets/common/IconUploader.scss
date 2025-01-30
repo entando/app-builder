@@ -20,4 +20,12 @@
   &__description {
     margin: 10px 0 26px 0;
   }
+
+  .button-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
 }

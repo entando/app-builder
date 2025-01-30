@@ -1,13 +1,16 @@
 .CheckboxGroup {
-  padding: 12px 28px;
+  padding: 12px;
 
   ul {
-    padding-left: 0;
+    display: flex;
+    flex-direction: column;
     list-style: none;
+    padding-left: 0;
+    row-gap: 12px;
   }
 
   li {
-    color: $color-black;
+    height: max-content;
 
     input {
       display: none;
@@ -17,24 +20,30 @@
       border-color: $color-light-blue;
       color: $color-light-blue;
       font-family: FontAwesome;
-      font-size: 20px;
+      font-size: 16px;
       line-height: 15px;
-      text-indent: -2px;
+      text-indent: -1px;
       content: $fa-check-square;
     }
 
     label {
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      column-gap: 12px;
 
       &:before {
         display: block;
-        width: 18px;
-        height: 18px;
-        margin-right: 20px;
+        width: 14px;
+        height: 14px;
         float: left;
-        border: 2px solid $color-dark-grey;
+        border: 1px solid $color-content-07;
         border-radius: 3px;
         content: " ";
+      }
+
+      span {
+        width: max-content;
       }
     }
   }

@@ -1,10 +1,10 @@
 import 'test/enzyme-init';
 import { getMfeConfigList } from 'api/mfe';
-import { makeRequest, METHODS } from '@entando/apimanager';
-import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
+import { makeMockRequest, METHODS } from '@entando/apimanager';
+import { LIST_MFE_MENU } from 'test/mocks/mfe';
 
 jest.mock('@entando/apimanager', () => ({
-  makeRequest: jest.fn(() => new Promise(resolve => resolve({}))),
+  makeMockRequest: jest.fn(() => new Promise(resolve => resolve({}))),
   METHODS: require.requireActual('@entando/apimanager').METHODS,
 }));
 
@@ -20,11 +20,11 @@ describe('api/mfe', () => {
 
     it('makes the correct request', () => {
       getMfeConfigList();
-      expect(makeRequest).toHaveBeenCalledWith({
+      expect(makeMockRequest).toHaveBeenCalledWith({
         uri: '/bundles/all/widgets?filters[0].value=app-builder&filters[0].attribute=widgetType&filters[0].operator=eq',
         domain: '/digital-exchange',
         method: METHODS.GET,
-        mockResponse: LIST_MFE_RESPONSE_OK,
+        mockResponse: LIST_MFE_MENU,
         useAuthentication: true,
       });
     });

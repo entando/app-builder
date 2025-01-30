@@ -21,4 +21,52 @@
       text-align: center;
     }
   }
+
+  .content-view-pf-pagination{
+    background-color: white;
+    border: 1px solid $color-border-grey;
+    border-top:unset;
+
+    .form-group{
+      align-items: center;
+      font-size: 14px;
+
+      .form-control{
+        font-size: 14px;
+      }
+   
+
+      .dropdown-toggle{
+        background-color: transparent;
+      }
+    } 
+  
+  }   
+  
+
+
+  .pagination{
+    li > a{
+      border: none;
+      outline: none;
+      vertical-align: middle;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    li > a:hover{
+      background-color: $color-neutral-grey;
+    }
+
+    li > a:focus{
+      background-color: none;
+    }
+
+  
+  }
+  
 }

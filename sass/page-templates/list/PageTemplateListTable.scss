@@ -2,4 +2,120 @@
   &__table {
     margin-bottom: 0;
   }
+
+  .Page_Template_List_Table {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .Page_Template_Button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 1px solid transparent;
+    margin: 0;
+    background-color: transparent;
+
+    &:focus {
+      border: 1px solid #7dc3e8
+    }
+  }
+
+  .Page_Template_Button_Active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 1px solid transparent;
+    margin: 0;
+    background-color: transparent;
+    border: 1px solid #7dc3e8
+  }
+
+  .Page_Template_Preview_Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .Page_Template_Preview_Content {
+    width: 187px;
+    height: fit-content;
+    min-height: 127px;
+    background: rgba(240, 246, 255, 1);
+    border: 1px solid rgba(204, 224, 255, 1);
+    position: relative;
+  }
+
+  .PageConfigGridRow {
+    border: none;
+  }
+
+  .PageConfigGridRow {
+    border: none;
+  }
+
+  .Page_Template_Preview_Actions {
+    position: absolute;
+    right: 10px
+  }
+
+  .Page_Config_Grid_Container {
+    padding: 10px 40px;
+    height: 100%;
+
+    .PageConfigGridCol--container {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      height: 100%;
+      min-height: 0 !important;
+      border: none;
+
+      .PageConfigGridRow {
+        border: none;
+      }
+
+      .PageConfigGridRow {
+        border: none;
+
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .PageConfigGridRow {
+      gap: 2px;
+    }
+
+    .PageConfigGrid {
+      height: 100%;
+      padding: 2px;
+      border-radius: 4px;
+      background-color: #ffffff;
+    }
+
+    .PageConfigGridCol--frame {
+      gap: 2px;
+      min-height: 0 !important;
+      padding: 0.5px;
+    }
+
+    .EmptyFrame {
+      border-style: solid;
+      background-color: #bbb;
+      border-radius: 4px;
+      padding: 0;
+    }
+
+    .EmptyFrame__frame-name {
+      display: none;
+    }
+  }
 }

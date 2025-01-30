@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, MenuItem } from 'patternfly-react';
 import { useDispatch } from 'react-redux';
 import md5 from 'md5';
-
-import { uploadFile } from 'state/file-browser/actions';
+import { uploadAvatar } from 'state/avatar/actions';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 
 const FILE_BROWSER_PATH = 'static/profile';
@@ -15,16 +14,27 @@ const publicUrl = process.env.PUBLIC_URL;
 const toMd5 = string => md5(string.trim().toLowerCase());
 
 const ProfileImageUploader = ({
-  image, onChange, gravatarEmail, editable,
+  image, onChange, gravatarEmail, editable, useGravatar, onSetGravatar,
 }) => {
   const [edit, setEdit] = useState(false);
   const inputFileRef = useRef(null);
+  const imageRef = useRef(null);
   const dispatch = useDispatch();
 
   const imageProvider = useDynamicResourceUrl(FILE_BROWSER_PATH);
 
   const onFileChange = ({ target: { files } }) => {
-    dispatch(uploadFile(files[0], FILE_BROWSER_PATH)).then(() => onChange(files[0].name));
+    const file = files[0];
+    if (file) {
+      dispatch(uploadAvatar(files[0])).then(() => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          imageRef.current.src = fr.result;
+          onChange(file.name);
+        };
+        fr.readAsDataURL(file);
+      });
+    }
   };
 
   const handleUploadClick = () => {
@@ -34,7 +44,7 @@ const ProfileImageUploader = ({
   let userPicture = `${publicUrl}/images/user-icon.svg`;
   if (edit) {
     userPicture = `${publicUrl}/images/user-edit.svg`;
-  } else if (image === GRAVATAR && gravatarEmail) {
+  } else if (useGravatar && gravatarEmail) {
     userPicture = `${GRAVATAR_URL}/${toMd5(gravatarEmail)}`;
   } else if (image) {
     userPicture = `${imageProvider}/${image}`;
@@ -52,12 +62,12 @@ const ProfileImageUploader = ({
             className="ProfileImageUploader__file-upload"
           />
           <button type="button">
-            <img src={userPicture} alt="user profile"className="ProfileImageUploader__picture" />
+            <img ref={imageRef} src={userPicture} alt="user profile"className="ProfileImageUploader__picture" />
           </button>
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <MenuItem eventKey="1" onClick={handleUploadClick}>Upload Image</MenuItem>
-          { gravatarEmail && <MenuItem eventKey="2" onClick={() => onChange(GRAVATAR)}>Use Gravatar</MenuItem>}
+          { gravatarEmail && <MenuItem eventKey="2" onClick={() => onSetGravatar(GRAVATAR)}>Use Gravatar</MenuItem>}
           <MenuItem eventKey="3" onClick={() => onChange('')}>Remove Image</MenuItem>
         </Dropdown.Menu>
       </Dropdown>
@@ -69,13 +79,16 @@ ProfileImageUploader.propTypes = {
   image: PropTypes.string,
   gravatarEmail: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onSetGravatar: PropTypes.func.isRequired,
   editable: PropTypes.bool,
+  useGravatar: PropTypes.bool,
 };
 
 ProfileImageUploader.defaultProps = {
   image: '',
   gravatarEmail: '',
   editable: false,
+  useGravatar: false,
 };
 
 export default ProfileImageUploader;

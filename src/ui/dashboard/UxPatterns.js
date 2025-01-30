@@ -5,11 +5,10 @@ import {
   CardTitle,
   CardBody,
   AggregateStatusCount,
-  Icon,
-  Button,
 } from 'patternfly-react';
+import Icon from 'ui/common/icon/Icon';
+import Button from 'ui/common/Button';
 import { hasAccess } from '@entando/utils';
-import { Clearfix } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -34,35 +33,46 @@ class UxPatterns extends Component {
       <Card accented className="UxPatternsCard">
         <ViewPermissionNoticeOverlay viewPermissions={[SUPERUSER_PERMISSION]}>
           <CardTitle>
-            <Icon size="lg" name="object-ungroup" />
-            <FormattedMessage id="menu.uxComponents" />
+            <div className="left-title">
+              <Icon
+                type="lucide"
+                name="components"
+                background
+                className="icon-flipped-y primary"
+              />
+              <FormattedMessage id="menu.uxComponents" />
+            </div>
             {isSuperuser && (
               <Button
-                bsStyle="primary"
-                className="pull-right"
+                bsStyle="link"
+                className="primary pull-right"
                 componentClass={Link}
                 to={ROUTE_WIDGET_ADD}
               >
+                <Icon name="plus" type="lucide" className="primary" />
                 <FormattedMessage id="app.add" />
               </Button>
             )}
-            <Clearfix />
           </CardTitle>
           <CardBody>
-            <Icon size="lg" name="cube" />
-            <AggregateStatusCount>
-              <b>{this.props.widgets}</b>&nbsp;
-              <Link to={ROUTE_WIDGET_LIST}>
-                <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
-              </Link>
-            </AggregateStatusCount>
-            <span className="separator" />
-            <AggregateStatusCount>
-              <b>{this.props.pageTemplates}</b>&nbsp;
-              <Link to={ROUTE_PAGE_TEMPLATE_LIST}>
-                <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
-              </Link>
-            </AggregateStatusCount>
+            <div className="card-pf-aggregate-status-container">
+              <Icon name="box" type="lucide" strokeWidth={2} />
+              <AggregateStatusCount>
+                {this.props.widgets}&nbsp;
+                <Link to={ROUTE_WIDGET_LIST}>
+                  <FormattedMessage id="dashboard.uxComponents.mfeWidgets" />
+                </Link>
+              </AggregateStatusCount>
+            </div>
+            <div className="card-pf-aggregate-status-container">
+              <Icon name="pages" type="lucide" className="icon-flipped-x" strokeWidth={2} />
+              <AggregateStatusCount>
+                {this.props.pageTemplates}&nbsp;
+                <Link to={ROUTE_PAGE_TEMPLATE_LIST}>
+                  <FormattedMessage id="dashboard.uxComponents.pageTemplates" />
+                </Link>
+              </AggregateStatusCount>
+            </div>
           </CardBody>
         </ViewPermissionNoticeOverlay>
       </Card>

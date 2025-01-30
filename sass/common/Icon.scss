@@ -1,0 +1,44 @@
+.Icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon__colored-bg, .icon__colored-bg::before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $color-dark-blue;
+  width: 32px;
+  height: 32px;
+}
+
+.lucide {
+  &:not(.primary) {
+    color: $color-text-tertiary;
+  }
+
+  &.primary {
+    color: $color-brand-primary;
+  }
+
+  &.lucide-component > path {
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+}
+
+.active {
+  .lucide  {
+    color: $color-brand-primary;
+  }
+}
+
+.icon-flipped-y {
+  transform: scaleY(-1);
+}
+
+.icon-flipped-x {
+  transform: scaleX(-1);
+}

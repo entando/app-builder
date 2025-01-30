@@ -3,18 +3,23 @@
   top: 0;
   right: 0;
   left: 0;
-  height: 60px;
-  background-color: $color-extra-dark-grey;
+  height: 50px;
+  background-color: $color-background-primary;
+  border: 1px solid $color-neutral-grey;
   z-index: 1030;
+
+  .navbar-nav.navbar-right li > a {
+    padding-block: 14px;
+  }
 }
 
 .MfeMenuContainer__left-menu-container {
   position: fixed;
-  top: 60px;
+  top: 50px;
   bottom: 0;
   left: 0;
   width: 215px;
-  background-color: $color-extra-dark-grey;
+  background-color: $color-background-primary;
   z-index: 1030;
   overflow-x: hidden;
   overflow-y: auto;

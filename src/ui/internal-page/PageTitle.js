@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { OverlayTrigger, Popover } from 'patternfly-react';
 import { Link } from 'react-router-dom';
-
+import { colorContent05 } from 'variables.scss';
+import Icon from 'ui/common/icon/Icon';
 
 const helpIcon = helpId => (
   helpId ?
@@ -20,7 +22,7 @@ const helpIcon = helpId => (
         trigger={['click']}
         rootClose
       >
-        <i className="PageTitle__icon fa pficon-help" />
+        <Icon name="info" type="lucide" className="PageTitle__icon" color={colorContent05} />
       </OverlayTrigger>
     </span> :
     null
@@ -43,16 +45,21 @@ const PageTitle = ({
   configLink,
   hideConfigLink,
   'data-testid': dataTestId,
+  children,
+  className,
 }) => (
-  <div className="PageTitle">
+  <div className={cx('PageTitle', className)}>
     <div className="PageTitle__header">
       <h1 className="PageTitle__title" data-testid={dataTestId}>
-        <FormattedMessage id={titleId} values={titleParam} />
-        {!hideConfigLink && configIcon(configLink)}
+        <div className="PageTitle__content">
+          <FormattedMessage id={titleId} values={titleParam} />
+          {!hideConfigLink && configIcon(configLink)}
+          {children}
+        </div>
         {helpIcon(helpId)}
       </h1>
     </div>
-  </div>
+  </div >
 );
 
 PageTitle.propTypes = {
@@ -62,6 +69,8 @@ PageTitle.propTypes = {
   hideConfigLink: PropTypes.bool,
   titleParam: PropTypes.shape({}),
   'data-testid': PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 PageTitle.defaultProps = {
@@ -70,6 +79,8 @@ PageTitle.defaultProps = {
   hideConfigLink: false,
   titleParam: {},
   'data-testid': '',
+  children: null,
+  className: '',
 };
 
 export default PageTitle;

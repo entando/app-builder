@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
+import { Col, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import GroupListMenuActions from 'ui/groups/list/GroupListMenuActions';
 import DeleteGroupModalContainer from 'ui/groups/common/DeleteGroupModalContainer';
-import paginatorMessages from 'ui/paginatorMessages';
+import UserTable from 'ui/users/common/UserTable';
 
 class GroupListTable extends Component {
   constructor(props) {
@@ -49,41 +49,37 @@ class GroupListTable extends Component {
       groups, page, pageSize, intl,
     } = this.props;
     if (groups.length > 0) {
-      const pagination = {
-        page,
-        perPage: pageSize,
-        perPageOptions: [5, 10, 15, 25, 50],
-      };
+      const pagination = { page, perPage: pageSize, perPageOptions: [5, 10, 15, 25, 50] };
 
-      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-      ), {});
+      const columns = [
+        { title: 'app.name', field: 'name', className: 'GroupListTable__th-lg' },
+        { title: 'app.code', field: 'code', className: 'GroupListTable__th-lg' },
+        {
+          title: '',
+          field: 'actions',
+          className: 'GroupListTable__th-xs text-center',
+          render: props => (
+            <div>
+              <GroupListMenuActions
+                code={props.code}
+                onClickDelete={this.props.onClickDelete}
+              />
+            </div>
+          ),
+        },
+      ];
+
 
       return (
-        <Col xs={12}>
-          <table className="GroupListTable__table table table-striped table-bordered" data-testid="groups-table">
-            <thead>
-              <tr>
-                <th className="GroupListTable__th-lg"><FormattedMessage id="app.name" /></th>
-                <th className="GroupListTable__th-lg"><FormattedMessage id="app.code" /></th>
-                <th className="GroupListTable__th-xs text-center">
-                  <FormattedMessage id="app.actions" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderTableRows()}
-            </tbody>
-          </table>
-          <Paginator
-            pagination={pagination}
-            viewType="table"
-            itemCount={this.props.totalItems}
-            onPageSet={this.changePage}
-            onPerPageSelect={this.changePageSize}
-            messages={messages}
-          />
-        </Col>
+        <UserTable
+          intl={intl}
+          columns={columns}
+          rows={groups}
+          pagination={pagination}
+          totalItems={this.props.totalItems}
+          onChangePage={this.changePage}
+          onChangePageSize={this.changePageSize}
+        />
       );
     }
     return (
@@ -122,10 +118,10 @@ GroupListTable.propTypes = {
 };
 
 GroupListTable.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: () => { },
   loading: false,
   groups: [],
-  onClickDelete: () => {},
+  onClickDelete: () => { },
 };
 
 export default injectIntl(GroupListTable);

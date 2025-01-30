@@ -123,7 +123,12 @@ const EmailConfigSmtpServerBody = ({
   );
 
   return (
-    <Form aria-label={intl.formatMessage(msgs.formLabel)} onSubmit={handleSubmit} horizontal>
+    <Form
+      aria-label={intl.formatMessage(msgs.formLabel)}
+      onSubmit={handleSubmit}
+      horizontal
+      className="EmailConfigSmtpServer__form"
+    >
       <Panel>
         <Panel.Body>
           <FormattedMessage id="emailConfig.smtpServer.panelMsg" />

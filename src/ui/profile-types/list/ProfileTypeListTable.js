@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
+import { Col, Alert, Spinner } from 'patternfly-react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { DataTable } from '@entando/datatable';
 import ProfileTypeListMenuActions from 'ui/profile-types/list/ProfileTypeListMenuActions';
 import ProfileTypeStatusIcon from 'ui/profile-types/common/ProfileTypeStatusIcon';
 import ProfileTypesDeleteModalContainer from 'ui/profile-types/common/ProfileTypesDeleteModalContainer';
 import ProfileTypeReferenceStatusContainer from 'ui/profile-types/common/ProfileTypeReferenceStatusContainer';
-import paginatorMessages from 'ui/paginatorMessages';
+import UserTable from 'ui/users/common/UserTable';
 
 const msgs = defineMessages({
   profileStatus: {
@@ -22,7 +21,7 @@ const ProfileTypeListTable = ({
 }) => {
   useEffect(() => {
     onDidMount();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changePage = pagenum => (
@@ -33,101 +32,57 @@ const ProfileTypeListTable = ({
     onDidMount({ page: 1, pageSize: size })
   );
 
-  const getColumnDefs = () => {
-    const columnDefs = {
-      name: {
-        Header: <FormattedMessage id="app.name" />,
-      },
-      code: {
-        Header: <FormattedMessage id="app.code" />,
-        attributes: {
-          className: 'ProfileTypeListTable__th-xs text-center',
-        },
-        cellAttributes: {
-          className: 'text-center',
-        },
-      },
-      status: {
-        Header: <FormattedMessage id="profileType.table.status" />,
-        attributes: {
-          className: 'ProfileTypeListTable__th-xs text-center',
-        },
-        cellAttributes: {
-          className: 'text-center',
-        },
-        Cell: (cellprops) => {
-          const { row: { original: { status } } } = cellprops;
-          return (
-            <ProfileTypeStatusIcon
-              status={status}
-              title={intl.formatMessage(msgs.profileStatus)}
-            />
-          );
-        },
-      },
-    };
-
-    return ['name', 'code', 'status'].map(column => ({
-      ...columnDefs[column],
-      accessor: column,
-    }));
-  };
-
-  const columns = getColumnDefs() || [];
-
-  const rowAction = {
-    Header: <FormattedMessage id="app.actions" />,
-    attributes: {
+  const columns = [
+    { title: 'app.name', field: 'name', className: 'RoleListTable__th-lg' },
+    { title: 'app.code', field: 'code', className: 'ProfileTypeListTable__th-xs' },
+    {
+      title: 'profileType.table.status',
+      field: 'status',
       className: 'ProfileTypeListTable__th-xs text-center',
+      render: props => (
+        <div style={{ textAlign: 'center' }}>
+          <ProfileTypeStatusIcon
+            status={(props || {}).status}
+            title={intl.formatMessage(msgs.profileStatus)}
+          />
+        </div>
+      ),
     },
-    cellAttributes: {
-      className: 'text-center',
+    {
+      title: '',
+      field: 'actions',
+      className: 'ProfileTypeListTable__th-xs text-center',
+      render: props => (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <ProfileTypeListMenuActions
+            code={(props || {}).code}
+            onClickDelete={removeProfileType}
+            onClickReload={reloadProfileType}
+          />
+        </div>
+      ),
     },
-    Cell: (cellprops) => {
-      const { values: { code } } = cellprops;
-      return (
-        <ProfileTypeListMenuActions
-          code={code}
-          onClickDelete={removeProfileType}
-          onClickReload={reloadProfileType}
-        />
-      );
-    },
-  };
+  ];
 
   const renderTable = () => {
     if (profiletypes.length > 0) {
-      const pagination = {
-        page,
-        perPage: pageSize,
-        perPageOptions: [5, 10, 15, 25, 50],
-      };
-
-      const messages = Object.keys(paginatorMessages).reduce((acc, curr) => (
-        { ...acc, [curr]: intl.formatMessage(paginatorMessages[curr]) }
-      ), {});
+      const pagination = { page, perPage: pageSize, perPageOptions: [5, 10, 15, 25, 50] };
 
       return (
-        <Col xs={12}>
-          <ProfileTypeReferenceStatusContainer />
-          <DataTable
+        <div>
+          <Col xs={12}>
+            <ProfileTypeReferenceStatusContainer />
+          </Col>
+          <UserTable
+            intl={intl}
             columns={columns}
-            data={profiletypes}
-            rowAction={rowAction}
-            classNames={{
-              table: 'ProfileTypeListTable__table table table-striped',
-              cell: 'ProfileTypeListRow__td',
-            }}
-          />
-          <Paginator
+            rows={profiletypes}
             pagination={pagination}
-            viewType="table"
-            itemCount={totalItems}
-            onPageSet={changePage}
-            onPerPageSelect={changePageSize}
-            messages={messages}
+            totalItems={totalItems}
+            onChangePage={changePage}
+            onChangePageSize={changePageSize}
           />
-        </Col>
+        </div>
       );
     }
     return (
@@ -166,7 +121,7 @@ ProfileTypeListTable.propTypes = {
 };
 
 ProfileTypeListTable.defaultProps = {
-  onDidMount: () => {},
+  onDidMount: () => { },
   loading: false,
   profiletypes: [],
 };

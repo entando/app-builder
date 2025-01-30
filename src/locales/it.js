@@ -171,6 +171,7 @@ export default {
     'app.dontSave': 'Non salvare',
     'app.upload': 'Upload',
     'app.search': 'Cerca',
+    'app.searchUser': 'Ricerca utente',
     'app.back': 'Indietro',
     'app.submit': 'Invia',
     'app.fieldsRequired': 'Campi obbligatori',
@@ -185,23 +186,33 @@ export default {
     'app.actions': 'Azioni',
     'app.errors': 'Errori',
     'app.cancel': 'Cancella',
-    'app.confirmCancel': 'Vuoi salvare le modifiche apportate? Le modifiche andranno perse se non le salvi',
+    'app.confirmCancel':
+      'Vuoi salvare le modifiche apportate? Le modifiche andranno perse se non le salvi',
     'app.search.returned': 'La ricerca ha restituito {value} risultati',
-    'app.chooseAnOption': 'Seleziona un\'opzione',
+    'app.chooseAnOption': "Seleziona un'opzione",
     'app.chooseOptions': 'Scegli le opzioni',
     'app.noOptions': 'Senza ulteriori opzioni',
     'app.noMatchOptions': 'Nessun risultato trovato',
-    'app.add.attribute.code': 'Il codice è valido solo se composto da 3 lettere maiuscole',
-    'app.help.code': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
-    'app.help.codeWithDash': 'Inserisci il codice di pagina. Puoi inserire solo caratteri alfanumerici, e i caratteri speciali \'_\' e \'-\'.',
-    'app.help.name': 'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
+    'app.add.attribute.code':
+      'Il codice è valido solo se composto da 3 lettere maiuscole',
+    'app.help.code':
+      'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
+    'app.help.codeWithDash':
+      "Inserisci il codice di pagina. Puoi inserire solo caratteri alfanumerici, e i caratteri speciali '_' e '-'.",
+    'app.help.name':
+      'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
     'app.all': 'Tutti',
     'app.reload': 'Ricarica',
+    'app.content': 'Contenuto',
+    'app.contents': 'Contenuti',
+    'app.page': 'Pagina',
     'app.pages': 'Pagine',
     'app.set': 'Imposta',
     'app.settings': 'Impostazioni',
     'app.list': 'Lista',
+    'app.grid': 'Griglia',
     'app.api': 'API',
+    'app.view': 'Vista',
     'app.preview': 'Anteprima',
     'app.restore': 'Ripristina',
     'app.number': 'Numbero',
@@ -213,16 +224,22 @@ export default {
     'app.mandatory': 'Obbligatorio',
     'app.filterList': 'Può essere usato come filtro nelle liste',
     'app.ognl.validation': 'Validazione - OGNL',
-    'app.ognl.validation.help1': 'In questa sezione puoi inserire le validazioni sull\'Attributo. ',
-    'app.ognl.validation.help2': 'L\'Espressione OGNL deve restituire un valore Boolean (true o false). Nella costruzione delle espressioni, l\'oggetto \'root\' è l\'attributo stesso (si può accedere ai metodi dell\'attributo senza specificarlo o tramite il prefisso #attribute).',
-    'app.ognl.validation.help3': 'Sono disponibili: la mappa delle lingue del sistema (#langs) e l\'Entità a cui è associato (#entity).',
-    'app.ognl.validation.help4': 'Inoltre per gli elementi di una Lista o di un Composito è possibile accedere al padre dell\'attributo (#parent) e per gli elementi di una Lista si ha a disposizione l\'indice (#index).',
+    'app.ognl.validation.help1':
+      "In questa sezione puoi inserire le validazioni sull'Attributo. ",
+    'app.ognl.validation.help2':
+      "L'Espressione OGNL deve restituire un valore Boolean (true o false). Nella costruzione delle espressioni, l'oggetto 'root' è l'attributo stesso (si può accedere ai metodi dell'attributo senza specificarlo o tramite il prefisso #attribute).",
+    'app.ognl.validation.help3':
+      "Sono disponibili: la mappa delle lingue del sistema (#langs) e l'Entità a cui è associato (#entity).",
+    'app.ognl.validation.help4':
+      "Inoltre per gli elementi di una Lista o di un Composito è possibile accedere al padre dell'attributo (#parent) e per gli elementi di una Lista si ha a disposizione l'indice (#index).",
     'app.ognl.expression': 'Espressione OGNL ',
-    'app.apply.expression': 'Usa l\'espressione solo se l\'attributo è valorizzato',
-    'app.ognl.validation.add.message.help': 'Si possono inserire sia un messagio d\'aiuto che un messagio di errore, oppure una chiave per collegarli alle etichette di sistema',
-    'app.ognl.message': 'Messaggio d\'aiuto',
-    'app.help.message.key': 'Chiave per il messagio d\'aiuto',
-    'app.error.message': 'Messaggio d\'errore',
+    'app.apply.expression':
+      "Usa l'espressione solo se l'attributo è valorizzato",
+    'app.ognl.validation.add.message.help':
+      "Si possono inserire sia un messagio d'aiuto che un messagio di errore, oppure una chiave per collegarli alle etichette di sistema",
+    'app.ognl.message': "Messaggio d'aiuto",
+    'app.help.message.key': "Chiave per il messagio d'aiuto",
+    'app.error.message': "Messaggio d'errore",
     'app.error.message.key': 'Chiave per il messaggio di errore',
     'app.indexable': 'Ricercabile',
     'app.attribute': '{mode} attributo',
@@ -236,16 +253,19 @@ export default {
     'app.enumeratorStaticItems': 'Elementi',
     'app.enumeratorStaticItemsSeparator': 'Separatore',
     'app.enumeratorExtractorBean': 'Estrattore del bean name',
-    'app.enumeratorStaticItems.help': 'Inserisci una configurazione del tipo \'lable1,lable2,lable3\'',
-    'app.enumeratorStaticItemsMap.help': 'Inserisci una configurazione del tipo \'key1=value1,key2=value2,key3=value3\'',
+    'app.enumeratorStaticItems.help':
+      "Inserisci una configurazione del tipo 'lable1,lable2,lable3'",
+    'app.enumeratorStaticItemsMap.help':
+      "Inserisci una configurazione del tipo 'key1=value1,key2=value2,key3=value3'",
     'app.chooseARole': 'Scegli un ruolo',
     'app.assigned.roles': 'Ruolo assegnato',
-    'app.no.roles': 'Ruoli non disponibili o potrebbero già essere stati assegnati.',
+    'app.no.roles':
+      'Ruoli non disponibili o potrebbero già essere stati assegnati.',
     'app.from': 'Da',
     'app.to': 'A',
     'app.equal': 'Uguale a',
     'app.date.placeholder': 'gg/mm/anno',
-    'app.working': 'Stai lavorando sull\'attributo:',
+    'app.working': "Stai lavorando sull'attributo:",
     'app.element.of': 'elemento di',
     'app.filter': 'Filtro',
     'app.move': 'Sposta',
@@ -260,14 +280,15 @@ export default {
     'app.lastModified': 'Ultima Modifica',
     'app.logout': 'Esci',
     'app.myProfile': 'Mio Profilo',
-    'app.homepage': 'Vai all\'Applicazione',
+    'app.homepage': "Vai all'Applicazione",
     'app.tableName': 'Nome Tabella',
     'app.rows': 'Righe',
     'app.created': 'Il {type} {code} è stato creato',
     'app.updated': 'Il {type} {code} è stato aggiornato',
     'app.deleted': 'Il {type} {code} è stato cancellato',
-    'app.updateSettings.success': 'La configurazione è stata aggiornata con successo',
-    'app.timestamp.hours': 'Seleziona l\'ora',
+    'app.updateSettings.success':
+      'La configurazione è stata aggiornata con successo',
+    'app.timestamp.hours': "Seleziona l'ora",
     'app.timestamp.minutes': 'Seleziona i minuti',
     'app.timestamp.seconds': 'Seleziona i secondi',
     'app.booleanOptions.true': 'Si',
@@ -339,7 +360,8 @@ export default {
     'menu.apps': 'App',
     'menu.settings': 'Amministrazione',
     'menu.emailConfig': 'Configurazione Email',
-    'dashboard.cards.noPermission': 'Non hai il permesso di visualizzare questi dati',
+    'dashboard.cards.noPermission':
+      'Non hai il permesso di visualizzare questi dati',
     'dashboard.uxComponents.mfeWidgets': 'MFE & Widget',
     'dashboard.uxComponents.pageTemplates': 'Template di Pagina',
     'dashboard.pageStatus': 'Stato Pagine',
@@ -362,14 +384,19 @@ export default {
     'pageTree.action.clear': 'Cancella ricerca',
     'pageTree.searchForm.title': 'Cerca una pagina esistente',
     'pageTree.searchForm.code': 'Codice Pagine',
-    'pageTreePage.help': 'Dalla sezione GESTIONE DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l\'albero instantaneamente , oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni: scegliere la preview ad esempio in modalità desktop o mobile, configurare, modificare, visualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menu.',
+    'pageTreePage.help':
+      "Dalla sezione GESTIONE DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l'albero instantaneamente , oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni: scegliere la preview ad esempio in modalità desktop o mobile, configurare, modificare, visualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menu.",
     'pageTree.viewPublishedPage': 'Visualizza la pagina pubblicata',
     'pageDetails.title': 'Dettaglio Pagina',
-    'pageDetails.help': 'Dalla sezione GESTIONE DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l\'albero instantaneamente , oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni: scegliere la preview ad esempio in modalità desktop o mobile, configurare, modificare, visualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menu.',
-    'pageDetails.emptyContent': 'Non è ancora stato pubblicato nessun contenuto.',
-    'pageDetails.emptyContentLink': 'Non vi sono contenuti con Link a questa pagina.',
-    'validateForm.elements': 'inserire un valore tipo \'key1=value1,key2=value2,key3=value3\'',
-    'validateForm.element': 'inserire un valore tipo \'lable1,lable2,lable3\'',
+    'pageDetails.help':
+      "Dalla sezione GESTIONE DELLE PAGINE puoi cercare una pagina esistente, aprire tutto l'albero instantaneamente , oppure chiuderlo e vedere solo i nodi principali. Puoi aggiungere o spostare una pagina. Compiere una seria di azioni: scegliere la preview ad esempio in modalità desktop o mobile, configurare, modificare, visualizzare i dettagli, clonare la pagina o cancellarla. Inoltre puoi visualizzare lo stato ( se la pagina é online o in bozza ) e se compare come voce del menu.",
+    'pageDetails.emptyContent':
+      'Non è ancora stato pubblicato nessun contenuto.',
+    'pageDetails.emptyContentLink':
+      'Non vi sono contenuti con Link a questa pagina.',
+    'validateForm.elements':
+      "inserire un valore tipo 'key1=value1,key2=value2,key3=value3'",
+    'validateForm.element': "inserire un valore tipo 'lable1,lable2,lable3'",
     'validateForm.element.code': 'Il Codice deve essere  3 lettere maiuscole',
     'validateForm.required': 'campo obbligatorio',
     'validateForm.maxLength': 'deve essere al massimo {max} caratteri',
@@ -381,17 +408,28 @@ export default {
     'validateForm.email': 'Indirizzo email non valido!',
     'validateForm.invalidJson': 'Formato JSON non valido: {msg}',
     'validateForm.alphaNumeric': 'Solo caratteri alfanumerici',
-    'validateForm.widgetCode': '{name} contiene caratteri non consentiti. Usare solo caratteri alfanumerici o undescore _',
-    'validateForm.passwordNotMatch': 'Il valore di Conferma non coincide col valore della Password',
-    'validateForm.code.max10digits': 'Il codice contiene caratteri non validi o ha raggiunto i requisiti massimi. Sono ammessi solo 10 o meno caratteri numerici.',
-    'validateForm.code': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici o l\'undescore \'_\'.',
-    'validateForm.codeWithDash': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici, l\'undescore \'_\' o il trattino \'-\'.',
-    'validateForm.fragmentCode': 'Codice contiene caratteri non validi. Usare solo caratteri alfanumerici, l\'undescore \'_\' o il trattino.',
-    'validateForm.widgetJSON.formatInvalid': 'Config UI deve essere un formato JSON valido',
-    'validateForm.widgetJSON.noCustomElement': 'Configurazione non valida: manca la proprietà "customElement"',
-    'validateForm.widgetJSON.customElementString': 'Configurazione non valida: la proprietà "customElement" deve essere una stringa',
-    'validateForm.widgetJSON.resourcesInvalid': 'Configurazione non valida: "risorse" deve essere un array - consiste nella posizione o nelle posizioni di origine del codice dell\'elemento personalizzato indicato',
-    'validateForm.widgetJSON.resourcesNotString': 'Configurazione non valida: una delle "risorse" non è una stringa. Si prega di indicare tutte le posizioni di origine in tipo stringa',
+    'validateForm.widgetCode':
+      '{name} contiene caratteri non consentiti. Usare solo caratteri alfanumerici o undescore _',
+    'validateForm.passwordNotMatch':
+      'Il valore di Conferma non coincide col valore della Password',
+    'validateForm.code.max10digits':
+      'Il codice contiene caratteri non validi o ha raggiunto i requisiti massimi. Sono ammessi solo 10 o meno caratteri numerici.',
+    'validateForm.code':
+      "Codice contiene caratteri non validi. Usare solo caratteri alfanumerici o l'undescore '_'.",
+    'validateForm.codeWithDash':
+      "Codice contiene caratteri non validi. Usare solo caratteri alfanumerici, l'undescore '_' o il trattino '-'.",
+    'validateForm.fragmentCode':
+      "Codice contiene caratteri non validi. Usare solo caratteri alfanumerici, l'undescore '_' o il trattino.",
+    'validateForm.widgetJSON.formatInvalid':
+      'Config UI deve essere un formato JSON valido',
+    'validateForm.widgetJSON.noCustomElement':
+      'Configurazione non valida: manca la proprietà "customElement"',
+    'validateForm.widgetJSON.customElementString':
+      'Configurazione non valida: la proprietà "customElement" deve essere una stringa',
+    'validateForm.widgetJSON.resourcesInvalid':
+      'Configurazione non valida: "risorse" deve essere un array - consiste nella posizione o nelle posizioni di origine del codice dell\'elemento personalizzato indicato',
+    'validateForm.widgetJSON.resourcesNotString':
+      'Configurazione non valida: una delle "risorse" non è una stringa. Si prega di indicare tutte le posizioni di origine in tipo stringa',
     'widget.page.create.pageTitle': 'Info',
     'widget.page.create.code': 'Codice',
     'widget.page.create.code.placeholder': 'Codice',
@@ -402,16 +440,20 @@ export default {
     'widget.page.create.icon': 'Icona',
     'widget.page.create.parameters': 'Parametri',
     'widget.page.create.config': 'Impostazioni',
-    'widget.page.create.readonlyDefaultConfig': 'rendi in sola lettura la configurazione del widget sulla pagina',
+    'widget.page.create.readonlyDefaultConfig':
+      'rendi in sola lettura la configurazione del widget sulla pagina',
     'widget.page.tab.customUi': 'Custom UI',
     'widget.page.tab.defaultUi': 'Default UI',
     'widget.page.edit.pageTitle': 'Modifica Widget',
     'widget.page.alert.notAvailable': 'Non disponibile',
     'widget.page.config.loading': 'Caricamento micro frontend in corso...',
-    'widget.page.config.error': 'Impossibile caricare la configurazione del widget',
+    'widget.page.config.error':
+      'Impossibile caricare la configurazione del widget',
     'widget.page.config.goToConfig': 'Vai alla configurazione di default',
-    'widget.page.config.readOnlyMessage': 'Questa è la configurazione di default del widget. Vuoi modificarla?',
-    'widget.icon.description': 'Carica la tua icona dalla libreria delle icone o dal tuo computer',
+    'widget.page.config.readOnlyMessage':
+      'Questa è la configurazione di default del widget. Vuoi modificarla?',
+    'widget.icon.description':
+      'Carica la tua icona dalla libreria delle icone o dal tuo computer',
     'widget.icon.iconLibrary': 'Icon Library',
     'widget.icon.upload': 'Carica',
     'widget.icon.insert': 'Inserisci',
@@ -426,7 +468,8 @@ export default {
     'widget.list.section.user': 'Utente',
     'widget.list.section.custom': 'Custom',
     'widget.detail.title': 'Posizione del Widget {widgetDescription}',
-    'widget.detail.subtitle': 'Elenco delle pagine e dei dettagli dove è presente il widget',
+    'widget.detail.subtitle':
+      'Elenco delle pagine e dei dettagli dove è presente il widget',
     'widget.detail.table.pageCode': 'Codice pagina',
     'widget.detail.table.pagePath': 'Percorso della pagina',
     'widget.detail.table.publicVersion': 'Versione pubblicata',
@@ -434,9 +477,11 @@ export default {
     'widget.detail.table.framePosition': 'Posizionamento',
     'widget.detail.table.action.pageConfig': 'Configurazione Pagina',
     'widget.detail.table.action.pageDetails': 'Dettaglio Pagina',
-    'widget.help': 'Dalla sezione MFE e WIDGET puoi gestire i widget esistenti o crearne di nuovi. I widget sono oggetti utilizzati per visualizzare informazioni e funzionalità o servizi sulle pagine di un\'applicazione.',
+    'widget.help':
+      "Dalla sezione MFE e WIDGET puoi gestire i widget esistenti o crearne di nuovi. I widget sono oggetti utilizzati per visualizzare informazioni e funzionalità o servizi sulle pagine di un'applicazione.",
     'fragment.list.title': 'UX Fragment',
-    'fragment.help': 'Dalla sezione FRAMMENTO UX puoi gestire i Frammenti UX esistenti o crearne di nuovi. I Frammenti UX sono singole porzioni di interfaccia di front-end utilizzati nei Widget (anche quelli dei plugin) e nei Modelli di pagina .',
+    'fragment.help':
+      'Dalla sezione FRAMMENTO UX puoi gestire i Frammenti UX esistenti o crearne di nuovi. I Frammenti UX sono singole porzioni di interfaccia di front-end utilizzati nei Widget (anche quelli dei plugin) e nei Modelli di pagina .',
     'fragment.code': 'Codice',
     'fragment.code.placeholder': 'Codice',
     'fragment.tab.guiCode': 'Codice Gui',
@@ -446,11 +491,15 @@ export default {
     'fragment.detail.widgetType': 'Tipo di Widget',
     'fragment.detail.pluginCode': 'Codice Plugin',
     'fragment.detail.title.referencedFragments': 'UX Fragment associati',
-    'fragment.detail.title.referencedPageTemplates': 'Template di Pagine associati',
+    'fragment.detail.title.referencedPageTemplates':
+      'Template di Pagine associati',
     'fragment.detail.title.referencedWidgetType': 'Tipi di Widget associati',
-    'fragment.detail.emptyReferenceFragments': 'Non ci sono UX Fragment associati',
-    'fragment.detail.emptyReferencePageTemplates': 'Non ci sono template di pagine associati',
-    'fragment.detail.emptyReferenceWidgetTypes': 'Non ci sono tipi widget associati',
+    'fragment.detail.emptyReferenceFragments':
+      'Non ci sono UX Fragment associati',
+    'fragment.detail.emptyReferencePageTemplates':
+      'Non ci sono template di pagine associati',
+    'fragment.detail.emptyReferenceWidgetTypes':
+      'Non ci sono tipi widget associati',
     'fragment.table.widgetType': 'Tipo di Widget',
     'fragment.table.plugin': 'Plugin',
     'fragment.table.edit': 'Modifica {code}',
@@ -458,10 +507,12 @@ export default {
     'fragment.table.details': 'Dettagli di: {code}',
     'fragment.form.edit.plugin': 'Plugin',
     'fragment.form.edit.widgetType': 'Tipo di Widget',
-    'fragment.settings': 'Abilita la creazione di UX Fragment con default GUI vuota',
+    'fragment.settings':
+      'Abilita la creazione di UX Fragment con default GUI vuota',
     'fragment.settings.alert.success': 'Le impostazioni sono state aggiornate',
-    'fragment.settings.alert.error': 'Le impostazioni non sono state aggiornate',
-    'fragment.alert.error.fileExtension': 'Estensione del file non e\' permessa',
+    'fragment.settings.alert.error':
+      'Le impostazioni non sono state aggiornate',
+    'fragment.alert.error.fileExtension': "Estensione del file non e' permessa",
     'fragment.created': 'UX Fragment creato con successo',
     'fragment.updated': 'UX Fragment aggiornato con successo',
     'fileBrowser.list.upLink': 'su..',
@@ -472,16 +523,22 @@ export default {
     'fileBrowser.createFolder': 'Crea cartella',
     'fileBrowser.uploadFiles': 'Upload File',
     'fileBrowser.uploadFileComplete': 'Upload del file completato',
-    'fileBrowser.uploadFileError': 'Errore nell\'upload del file - {errmsg}',
+    'fileBrowser.removeFileComplete': 'Rimozione file completata',
+    'fileBrowser.uploadFileError': "Errore nell'upload del file - {errmsg}",
     'fileBrowser.downloadFile': 'Download',
     'fileBrowser.newFolder': 'Nome nuova cartella',
-    'fileBrowser.createFolderSuccess': 'Cartella \'{path}\' creata correttamente',
-    'fileBrowser.createFolderError': 'Si è verificato un errore durante la creazione della cartella \'{path}\'',
-    'fileBrowser.deleteFolderSuccess': 'Cartella \'{path}\' cancellata correttamente',
-    'fileBrowser.deleteFolderError': 'Si è verificato un errore durante la cancellazione della cartella \'{path}\'',
-    'fileBrowser.deleteFileSuccess': 'File \'{path}\' cancellato correttamente',
-    'fileBrowser.deleteFileError': 'Si è verificato un errore durante la cancellazione del file \'{path}\'',
-    'fileBrowser.help': 'La sezione BROWSER DI FILE permette di navigare le cartelle del file system.',
+    'fileBrowser.createFolderSuccess': "Cartella '{path}' creata correttamente",
+    'fileBrowser.createFolderError':
+      "Si è verificato un errore durante la creazione della cartella '{path}'",
+    'fileBrowser.deleteFolderSuccess':
+      "Cartella '{path}' cancellata correttamente",
+    'fileBrowser.deleteFolderError':
+      "Si è verificato un errore durante la cancellazione della cartella '{path}'",
+    'fileBrowser.deleteFileSuccess': "File '{path}' cancellato correttamente",
+    'fileBrowser.deleteFileError':
+      "Si è verificato un errore durante la cancellazione del file '{path}'",
+    'fileBrowser.help':
+      'La sezione BROWSER DI FILE permette di navigare le cartelle del file system.',
     'fileBrowser.textFile.placeholder': 'inserisci il contenuto...',
     'fileBrowser.textFile.content': 'Contenuto',
     'pages.pageForm.info': 'Info',
@@ -489,12 +546,15 @@ export default {
     'pages.pageForm.pageGroups': 'Gruppi',
     'pages.pageForm.settings': 'Configurazione',
     'pages.pageForm.ownerGroup': 'Gruppo Proprietario',
-    'pages.pageForm.ownerGroupHelp': 'É necessario impostare il Gruppo Proprietario per definire le persone che hanno il permesso di vedere questa pagina. I Gruppi si creano e gestiscono nell\'area Settings di Entando.',
+    'pages.pageForm.ownerGroupHelp':
+      "É necessario impostare il Gruppo Proprietario per definire le persone che hanno il permesso di vedere questa pagina. I Gruppi si creano e gestiscono nell'area Settings di Entando.",
     'pages.pageForm.joinGroup': 'Associa Gruppo',
-    'pages.pageForm.codeHelp': 'Inserisci il codice di pagina. Puoi inserire solo caratteri alfanumerici, e i caratteri speciali \'_\' e \'-\'.',
+    'pages.pageForm.codeHelp':
+      "Inserisci il codice di pagina. Puoi inserire solo caratteri alfanumerici, e i caratteri speciali '_' e '-'.",
     'pages.pageForm.pagePlacement': 'Posizione della pagina',
     'pages.pageForm.pageTemplate': 'Template di Pagina',
-    'pages.pageForm.pageTemplateHelp': 'Seleziona un template di pagina da utilizzare',
+    'pages.pageForm.pageTemplateHelp':
+      'Seleziona un template di pagina da utilizzare',
     'pages.pageForm.findTemplate': 'Seleziona un template',
     'pages.pageForm.chooseTemplate': 'Scegli un modello di pagina',
     'pages.pageForm.displayedInMenu': 'Mostra nel menù',
@@ -502,12 +562,15 @@ export default {
     'pages.pageForm.seo': 'SEO',
     'pages.pageForm.seoHelp': 'Attiva le opzioni SEO nella pagina',
     'pages.pageForm.charset': 'Charset',
-    'pages.pageForm.charsetHelp': 'Interpreta una sequenza di byte attraverso una rappresentazione di caratteri. Di default si ha quello della macchina in uso',
+    'pages.pageForm.charsetHelp':
+      'Interpreta una sequenza di byte attraverso una rappresentazione di caratteri. Di default si ha quello della macchina in uso',
     'pages.pageForm.mimeType': 'MimeType',
-    'pages.pageForm.mimeTypeHelp': 'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
+    'pages.pageForm.mimeTypeHelp':
+      'Identifica il tipo di informazione (immagine, testo...) che Entando deve restituire al browser che le richiede',
     'pages.pageForm.saveAndConfigure': 'Salva e vai al Designer',
     'pages.pageForm.seoFriendlyCode': 'SEO-friendly Code',
-    'pages.pageForm.useExtDescSearch': 'Se disponibile, utilizzare una descrizione aggiuntiva nella ricerca',
+    'pages.pageForm.useExtDescSearch':
+      'Se disponibile, utilizzare una descrizione aggiuntiva nella ricerca',
     'pages.seoDescr': 'SEO: Permetti la sovrascrittura del titolo di Pagina',
     'pages.noPageFound': 'Nessuna pagina trovata.',
     'pages.status.published': 'Pubblicata',
@@ -522,9 +585,12 @@ export default {
     'pages.designer.tabPageTree': 'Pagine',
     'pages.designer.searchWidgetLabel': 'Cerca Widget',
     'pages.fullPath': 'Percorso Completo',
-    'pageSettings.help': 'La sezione IMPOSTAZIONE PAGINE consente all\'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.',
-    'pageSettings.status.published': 'Le modifiche alla pagina {page} sono state messe online!',
-    'pageSettings.status.unpublished': 'La pagina {page} è stata messa offline!',
+    'pageSettings.help':
+      "La sezione IMPOSTAZIONE PAGINE consente all'amministratore di specificare quali pagine devono essere utilizzate per scopi particolari e definire alcune impostazioni generali di pagina.",
+    'pageSettings.status.published':
+      'Le modifiche alla pagina {page} sono state messe online!',
+    'pageSettings.status.unpublished':
+      'La pagina {page} è stata messa offline!',
     'pageSettings.input.homepage': 'Pagina Iniziale',
     'pageSettings.input.404': 'Pagina per: 404 - Pagina non trovata',
     'pageSettings.input.500': 'Pagina per: 500 - Errore generico',
@@ -535,25 +601,33 @@ export default {
     'pageSettings.input.baseURL.static': 'Statico',
     'pageSettings.input.appendBaseURL': 'Aggiungi nome contesto a BaseURL',
     'pageSettings.input.jsession': 'Usa JSESSIONID',
-    'pageSettings.input.languageBrowser': 'Lingua della pagina iniziale da configurazione del browser',
-    'pageSettings.input.pageTreeStyle': 'Stile dell\'albero delle Pagine',
+    'pageSettings.input.languageBrowser':
+      'Lingua della pagina iniziale da configurazione del browser',
+    'pageSettings.input.pageTreeStyle': "Stile dell'albero delle Pagine",
     'pageSettings.input.pageTreeStyle.classic': 'Classico',
     'pageSettings.input.pageTreeStyle.demand': 'Carica i nodi su richiesta',
     'pageSettings.input.pageTreeStyle.url': 'Stile degli URL',
     'pageSettings.input.pageTreeStyle.breadcrumbs': 'A briciole di pane',
-    'pageSettings.baseUrl.help': 'Gli URL vengono generati in base al BASE URL definito nel file di contesto "es. www.entando.com/site/it/codicepagina.page" RELATIVO quando nell\'URL generato viene omesso il BASE URL "es. /site /it / codicepagina,page" COSTRUITO DA PARAMETRI DI HTTP REQUEST quando l\'URL generato dalla request prende il parametro generato dalla richiesta precedente STATICO quando nell\'URL viene inserito il BASE URL definito nel file di contesto "es. www.entando.com/ site /it /codicepagina.page"',
-    'pageSettings.jsession.help': 'É un requisito di sicurezza. Evita che venga inserito il JSESSIONID nei link generati dall\'applicazione. É necessario avere i cookie attivati.',
-    'pageSettings.appendBaseUrl.help': 'Aggiunge il nome del contesto al BASE URL (es.:/site/) (ininfluente con BASE URL statico)',
-    'pageSettings.success': 'L\'Impostazione Pagine è stata aggiornata',
-    'dataModel.help': 'Dalla sezione MODELLI DI CONTENUTO l’amministratore può aggiungere nuovi modelli di contenuto o modificare quelli già esistenti. Il modello di contenuto è uno schema di formattazione di uno specifico tipo di contenuto. il Modello di Contenuto è realizzato in modo che il motore di renderizzazione di Entando lo traduca in un frammento di HTML che insieme ad opportuni fogli di stile CSS produrrà il risultato desiderato.',
+    'pageSettings.baseUrl.help':
+      'Gli URL vengono generati in base al BASE URL definito nel file di contesto "es. www.entando.com/site/it/codicepagina.page" RELATIVO quando nell\'URL generato viene omesso il BASE URL "es. /site /it / codicepagina,page" COSTRUITO DA PARAMETRI DI HTTP REQUEST quando l\'URL generato dalla request prende il parametro generato dalla richiesta precedente STATICO quando nell\'URL viene inserito il BASE URL definito nel file di contesto "es. www.entando.com/ site /it /codicepagina.page"',
+    'pageSettings.jsession.help':
+      "É un requisito di sicurezza. Evita che venga inserito il JSESSIONID nei link generati dall'applicazione. É necessario avere i cookie attivati.",
+    'pageSettings.appendBaseUrl.help':
+      'Aggiunge il nome del contesto al BASE URL (es.:/site/) (ininfluente con BASE URL statico)',
+    'pageSettings.success': "L'Impostazione Pagine è stata aggiornata",
+    'dataModel.help':
+      'Dalla sezione MODELLI DI CONTENUTO l’amministratore può aggiungere nuovi modelli di contenuto o modificare quelli già esistenti. Il modello di contenuto è uno schema di formattazione di uno specifico tipo di contenuto. il Modello di Contenuto è realizzato in modo che il motore di renderizzazione di Entando lo traduca in un frammento di HTML che insieme ad opportuni fogli di stile CSS produrrà il risultato desiderato.',
     'dataModel.type': 'Tipo',
     'dataModel.stylesheet': 'Foglio di Stile',
     'dataModel.model': 'Modello',
-    'dataModel.deleteDataModelSuccess': 'Data Model \'{id}\' cancellato correttamente',
-    'dataModel.deleteDataModelError': 'Si è verificato un errore durante la cancellazione del Data Model \'{id}\'',
+    'dataModel.deleteDataModelSuccess':
+      "Data Model '{id}' cancellato correttamente",
+    'dataModel.deleteDataModelError':
+      "Si è verificato un errore durante la cancellazione del Data Model '{id}'",
     'dataModel.help.code': 'Puoi inserire solo caratteri numerici',
     'dataType.list.title': 'Data Type',
-    'dataType.help': 'Dalla sezione DATA TYPE l\'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.',
+    'dataType.help':
+      "Dalla sezione DATA TYPE l'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.",
     'dataType.table.status': 'Status',
     'dataType.table.status.0': 'A posto. Se vuoi, ricarica',
     'dataType.table.status.1': 'Ricaricamento in corso. Aggiorna la pagina.',
@@ -563,11 +637,14 @@ export default {
     'dataType.updated': 'TIPO DI DATI aggiornato correttamente',
     'profileType.table.status': 'Status',
     'profileType.table.status.ok': 'A posto. Se vuoi, ricarica',
-    'profileType.table.status.ko': 'Necessità di un ricaricamento: lancialo ora.',
-    'profileType.table.status.wip': 'Ricaricamento in corso. Aggiorna la pagina.',
+    'profileType.table.status.ko':
+      'Necessità di un ricaricamento: lancialo ora.',
+    'profileType.table.status.wip':
+      'Ricaricamento in corso. Aggiorna la pagina.',
     'profileType.listEmpty': 'Non ci sono TIPI di PROFILO disponibili',
     'profileType.list.title': 'Tipi di profilo',
-    'profileType.help': 'Dalla sezione TIPI DI PROFILO l\'amministratore può creare nuovi tipi di profilo utenti o modificare quelli già esistenti.',
+    'profileType.help':
+      "Dalla sezione TIPI DI PROFILO l'amministratore può creare nuovi tipi di profilo utenti o modificare quelli già esistenti.",
     'ProfileType.type': 'Tipo',
     'ProfileType.created': 'TIpo di profilo creato con successo',
     'ProfileType.refreshed': 'Tipo di profilo ricaricato con successo',
@@ -576,14 +653,21 @@ export default {
     'pageConfig.applyDefaultWidget': 'Applica widget di default',
     'pageConfig.defaultWidgetApplied': 'Widget di default applicati',
     'pageConfig.onTheFlyPage': 'Pagina on-the-fly',
-    'pageTemplate.error.overlapping': 'I frame "{frame1}" e "{frame2}" sono sovrapposti',
-    'pageTemplate.error.pos': 'La proprietà "pos" del frame "{frame}" è diversa dal suo indice',
-    'pageTemplate.error.sketchX1X2format': 'Frame "{frame}": gli attributi di sketch x1 e x2 devono essere numeri interi compresi tra 0 e 11, con x1 <= x2',
-    'pageTemplate.error.sketchY1Y2format': 'Frame "{frame}": gli attributi di sketch y1 e y2 devono essere numeri interi positivi, con y1 <= y2',
-    'pageTemplate.error.framesArray': 'configuration.frames deve essere un Array',
-    'pageTemplate.error.configuration': 'configuration è un campo obbbligatorio, di tipo Object',
+    'pageTemplate.error.overlapping':
+      'I frame "{frame1}" e "{frame2}" sono sovrapposti',
+    'pageTemplate.error.pos':
+      'La proprietà "pos" del frame "{frame}" è diversa dal suo indice',
+    'pageTemplate.error.sketchX1X2format':
+      'Frame "{frame}": gli attributi di sketch x1 e x2 devono essere numeri interi compresi tra 0 e 11, con x1 <= x2',
+    'pageTemplate.error.sketchY1Y2format':
+      'Frame "{frame}": gli attributi di sketch y1 e y2 devono essere numeri interi positivi, con y1 <= y2',
+    'pageTemplate.error.framesArray':
+      'configuration.frames deve essere un Array',
+    'pageTemplate.error.configuration':
+      'configuration è un campo obbbligatorio, di tipo Object',
     'user.list.title': 'Utenti',
-    'user.help': 'Dalla sezione UTENTI l\'amministratore può accedere alla lista degli utenti, gestirne i profili, le autorizzazioni - assegnando ruoli e gruppi - e aggiungere nuovi utenti.',
+    'user.help':
+      "Dalla sezione UTENTI l'amministratore può accedere alla lista degli utenti, gestirne i profili, le autorizzazioni - assegnando ruoli e gruppi - e aggiungere nuovi utenti.",
     'user.table.status.active': 'Attivo',
     'user.table.status.disabled': 'Non attivo',
     'user.table.status.inactive': 'Non attivo',
@@ -608,30 +692,38 @@ export default {
     'user.profileType': 'Tipo di Profilo',
     'user.status': 'Stato',
     'user.searchForm.users': 'Utenti',
-    'user.username.help': 'Inserire tra 4 e 80 caratteri, lettere minuscole, numeri \'.\' e  \'_\'.',
-    'user.password.help': 'Inserire tra 8 e 20 caratteri, lettere maiuscole e minuscole, numeri \'.\' e  \'_\'.',
-    'user.validate.text': 'Contiene caratteri non consentiti. Usare solo caratteri alfanumerici, il punto \'.\' o l\'undescore \'_\'.',
+    'user.username.help':
+      "Inserire tra 4 e 80 caratteri, lettere minuscole, numeri '.' e  '_'.",
+    'user.password.help':
+      "Inserire tra 8 e 20 caratteri, lettere maiuscole e minuscole, numeri '.' e  '_'.",
+    'user.validate.text':
+      "Contiene caratteri non consentiti. Usare solo caratteri alfanumerici, il punto '.' o l'undescore '_'.",
     'user.registration': 'Registrazione',
     'user.lastLogin': 'Ultimo accesso',
     'user.reset': 'Reset',
     'user.lastPasswordChange': 'Ultimo cambio password',
     'user.restrictions.title': 'Restrizione Utenti',
-    'user.restrictions.help': 'Dalla sezione RESTRIZIONE UTENTI l\'amministratore può attivare un sistema di scadenza delle utenze.',
+    'user.restrictions.help':
+      "Dalla sezione RESTRIZIONE UTENTI l'amministratore può attivare un sistema di scadenza delle utenze.",
     'user.restrictions.passwordSection': 'Validità Password',
     'user.restrictions.avatarSection': 'Avatar',
     'user.restrictions.form.active': 'Password Sempre Attiva',
     'user.restrictions.form.monthsSinceLastLogin': 'La password è attiva per',
-    'user.restrictions.form.maxMonths': 'Numero di mesi di validità della password dopo l\'ultimo accesso',
+    'user.restrictions.form.maxMonths':
+      "Numero di mesi di validità della password dopo l'ultimo accesso",
     'user.restrictions.form.gravatar': 'Abilita Gravatar (Avatar Utenti)',
-    'user.restrictions.form.monthsSinceLastLogin.error': 'Questo valore dev\'essere uguale o minore al precedente',
+    'user.restrictions.form.monthsSinceLastLogin.error':
+      "Questo valore dev'essere uguale o minore al precedente",
     'user.restrictions.months': 'mesi',
     'user.restrictions.success': 'La Restrizione Utenti è stata aggiornata',
-    'user.myProfile.help': 'Dalla sezione MIO PROFILO l\'utente puó modificare la password del proprio account e i dati associati al profilo.',
+    'user.myProfile.help':
+      "Dalla sezione MIO PROFILO l'utente puó modificare la password del proprio account e i dati associati al profilo.",
     'user.myProfile.passwordSection': 'Cambia la tua password',
     'user.myProfile.accountSection': 'Modifica il mio account',
     'user.myProfile.editProfileSection': 'Modifica il mio profilo',
     'user.myProfile.uploadImage': 'Carica il tuo profilo immagine',
-    'user.myProfile.uploadRestriction': 'Solo immagine (JPG, PNG) max {maxSize}',
+    'user.myProfile.uploadRestriction':
+      'Solo immagine (JPG, PNG) max {maxSize}',
     'user.myProfile.oldPassword': 'Password attuale',
     'user.myProfile.newPassword': 'Nuova password',
     'user.myProfile.newPasswordConfirm': 'Ripeti la nuova password',
@@ -639,19 +731,24 @@ export default {
     'user.password.success': 'La password è stata aggiornata',
     'userprofile.edit': 'Modifica profilo utente',
     'userprofile.edit.success': 'Il profilo utente è stato aggiornato',
-    'userpreferences.edit.success': "Le preferenze dell'utente sono state aggiornate",
-    'form.select.chooseOne': 'Seleziona un\'opzione',
+    'userpreferences.edit.success':
+      "Le preferenze dell'utente sono state aggiornate",
+    'form.select.chooseOne': "Seleziona un'opzione",
     'user.profile.all': 'Tutti',
     'user.profile.with': 'Utente con un profilo',
     'user.profile.without': 'Utente senza profilo',
-    'group.help': 'Dalla sezione GRUPPI l\'amministratore può gestire i gruppi esistenti o crearne nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.',
+    'group.help':
+      "Dalla sezione GRUPPI l'amministratore può gestire i gruppi esistenti o crearne nuovi. I Gruppi servono a definire dei sottoinsiemi di oggetti e ad autorizzare sottoinsiemi di utenti ad operare su di essi.",
     'group.listEmpty': 'Non ci sono GRUPPI disponibili',
     'group.name': 'Nome',
     'group.code': 'Codice',
-    'group.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
-    'group.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  \'_\'.',
+    'group.name.help':
+      'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
+    'group.code.help':
+      "Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  '_'.",
     'database.list.add': 'Crea un backup',
-    'database.help': 'Dalla sezione DATABASE gli amministratori di sistema possono effettuare il backup e il ripristino del database, qualora la funzionalità sia abilitata. È una funzione molto importante che se non eseguita in maniera corretta può comportare la perdita irreversibile di dati.',
+    'database.help':
+      'Dalla sezione DATABASE gli amministratori di sistema possono effettuare il backup e il ripristino del database, qualora la funzionalità sia abilitata. È una funzione molto importante che se non eseguita in maniera corretta può comportare la perdita irreversibile di dati.',
     'database.noDatabaseYet': 'Non ci sono backup disponibili.',
     'database.inProgress': 'Backup in corso',
     'database.gotoList': 'Vai alla lista dei backup',
@@ -665,7 +762,8 @@ export default {
     'label.detail.title': 'Etichette',
     'labels.code.placeholder': 'codice',
     'labels.default.language': 'Lingua Predefinita',
-    'labelsAndLanguages.help': 'Dalla sezione ETICHETTE E LINGUE è possibile gestire le lingue e le etichette di sistema. Entando supporta il multilingua, l\'amministratore può aggiungere una nuova lingua. La prima lingua configurata nel sistema è la lingua predefinita. Le etichette sono accessori di Entando, usate principalmente per gestire semplici informazioni testuali semi-statiche, non associate ad oggetti particolari.',
+    'labelsAndLanguages.help':
+      "Dalla sezione ETICHETTE E LINGUE è possibile gestire le lingue e le etichette di sistema. Entando supporta il multilingua, l'amministratore può aggiungere una nuova lingua. La prima lingua configurata nel sistema è la lingua predefinita. Le etichette sono accessori di Entando, usate principalmente per gestire semplici informazioni testuali semi-statiche, non associate ad oggetti particolari.",
     'language.selectLanguage': 'Seleziona una lingua',
     'language.active.listEmpty': 'Non ci sono LINGUE ATTIVE disponibili',
     'language.active.add': 'Lingua attiva aggiunta',
@@ -675,12 +773,16 @@ export default {
     'modal.confirm.movePage': 'Sei sicuro di voler spostare la pagina {code}?',
     'modal.confirm.delete': 'Sei sicuro di voler rimuovere {code}?',
     'modal.confirm.publish': 'Sei sicuro di voler pubblicare la pagina {code}?',
-    'modal.confirm.unpublish': 'Sei sicuro di voler de-pubblicare la pagina {code}?',
-    'widgetConfig.help': 'Dalla sezione CONFIGURA WIDGET puoi configurare il Widget, in una posizione precisa della pagina, attraverso un\' interfaccia guidata.',
-    'widgetConfig.internalServlet.widgetName': 'Invocazione di una Servlet Interna',
+    'modal.confirm.unpublish':
+      'Sei sicuro di voler de-pubblicare la pagina {code}?',
+    'widgetConfig.help':
+      "Dalla sezione CONFIGURA WIDGET puoi configurare il Widget, in una posizione precisa della pagina, attraverso un' interfaccia guidata.",
+    'widgetConfig.internalServlet.widgetName':
+      'Invocazione di una Servlet Interna',
     'widgetConfig.internalServlet.parameters': 'Parametri di Configurazione',
     'widgetConfig.internalServlet.actionPath': 'Path action',
-    'widgetConfig.internalServlet.actionPath.help': 'Path ad una pagina JSP o ad una action Struts. È necessario anteporre \'/ExtStr2\' in caso di action Struts',
+    'widgetConfig.internalServlet.actionPath.help':
+      "Path ad una pagina JSP o ad una action Struts. È necessario anteporre '/ExtStr2' in caso di action Struts",
     'group.detail.title.users': 'Utenti',
     'group.detail.title.widgetTypes': 'Tipi di Widget',
     'group.detail.title.contents': 'Contenuti',
@@ -694,25 +796,32 @@ export default {
     'group.action.pageConfiguration': 'Configurazione pagina',
     'group.action.manageAuthorization': 'Gestici le autorizzazioni per',
     'group.content.lastEdit': 'Ultima modifica',
-    'pageTemplates.help': 'Dalla sezione MODELLI DI PAGINA puoi gestire i modelli di pagina esistenti o crearne nuovi. Il modello di pagina definisce la struttura della pagina. All\' interno di un\'applicazione Entando si possono configurare più modelli di pagina . Il modello di pagina determina due aspetti: schema (suddivisione della pagina in zone) e decorazione (aspetto grafico della pagina).',
-    'pageTemplates.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
-    'pageTemplates.code.help': 'Puoi inserire massimo 40 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
+    'pageTemplates.help':
+      "Dalla sezione MODELLI DI PAGINA puoi gestire i modelli di pagina esistenti o crearne nuovi. Il modello di pagina definisce la struttura della pagina. All' interno di un'applicazione Entando si possono configurare più modelli di pagina . Il modello di pagina determina due aspetti: schema (suddivisione della pagina in zone) e decorazione (aspetto grafico della pagina).",
+    'pageTemplates.name.help':
+      'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
+    'pageTemplates.code.help':
+      'Puoi inserire massimo 40 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali.',
     'pageTemplates.jsonConfiguration': 'Configurazione JSON',
     'pageTemplates.template': 'Template',
     'pageTemplates.templatePreview': 'Anteprima Template',
     'pageTemplates.pluginCode': 'Codice plugin',
-    'category.help': 'Dalla sezione CATEGORIE è possibile gestire l\'albero delle categorie e creare nuove categorie. Le Categorie costituiscono uno schema di classificazione per Contenuti, Risorse ed altri eventuali oggetti derivanti dai componenti, utile per la ricerca e la selezione delle informazioni da pubblicare.',
+    'category.help':
+      "Dalla sezione CATEGORIE è possibile gestire l'albero delle categorie e creare nuove categorie. Le Categorie costituiscono uno schema di classificazione per Contenuti, Risorse ed altri eventuali oggetti derivanti dai componenti, utile per la ricerca e la selezione delle informazioni da pubblicare.",
     'category.tree': 'Albero delle categorie',
     'category.settings': 'Configurazione delle categorie',
-    'category.treeStyle': 'Scegli lo stile dell\'albero delle categorie',
+    'category.treeStyle': "Scegli lo stile dell'albero delle categorie",
     'category.treeType.classic': 'Classico',
     'category.treeType.request': 'Carica i nodi a richiesta',
     'category.categoryForm.categoryPlacement': 'Posizione della categoria',
     'DataType.type': 'Type',
-    'role.help': 'Dalla sezione RUOLI l\'amministratore crea e gestisce i ruoli degli utenti. I ruoli sono un insieme configurabile di permessi che definiscono le azioni che l\'utente può compiere all\'interno dell\'applicazione.',
+    'role.help':
+      "Dalla sezione RUOLI l'amministratore crea e gestisce i ruoli degli utenti. I ruoli sono un insieme configurabile di permessi che definiscono le azioni che l'utente può compiere all'interno dell'applicazione.",
     'role.listEmpty': 'Non ci sono RUOLI disponibili',
-    'role.name.help': 'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali. ',
-    'role.code.help': 'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  ',
+    'role.name.help':
+      'Puoi inserire massimo 50 caratteri, lettere maiuscole e minuscole, numeri, e caratteri speciali. ',
+    'role.code.help':
+      'Puoi inserire massimo 20 caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale underscore  ',
     'role.detail.referencedUsers': 'Utenti referenziati',
     'role.detail.noPermissions': 'Non ci sono permessi',
     'permission.listEmpty': 'Non ci sono PERMISSION disponibili',
@@ -723,17 +832,25 @@ export default {
     'reference.jacmsResourceManager': 'Risorse con questa categoria',
     'reference.DataObjectManager': 'Data Objects con questa categoria',
     'reference.jpcollaborationIdeaManager': 'Ideas con questa categoria',
-    'reference.noReferencejacmsContentManager': 'Non ci sono contenuti referenziati',
-    'reference.noReferencejacmsResourceManager': 'Non ci sono risorse referenziate',
-    'reference.noReferenceDataObjectManager': 'Non ci sono data object referenziati',
-    'reference.noReferencejpcollaborationIdeaManager': 'Non ci sono idea referenziate',
+    'reference.noReferencejacmsContentManager':
+      'Non ci sono contenuti referenziati',
+    'reference.noReferencejacmsResourceManager':
+      'Non ci sono risorse referenziate',
+    'reference.noReferenceDataObjectManager':
+      'Non ci sono data object referenziati',
+    'reference.noReferencejpcollaborationIdeaManager':
+      'Non ci sono idea referenziate',
     'references.referencedPages': 'Pagine referenziate',
     'reloadConfiguration.title': 'Ricarica la Configurazione',
-    'reloadConfiguration.help': 'Dalla sezione RICARICA CONFIGURAZIONE è possibile ricaricare la configurazione del sistema. Questa operazione si rende necessaria dopo la modifica di alcuni parametri.',
+    'reloadConfiguration.help':
+      'Dalla sezione RICARICA CONFIGURAZIONE è possibile ricaricare la configurazione del sistema. Questa operazione si rende necessaria dopo la modifica di alcuni parametri.',
     'reloadConfiguration.reload.title': 'Ricarica la Configurazione',
-    'reloadConfiguration.reload.confirm': 'Sei sicuro di voler ricaricare la configurazione?',
-    'reloadConfiguration.confirm.success': 'La configurazione di sistema è stata ricaricata.',
-    'reloadConfiguration.confirm.error': 'Non è stato possibile ricaricare la configurazione di sistema',
+    'reloadConfiguration.reload.confirm':
+      'Sei sicuro di voler ricaricare la configurazione?',
+    'reloadConfiguration.confirm.success':
+      'La configurazione di sistema è stata ricaricata.',
+    'reloadConfiguration.confirm.error':
+      'Non è stato possibile ricaricare la configurazione di sistema',
     'activityStream.newPage': 'ha creato una nuova Pagina',
     'activityStream.editPage': 'ha modificato una Pagina',
     'activityStream.deletePage': 'ha eliminato una Pagina',
@@ -742,43 +859,61 @@ export default {
     'activityStream.modifyPage': 'ha modificato una Pagina',
     'activityStream.like': 'Like',
     'activityStream.writeComment': 'Scrivi un commento',
-    'reference.text': 'Le referenze per i seguenti Tipi di Entita\' hanno bisogno di essere ricaricate. Totale da ricaricare: {count}. ',
+    'reference.text':
+      "Le referenze per i seguenti Tipi di Entita' hanno bisogno di essere ricaricate. Totale da ricaricare: {count}. ",
     'reference.reload': 'Clicca {link} per ricaricare tutti i data types.',
-    'componentRepository.disabled.title': 'Component Repository è disabilitata.',
-    'componentRepository.disabled.help': 'È possibile attivarla impostando COMPONENT_REPOSITORY_UI_ENABLED=true nel file .env',
+    'componentRepository.disabled.title':
+      'Component Repository è disabilitata.',
+    'componentRepository.disabled.help':
+      'È possibile attivarla impostando COMPONENT_REPOSITORY_UI_ENABLED=true nel file .env',
     'componentRepository.menuButton.title': 'Hub',
     'componentRepository.component.list.title': 'Entando Hub',
-    'componentRepository.component.help': 'Entando Hub è un marketplace da cui l\'utente può installare Widget, Componenti, UX Fragment, Template di Pagina, Modelli di Contenuto e Tipi di Contenuto',
-    'componentRepository.sidebar.componentRepositoryFilterTitle': 'Component Repository',
+    'componentRepository.component.help':
+      "Entando Hub è un marketplace da cui l'utente può installare Widget, Componenti, UX Fragment, Template di Pagina, Modelli di Contenuto e Tipi di Contenuto",
+    'componentRepository.sidebar.componentRepositoryFilterTitle':
+      'Component Repository',
     'componentRepository.sidebar.categoryFilterTitle': 'Categorie',
     'componentRepository.components.latestVersion': 'Ultima Versione',
     'componentRepository.components.notFound': 'Nessun componente disponibile',
-    'componentRepository.des.notFound': 'Nessun component repository è stato ancora registrato. Per aggiungere un nuovo component repository fai clic sull\'icona a forma di ingranaggio nell\'angolo in alto a destra di questa pagina',
+    'componentRepository.des.notFound':
+      "Nessun component repository è stato ancora registrato. Per aggiungere un nuovo component repository fai clic sull'icona a forma di ingranaggio nell'angolo in alto a destra di questa pagina",
     'componentRepository.components.install': 'Installa',
     'componentRepository.components.update': 'Aggiornare',
-    'componentRepository.components.installRollback': 'Installazione non riuscita. L\'installazione è stata ripristinata',
+    'componentRepository.components.installRollback':
+      "Installazione non riuscita. L'installazione è stata ripristinata",
     'componentRepository.components.installing': 'Installazione {version}',
     'componentRepository.components.uninstalling': 'Disinstallazione {version}',
-    'componentRepository.components.failedInstall': 'Installazione non riuscita',
+    'componentRepository.components.failedInstall':
+      'Installazione non riuscita',
     'componentRepository.components.installed': 'Installato',
-    'componentRepository.components.failedUninstall': 'Disinstallazione non riuscita',
+    'componentRepository.components.failedUninstall':
+      'Disinstallazione non riuscita',
     'componentRepository.components.recheck': 'Ricontrolla',
     'componentRepository.components.retry': 'Riprova',
     'componentRepository.components.inprogress': 'In Corso',
-    'componentRepository.components.notifyInProgress': 'Installazione inaspettatamente ancora in corso. Puoi controllare di nuovo aggiornando la pagina.',
-    'componentRepository.components.notifyFailedInstall': 'Si è verificato un errore durante l\'installazione.',
-    'componentRepository.components.notifyFailedUninstall': 'Si è verificato un errore durante la disinstallazione.',
+    'componentRepository.components.notifyInProgress':
+      'Installazione inaspettatamente ancora in corso. Puoi controllare di nuovo aggiornando la pagina.',
+    'componentRepository.components.notifyFailedInstall':
+      "Si è verificato un errore durante l'installazione.",
+    'componentRepository.components.notifyFailedUninstall':
+      'Si è verificato un errore durante la disinstallazione.',
     'componentRepository.components.uninstall': 'Disinstalla',
-    'componentRepository.components.confirmUninstall': 'Vuoi veramente disinstallare il componente {name}?',
-    'componentRepository.components.cannotUninstall': 'Impossibile disinstallare',
+    'componentRepository.components.confirmUninstall':
+      'Vuoi veramente disinstallare il componente {name}?',
+    'componentRepository.components.cannotUninstall':
+      'Impossibile disinstallare',
     'componentRepository.components.usage': 'Utilizzo dei componenti: {usage}',
     'componentRepository.components.showInstallPlan': 'Piano di installazione',
-    'componentRepository.components.showCustomInstallPlan': 'Installazione personalizzata',
-    'componentRepository.components.installPlanFailed': 'Impossibile recuperare il piano di installazione',
-    'componentRepository.components.downgradeMessage': 'Tieni presente che il downgrade di un pacchetto a una versione precedente può comportare la perdita di funzionalità o dati. Potresti voler rivedere le note di rilascio del pacchetto prima di eseguire un downgrade.',
+    'componentRepository.components.showCustomInstallPlan':
+      'Installazione personalizzata',
+    'componentRepository.components.installPlanFailed':
+      'Impossibile recuperare il piano di installazione',
+    'componentRepository.components.downgradeMessage':
+      'Tieni presente che il downgrade di un pacchetto a una versione precedente può comportare la perdita di funzionalità o dati. Potresti voler rivedere le note di rilascio del pacchetto prima di eseguire un downgrade.',
     'componentRepository.components.downgrade': 'Declassamento',
     'componentRepository.components.conflict': 'Conflitto',
-    'componentRepository.components.conflictMessage': "Non è stato possibile determinare se questa operazione potrebbe implicare un downgrade. Tieni presente che l'installazione di una versione precedente può comportare la perdita di funzionalità o dati. Potresti voler rivedere le note di rilascio del pacchetto prima di procedere.",
+    'componentRepository.components.conflictMessage':
+      "Non è stato possibile determinare se questa operazione potrebbe implicare un downgrade. Tieni presente che l'installazione di una versione precedente può comportare la perdita di funzionalità o dati. Potresti voler rivedere le note di rilascio del pacchetto prima di procedere.",
     'componentRepository.components.replace': 'Sostituire',
     'componentRepository.components.proceed': 'Vuoi procedere?',
     'componentRepository.sidebar.ratingFilter.title': 'Media voto',
@@ -799,7 +934,8 @@ export default {
     'componentRepository.extraFilters.new': 'Nuovi',
     'componentRepository.extraFilters.installed': 'Installati',
     'componentRepository.settings.title': 'Configurazione Component Repository',
-    'componentRepository.settings.help': 'In questa sezione è possibile aggiungere o gestire le configurazioni di diversi marketplace all\'interno del Component Repository di Entando.',
+    'componentRepository.settings.help':
+      "In questa sezione è possibile aggiungere o gestire le configurazioni di diversi marketplace all'interno del Component Repository di Entando.",
     'componentRepository.settings.add': 'Aggiungi Component Repository',
     'componentRepository.settings.active': 'Attivo',
     'componentRepository.settings.address': 'Indirizzo',
@@ -841,7 +977,8 @@ export default {
     'singlePageSettings.generalSettings': 'Generale',
     'singlePageSettings.pageTitle': 'Titolo della Pagina',
     'singlePageSettings.updateSuccess': 'Pagina aggiornata con successo',
-    'plugins.noPlugins': 'Nessun plugin installato. Guarda i plugin disponibili sul Component Repository',
+    'plugins.noPlugins':
+      'Nessun plugin installato. Guarda i plugin disponibili sul Component Repository',
     'plugins.installCallToAction': 'Vai al Component Repository',
     'widgets.configUi': 'Config UI',
     'widgets.addWidget': 'Aggiungi Widget',
@@ -861,9 +998,12 @@ export default {
     'app.seo.addMetatagType': 'Tipo',
     'app.seo.addMetatagValue': 'Valore',
     'app.pages.titleHelp': 'Titolo della pagina per scopi SEO',
-    'app.seo.descriptionHelp': 'La meta descrizione è un frammento di testo che riassume il contenuto della pagina',
-    'app.seo.keywordsHelp': 'Le meta parole chiave sono un frammento di testo che indica le parole chiave principali della pagina, separate da virgola.',
-    'app.seo.addMetatagHelp': 'In questa sezione è possibile aggiungere un nuovo metatag (personalizzato o suggerito da un catalogo interno)',
+    'app.seo.descriptionHelp':
+      'La meta descrizione è un frammento di testo che riassume il contenuto della pagina',
+    'app.seo.keywordsHelp':
+      'Le meta parole chiave sono un frammento di testo che indica le parole chiave principali della pagina, separate da virgola.',
+    'app.seo.addMetatagHelp':
+      'In questa sezione è possibile aggiungere un nuovo metatag (personalizzato o suggerito da un catalogo interno)',
     'app.seo.inheritLangLabel': 'Utilizza la lingua predefinita',
     'pagination.firstPage': 'Prima Pagina',
     'pagination.previousPage': 'Pagina Precedente',
@@ -884,27 +1024,35 @@ export default {
     'widget.navigationBar.config.fromRoot': 'Distante dalla Radice',
     'widget.navigationBar.config.type': 'Tipo',
     'widget.navigationBar.config.subtreeDepth': 'Profondità del sottoalbero:',
-    'widget.navigationBar.config.addNewExpression': 'Aggiungi una nuova espressione',
+    'widget.navigationBar.config.addNewExpression':
+      'Aggiungi una nuova espressione',
     'widget.navigationBar.config.none': 'Nessuno (Non specificato)',
     'widget.navigationBar.config.allChildren': 'Tutti i figli della pagina',
-    'widget.navigationBar.config.fromTheRootToSelected': 'Dalla Radice alla pagina scelta',
+    'widget.navigationBar.config.fromTheRootToSelected':
+      'Dalla Radice alla pagina scelta',
     'widget.navigationBar.config.subtree': 'Sottoalbero',
-    'widget.navigationBar.config.noExpressions': 'Configura qualche espressione..',
+    'widget.navigationBar.config.noExpressions':
+      'Configura qualche espressione..',
     'widget.update.success': 'Il widget è stato aggiornato!',
     'widget.navigationBar.config.subtreeDepthAbr': 'Profondità del sottoalbero',
     'info.license': 'Licenza',
-    'info.license.description': 'La piattaforma Entando è open source al 100% e nel suo insieme è concessa in licenza con LGPL v3.0. \n\nUna licenza commerciale open source gratuita è disponibile per la piattaforma Entando e l\'Hub Entando per i clienti con abbonamenti Gold e Platinum.\nCon questa licenza, puoi estendere o modificare liberamente Entando senza richiedere il contributo di IP riservato alla community open source.\n\nL\'Abbonamento dà diritto a ricevere servizi di supporto, intesi come manutenzione e garanzia del software (correzione di bug), per tutti i prodotti e componenti sottoscritti per tutta la durata del contratto.',
+    'info.license.description':
+      "La piattaforma Entando è open source al 100% e nel suo insieme è concessa in licenza con LGPL v3.0. \n\nUna licenza commerciale open source gratuita è disponibile per la piattaforma Entando e l'Hub Entando per i clienti con abbonamenti Gold e Platinum.\nCon questa licenza, puoi estendere o modificare liberamente Entando senza richiedere il contributo di IP riservato alla community open source.\n\nL'Abbonamento dà diritto a ricevere servizi di supporto, intesi come manutenzione e garanzia del software (correzione di bug), per tutti i prodotti e componenti sottoscritti per tutta la durata del contratto.",
     'info.license.type': 'LGPL v3.0 licenza',
     'info.about': 'Informazioni',
     'info.about.entandoPlatform': 'Entando Platform',
-    'info.about.entando': 'Entando è la principale Application Composition Platform open source per Kubernetes. Consente a team che lavorano in parallelo di accelerare lo sviluppo e l\'innovazione delle funzionalità aziendali su uno stack moderno, cloud-native e Kubernetes-native',
-    'info.about.docs': 'La documentazione ti fa conoscere la piattaforma Entando e ti guida nell\'esplorazione delle sue funzionalità. Per iniziare ad utilizzare la piattaforma Entando, visita',
+    'info.about.entando':
+      "Entando è la principale Application Composition Platform open source per Kubernetes. Consente a team che lavorano in parallelo di accelerare lo sviluppo e l'innovazione delle funzionalità aziendali su uno stack moderno, cloud-native e Kubernetes-native",
+    'info.about.docs':
+      "La documentazione ti fa conoscere la piattaforma Entando e ti guida nell'esplorazione delle sue funzionalità. Per iniziare ad utilizzare la piattaforma Entando, visita",
     'info.about.version': 'Versione {version}',
-    'reference.text.success': 'I riferimenti devono essere ricaricati ogni volta che viene modificato un profilo.',
+    'reference.text.success':
+      'I riferimenti devono essere ricaricati ogni volta che viene modificato un profilo.',
     'reference.label.success': 'Va tutto bene.',
     'reference.status.title': 'Stato di riferimento',
     'user.table.profileType': 'Tipo di profilo',
-    'app.deleteRoleImpossible': 'Il ruolo non può essere eliminato finché non viene rimosso da tutti i seguenti utenti',
+    'app.deleteRoleImpossible':
+      'Il ruolo non può essere eliminato finché non viene rimosso da tutti i seguenti utenti',
     'app.saveAs': 'Salva come',
     'menu.widgetClone': 'Clona widget',
     'widget.page.clone.pageTitle': 'Clona widget',
@@ -912,72 +1060,104 @@ export default {
     'user.myProfile.appSettingsSection': 'Preferenze',
     'user.myProfile.disableContentMenu': 'Disabilita il menu dei contenuti',
     'user.myProfile.wizardToggle': 'Welcome Wizard',
-    'user.myProfile.wizardToggleHelp': 'Abilita o disabilita la procedura guidata di benvenuto che guida l\'utente attraverso il processo "Crea prima applicazione"',
+    'user.myProfile.wizardToggleHelp':
+      'Abilita o disabilita la procedura guidata di benvenuto che guida l\'utente attraverso il processo "Crea prima applicazione"',
     'user.myProfile.translationWarning': 'Avviso di traduzione mancante',
-    'user.myProfile.translationWarningHelp': 'Abilita o disabilita il messaggio di avviso per ricordarti di riempire i campi di traduzione di un contenuto.',
+    'user.myProfile.translationWarningHelp':
+      'Abilita o disabilita il messaggio di avviso per ricordarti di riempire i campi di traduzione di un contenuto.',
     'user.myProfile.loadOnPageSelect': 'Carica su selezione pagina',
-    'user.myProfile.loadOnPageSelectHelp': 'Carica una pagina della struttura ad albero della pagina nel designer della pagina dopo averla selezionata.',
-    'user.myProfile.defaultPageOwnerGroup': 'Gruppo proprietario pagina predefinito',
-    'user.myProfile.defaultPageOwnerGroupHelp': 'Imposta il gruppo proprietario predefinito durante la creazione di una pagina.',
-    'user.myProfile.defaultPageJoinGroups': 'Pagina predefinita Unisciti ai gruppi',
-    'user.myProfile.defaultPageJoinGroupsHelp': 'Imposta i gruppi di partecipazione predefiniti durante la creazione di una pagina.',
-    'user.myProfile.defaultContentOwnerGroup': 'Gruppo di proprietari dei contenuti predefinito',
-    'user.myProfile.defaultContentOwnerGroupHelp': 'Imposta il gruppo proprietario predefinito durante la creazione di un contenuto.',
-    'user.myProfile.defaultContentJoinGroups': 'Contenuto predefinito Partecipa a gruppi',
-    'user.myProfile.defaultContentJoinGroupsHelp': 'Imposta i gruppi di partecipazione predefiniti durante la creazione di un contenuto.',
-    'user.myProfile.defaultWidgetOwnerGroup': 'Gruppo proprietario widget predefinito',
-    'user.myProfile.defaultWidgetOwnerGroupHelp': 'Imposta il gruppo proprietario predefinito quando si crea un widget o un MFE.',
+    'user.myProfile.loadOnPageSelectHelp':
+      'Carica una pagina della struttura ad albero della pagina nel designer della pagina dopo averla selezionata.',
+    'user.myProfile.defaultPageOwnerGroup':
+      'Gruppo proprietario pagina predefinito',
+    'user.myProfile.defaultPageOwnerGroupHelp':
+      'Imposta il gruppo proprietario predefinito durante la creazione di una pagina.',
+    'user.myProfile.defaultPageJoinGroups':
+      'Pagina predefinita Unisciti ai gruppi',
+    'user.myProfile.defaultPageJoinGroupsHelp':
+      'Imposta i gruppi di partecipazione predefiniti durante la creazione di una pagina.',
+    'user.myProfile.defaultContentOwnerGroup':
+      'Gruppo di proprietari dei contenuti predefinito',
+    'user.myProfile.defaultContentOwnerGroupHelp':
+      'Imposta il gruppo proprietario predefinito durante la creazione di un contenuto.',
+    'user.myProfile.defaultContentJoinGroups':
+      'Contenuto predefinito Partecipa a gruppi',
+    'user.myProfile.defaultContentJoinGroupsHelp':
+      'Imposta i gruppi di partecipazione predefiniti durante la creazione di un contenuto.',
+    'user.myProfile.defaultWidgetOwnerGroup':
+      'Gruppo proprietario widget predefinito',
+    'user.myProfile.defaultWidgetOwnerGroupHelp':
+      'Imposta il gruppo proprietario predefinito quando si crea un widget o un MFE.',
     'tour.start.welcome': 'Benvenuto in Entando',
     'user.wizard.success': 'Wizard è stato aggiornato.',
     'app.next': 'Avanti',
     'tour.start.title': 'Crea la tua prima applicazione',
-    'tour.start.description': 'Usa questa procedura guidata per creare la tua prima pagina. Ti guiderà attraverso tutti i passaggi necessari per creare e progettare una pagina',
+    'tour.start.description':
+      'Usa questa procedura guidata per creare la tua prima pagina. Ti guiderà attraverso tutti i passaggi necessari per creare e progettare una pagina',
     'tour.start.dontShow': 'Non mostrare la prossima volta',
     'tour.step.2.main': 'Crea la tua prima applicazione',
     'tour.step.2.title': 'Entando AppBuilder',
-    'tour.step.2.description': 'L\'AppBuilder è dove creerai tutte le tue app utilizzando contenuti web, micro frontend e microservizi.',
+    'tour.step.2.description':
+      "L'AppBuilder è dove creerai tutte le tue app utilizzando contenuti web, micro frontend e microservizi.",
     'tour.step.cancel.title': 'Sei sicuro di voler uscire dal tutorial?',
     'tour.step.3.title': 'Crea la Home Page',
-    'tour.step.3.description': 'Il primo passo da fare è creare la nostra home page. Fai clic su Pagine nella barra laterale sinistra.',
+    'tour.step.3.description':
+      'Il primo passo da fare è creare la nostra home page. Fai clic su Pagine nella barra laterale sinistra.',
     'tour.step.4.title': 'Gestione della pagina',
     'tour.step.4.description': 'Quindi, fai clic su Gestione.',
     'tour.step.5.title': 'Crea una pagina',
-    'tour.step.5.description': 'Qui vedrai un elenco di pagine che rappresentano l\'albero delle pagine del tuo sito. Fare clic su Aggiungi per creare una nuova pagina.',
+    'tour.step.5.description':
+      "Qui vedrai un elenco di pagine che rappresentano l'albero delle pagine del tuo sito. Fare clic su Aggiungi per creare una nuova pagina.",
     'tour.step.6.title': 'Scegli il titolo della pagina',
-    'tour.step.6.description': 'Questo serve come titolo della tua pagina per scopi SEO.',
+    'tour.step.6.description':
+      'Questo serve come titolo della tua pagina per scopi SEO.',
     'tour.step.7.title': 'Scegliere un codice per la pagina',
-    'tour.step.7.description': 'Il codice della pagina viene utilizzato per identificare in modo univoco una pagina e per la ricerca. Nel nostro esempio, utilizziamo tutti "hello_world app" per il codice della pagina.',
-    'tour.step.8.title': 'Scegli la posizione della pagina all\'interno del tuo sito',
+    'tour.step.7.description':
+      'Il codice della pagina viene utilizzato per identificare in modo univoco una pagina e per la ricerca. Nel nostro esempio, utilizziamo tutti "hello_world app" per il codice della pagina.',
+    'tour.step.8.title':
+      "Scegli la posizione della pagina all'interno del tuo sito",
     'tour.step.8.description': 'Scegli la posizione della tua pagina',
     'tour.step.9.title': 'Scegli a che gruppo appartiene',
     'tour.step.9.description': 'Scegli a che gruppo appartiene',
     'tour.step.10.title': 'Scegli il modello di pagina',
     'tour.step.10.description': 'Scegli il modello di pagina',
     'tour.step.11.title': 'Salva e progetta',
-    'tour.step.11.description': 'Una volta salvate le nostre impostazioni, possiamo iniziare a progettare la nostra pagina.',
+    'tour.step.11.description':
+      'Una volta salvate le nostre impostazioni, possiamo iniziare a progettare la nostra pagina.',
     'tour.step.12.title': 'Aggiungi widget',
-    'tour.step.12.description': 'Nella barra laterale destra, espandi il menu Pagina. Quindi trascina e rilascia il widget Logo nella sezione \'Logo\' grigia tratteggiata sulla pagina.',
+    'tour.step.12.description':
+      "Nella barra laterale destra, espandi il menu Pagina. Quindi trascina e rilascia il widget Logo nella sezione 'Logo' grigia tratteggiata sulla pagina.",
     'tour.step.13.title': 'Aggiungi widget',
-    'tour.step.13.description': 'Fare clic su Avanti per aggiungere il widget del menu di navigazione preconfigurato al design della pagina per il menu orizzontale di primo livello',
+    'tour.step.13.description':
+      'Fare clic su Avanti per aggiungere il widget del menu di navigazione preconfigurato al design della pagina per il menu orizzontale di primo livello',
     'tour.step.14.title': 'Aggiungi widget',
-    'tour.step.14.description': 'Nella barra laterale destra, espandi il menu CMS. Quindi trascina e rilascia il widget \'Barra ricerca\' nella sezione \'Search\' grigia tratteggiata nella pagina.',
+    'tour.step.14.description':
+      "Nella barra laterale destra, espandi il menu CMS. Quindi trascina e rilascia il widget 'Barra ricerca' nella sezione 'Search' grigia tratteggiata nella pagina.",
     'tour.step.15.title': 'Aggiungi widget',
-    'tour.step.15.description': 'Nella barra laterale destra, espandi il menu di sistema. Quindi trascina e rilascia il widget \'Login\' nella sezione \'Login\' tratteggiata nella pagina.',
+    'tour.step.15.description':
+      "Nella barra laterale destra, espandi il menu di sistema. Quindi trascina e rilascia il widget 'Login' nella sezione 'Login' tratteggiata nella pagina.",
     'tour.step.16.title': 'Aggiungi widget',
-    'tour.step.16.description': 'Fare clic su Avanti per aggiungere il widget Contenuto preconfigurato alla pagina',
+    'tour.step.16.description':
+      'Fare clic su Avanti per aggiungere il widget Contenuto preconfigurato alla pagina',
     'tour.step.17.title': 'Aggiungi widget',
-    'tour.step.17.description': 'Fare clic su Avanti per aggiungere il widget Elenco contenuti preconfigurato alla pagina',
+    'tour.step.17.description':
+      'Fare clic su Avanti per aggiungere il widget Elenco contenuti preconfigurato alla pagina',
     'tour.step.18.title': 'Aggiungi widget',
-    'tour.step.18.description': 'Fare clic su Avanti per aggiungere il widget del menu di navigazione preconfigurato e aggiungere il collegamento alla mappa del sito nel piè di pagina',
+    'tour.step.18.description':
+      'Fare clic su Avanti per aggiungere il widget del menu di navigazione preconfigurato e aggiungere il collegamento alla mappa del sito nel piè di pagina',
     'tour.step.19.title': 'Anteprima',
-    'tour.step.19.description': 'Fai clic su Anteprima per vedere come apparirà la tua pagina prima di pubblicarla.',
+    'tour.step.19.description':
+      'Fai clic su Anteprima per vedere come apparirà la tua pagina prima di pubblicarla.',
     'tour.step.20.title': 'Pubblicare',
-    'tour.step.20.description': 'Fai clic su Pubblica per vedere la tua pagina dal vivo.',
+    'tour.step.20.description':
+      'Fai clic su Pubblica per vedere la tua pagina dal vivo.',
     'app.startTutorial': 'Inizia il tutorial',
     'emailConfig.smtpServer': 'SMTP Server',
     'emailConfig.senderMgmt': 'Configura i Mittenti',
-    'emailConfig.help': 'Il plugin Configurazione email fornisce funzionalità di base per inviare email. Questo plugin è un prerequisito per tutti i plugin che richiedono la consegna di posta elettronica. Gli amministratori devono configurare la configurazione di rete e creare almeno un profilo mittente.',
-    'emailConfig.smtpServer.panelMsg': 'Host è obbligatorio. Port e Timeout se vuoti, verranno impostati per impostazione predefinita su 25 e 10000. Lasciare il campo Nome utente e password vuoti se il server SMTP non richiede l\'autenticazione.',
+    'emailConfig.help':
+      'Il plugin Configurazione email fornisce funzionalità di base per inviare email. Questo plugin è un prerequisito per tutti i plugin che richiedono la consegna di posta elettronica. Gli amministratori devono configurare la configurazione di rete e creare almeno un profilo mittente.',
+    'emailConfig.smtpServer.panelMsg':
+      "Host è obbligatorio. Port e Timeout se vuoti, verranno impostati per impostazione predefinita su 25 e 10000. Lasciare il campo Nome utente e password vuoti se il server SMTP non richiede l'autenticazione.",
     'emailConfig.smtpServer.generalSettings': 'Impostazioni Generali',
     'emailConfig.smtpServer.active': 'Attivo',
     'emailConfig.smtpServer.debugMode': 'Debug Mode',
@@ -985,23 +1165,28 @@ export default {
     'emailConfig.smtpServer.host': 'Host',
     'emailConfig.smtpServer.port': 'Port',
     'emailConfig.smtpServer.security': 'Security',
-    'emailConfig.smtpServer.checkServerIdentity': 'Controlla l\'identità del server',
+    'emailConfig.smtpServer.checkServerIdentity':
+      "Controlla l'identità del server",
     'emailConfig.smtpServer.timeout': 'Timeout (in millisecondi)',
     'emailConfig.smtpServer.authentication': 'Autenticazione',
     'emailConfig.smtpServer.username': 'Username',
     'emailConfig.smtpServer.password': 'Password',
     'emailConfig.smtpServer.testConfig': 'Configurazione di prova',
-    'emailConfig.smtpServer.sendTestEmail': 'Invia un\'email di prova',
+    'emailConfig.smtpServer.sendTestEmail': "Invia un'email di prova",
     'emailConfig.senderMgmt.email': 'Email',
     'emailConfig.senderMgmt.new': 'Nuovo mittente',
     'emailConfig.senderMgmt.edit': 'Modifica mittente',
     'emailConfig.senderMgmt.editWithCode': 'Modifica mittente: {code}',
     'emailConfig.saveSuccessful': 'Configurazione e-mail salvata con successo.',
-    'emailConfig.valid': 'La configurazione dell\'email è valida.',
-    'app.pages.friendlyCodeHelp': 'URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciali \'_\' e \'-\'.',
-    'validateForm.friendlyCode': 'Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali \'_\' e \'-\'.',
-    'validateForm.friendlyCodeWithDash': 'Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali \'_\' e \'-\'.',
-    'validateForm.friendlyCodeUnique': 'Il Friendly Code deve essere univoco per tutte le lingue.',
+    'emailConfig.valid': "La configurazione dell'email è valida.",
+    'app.pages.friendlyCodeHelp':
+      "URL slug per la pagina. Puoi inserire massimo 100 caratteri, lettere minuscole, numeri, ed il carattere speciali '_' e '-'.",
+    'validateForm.friendlyCode':
+      "Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali '_' e '-'.",
+    'validateForm.friendlyCodeWithDash':
+      "Il Friendly Code può solo contenere lettere minuscole, numeri o caratteri i speciali '_' e '-'.",
+    'validateForm.friendlyCodeUnique':
+      'Il Friendly Code deve essere univoco per tutte le lingue.',
     'pageTree.searchForm.searchPageBy': 'Pagina di ricerca per',
     'pageTree.searchForm.name': 'Nome pagina',
     'pageTree.searchForm.search.name': 'Ricerca per nome',
@@ -1063,7 +1248,7 @@ export default {
     'cms.label.errors': 'Errori',
     'cms.label.moveUp': 'Muovi Su',
     'cms.label.moveDown': 'Muovi Giù',
-    'cms.label.chooseoption': 'Seleziona un\'opzione',
+    'cms.label.chooseoption': "Seleziona un'opzione",
     'cms.label.chooseOptions': 'Scegli le opzioni',
     'cms.label.noOptions': 'Senza ulteriori opzioni',
     'cms.label.noMatchOptions': 'Nessun risultato trovato',
@@ -1086,15 +1271,19 @@ export default {
     'cms.label.date.placeholder': 'gg/mm/anno',
     'cms.label.presenter.placeholder': 'Premi INVIO per salvare le modifiche',
     'cms.label.modal.confirmdelete': 'Sei sicuro di voler rimuovere {code}?',
-    'cms.label.modal.confirmDeleteVersion': 'Sei sicuro di volere eliminare definitivamente la versione {version}?',
-    'cms.label.modal.confirmRestore': 'Vuoi davvero ripristinare questa versione {version}? Confermando, l\'ultima versione verrà sostituita con questa.',
-    'cms.label.modal.confirmCancel': 'Vuoi salvare le modifiche apportate? Le modifiche andranno perse se non le salvi',
+    'cms.label.modal.confirmDeleteVersion':
+      'Sei sicuro di volere eliminare definitivamente la versione {version}?',
+    'cms.label.modal.confirmRestore':
+      "Vuoi davvero ripristinare questa versione {version}? Confermando, l'ultima versione verrà sostituita con questa.",
+    'cms.label.modal.confirmCancel':
+      'Vuoi salvare le modifiche apportate? Le modifiche andranno perse se non le salvi',
     'cms.label.dontSave': 'Non salvare',
     'cms.label.metadata': 'Metadati',
     'cms.contents.versioning.author': 'Autore',
     'cms.versioning.list.lastModify': 'Ultima modifica',
     'cms.label.modal.confirmpublish': 'Vuoi davvero pubblicare {code}?',
-    'cms.label.modal.confirmunpublish': 'Vuoi davvero annullare la pubblicazione di {code}?',
+    'cms.label.modal.confirmunpublish':
+      'Vuoi davvero annullare la pubblicazione di {code}?',
     'cms.label.yes': 'sì',
     'cms.label.no': 'no',
     'cms.label.all': 'tutti',
@@ -1115,12 +1304,13 @@ export default {
     'cms.menu.scheduler': 'Scheduler',
     'cms.assets.title': 'Risorse',
     'cms.assets.list.all': 'Tutte',
-    'cms.datetimepicker.label.hours': 'Scegli un\'ora',
+    'cms.datetimepicker.label.hours': "Scegli un'ora",
     'cms.datetimepicker.label.minutes': 'Scegli un minuto',
     'cms.datetimepicker.label.seconds': 'Scegli un secondo',
     'cms.contenttemplate.title': 'Template di Contenuto',
     'cms.contenttemplate.titletip': 'Puoi creare un template di contenuto qui',
-    'cms.contenttemplate.titletip.edit': 'È possibile modificare il template di contenuto qui',
+    'cms.contenttemplate.titletip.edit':
+      'È possibile modificare il template di contenuto qui',
     'cms.contenttemplate.searchPlaceholder': 'Cerca template di contenuto',
     'cms.contenttemplate.searchFilter.label': 'Cercato da',
     'cms.contenttemplate.add.label': 'Aggiungi',
@@ -1129,28 +1319,43 @@ export default {
     'cms.contenttemplate.searchFilter.valueName': 'Nome',
     'cms.contenttemplate.list.contentTypeHeader': 'Tipo di contenuto',
     'cms.contenttemplate.list.contentTypeIdHeader': 'Codice',
-    'cms.contenttemplate.list.contentTemplateNameHeader': 'Nome template di contenuto',
+    'cms.contenttemplate.list.contentTemplateNameHeader':
+      'Nome template di contenuto',
     'cms.contenttemplate.list.actionsHeader': 'Azioni',
     'cms.contenttemplate.list.infoDeleted': '{modelname} rimosso',
     'cms.contenttemplate.form.code': 'Codice',
     'cms.contenttemplate.form.codePlaceholder': 'Codice',
-    'cms.contenttemplate.form.codeHelp': 'È possibile inserire fino a 10 numeri',
-    'cms.contenttemplate.form.nameHelp': 'È possibile inserire fino a 50 caratteri inclusi lettere maiuscole e minuscole, numeri e caratteri speciali',
-    'cms.contenttemplate.form.contentTypeHelp': 'Scegli uno dei tipi di contenuto esistenti da utilizzare per il tuo template di contenuto',
+    'cms.contenttemplate.form.codeHelp':
+      'È possibile inserire fino a 10 numeri',
+    'cms.contenttemplate.form.nameHelp':
+      'È possibile inserire fino a 50 caratteri inclusi lettere maiuscole e minuscole, numeri e caratteri speciali',
+    'cms.contenttemplate.form.contentTypeHelp':
+      'Scegli uno dei tipi di contenuto esistenti da utilizzare per il tuo template di contenuto',
     'cms.contenttemplate.form.htmlmodel': 'Modello HTML',
-    'cms.contenttemplate.form.htmlmodelHelp': 'Questa sarà la tua struttura di contenuto HTML usando gli elementi di contenuto forniti da un determinato tipo di contenuto',
-    'cms.contenttemplate.form.htmlmodel.statusassist': 'l\'assistente ai contenuti è <strong>ATTIVO</strong>',
-    'cms.contenttemplate.form.htmlmodel.statusattrhelp': 'Aiuto Informazioni sul tipo di attributi è <strong>DISATTIVATO</strong>',
-    'cms.contenttemplate.form.htmlmodel.statusadminconf': 'Se si desidera modificare lo stato, è necessario impostarli nell\'area di configurazione dell\'amministratore',
-    'cms.contenttemplate.form.saved': 'Template di contenuto "{modelname}" Salvato',
-    'cms.contenttemplate.form.editassistant': 'Assistente per la Modifica in Linea',
+    'cms.contenttemplate.form.htmlmodelHelp':
+      'Questa sarà la tua struttura di contenuto HTML usando gli elementi di contenuto forniti da un determinato tipo di contenuto',
+    'cms.contenttemplate.form.htmlmodel.statusassist':
+      "l'assistente ai contenuti è <strong>ATTIVO</strong>",
+    'cms.contenttemplate.form.htmlmodel.statusattrhelp':
+      'Aiuto Informazioni sul tipo di attributi è <strong>DISATTIVATO</strong>',
+    'cms.contenttemplate.form.htmlmodel.statusadminconf':
+      "Se si desidera modificare lo stato, è necessario impostarli nell'area di configurazione dell'amministratore",
+    'cms.contenttemplate.form.saved':
+      'Template di contenuto "{modelname}" Salvato',
+    'cms.contenttemplate.form.editassistant':
+      'Assistente per la Modifica in Linea',
     'cms.contenttemplate.form.stylesheet': 'Foglio di Stile',
-    'cms.contenttemplate.form.stylesheetHelp': 'Fornisci un file di foglio di stile da utilizzare con il tuo modello HTML',
-    'cms.contenttemplate.form.editassist.dialog': 'Di seguito un esempio su come utilizzare l\'<strong>INLINE EDITING</strong> in Entando labels<br><br><ol><li> aprire un <strong>TAG</strong> tipo div p span... </li><li> aggiungere al TAG la classe <strong>\'edit content\'</strong>. Nota bene che la classe <strong>\'editContentText\'</strong> viene utilizzato in caso di text area </li><li>poi aggiungere <strong>data-content-id="$content.getId()"</strong> </li><li>aggiungere infine l\' ID dell\'attributo (TITLE) che volete stampare scrivendo <strong>data-attr-id="TITLE"</strong> e chiudere il tag con >. Fare attenzione in quanto lattributo ID é <strong>case sensitive</strong> e deve essere lo stesso di quello usato nel prossimo step </li><li>adesso inserite la label dell\'attributo che volete stampare aggiungendo <strong>$content.TITLE.text</strong></li><li>chiudete il<atrong>TAG</strong> (div p span ...) aperto all\'inizio.</li></ol> Il risultato dovrebbe essere così:<br><br> OPEN TAG class="editContent" data-content-id="$content.getId()" data-attr-id="TITLE"><br>$content.TITLE.text<br>CLOSE TAG',
-    'cms.contenttemplate.form.presscontext': '(premi ctrl + spazio per aprire il menu di assistenza ai contenuti)',
-    'cms.contenttemplate.delete.messageprompt': 'Sei sicuro di voler rimuovere <strong>{id} ({descr})</strong>?',
+    'cms.contenttemplate.form.stylesheetHelp':
+      'Fornisci un file di foglio di stile da utilizzare con il tuo modello HTML',
+    'cms.contenttemplate.form.editassist.dialog':
+      'Di seguito un esempio su come utilizzare l\'<strong>INLINE EDITING</strong> in Entando labels<br><br><ol><li> aprire un <strong>TAG</strong> tipo div p span... </li><li> aggiungere al TAG la classe <strong>\'edit content\'</strong>. Nota bene che la classe <strong>\'editContentText\'</strong> viene utilizzato in caso di text area </li><li>poi aggiungere <strong>data-content-id="$content.getId()"</strong> </li><li>aggiungere infine l\' ID dell\'attributo (TITLE) che volete stampare scrivendo <strong>data-attr-id="TITLE"</strong> e chiudere il tag con >. Fare attenzione in quanto lattributo ID é <strong>case sensitive</strong> e deve essere lo stesso di quello usato nel prossimo step </li><li>adesso inserite la label dell\'attributo che volete stampare aggiungendo <strong>$content.TITLE.text</strong></li><li>chiudete il<atrong>TAG</strong> (div p span ...) aperto all\'inizio.</li></ol> Il risultato dovrebbe essere così:<br><br> OPEN TAG class="editContent" data-content-id="$content.getId()" data-attr-id="TITLE"><br>$content.TITLE.text<br>CLOSE TAG',
+    'cms.contenttemplate.form.presscontext':
+      '(premi ctrl + spazio per aprire il menu di assistenza ai contenuti)',
+    'cms.contenttemplate.delete.messageprompt':
+      'Sei sicuro di voler rimuovere <strong>{id} ({descr})</strong>?',
     'cms.contenttype.title': 'Tipi di Contenuto',
-    'cms.contenttype.titletip': 'La sezione Tipi di contenuto consente all\'amministratore di aggiungere nuovi tipi di contenuto o modificare quelli già esistenti. Puoi creare un tipo di contenuto qui.',
+    'cms.contenttype.titletip':
+      "La sezione Tipi di contenuto consente all'amministratore di aggiungere nuovi tipi di contenuto o modificare quelli già esistenti. Puoi creare un tipo di contenuto qui.",
     'cms.contenttype.add.label': 'Aggiungi',
     'cms.contenttype.edit.label': 'Modifica',
     'cms.contenttype.list.contentTypeNameHeader': 'Nome',
@@ -1159,18 +1364,25 @@ export default {
     'cms.contenttype.list.actionsHeader': 'Azioni',
     'cms.contenttype.list.status': 'Stato',
     'cms.contenttype.list.status.0': 'A posto. Se vuoi, ricarica',
-    'cms.contenttype.list.status.1': 'Ricaricamento in corso. Aggiorna la pagina.',
-    'cms.contenttype.list.status.2': 'È necessario un ricaricamento: lancialo ora.',
-    'cms.contenttype.reference.text': 'I seguenti riferimenti devoo essere ricaricati: {types}. Totale da ricaricare: {count}. ',
-    'cms.contenttype.reference.reload': 'Clicca {link} per ricaricare tutti i content types.',
+    'cms.contenttype.list.status.1':
+      'Ricaricamento in corso. Aggiorna la pagina.',
+    'cms.contenttype.list.status.2':
+      'È necessario un ricaricamento: lancialo ora.',
+    'cms.contenttype.reference.text':
+      'I seguenti riferimenti devoo essere ricaricati: {types}. Totale da ricaricare: {count}. ',
+    'cms.contenttype.reference.reload':
+      'Clicca {link} per ricaricare tutti i content types.',
     'cms.contenttype.attributes.label': 'Attributi',
-    'cms.contentType.helpattributes.label': 'Dalla sezione tipi di contenuto l\'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.',
+    'cms.contentType.helpattributes.label':
+      "Dalla sezione tipi di contenuto l'amministratore può creare nuovi tipi di dati o modificare quelli già esistenti.",
     'cms.contenttype.datatype.label': 'Tipo',
     'cms.contenttype.datatype.code.label': 'Codice',
     'cms.contenttype.form.type': 'Tipo',
     'cms.contenttype.form.code': 'Codice',
-    'cms.contenttype.form.codeHelp': 'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
-    'cms.contenttype.attribute.codeHelp': 'Il codice è valido solo se composto da 3 lettere maiuscole',
+    'cms.contenttype.form.codeHelp':
+      'Puoi inserire caratteri, lettere maiuscole e minuscole, numeri, ed il carattere speciale _',
+    'cms.contenttype.attribute.codeHelp':
+      'Il codice è valido solo se composto da 3 lettere maiuscole',
     'cms.contenttype.attribute.label.listOf': 'Lista di',
     'cms.contenttype.form.name': 'Nome',
     'cms.contenttype.form.role': 'Ruolo',
@@ -1178,62 +1390,88 @@ export default {
     'cms.contenttype.form.mandatory': 'Obbligatorio',
     'cms.contenttype.form.filter': 'Filtro',
     'cms.contenttype.form.actions': 'Azioni',
-    'cms.contenttype.form.filterList': 'Può essere usato come filtro nelle liste',
-    'cms.contenttype.form.metadata.defaultContentTemplate': 'Template di contenuto predefinito',
-    'cms.contenttype.form.metadata.defaultContentTemplateLists': 'Template di contenuto predefinito per elenchi',
-    'cms.contenttype.form.metadata.viewPage': 'Pagina per la pubblicazione al volo',
+    'cms.contenttype.form.filterList':
+      'Può essere usato come filtro nelle liste',
+    'cms.contenttype.form.metadata.defaultContentTemplate':
+      'Template di contenuto predefinito',
+    'cms.contenttype.form.metadata.defaultContentTemplateLists':
+      'Template di contenuto predefinito per elenchi',
+    'cms.contenttype.form.metadata.viewPage':
+      'Pagina per la pubblicazione al volo',
     'cms.contenttype.alert.created': 'tipo di contenuto creato con successo',
-    'cms.contenttype.attribute.edit.title': 'Modifica attributo per un tipo di contenuto',
-    'cms.contenttype.attribute.add.title': 'Aggiungi attributo per un tipo di contenuto',
+    'cms.contenttype.attribute.edit.title':
+      'Modifica attributo per un tipo di contenuto',
+    'cms.contenttype.attribute.add.title':
+      'Aggiungi attributo per un tipo di contenuto',
     'cms.contenttype.enumeratorStaticItems': 'Elementi',
-    'cms.contenttype.enumeratorStaticItems.help': 'Inserisci una configuration tipo "label1,label2,label3"',
-    'cms.contenttype.enumeratorStaticItemsMap.help': 'Inserisci una configuration tipo "key1=value1,key2=value2,key3=value3"',
+    'cms.contenttype.enumeratorStaticItems.help':
+      'Inserisci una configuration tipo "label1,label2,label3"',
+    'cms.contenttype.enumeratorStaticItemsMap.help':
+      'Inserisci una configuration tipo "key1=value1,key2=value2,key3=value3"',
     'cms.contenttype.enumeratorStaticItemsSeparator': 'Separatore',
     'cms.contenttype.enumeratorExtractorBean': 'Estrattore del bean name',
     'cms.contenttype.ognl.validation': 'Validazione - OGNL',
-    'cms.contenttype.ognl.validation.help1': 'In questa sezione puoi inserire le validazioni sull\'Attributo.',
-    'cms.contenttype.ognl.validation.help2': 'L\'espressione OGNL deve restituire un valore Boolean (true o false). Nella costruzione delle espressioni, l\'oggetto "root" è l\'attributo stesso (si può accedere ai metodi dell\'attributo senza specificarlo o tramite il prefisso #attribute).',
-    'cms.contenttype.ognl.validation.help3': 'Sono disponibili: la mappa delle lingue del sistema (#langs) e l\'Entità a cui è associato (#entity).',
-    'cms.contenttype.ognl.validation.help4': 'Inoltre per gli elementi di una Lista o di un Composito è possibile accedere al padre dell\'attributo (#parent) e per gli elementi di una Lista si ha a disposizione l\'indice (#index).',
+    'cms.contenttype.ognl.validation.help1':
+      "In questa sezione puoi inserire le validazioni sull'Attributo.",
+    'cms.contenttype.ognl.validation.help2':
+      "L'espressione OGNL deve restituire un valore Boolean (true o false). Nella costruzione delle espressioni, l'oggetto \"root\" è l'attributo stesso (si può accedere ai metodi dell'attributo senza specificarlo o tramite il prefisso #attribute).",
+    'cms.contenttype.ognl.validation.help3':
+      "Sono disponibili: la mappa delle lingue del sistema (#langs) e l'Entità a cui è associato (#entity).",
+    'cms.contenttype.ognl.validation.help4':
+      "Inoltre per gli elementi di una Lista o di un Composito è possibile accedere al padre dell'attributo (#parent) e per gli elementi di una Lista si ha a disposizione l'indice (#index).",
     'cms.contenttype.ognl.expression': 'Espressione OGNL ',
-    'cms.contenttype.apply.expression': 'Usa l\'espressione solo se l\'attributo è valorizzato',
-    'cms.contenttype.ognl.validation.add.message.help': 'Si possono inserire sia un messagio d\'aiuto che un messagio di errore, oppure una chiave per collegarli alle etichette di sistema',
-    'cms.contenttype.ognl.message': 'Messaggio d\'aiuto',
-    'cms.contenttype.help.message': 'Messaggio d\'aiuto',
-    'cms.contenttype.help.message.key': 'Chiave per il messagio d\'aiuto',
-    'cms.contenttype.error.message': 'Messaggio d\'errore',
+    'cms.contenttype.apply.expression':
+      "Usa l'espressione solo se l'attributo è valorizzato",
+    'cms.contenttype.ognl.validation.add.message.help':
+      "Si possono inserire sia un messagio d'aiuto che un messagio di errore, oppure una chiave per collegarli alle etichette di sistema",
+    'cms.contenttype.ognl.message': "Messaggio d'aiuto",
+    'cms.contenttype.help.message': "Messaggio d'aiuto",
+    'cms.contenttype.help.message.key': "Chiave per il messagio d'aiuto",
+    'cms.contenttype.error.message': "Messaggio d'errore",
     'cms.contenttype.error.message.key': 'Chiave per il messaggio di errore',
     'cms.contenttype.labelrole.choose': 'Scegli un ruolo',
     'cms.contenttype.labelrole.assigned': 'Assigned role',
-    'cms.contenttype.labelrole.noroles': 'Ruoli non disponibili o potrebbero già essere stati assegnati.',
-    'cms.contenttype.label.working': 'Stai lavorando sull\'attributo:',
+    'cms.contenttype.labelrole.noroles':
+      'Ruoli non disponibili o potrebbero già essere stati assegnati.',
+    'cms.contenttype.label.working': "Stai lavorando sull'attributo:",
     'cms.contenttype.label.element.of': 'elemento di',
     'cms.contenttype.label.edit.attribute': 'Modifica : attributo - ',
     'cms.contenttype.label.edit.Monolist': 'Modifica : Monolist',
     'cms.contenttype.label.edit.List': 'Modifica : Lista',
     'cms.contentsettings.title': ' Impostazioni Contenuti',
-    'cms.contentsettings.titletip': 'Dalla sezione IMPOSTAZIONE CONTENUTI l\'amministratore può ricaricare le referenze e gli indici dei contenuti, selezionare l\'editor di testo e configurare il mapping dei metadata delle risorse con parametri degli attributi risorsa.',
+    'cms.contentsettings.titletip':
+      "Dalla sezione IMPOSTAZIONE CONTENUTI l'amministratore può ricaricare le referenze e gli indici dei contenuti, selezionare l'editor di testo e configurare il mapping dei metadata delle risorse con parametri degli attributi risorsa.",
     'cms.contentsettings.label.reloadreferences': 'Ricarica le referenze',
     'cms.contentsettings.label.reloadindexes': 'Ricarica gli indici',
     'cms.contentsettings.label.reloadstatus': 'Pronta',
     'cms.contentsettings.label.reloadstatus.0': 'Pronta',
     'cms.contentsettings.label.reloadstatus.1': 'Ricarico',
     'cms.contentsettings.label.reloadstatus.2': 'Errore',
-    'cms.contentsettings.label.reloadstatus.remark.success': 'L\'ultimo ricaricamento, in data {date}, ha avuto esisto positivo.',
-    'cms.contentsettings.label.reloadstatus.remark.failed': 'L\'ultimo ricaricamento, in data {date}, ha avuto esisto negativo',
-    'cms.contentsettings.cropvalueerror': 'Dimensioni di ritaglio non valide. Il formato deve essere "numero: numero"',
-    'cms.contentsettings.cropratios.heading': 'Impostazioni Dimensioni di ritaglio immagine',
-    'cms.contentsettings.cropratios.form.title': 'Aggiungi dimensione di ritaglio',
-    'cms.contentsettings.ratio.added.success': 'Rapporto di ritaglio aggiunto correttamente',
-    'cms.contentsettings.ratio.deleted.success': 'Rapporto di ritaglio eliminato correttamente',
-    'cms.contentsettings.ratio.updated.success': 'Rapporto di ritaglio aggiornato correttamente',
+    'cms.contentsettings.label.reloadstatus.remark.success':
+      "L'ultimo ricaricamento, in data {date}, ha avuto esisto positivo.",
+    'cms.contentsettings.label.reloadstatus.remark.failed':
+      "L'ultimo ricaricamento, in data {date}, ha avuto esisto negativo",
+    'cms.contentsettings.cropvalueerror':
+      'Dimensioni di ritaglio non valide. Il formato deve essere "numero: numero"',
+    'cms.contentsettings.cropratios.heading':
+      'Impostazioni Dimensioni di ritaglio immagine',
+    'cms.contentsettings.cropratios.form.title':
+      'Aggiungi dimensione di ritaglio',
+    'cms.contentsettings.ratio.added.success':
+      'Rapporto di ritaglio aggiunto correttamente',
+    'cms.contentsettings.ratio.deleted.success':
+      'Rapporto di ritaglio eliminato correttamente',
+    'cms.contentsettings.ratio.updated.success':
+      'Rapporto di ritaglio aggiornato correttamente',
     'cms.contentsettings.label.resourcemap': 'Resource Metadata Mapping',
     'cms.contentsettings.form.addmetadata': 'Add Metadata',
     'cms.contentsettings.form.key': 'Chiave',
     'cms.contentsettings.form.mapping': 'Mapping',
-    'cms.contentsettings.form.help': 'In questa sezione puoi aggiungere un nuovo metadata',
+    'cms.contentsettings.form.help':
+      'In questa sezione puoi aggiungere un nuovo metadata',
     'cms.contentsettings.form.metadatamapping': 'Metadata Mapping',
-    'cms.contentsettings.form.metadatamapping.help': 'Lista parametri (in CSV) delle relazioni tra Metadata Risorsa e Parametro "{key}" in fase di associazione risorsa immagine ad attributo contenuto',
+    'cms.contentsettings.form.metadatamapping.help':
+      'Lista parametri (in CSV) delle relazioni tra Metadata Risorsa e Parametro "{key}" in fase di associazione risorsa immagine ad attributo contenuto',
     'cms.contentsettings.metadata.infoDeleted': '{name} rimosso',
     'cms.new': 'Nuovo',
     'cms.save': 'Salva',
@@ -1247,7 +1485,7 @@ export default {
     'cms.saveAndContinue': 'Salva e Continua',
     'cms.setContentAs': 'Imposta contenuto come',
     'cms.contents.notFound': 'Nessun contenuto trovato sul sistema.',
-    'cms.chooseAnOption': 'Seleziona un\'opzione',
+    'cms.chooseAnOption': "Seleziona un'opzione",
     'cms.contents.contentStatus': 'Stato Contenuti',
     'cms.contents.title': 'Contenuti',
     'cms.contents.code': 'Codice',
@@ -1260,36 +1498,46 @@ export default {
     'cms.contents.edit.groups.ownerGroup.button': 'Imposta Gruppo',
     'cms.contents.edit.groups.joinGroup.label': 'Unirsi al Gruppo',
     'cms.contents.edit.categories': 'Categorie',
-    'cms.contents.edit.groups.ownerGroup.tooltip': 'Dovresti impostare il gruppo principale in questo momento, altrimenti alcune cose diventeranno imprecise.',
+    'cms.contents.edit.groups.ownerGroup.tooltip':
+      'Dovresti impostare il gruppo principale in questo momento, altrimenti alcune cose diventeranno imprecise.',
     'cms.contents.edit.tip': '* Campi richiesti',
     'cms.contents.edit.contentType.label': 'Tipo di Contenuto',
     'cms.contents.edit.contentDescription.label': 'Nome',
-    'cms.contents.edit.contentDescription.tooltip': 'Fornisci un nome o userò il titolo se disponibile.',
-    'cms.contents.edit.contentDescription.placeholder': 'I nomi ti aiutano ad archiviare, ordinare e trovare contenuti',
+    'cms.contents.edit.contentDescription.tooltip':
+      'Fornisci un nome o userò il titolo se disponibile.',
+    'cms.contents.edit.contentDescription.placeholder':
+      'I nomi ti aiutano ad archiviare, ordinare e trovare contenuti',
     'cms.contents.edit.version.label': 'Versione',
     'cms.contents.edit.version.creator': 'creato da',
     'cms.contents.edit.version.modifier': 'modificato da',
     'cms.contents.edit.duplicate': 'Copia in tutte le lingue',
     'cms.contents.edit.label.duplicate': 'Contenuti duplicati',
-    'cms.contents.edit.label.duplicateHelp': 'Copia e incolla il contenuto da questa scheda della lingua ad altri',
+    'cms.contents.edit.label.duplicateHelp':
+      'Copia e incolla il contenuto da questa scheda della lingua ad altri',
     'cms.contents.edit.copytext': 'Copia Testo',
     'cms.contents.edit.copiedSuccessfully': 'Contenuto copiato con successo.',
     'cms.stickySave.lastAutoSave': 'Ultimo salvataggio: ',
     'cms.content.status.unpublished': 'Non pubblicato',
     'cms.content.status.unpublished.ready': 'Non pubblicato (pronto)',
     'cms.content.status.pendingChanges': 'Pubblicato, con modifiche in sospeso',
-    'cms.content.status.pendingChanges.publicNotEqualReady': 'Pubblicato, con modifiche in sospeso (pronto)',
-    'cms.content.status.pendingChanges.publicNotEqualDraft': 'Pubblicato, con modifiche in sospeso',
+    'cms.content.status.pendingChanges.publicNotEqualReady':
+      'Pubblicato, con modifiche in sospeso (pronto)',
+    'cms.content.status.pendingChanges.publicNotEqualDraft':
+      'Pubblicato, con modifiche in sospeso',
     'cms.content.status.published': 'Pubblicato',
-    'cms.contents.edit.titletip': 'La sezione INDICE ti consente di gestire i contenuti esistenti, accedere all\'elenco dei contenuti, aggiungere nuovi contenuti. Puoi anche approvare, sospendere o eliminare i contenuti. In Entando, un contenuto è un elemento strutturato che rappresenta un insieme di informazioni costruite utilizzando gli attributi del contenuto.',
+    'cms.contents.edit.titletip':
+      "La sezione INDICE ti consente di gestire i contenuti esistenti, accedere all'elenco dei contenuti, aggiungere nuovi contenuti. Puoi anche approvare, sospendere o eliminare i contenuti. In Entando, un contenuto è un elemento strutturato che rappresenta un insieme di informazioni costruite utilizzando gli attributi del contenuto.",
     'cms.contents.edit.contentAttributes': 'Attributi del Contenuto',
-    'cms.contents.edit.contentAttributes.language': 'Gli attributi possono essere modificati solo nella sezione della lingua predefinita',
+    'cms.contents.edit.contentAttributes.language':
+      'Gli attributi possono essere modificati solo nella sezione della lingua predefinita',
     'cms.menu.contents': 'Gestione',
     'cms.contents.list.all': 'Tutti',
-    'cms.contents.tip': 'La sezione INDICE ti consente di gestire i contenuti esistenti, accedere all\'elenco dei contenuti, aggiungere nuovi contenuti. Puoi anche approvare, sospendere o eliminare i contenuti. In Entando, un contenuto è un elemento strutturato che rappresenta un insieme di informazioni costruite utilizzando gli attributi del contenuto.',
+    'cms.contents.tip':
+      "La sezione INDICE ti consente di gestire i contenuti esistenti, accedere all'elenco dei contenuti, aggiungere nuovi contenuti. Puoi anche approvare, sospendere o eliminare i contenuti. In Entando, un contenuto è un elemento strutturato che rappresenta un insieme di informazioni costruite utilizzando gli attributi del contenuto.",
     'cms.contents.quickSearchPlaceHolder': 'Cerca Contenuto',
     'cms.contents.advancedFilters': 'Filtri Avanzati',
-    'cms.contents.advancedFilters.invalidDatesRange': 'Intervallo di date non valido',
+    'cms.contents.advancedFilters.invalidDatesRange':
+      'Intervallo di date non valido',
     'cms.contents.contentType': 'Tipo di Contenuto',
     'cms.contents.group': 'Gruppo',
     'cms.contents.statusMain': 'Stato',
@@ -1307,16 +1555,18 @@ export default {
     'cms.contents.search': 'Ricerca',
     'cms.contents.onlyMine': 'Creati da me',
     'cms.contents.pendingChanges': 'Modifiche in sospeso',
-    'cms.contents.ready': 'Pronto per l\'approvazione',
-    'cms.contents.readyPl': 'Pronti per l\'approvazione',
+    'cms.contents.ready': "Pronto per l'approvazione",
+    'cms.contents.readyPl': "Pronti per l'approvazione",
     'cms.contents.rejected': 'Respinto',
     'cms.contents.downloadAs': 'Scarica come',
     'cms.contents.addContent': 'Aggiungi Contenuto',
     'cms.contents.columns': 'Colonne',
     'cms.contents.manageVersion': 'Gestisci Versioni',
     'cms.contents.joinCategory': 'Unisciti alla categoria',
-    'cms.contents.chooseJoiningCategories': 'Scegli le categorie a cui vuoi unirti al {number} contenuto selezionato!',
-    'cms.contents.joinCategoriesTip': 'L\'azione cambierà la versione bozza dei contenuti selezionati, non la versione online. Per visualizzare le modifiche nella versione online, è necessario approvare le modifiche.',
+    'cms.contents.chooseJoiningCategories':
+      'Scegli le categorie a cui vuoi unirti al {number} contenuto selezionato!',
+    'cms.contents.joinCategoriesTip':
+      "L'azione cambierà la versione bozza dei contenuti selezionati, non la versione online. Per visualizzare le modifiche nella versione online, è necessario approvare le modifiche.",
     'cms.contents.seeOnlineVersion': 'Vedi Versione Online',
     'cms.contents.change': 'Cambia contenuto',
     'cms.contents.confirm': 'Conferma',
@@ -1351,13 +1601,15 @@ export default {
     'cms.contents.saved': 'Salvato',
     'cms.contents.modal.filter.title': 'Seleziona un contenuto',
     'cms.contents.modal.missingTranslations.title': 'Traduzioni mancanti',
-    'cms.contents.modal.missingTranslations.content': 'Ci sono alcuni attributi con traduzioni mancanti.',
+    'cms.contents.modal.missingTranslations.content':
+      'Ci sono alcuni attributi con traduzioni mancanti.',
     'cms.linkconfig.title': 'Configura il contenuto del collegamento',
     'cms.linkconfig.attributes.heading': 'Attributi aggiuntivi',
     'cms.linkconfig.pagetree': 'Pagine',
     'cms.linkconfig.pageSelect': 'Scegli una pagina',
     'cms.specialcharModal.title': 'Inserisci carattere speciale',
-    'validateForm.name.help': 'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
+    'validateForm.name.help':
+      'Puoi inserire un massimo di 50 caratteri, lettere maiuscole e minuscole, numeri, ed i caratteri speciali',
     'widget.form.sample': ' Modulo di esempio',
     'widget.form.linkText': 'Link al testo',
     'widget.form.text': 'Testo',
@@ -1372,12 +1624,14 @@ export default {
     'widget.form.maxElements': 'Max elementi totali',
     'widget.form.default': 'Predefinito',
     'widget.form.inclusiveOr': 'Usa filtro inclusivo (OR)',
-    'widget.form.inclusiveOrTip': 'Se attivo, filtra i contenuti con un filtro inclusivo sulle categorie selezionate',
+    'widget.form.inclusiveOrTip':
+      'Se attivo, filtra i contenuti con un filtro inclusivo sulle categorie selezionate',
     'widget.form.creationDate': 'Data di creazione',
     'widget.form.lastModify': 'Ultima modifica',
     'widget.form.asc': 'Ascendente',
     'widget.form.desc': 'Discendente',
-    'widget.form.extraOptionsDescription': 'Se lo desideri, puoi personalizzare il titolo del widget o aggiungere un collegamento a una pagina.',
+    'widget.form.extraOptionsDescription':
+      'Se lo desideri, puoi personalizzare il titolo del widget o aggiungere un collegamento a una pagina.',
     'widget.form.remove': 'Rimuovi',
     'widget.form.options': 'Opzioni',
     'widget.form.settings': 'Impostazioni',
@@ -1385,7 +1639,7 @@ export default {
     'widget.form.reorder': 'Riordina',
     'widget.form.selectFilter': 'Seleziona Filtro',
     'widget.form.filteropt.creationDate': 'per data di creazione',
-    'widget.form.filteropt.lastModify': 'dall\'ultima modifica',
+    'widget.form.filteropt.lastModify': "dall'ultima modifica",
     'widget.form.filterable.labelPresence': 'Filtra per presenza valore',
     'widget.form.filterable.labelAbsence': 'Filtra per assenza di valore',
     'widget.form.filterable.labelOnly': 'Filtra per valore',
@@ -1397,9 +1651,12 @@ export default {
     'widget.form.filterable.labelDateDelay': 'Ritardo (giorni)',
     'widget.form.filterable.valuePresence': 'valore impostato',
     'widget.form.filterable.valueAbsence': 'valore non impostato',
-    'widget.form.filterable.valueOnly': 'che contiene: <strong>{value}</strong>',
-    'widget.form.filterable.valuePartial': 'che contiene: <strong>{value}</strong> <em>{partial}</em>',
-    'widget.form.filterable.valueDateDelay': ' con ritardo: <strong>{delay}</strong> giorni',
+    'widget.form.filterable.valueOnly':
+      'che contiene: <strong>{value}</strong>',
+    'widget.form.filterable.valuePartial':
+      'che contiene: <strong>{value}</strong> <em>{partial}</em>',
+    'widget.form.filterable.valueDateDelay':
+      ' con ritardo: <strong>{delay}</strong> giorni',
     'widget.form.filterable.valuePartialPhrase': '(corrispondenza parziale)',
     'widget.form.filterable.valuePartialLabel': 'corrispondenza parziale',
     'widget.form.filterable.valueRangeStart': 'de <strong>{start}</strong>',
@@ -1413,14 +1670,18 @@ export default {
     'contentPicker.allStatuses': 'Tutti',
     'contentPicker.allTypes': 'Tutti',
     'contentPicker.searchPlaceholder': 'Cerca un contenuto per nome o codice',
-    'widget.warning.nodefaulttemplate.title': 'Modello di contenuto predefinito non trovato',
-    'widget.warning.nodefaulttemplate.describe': 'Non esiste un modello di contenuto predefinito per questo tipo di contenuto. Seleziona un modello specifico o definisci un modello di contenuto predefinito per questo tipo.',
-    'widget.warning.nodefaulttemplate.multidescribe': 'Uno dei tuoi contenuti non ha un modello di contenuto predefinito (elenco) del suo tipo di contenuto. Assicurati che tutti i tipi di contenuto dell\'elenco fornito abbiano almeno un modello di contenuto predefinito.',
+    'widget.warning.nodefaulttemplate.title':
+      'Modello di contenuto predefinito non trovato',
+    'widget.warning.nodefaulttemplate.describe':
+      'Non esiste un modello di contenuto predefinito per questo tipo di contenuto. Seleziona un modello specifico o definisci un modello di contenuto predefinito per questo tipo.',
+    'widget.warning.nodefaulttemplate.multidescribe':
+      "Uno dei tuoi contenuti non ha un modello di contenuto predefinito (elenco) del suo tipo di contenuto. Assicurati che tutti i tipi di contenuto dell'elenco fornito abbiano almeno un modello di contenuto predefinito.",
     'widget.singleContent.config.title': 'Singolo Contenuto',
     'widget.singleContent.config.content': 'Contenuto',
     'widget.singleContent.config.contentTemplate': 'Template di contenuto',
     'widget.singleContent.config.changeContent': 'Cambia contenuto',
-    'widget.singleContent.config.addExistingContent': 'Aggiungi contenuto esistente',
+    'widget.singleContent.config.addExistingContent':
+      'Aggiungi contenuto esistente',
     'widget.singleContent.config.addNewContent': 'Aggiungi nuovi contenuti',
     'widget.multipleContents.config.title': 'Elenco di Contenuti',
     'widget.contentsQuery.config.title': 'Elenco dinamico di Contenuti',
@@ -1570,14 +1831,16 @@ export default {
     'hub.newRegistry': 'Nuovo Registro',
     'hub.selectRegistry': 'Seleziona Registro',
     'hub.localRegistry.title': 'Hub Locale',
-    'hub.localRegistry.description': 'Questo è un hub locale in cui vengono visualizzati tutti i pacchetti distribuiti e i componenti ECR',
+    'hub.localRegistry.description':
+      'Questo è un hub locale in cui vengono visualizzati tutti i pacchetti distribuiti e i componenti ECR',
     'hub.newRegistry.name': 'Nome',
     'hub.newRegistry.url': 'URL',
     'hub.newRegistry.apiKey': 'API Key',
     'hub.newRegistry.name.error': 'Il nome del registro deve essere univoco',
-    'hub.newRegistry.url.error': 'L\'URL del registro deve essere univoco',
-    'hub.editRegistry.alert': 'Sottomettere questo modulo sostituirà l\'esistente API Key. Se non ne verrà inviata alcuna, quella precedente verrà eliminata.',
-    'app.filterTypesSelect.organizationName': 'Nome dell\'organizzazione',
+    'hub.newRegistry.url.error': "L'URL del registro deve essere univoco",
+    'hub.editRegistry.alert':
+      "Sottomettere questo modulo sostituirà l'esistente API Key. Se non ne verrà inviata alcuna, quella precedente verrà eliminata.",
+    'app.filterTypesSelect.organizationName': "Nome dell'organizzazione",
     'app.filterTypesSelect.bundleGroup': 'Gruppo pacchetto',
     'hub.bundle.installation': 'Installazione del pacchetto',
     'hub.bundle.uninstallation': 'Disinstallazione del pacchetto',
@@ -1602,19 +1865,31 @@ export default {
     'componentRepository.categories.category': 'Categoria',
     'componentRepository.categories.group': 'Gruppo',
     'componentRepository.components.installedVersion': 'Versione installata',
-    'componentRepository.components.genericError': 'Si è verificato un errore nell\'applicazione',
-    'page.invalidChildPositionError': 'Una pagina appartenente ad un gruppo non può essere posizionata figlia della root',
-    'page.invalidPositionError': 'Una pagina può essere figlia solo di un\'altra pagina con lo stesso owner group o con owner group free access',
-    'app.installFailed': 'Si è verificato un errore e non è stato possibile installare il Bundle',
-    'app.uninstallFailed': 'Si è verificato un errore e non è stato possibile disinstallare il Bundle',
-    'app.fetchBundlesFailed': 'Non è stato possibile recuperare la lista di Bundle dal Registry',
+    'componentRepository.components.genericError':
+      "Si è verificato un errore nell'applicazione",
+    'page.invalidChildPositionError':
+      'Una pagina appartenente ad un gruppo non può essere posizionata figlia della root',
+    'page.invalidPositionError':
+      "Una pagina può essere figlia solo di un'altra pagina con lo stesso owner group o con owner group free access",
+    'app.installFailed':
+      'Si è verificato un errore e non è stato possibile installare il Bundle',
+    'app.uninstallFailed':
+      'Si è verificato un errore e non è stato possibile disinstallare il Bundle',
+    'app.fetchBundlesFailed':
+      'Non è stato possibile recuperare la lista di Bundle dal Registry',
     'user.authority.addNew': 'Aggiungi nuova Autorizzazione',
-    'componentRepository.refreshBundleVersions': 'Aggiorna le versioni disponibili del bundle',
+    'componentRepository.refreshBundleVersions':
+      'Aggiorna le versioni disponibili del bundle',
     'componentRepository.bundle.installVersionsRefreshed': 'Aggiornato',
-    'componentRepository.hub.epcInstalledTip': 'Per aggiornare il menu EPC, aggiorna la pagina di AppBuilder nel tuo browser',
-    'ecr.componentUninstallError': 'Messaggio di errore: non è possibile disinstallare il {name}',
-    'ecr.componentPartiallyDeleted': 'Alcuni elementi del bundle sono stati cancellati manualmente. Per disinstallare completamente il bundle e ripulire il sistema da ogni referenza interna, procedere con la disinstallazione.',
-    'componentRepository.components.elementsUninstalled': 'Elementi Disinstallati',
-    'componentRepository.components.someNotUninstalled': 'Alcuni elementi non sono stati disinstallati',
+    'componentRepository.hub.epcInstalledTip':
+      'Per aggiornare il menu EPC, aggiorna la pagina di AppBuilder nel tuo browser',
+    'ecr.componentUninstallError':
+      'Messaggio di errore: non è possibile disinstallare il {name}',
+    'ecr.componentPartiallyDeleted':
+      'Alcuni elementi del bundle sono stati cancellati manualmente. Per disinstallare completamente il bundle e ripulire il sistema da ogni referenza interna, procedere con la disinstallazione.',
+    'componentRepository.components.elementsUninstalled':
+      'Elementi Disinstallati',
+    'componentRepository.components.someNotUninstalled':
+      'Alcuni elementi non sono stati disinstallati',
   },
 };

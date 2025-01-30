@@ -1,4 +1,7 @@
 .ComponentList {
+  padding: 20px;
+  background-color: $color-light-grey-background;
+
   h1 {
     margin: 0;
     margin-bottom: 3px;
@@ -6,9 +9,14 @@
   }
 
   &__component {
+    display: flex;
     position: relative;
     margin-bottom: 20px;
     padding-left: 10px;
+
+    @media (max-width: 992px) {
+      width: 100%;
+    }
 
     &--even {
       padding-right: 10px;
@@ -18,36 +26,48 @@
 
   &__component-wrapper {
     display: flex;
+    width: 100%;
     padding: 16px;
-    background: $color-light-grey-background;
-    box-shadow: 0 1px 1px rgba(51, 51, 51, .18);
+    border: 1px solid rgba(228, 231, 236, 1);
+    border-radius: 10px;
+    background-color: #fff;
+    align-items: center;
   }
 
   &__component-image-wrapper {
     width: 170px;
     height: 170px;
     overflow: hidden;
+    border-radius: 6px;
+
     @media (max-width: 1200px) {
       width: 100px;
       height: 100px;
     }
 
-    & > img {
+    &>img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
 
+  &__component-content {
+    width: 50%;
+  }
+
   &__install-actions {
     text-align: center;
+
+    .btn-group {
+      display: flex;
+    }
   }
 
   &__buttons-container {
     display: flex;
-    max-height: 24px;
 
-    & > div {
+    &>div {
       margin-right: 10px;
     }
   }
@@ -56,6 +76,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 20px;
     width: calc(100% - 170px);
     min-height: 170px;
     padding-left: 10px;
@@ -65,8 +86,29 @@
     }
 
     h1 {
-      font-family: Open Sans;
-      font-size: 18px;
+      font-family: Inter;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 25px;
+    }
+  }
+
+  &__list-body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: calc(100% - 170px);
+    min-height: 170px;
+    padding-left: 10px;
+
+    @media (max-width: 1200px) {
+      width: calc(100% - 100px);
+    }
+
+    h1 {
+      font-family: Inter;
+      font-size: 16px;
       font-style: normal;
       font-weight: 600;
       line-height: 25px;
@@ -74,26 +116,25 @@
   }
 
   &__component-category {
-    color: $color-ecr-component-date;
-    font-family: Open Sans;
-    font-size: 14px;
+    color: $color-brand-primary;
+    font-family: Inter;
+    font-size: 12px;
     font-style: normal;
     font-weight: normal;
     line-height: 19px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin: 0 0 6px;
   }
 
   &__component-footer {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-end;
-    padding-top: 20px;
-    border-top: solid 1px $color-grey-border;
     vertical-align: middle;
+    height: fit-content;
 
-    & > div {
+    &>div {
       display: flex;
     }
   }
@@ -122,15 +163,22 @@
 
   &__version-container {
     display: flex;
+    align-items: baseline;
   }
 
   &__version {
     display: block;
     margin-bottom: 8px;
-    color: $color-ecr-component-dark-grey;
     font-size: 14px;
     font-weight: bold;
     line-height: normal;
+
+    .badge {
+      color: rgba(52, 64, 81, 1);
+      background-color: rgba(242, 244, 247, 1);
+      padding: 6px;
+      border-radius: 25px;
+    }
   }
 
   &__show-install-plan {
@@ -140,6 +188,11 @@
     &:hover {
       text-decoration: none;
     }
+
+    &.btn-link {
+      padding-left: 6px;
+      font-size: 12px;
+    }
   }
 
   &__status {
@@ -147,7 +200,7 @@
     border: 1px solid $color-ecr-component-installed-button-border;
     background-color: $color-ecr-component-installed-button;
     color: $color-white;
-    font-family: Open Sans;
+    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 600;
@@ -168,9 +221,8 @@
   }
 
   &__description {
-    padding-top: 5px;
     color: $color-ecr-component-text-grey;
-    font-family: Open Sans;
+    font-family: Inter;
     font-size: 12px;
     line-height: 20px;
   }
@@ -189,17 +241,17 @@
 .ComponentListListView {
   & .ComponentList__list-item {
     padding: 16px;
-    background: $color-light-grey-background;
-    box-shadow: 0 1px 1px rgba(51, 51, 51, .18);
+    border: 1px solid rgba(228, 231, 236, 1);
+    border-radius: 10px;
+    background-color: #fff;
   }
 
-  & .ComponentList__list-item + .ComponentList__list-item {
-    margin-top: 10px;
+  & .ComponentList__list-item+.ComponentList__list-item {
+    margin-top: 20px;
   }
 
   & .ComponentList__install-actions {
     display: flex;
-    width: 100%;
     height: 100%;
   }
 }
@@ -212,6 +264,14 @@
   @media (min-width: 992px) {
     flex-direction: row;
     align-items: normal;
+    width: unset;
+  }
+
+
+  .ComponentListInstallButtons {
+    .btn-group {
+      display: flex;
+    }
   }
 
   @media (max-width: 1536px) {
@@ -231,6 +291,7 @@
         flex: 1;
         max-width: 220px;
       }
+
       //sass-lint:enable class-name-format nesting-depth
     }
   }

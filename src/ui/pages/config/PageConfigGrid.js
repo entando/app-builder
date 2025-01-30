@@ -16,7 +16,7 @@ const PageConfigGrid = ({ cellMap }) => {
   }
 
   return (
-    <div className="PageConfigGrid">
+    <div className="PageConfigGrid" style={!content ? { minHeight: '80px' } : undefined}>
       { content }
     </div>
   );

@@ -1,8 +1,6 @@
 import React from 'react';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
+import { Grid, Row, Col } from 'patternfly-react';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
@@ -10,25 +8,17 @@ import FileButtonsGroupContainer from 'ui/file-browser/common/FileButtonsGroupCo
 import CreateFolderFormContainer from 'ui/file-browser/add/CreateFolderFormContainer';
 import withPermissions from 'ui/auth/withPermissions';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 export const CreateFolderPageBody = () => (
   <InternalPage className="CreateFolderPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.settings' },
+      { label: 'menu.fileBrowser' },
+      { label: 'fileBrowser.createFolder', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.settings" />
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.fileBrowser" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="fileBrowser.createFolder" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col md={12}>
           <PageTitle

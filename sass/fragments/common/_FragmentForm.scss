@@ -8,3 +8,10 @@
   color: $color-pf-black-300;
   font-size: 12px;
 }
+
+.FragmentForm__dropdown {
+  .dropdown-menu {
+    left: unset;
+    right: 0;
+  }
+}

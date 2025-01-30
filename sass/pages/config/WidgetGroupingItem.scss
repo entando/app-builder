@@ -2,8 +2,21 @@
   width: calc(50% - 20px);
   margin-bottom: 10px;
   border: 0;
-  background-color: $color-dragitem-bg;
-  overflow: hidden;
+  cursor: grab;
+  
+
+
+  .icon-container{
+    background-color:$color-grey-background-tertiary;
+    padding: 20px;
+    border-radius: 6px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: 3px solid $color-border-grey
+
+  }
 
   // sass-lint:disable class-name-format nesting-depth
   &.list-group-item:last-of-type {
@@ -35,6 +48,22 @@
     line-height: 1;
     text-transform: capitalize;
   }
+  
+  &__description-container{
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    padding: 8px 16px 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+
+    a{
+        color:$color-text-tertiary;
+        font-weight: 600;
+  }
 
   // sass-lint:disable class-name-format force-element-nesting
   &__main.list-view-pf-main-info {
@@ -45,7 +74,7 @@
     .list-view-pf-left {
       display: block;
       margin: 0 auto;
-      padding-right: 0;
+      padding-right: 0 !important;
       color: $color-dark-white;
     }
 
@@ -57,6 +86,13 @@
     .list-view-pf-description {
       display: block;
       margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      width: 100% !important;
+      color:$color-text-tertiary;
+      padding: 15px;
     }
 
     a {
@@ -66,8 +102,7 @@
   }
   // sass-lint:enable class-name-format force-element-nesting
 
-  &__description {
-    margin: 0;
-    text-align: center;
-  }
+ 
+  
+}
 }

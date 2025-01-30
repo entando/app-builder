@@ -3,60 +3,148 @@
     height: calc(100vh - 74px);
     max-height: calc(100vh - 74px);
     overflow-y: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-left: 0px;
   }
 
   &__tabs {
-    margin-top: 10px;
+    margin-top: 0px;
+
+    .nav-tabs{
+      .__tabContainer{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        svg{
+          width:20px;
+          height:20px;
+        }
+      }
+
+      li > a {
+        border-bottom: 2px solid $color-border-gray;
+        border-top: none;
+        border-right: none;
+        border-left: none;        
+        outline:none;
+        font-weight: 500;
+      }
+
+      li > a:hover, a:focus,a:active {
+        outline: none;
+        border-bottom: 2px solid $color-primary;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+      }
+
+      li.active > a{
+        border-bottom: 2px solid $color-blue-brand-primary;
+        color: $color-blue-brand-primary;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+
+      }
+    }
+
+    .tab-content{
+      padding-left: 20px;
+    }
   }
 
   &__title {
     padding-bottom: 10px;
-    border-bottom: solid 1px #000;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    color: $color-primary-text;
   }
 
-  &__toolbar-row {
-    margin-bottom: 5px;
+  &__title_container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__tabHeader{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+
+
+    flex-wrap: wrap;
   }
 
   &__btn-group--trans {
-    padding-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
 
     .pull-right .btn {  // sass-lint:disable-line force-element-nesting class-name-format
       margin-left: 12px;
     }
   }
 
-  &__btn-icon--svg {
-    padding-right: 8px;
-  }
-
-  &__btn-icon--svg-right {
-    padding-left: 8px;
-  }
-
   &__bottom-options {
-    position: fixed;
-    right: 67px;
-    bottom: 5px;
-    left: 5px;
-    z-index: 11;
+    margin-top: 100px;
+    width: 100%;
 
-    .pull-right .btn:not(.dropdown-toggle) { // sass-lint:disable-line force-element-nesting class-name-format
-      margin-left: 20px;
+    .pull-right{
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
   }
 
   &__bottom-options--tbar {
     margin: 0 20px;
-    padding: 8px 14px;
+    padding: 6px 7px 0px 7px;
     background-color: $color-pf-white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid $color-content-07;
+
+    .left-btn-group{
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .dropdown-btn-title{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  .active {
+    .PageConfigPage__btn-icon--svg.lucide{
+        color: inherit;
+      }
+  }
+
+  .Button.btn-outlined-primary, .btn-outlined-primary:hover {
+    color: $color-brand-primary;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .PageStatusIcon {
     margin-right: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
   }
 
   &__default-applied-label {
@@ -71,7 +159,7 @@
   }
 
   &__on-the-fly-label {
-    margin-right: 5px;
+    margin:0px;
   }
 
   &__publishing {
@@ -133,6 +221,7 @@
   }
 
   .PageConfigPage__side-widget {
+    background-color: white;
     position: fixed;
     left: initial;
     width: 48px;

@@ -1,5 +1,35 @@
+// sass-lint:disable class-name-format nesting-depth
+
 .DashboardPage {
-  .container-fluid { // sass-lint:disable-line class-name-format
+
+  .card-pf-title {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+    .dropdown-toggle {
+      color: $color-brand-primary;
+      font-size: 16px;
+      font-weight: 500;  
+    }
+  }
+
+  .left-title {
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+  }
+
+  .pull-right > div {
+    display: flex;
+  }
+
+  .container-fluid {
+
+    // sass-lint:disable-line class-name-format
     @media (max-width: 426px) {
       padding-right: 8px;
       padding-left: 8px;
@@ -8,5 +38,10 @@
     @media (max-width: 769px) {
       padding-right: 8px;
     }
+  }
+  a {
+    font-size: 16px;
+    color: $color-brand-primary;
+    font-weight: 500;
   }
 }

@@ -1,35 +1,25 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col } from 'patternfly-react';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTemplateFormContainer from 'ui/page-templates/common/PageTemplateFormContainer';
 import ErrorsAlertContainer from 'ui/common/form/ErrorsAlertContainer';
-import { FORM_MODE_CLONE } from 'state/page-templates/const';
-import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 import withPermissions from 'ui/auth/withPermissions';
+import { FORM_MODE_CLONE } from 'state/page-templates/const';
 import { SUPERUSER_PERMISSION } from 'state/permissions/const';
+import { ROUTE_PAGE_TEMPLATE_LIST } from 'app-init/router';
 
 export const PageTemplateClonePageBody = () => (
   <InternalPage className="PageTemplateClonePage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.pageDesigner', active: true },
+      { label: 'menu.pageTemplates', to: ROUTE_PAGE_TEMPLATE_LIST },
+      { label: 'app.clone', active: true },
+      ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.pageDesigner" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_PAGE_TEMPLATE_LIST}>
-              <FormattedMessage id="menu.pageTemplates" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="app.clone" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col xs={12}>
           <PageTitle titleId="app.clone" helpId="pageTemplates.help" />

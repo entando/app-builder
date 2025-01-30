@@ -1,0 +1,20 @@
+.Dropdown-btn {
+    border-radius: $radius-xxs;
+    border: 1px solid $color-content-07;
+    color: $color-text-tertiary;
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    height: 32px;
+}
+
+.dropdown-menu {
+    border-radius: $radius-xxs;
+    border: 1px solid $color-content-07;
+    font-size: 14px;
+    font-weight: 400;
+}

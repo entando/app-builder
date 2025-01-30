@@ -1,24 +1,36 @@
-// sass-lint:disable class-name-format nesting-depth
+// sass-lint:disable class-name-format nesting-depth no-extends
 .DashboardPage {
-  .card-pf {
-    .fa {
-      margin-right: 5px;
-      color: $color-icon-gray;
+  .card-pf-body {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    
+    a {
+      color: $color-text-tertiary;
+    }
 
+    ::before {
+      padding-right: 5px;
+    }
+
+    .card-pf-aggregate-status-container {
+      display: flex;
+      gap: 6px;
+    }
+  }
+
+  .card-pf {
+    @extend .div__border--solid-grey;
+    border-radius: $spacing-4;
+
+    .fa {
       &:not(:first-child) {
         margin-left: 15px;
       }
     }
+  }
 
-    .btn {
-      &.pull-right {
-        margin-top: -5px;
-      }
-    }
-
-    .separator {
-      margin-right: 5px;
-      margin-left: 15px;
-    }
+  .card-pf-aggregate-status-count {
+    font-size: 14px;
   }
 }

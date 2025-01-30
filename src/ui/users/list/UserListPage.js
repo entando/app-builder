@@ -1,35 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Button, Breadcrumb } from 'patternfly-react';
+import { Grid, Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { PermissionCheck } from '@entando/utils';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import withPermissions from 'ui/auth/withPermissions';
 import UserListTableContainer from 'ui/users/list/UserListTableContainer';
 import UserSearchFormContainer from 'ui/users/list/UserSearchFormContainer';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import { ROUTE_USER_ADD } from 'app-init/router';
 import { CRUD_USERS_PERMISSION, VIEW_USERS_AND_PROFILES_PERMISSION } from 'state/permissions/const';
 import { TEST_ID_USER_LIST_PAGE } from 'ui/test-const/user-test-const';
 
 export const UserListPageBody = ({ userPermissions }) => (
   <InternalPage className="UserListPage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.userManagement' },
+      { label: 'menu.users', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.userManagement" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="menu.users" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <Row>
         <Col xs={12}>
           <PageTitle
@@ -38,8 +30,8 @@ export const UserListPageBody = ({ userPermissions }) => (
           />
         </Col>
       </Row>
-      <Row>
-        <Col xs={6} xsOffset={3}>
+      <Row className="formRow">
+        <Col xs={6}>
           <UserSearchFormContainer />
         </Col>
       </Row>

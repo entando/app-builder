@@ -7,7 +7,7 @@ const ComponentImage = ({ component }) => {
       <img
         alt={component.title}
         src={component.thumbnail}
-        style={{ width: '100%', objectFit: 'contain' }}
+        style={{ width: '100%' }}
       />);
   }
 

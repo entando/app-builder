@@ -1,9 +1,8 @@
 import React from 'react';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddFormContainer from 'ui/profile-types/attributes/AddFormContainer';
 import { ROUTE_PROFILE_TYPE_LIST } from 'app-init/router';
@@ -19,22 +18,13 @@ const msgs = defineMessages({
 
 const AddProfileTypeAttributePage = ({ intl }) => (
   <InternalPage className="AttributePage">
+    <HeaderBreadcrumb breadcrumbs={[
+      { label: 'menu.profile' },
+      { label: 'menu.profileTypes', to: ROUTE_PROFILE_TYPE_LIST },
+      { label: 'app.add', active: true },
+    ]}
+    />
     <Grid fluid>
-      <Row>
-        <Col xs={12}>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <FormattedMessage id="menu.profile" />
-            </BreadcrumbItem>
-            <BreadcrumbItem to={ROUTE_PROFILE_TYPE_LIST}>
-              <FormattedMessage id="menu.profileTypes" />
-            </BreadcrumbItem>
-            <BreadcrumbItem active>
-              <FormattedMessage id="app.add" />
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
       <PageTitle
         titleId="app.attribute"
         helpId="profileType.help"

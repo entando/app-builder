@@ -4,7 +4,7 @@ import TreeNodeFolderIcon from 'ui/common/tree-node/TreeNodeFolderIcon';
 
 const PageTreePreview = ({ rowData }) => (
   <div className="PageTreePreview">
-    <button className="btn btn-primary">
+    <button className="btn btn-link">
       <i className="fa fa-arrows" />
     </button>
     <TreeNodeFolderIcon empty={rowData.isEmpty} />

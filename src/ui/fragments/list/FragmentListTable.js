@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Spinner, PaginationRow } from 'patternfly-react';
+import { /* Col, */Spinner, PaginationRow } from 'patternfly-react';
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
 import { DataTable } from '@entando/datatable';
 
@@ -122,7 +122,7 @@ class FragmentListTable extends Component {
     };
 
     return (
-      <Col xs={12}>
+      <React.Fragment>
         <DataTable
           columns={columns}
           data={fragments}
@@ -151,7 +151,7 @@ class FragmentListTable extends Component {
           onLastPage={() => this.changePage(lastPage)}
           messages={messages}
         />
-      </Col>);
+      </React.Fragment>);
   }
 
   render() {
@@ -189,11 +189,11 @@ FragmentListTable.propTypes = {
 };
 
 FragmentListTable.defaultProps = {
-  onWillMount: () => {},
+  onWillMount: () => { },
   loading: false,
   fragments: [],
   filters: '',
-  onSetColumnOrder: () => {},
+  onSetColumnOrder: () => { },
   columnOrder: [],
 };
 

@@ -2,12 +2,11 @@
 .WidgetConfigPage {
   min-height: 100%;
   margin-bottom: 0;
-  background-color: $color-grey-background;
 
   &__header {
-    padding: 20px;
-    border-bottom: solid 2px $color-grey-border;
-    background-color: $color-white;
+    &__btn-container {
+      display: flex;
+    }
   }
 
   &__body {
@@ -30,7 +29,6 @@
 
   & > .container-pf-nav-pf-vertical {
     height: 100%;
-    margin-top: 60px;
     margin-left: 216px;
     padding: 0;
   }
@@ -44,8 +42,7 @@
   }
 
   & .PageTitle__title {
-    margin-top: 40px;
-    margin-bottom: 0;
+    padding-inline: 20px;
 
     & .pull-right {
       margin-left: 22px;

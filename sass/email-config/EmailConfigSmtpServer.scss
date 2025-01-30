@@ -1,0 +1,20 @@
+ .EmailConfigSmtpServer{
+    &__form {
+      .RenderTextInput__input-body {
+        border-radius: $radius-s;
+        border-color: $color-content-07; 
+      }
+
+      .RenderRadioInput__toggle-btn {
+        background-color: #ffffff;
+        color: $color-text-secondary;
+        border-color: $color-content-08; 
+      }
+      
+      & .active, & .active:hover {
+        background-color: $color-brand-background-primary;
+        color: $color-brand-primary;
+        border-color: $color-content-07;
+      }
+    }
+  }

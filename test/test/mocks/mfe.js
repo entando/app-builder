@@ -175,3 +175,28 @@ export const UPDATE_MFE_OK = {
     },
   },
 };
+
+export const LIST_MFE_MENU = [
+  {
+    id: '9e343527-37bf-472e-aadc-a780613ceb88',
+    bundleId: '64c57c33',
+    bundleCode: 'layout-core-bundle-id',
+    bundleGroup: 'layout-core-bundle',
+    widgetName: 'app-builder-menu',
+    widgetCode: '6e3e752a-f796-11ec-b939-0242ac120002',
+    assets: ['menu/app-builder-menu.umd.js'],
+    customElement: 'app-builder-menu',
+    descriptorExt: {
+      slot: 'primary-menu',
+      nav: [],
+      paths: [],
+    },
+    systemParams: {
+      api: {
+        navigation: {
+          url: 'http://localhost:8080',
+        },
+      },
+    },
+  },
+];

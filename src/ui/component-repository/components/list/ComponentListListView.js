@@ -33,7 +33,7 @@ const ComponentListListView =
               >
                 <ComponentImage component={component} />
               </div>
-              <div className="ComponentList__component-body">
+              <div className="ComponentList__list-body">
                 <div
                   className="ComponentList__component-content"
                   role="button"
@@ -51,6 +51,16 @@ const ComponentListListView =
                     }
                   </p>
                   <h1>{component.title}</h1>
+                  <p className="ComponentList__description">{component.description}</p>
+                  <InstalledVersion
+                    version={(installedJob || {}).componentVersion ||
+                      (component.latestVersion || {}).version}
+                    installed={installed}
+                  />
+                  <DeploymentStatus bundleStatus={bundleStatus} />
+                </div>
+                <div className="ComponentList__component-footer">
+                  <ComponentInstallActionsContainer component={component} />
                   {
                     component.installed &&
                     <div>
@@ -69,16 +79,6 @@ const ComponentListListView =
                       </Button>
                     </div>
                   }
-                  <p className="ComponentList__description">{component.description}</p>
-                  <InstalledVersion
-                    version={(installedJob || {}).componentVersion ||
-                      (component.latestVersion || {}).version}
-                    installed={installed}
-                  />
-                  <DeploymentStatus bundleStatus={bundleStatus} />
-                </div>
-                <div className="ComponentList__component-footer" style={{ display: 'none' }}>
-                  <ComponentInstallActionsContainer component={component} />
                 </div>
               </div>
             </div>

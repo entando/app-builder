@@ -85,9 +85,11 @@ class ComponentList extends Component {
     ), {});
 
     return (
-      <div className="ComponentList">
+      <div>
         <Spinner loading={!!loading} >
-          {components}
+          <div className="ComponentList">
+            {components}
+          </div>
           <Paginator
             viewType="table"
             pagination={pagination}

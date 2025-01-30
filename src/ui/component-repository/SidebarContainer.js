@@ -1,16 +1,16 @@
-import { connect } from 'react-redux';
-import { isAllCategoriesCategorySelected } from 'state/component-repository/categories/selectors';
-import Sidebar from 'ui/component-repository/Sidebar';
+// import { connect } from 'react-redux';
 
-const mapDispatchToProps = null;
+// import Sidebar from 'ui/component-repository/Sidebar';
 
-export const mapStateToProps = state => ({
-  showCategoryFilter: isAllCategoriesCategorySelected(state),
-});
+// const mapDispatchToProps = null;
 
-const SidebarContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Sidebar);
+// export const mapStateToProps = state => ({
+//   showCategoryFilter: isAllCategoriesCategorySelected(state),
+// });
 
-export default SidebarContainer;
+// const SidebarContainer = connect(
+//   mapStateToProps,
+//   mapDispatchToProps,
+// )(Sidebar);
+
+// export default SidebarContainer;

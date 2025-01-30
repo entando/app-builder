@@ -10,6 +10,7 @@ import {
   ROUTE_FRAGMENT_CLONE,
   ROUTE_FRAGMENT_DETAIL,
 } from 'app-init/router';
+import Icon from 'ui/common/icon/Icon';
 
 class FragmentListMenuActions extends Component {
   constructor(props) {
@@ -37,30 +38,42 @@ class FragmentListMenuActions extends Component {
     );
     return (
       <DropdownKebab pullRight id={`${this.props.code}-actions`}>
-        <LinkMenuItem
-          id={`edit-${this.props.code}`}
-          to={routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: this.props.code })}
-          label={editLabel}
-          className="FragmentListMenuAction__menu-item-edit"
-        />
-        <LinkMenuItem
-          id={`clone-${this.props.code}`}
-          to={routeConverter(ROUTE_FRAGMENT_CLONE, { fragmentCode: this.props.code })}
-          label={cloneLabel}
-          className="FragmentListMenuAction__menu-item-clone"
-        />
-        <LinkMenuItem
-          id={`edit-${this.props.code}`}
-          to={routeConverter(ROUTE_FRAGMENT_DETAIL, { fragmentCode: this.props.code })}
-          label={detailLabel}
-          className="FragmentListMenuAction__menu-item-details"
-        />
-        <MenuItem
-          className="FragmentListMenuAction__menu-item-delete"
-          onClick={this.handleClick(onClickDelete)}
-        >
-          <FormattedMessage id="app.delete" />
-        </MenuItem>
+        <div className="FragmentListMenuAction__menu-item-container">
+          <Icon name="pencil" type="lucide" />
+          <LinkMenuItem
+            id={`edit-${this.props.code}`}
+            to={routeConverter(ROUTE_FRAGMENT_EDIT, { fragmentCode: this.props.code })}
+            label={editLabel}
+            className="FragmentListMenuAction__menu-item-edit"
+          />
+        </div>
+        <div className="FragmentListMenuAction__menu-item-container">
+          <Icon name="pages" type="lucide" className="icon-flipped-x" />
+          <LinkMenuItem
+            id={`clone-${this.props.code}`}
+            to={routeConverter(ROUTE_FRAGMENT_CLONE, { fragmentCode: this.props.code })}
+            label={cloneLabel}
+            className="FragmentListMenuAction__menu-item-clone"
+          />
+        </div>
+        <div className="FragmentListMenuAction__menu-item-container">
+          <Icon name="text" type="lucide" />
+          <LinkMenuItem
+            id={`edit-${this.props.code}`}
+            to={routeConverter(ROUTE_FRAGMENT_DETAIL, { fragmentCode: this.props.code })}
+            label={detailLabel}
+            className="FragmentListMenuAction__menu-item-details"
+          />
+        </div>
+        <div className="FragmentListMenuAction__menu-item-container">
+          <Icon name="bin" type="lucide" color="#F64C4C" />
+          <MenuItem
+            className="FragmentListMenuAction__menu-item-delete danger"
+            onClick={this.handleClick(onClickDelete)}
+          >
+            <FormattedMessage id="app.delete" />
+          </MenuItem>
+        </div>
       </DropdownKebab>
     );
   }

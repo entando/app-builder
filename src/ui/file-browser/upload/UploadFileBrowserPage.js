@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Button, Breadcrumb, Icon, ButtonGroup } from 'patternfly-react';
+import { Grid, Row, Col, Button, Icon, ButtonGroup } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
-
 import InternalPage from 'ui/internal-page/InternalPage';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 import PageTitle from 'ui/internal-page/PageTitle';
 import UploadFileBrowserFormContainer from 'ui/file-browser/upload/UploadFileBrowserFormContainer';
 import FileBreadcrumbContainer from 'ui/file-browser/common/FileBreadcrumbContainer';
@@ -30,19 +29,12 @@ export const UploadFileBrowserPageBody = ({ location: { pathname } }) => {
     </Button>);
   return (
     <InternalPage className="UploadFileBrowserPage">
+      <HeaderBreadcrumb breadcrumbs={[
+            { label: 'menu.settings' },
+            { label: 'menu.fileBrowser', active: true },
+          ]}
+      />
       <Grid fluid>
-        <Row>
-          <Col xs={12}>
-            <Breadcrumb>
-              <BreadcrumbItem>
-                <FormattedMessage id="menu.settings" />
-              </BreadcrumbItem>
-              <BreadcrumbItem active>
-                <FormattedMessage id="menu.fileBrowser" />
-              </BreadcrumbItem>
-            </Breadcrumb>
-          </Col>
-        </Row>
         <Row>
           <Col xs={12}>
             <PageTitle

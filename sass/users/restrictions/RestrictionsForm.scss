@@ -1,17 +1,26 @@
 // sass-lint:disable class-name-format nesting-depth
 .UserRestrictionsPage {
+  font-family: Inter;
+
   .form-horizontal {
+    .form-group .mobile-left {
+      text-align: left;
+    }
+
     .control-label {
       text-align: left;
     }
 
     .RenderTextInput {
       display: inline-block;
-      max-width: 69px;
     }
 
     .AppendedLabel {
       margin-left: 5px;
+    }
+
+    .btn-primary {
+      padding-inline: 16px;
     }
   }
 }

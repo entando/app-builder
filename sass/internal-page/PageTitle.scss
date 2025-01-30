@@ -1,15 +1,36 @@
 .PageTitle {
-  .PageTitle__header {
-    margin-bottom: 20px;
-    border-bottom: 1px solid $color-pf-black-200;
+  margin-bottom: 20px;
+  font-family: Inter;
+  position: relative;
+
+  &__header {
+    &::after {
+      content: "";
+      position: absolute;
+      width: calc(100% + 60px);
+      right: -21px;
+      border-bottom: 1px solid $color-neutral-grey;
+    }
   }
 
   .PageTitle__title {
-    font-weight: bold;
+    color: $color-text-secondary;
+    font-size: 16px;
+    font-weight: 500;
+    margin-block: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .PageTitle__content {
+    display: flex;
+    width: calc(100% - 30px);
+    justify-content: space-between;
+    align-items: center;
   }
 
   .PageTitle__icon {
-    color: $color-pf-black-500;
     cursor: pointer;
   }
 

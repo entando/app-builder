@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Row, Col, Breadcrumb } from 'patternfly-react';
-import { FormattedMessage } from 'react-intl';
-
-import BreadcrumbItem from 'ui/common/BreadcrumbItem';
+import { Grid, Row, Col } from 'patternfly-react';
 import InternalPage from 'ui/internal-page/InternalPage';
 import PageTitle from 'ui/internal-page/PageTitle';
 import AddDatabaseListTableContainer from 'ui/database/add/AddDatabaseListTableContainer';
+import HeaderBreadcrumb from 'ui/internal-page/HeaderBreadcrumb';
 
 class AddDatabasePage extends Component {
   componentWillMount() {
@@ -15,19 +13,9 @@ class AddDatabasePage extends Component {
   render() {
     return (
       <InternalPage className="AddDatabasePage">
+        <HeaderBreadcrumb breadcrumbs={[{ label: 'menu.settings' }, { label: 'menu.database' }]} />
         <Grid fluid>
-          <Row>
-            <Col xs={12}>
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <FormattedMessage id="menu.settings" />
-                </BreadcrumbItem>
-                <BreadcrumbItem active>
-                  <FormattedMessage id="menu.database" />
-                </BreadcrumbItem>
-              </Breadcrumb>
-            </Col>
-          </Row>
+          <Row />
           <Row>
             <Col xs={12}>
               <PageTitle

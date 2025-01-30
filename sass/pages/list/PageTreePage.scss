@@ -1,0 +1,19 @@
+.PageTreePage {
+    &__btn-clear-container{
+        margin-bottom: 20px;
+    }
+    .pageTreeSearch{
+        padding: 16px;
+        background-color: #F9FAFB;
+        border: 1px solid $color-content-09;
+        border-radius: 4px;    
+        margin-top: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+  .PageSearchForm{
+    padding-bottom: unset;
+   
+  }
+}

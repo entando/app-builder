@@ -47,7 +47,7 @@ const EmailConfigSenderMgmt = ({ senders, onDeleteClick }) => {
           <tr>
             <th><FormattedMessage id="app.code" /></th>
             <th><FormattedMessage id="emailConfig.senderMgmt.email" /></th>
-            <th width="10%"><FormattedMessage id="app.actions" /></th>
+            <th width="10%" className="text-center"><FormattedMessage id="app.actions" /></th>
           </tr>
         </thead>
         <tbody>

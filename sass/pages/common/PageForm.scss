@@ -22,4 +22,16 @@
     content: "\f192";
     vertical-align: middle;
   }
+
+
+  .form-group .mobile-left {
+    text-align: left;
+  }
+
+  .FormLabel{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+  }
 }

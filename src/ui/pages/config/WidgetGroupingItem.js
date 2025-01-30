@@ -8,22 +8,30 @@ import WidgetIcon from 'ui/widgets/common/WidgetIcon';
 
 const WidgetGroupingItem = ({ widgetId, widgetName, connectDragSource }) => {
   const component = (
-    <div className="WidgetGroupingItem list-group-item">
-      <div className="WidgetGroupingItem__main list-view-pf-main-info">
-        <div className="WidgetGroupingItem__icon list-view-pf-left">
-          <WidgetIcon widgetId={widgetId} />
-        </div>
-        <div className="list-view-pf-body">
-          <div className="list-view-pf-description">
-            <div className="WidgetGroupingItem__description">
-              <Link
-                to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}
-              >
-                {widgetName}
-              </Link>
-            </div>
-          </div>
-        </div>
+    // <div className="WidgetGroupingItem list-group-item">
+    //   <div className="WidgetGroupingItem__main list-view-pf-main-info">
+    //     <div className="WidgetGroupingItem__icon list-view-pf-left">
+    //       <WidgetIcon widgetId={widgetId} />
+    //     </div>
+    //     <div className="list-view-pf-body">
+    //       <div className="list-view-pf-description">
+    //         <div className="WidgetGroupingItem__description">
+    //           <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}>
+    //             {widgetName}
+    //           </Link>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="WidgetGroupingItem">
+      <div className="list-group-item icon-container">
+        <WidgetIcon widgetId={widgetId} />
+      </div>
+      <div className="WidgetGroupingItem__description-container">
+        <Link to={routeConverter(ROUTE_WIDGET_EDIT, { widgetCode: widgetId })}>
+          {widgetName}
+        </Link>
       </div>
     </div>
   );
@@ -34,7 +42,6 @@ const WidgetGroupingItem = ({ widgetId, widgetName, connectDragSource }) => {
 };
 
 WidgetGroupingItem.propTypes = {
-
   widgetName: PropTypes.string.isRequired,
 
   /* eslint-disable react/no-unused-prop-types */

@@ -26,6 +26,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  // eslint-disable-next-line no-unused-vars
   onDidMount: (page = 1, pageSize = 5) => {
     dispatch(fetchContents({ page, pageSize }, '?sort=lastModified&direction=DESC', namespace));
     dispatch(fetchContentTypeListPaged({ page: 1, pageSize: 0 }, '', 'contentTypesTile'));

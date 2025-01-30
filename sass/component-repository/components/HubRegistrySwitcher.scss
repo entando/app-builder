@@ -1,39 +1,36 @@
 .HubRegistrySwitcher {
+&__container {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: solid 1px $color-light-grey-border;
+  background: $color-white;
+}
+
   &__body {
     display: flex;
-    height: 112px;
-    margin-bottom: 29px;
-    padding-top: 17px;
-    padding-right: 19px;
-    padding-left: 14px;
-    border: solid 1px $color-light-grey-border;
-    background: $color-white;
+    justify-content: space-between;
+    align-items: center;
   }
 
   &__title {
     color: $color-ecr-list-icon-active;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 22px;
     font-style: normal;
     line-height: 30px;
   }
 
   &__description {
-    margin-top: 20px;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
     font-style: normal;
     font-weight: 700;
-    letter-spacing: 0;
-    line-height: 2px;
     text-align: left;
   }
 
   &__switcher-label {
     display: flex;
-    margin-top: 2px;
-    margin-right: 10px;
-    font-family: "Open Sans";
+    font-family: "Inter";
     font-size: 12px;
     font-style: normal;
     font-weight: 700;
@@ -71,7 +68,7 @@
     &--new {
       padding-left: 34px;
       color: $color-mid-blue;
-      font-family: "Open Sans";
+      font-family: "Inter";
       font-size: 12px;
       font-style: normal;
       font-weight: normal;
@@ -105,22 +102,11 @@
 
   &__switcher {
     display: flex;
-    margin-top: 10px;
-    margin-left: auto;
+    align-items: baseline;
+    gap: 10px;
   }
 }
 
-.BundleGroupAutoComplete {
-  width: 170px;
-  margin-right: -20px;
-  margin-left: -20px;
-
-  div {
-    input { //sass-lint:disable-line nesting-depth
-      height: 30px;
-    }
-  }
-}
 
 .EditRegistryModal {
   width: 800px;
