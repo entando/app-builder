@@ -13,11 +13,13 @@ import {
   GET_COMPONENT_CURRENT_JOB_STATUS,
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
+import { composeApiDomain } from 'helpers/apiDomainComposer';
+import { getCookie, ENTANDO_VIRTUAL_CONTEXTS } from 'helpers/cookies';
 
 export const getECRComponent = base64EncodedUrl => (
   makeRequest({
     uri: `/components/repoUrl=${base64EncodedUrl}`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     mockResponse: GET_ECR_COMPONENT_OK,
     useAuthentication: true,
@@ -28,7 +30,7 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
   makeRequest(
     {
       uri: `/components${params}`,
-      domain: '/digital-exchange',
+      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.GET,
       mockResponse: LIST_ECR_COMPONENTS_OK,
       useAuthentication: true,
@@ -43,7 +45,7 @@ export const getECRComponents = (page = { page: 1, pageSize: 10 }, params = '') 
 export const getECRComponentInstall = code => (
   makeRequest({
     uri: `/components/${code}/install`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     mockResponse: COMPONENT_INSTALLATION_COMPLETED,
     useAuthentication: true,
@@ -53,7 +55,7 @@ export const getECRComponentInstall = code => (
 export const postECRComponentUninstall = code => (
   makeRequest({
     uri: `/components/${code}/uninstall`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     body: {},
     method: METHODS.POST,
     mockResponse: COMPONENT_UNINSTALLATION_CREATED,
@@ -64,7 +66,7 @@ export const postECRComponentUninstall = code => (
 export const getECRComponentUninstall = code => (
   makeRequest({
     uri: `/components/${code}/uninstall`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     // mockResponse: COMPONENT_UNINSTALLATION_COMPLETED,
     mockResponse: COMPONENT_UNINSTALLATION_IN_PROGRESS,
@@ -76,7 +78,7 @@ export const getECRComponentUninstall = code => (
 export const getECRComponentCurrentJobStatus = code => (
   makeRequest({
     uri: `/components/${code}/lastJob`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     mockResponse: GET_COMPONENT_CURRENT_JOB_STATUS,
     useAuthentication: true,
@@ -86,7 +88,7 @@ export const getECRComponentCurrentJobStatus = code => (
 export const getComponentUsage = code => (
   makeRequest({
     uri: `/components/${code}/usage`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     mockResponse: COMPONENT_USAGE_LIST,
     useAuthentication: true,
@@ -98,7 +100,7 @@ export const getComponentUsage = code => (
 export const putECRComponentInstallPlan = (component, body) => (
   makeRequest({
     uri: `/components/${component.code}/installplans`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     body,
     method: METHODS.PUT,
     mockResponse: COMPONENT_INSTALLATION_CREATED,
@@ -110,7 +112,7 @@ export const putECRComponentInstallPlan = (component, body) => (
 export const postECRComponentInstallPlan = (component, version = 'latest') => (
   makeRequest({
     uri: `/components/${component.code}/installplans`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     body: { version },
     method: METHODS.POST,
     mockResponse: COMPONENT_INSTALL_PLAN,
@@ -121,7 +123,7 @@ export const postECRComponentInstallPlan = (component, version = 'latest') => (
 export const getECRComponentInstallPlan = code => (
   makeRequest({
     uri: `/components/${code}/installplans`,
-    domain: '/digital-exchange',
+    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.GET,
     mockResponse: GET_COMPONENT_INSTALL_PLAN,
     useAuthentication: true,

@@ -91,6 +91,7 @@ function getClientEnvironment(publicUrl) {
         CLIENT_SECRET: process.env.CLIENT_SECRET || 'appbuilder_secret',
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         APP_BUILDER_VERSION: process.env.npm_package_version || '',
+        ENTANDO_VIRTUAL_CONTEXTS: process.env.ENTANDO_VIRTUAL_CONTEXTS || '',
       },
     );
 

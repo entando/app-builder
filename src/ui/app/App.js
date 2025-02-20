@@ -5,6 +5,7 @@ import {
   Route,
   Switch,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import withAuth from 'auth/withAuth';
 import { LoginPage } from '@entando/pages';
@@ -111,6 +112,7 @@ import MfeContainer from 'ui/app/MfeContainer';
 import InternalPage from 'ui/internal-page/InternalPage';
 import { generateMfeRoutes } from 'helpers/urlUtils';
 import NoAccessPageContainer from 'ui/app/NoAccessPageContainer';
+import { setCookie, ENTANDO_VIRTUAL_CONTEXTS, deleteCookie } from 'helpers/cookies';
 
 const ListWidgetPageContainer = React.lazy(() => import('ui/widgets/list/ListWidgetPageContainer'));
 const AddWidgetPage = React.lazy(() => import('ui/widgets/add/AddWidgetPage'));
@@ -203,15 +205,32 @@ const appsRoutes = entandoApps.reduce((routes, app) => (
   ]
 ), []);
 
+
+const setContextFromURL = (pathname) => {
+  console.log('setContextFromURL', window.location.href.replace(pathname, '').split('/').at(-1));
+  if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return;
+  const virtualContexts = process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',');
+  const context = window.location.href.replace(pathname, '').split('/').at(-1);
+  if (virtualContexts.includes(context)) setCookie(ENTANDO_VIRTUAL_CONTEXTS, context);
+  else setCookie(ENTANDO_VIRTUAL_CONTEXTS, '.root');
+};
+
 const RouteComponent = () => {
   const { COMPONENT_REPOSITORY_UI_ENABLED } = getRuntimeEnv();
   const contentMfe = useSelector(getMfeTargetContent);
+  const location = useLocation();
+
+  setContextFromURL(location.pathname);
 
   const mfeRoutes = React.useMemo(
     () => generateMfeRoutes(contentMfe),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [JSON.stringify(contentMfe)],
   );
+
+  React.useEffect(() => () => {
+    deleteCookie(ENTANDO_VIRTUAL_CONTEXTS);
+  }, []);
 
   return (
     <Switch>
