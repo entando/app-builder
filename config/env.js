@@ -92,6 +92,7 @@ function getClientEnvironment(publicUrl) {
         KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
         APP_BUILDER_VERSION: process.env.npm_package_version || '',
         ENTANDO_VIRTUAL_CONTEXTS: process.env.ENTANDO_VIRTUAL_CONTEXTS || '',
+        DOMAIN_CM: process.env.DOMAIN_CM || '',
       },
     );
 

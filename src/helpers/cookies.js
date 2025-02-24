@@ -5,9 +5,7 @@ const setCookie = (cookieName, cookieValue) => {
 };
 
 
-const getCookie = (cookieName) => {
-  Cookies.get(cookieName);
-};
+const getCookie = cookieName => Cookies.get(cookieName);
 
 const deleteCookie = (cookieName) => {
   Cookies.remove(cookieName);

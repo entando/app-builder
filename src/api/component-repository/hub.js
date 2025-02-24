@@ -5,7 +5,7 @@ import {
   UNDEPLOY_BUNDLE_OK,
 } from 'test/mocks/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { composeApiDomain } from 'helpers/apiDomainComposer';
+import { composeCMApiDomain } from 'helpers/apiDomainComposer';
 import { getCookie, ENTANDO_VIRTUAL_CONTEXTS } from 'helpers/cookies';
 
 export const NO_PAGE = { page: 1, pageSize: 0 };
@@ -14,7 +14,7 @@ export const getBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 1
   makeRequest(
     {
       uri: `/hub/bundles/${registryId}/${params}`,
-      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
       useAuthentication: true,
@@ -27,7 +27,7 @@ export const getRegistries = (params = '') => (
   makeRequest(
     {
       uri: `/registries/${params}`,
-      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.GET,
       mockResponse: LIST_REGISTRIES_OK,
       useAuthentication: true,
@@ -40,7 +40,7 @@ export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, pa
   makeRequest(
     {
       uri: `/hub/bundlegroups/${registryId}/?statuses=PUBLISHED&${params}`,
-      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
       useAuthentication: true,
@@ -52,7 +52,7 @@ export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, pa
 export const deleteRegistry = registryId => (
   makeRequest({
     uri: `/registries/${registryId}`,
-    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.DELETE,
     mockResponse: DELETE_REGISTRY_OK,
     useAuthentication: true,
@@ -62,7 +62,7 @@ export const deleteRegistry = registryId => (
 export const addRegistry = registryObject => (
   makeRequest({
     uri: '/registries',
-    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.POST,
     mockResponse: ADD_REGISTRY_OK,
     useAuthentication: true,
@@ -73,7 +73,7 @@ export const addRegistry = registryObject => (
 export const updateRegistry = registryObject => (
   makeRequest({
     uri: '/registries',
-    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.PUT,
     mockResponse: ADD_REGISTRY_OK,
     useAuthentication: true,
@@ -84,7 +84,7 @@ export const updateRegistry = registryObject => (
 export const deployBundle = bundle => (
   makeRequest({
     uri: '/components',
-    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.POST,
     mockResponse: DEPLOY_BUNDLE_OK,
     useAuthentication: true,
@@ -95,7 +95,7 @@ export const deployBundle = bundle => (
 export const undeployBundle = componentCode => (
   makeRequest({
     uri: `/components/${componentCode}`,
-    domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
     method: METHODS.DELETE,
     mockResponse: UNDEPLOY_BUNDLE_OK,
     useAuthentication: true,
@@ -106,7 +106,7 @@ export const getBundleStatuses = bundleIds => (
   makeRequest(
     {
       uri: '/components/status/query',
-      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.POST,
       mockResponse: LIST_BUNDLE_STATUSES_OK,
       useAuthentication: true,
@@ -122,7 +122,7 @@ export const getBundleStatusWithCode = componentCode => (
   makeRequest(
     {
       uri: `/components/status/${componentCode}`,
-      domain: composeApiDomain('/digital-exchange', getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_STATUSES_OK.bundlesStatuses[0],
       useAuthentication: true,
