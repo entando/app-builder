@@ -1,8 +1,8 @@
 import React from 'react';
 import { ENTANDO_VIRTUAL_CONTEXT_KEY, getCookie, setCookie } from 'helpers/cookies';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 
-const ContextSelect = () => (
+const ContextSelect = ({ intl }) => (
   <li className="LanguageSelect">
     <select
       className="LanguageSelect__dropdown LanguageSelect__dropdown-vmenu"
@@ -19,7 +19,7 @@ const ContextSelect = () => (
       process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
         ctx === 'ROOT' ?
           <option value={ctx} key={ctx} className="LanguageSelect__option">
-            <FormattedMessage id="contextSelect.ROOT" />
+            {intl.formatMessage({ id: 'contextSelect.ROOT' })}
           </option>
           : <option value={ctx} key={ctx} className="LanguageSelect__option">{ctx}</option>
       ))
@@ -29,5 +29,9 @@ const ContextSelect = () => (
   </li>
 );
 
+ContextSelect.propTypes = {
+  intl: intlShape.isRequired,
+};
 
-export default ContextSelect;
+
+export default injectIntl(ContextSelect);

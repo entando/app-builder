@@ -180,7 +180,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
 //     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
 //   />) : '');
 
-const getHeader = onStartTutorial => (
+const getHeader = (onStartTutorial, intl) => (
   <Masthead>
     <Brand
       href={`${publicUrlWithContext}${ROUTE_DASHBOARD}`}
@@ -189,7 +189,7 @@ const getHeader = onStartTutorial => (
       onClick={null}
     />
     <VerticalNav.IconBar collapse>
-      { process.env.ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect /> }
+      { process.env.ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} /> }
       <LanguageSelectContainer key="LanguageSelect" />
       <HomePageLinkContainer key="projectLink" />
       <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
@@ -246,7 +246,7 @@ const EntandoMenu = ({
         isMobile={false}
         navCollapsed={collapsed}
       >
-        {getHeader(onStartTutorial)}
+        {getHeader(onStartTutorial, intl)}
         <Item
           id="menu-dashboard"
           onClick={() => history.push(ROUTE_DASHBOARD)}
