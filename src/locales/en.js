@@ -1616,5 +1616,6 @@ export default {
     'ecr.componentPartiallyDeleted': 'Some elements of the bundle were deleted manually. To completely uninstall the bundle and clear every internal reference please proceed with uninstallation.',
     'componentRepository.components.elementsUninstalled': 'Elements Uninstalled',
     'componentRepository.components.someNotUninstalled': 'Some components were not uninstalled',
+    'contextSelect.ROOT': '<main>',
   },
 };

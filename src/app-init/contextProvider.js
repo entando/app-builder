@@ -13,7 +13,7 @@ const setContextFromURL = (pathname) => {
   if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return deleteCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
   const virtualContexts = process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',');
   if (virtualContexts.includes(context)) return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, context);
-  // #$$$ root context => return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, '.root');
+  // #$$$ root context => return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, 'ROOT');
   return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, '');
 };
 

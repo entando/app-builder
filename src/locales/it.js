@@ -1616,5 +1616,6 @@ export default {
     'ecr.componentPartiallyDeleted': 'Alcuni elementi del bundle sono stati cancellati manualmente. Per disinstallare completamente il bundle e ripulire il sistema da ogni referenza interna, procedere con la disinstallazione.',
     'componentRepository.components.elementsUninstalled': 'Elementi Disinstallati',
     'componentRepository.components.someNotUninstalled': 'Alcuni elementi non sono stati disinstallati',
+    'contextSelect.ROOT': '<principale>',
   },
 };

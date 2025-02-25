@@ -1036,5 +1036,6 @@ export default {
     'componentRepository.components.elementsUninstalled': 'Elementos Desinstalados',
     'hub.bundle.uninstalled': 'Pacote Desinstalado',
     'componentRepository.components.someNotUninstalled': 'Alguns elementos não foram desinstalados',
+    'contextSelect.ROOT': '<principal>',
   },
 };
