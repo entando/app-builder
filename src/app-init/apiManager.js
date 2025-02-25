@@ -14,6 +14,7 @@ import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { keycloak } from 'auth/keycloak/KeycloakProviderContainer';
+import { getBaseUrlWithVirtualContext } from './contextProvider';
 
 const ApiManager = ({
   auth,
@@ -46,7 +47,7 @@ const ApiManager = ({
         window.location.href = redirectUri;
         return;
       }
-      const route = pathname ? pathname.replace(process.env.PUBLIC_URL, '') : null;
+      const route = pathname ? pathname.replace(getBaseUrlWithVirtualContext(process.env.PUBLIC_URL), '') : null;
       const goto = auth.enabled && route && route !== ROUTE_HOME
         ? route
         : ROUTE_DASHBOARD;

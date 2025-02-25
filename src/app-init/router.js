@@ -1,7 +1,8 @@
 import { createBrowserHistory } from 'history';
+import { getBaseUrlWithVirtualContext } from './contextProvider';
 
 export const history = createBrowserHistory({
-  basename: process.env.PUBLIC_URL,
+  basename: getBaseUrlWithVirtualContext(process.env.PUBLIC_URL),
 });
 
 export const ROUTE_HOME = '/';

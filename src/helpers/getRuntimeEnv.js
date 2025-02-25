@@ -1,5 +1,5 @@
 import { isURL } from 'validator';
-import { ENTANDO_VIRTUAL_CONTEXT, getCookie } from './cookies';
+import { ENTANDO_VIRTUAL_CONTEXT_KEY, getCookie } from './cookies';
 
 const getProcessEnvVar = envVar => process.env[envVar] || '';
 
@@ -15,7 +15,7 @@ const getEnvVar = (envVar) => {
 const getBooleanEnvVar = envVar => String(getEnvVar(envVar)).toLowerCase() === 'true';
 
 const validateDomain = (domain) => {
-  const virtualContext = getCookie(ENTANDO_VIRTUAL_CONTEXT);
+  const virtualContext = getCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
   if (domain) {
     const isValidURL = isURL(domain, {
       allow_protocol_relative_urls: true,
