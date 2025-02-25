@@ -10,11 +10,11 @@ const getCookie = cookieName => Cookies.get(cookieName);
 const deleteCookie = (cookieName) => {
   Cookies.remove(cookieName);
 };
-const ENTANDO_VIRTUAL_CONTEXTS = 'entando_virtual_context';
+const ENTANDO_VIRTUAL_CONTEXT = 'entando_virtual_context';
 
-const getEntandoVirtualContextFromCookies = () => getCookie(ENTANDO_VIRTUAL_CONTEXTS);
+const getEntandoVirtualContextFromCookies = () => getCookie(ENTANDO_VIRTUAL_CONTEXT);
 
 export {
   setCookie, getCookie, getEntandoVirtualContextFromCookies,
-  deleteCookie, ENTANDO_VIRTUAL_CONTEXTS,
+  deleteCookie, ENTANDO_VIRTUAL_CONTEXT,
 };

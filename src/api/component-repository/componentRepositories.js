@@ -1,14 +1,14 @@
 import { LIST_COMPONENT_REPOSITORIES_OK } from 'test/mocks/component-repository/componentRepositories';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-import { getCookie, ENTANDO_VIRTUAL_CONTEXTS } from 'helpers/cookies';
+import { getCookie, ENTANDO_VIRTUAL_CONTEXT } from 'helpers/cookies';
 
 // eslint-disable-next-line import/prefer-default-export
 export const getComponentRepositories = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(
     {
       uri: `/exchanges${params}`,
-      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+      domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXT)),
       method: METHODS.GET,
       mockResponse: LIST_COMPONENT_REPOSITORIES_OK,
       useAuthentication: true,
@@ -20,7 +20,7 @@ export const getComponentRepositories = (page = { page: 1, pageSize: 10 }, param
 export const getComponentRepository = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXT)),
     method: METHODS.GET,
     mockResponse: {},
     useAuthentication: true,
@@ -30,7 +30,7 @@ export const getComponentRepository = id => (
 export const deleteComponentRepository = id => (
   makeRequest({
     uri: `/exchanges/${id}`,
-    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXT)),
     method: METHODS.DELETE,
     mockResponse: {},
     useAuthentication: true,
@@ -40,7 +40,7 @@ export const deleteComponentRepository = id => (
 export const postComponentRepository = marketplace => (
   makeRequest({
     uri: '/exchanges',
-    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXT)),
     method: METHODS.POST,
     mockResponse: {},
     useAuthentication: true,
@@ -51,7 +51,7 @@ export const postComponentRepository = marketplace => (
 export const putComponentRepository = marketplace => (
   makeRequest({
     uri: `/exchanges/${marketplace.id}`,
-    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXTS)),
+    domain: composeCMApiDomain(getCookie(ENTANDO_VIRTUAL_CONTEXT)),
     method: METHODS.PUT,
     mockResponse: {},
     useAuthentication: true,

@@ -1,4 +1,5 @@
 import { isURL } from 'validator';
+import { ENTANDO_VIRTUAL_CONTEXT, getCookie } from './cookies';
 
 const getProcessEnvVar = envVar => process.env[envVar] || '';
 
@@ -14,6 +15,7 @@ const getEnvVar = (envVar) => {
 const getBooleanEnvVar = envVar => String(getEnvVar(envVar)).toLowerCase() === 'true';
 
 const validateDomain = (domain) => {
+  const virtualContext = getCookie(ENTANDO_VIRTUAL_CONTEXT);
   if (domain) {
     const isValidURL = isURL(domain, {
       allow_protocol_relative_urls: true,
@@ -24,8 +26,16 @@ const validateDomain = (domain) => {
     if (!isValidURL) {
       throw new Error('The DOMAIN env variable is invalid.');
     }
-    return domain.replace(/\/+$/, '');
+    // console.log('domain', domain);
+    let domainWithContext = domain;
+    if (virtualContext) {
+      domainWithContext = `${domain}/${virtualContext}`;
+    }
+    console.log('domainWithContext', domainWithContext);
+    return domainWithContext.replace(/\/+$/, '');
   }
+  console.log('passo qui');
+  if (virtualContext) return `/${virtualContext}`;
   return '';
 };
 
