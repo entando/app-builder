@@ -20,7 +20,7 @@ const setContextFromURL = (pathname) => {
   }
 
   // #$$$ root context => return setCookie(ENTANDO_VIRTUAL_CONTEXT, '.root');
-  return setCookie(ENTANDO_VIRTUAL_CONTEXT, '.root');
+  return setCookie(ENTANDO_VIRTUAL_CONTEXT, '');
 };
 
 
