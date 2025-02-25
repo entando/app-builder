@@ -46,13 +46,15 @@ import MfeContainer from 'ui/app/MfeContainer';
 import { getAppTourlastStep } from 'state/app-tour/selectors';
 // import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
+import { getBaseUrlWithVirtualContext } from 'app-init/contextProvider';
+import ContextSelect from './ContextSelect';
 
 const {
   Masthead, Item, SecondaryItem, Brand,
 } = VerticalNav;
 
 const publicUrl = process.env.PUBLIC_URL;
-
+const publicUrlWithContext = getBaseUrlWithVirtualContext(process.env.PUBLIC_URL);
 const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAdvancedSearchOn) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION,
@@ -181,12 +183,13 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
 const getHeader = onStartTutorial => (
   <Masthead>
     <Brand
-      href={`${publicUrl}${ROUTE_DASHBOARD}`}
+      href={`${publicUrlWithContext}${ROUTE_DASHBOARD}`}
       iconImg={`${publicUrl}/images/entando-logo-white.svg`}
       img=""
       onClick={null}
     />
     <VerticalNav.IconBar collapse>
+      { process.env.ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect /> }
       <LanguageSelectContainer key="LanguageSelect" />
       <HomePageLinkContainer key="projectLink" />
       <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />

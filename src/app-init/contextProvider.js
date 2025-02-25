@@ -2,10 +2,14 @@
 import { setCookie, ENTANDO_VIRTUAL_CONTEXT_KEY, deleteCookie, getCookie } from 'helpers/cookies';
 import React from 'react';
 
-const setContextFromURL = (pathname) => {
+const getContextFromURL = (pathname) => {
   const pathFragments = pathname.split('/');
   const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
-  const context = pathFragments[publicUrlIndex + 1];
+  return pathFragments[publicUrlIndex + 1];
+};
+
+const setContextFromURL = (pathname) => {
+  const context = getContextFromURL(pathname);
   if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return deleteCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
   const virtualContexts = process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',');
   if (virtualContexts.includes(context)) return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, context);
@@ -34,4 +38,4 @@ const getBaseUrlWithVirtualContext = (baseUrl) => {
   return virtualContext ? `${baseUrl}/${virtualContext}` : baseUrl;
 };
 
-export { ContextProvider, getBaseUrlWithVirtualContext };
+export { ContextProvider, getBaseUrlWithVirtualContext, getContextFromURL };
