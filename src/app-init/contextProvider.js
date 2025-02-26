@@ -1,4 +1,3 @@
-// import { getEntandoVirtualContextFromCookies, setEntandoVirtualContextInCookies, deleteEntandoVirtualContextFromCookies } from 'helpers/cookies';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import React from 'react';
 
@@ -43,6 +42,4 @@ const getBaseUrlWithVirtualContext = (baseUrl) => {
   return virtualContext ? `${baseUrl}/${virtualContext}` : baseUrl;
 };
 
-export { 
-  ContextProvider,
-   getBaseUrlWithVirtualContext, getContextFromURL };
+export { ContextProvider, getBaseUrlWithVirtualContext, getContextFromURL };

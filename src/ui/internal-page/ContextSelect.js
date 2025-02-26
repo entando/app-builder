@@ -1,5 +1,5 @@
 import React from 'react';
-import { setEntandoVirtualContextInCookies } from 'helpers/cookies';
+// import { setEntandoVirtualContextInCookies } from 'helpers/cookies';
 import { injectIntl, intlShape } from 'react-intl';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { getContextFromURL } from 'app-init/contextProvider';
