@@ -2,18 +2,7 @@
 set -eu
 
 ENV_DOMAIN=${DOMAIN:-""}
-if [ -z ${KEYCLOAK_JSON:-""} ]
-then
-#Why are we using Bourne?
-  if echo $ENV_DOMAIN | grep -qe "^.*/$"
-  then
-    ENV_KEYCLOAK_JSON="${ENV_DOMAIN}keycloak.json"
-  else
-    ENV_KEYCLOAK_JSON="${ENV_DOMAIN}/keycloak.json"
-  fi
-else
-  ENV_KEYCLOAK_JSON="${KEYCLOAK_JSON}"
-fi
+
 ENV_JSON='{'
 [ -n "$DOMAIN" ] && ENV_JSON+='"DOMAIN":"'"$ENV_DOMAIN"'", '
 [ -n "$DOMAIN_CM" ] && ENV_JSON+='"DOMAIN_CM":"'"$DOMAIN_CM"'", '
