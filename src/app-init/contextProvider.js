@@ -1,4 +1,5 @@
 import { getEntandoVirtualContextFromCookies, setEntandoVirtualContextInCookies, deleteEntandoVirtualContextFromCookies } from 'helpers/cookies';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import React from 'react';
 
 const getContextFromURL = (pathname) => {
@@ -9,8 +10,10 @@ const getContextFromURL = (pathname) => {
 
 const setContextFromURL = (pathname) => {
   const context = getContextFromURL(pathname);
-  if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return deleteEntandoVirtualContextFromCookies();
-  const virtualContexts = process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',');
+
+  const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
+  if (!ENTANDO_VIRTUAL_CONTEXTS) return deleteEntandoVirtualContextFromCookies();
+  const virtualContexts = ENTANDO_VIRTUAL_CONTEXTS.split(',');
   if (virtualContexts.includes(context)) return setEntandoVirtualContextInCookies(context);
   // #$$$ root context => return setEntandoVirtualContextInCookies('ROOT');
   return setEntandoVirtualContextInCookies('');

@@ -41,4 +41,6 @@ export default () => ({
   COMPONENT_REPOSITORY_UI_ENABLED: getBooleanEnvVar('COMPONENT_REPOSITORY_UI_ENABLED'),
   DOMAIN: validateDomain(getEnvVar('DOMAIN')),
   KEYCLOAK_JSON: getEnvVar('KEYCLOAK_JSON') || `${validateDomain(getEnvVar('DOMAIN'))}/keycloak.json`,
+  ENTANDO_VIRTUAL_CONTEXTS: getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'),
+  DOMAIN_CM: getEnvVar('DOMAIN_CM'),
 });

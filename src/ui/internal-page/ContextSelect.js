@@ -1,6 +1,10 @@
 import React from 'react';
 import { setEntandoVirtualContextInCookies, getEntandoVirtualContextFromCookies } from 'helpers/cookies';
 import { injectIntl, intlShape } from 'react-intl';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+
+const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
 
 const ContextSelect = ({ intl }) => (
   <li className="LanguageSelect">
@@ -16,7 +20,7 @@ const ContextSelect = ({ intl }) => (
       }}
     >
       {
-      process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
+      ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
         ctx === 'ROOT' ?
           <option value={ctx} key={ctx} className="LanguageSelect__option">
             {intl.formatMessage({ id: 'contextSelect.ROOT' })}

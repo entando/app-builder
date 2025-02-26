@@ -1,6 +1,10 @@
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
+
+
 const composeCMApiDomain = (context) => {
   let basePath = '/digital-exchange';
-  if (process.env.DOMAIN_CM) basePath = process.env.DOMAIN_CM;
+  const { DOMAIN_CM } = getRuntimeEnv();
+  if (DOMAIN_CM) basePath = DOMAIN_CM;
   if (!context) return basePath;
   return `${basePath}/${context}`;
 };

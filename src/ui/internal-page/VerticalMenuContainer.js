@@ -47,6 +47,7 @@ import { getAppTourlastStep } from 'state/app-tour/selectors';
 // import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
 import { getBaseUrlWithVirtualContext } from 'app-init/contextProvider';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import ContextSelect from './ContextSelect';
 
 const {
@@ -179,7 +180,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
 //     iconClass="fa fa-cart-plus"
 //     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
 //   />) : '');
-
+const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
 const getHeader = (onStartTutorial, intl) => (
   <Masthead>
     <Brand
@@ -189,7 +190,7 @@ const getHeader = (onStartTutorial, intl) => (
       onClick={null}
     />
     <VerticalNav.IconBar collapse>
-      { process.env.ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} /> }
+      { ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} /> }
       <LanguageSelectContainer key="LanguageSelect" />
       <HomePageLinkContainer key="projectLink" />
       <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
