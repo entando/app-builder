@@ -6,7 +6,8 @@ import {
 } from 'test/mocks/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
+// import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
+import { getContextFromURL } from 'app-init/contextProvider';
 
 export const NO_PAGE = { page: 1, pageSize: 0 };
 
@@ -14,7 +15,7 @@ export const getBundlesFromRegistry = (registryId, page = { page: 1, pageSize: 1
   makeRequest(
     {
       uri: `/hub/bundles/${registryId}/${params}`,
-      domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+      domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLES_FROM_REGISTRY_OK,
       useAuthentication: true,
@@ -27,7 +28,7 @@ export const getRegistries = (params = '') => (
   makeRequest(
     {
       uri: `/registries/${params}`,
-      domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+      domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
       method: METHODS.GET,
       mockResponse: LIST_REGISTRIES_OK,
       useAuthentication: true,
@@ -40,7 +41,7 @@ export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, pa
   makeRequest(
     {
       uri: `/hub/bundlegroups/${registryId}/?statuses=PUBLISHED&${params}`,
-      domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+      domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_GROUPS_OK,
       useAuthentication: true,
@@ -52,7 +53,7 @@ export const getBundleGroups = (registryId, page = { page: 1, pageSize: 10 }, pa
 export const deleteRegistry = registryId => (
   makeRequest({
     uri: `/registries/${registryId}`,
-    domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+    domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
     method: METHODS.DELETE,
     mockResponse: DELETE_REGISTRY_OK,
     useAuthentication: true,
@@ -62,7 +63,7 @@ export const deleteRegistry = registryId => (
 export const addRegistry = registryObject => (
   makeRequest({
     uri: '/registries',
-    domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+    domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
     method: METHODS.POST,
     mockResponse: ADD_REGISTRY_OK,
     useAuthentication: true,
@@ -73,7 +74,7 @@ export const addRegistry = registryObject => (
 export const updateRegistry = registryObject => (
   makeRequest({
     uri: '/registries',
-    domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+    domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
     method: METHODS.PUT,
     mockResponse: ADD_REGISTRY_OK,
     useAuthentication: true,
@@ -84,7 +85,7 @@ export const updateRegistry = registryObject => (
 export const deployBundle = bundle => (
   makeRequest({
     uri: '/components',
-    domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+    domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
     method: METHODS.POST,
     mockResponse: DEPLOY_BUNDLE_OK,
     useAuthentication: true,
@@ -95,7 +96,7 @@ export const deployBundle = bundle => (
 export const undeployBundle = componentCode => (
   makeRequest({
     uri: `/components/${componentCode}`,
-    domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+    domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
     method: METHODS.DELETE,
     mockResponse: UNDEPLOY_BUNDLE_OK,
     useAuthentication: true,
@@ -106,7 +107,7 @@ export const getBundleStatuses = bundleIds => (
   makeRequest(
     {
       uri: '/components/status/query',
-      domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+      domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
       method: METHODS.POST,
       mockResponse: LIST_BUNDLE_STATUSES_OK,
       useAuthentication: true,
@@ -122,7 +123,7 @@ export const getBundleStatusWithCode = componentCode => (
   makeRequest(
     {
       uri: `/components/status/${componentCode}`,
-      domain: composeCMApiDomain(getEntandoVirtualContextFromCookies()),
+      domain: composeCMApiDomain(getContextFromURL(window.location.pathname)),
       method: METHODS.GET,
       mockResponse: LIST_BUNDLE_STATUSES_OK.bundlesStatuses[0],
       useAuthentication: true,

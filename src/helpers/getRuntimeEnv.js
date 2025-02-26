@@ -1,6 +1,5 @@
 import { isURL } from 'validator';
-import { getEntandoVirtualContextFromCookies } from './cookies';
-
+// import { getEntandoVirtualContextFromCookies } from './cookies';
 const getProcessEnvVar = envVar => process.env[envVar] || '';
 
 const getWindowEnvVar = envVar => (window && window.env && window.env[envVar] ? window.env[envVar] : '');
@@ -14,8 +13,21 @@ const getEnvVar = (envVar) => {
 
 const getBooleanEnvVar = envVar => String(getEnvVar(envVar)).toLowerCase() === 'true';
 
+const getContextFromURL = (pathname, entVirtualContexts) => {
+  const pathFragments = pathname.split('/');
+  const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
+  const context = pathFragments[publicUrlIndex + 1];
+
+  // const { ENTANDO_VIRTUAL_CONTEXTS } = getEnvVar('ENTANDO_VIRTUAL_CONTEXTS');
+  // console.log('getContextFromURL ENTANDO_VIRTUAL_CONTEXTS', ENTANDO_VIRTUAL_CONTEXTS);
+  const virtualContexts = entVirtualContexts.split(',');
+  if (virtualContexts.includes(context)) return context;
+  return '';
+};
+
 const validateDomain = (domain) => {
-  const virtualContext = getEntandoVirtualContextFromCookies();
+  console.log('ENTANDO_VIRTUAL_CONTEXTS', getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'));
+  const virtualContext = getContextFromURL(window.location.pathname, getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'));
   if (domain) {
     const isValidURL = isURL(domain, {
       allow_protocol_relative_urls: true,
@@ -44,6 +56,7 @@ const validateDomain = (domain) => {
   console.log('Questo è domain vuoto');
   return '';
 };
+
 
 export default () => ({
   COMPONENT_REPOSITORY_UI_ENABLED: getBooleanEnvVar('COMPONENT_REPOSITORY_UI_ENABLED'),
