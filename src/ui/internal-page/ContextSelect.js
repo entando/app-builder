@@ -1,17 +1,17 @@
 import React from 'react';
-import { ENTANDO_VIRTUAL_CONTEXT_KEY, getCookie, setCookie } from 'helpers/cookies';
+import { setEntandoVirtualContextInCookies, getEntandoVirtualContextFromCookies } from 'helpers/cookies';
 import { injectIntl, intlShape } from 'react-intl';
 
 const ContextSelect = ({ intl }) => (
   <li className="LanguageSelect">
     <select
       className="LanguageSelect__dropdown LanguageSelect__dropdown-vmenu"
-      value={getCookie(ENTANDO_VIRTUAL_CONTEXT_KEY) || 'ROOT'}
+      value={getEntandoVirtualContextFromCookies() || 'ROOT'}
       onChange={(e) => {
-        const currentContext = getCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
+        const currentContext = getEntandoVirtualContextFromCookies();
         if (currentContext === e.target.value) return;
         const selectedContext = e.target.value === 'ROOT' ? '' : e.target.value;
-        setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, selectedContext);
+        setEntandoVirtualContextInCookies(selectedContext);
         window.location.pathname = window.location.pathname.replace(`/${currentContext}`, selectedContext === '' ? '' : `/${selectedContext}/`);
       }}
     >

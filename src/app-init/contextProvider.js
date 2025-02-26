@@ -1,5 +1,4 @@
-// import { useLocation } from 'react-router-dom';
-import { setCookie, ENTANDO_VIRTUAL_CONTEXT_KEY, deleteCookie, getCookie } from 'helpers/cookies';
+import { getEntandoVirtualContextFromCookies, setEntandoVirtualContextInCookies, deleteEntandoVirtualContextFromCookies } from 'helpers/cookies';
 import React from 'react';
 
 const getContextFromURL = (pathname) => {
@@ -10,11 +9,11 @@ const getContextFromURL = (pathname) => {
 
 const setContextFromURL = (pathname) => {
   const context = getContextFromURL(pathname);
-  if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return deleteCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
+  if (!process.env.ENTANDO_VIRTUAL_CONTEXTS) return deleteEntandoVirtualContextFromCookies();
   const virtualContexts = process.env.ENTANDO_VIRTUAL_CONTEXTS.split(',');
-  if (virtualContexts.includes(context)) return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, context);
-  // #$$$ root context => return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, 'ROOT');
-  return setCookie(ENTANDO_VIRTUAL_CONTEXT_KEY, '');
+  if (virtualContexts.includes(context)) return setEntandoVirtualContextInCookies(context);
+  // #$$$ root context => return setEntandoVirtualContextInCookies('ROOT');
+  return setEntandoVirtualContextInCookies('');
 };
 
 
@@ -25,7 +24,7 @@ const ContextProvider = ({ children }) => {
     }
 
     return () => {
-      deleteCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
+      deleteEntandoVirtualContextFromCookies();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -34,7 +33,7 @@ const ContextProvider = ({ children }) => {
 };
 
 const getBaseUrlWithVirtualContext = (baseUrl) => {
-  const virtualContext = getCookie(ENTANDO_VIRTUAL_CONTEXT_KEY);
+  const virtualContext = getEntandoVirtualContextFromCookies();
   return virtualContext ? `${baseUrl}/${virtualContext}` : baseUrl;
 };
 

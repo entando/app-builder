@@ -213,7 +213,6 @@ const RouteComponent = () => {
     [JSON.stringify(contentMfe)],
   );
 
-
   return (
     <Switch>
       <Route

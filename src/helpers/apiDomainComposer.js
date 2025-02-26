@@ -1,8 +1,6 @@
 const composeCMApiDomain = (context) => {
-  const domainCM = process.env.DOMAIN_CM;
-  let basePath;
-  if (!domainCM) basePath = '/digital-exchange';
-  else basePath = domainCM;
+  let basePath = '/digital-exchange';
+  if (process.env.DOMAIN_CM) basePath = process.env.DOMAIN_CM;
   if (!context) return basePath;
   return `${basePath}/${context}`;
 };
