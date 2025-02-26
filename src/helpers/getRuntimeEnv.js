@@ -26,10 +26,12 @@ const validateDomain = (domain) => {
     if (!isValidURL) {
       throw new Error('The DOMAIN env variable is invalid.');
     }
-    // console.log('domain', domain);
+    console.log('domain', domain);
     let domainWithContext = domain;
     if (virtualContext) {
-      domainWithContext = `${domain}/${virtualContext}`;
+      if (domain === '/') domainWithContext = `/${virtualContext}`;
+      else domainWithContext = `${domain}/${virtualContext}`;
+      console.log('domainWithContext', domainWithContext);
     }
     return domainWithContext.replace(/\/+$/, '');
   }
