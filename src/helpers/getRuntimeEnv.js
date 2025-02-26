@@ -33,9 +33,15 @@ const validateDomain = (domain) => {
       else domainWithContext = `${domain}/${virtualContext}`;
       console.log('domainWithContext', domainWithContext);
     }
+    console.log('Questo è il domain finale', domainWithContext.replace(/\/+$/, ''));
     return domainWithContext.replace(/\/+$/, '');
   }
-  if (virtualContext) return `/${virtualContext}`;
+  if (virtualContext) {
+    console.log('Questo è domain finale 2', virtualContext);
+    return `/${virtualContext}`;
+  }
+
+  console.log('Questo è domain vuoto');
   return '';
 };
 
