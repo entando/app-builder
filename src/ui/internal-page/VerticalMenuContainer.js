@@ -441,13 +441,13 @@ const EntandoMenu = ({
 };
 
 const MfeMenuContainer = ({
-  menuId, headerId, onStartTutorial, appTourLastStep,
+  menuId, headerId, onStartTutorial, appTourLastStep, intl,
 }) => (
   <div className="MfeMenuContainer">
     <div className="MfeMenuContainer__header-menu-container">
       {
       headerId ? <MfeContainer id={headerId} />
-      : getHeader(onStartTutorial)
+      : getHeader(onStartTutorial, intl)
     }
     </div>
     {
@@ -463,6 +463,7 @@ const MfeMenuContainer = ({
 );
 
 MfeMenuContainer.propTypes = {
+  intl: intlShape.isRequired,
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
@@ -480,6 +481,7 @@ const VerticalMenu = (props) => {
   return isMFEMenuEnabled
     ?
       <MfeMenuContainer
+        intl={props.intl}
         menuId={mfeMenu.id}
         onStartTutorial={props.onStartTutorial}
         appTourLastStep={props.appTourLastStep}
