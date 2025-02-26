@@ -16,7 +16,10 @@ const ContextSelect = ({ intl }) => (
         if (currentContext === e.target.value) return;
         const selectedContext = e.target.value === 'ROOT' ? '' : e.target.value;
         setEntandoVirtualContextInCookies(selectedContext);
-        window.location.pathname = window.location.pathname.replace(`/${currentContext}`, selectedContext === '' ? '' : `/${selectedContext}/`);
+        const pathFragments = window.location.pathname.split('/');
+        const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
+        pathFragments[publicUrlIndex + 1] = selectedContext;
+        window.location.pathname = pathFragments.filter(el => el !== '').join('/');
       }}
     >
       {
