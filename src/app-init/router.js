@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { getBaseUrlWithVirtualContext } from './contextProvider';
+import { getBaseUrlWithVirtualContext } from 'helpers/contextUtils';
 
 export const history = createBrowserHistory({
   basename: getBaseUrlWithVirtualContext(process.env.PUBLIC_URL),

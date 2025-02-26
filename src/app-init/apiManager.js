@@ -14,7 +14,7 @@ import pluginsArray from 'entando-plugins';
 import withAuth from 'auth/withAuth';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { keycloak } from 'auth/keycloak/KeycloakProviderContainer';
-import { getBaseUrlWithVirtualContext } from './contextProvider';
+import { getBaseUrlWithVirtualContext } from 'helpers/contextUtils';
 
 const ApiManager = ({
   auth,
@@ -28,7 +28,6 @@ const ApiManager = ({
       store.dispatch(clearAppTourProgress());
       if (keycloak) {
         const { origin } = window.location;
-        console.log('origin', origin);
         keycloak.redirectUri = `${origin}${process.env.PUBLIC_URL || ''}${ROUTE_DASHBOARD}`;
       }
       auth.logout(status);
@@ -49,11 +48,9 @@ const ApiManager = ({
         return;
       }
       const route = pathname ? pathname.replace(getBaseUrlWithVirtualContext(process.env.PUBLIC_URL), '') : null;
-      console.log('route', route);
       const goto = auth.enabled && route && route !== ROUTE_HOME
         ? route
         : ROUTE_DASHBOARD;
-      console.log('goto', goto);
       history.push(goto);
     }
   };

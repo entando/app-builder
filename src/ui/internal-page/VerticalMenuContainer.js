@@ -46,7 +46,7 @@ import MfeContainer from 'ui/app/MfeContainer';
 import { getAppTourlastStep } from 'state/app-tour/selectors';
 // import { selectIsPrimaryTenant } from 'state/multi-tenancy/selectors';
 import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
-import { getBaseUrlWithVirtualContext } from 'app-init/contextProvider';
+import { getBaseUrlWithVirtualContext } from 'helpers/contextUtils';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import ContextSelect from './ContextSelect';
 

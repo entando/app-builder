@@ -1,9 +1,7 @@
 import { LIST_COMPONENT_REPOSITORIES_OK } from 'test/mocks/component-repository/componentRepositories';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-// import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
-import { getContextFromURL } from 'app-init/contextProvider';
-
+import { getContextFromURL } from 'helpers/contextUtils';
 // eslint-disable-next-line import/prefer-default-export
 export const getComponentRepositories = (page = { page: 1, pageSize: 10 }, params = '') => (
   makeRequest(

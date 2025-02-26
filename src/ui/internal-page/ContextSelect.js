@@ -1,8 +1,7 @@
 import React from 'react';
-// import { setEntandoVirtualContextInCookies } from 'helpers/cookies';
 import { injectIntl, intlShape } from 'react-intl';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
-import { getContextFromURL } from 'app-init/contextProvider';
+import { getContextFromURL } from 'helpers/contextUtils';
 
 
 const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();

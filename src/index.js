@@ -29,7 +29,6 @@ import '@entando/pagetreeselector/dist/css/index.css';
 import '@entando/datatable/dist/css/index.css';
 
 import 'index.scss';
-import { ContextProvider } from 'app-init/contextProvider';
 
 // init namespace for the shell
 if (!window.entando) window.entando = {};
@@ -49,19 +48,17 @@ const AppRoot = (
 // exporting for tests
 export default ReactDOM.render(
   <Provider store={store}>
-    <ContextProvider>
-      <AuthProvider store={store}>
-        <IntlProviderContainer>
-          <ApiManager store={store}>
-            {process.env.USE_MFE ? (
-              <MfeDownloadManager>
-                {AppRoot}
-              </MfeDownloadManager>
-          ) : AppRoot}
-          </ApiManager>
-        </IntlProviderContainer>
-      </AuthProvider>
-    </ContextProvider>
+    <AuthProvider store={store}>
+      <IntlProviderContainer>
+        <ApiManager store={store}>
+          {process.env.USE_MFE ? (
+            <MfeDownloadManager>
+              {AppRoot}
+            </MfeDownloadManager>
+        ) : AppRoot}
+        </ApiManager>
+      </IntlProviderContainer>
+    </AuthProvider>
   </Provider>,
   document.getElementById('root'),
 );

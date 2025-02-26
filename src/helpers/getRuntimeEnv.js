@@ -26,7 +26,6 @@ const getContextFromURL = (pathname, entVirtualContexts) => {
 };
 
 const validateDomain = (domain) => {
-  console.log('ENTANDO_VIRTUAL_CONTEXTS', getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'));
   const virtualContext = getContextFromURL(window.location.pathname, getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'));
   if (domain) {
     const isValidURL = isURL(domain, {
@@ -38,22 +37,17 @@ const validateDomain = (domain) => {
     if (!isValidURL) {
       throw new Error('The DOMAIN env variable is invalid.');
     }
-    console.log('domain', domain);
     let domainWithContext = domain;
     if (virtualContext) {
       if (domain === '/') domainWithContext = `/${virtualContext}`;
       else domainWithContext = `${domain}/${virtualContext}`;
-      console.log('domainWithContext', domainWithContext);
     }
-    console.log('Questo è il domain finale', domainWithContext.replace(/\/+$/, ''));
     return domainWithContext.replace(/\/+$/, '');
   }
   if (virtualContext) {
-    console.log('Questo è domain finale 2', virtualContext);
     return `/${virtualContext}`;
   }
 
-  console.log('Questo è domain vuoto');
   return '';
 };
 

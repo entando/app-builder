@@ -1,9 +1,7 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { LIST_MFE_RESPONSE_OK } from 'test/mocks/mfe';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-// import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
-import { getContextFromURL } from 'app-init/contextProvider';
-
+import { getContextFromURL } from 'helpers/contextUtils';
 // eslint-disable-next-line import/prefer-default-export
 export const getMfeConfigList = (params = '') => (
   makeRequest({

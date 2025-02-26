@@ -6,8 +6,7 @@ import {
 } from 'test/mocks/component-repository/hub';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-// import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
-import { getContextFromURL } from 'app-init/contextProvider';
+import { getContextFromURL } from 'helpers/contextUtils';
 
 export const NO_PAGE = { page: 1, pageSize: 0 };
 

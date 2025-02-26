@@ -14,8 +14,7 @@ import {
 } from 'test/mocks/component-repository/components';
 import { makeRequest, METHODS } from '@entando/apimanager';
 import { composeCMApiDomain } from 'helpers/apiDomainComposer';
-// import { getEntandoVirtualContextFromCookies } from 'helpers/cookies';
-import { getContextFromURL } from 'app-init/contextProvider';
+import { getContextFromURL } from 'helpers/contextUtils';
 
 export const getECRComponent = base64EncodedUrl => (
   makeRequest({
