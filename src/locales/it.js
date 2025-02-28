@@ -1617,5 +1617,6 @@ export default {
     'componentRepository.components.elementsUninstalled': 'Elementi Disinstallati',
     'componentRepository.components.someNotUninstalled': 'Alcuni elementi non sono stati disinstallati',
     'contextSelect.ROOT': '<principale>',
+    'contextSelect.GOTO_CONTEXT': 'Vai a...',
   },
 };

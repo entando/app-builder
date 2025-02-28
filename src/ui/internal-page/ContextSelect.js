@@ -1,38 +1,37 @@
 import React from 'react';
+
 import { injectIntl, intlShape } from 'react-intl';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
-import { getContextFromURL } from 'helpers/contextUtils';
-
+import { determineBestLandingUrl, getContextFromURL } from 'helpers/contextUtils';
 
 const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
 
 const ContextSelect = ({ intl }) => (
-  <li className="LanguageSelect">
+  <li className="ContextSelect">
     <select
-      className="LanguageSelect__dropdown LanguageSelect__dropdown-vmenu"
+      className="ContextSelect__dropdown ContextSelect__dropdown-vmenu"
       value={getContextFromURL(window.location.pathname) || 'ROOT'}
       onChange={(e) => {
-        const currentContext = getContextFromURL(window.location.pathname);
-        if (currentContext === e.target.value) return;
-        const selectedContext = e.target.value === 'ROOT' ? '' : e.target.value;
-        // setEntandoVirtualContextInCookies(selectedContext);
-        const pathFragments = window.location.pathname.split('/');
-        const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
-        pathFragments[publicUrlIndex + 1] = selectedContext;
-        window.location.pathname = pathFragments.filter(el => el !== '').join('/');
+        const url = determineBestLandingUrl(
+          getContextFromURL(window.location.pathname),
+          e.target.value,
+          false,
+        );
+        window.location = url;
       }}
     >
       {
-      ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
-        ctx === 'ROOT' ?
-          <option value={ctx} key={ctx} className="LanguageSelect__option">
-            {intl.formatMessage({ id: 'contextSelect.ROOT' })}
-          </option>
-          : <option value={ctx} key={ctx} className="LanguageSelect__option">{ctx}</option>
-      ))
-    }
+        ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
+          ctx === 'ROOT' ?
+            <option value={ctx} key={ctx} className="ContextSelect__option">
+              {intl.formatMessage({ id: 'contextSelect.ROOT' })}
+            </option>
+            : <option value={ctx} key={ctx} className="ContextSelect__option">{ctx}</option>
+        ))
+      }
     </select>
-    <span className="LanguageSelect__icon caret" />
+    <span className="ContextSelect__dropdown ContextSelect__dropdown-vmenu select-text-override">{intl.formatMessage({ id: 'contextSelect.GOTO_CONTEXT' })}</span>
+    <span className="ContextSelect__icon caret" />
   </li>
 );
 

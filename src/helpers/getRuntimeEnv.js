@@ -1,5 +1,5 @@
 import { isURL } from 'validator';
-// import { getEntandoVirtualContextFromCookies } from './cookies';
+
 const getProcessEnvVar = envVar => process.env[envVar] || '';
 
 const getWindowEnvVar = envVar => (window && window.env && window.env[envVar] ? window.env[envVar] : '');
@@ -18,8 +18,6 @@ const getContextFromURL = (pathname, entVirtualContexts) => {
   const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
   const context = pathFragments[publicUrlIndex + 1];
 
-  // const { ENTANDO_VIRTUAL_CONTEXTS } = getEnvVar('ENTANDO_VIRTUAL_CONTEXTS');
-  // console.log('getContextFromURL ENTANDO_VIRTUAL_CONTEXTS', ENTANDO_VIRTUAL_CONTEXTS);
   const virtualContexts = entVirtualContexts.split(',');
   if (virtualContexts.includes(context)) return context;
   return '';

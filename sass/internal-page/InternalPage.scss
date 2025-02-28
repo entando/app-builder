@@ -89,6 +89,47 @@
   }
 }
 
+.ContextSelect {
+  position: relative;
+  border: solid $color-pf-black-900;
+  border-width: 0 0 0 1px;
+  margin-top: 15px;
+
+  &__dropdown {
+    padding: 3.8px 10px;
+    padding-right: 24px;
+    border: 0;
+    outline: none;
+    background: $color-pf-black;
+    color: $color-pf-black-300;
+    font-size: 11px;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  &__dropdown-vmenu {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: $color-vmenu-header-bg-grey;
+    font-size: 12px;
+  }
+
+  &__option {
+    background: $color-pf-white;
+    color: $color-pf-black-700;
+  }
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-52%);
+    color: $color-pf-black-300;
+    cursor: pointer;
+    pointer-events: none;
+  }
+}
+
 // Vertical menu related css
 
 .VerticalAdminConsoleMenu {
@@ -319,4 +360,16 @@
   padding: 0;
   background: $color-white;
   z-index: 2000;
+}
+
+.select-text-override {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
