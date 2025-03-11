@@ -181,7 +181,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
 //     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
 //   />) : '');
 const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
-const getHeader = (onStartTutorial, intl) => (
+const getHeader = (onStartTutorial, intl, userPermissions) => (
   <Masthead>
     <Brand
       href={`${publicUrlWithContext}${ROUTE_DASHBOARD}`}
@@ -190,7 +190,8 @@ const getHeader = (onStartTutorial, intl) => (
       onClick={null}
     />
     <VerticalNav.IconBar collapse>
-      { ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} /> }
+      {hasAccess(SUPERUSER_PERMISSION, userPermissions || [])
+        && ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} />}
       <LanguageSelectContainer key="LanguageSelect" />
       <HomePageLinkContainer key="projectLink" />
       <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />
@@ -247,7 +248,7 @@ const EntandoMenu = ({
         isMobile={false}
         navCollapsed={collapsed}
       >
-        {getHeader(onStartTutorial, intl)}
+        {getHeader(onStartTutorial, intl, userPermissions)}
         <Item
           id="menu-dashboard"
           onClick={() => history.push(ROUTE_DASHBOARD)}
@@ -343,7 +344,7 @@ const EntandoMenu = ({
           && (
             <Item
               id="menu-user-settings"
-              onClick={() => {}}
+              onClick={() => { }}
               iconClass="fa fa-users"
               title={intl.formatMessage({ id: 'menu.userSettings', defaultMessage: 'Users' })}
             >
@@ -395,7 +396,7 @@ const EntandoMenu = ({
               className="VerticalAdminConsoleMenu__fixed-bottom"
               id="menu-configuration"
               title={intl.formatMessage({ id: 'menu.settings', defaultMessage: 'Administration' })}
-              onClick={() => {}}
+              onClick={() => { }}
               iconClass="fa fa-cogs"
             >
               <SecondaryItem
@@ -442,14 +443,14 @@ const EntandoMenu = ({
 };
 
 const MfeMenuContainer = ({
-  menuId, headerId, onStartTutorial, appTourLastStep, intl,
+  userPermissions, menuId, headerId, onStartTutorial, appTourLastStep, intl,
 }) => (
   <div className="MfeMenuContainer">
     <div className="MfeMenuContainer__header-menu-container">
       {
-      headerId ? <MfeContainer id={headerId} />
-      : getHeader(onStartTutorial, intl)
-    }
+        headerId ? <MfeContainer id={headerId} />
+          : getHeader(onStartTutorial, intl, userPermissions)
+      }
     </div>
     {
       menuId && (
@@ -464,11 +465,16 @@ const MfeMenuContainer = ({
 );
 
 MfeMenuContainer.propTypes = {
+  userPermissions: PropTypes.arrayOf(PropTypes.string),
   intl: intlShape.isRequired,
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
   appTourLastStep: PropTypes.number.isRequired,
+};
+
+MfeMenuContainer.defaultProps = {
+  userPermissions: null,
 };
 
 const VerticalMenu = (props) => {
@@ -486,6 +492,7 @@ const VerticalMenu = (props) => {
         menuId={mfeMenu.id}
         onStartTutorial={props.onStartTutorial}
         appTourLastStep={props.appTourLastStep}
+        userPermissions={props.userPermissions}
       />
     : <EntandoMenu {...props} />;
 };
