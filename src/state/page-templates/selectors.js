@@ -1,8 +1,12 @@
 import { createSelector } from 'reselect';
 import { get } from 'lodash';
 
-import { validatePageTemplate, getCellMap, convertPageTemplateForm } from 'state/page-templates/helpers';
-import { getPageTemplateForm } from 'state/forms/selectors';
+import {
+  // validatePageTemplate,
+  getCellMap,
+  // convertPageTemplateForm
+} from 'state/page-templates/helpers';
+// import { getPageTemplateForm } from 'state/forms/selectors';
 import { getLocale } from 'state/locale/selectors';
 
 export const getPageTemplates = state => state.pageTemplates;
@@ -42,27 +46,6 @@ export const getSelectedPageTemplateDefaultConfig = createSelector(
   (pageTemplate) => {
     const frames = get(pageTemplate, 'configuration.frames', []);
     return frames.length ? frames.map(frame => frame.defaultWidget || null) : null;
-  },
-);
-
-export const getFormPageTemplate = createSelector(
-  [getPageTemplateForm],
-  pageTemplateForm => convertPageTemplateForm(pageTemplateForm),
-);
-
-export const getPageTemplateFormCellMap = createSelector(
-  [getFormPageTemplate],
-  getCellMap,
-);
-
-export const getPageTemplateFormErrors = createSelector(
-  [getFormPageTemplate],
-  (formPageTemplate) => {
-    const errors = validatePageTemplate(formPageTemplate);
-    if (errors && errors.length) {
-      return errors;
-    }
-    return [];
   },
 );
 

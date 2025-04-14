@@ -403,7 +403,7 @@ describe('state/data-types/actions ', () => {
         getDataType.mockImplementationOnce(mockApi({ payload: DATA_TYPES }));
         store.dispatch(fetchDataType('AAA')).then(() => {
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_DATA_TYPE);
           expect(actions[0]).toHaveProperty('payload');
           expect(actions[0].payload).toMatchObject({ dataType: DATA_TYPES });
@@ -470,9 +470,8 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchAttributeFromDataType('attribute', 'AAA', 'Text')).then(() => {
           expect(getAttributeFromDataType).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(2);
-          expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(actions[1]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
+          expect(actions).toHaveLength(1);
+          expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE_FOR_DATATYPE);
           done();
         }).catch(done.fail);
       });
@@ -655,9 +654,9 @@ describe('state/data-types/actions ', () => {
         getFormTypeValue.mockReturnValue(TYPE_COMPOSITE);
         getActionModeDataTypeSelectedAttribute.mockReturnValue(MODE_ADD_ATTRIBUTE_COMPOSITE);
         store.dispatch(fetchDataTypeAttribute('TYPE_COMPOSITE', ROUTE, TYPE_COMPOSITE)).then(() => {
-          expect(getDataTypeAttribute).not.toHaveBeenCalled();
+          expect(getDataTypeAttribute).toHaveBeenCalled();
           const actions = store.getActions();
-          expect(actions).toHaveLength(1);
+          expect(actions).toHaveLength(2);
           expect(actions[0]).toHaveProperty('type', SET_ACTION_MODE);
           expect(actions[0]).toHaveProperty('payload', { actionMode: MODE_ADD_ATTRIBUTE_COMPOSITE });
           done();
@@ -672,9 +671,8 @@ describe('state/data-types/actions ', () => {
         store.dispatch(fetchDataTypeAttribute('attribute_code', ROUTE)).then(() => {
           const actions = store.getActions(MODE_ADD_ATTRIBUTE_COMPOSITE);
           expect(getDataTypeAttribute).toHaveBeenCalled();
-          expect(actions).toHaveLength(2);
+          expect(actions).toHaveLength(1);
           expect(actions[0]).toHaveProperty('type', SET_SELECTED_ATTRIBUTE);
-          expect(actions[1]).toHaveProperty('type', '@@redux-form/INITIALIZE');
           done();
         }).catch(done.fail);
       });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Paginator, Alert, Spinner } from 'patternfly-react';
+import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import UserListMenuActions from 'ui/users/list/UserListMenuActions';
 import UserStatus from 'ui/users/common/UserStatus';
@@ -24,11 +25,21 @@ class UserListTable extends Component {
   }
 
   changePage(page) {
-    this.props.onWillMount({ page, pageSize: this.props.pageSize });
+    const { onWillMount, userSearchTerm, pageSize } = this.props;
+    const params = userSearchTerm ? convertToQueryString({
+      formValues: { username: userSearchTerm },
+      operators: { key: FILTER_OPERATORS.LIKE },
+    }) : '';
+    onWillMount({ page, pageSize }, params);
   }
 
   changePageSize(pageSize) {
-    this.props.onWillMount({ page: 1, pageSize });
+    const { onWillMount, userSearchTerm } = this.props;
+    const params = userSearchTerm ? convertToQueryString({
+      formValues: { username: userSearchTerm },
+      operators: { key: FILTER_OPERATORS.LIKE },
+    }) : '';
+    onWillMount({ page: 1, pageSize }, params);
   }
 
   renderTableRows() {
@@ -150,12 +161,14 @@ UserListTable.propTypes = {
   page: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  userSearchTerm: PropTypes.string,
 };
 
 UserListTable.defaultProps = {
   onWillMount: () => {},
   loading: false,
   users: [],
+  userSearchTerm: '',
 };
 
 export default injectIntl(UserListTable);

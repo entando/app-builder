@@ -1,5 +1,4 @@
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
-import { initialize } from 'redux-form';
 
 import { getFileBrowser, getFile, postFile, putFile, postCreateFolder, deleteFolder, deleteFile } from 'api/fileBrowser';
 import { toggleLoading } from 'state/loading/actions';
@@ -54,9 +53,7 @@ export const fetchFile = (filename, extensions = ['.txt']) => (dispatch, getStat
       const queryString = `?protectedFolder=${protectedFolder === null ? false : protectedFolder}&currentPath=${currentPath}/${filename}`;
       getFile(queryString).then((response) => {
         response.json().then((json) => {
-          if (response.ok) {
-            dispatch(initialize('CreateTextFileForm', { content: window.atob(json.payload.base64) }));
-          } else {
+          if (!response.ok) {
             dispatch(addErrors(json.errors.map(e => e.message)));
             json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
             history.push(ROUTE_FILE_BROWSER);

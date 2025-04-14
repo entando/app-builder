@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { Field, FieldArray } from 'redux-form';
+import { Field, FieldArray } from 'formik';
 import { InputGroup, Button, Col, DropdownKebab, MenuItem } from 'patternfly-react';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeCheckIcon from 'ui/common/attributes/AttributeCheckIcon';
 
@@ -19,6 +19,7 @@ const AttributeListTableComposite = (props) => {
     invalid,
     submitting,
     isMonolistCompositeType,
+    prefixName,
   } = props;
   const name = isMonolistCompositeType ? 'nestedAttribute.compositeAttributes' : 'compositeAttributes';
   const selectOptions = attributesList
@@ -41,7 +42,7 @@ const AttributeListTableComposite = (props) => {
           label={
             <FormLabel labelId="DataType.type" required />
               }
-          name="type"
+          name={`${prefixName}type`}
         />
         <span className="input-group-btn">
           <Button
@@ -61,7 +62,7 @@ const AttributeListTableComposite = (props) => {
     </div>
   );
 
-  const renderAttributes = ({ fields }) =>
+  const renderAttributes = fieldArrayProps =>
     compositeAttributes.map((attribute, index) => {
       const isMovableUp = index > 0;
       const isMovableDown = index < compositeAttributes.length - 1;
@@ -80,7 +81,7 @@ const AttributeListTableComposite = (props) => {
                   <MenuItem
                     className="AttributeListMenuAction__menu-item-move-up"
                     onClick={() => {
-                      fields.move(index - 1, index);
+                      fieldArrayProps.move(index - 1, index);
                       onMove(index, index - 1, isMonolistCompositeType);
                     }}
                   >
@@ -93,7 +94,7 @@ const AttributeListTableComposite = (props) => {
                   <MenuItem
                     className="AttributeListMenuAction__menu-item-move-down"
                     onClick={() => {
-                      fields.move(index, index + 1);
+                      fieldArrayProps.move(index, index + 1);
                       onMove(index, index + 1, isMonolistCompositeType);
                     }}
                   >
@@ -104,7 +105,7 @@ const AttributeListTableComposite = (props) => {
               <MenuItem
                 className="AttributeListMenuAction__menu-item-delete"
                 onClick={() => {
-                  fields.remove(index);
+                  fieldArrayProps.remove(index);
                   onClickDelete(attribute.code, isMonolistCompositeType);
                 }}
               >
@@ -138,7 +139,7 @@ const AttributeListTableComposite = (props) => {
         </thead>
         <tbody>
           <FieldArray
-            name={name}
+            name={prefixName + name}
             compositeAttributes={compositeAttributes}
             component={renderAttributes}
           />
@@ -164,12 +165,14 @@ AttributeListTableComposite.propTypes = {
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
   isMonolistCompositeType: PropTypes.bool,
+  prefixName: PropTypes.string,
 };
 
 AttributeListTableComposite.defaultProps = {
   invalid: false,
   submitting: false,
   isMonolistCompositeType: false,
+  prefixName: '',
 };
 
 export default AttributeListTableComposite;

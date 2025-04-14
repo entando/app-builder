@@ -1,11 +1,16 @@
 import React from 'react';
 
 import 'test/enzyme-init';
-import { CreateFolderFormBody } from 'ui/file-browser/add/CreateFolderForm';
-import { shallowWithIntl, mockIntl } from 'test/legacyTestUtils';
+import CreateFolderForm, { CreateFolderFormBody } from 'ui/file-browser/add/CreateFolderForm';
+import { shallowWithIntl, mockIntl, mockRenderWithRouter } from 'test/legacyTestUtils';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { renderWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 const onWillMount = jest.fn();
+const onSubmit = jest.fn();
+
+jest.unmock('react-redux');
 
 describe('CreateFolderForm', () => {
   beforeEach(jest.clearAllMocks);
@@ -58,10 +63,25 @@ describe('CreateFolderForm', () => {
     expect(submitButton.prop('disabled')).toEqual(true);
   });
 
-  it('on form submit calls handleSubmit', () => {
-    createFolderForm = buildCreateFolderForm();
-    const preventDefault = jest.fn();
-    createFolderForm.find('form').simulate('submit', { preventDefault });
-    expect(handleSubmit).toHaveBeenCalled();
+  it('on form submit calls onSubmit', async () => {
+    const props = {
+      isSubmitting: false,
+      isValid: true,
+      handleSubmit,
+      onSubmit,
+      onWillMount,
+      intl: mockIntl,
+      history: { location: {} },
+      initialValues: {
+        name: 'name',
+        path: 'folderName',
+      },
+    };
+    renderWithIntl(mockRenderWithRouter(<CreateFolderForm {...props} />));
+    const btn = screen.getByRole('button', { name: /save/i });
+    await fireEvent.click(btn);
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
   });
 });

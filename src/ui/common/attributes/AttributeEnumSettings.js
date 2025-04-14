@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
-import { Field } from 'redux-form';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import { Field } from 'formik';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { required } from '@entando/utils';
 import { MODE_EDIT, MODE_ADD } from 'state/data-types/const';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 export const element = value =>
   (value && !/^[a-zA-Z0-9_]+(,[a-zA-Z0-9_]+)*$/i.test(value)
@@ -20,7 +21,9 @@ const msgs = defineMessages({
   },
 });
 
-const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
+const AttributeEnumSettings = ({
+  intl, enumeratorExtractorBeans, mode, prefixName,
+}) => {
   const selectAllowedOptions = enumeratorExtractorBeans.map(item => (
     {
       value: item,
@@ -36,16 +39,17 @@ const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
           </legend>
           <Field
             component={RenderTextInput}
-            name="enumeratorStaticItems"
+            name={`${prefixName}enumeratorStaticItems`}
             label={
               <FormLabel labelId="app.enumeratorStaticItems" required />
             }
             placeholder={intl.formatMessage(msgs.help)}
-            validate={[required, element]}
+            validate={value =>
+              convertReduxValidationsToFormikValidations(value, [required, element])}
           />
           <Field
             component={RenderTextInput}
-            name="enumeratorStaticItemsSeparator"
+            name={`${prefixName}enumeratorStaticItemsSeparator`}
             label={
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
@@ -59,11 +63,11 @@ const AttributeEnumSettings = ({ intl, enumeratorExtractorBeans, mode }) => {
                 label={
                   <FormLabel labelId="app.enumeratorExtractorBean" />
               }
-                name="enumeratorExtractorBean"
+                name={`${prefixName}enumeratorExtractorBean`}
               /> :
               <Field
                 component={RenderTextInput}
-                name="enumeratorExtractorBean"
+                name={`${prefixName}enumeratorExtractorBean`}
                 label={
                   <FormLabel labelId="app.enumeratorExtractorBean" />
                 }
@@ -81,11 +85,13 @@ AttributeEnumSettings.propTypes = {
   enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
   mode: PropTypes.oneOf([MODE_ADD, MODE_EDIT]),
   intl: intlShape.isRequired,
+  prefixName: PropTypes.string,
 };
 
 AttributeEnumSettings.defaultProps = {
   enumeratorExtractorBeans: [],
   mode: MODE_ADD,
+  prefixName: '',
 };
 
 export default injectIntl(AttributeEnumSettings);

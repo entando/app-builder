@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
 import { getUsername } from '@entando/apimanager';
-import { reset, submit } from 'redux-form';
-
 import { sendPostMyPassword } from 'state/users/actions';
 import AccountForm from 'ui/users/my-profile/AccountForm';
 import { setVisibleModal } from 'state/modal/actions';
@@ -13,17 +11,10 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSubmit: (data) => {
-    dispatch(sendPostMyPassword({ ...data, newPasswordConfirm: undefined }));
-  },
+  onSubmit: data =>
+    dispatch(sendPostMyPassword({ ...data, newPasswordConfirm: undefined })),
   onEdit: () => {
     dispatch(setVisibleModal(AccountForm.FORM_ID));
-  },
-  onModalFormSubmit: () => {
-    dispatch(submit(AccountForm.FORM_ID));
-  },
-  onModalClose: () => {
-    dispatch(reset(AccountForm.FORM_ID));
   },
 });
 
@@ -36,7 +27,7 @@ export default connect(
     ...ownProps,
     onSubmit: (data) => {
       const { oldPassword, newPassword } = data;
-      dispatchProps.onSubmit({ oldPassword, newPassword });
+      return dispatchProps.onSubmit({ oldPassword, newPassword });
     },
   }),
   { pure: false },

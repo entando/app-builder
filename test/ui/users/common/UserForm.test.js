@@ -1,210 +1,375 @@
 import React from 'react';
-import 'test/enzyme-init';
-import { shallow } from 'enzyme';
-import { UserFormBody, renderStaticField } from 'ui/users/common/UserForm';
-import { runValidators, mockIntl } from 'test/legacyTestUtils';
+import { screen, within, waitFor, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom/extend-expect';
 
-const handleSubmit = jest.fn();
-const onSubmit = jest.fn();
-const onWillMount = jest.fn();
-const EDIT_MODE = 'edit';
+import { renderWithIntl } from 'test/testUtils';
+import UserForm from 'ui/users/common/UserForm';
+import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+
+jest.mock('ui/common/cancel-modal/ConfirmCancelModalContainer', () => jest.fn(() => null));
+
+const setupUserForm = (initialValues, editing = false) => {
+  const mockHandleMount = jest.fn();
+  const mockHandleSubmit = jest.fn();
+  const mockHandleCancel = jest.fn();
+  const mockHandleDiscard = jest.fn();
+  const mockHandleModalSave = jest.fn();
+  const profileTypes = [{ value: 'PFL', text: 'Default' }];
+  const utils = renderWithIntl((
+    <UserForm
+      profileTypes={profileTypes}
+      initialValues={initialValues}
+      onMount={mockHandleMount}
+      onSubmit={mockHandleSubmit}
+      onCancel={mockHandleCancel}
+      onDiscard={mockHandleDiscard}
+      onModalSave={mockHandleModalSave}
+      editing={editing}
+    />
+  ));
+  const formView = within(screen.getByRole('form'));
+
+  const getUsernameTextInput = () => formView.getByRole('textbox', { name: /username/i });
+  const getPasswordTextInput = () => formView.getByPlaceholderText(/^password$/i);
+  const getPasswordConfirmTextInput = () => formView.getByLabelText(/confirm password/i);
+  const getProfileTypeSelectInput = () => formView.getByRole('combobox', { name: /profile type/i });
+  const getStatusSwitchInput = () => formView.getByLabelText(/status/i).children[0];
+  const getSaveButton = () => formView.getByRole('button', { name: /^save$/i });
+  const getSaveAndEditProfileButton = () => formView.getByRole('button', { name: /save and edit profile/i });
+  const getCancelButton = () => formView.getByRole('button', { name: /cancel/i });
+  const getErrorMessage = () => formView.getByRole('alert');
+  const queryProfileTypeSelectInput = () => formView.queryByRole('combobox', { name: /profile type/i });
+  const queryResetSwitchInput = () => formView.queryByLabelText(/reset/i).children[0];
+  const queryErrorMessage = () => formView.queryByRole('alert');
+  const querySaveAndEditProfileButton = () => formView.queryByRole('button', { name: /save and edit profile/i });
+
+  const typeUsername =
+    value => userEvent.type(getUsernameTextInput(), value);
+  const typePassword =
+    value => userEvent.type(getPasswordTextInput(), value);
+  const typePasswordConfirm =
+    value => userEvent.type(getPasswordConfirmTextInput(), value);
+  const selectProfileType =
+    value => userEvent.selectOptions(getProfileTypeSelectInput(), value);
+  const clearPassword = () => userEvent.clear(getPasswordTextInput());
+
+  const toggleStatus = () => userEvent.click(getStatusSwitchInput());
+
+  const clickSave = () => userEvent.click(getSaveButton());
+  const clickSaveAndEditProfile = () => userEvent.click(getSaveAndEditProfileButton());
+  const clickCancel = () => userEvent.click(getCancelButton());
+
+  return {
+    ...utils,
+    mockHandleMount,
+    mockHandleSubmit,
+    mockHandleCancel,
+    mockHandleDiscard,
+    getUsernameTextInput,
+    getPasswordTextInput,
+    getPasswordConfirmTextInput,
+    getProfileTypeSelectInput,
+    getStatusSwitchInput,
+    getSaveButton,
+    getSaveAndEditProfileButton,
+    getErrorMessage,
+    queryProfileTypeSelectInput,
+    queryResetSwitchInput,
+    queryErrorMessage,
+    querySaveAndEditProfileButton,
+    typeUsername,
+    typePassword,
+    typePasswordConfirm,
+    selectProfileType,
+    toggleStatus,
+    clearPassword,
+    clickSave,
+    clickSaveAndEditProfile,
+    clickCancel,
+  };
+};
+
+const setupUserFormAndFillValues = ({
+  username, password, passwordConfirm, profileType,
+}) => {
+  const utils = setupUserForm();
+  utils.typeUsername(username);
+  utils.typePassword(password);
+  utils.typePasswordConfirm(passwordConfirm);
+  utils.selectProfileType(profileType);
+
+  fireEvent.blur(utils.getProfileTypeSelectInput());
+
+  return utils;
+};
 
 describe('UserForm', () => {
-  let userForm;
-  let submitting;
-  let invalid;
-  let profileTypes;
-
-  beforeEach(() => {
-    submitting = false;
-    invalid = false;
-  });
-  const buildUserForm = (mode) => {
-    const props = {
-      profileTypes,
-      submitting,
-      invalid,
-      handleSubmit,
-      onWillMount,
-      onSubmit,
-      mode,
-      msgs: {
-        username: { id: 'username', defaultMessage: 'username' },
-      },
-      password: 'test',
-      intl: mockIntl,
-    };
-
-    return shallow(<UserFormBody {...props} />);
+  const user = {
+    username: 'testuser',
+    password: 'testpass',
+    passwordConfirm: 'testpass',
+    profileType: 'PFL',
+    status: 'inactive',
   };
 
-  it('root component renders without crashing', () => {
-    userForm = buildUserForm();
-    expect(userForm.exists()).toEqual(true);
+  it('calls onMount when form has been rendered', () => {
+    const { mockHandleMount } = setupUserForm();
+
+    expect(mockHandleMount).toHaveBeenCalledTimes(1);
   });
 
-  it('root component render minus icon if staticField value is null', () => {
-    const input = { name: 'registration', value: '' };
-    const name = 'registration';
-    const label = <label htmlFor={name}>registration</label>;
-    const element = shallow(renderStaticField({ input, label, name }));
-    expect(element.find('.icon')).toExist();
-    expect(element.find('.icon').hasClass('fa-minus')).toBe(true);
-  });
+  it('calls onSubmit with all the fields when save is clicked', async () => {
+    const { mockHandleSubmit, clickSave } = setupUserFormAndFillValues(user);
 
-  it('root component renders registration Field if its value is not null', () => {
-    const input = { name: 'registration', value: 'registration' };
-    const name = 'registration';
-    const label = <label htmlFor={name}>registration</label>;
-    const element = renderStaticField({ input, label, name });
-    const registration = shallow(element);
-    expect(registration.find('.form-group').exists()).toBe(true);
-  });
+    clickSave();
 
-  describe('test with mode = new', () => {
-    beforeEach(() => {
-      userForm = buildUserForm();
-    });
-
-    it('root component renders username field', () => {
-      const username = userForm.find('[name="username"]');
-      expect(username.exists()).toEqual(true);
-    });
-
-    describe('username validation', () => {
-      let validatorArray;
-      beforeEach(() => {
-        validatorArray = userForm.find('[name="username"]').prop('validate');
-      });
-
-      it('is required', () => {
-        expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
-      });
-
-      it('is invalid if input is shorter than 4 chars', () => {
-        expect(runValidators(validatorArray, '123').props.id).toBe('validateForm.minLength');
-        expect(runValidators(validatorArray, '1234')).toBeFalsy();
-      });
-
-      it('is invalid if input is longer than 80 chars', () => {
-        expect(runValidators(validatorArray, '123456789abcdefghijk')).toBeFalsy();
-        expect(runValidators(validatorArray, '123456789abcdefghijk123456789abcdefghijk123456789abcdefghijk123456789abcdefghijkl').props.id)
-          .toBe('validateForm.maxLength');
-      });
-    });
-
-    it('root component renders status field', () => {
-      const status = userForm.find('[name="status"]');
-      expect(status.exists()).toEqual(true);
-    });
-
-    it('root component renders profileType field', () => {
-      const status = userForm.find('[name="profileType"]');
-      expect(status.exists()).toEqual(true);
-    });
-
-    describe('password field', () => {
-      let passwordField;
-      beforeEach(() => {
-        passwordField = userForm.find('[name="password"]');
-      });
-
-      it('is rendered', () => {
-        expect(passwordField).toExist();
-      });
-
-      describe('validation', () => {
-        let validatorArray;
-        beforeEach(() => {
-          validatorArray = passwordField.prop('validate');
-        });
-
-        it('is required', () => {
-          expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
-        });
-
-        it('is invalid if input is shorter than 8 chars', () => {
-          expect(runValidators(validatorArray, '1234567').props.id).toBe('validateForm.minLength');
-          expect(runValidators(validatorArray, '12345678')).toBeFalsy();
-        });
-
-        it('is invalid if input is longer than 20 chars', () => {
-          expect(runValidators(validatorArray, '123456789abcdefghijk')).toBeFalsy();
-          expect(runValidators(validatorArray, '123456789abcdefghijkl').props.id)
-            .toBe('validateForm.maxLength');
-        });
-      });
-    });
-
-    describe('passwordConfirm field', () => {
-      const ALL_VALUES = { password: '12345678' };
-      let passwordConfirmField;
-      beforeEach(() => {
-        passwordConfirmField = userForm.find('[name="passwordConfirm"]');
-      });
-
-      it('is rendered', () => {
-        expect(passwordConfirmField).toExist();
-      });
-
-      describe('validation', () => {
-        let validatorArray;
-        beforeEach(() => {
-          validatorArray = passwordConfirmField.prop('validate');
-        });
-
-        it('is required', () => {
-          expect(runValidators(validatorArray, '').props.id).toBe('validateForm.required');
-        });
-
-        it('is invalid if input does not match the password', () => {
-          expect(runValidators(validatorArray, 'abcdefgh', ALL_VALUES).props.id)
-            .toBe('validateForm.passwordNotMatch');
-          expect(runValidators(validatorArray, ALL_VALUES.password, ALL_VALUES)).toBeFalsy();
-        });
-      });
+    await waitFor(() => {
+      expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      expect(mockHandleSubmit).toHaveBeenCalledWith(user, 'save');
     });
   });
 
-  describe('test with mode = edit', () => {
-    beforeEach(() => {
-      submitting = false;
-      invalid = false;
-      userForm = buildUserForm(EDIT_MODE);
-    });
-    it('root component has class UserForm__content-edit', () => {
-      expect(userForm.find('.UserForm__content-edit').exists()).toBe(true);
-    });
+  it('calls onSubmit with all the fields and a saveAndEditProfile submit type when save and edit profile button is clicked', async () => {
+    const { clickSaveAndEditProfile, mockHandleSubmit } = setupUserFormAndFillValues(user);
 
-    it('root component contains edit fields', () => {
-      expect(userForm.find('.UserForm__content-edit').find('Field')).toHaveLength(4);
-      expect(userForm.find('[name="registration"]').exists()).toBe(true);
-      expect(userForm.find('[name="lastLogin"]').exists()).toBe(true);
-      expect(userForm.find('[name="lastPasswordChange"]').exists()).toBe(true);
-      expect(userForm.find('[name="reset"]').exists()).toBe(true);
+    clickSaveAndEditProfile();
+
+    await waitFor(() => {
+      expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+      expect(mockHandleSubmit).toHaveBeenCalledWith(user, 'saveAndEditProfile');
     });
   });
 
-  describe('test buttons and handlers', () => {
-    it('disables submit button while submitting', () => {
-      submitting = true;
-      userForm = buildUserForm();
-      const submitButton = userForm.find('Button').first();
-      expect(submitButton.prop('disabled')).toEqual(true);
+  it('calls onDiscard when cancel is clicked and form is not dirty', async () => {
+    const { mockHandleDiscard, clickCancel } = setupUserForm();
+
+    clickCancel();
+
+    await waitFor(() => {
+      expect(mockHandleDiscard).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('calls onCancel when cancel is clicked and form is dirty', async () => {
+    const { mockHandleCancel, clickCancel } = setupUserFormAndFillValues(user);
+
+    clickCancel();
+
+    await waitFor(() => {
+      expect(mockHandleCancel).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('renders ConfirmCancelModalContainer with the correct props', () => {
+    setupUserForm();
+
+    expect(ConfirmCancelModalContainer).toHaveBeenCalledWith(expect.objectContaining({
+      contentText: expect.stringMatching(/save/i),
+      invalid: expect.any(Boolean),
+      submitting: expect.any(Boolean),
+      onSave: expect.any(Function),
+      onDiscard: expect.any(Function),
+      'data-testid': expect.any(String),
+    }), {});
+  });
+
+  it('disables save buttons and shows an error message when username is not provided', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } = setupUserFormAndFillValues({ ...user, username: '' });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/field required/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when password is not provided', async () => {
+    const {
+      clearPassword, getPasswordTextInput, getSaveButton,
+      getSaveAndEditProfileButton, getErrorMessage,
+    } = setupUserForm({ ...user, passwordConfirm: '' });
+
+    clearPassword();
+    fireEvent.blur(getPasswordTextInput());
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/field required/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when confirm password is not provided', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } = setupUserFormAndFillValues({ ...user, passwordConfirm: '' });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/field required/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when profile type is not provided', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } = setupUserFormAndFillValues({ ...user, profileType: '' });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/field required/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when username is too short', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } = setupUserFormAndFillValues({ ...user, username: 'abc' });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/must be 4 characters or more/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when username is too long', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } =
+      setupUserFormAndFillValues({
+        ...user, username: 'thisisastringthathasmorethan80characters_thisisastringthathasmorethan80characters',
+      });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/must be 80 characters or less/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when username contains invalid characters', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } = setupUserFormAndFillValues({ ...user, username: '-invalid-' });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/contains invalid characters/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when password is too short', async () => {
+    const shortPassword = 'abc';
+    const {
+      getSaveButton, getSaveAndEditProfileButton, getErrorMessage,
+    } = setupUserFormAndFillValues({
+      ...user, password: shortPassword, passwordConfirm: shortPassword,
     });
 
-    it('disables submit button if form is invalid', () => {
-      invalid = true;
-      userForm = buildUserForm();
-      const submitButton = userForm.find('Button').first();
-      expect(submitButton.prop('disabled')).toEqual(true);
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/must be 8 characters or more/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when password is too long', async () => {
+    const longPassword = 'stringwithover20chars';
+    const {
+      getSaveButton, getSaveAndEditProfileButton, getErrorMessage,
+    } = setupUserFormAndFillValues({
+      ...user, password: longPassword, passwordConfirm: longPassword,
     });
 
-    it('on form submit calls handleSubmit', () => {
-      userForm = buildUserForm();
-      const preventDefault = jest.fn();
-      userForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/must be 20 characters or less/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when password contains invalid characters', async () => {
+    const invalidPassword = '-invalid-';
+    const {
+      getSaveButton, getSaveAndEditProfileButton, getErrorMessage,
+    } = setupUserFormAndFillValues({
+      ...user, password: invalidPassword, passwordConfirm: invalidPassword,
+    });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/contains invalid characters/i);
+    });
+  });
+
+  it('disables save buttons and shows an error message when password doesn\'t match confirm password', async () => {
+    const { getSaveButton, getSaveAndEditProfileButton, getErrorMessage } =
+      setupUserFormAndFillValues({
+        ...user, password: 'password', passwordConfirm: 'differentpass',
+      });
+
+    await waitFor(() => {
+      expect(getSaveButton()).toHaveAttribute('disabled');
+      expect(getSaveAndEditProfileButton()).toHaveAttribute('disabled');
+      expect(getErrorMessage()).toHaveTextContent(/value doesn't match with password/i);
+    });
+  });
+
+  describe('When editing', () => {
+    const detailedUser = {
+      ...user,
+      lastLogin: '2021-11-11 00:00:00',
+      lastPasswordChange: '2021-11-12 00:00:00',
+      registration: '2021-11-10 00:00:00',
+      reset: false,
+    };
+
+    it('calls onSubmit with all the fields when save is clicked', async () => {
+      const { mockHandleSubmit, clickSave } = setupUserForm(detailedUser, true);
+
+      clickSave();
+
+      await waitFor(() => {
+        expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
+        expect(mockHandleSubmit).toHaveBeenCalledWith(detailedUser, 'save');
+      });
+    });
+
+    it('disables username', () => {
+      const { getUsernameTextInput } = setupUserForm(detailedUser, true);
+
+      expect(getUsernameTextInput()).toHaveAttribute('disabled');
+    });
+
+    it('doesn\'t show profile type field', () => {
+      const { queryProfileTypeSelectInput } = setupUserForm(detailedUser, true);
+
+      expect(queryProfileTypeSelectInput()).not.toBeInTheDocument();
+    });
+
+    it('shows the reset switch and static fields -- registration, last login, last password change', () => {
+      const { queryResetSwitchInput } = setupUserForm(detailedUser, true);
+
+      expect(screen.getByText(detailedUser.lastLogin)).toBeInTheDocument();
+      expect(screen.getByText(detailedUser.lastPasswordChange)).toBeInTheDocument();
+      expect(screen.getByText(detailedUser.registration)).toBeInTheDocument();
+      expect(queryResetSwitchInput()).toBeInTheDocument();
+    });
+
+    it('doesn\'t show save and edit profile button', () => {
+      const { querySaveAndEditProfileButton } = setupUserForm(detailedUser, true);
+
+      expect(querySaveAndEditProfileButton()).not.toBeInTheDocument();
+    });
+
+    it('doesn\'t disable save button and doesn\'t show an error message when password is empty', async () => {
+      const {
+        clearPassword, getPasswordTextInput, queryErrorMessage, getSaveButton,
+      } = setupUserForm({ ...detailedUser, passwordConfirm: '' }, true);
+
+      clearPassword('');
+      fireEvent.blur(getPasswordTextInput());
+
+      await waitFor(() => {
+        expect(getSaveButton()).not.toHaveAttribute('disabled');
+        expect(queryErrorMessage()).not.toBeInTheDocument();
+      });
     });
   });
 });

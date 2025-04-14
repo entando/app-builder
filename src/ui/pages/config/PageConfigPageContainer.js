@@ -3,7 +3,7 @@ import PageConfigPage from 'ui/pages/config/PageConfigPage';
 import { clearErrors } from '@entando/messages';
 import { initConfigPage, setSelectedPageOnTheFly, restoreSelectedPageConfig, applyDefaultConfig } from 'state/page-config/actions';
 import { setSelectedPageTemplate } from 'state/page-templates/actions';
-import { publishSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
+import { publishSelectedPage, setSelectedPage, unpublishSelectedPage } from 'state/pages/actions';
 import { getSelectedPageTemplateCanBeOnTheFly } from 'state/page-templates/selectors';
 import {
   makeGetPageIsOnTheFly,
@@ -19,8 +19,6 @@ import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { setAppTourProgress, setPublishStatus } from 'state/app-tour/actions';
 import { getAppTourProgress } from 'state/app-tour/selectors';
-import { reset, submit, isInvalid, isSubmitting, getFormValues } from 'redux-form';
-import { FORM_ID } from 'ui/pages/edit/PagesEditFormContainer';
 import { APP_TOUR_CANCELLED } from 'state/app-tour/const';
 
 export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
@@ -42,16 +40,7 @@ export const mapDispatchToProps = (dispatch, { match: { params } }) => ({
   },
   unpublishPage: () => dispatch(unpublishSelectedPage()),
   applyDefaultConfig: () => dispatch(applyDefaultConfig(params.pageCode)),
-  onSettingsCancel: () => {
-    dispatch(reset(FORM_ID));
-    dispatch(reset('SeoMetadataForm'));
-  },
-  onClickSaveSettings: async (page) => {
-    await dispatch(submit(FORM_ID));
-    dispatch(initConfigPage(page.code));
-    dispatch(reset(FORM_ID));
-    dispatch(reset('SeoMetadataForm'));
-  },
+  onSaveSuccess: page => dispatch(setSelectedPage(page)),
 });
 
 export const mapStateToProps = (state, { match: { params } }) => {
@@ -59,10 +48,8 @@ export const mapStateToProps = (state, { match: { params } }) => {
   if (!selectedPage) {
     return {};
   }
-  const selectedPageForm = getFormValues(FORM_ID)(state);
 
   return {
-    selectedPageForm,
     pageCode: selectedPage.code,
     pageName: getSelectedPageLocaleTitle(state),
     pageStatus: selectedPage.status,
@@ -75,8 +62,6 @@ export const mapStateToProps = (state, { match: { params } }) => {
     pageConfigMatchesDefault: makeGetSelectedPageConfigMatchesDefault(params.pageCode)(state),
     loading: getLoading(state).pageConfig,
     appTourProgress: getAppTourProgress(state),
-    pageSettingsButtonSubmitting: isSubmitting(FORM_ID)(state),
-    pageSettingsButtonInvalid: isInvalid(FORM_ID)(state),
   };
 };
 

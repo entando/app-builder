@@ -9,8 +9,9 @@ import {
   setSelectedUserDetail, fetchCurrentPageUserDetail, setUsersTotal,
   fetchUsersTotal, sendDeleteUser, fetchUserAuthorities, sendPostUserAuthorities,
   sendPutUserAuthorities, sendDeleteUserAuthorities, sendPostMyPassword,
+  setUserSearchTerm,
 } from 'state/users/actions';
-import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL } from 'state/users/types';
+import { SET_USERS, SET_SELECTED_USER, SET_SELECTED_USER_AUTHORITIES, SET_USERS_TOTAL, SET_USER_SEARCH_TERM } from 'state/users/types';
 import { TOGGLE_LOADING } from 'state/loading/types';
 import { SET_PAGE } from 'state/pagination/types';
 import { SET_VISIBLE_MODAL } from 'state/modal/types';
@@ -61,6 +62,14 @@ describe('state/users/actions', () => {
           const action = setUsersTotal(12);
           expect(action).toHaveProperty('type', SET_USERS_TOTAL);
           expect(action).toHaveProperty('payload.usersTotal', 12);
+        });
+      });
+
+      describe('setUserSearchTerm', () => {
+        it('test setUserSearchTerm action sets the correct type', () => {
+          const action = setUserSearchTerm('test');
+          expect(action).toHaveProperty('type', SET_USER_SEARCH_TERM);
+          expect(action).toHaveProperty('payload', 'test');
         });
       });
     });
@@ -248,8 +257,7 @@ describe('state/users/actions', () => {
           const actions = store.getActions();
           expect(actions[0]).toHaveProperty('type', TOGGLE_LOADING);
           expect(actions[1]).toHaveProperty('type', SET_SELECTED_USER_AUTHORITIES);
-          expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-          expect(actions[3]).toHaveProperty('type', TOGGLE_LOADING);
+          expect(actions[2]).toHaveProperty('type', TOGGLE_LOADING);
           done();
         }).catch(done.fail);
       });
@@ -354,11 +362,10 @@ describe('state/users/actions', () => {
         store.dispatch(sendPostMyPassword({})).then(() => {
           expect(postMyPassword).toHaveBeenCalledWith({});
           const actions = store.getActions();
-          expect(actions).toHaveLength(4);
+          expect(actions).toHaveLength(3);
           expect(actions[0]).toHaveProperty('type', ADD_TOAST);
           expect(actions[1]).toHaveProperty('type', CLEAR_ERRORS);
-          expect(actions[2]).toHaveProperty('type', '@@redux-form/RESET');
-          expect(actions[3]).toHaveProperty('type', SET_VISIBLE_MODAL);
+          expect(actions[2]).toHaveProperty('type', SET_VISIBLE_MODAL);
           done();
         }).catch(done.fail);
       });

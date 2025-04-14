@@ -129,14 +129,24 @@ class AppTour extends React.Component {
 
   generateSteps() {
     const {
-      appTourLastStep, mainTitleValue,
-      codeValue, ownerGroupValue, parentCodeValue, pageModelValue,
+      appTourLastStep, languages,
       onBackToAddPage, tourCreatedPageCode, onBackToPageTree,
       onAddLogo, onAddNavBarWidget, onAddSearchWidget,
       onAddLoginWidget, onAddBannerWidget,
       onAddContentListWidget, onAddSitemapMenu,
-      onAppTourFinish,
+      onAppTourFinish, innerRef,
     } = this.props;
+
+    const addPageformikValues = innerRef ? (innerRef.current || {}).values || {} : {};
+
+    const defaultLang = languages.find(lang => lang.isDefault) || { code: 'en' };
+    const defaultLangCode = defaultLang.code;
+
+    const mainTitleValue = (addPageformikValues.titles || {})[defaultLangCode] || '';
+    const codeValue = addPageformikValues.code || '';
+    const ownerGroupValue = addPageformikValues.ownerGroup || '';
+    const parentCodeValue = addPageformikValues.parentCode || '';
+    const pageModelValue = addPageformikValues.pageModel || '';
 
     const mfeAppBuilderMenu = document.getElementsByTagName('app-builder-menu') ? document.getElementsByTagName('app-builder-menu')[0] : null;
     const getStep3Element = () => (mfeAppBuilderMenu ? mfeAppBuilderMenu.shadowRoot.querySelector('.app-tour-step-3 > a') : document.querySelector('.app-tour-step-3 > a'));
@@ -518,11 +528,6 @@ AppTour.propTypes = {
   appTourProgress: PropTypes.string,
   appTourLastStep: PropTypes.number,
   setNextStep: PropTypes.func.isRequired,
-  mainTitleValue: PropTypes.string,
-  codeValue: PropTypes.string,
-  ownerGroupValue: PropTypes.string,
-  parentCodeValue: PropTypes.string,
-  pageModelValue: PropTypes.string,
   tourCreatedPageCode: PropTypes.string,
   lockBodyScroll: PropTypes.bool,
   customOffset: PropTypes.number,
@@ -538,6 +543,13 @@ AppTour.propTypes = {
   isSuperuser: PropTypes.bool.isRequired,
   wizardCanBeShown: PropTypes.oneOfType([PropTypes.bool, undefined]),
   checkIfWizardCanBeShown: PropTypes.func.isRequired,
+  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Object) }),
+  languages: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    isActive: PropTypes.bool,
+    isDefault: PropTypes.bool,
+  })),
 };
 
 AppTour.defaultProps = {
@@ -545,17 +557,14 @@ AppTour.defaultProps = {
   username: '',
   appTourProgress: '',
   appTourLastStep: 1,
-  mainTitleValue: '',
-  codeValue: '',
-  ownerGroupValue: '',
-  parentCodeValue: '',
-  pageModelValue: '',
   tourCreatedPageCode: '',
   lockBodyScroll: true,
   customOffset: 0,
   publishStatus: false,
   isDismissed: false,
   wizardCanBeShown: undefined,
+  innerRef: null,
+  languages: [],
 };
 
 export default withPermissionValues(AppTour);

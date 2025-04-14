@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { reduxForm, submit, formValueSelector, arrayPush, change } from 'redux-form';
 import { clearErrors, addToast, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 import { routeConverter } from '@entando/utils';
 import NavigationBarConfigForm from 'ui/widgets/config/forms/NavigationBarConfigForm';
@@ -9,7 +8,6 @@ import { fetchLanguages } from 'state/languages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
-
 import { setVisibleModal } from 'state/modal/actions';
 import { ConfirmCancelModalID } from 'ui/common/cancel-modal/ConfirmCancelModal';
 import { ROUTE_PAGE_CONFIG } from 'app-init/router';
@@ -27,29 +25,26 @@ export const mapStateToProps = (state, ownProps) => ({
   pages: getSearchPages(state) || [],
   language: getLocale(state),
   widgetCode: ownProps.widgetCode,
-  addConfig: formValueSelector(NavigationBarWidgetID)(state, 'addConfig'),
-  expressions: formValueSelector(NavigationBarWidgetID)(state, 'expressions'),
   loading: getLoading(state).expressionList,
   appTourProgress: getAppTourProgress(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onDidMount: ({ initialize, appTourProgress }) => {
+  onDidMount: ({ appTourProgress, setFieldValue }) => {
     if (appTourProgress === APP_TOUR_STARTED) {
-      dispatch(initialize({ addConfig: { spec: 'code', targetCode: HOMEPAGE_CODE } }));
+      setFieldValue('addConfig', { spec: 'code', targetCode: HOMEPAGE_CODE });
     }
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
   },
-  fetchExpressions: (props) => {
+  fetchExpressions: ({ setFieldValue }) => {
     const { widgetConfig } = ownProps || {};
     const { navSpec } = widgetConfig || {};
-    const { initialize } = props;
     if (navSpec) {
       dispatch(sendGetNavigatorExpressionsFromNavspec(navSpec)).then((res) => {
         if (res) {
           const { expressions = [] } = res;
-          return dispatch(initialize({ expressions }));
+          return setFieldValue('expressions', expressions);
         }
         return dispatch(addToast(
           'Error',
@@ -88,10 +83,10 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       ));
     });
   },
-  onSave: () => {
+  onSave: (submitForm) => {
     dispatch(setAppTourLastStep(17));
     dispatch(setVisibleModal(''));
-    dispatch(submit(NavigationBarWidgetID));
+    submitForm();
   },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => {
@@ -99,29 +94,39 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     const { history, pageCode } = ownProps;
     history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode }));
   },
-  onAddNewExpression: (config, appTourProgress) => {
-    const newExpression = { ...config };
-    newExpression.specSuperLevel = config.specSuperLevel || 1;
-    newExpression.specAbsLevel = config.specAbsLevel || 1;
-    newExpression.operatorSubtreeLevel = config.operatorSubtreeLevel || '1';
-    dispatch(arrayPush(NavigationBarWidgetID, 'expressions', newExpression));
+  onAddNewExpression: (values, appTourProgress, setFieldValue) => {
+    const newExpression = { ...values.addConfig };
+    newExpression.specSuperLevel = values.addConfig.specSuperLevel || 1;
+    newExpression.specAbsLevel = values.addConfig.specAbsLevel || 1;
+    newExpression.operatorSubtreeLevel = values.addConfig.operatorSubtreeLevel || '1';
+    setFieldValue('expressions', [...values.expressions, newExpression]);
     if (appTourProgress === APP_TOUR_STARTED) {
       dispatch(setAppTourLastStep(16));
     }
   },
-  onSpecificPageChoose: (chosenPage, appTourProgress) => {
+  onRemoveExpression: (index, setFieldValue, values) => {
+    const { expressions } = values;
+    const newExpressions = [...expressions];
+    newExpressions.splice(index, 1);
+    setFieldValue('expressions', newExpressions);
+  },
+  onSwapExpressions: (indexA, indexB, setFieldValue, values) => {
+    const { expressions } = values;
+    const newExpressions = [...expressions];
+    const temp = expressions[indexA];
+    newExpressions[indexA] = newExpressions[indexB];
+    newExpressions[indexB] = temp;
+    setFieldValue('expressions', newExpressions);
+  },
+  onSpecificPageChoose: (chosenPage, appTourProgress, setFieldValue) => {
     if (appTourProgress === APP_TOUR_STARTED && chosenPage) {
-      dispatch(change('navigationBarWidgetForm', 'addConfig.spec', 'code'));
+      setFieldValue('addConfig.spec', 'code');
       dispatch(setAppTourLastStep(15));
     }
   },
 });
 
-const NavigationBarConfigFormContainer = injectIntl(reduxForm({
-  form: NavigationBarWidgetID,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-})(NavigationBarConfigForm));
+const NavigationBarConfigFormContainer = injectIntl(NavigationBarConfigForm);
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {
   pure: false,

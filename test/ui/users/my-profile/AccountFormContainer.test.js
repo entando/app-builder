@@ -30,11 +30,4 @@ describe('AccountFormContainer', () => {
     result.onEdit();
     expect(dispatchMock).toHaveBeenCalled();
   });
-
-  it('verify that mapDispatchToProps result has onModalFormSubmit', () => {
-    const result = mapDispatchToProps(dispatchMock);
-    expect(result.onModalFormSubmit).toBeDefined();
-    result.onModalFormSubmit();
-    expect(dispatchMock).toHaveBeenCalled();
-  });
 });

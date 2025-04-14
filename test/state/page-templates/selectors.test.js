@@ -170,60 +170,53 @@ describe('state/page-templates/selectors', () => {
     });
   });
 
-  describe('getFormPageTemplate', () => {
-    it('if there is no page template form data, returns null', () => {
-      getPageTemplateForm.mockReturnValue(null);
-      expect(getFormPageTemplate({})).toEqual(null);
-    });
+  // describe('getFormPageTemplate', () => {
+  //   it('if there is no page template form data, returns null', () => {
+  //     getPageTemplateForm.mockReturnValue(null);
+  //     expect(getFormPageTemplate({})).toEqual(null);
+  //   });
 
-    it('if configuration is not a valid json, returns a default configuration', () => {
-      getPageTemplateForm.mockReturnValue({
-        code: 'page_model',
-        configuration: 'definitely not a valid json',
-      });
-      expect(getFormPageTemplate({})).toEqual({
-        code: 'page_model',
-        configuration: { frames: [] },
-      });
-    });
+  //   it('if configuration is not a valid json, returns a default configuration', () => {
+  //     getPageTemplateForm.mockReturnValue({
+  //       code: 'page_model',
+  //       configuration: 'definitely not a valid json',
+  //     });
+  //     expect(getFormPageTemplate({})).toEqual({
+  //       code: 'page_model',
+  //       configuration: { frames: [] },
+  //     });
+  //   });
 
-    it('if configuration is a valid json, returns the parsed configuration', () => {
-      getPageTemplateForm.mockReturnValue({
-        code: 'page_model',
-        configuration: '{ "frames": [{ "pos": 0 }] }',
-      });
-      expect(getFormPageTemplate({})).toEqual({
-        code: 'page_model',
-        configuration: { frames: [{ pos: 0 }] },
-      });
-    });
-  });
+  //   it('if configuration is a valid json, returns the parsed configuration', () => {
+  //     getPageTemplateForm.mockReturnValue({
+  //       code: 'page_model',
+  //       configuration: '{ "frames": [{ "pos": 0 }] }',
+  //     });
+  //     expect(getFormPageTemplate({})).toEqual({
+  //       code: 'page_model',
+  //       configuration: { frames: [{ pos: 0 }] },
+  //     });
+  //   });
+  // });
 
-  describe('getPageTemplateFormCellMap', () => {
-    it('returns a cell map from the form page template', () => {
-      getPageTemplateForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
-      expect(getPageTemplateFormCellMap({})).toEqual(SINGLE_CELL_CELL_MAP);
-    });
-  });
+  // describe('getPageTemplateFormCellMap', () => {
+  //   it('returns a cell map from the form page template', () => {
+  //     getPageTemplateForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
+  //     expect(getPageTemplateFormCellMap({})).toEqual(SINGLE_CELL_CELL_MAP);
+  //   });
+  // });
 
-  describe('getPageTemplateFormErrors', () => {
-    it('if there are no errors, returns an empty array', () => {
-      getPageTemplateForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
-      expect(getPageTemplateFormErrors({})).toEqual([]);
-    });
+  // describe('getPageTemplateFormErrors', () => {
+  //   it('if there are no errors, returns an empty array', () => {
+  //     getPageTemplateForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
+  //     expect(getPageTemplateFormErrors({})).toEqual([]);
+  //   });
 
-    it('if there are errors, returns the page template errors', () => {
-      getPageTemplateForm.mockReturnValue(toFormData(OVERLAPPING_FRAMES_PAYLOAD));
-      expect(getPageTemplateFormErrors({})).toHaveLength(1);
-    });
-  });
-
-  describe('getPageTemplateFormCellMap', () => {
-    it('returns a cell map from the form page template', () => {
-      getPageTemplateForm.mockReturnValue(toFormData(SINGLE_CELL_PAYLOAD));
-      expect(getPageTemplateFormCellMap({})).toEqual(SINGLE_CELL_CELL_MAP);
-    });
-  });
+  //   it('if there are errors, returns the page template errors', () => {
+  //     getPageTemplateForm.mockReturnValue(toFormData(OVERLAPPING_FRAMES_PAYLOAD));
+  //     expect(getPageTemplateFormErrors({})).toHaveLength(1);
+  //   });
+  // });
 
   describe('getSelectedPageTemplatePageRefs', () => {
     it('returns the selected page template pageReferences', () => {

@@ -1,12 +1,8 @@
 import React from 'react';
-
-import 'test/enzyme-init';
-import { mount } from 'enzyme';
-import AttributeEnumMapSettings, { elements as elementValidation } from 'ui/common/attributes/AttributeEnumMapSettings';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
-import { required } from '@entando/utils';
-import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSettings';
+import { renderWithIntl } from 'test/testUtils';
+import '@testing-library/jest-dom/extend-expect';
+import { Formik } from 'formik';
 
 const DATA = { code: 'code', descr: 'descr' };
 
@@ -14,40 +10,41 @@ jest.unmock('react-redux');
 
 describe('AttributeEnumMapSettings', () => {
   let component;
+  let container;
   beforeEach(() => {
-    component = mount(mockRenderWithIntlAndStore(<AttributeEnumMapSettings
-      enumeratorMapExtractorBeans={[DATA]}
-    />));
+    component = renderWithIntl(<Formik>
+      <AttributeEnumMapSettings enumeratorMapExtractorBeans={[DATA]} />
+      {/* eslint-disable-next-line react/jsx-indent */}
+                               </Formik>);
+
+    ({ container } = component);
   });
 
   it('renders without crashing', () => {
-    expect(component.exists()).toBe(true);
+    expect(container).toBeTruthy();
   });
 
   it('has one Row', () => {
-    expect(component.find('Row').exists()).toBe(true);
-    expect(component.find('Row')).toHaveLength(1);
+    expect(container.querySelector('.row')).toBeTruthy();
+    expect(container.querySelectorAll('.row')).toHaveLength(1);
   });
 
   it('has a enumeratorStaticItems text field', () => {
-    const element = component.find('Field[name="enumeratorStaticItems"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
-    expect(props).toHaveProperty('validate', [required, elementValidation]);
+    const element = container.querySelector('[name="enumeratorStaticItems"]');
+    expect(element).toBeTruthy();
+    expect(element.className).toContain('RenderTextInput');
   });
 
   it('has a enumeratorMapExtractorBeans select field', () => {
-    const element = component.find('Field[name="enumeratorMapExtractorBeans"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderSelectInput);
+    const element = container.querySelector('[name="enumeratorMapExtractorBeans"]');
+    expect(element).toBeTruthy();
+
+    expect(element.className).toContain('SelectInput');
   });
 
   it('has a enumeratorStaticItemsSeparator text field', () => {
-    const element = component.find('Field[name="enumeratorStaticItemsSeparator"]');
-    expect(element.exists()).toBe(true);
-    const props = element.props();
-    expect(props).toHaveProperty('component', RenderTextInput);
+    const element = container.querySelector('[name="enumeratorStaticItemsSeparator"]');
+    expect(element).toBeTruthy();
+    expect(element.className).toContain('RenderTextInput');
   });
 });

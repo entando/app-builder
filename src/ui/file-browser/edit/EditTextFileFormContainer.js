@@ -10,6 +10,10 @@ import { history, ROUTE_FILE_BROWSER } from 'app-init/router';
 export const mapStateToProps = (state, { match: { params } }) => ({
   mode: 'edit',
   filename: params.filename,
+  initialValues: {
+    name: '',
+    content: '',
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -22,9 +26,7 @@ export const mapDispatchToProps = dispatch => ({
   onClickDownload: (file) => {
     dispatch(downloadFile(file)).then((base64) => { download(file.name, base64); });
   },
-  onSubmit: (file) => {
-    dispatch(saveFile(file));
-  },
+  onSubmit: file => dispatch(saveFile(file)),
 });
 
 const mergeProps = (stateProps, dispatchProps) => ({

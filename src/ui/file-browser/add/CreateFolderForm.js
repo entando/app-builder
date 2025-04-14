@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
+import { formatMessageMaxLength, formatMessageRequired } from 'helpers/formikValidations';
 import { Button, Row, Col } from 'patternfly-react';
-import { required, maxLength } from '@entando/utils';
+import { maxLength } from '@entando/utils';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { ROUTE_FILE_BROWSER, history } from 'app-init/router';
 
@@ -26,11 +28,11 @@ export class CreateFolderFormBody extends Component {
 
   render() {
     const {
-      intl, invalid, submitting,
+      intl, isValid, isSubmitting,
     } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit} className="FileBrowserCreateFolder form-horizontal">
+      <Form className="FileBrowserCreateFolder form-horizontal">
         <Row>
           <Col xs={12}>
             <fieldset className="no-padding">
@@ -44,7 +46,6 @@ export class CreateFolderFormBody extends Component {
                 name="path"
                 label={<FormLabel labelId="fileBrowser.newFolder" required />}
                 placeholder={intl.formatMessage(msgs.newFolder)}
-                validate={[required, maxLength50]}
               />
             </fieldset>
           </Col>
@@ -55,7 +56,7 @@ export class CreateFolderFormBody extends Component {
               className="pull-right FileBrowserCreateFolderForm__btn-submit"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
             >
               <FormattedMessage id="app.save" />
             </Button>
@@ -68,7 +69,7 @@ export class CreateFolderFormBody extends Component {
             </Button>
           </Col>
         </Row>
-      </form>
+      </Form>
     );
   }
 }
@@ -76,8 +77,8 @@ export class CreateFolderFormBody extends Component {
 CreateFolderFormBody.propTypes = {
   intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired,
-  submitting: PropTypes.bool.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
@@ -85,8 +86,18 @@ CreateFolderFormBody.propTypes = {
   }).isRequired,
 };
 
-const CreateFolderForm = reduxForm({
-  form: 'FileBrowserCreateFolder',
+const CreateFolderForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  enableReinitialize: true,
+  validationSchema: ({ intl }) => Yup.object().shape({
+    path: Yup.string()
+      .required(intl.formatMessage(formatMessageRequired))
+      .max(50, intl.formatMessage(formatMessageMaxLength, { max: 50 })),
+  }),
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+  displayName: 'FileBrowserCreateFolderFormik',
 })(CreateFolderFormBody);
 
 export default injectIntl(CreateFolderForm);

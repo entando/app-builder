@@ -6,6 +6,7 @@ import {
   getUsersMap,
   getUserList,
   getUsersTotal,
+  getUserSearchTerm,
 } from 'state/users/selectors';
 
 jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
@@ -14,6 +15,7 @@ const TEST_STATE = {
   users: {
     ...USERS_NORMALIZED,
     total: 2,
+    searchTerm: 'test',
   },
 };
 
@@ -38,5 +40,9 @@ describe('state/users/selectors', () => {
 
   it('verify getTotalUsers selector', () => {
     expect(getUsersTotal(TEST_STATE)).toEqual(2);
+  });
+
+  it('verify getUserSearchTerm selector', () => {
+    expect(getUserSearchTerm(TEST_STATE)).toEqual('test');
   });
 });

@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { formValueSelector } from 'redux-form';
 import { get, isEmpty, difference, xor, union, isUndefined } from 'lodash';
 import {
   TYPE_MONOLIST,
@@ -34,8 +33,10 @@ export const getSelectedProfileTypeAttributes = state => get(state.profileTypes.
 export const getAttributeSelectFromProfileType = state => get(state.profileTypes.selected, 'attributeSelected');
 export const getAttributeTypeSelectFromProfileType = state => get(state.profileTypes.selected, 'attributeSelected.type');
 export const getSelectedAttributeNestedType = state => get(state.profileTypes.selected, 'attributeSelected.nestedAttribute.type');
+export const getSelectedAttributeNestedIndexable = state => get(state.profileTypes.selected, 'attributeSelected.nestedAttribute.indexable');
 export const getSelectedValidationRules = state => get(state.profileTypes.selected, 'attributeSelected.validationRules');
 export const getProfileTypeSelectedAttributeCode = state => get(state.profileTypes.attributes.selected, 'code');
+export const getProfileTypeSelectedAttributeJoinRoles = state => get(state.profileTypes.attributes.selected, 'attributeSelected.roles.code');
 
 export const getProfileTypeSelectedAttributeAllowedRoleCodeList = createSelector(
   getProfileTypeSelectedAttributeAllowedRoles,
@@ -167,7 +168,6 @@ export const getIsMonolistCompositeAttributeType = createSelector(
   ),
 );
 
-export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');
 
 const getProfileTypeReferences = state => state.profileTypes.references;
 

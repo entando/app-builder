@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col, FormGroup, Button } from 'patternfly-react';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
+
 import { TEST_ID_USER_SEARCH_FORM } from 'ui/test-const/user-test-const';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 
 export const renderSelectOptions = options => (
   options.map(option => (
@@ -24,14 +27,13 @@ const msgs = defineMessages({
 });
 
 export class UserSearchFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount();
+  componentDidMount() {
+    this.props.onDidMount();
   }
 
-  onSubmit = (ev) => {
-    ev.preventDefault();
-    this.props.handleSubmit();
-  };
+  componentWillUnmount() {
+    this.props.onUnmount();
+  }
 
   handleClick(handler) {
     return (ev) => {
@@ -41,26 +43,28 @@ export class UserSearchFormBody extends Component {
   }
 
   render() {
-    const { intl } = this.props;
+    const { intl, isValid, isSubmitting } = this.props;
     return (
-      <form onSubmit={this.onSubmit} className="UserSearchForm form-horizontal well" data-testid={TEST_ID_USER_SEARCH_FORM.FORM}>
+      <Form className="UserSearchForm form-horizontal well" data-testid={TEST_ID_USER_SEARCH_FORM.FORM} aria-label="form">
         <h3><FormattedMessage id="app.search" /></h3>
         <FormGroup>
-          <Row>
+          <div>
             <label className="control-label col-sm-2" htmlFor="username">
               <FormattedMessage id="user.table.username" />
             </label>
             <Col sm={9}>
               <Field
                 id="username"
-                component="input"
+                inputSize={10}
+                labelSize={0}
+                component={RenderTextInput}
                 className="form-control UserSearchForm__username"
                 name="username"
                 placeholder={intl.formatMessage(msgs.username)}
                 data-testid={TEST_ID_USER_SEARCH_FORM.USERNAME_FIELD}
               />
             </Col>
-          </Row>
+          </div>
         </FormGroup>
         {/* Form for user profiletype search */}
         {/* insert Advanced Search component when available */}
@@ -73,25 +77,38 @@ export class UserSearchFormBody extends Component {
                 bsStyle="primary"
                 className="pull-right"
                 data-testid={TEST_ID_USER_SEARCH_FORM.SEARCH_BUTTON}
+                disabled={!isValid || isSubmitting}
               >
                 <FormattedMessage id="app.search" />
               </Button>
             </Col>
           </Row>
         </FormGroup>
-      </form>
+      </Form>
     );
   }
 }
 
 UserSearchFormBody.propTypes = {
   intl: intlShape.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  onWillMount: PropTypes.func.isRequired,
+  onDidMount: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  onUnmount: PropTypes.func.isRequired,
 };
 
-const UserSearchForm = reduxForm({
-  form: 'userSearch',
+const UserSearchForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validationSchema: () => (
+    Yup.object().shape({
+      username: Yup.string().nullable(true),
+    })
+  ),
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values).then(() => setSubmitting(false));
+  },
+  displayName: 'userSearchFormFormik',
 })(UserSearchFormBody);
 
 export default injectIntl(UserSearchForm);

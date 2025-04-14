@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, FormSection } from 'redux-form';
+import { withFormik, Form } from 'formik';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Button, Row, Col, Alert } from 'patternfly-react';
 import AttributeInfo from 'ui/common/attributes/AttributeInfo';
@@ -15,6 +15,7 @@ import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
+import { cloneDeep } from 'lodash';
 
 import {
   MODE_ADD_COMPOSITE,
@@ -33,6 +34,7 @@ import {
   TYPE_THREESTATE,
   TYPE_TIMESTAMP,
 } from 'state/profile-types/const';
+import { selectedAttributeSectionFieldsAndOgnlValidation } from 'ui/common/attributes/AttributeFormUtils';
 
 export class EditAttributeFormBody extends Component {
   componentDidMount() {
@@ -42,7 +44,7 @@ export class EditAttributeFormBody extends Component {
   render() {
     const {
       selectedAttributeType, selectedAttributeTypeForAddComposite, attributeCode, mode,
-      nestedAttributeComposite, isSearchable, isIndexable, onSubmit, onCancel, onDiscard,
+      nestedAttributeComposite, isSearchable, isIndexable, handleSubmit, onCancel, onDiscard,
       onSave, dirty, submitting, intl, invalid, profileTypeAttributeCode,
     } = this.props;
     const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
@@ -84,14 +86,14 @@ export class EditAttributeFormBody extends Component {
               attributesList={this.props.attributesList}
             />;
         case TYPE_NUMBER: return (
-          <FormSection name="validationRules">
+          <div name="validationRules">
             <AttributesNumber {...this.props} />
-          </FormSection>
+          </div>
         );
         case TYPE_DATE: return (
-          <FormSection name="validationRules">
+          <div name="validationRules">
             <AttributesDateSettings />
-          </FormSection>
+          </div>
         );
         case TYPE_ENUMERATOR: return (
           <AttributeEnumSettings mode={MODE_EDIT} />
@@ -106,11 +108,7 @@ export class EditAttributeFormBody extends Component {
               {...this.props}
             /> : null;
         }
-        default: return (
-          <FormSection name="validationRules">
-            <AttributeHypeLongMonoTextSettings {...this.props} />
-          </FormSection>
-        );
+        default: return <AttributeHypeLongMonoTextSettings {...this.props} />;
       }
     };
 
@@ -119,10 +117,7 @@ export class EditAttributeFormBody extends Component {
     );
 
     const renderOgnlValidation = () => (
-      !isComposite ?
-        <FormSection name="validationRules">
-          <AttributeOgnlValidation />
-        </FormSection> : null
+      !isComposite ? <AttributeOgnlValidation /> : null
     );
 
     const header = () => {
@@ -150,10 +145,8 @@ export class EditAttributeFormBody extends Component {
     };
 
     return (
-      <form
-        onSubmit={this.props.handleSubmit(values => (
-           onSubmit(values, this.props.allowedRoles, mode)
-         ))}
+      <Form
+        onSubmit={handleSubmit}
         className="form-horizontal"
       >
         <Row>
@@ -201,7 +194,7 @@ export class EditAttributeFormBody extends Component {
             />
           </Col>
         </Row>
-      </form>
+      </Form>
     );
   }
 }
@@ -227,7 +220,7 @@ EditAttributeFormBody.propTypes = {
   })),
   mode: PropTypes.string.isRequired,
   attributesList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  nestedAttributeComposite: PropTypes.string.isRequired,
+  nestedAttributeComposite: PropTypes.string,
   isSearchable: PropTypes.bool,
   isIndexable: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
@@ -248,10 +241,57 @@ EditAttributeFormBody.defaultProps = {
   isIndexable: false,
   dirty: false,
   fetchAttributeDetails: () => {},
+  nestedAttributeComposite: '',
 };
 
-const EditAttributeForm = reduxForm({
-  form: 'attribute',
+const EditAttributeForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({
+    initialValues, isIndexable, isSearchable,
+    selectedAttributeType, mode, selectedAttributeTypeForAddComposite,
+  }) => {
+    const isComposite = mode === MODE_EDIT_COMPOSITE || mode === MODE_ADD_COMPOSITE;
+    const isModeAddAttributeComposite = mode === MODE_ADD_ATTRIBUTE_COMPOSITE;
+
+    return ({
+      ...initialValues,
+      type: isModeAddAttributeComposite ? selectedAttributeTypeForAddComposite.code : (initialValues && initialValues.type) || '',
+      // AttributeInfo
+      code: !isModeAddAttributeComposite ? (initialValues && initialValues.code) || '' : '',
+      name: !isModeAddAttributeComposite ? (initialValues && initialValues.name) || '' : '',
+      mandatory: !isModeAddAttributeComposite
+        ? (initialValues && initialValues.mandatory) || false : false,
+      ...(isIndexable ?
+        {
+          indexable:
+          !isModeAddAttributeComposite ? initialValues && initialValues.indexable : false,
+        } : {}),
+      ...(isSearchable ?
+        {
+          listFilter:
+          !isModeAddAttributeComposite ? initialValues && initialValues.listFilter : false,
+        } : {}),
+      ...(isComposite ?
+        {
+          compositeAttributeType:
+          !isModeAddAttributeComposite ? (initialValues && initialValues.type) || '' : '',
+        } : {}),
+      // Roles
+      joinRoles: initialValues && initialValues.roles && initialValues.roles.map(role => role.code),
+      // selectedAttributeType
+      ...(initialValues && selectedAttributeType &&
+        selectedAttributeSectionFieldsAndOgnlValidation(
+          selectedAttributeType,
+          initialValues,
+          mode,
+          isComposite,
+        )),
+
+    });
+  },
+  handleSubmit: (values, { props: { onSubmit, allowedRoles, mode } }) => {
+    onSubmit(cloneDeep(values), allowedRoles, mode);
+  },
 })(EditAttributeFormBody);
 
 export default EditAttributeForm;

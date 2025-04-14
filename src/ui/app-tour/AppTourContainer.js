@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { getUsername } from '@entando/apimanager';
 
@@ -24,8 +23,6 @@ export const widgetNextSteps = {
 
 export const mapStateToProps = (state, { lockBodyScroll = true }) => {
   const languages = getActiveLanguages(state);
-  const mainTitleLangCode = (languages[0] || {}).code || 'en';
-  const mainTitleName = `titles.${mainTitleLangCode}`;
   const pageCode = (getTourCreatedPage(state) || {}).code || '';
   const isDismissed = sessionStorage.getItem(dismissedWizardKey);
   return {
@@ -33,16 +30,12 @@ export const mapStateToProps = (state, { lockBodyScroll = true }) => {
     wizardEnabled: getWizardEnabled(state),
     appTourProgress: getAppTourProgress(state),
     appTourLastStep: getAppTourlastStep(state),
-    mainTitleValue: formValueSelector('page')(state, mainTitleName),
-    codeValue: formValueSelector('page')(state, 'code'),
-    ownerGroupValue: formValueSelector('page')(state, 'ownerGroup'),
-    parentCodeValue: formValueSelector('page')(state, 'parentCode'),
-    pageModelValue: formValueSelector('page')(state, 'pageModel'),
     lockBodyScroll,
     tourCreatedPageCode: pageCode,
     publishStatus: getPublishStatus(state),
     isDismissed,
     wizardCanBeShown: getWizardCanBeShown(state),
+    languages,
   };
 };
 export const mapDispatchToProps = (dispatch, { history }) => ({

@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 import { addToast, addErrors, clearErrors, TOAST_ERROR } from '@entando/messages';
 
@@ -278,7 +277,6 @@ export const editWidgetConfig = (frameId, pageCode) =>
       const isConfigurableWidget = widget && widget.hasConfig;
 
       if (isConfigurableWidget || pageConfigItem.config) {
-        dispatch(initialize('widgetConfigForm', pageConfigItem.config));
         history.push(routeConverter(
           ROUTE_WIDGET_CONFIG,
           { pageCode, widgetCode: pageConfigItem.code, framePos: frameId },

@@ -17,6 +17,7 @@
 .env.production.local
 .env.production
 .idea
+.vscode
 
 npm-debug.log*
 yarn-debug.log*
@@ -31,3 +32,4 @@ yarn-error.log*
 # Temporary env files
 /public/env-config.js
 env-config.js
+

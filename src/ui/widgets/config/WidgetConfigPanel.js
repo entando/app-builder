@@ -82,7 +82,7 @@ WidgetConfigPanel.propTypes = {
   framePos: PropTypes.number.isRequired,
   frameName: PropTypes.string.isRequired,
   pageCode: PropTypes.string.isRequired,
-  history: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}),
   children: PropTypes.node.isRequired,
   buttons: PropTypes.node,
 };
@@ -91,6 +91,7 @@ WidgetConfigPanel.defaultProps = {
   widget: null,
   widgetConfig: null,
   buttons: null,
+  history: {},
 };
 
 export default WidgetConfigPanel;

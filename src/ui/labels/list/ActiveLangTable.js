@@ -14,6 +14,7 @@ const renderRows = (rows, onDeactivateLang, defaultLanguage) => rows.map(item =>
     <td className="ActiveLangTable__td">{item.name}</td>
     <td className="ActiveLangTable__td text-center">
       <Button
+        id={`ActiveLangTable-delete-${item.code}`}
         bsStyle="link"
         className="ActiveLangTable__delete-tag-btn"
         onClick={() => onDeactivateLang(item.code)}

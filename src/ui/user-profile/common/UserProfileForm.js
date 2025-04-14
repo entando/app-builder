@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { reduxForm, Field, FieldArray } from 'redux-form';
 import { Button, Row, Col, FormGroup } from 'patternfly-react';
 import { required } from '@entando/utils';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import UserProfileField, { CompositeField } from 'ui/user-profile/common/UserProfileField';
-
+import { UserProfileField, CompositeField } from 'ui/user-profile/common/UserProfileField';
 import FormLabel from 'ui/common/form/FormLabel';
-import RenderListField from 'ui/common/form/RenderListField';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderListField from 'ui/common/formik-field/RenderListField';
 import { BOOLEAN_OPTIONS, THREE_STATE_OPTIONS, getTranslatedOptions } from 'ui/users/common/const';
 import {
   TYPE_BOOLEAN, TYPE_THREESTATE, TYPE_ENUMERATOR, TYPE_ENUMERATOR_MAP, TYPE_MONOLIST, TYPE_LIST,
   TYPE_COMPOSITE,
 } from 'state/data-types/const';
 import { TEST_ID_USER_PROFILE_FORM } from 'ui/test-const/user-test-const';
+import { withFormik, Field, FieldArray } from 'formik';
+import SelectInput from 'ui/common/formik-field/SelectInput';
+import { RenderTextInputBody } from 'ui/common/formik-field/RenderTextInput';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 export const matchRegex = (regex, customErrorId) => val => ((val && regex && !regex.test(val)) ?
   (<FormattedMessage id={customErrorId || 'validateForm.regex'} values={{ regex }} />) : undefined);
@@ -76,46 +76,45 @@ const getHelpMessage = (validationRules, intl) => {
   return null;
 };
 export class UserProfileFormBody extends Component {
-  componentWillMount() {
-    this.props.onWillMount(this.props);
-  }
-
-  componentWillUnmount() {
-    this.props.onWillUnmount();
+  componentDidMount() {
+    this.props.onDidMount(this.props);
   }
 
   render() {
     const {
-      onSubmit, handleSubmit, invalid, submitting, defaultLanguage, languages,
-      profileTypesAttributes, intl, profileTypes, onProfileTypeChange,
+      handleSubmit, isValid, isSubmitting, defaultLanguage, languages,
+      profileTypesAttributes, intl, profileTypes, onProfileTypeChange, setFieldValue,
     } = this.props;
-
-    const renderFieldArray = (attributeCode, attribute, component, language) => (<FieldArray
+    const renderFieldArray = (attributeCode, attribute, renderComponent, language) => (<FieldArray
       key={attributeCode}
-      component={component}
-      attributeType={attribute.nestedAttribute.type}
-      nestedAttribute={attribute.nestedAttribute}
       name={attributeCode}
       rows={3}
-      toggleElement={getComponentOptions(attribute.type, intl)}
-      options={getEnumeratorOptions(
+      render={arrayHelpers => renderComponent({
+          ...arrayHelpers,
+          attributeType: attribute.nestedAttribute.type,
+          nestedAttribute: attribute.nestedAttribute,
+          toggleElement: getComponentOptions(attribute.type, intl),
+          options: getEnumeratorOptions(
             attribute.nestedAttribute.type,
             attribute.nestedAttribute.enumeratorStaticItems,
             attribute.nestedAttribute.enumeratorStaticItemsSeparator,
             attribute.nestedAttribute.mandatory,
             intl,
-          )}
-      optionValue="value"
-      optionDisplayName="optionDisplayName"
-      label={<FormLabel
-        labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
-        helpText={getHelpMessage(attribute.validationRules, intl)}
-        required={attribute.mandatory}
-      />}
-      defaultLanguage={defaultLanguage}
-      languages={languages}
-      intl={intl}
-      language={language && language.code}
+          ),
+          optionValue: 'value',
+          optionDisplayName: 'optionDisplayName',
+          label: <FormLabel
+            labelText={language ? `${attribute.name} (${language.name})` : attribute.name}
+            helpText={getHelpMessage(attribute.validationRules, intl)}
+            required={attribute.mandatory}
+          />,
+          defaultLanguage,
+          languages,
+          intl,
+          language: language && language.code,
+        })
+      }
+
     />);
 
     const showProfileFields = (
@@ -132,7 +131,7 @@ export class UserProfileFormBody extends Component {
         if (attribute.type === TYPE_LIST) {
           return languages.map(lang => (
             <div key={lang.code}>
-              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, RenderListField, lang)}
+              {renderFieldArray(`${attribute.code}.${lang.code}`, attribute, props => <RenderListField {...props} />, lang)}
             </div>
           ));
         }
@@ -140,12 +139,24 @@ export class UserProfileFormBody extends Component {
           return (
             <Row key={attribute.code}>
               <Col xs={12}>
-                {renderFieldArray(attribute.code, attribute, RenderListField)}
+                {
+                  renderFieldArray(
+                    attribute.code,
+                    attribute,
+                    props => <RenderListField {...props} />,
+                  )
+                }
               </Col>
             </Row>
           );
         }
-        return <UserProfileField key={attribute.name} attribute={attribute} intl={intl} />;
+        return (
+          <UserProfileField
+            key={attribute.name}
+            attribute={attribute}
+            intl={intl}
+            setFieldValue={setFieldValue}
+          />);
       })
     );
 
@@ -154,14 +165,13 @@ export class UserProfileFormBody extends Component {
         <Col xs={12}>
           <fieldset className="no-padding">
             <Field
-              component="input"
+              as="input"
               type="hidden"
               name="typeCode"
               disabled
               label={<FormLabel
                 labelId="userProfile.typeCode"
               />}
-              validate={[required]}
             />
           </fieldset>
         </Col>
@@ -174,7 +184,7 @@ export class UserProfileFormBody extends Component {
           <fieldset className="no-padding">
             <Field
               key="id"
-              component={RenderTextInput}
+              component={RenderTextInputBody}
               name="id"
               disabled
               label={<FormLabel
@@ -188,19 +198,19 @@ export class UserProfileFormBody extends Component {
     );
 
     return (
-      <form onSubmit={handleSubmit(onSubmit.bind(this))} className="UserForm form-horizontal">
+      <form onSubmit={handleSubmit} className="UserForm form-horizontal" data-testid="UserProfileForm">
         <Row>
           <Col xs={10}>
             <fieldset className="no-padding">
               <div>
                 <Field
-                  component={RenderSelectInput}
-                  onChange={e => onProfileTypeChange(e.target.value, profileTypes)}
+                  component={SelectInput}
+                  onChange={e => onProfileTypeChange(e.target.value, profileTypes, setFieldValue)}
                   options={profileTypes}
                   defaultOptionId="form.select.chooseOne"
                   label={<FormLabel labelId="user.profileType" required />}
                   name="typeCode"
-                  validate={[required]}
+                  validate={value => convertReduxValidationsToFormikValidations(value, [required])}
                 />
               </div>
               <hr />
@@ -217,7 +227,7 @@ export class UserProfileFormBody extends Component {
               className="pull-right"
               type="submit"
               bsStyle="primary"
-              disabled={invalid || submitting}
+              disabled={!isValid || isSubmitting}
               data-testid={TEST_ID_USER_PROFILE_FORM.SAVE_BUTTON}
             >
               <FormattedMessage id="app.save" />
@@ -231,11 +241,10 @@ export class UserProfileFormBody extends Component {
 
 UserProfileFormBody.propTypes = {
   intl: intlShape.isRequired,
-  onWillMount: PropTypes.func,
+  onDidMount: PropTypes.func,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   defaultLanguage: PropTypes.string.isRequired,
   languages: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
@@ -268,22 +277,28 @@ UserProfileFormBody.propTypes = {
   })),
   profileTypes: PropTypes.arrayOf(PropTypes.shape({})),
   onProfileTypeChange: PropTypes.func,
-  onWillUnmount: PropTypes.func,
+  setFieldValue: PropTypes.func.isRequired,
+  errors: PropTypes.shape({}).isRequired,
+  values: PropTypes.shape({}).isRequired,
 };
 
 UserProfileFormBody.defaultProps = {
-  invalid: false,
-  submitting: false,
-  onWillMount: null,
+  isValid: false,
+  isSubmitting: false,
+  onDidMount: null,
   profileTypesAttributes: [],
   profileTypes: [],
   onProfileTypeChange: () => {},
-  onWillUnmount: () => {},
 };
 
 
-const UserForm = reduxForm({
+const UserForm = withFormik({
   form: 'UserProfile',
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
 })(UserProfileFormBody);
 
 export default injectIntl(UserForm);

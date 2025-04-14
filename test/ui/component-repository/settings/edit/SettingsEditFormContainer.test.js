@@ -45,7 +45,7 @@ describe('SettingsListContainer', () => {
     it('should dispatch an action if onWillMount is called', () => {
       props.onWillMount(12);
       expect(dispatchMock).toHaveBeenCalled();
-      expect(fetchComponentRepository).toHaveBeenCalledWith(12, true);
+      expect(fetchComponentRepository).toHaveBeenCalledWith(12);
     });
 
     it('should dispatch an action if onSubmit is called', () => {

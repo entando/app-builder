@@ -1,27 +1,16 @@
 import { connect } from 'react-redux';
-import { formValueSelector, change } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 
 import { ACTION_SAVE, ACTION_SAVE_AND_CONFIGURE } from 'state/pages/const';
 import PageForm from 'ui/pages/common/PageForm';
 import { fetchLanguages } from 'state/languages/actions';
 import { getActiveLanguages } from 'state/languages/selectors';
-import { getGroupsList } from 'state/groups/selectors';
-import { getPageTemplatesList } from 'state/page-templates/selectors';
-import { getCharsets, getContentTypes } from 'state/pages/selectors';
 import { sendClonePage } from 'state/pages/actions';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CONFIG } from 'app-init/router';
-import { setVisibleModal } from 'state/modal/actions';
 import getSearchParam from 'helpers/getSearchParam';
 
 export const mapStateToProps = state => ({
   languages: getActiveLanguages(state),
-  groups: getGroupsList(state),
-  pageTemplates: getPageTemplatesList(state),
-  charsets: getCharsets(state),
-  contentTypes: getContentTypes(state),
-  selectedJoinGroups: formValueSelector('page')(state, 'joinGroups') || [],
-  titles: formValueSelector('page')(state, 'titles'),
   mode: 'clone',
   keepDirtyOnReinitialize: true,
 });
@@ -55,9 +44,6 @@ export const mapDispatchToProps = dispatch => ({
       }
     });
   },
-  onChangeDefaultTitle: title =>
-    dispatch(change('page', 'code', title.replace(/\W/g, '_').toLowerCase())),
-  onFindTemplateClick: () => dispatch(setVisibleModal('FindTemplateModal')),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps, null, {

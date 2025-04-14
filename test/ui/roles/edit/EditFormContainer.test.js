@@ -1,11 +1,32 @@
-import 'test/enzyme-init';
-import { mapStateToProps, mapDispatchToProps } from 'ui/roles/edit/EditFormContainer';
-import { fetchRole } from 'state/roles/actions';
-import { PERMISSIONS_NORMALIZED } from 'test/mocks/permissions';
+import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { screen, render } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import { getPermissionsList } from 'state/permissions/selectors';
+import { getLoading } from 'state/loading/selectors';
+import { getSelectedRole } from 'state/roles/selectors';
+
+import EditFormContainer from 'ui/roles/edit/EditFormContainer';
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(fn => fn()),
+  useDispatch: () => mockDispatch,
+}));
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useRouteMatch: () => ({ params: { roleCode: 'test' } }),
+}));
+
+jest.mock('state/permissions/selectors');
+jest.mock('state/loading/selectors');
+jest.mock('state/roles/selectors');
 
 jest.mock('state/roles/actions', () => ({
-  sendPutRole: jest.fn().mockReturnValue('sendPutRole_result'),
-  fetchRole: jest.fn(),
+  sendPutRole: jest.fn().mockReturnValue('sendPostRole_result'),
+  fetchRole: jest.fn().mockReturnValue('fetchRole_result'),
 }));
 
 jest.mock('state/permissions/actions', () => ({
@@ -16,52 +37,46 @@ jest.mock('state/loading/actions', () => ({
   toggleLoading: jest.fn(),
 }));
 
-const ownProps = {
-  match: {
-    params: {
-      roleCode: 'role_code',
-    },
-  },
-};
 
-const dispatchProps = {
-  history: {},
+const props = {
+
 };
 
 describe('EditFormContainer', () => {
-  const dispatchMock = jest.fn();
+  const renderForm = (initialValues = props.initialValues, addProps = {}) => {
+    const formProps = { ...props, ...addProps, initialValues };
+    return render(<IntlProvider locale="en" onError={() => {}}><EditFormContainer {...formProps} /></IntlProvider>);
+  };
 
-  describe('mapStateToProps', () => {
-    let props;
-    beforeEach(() => {
-      props = mapStateToProps(PERMISSIONS_NORMALIZED, ownProps);
-    });
-
-    it('maps the permissions property', () => {
-      expect(props).toHaveProperty('mode', 'edit');
-      expect(props).toHaveProperty('permissions');
-      expect(props.permissions).toHaveLength(PERMISSIONS_NORMALIZED.permissions.list.length);
-      expect(props).toHaveProperty('roleCode', 'role_code');
-    });
+  beforeEach(() => {
+    getPermissionsList.mockReturnValue([]);
+    getSelectedRole.mockReturnValue('test');
+    getLoading.mockReturnValue({ permissions: false });
   });
 
-  describe('mapDispatchToProps', () => {
-    let props;
-    beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock, dispatchProps);
-    });
+  it('should render container without errors', () => {
+    renderForm();
+    expect(screen.getByText('app.name')).toBeInTheDocument();
+    expect(screen.getByText('app.code')).toBeInTheDocument();
+    expect(screen.getByText('permission.listEmpty')).toBeInTheDocument();
+  });
 
-    it('maps the "onWillMount" prop a fetchPermissions dispatch', () => {
-      expect(props.onWillMount).toBeDefined();
-      props.onWillMount('role_code');
-      expect(dispatchMock).toHaveBeenCalledWith('fetchPermissions_result');
-      expect(fetchRole).toHaveBeenCalled();
-    });
+  it('should render container with permissions', () => {
+    const mockPermissions = [
+      { code: 'editContents', descr: 'Content Editing' },
+      { code: 'editUserProfile', descr: 'User Profile Editing' },
+      { code: 'editUsers', descr: 'User Management' },
+    ];
+    getPermissionsList.mockReturnValue(mockPermissions);
+    renderForm();
 
-    it('maps the "onSubmit" prop a sendPostRole dispatch', () => {
-      expect(props.onSubmit).toBeDefined();
-      props.onSubmit();
-      expect(dispatchMock).toHaveBeenCalledWith('sendPutRole_result');
-    });
+    expect(screen.getByText(mockPermissions[0].descr)).toBeInTheDocument();
+    expect(screen.getByText(mockPermissions[1].descr)).toBeInTheDocument();
+    expect(screen.getByText(mockPermissions[2].descr)).toBeInTheDocument();
+  });
+
+  it('code input should be disabled', () => {
+    const { container } = renderForm();
+    expect(container.querySelector('input[name=code')).toBeDisabled();
   });
 });

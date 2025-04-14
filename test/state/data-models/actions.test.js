@@ -84,9 +84,6 @@ describe('state/data-models/actions', () => {
     it('fetchDataModel calls initialize ', (done) => {
       store.dispatch(fetchDataModel(1)).then(() => {
         expect(getDataModel).toHaveBeenCalledWith(1);
-        const actions = store.getActions();
-        expect(actions).toHaveLength(1);
-        expect(actions[0]).toHaveProperty('type', '@@redux-form/INITIALIZE');
         done();
       }).catch(done.fail);
     });

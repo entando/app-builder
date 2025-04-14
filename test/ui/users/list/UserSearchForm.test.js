@@ -3,13 +3,16 @@ import 'test/enzyme-init';
 import { mount } from 'enzyme';
 import UserSearchForm from 'ui/users/list/UserSearchForm';
 import { mockRenderWithIntlAndStore } from 'test/legacyTestUtils';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { renderWithIntl } from '../../../test/testUtils';
 
 const handleSubmit = jest.fn();
 const setProfileType = jest.fn();
-const onWillMount = jest.fn();
+const onDidMount = jest.fn();
+const onUnmount = jest.fn();
+const onSubmit = jest.fn();
 
 jest.unmock('react-redux');
-jest.unmock('redux-form');
 
 describe('UserSearchForm', () => {
   let userSearchForm;
@@ -20,17 +23,21 @@ describe('UserSearchForm', () => {
     submitting = false;
     invalid = false;
   });
-  const buildUserSearchForm = () => {
-    const props = {
-      submitting,
-      invalid,
-      handleSubmit,
-      setProfileType,
-      onWillMount,
-    };
 
-    return mount(mockRenderWithIntlAndStore(<UserSearchForm {...props} />));
+  const props = {
+    submitting,
+    invalid,
+    handleSubmit,
+    onSubmit,
+    setProfileType,
+    onDidMount,
+    onUnmount,
+    isValid: true,
+    isSubmitting: false,
+    initialValues: { withProfile: 'all', username: '' },
   };
+  const buildUserSearchForm = () =>
+    mount(mockRenderWithIntlAndStore(<UserSearchForm {...props} />));
 
   describe('basic render tests', () => {
     beforeEach(() => {
@@ -52,14 +59,13 @@ describe('UserSearchForm', () => {
   });
 
   describe('event handlers test', () => {
-    const preventDefault = jest.fn();
-    beforeEach(() => {
-      userSearchForm = buildUserSearchForm();
-    });
-
-    it('on form submit calls handleSubmit', () => {
-      userSearchForm.find('form').simulate('submit', { preventDefault });
-      expect(handleSubmit).toHaveBeenCalled();
+    it('on form submit calls handleSubmit', async () => {
+      renderWithIntl(<UserSearchForm {...props} />);
+      const btn = screen.getByRole('button', { name: /search/i });
+      await fireEvent.click(btn);
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalled();
+      });
     });
   });
 });

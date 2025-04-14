@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { change, initialize, submit } from 'redux-form';
 import { clearErrors } from '@entando/messages';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
@@ -35,11 +34,10 @@ export const mapStateToProps = (state) => {
 };
 
 export const mapDispatchToProps = (dispatch, { history }) => ({
-  onWillMount: (props) => {
+  onWillMount: () => {
     dispatch(fetchMyGroupPermissions({ sort: 'group' }));
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchMyGroups({ sort: 'name' }));
-    dispatch(initialize('widget', { group: props.group || '' }));
   },
   onSubmit: (values, saveType) => {
     const jsonData = {
@@ -49,9 +47,9 @@ export const mapDispatchToProps = (dispatch, { history }) => ({
     dispatch(clearErrors());
     return dispatch(sendPostWidgets(jsonData, saveType));
   },
-  onChangeDefaultTitle: title =>
-    dispatch(change('widget', 'code', title.replace(/\W/g, '_').toLowerCase())),
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
+  onChangeDefaultTitle: (title, setFieldValue) =>
+    setFieldValue('code', title.replace(/\W/g, '_').toLowerCase()),
+  onSave: (submitForm) => { dispatch(setVisibleModal('')); submitForm(); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_WIDGET_LIST)); },
 });

@@ -1,5 +1,5 @@
 import reducer from 'state/users/reducer';
-import { setUsers, setSelectedUserDetail, setSelectedUserAuthorities, setUsersTotal } from 'state/users/actions';
+import { setUsers, setSelectedUserDetail, setSelectedUserAuthorities, setUsersTotal, setUserSearchTerm } from 'state/users/actions';
 import { USERS, AUTHORITIES } from 'test/mocks/users';
 
 const users = USERS;
@@ -37,6 +37,17 @@ describe('state/users/reducer', () => {
 
     it('should define the dataType payload', () => {
       expect(newState.selected).toEqual(users[0].username);
+    });
+  });
+
+  describe('after action SET_USER_SEARCH_TERM', () => {
+    let newState;
+    beforeEach(() => {
+      newState = reducer(state, setUserSearchTerm('test'));
+    });
+
+    it('should define the dataType payload', () => {
+      expect(newState.searchTerm).toEqual('test');
     });
   });
 

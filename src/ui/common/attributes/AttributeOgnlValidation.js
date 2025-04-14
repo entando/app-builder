@@ -1,12 +1,13 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col, FormGroup } from 'patternfly-react';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import SwitchRenderer from 'ui/common/formik-field/RenderSwitchInput';
+import PropTypes from 'prop-types';
 
-const AttributeOgnlValidation = () => (
+const AttributeOgnlValidation = ({ prefixName }) => (
   <Row>
     <Col xs={12}>
       <fieldset className="no-padding">
@@ -19,7 +20,7 @@ const AttributeOgnlValidation = () => (
         <p><FormattedMessage id="app.ognl.validation.help4" /></p>
         <Field
           component={RenderTextInput}
-          name="ognlValidation.ognlExpression"
+          name={`${prefixName}validationRules.ognlValidation.ognlExpression`}
           label={
             <FormLabel labelId="app.ognl.expression" />
           }
@@ -29,7 +30,7 @@ const AttributeOgnlValidation = () => (
             <FormLabel labelId="app.apply.expression" />
           </label>
           <Col xs={4}>
-            <Field component={SwitchRenderer} name="ognlValidation.applyOnlyToFilledAttr" />
+            <Field component={SwitchRenderer} name={`${prefixName}validationRules.ognlValidation.applyOnlyToFilledAttr`} />
           </Col>
         </FormGroup>
 
@@ -39,28 +40,28 @@ const AttributeOgnlValidation = () => (
 
         <Field
           component={RenderTextInput}
-          name="ognlValidation.helpMessage"
+          name={`${prefixName}validationRules.ognlValidation.helpMessage`}
           label={
             <FormLabel labelId="app.help.message" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidation.keyForHelpMessage"
+          name={`${prefixName}validationRules.ognlValidation.keyForHelpMessage`}
           label={
             <FormLabel labelId="app.help.message.key" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidation.errorMessage"
+          name={`${prefixName}validationRules.ognlValidation.errorMessage`}
           label={
             <FormLabel labelId="app.error.message" />
           }
         />
         <Field
           component={RenderTextInput}
-          name="ognlValidation.keyForErrorMessage"
+          name={`${prefixName}validationRules.ognlValidation.keyForErrorMessage`}
           label={
             <FormLabel labelId="app.error.message.key" />
                 }
@@ -69,5 +70,14 @@ const AttributeOgnlValidation = () => (
     </Col>
   </Row>
 );
+
+AttributeOgnlValidation.propTypes = {
+  prefixName: PropTypes.string,
+};
+
+AttributeOgnlValidation.defaultProps = {
+  prefixName: '',
+};
+
 
 export default AttributeOgnlValidation;

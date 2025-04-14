@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { Button, Tabs, Tab, Col, Alert, Spinner, ControlLabel, DropdownButton, MenuItem } from 'patternfly-react';
 import { Panel } from 'react-bootstrap';
 import { required, maxLength } from '@entando/utils';
 import { isUndefined } from 'lodash';
 
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderTextAreaInput from 'ui/common/form/RenderTextAreaInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderTextAreaInput from 'ui/common/formik-field/RenderTextAreaInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import FormSectionTitle from 'ui/common/form/FormSectionTitle';
-import JsonCodeEditorRenderer from 'ui/common/form/JsonCodeEditorRenderer';
+import JsonCodeEditorRenderer from 'ui/common/formik-field/JsonCodeEditorRenderer';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
-import IconUploader from 'ui/widgets/common/IconUploader';
-import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
+import IconUploader from 'ui/common/formik-field/IconUploader';
+import RenderDropdownTypeaheadInput from 'ui/common/formik-field/RenderDropdownTypeaheadInput';
 import { CONTINUE_SAVE_TYPE, REGULAR_SAVE_TYPE } from 'state/widgets/const';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 const MODE_NEW = 'new';
 const MODE_EDIT = 'edit';
@@ -85,6 +86,7 @@ export class WidgetFormBody extends Component {
     super();
     this.portalContainer = null;
     this.validateJson = this.validateJson.bind(this);
+    this.renderButtons = this.renderButtons.bind(this);
   }
 
   componentWillMount() {
@@ -121,7 +123,7 @@ export class WidgetFormBody extends Component {
   }
 
   renderTitleFields() {
-    const { intl, onChangeDefaultTitle } = this.props;
+    const { intl, onChangeDefaultTitle, setFieldValue } = this.props;
     const languages = ['en', 'it'];
     if (!isUndefined(languages)) {
       return languages
@@ -136,10 +138,11 @@ export class WidgetFormBody extends Component {
               name={`titles.${langCode}`}
               label={<FormLabel langLabelText={langCode} labelId="app.title" required />}
               placeholder={intl.formatMessage(msgTitle.label)}
-              validate={[required, maxLength70]}
+              validate={val =>
+                convertReduxValidationsToFormikValidations(val, [required, maxLength70])}
               onChange={(ev) => {
                 if (onChangeDefaultTitle && langCode === 'en') {
-                  onChangeDefaultTitle(ev.currentTarget.value);
+                  onChangeDefaultTitle(ev.currentTarget.value, setFieldValue);
                 }
               }}
             />
@@ -152,8 +155,8 @@ export class WidgetFormBody extends Component {
   renderButtons() {
     const {
       intl, dirty, onCancel, onDiscard,
-      invalid, submitting, mode,
-      onReplaceSubmit, onSubmit, handleSubmit,
+      isValid, isSubmitting, mode, values,
+      onReplaceSubmit, handleSubmit, setFieldValue,
     } = this.props;
 
     const handleCancelClick = () => {
@@ -172,8 +175,8 @@ export class WidgetFormBody extends Component {
             className="pull-right FragmentForm__save--btn"
             type="submit"
             bsStyle="primary"
-            disabled={invalid || submitting}
-            onClick={this.props.handleSubmit(values => onReplaceSubmit({ ...values }))}
+            disabled={!isValid || isSubmitting}
+            onClick={() => onReplaceSubmit({ ...values })}
           >
             <FormattedMessage id="app.saveAndReplace" />
           </Button>
@@ -188,20 +191,28 @@ export class WidgetFormBody extends Component {
             <MenuItem
               id="regularSaveButton"
               eventKey={REGULAR_SAVE_TYPE}
-              disabled={invalid || submitting}
-              onClick={handleSubmit(values => onSubmit({
-                ...values,
-              }, REGULAR_SAVE_TYPE))}
+              disabled={!isValid || isSubmitting}
+              onClick={async () => {
+                await setFieldValue('saveType', REGULAR_SAVE_TYPE);
+                handleSubmit({
+                  ...values,
+                  saveType: REGULAR_SAVE_TYPE,
+                });
+              }}
             >
               <FormattedMessage id="app.save" />
             </MenuItem>
             <MenuItem
               id="continueSaveButton"
               eventKey={CONTINUE_SAVE_TYPE}
-              disabled={invalid || submitting}
-              onClick={handleSubmit(values => onSubmit({
-                ...values,
-              }, CONTINUE_SAVE_TYPE))}
+              disabled={!isValid || isSubmitting}
+              onClick={async () => {
+                await setFieldValue('saveType', CONTINUE_SAVE_TYPE);
+                handleSubmit({
+                  ...values,
+                  saveType: CONTINUE_SAVE_TYPE,
+                });
+              }}
             >
               <FormattedMessage id="app.saveAndContinue" />
             </MenuItem>
@@ -219,9 +230,9 @@ export class WidgetFormBody extends Component {
 
   render() {
     const {
-      intl, onDiscard, onSave, invalid, submitting, loading, mode, config,
+      intl, onDiscard, onSave, isValid, isSubmitting, loading, mode, config,
       parentWidget, parentWidgetParameters, defaultUIField, match: { params },
-      groups, noPortal, widget, configUiRequired,
+      groups, noPortal, widget, configUiRequired, submitForm,
     } = this.props;
 
     let codeField = (
@@ -232,7 +243,10 @@ export class WidgetFormBody extends Component {
           <FormLabel labelId="widget.page.create.code" helpId="app.help.codeWithDash" required />
         }
         placeholder={intl.formatMessage(msgs.codePlaceholder)}
-        validate={[required, validateWidgetCode, maxLength30]}
+        validate={val => convertReduxValidationsToFormikValidations(
+          val,
+          [required, validateWidgetCode, maxLength30],
+        )}
       />
     );
 
@@ -265,6 +279,8 @@ export class WidgetFormBody extends Component {
       ? [this.validateJson, required]
       : [this.validateJson];
 
+    const buttons = this.renderButtons();
+
     return (
       <Spinner loading={!!loading}>
         <form className="form-horizontal">
@@ -281,7 +297,8 @@ export class WidgetFormBody extends Component {
                         cols={50}
                         rows={8}
                         className="form-control"
-                        validate={[required]}
+                        validate={val =>
+                          convertReduxValidationsToFormikValidations(val, [required])}
                       />
                     </Tab>
                   }
@@ -290,7 +307,8 @@ export class WidgetFormBody extends Component {
                     <Field
                       component={JsonCodeEditorRenderer}
                       name="configUi"
-                      validate={configUiValidationRules}
+                      validate={val =>
+                        convertReduxValidationsToFormikValidations(val, configUiValidationRules)}
                     />
                   </Tab>
 
@@ -308,6 +326,7 @@ export class WidgetFormBody extends Component {
                             pageCode={params.pageCode}
                             frameId={params.frameId}
                             mode={mode}
+                            {...this.props}
                           />
                         </fieldset>
                       </Tab>
@@ -348,7 +367,7 @@ export class WidgetFormBody extends Component {
                   labelKey="name"
                   valueKey="code"
                   placeholder={intl.formatMessage(msgs.chooseAnOption)}
-                  validate={[required]}
+                  validate={val => convertReduxValidationsToFormikValidations(val, [required])}
                 />
                 <Field
                   name="widgetCategory"
@@ -365,7 +384,7 @@ export class WidgetFormBody extends Component {
                       required
                     />
                   }
-                  validate={[required]}
+                  validate={val => convertReduxValidationsToFormikValidations(val, [required])}
                 />
 
                 {((mode === MODE_EDIT || mode === MODE_CLONE) && parentWidget) && (
@@ -385,15 +404,15 @@ export class WidgetFormBody extends Component {
           </div>
 
           {
-            noPortal ? this.renderButtons() : this.portalContainer
-              && ReactDOM.createPortal(this.renderButtons(), this.portalContainer)
+            noPortal ? buttons : this.portalContainer
+              && ReactDOM.createPortal(buttons, this.portalContainer)
           }
 
           <ConfirmCancelModalContainer
             contentText={intl.formatMessage({ id: 'app.confirmCancel' })}
-            invalid={invalid}
-            submitting={submitting}
-            onSave={onSave}
+            invalid={!isValid}
+            submitting={isSubmitting}
+            onSave={() => onSave(submitForm)}
             onDiscard={onDiscard}
           />
         </form>
@@ -406,9 +425,9 @@ WidgetFormBody.propTypes = {
   intl: intlShape.isRequired,
   onWillMount: PropTypes.func,
   onWillUnmount: PropTypes.func,
-  handleSubmit: PropTypes.func.isRequired,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  handleSubmit: PropTypes.func,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   config: PropTypes.shape({}),
   groups: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
@@ -430,7 +449,6 @@ WidgetFormBody.propTypes = {
   onSave: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   onReplaceSubmit: PropTypes.func,
-  onSubmit: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       pageCode: PropTypes.string,
@@ -442,13 +460,17 @@ WidgetFormBody.propTypes = {
     typology: PropTypes.string,
   }),
   configUiRequired: PropTypes.bool,
+  submitForm: PropTypes.func.isRequired,
+  values: PropTypes.shape({}),
+  errors: PropTypes.shape({}),
+  setFieldValue: PropTypes.func,
 };
 
 WidgetFormBody.defaultProps = {
   onWillMount: null,
   onWillUnmount: null,
-  invalid: false,
-  submitting: false,
+  isValid: true,
+  isSubmitting: false,
   groups: [{
     name: '',
     code: '',
@@ -468,12 +490,21 @@ WidgetFormBody.defaultProps = {
   noPortal: false,
   widget: {},
   configUiRequired: false,
+  values: {},
+  errors: {},
+  setFieldValue: () => {},
+  handleSubmit: () => {},
 };
 
-const WidgetForm = reduxForm({
-  form: widgetFormName,
+const WidgetForm = withFormik({
+  mapPropsToValues: ({ initialValues }) => initialValues,
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values, values.saveType).finally(() => {
+      setSubmitting(false);
+    });
+  },
+  displayName: widgetFormName,
 })(WidgetFormBody);
 
 export default injectIntl(WidgetForm);

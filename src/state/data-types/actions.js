@@ -3,9 +3,8 @@ import { addToast, addErrors, clearErrors, TOAST_SUCCESS, TOAST_ERROR } from '@e
 import { routeConverter } from '@entando/utils';
 import { setPage } from 'state/pagination/actions';
 import { toggleLoading } from 'state/loading/actions';
-import { initialize } from 'redux-form';
+
 import { isUndefined } from 'lodash';
-import moment from 'moment';
 
 import {
   history,
@@ -54,7 +53,6 @@ import {
   getDataTypeSelectedAttributeType,
   getSelectedDataType,
   getSelectedAttributeType,
-  getFormTypeValue,
   getAttributeSelectFromDataType,
   getActionModeDataTypeSelectedAttribute,
   getNewAttributeComposite,
@@ -288,7 +286,6 @@ export const fetchDataType = dataTypeCode => dispatch => (
       response.json().then((json) => {
         if (response.ok) {
           dispatch(setSelectedDataType(json.payload));
-          dispatch(initialize('DataType', json.payload));
         } else {
           dispatch(addErrors(json.errors.map(err => err.message)));
           json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
@@ -319,10 +316,10 @@ export const fetchDataTypes = (page = { page: 1, pageSize: 10 }, params = '') =>
 );
 
 export const fetchDataTypeAttribute =
- (dataTypeAttributeCode, route, selectedAttributeType = '', formName) =>
+ (dataTypeAttributeCode, route, selectedAttributeType = '') =>
    (dispatch, getState) => (
      new Promise((resolve) => {
-       let typeAttribute = dataTypeAttributeCode;
+       const typeAttribute = dataTypeAttributeCode;
 
        const checkCompositeSubAttribute =
         selectedAttributeType === TYPE_COMPOSITE ||
@@ -330,7 +327,6 @@ export const fetchDataTypeAttribute =
           getMonolistAttributeType(getState()) === TYPE_COMPOSITE);
 
        if (checkCompositeSubAttribute) {
-         typeAttribute = getFormTypeValue(getState(), formName);
          dispatch(setActionMode(MODE_ADD_ATTRIBUTE_COMPOSITE));
        }
        const actionMode = getActionModeDataTypeSelectedAttribute(getState());
@@ -341,26 +337,6 @@ export const fetchDataTypeAttribute =
            response.json().then((json) => {
              if (response.ok) {
                dispatch(setSelectedAttribute(json.payload));
-               switch (actionMode) {
-                 case MODE_ADD_ATTRIBUTE_COMPOSITE: {
-                   dispatch(initialize(formName, { type: json.payload.code, code: '', name: '' }));
-                   break;
-                 }
-                 case MODE_ADD_SUB_ATTRIBUTE_MONOLIST_COMPOSITE: {
-                   dispatch(initialize(formName, { type: json.payload.code }));
-                   break;
-                 }
-                 case MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE: {
-                   const nestedAttribute = {
-                     ...json.payload,
-                     type: json.payload.code,
-                     compositeAttributeType: TYPE_COMPOSITE,
-                   };
-                   dispatch(initialize(formName, { nestedAttribute }));
-                   break;
-                 }
-                 default: break;
-               }
                if (route && actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
                  history.push(routeConverter(route.route, route.params));
                }
@@ -374,53 +350,14 @@ export const fetchDataTypeAttribute =
      })
    );
 
-const fmtDateDDMMYYY = (date) => {
-  let d = new Date(date);
-  d = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  return moment(d, 'DD/MM/YYYY').format('DD/MM/YYYY');
-};
-
 export const fetchAttributeFromDataType = (formName, dataTypeCode, attributeCode) =>
   (dispatch, getState) => (
     new Promise((resolve) => {
       getAttributeFromDataType(dataTypeCode, attributeCode).then((response) => {
         response.json().then((json) => {
           if (response.ok) {
-            const joinRoles = json.payload.roles ? json.payload.roles.map(role => (role.code)) : [];
-            let payload = {
-              ...json.payload,
-              joinRoles,
-              joinAllowedOptions: joinRoles,
-              compositeAttributeType: TYPE_COMPOSITE,
-            };
-            if (json.payload.type === TYPE_DATE) {
-              let {
-                rangeStartDate, rangeEndDate, equalDate,
-                rangeStartDateAttribute, rangeEndDateAttribute, equalDateAttribute,
-              } = json.payload.validationRules;
-              rangeStartDate = rangeStartDate && fmtDateDDMMYYY(rangeStartDate);
-              rangeEndDate = rangeEndDate && fmtDateDDMMYYY(rangeEndDate);
-              equalDate = equalDate && fmtDateDDMMYYY(equalDate);
-              rangeStartDateAttribute =
-              rangeStartDateAttribute && fmtDateDDMMYYY(rangeStartDateAttribute);
-              rangeEndDateAttribute =
-              rangeEndDateAttribute && fmtDateDDMMYYY(rangeEndDateAttribute);
-              equalDateAttribute = equalDateAttribute && fmtDateDDMMYYY(equalDateAttribute);
-              payload = {
-                ...payload,
-                validationRules: {
-                  rangeStartDate,
-                  rangeEndDate,
-                  equalDate,
-                  rangeStartDateAttribute,
-                  rangeEndDateAttribute,
-                  equalDateAttribute,
-                },
-              };
-            }
             const actionMode = getActionModeDataTypeSelectedAttribute(getState());
             if (actionMode !== MODE_ADD_ATTRIBUTE_COMPOSITE) {
-              dispatch(initialize(formName, payload));
               dispatch(setSelectedAttributeDataType(json.payload));
               dispatch(fetchDataTypeAttribute(getSelectedAttributeType(getState())));
             }
@@ -484,7 +421,6 @@ export const sendPutAttributeFromDataType = (
           dispatch(setSelectedAttributeDataType(json.payload));
           const { type, code } = attributeObject;
           if (type === TYPE_COMPOSITE) {
-            dispatch(initialize('attribute', { ...json.payload, compositeAttributeType: TYPE_COMPOSITE }));
             history.push(routeConverter(
               ROUTE_DATA_TYPE_ATTRIBUTE_EDIT,
               { entityCode, attributeCode: code },

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { routeConverter } from '@entando/utils';
-import { submit } from 'redux-form';
+import { get } from 'lodash';
 import WidgetForm from 'ui/widgets/common/WidgetForm';
 
 import { fetchLanguages } from 'state/languages/actions';
@@ -9,7 +9,7 @@ import { getActiveLanguages } from 'state/languages/selectors';
 import { fetchMyGroups } from 'state/groups/actions';
 import { getGroupsList } from 'state/groups/selectors';
 import { getSelectedWidgetDefaultUi, getSelectedParentWidget, getSelectedParentWidgetParameters, getSelectedWidget } from 'state/widgets/selectors';
-import { fetchWidget, sendPutWidgets, setSelectedWidget } from 'state/widgets/actions';
+import { FREE_ACCESS_GROUP_VALUE, fetchWidget, sendPutWidgets, setSelectedWidget } from 'state/widgets/actions';
 import { getLoading } from 'state/loading/selectors';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -20,7 +20,7 @@ import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
 const EDIT_MODE = 'edit';
 
 export const mapStateToProps = (state) => {
-  const widget = getSelectedWidget(state);
+  const widget = getSelectedWidget(state) || {};
   return ({
     mode: EDIT_MODE,
     groups: getGroupsList(state),
@@ -31,6 +31,12 @@ export const mapStateToProps = (state) => {
     loading: getLoading(state).fetchWidget,
     configUiRequired: !!isMicrofrontendWidgetForm(widget),
     widget,
+    initialValues: {
+      ...widget,
+      configUi: !widget.configUi ? '' : JSON.stringify(widget.configUi, null, 2),
+      group: widget.group || FREE_ACCESS_GROUP_VALUE,
+      customUi: get(widget, 'guiFragments[0].customUi'),
+    },
   });
 };
 
@@ -50,7 +56,7 @@ export const mapDispatchToProps = (dispatch, { history, match: { params } }) => 
     };
     return dispatch(sendPutWidgets(jsonData, saveType));
   },
-  onSave: () => { dispatch(setVisibleModal('')); dispatch(submit('widget')); },
+  onSave: (submitForm) => { dispatch(setVisibleModal('')); submitForm(); },
   onCancel: () => dispatch(setVisibleModal(ConfirmCancelModalID)),
   onDiscard: () => { dispatch(setVisibleModal('')); history.push(routeConverter(ROUTE_WIDGET_LIST)); },
 });

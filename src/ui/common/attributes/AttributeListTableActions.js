@@ -28,6 +28,7 @@ const AttributeListTableActions = ({
   onMoveDown,
   routeToEdit,
   entityCode,
+  move,
 }) =>
   attributes.map((attribute, index) => {
     const isMovableUp = index > 0;
@@ -66,7 +67,7 @@ const AttributeListTableActions = ({
                   className="AttributeListMenuAction__menu-item-move-up"
                   onClick={() => {
                     onMoveUp(entityCode, attribute.code, index);
-                    fields.move(index, index - 1);
+                    move(index, index - 1);
                   }
                 }
                 >
@@ -80,7 +81,7 @@ const AttributeListTableActions = ({
                 className="AttributeListMenuAction__menu-item-move-down"
                 onClick={() => {
                    onMoveDown(entityCode, attribute.code, index);
-                   fields.move(index, index + 1);
+                   move(index, index + 1);
                 }
               }
               >

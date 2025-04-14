@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, FormSection, Field } from 'redux-form';
+import { withFormik, Field } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { Button, Row, Col, FormGroup, Alert } from 'patternfly-react';
 import AttributeOgnlValidation from 'ui/common/attributes/AttributeOgnlValidation';
@@ -9,12 +9,12 @@ import AttributeEnumMapSettings from 'ui/common/attributes/AttributeEnumMapSetti
 import AttributesNumber from 'ui/common/attributes/AttributesNumber';
 import AttributesDateSettings from 'ui/common/attributes/AttributesDateSettings';
 import AttributeEnumSettings from 'ui/common/attributes/AttributeEnumSettings';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import SwitchRenderer from 'ui/common/formik-field/SwitchInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import AttributeListTableComposite from 'ui/common/attributes/AttributeListTableComposite';
 import AttributeInfoComposite from 'ui/common/attributes/AttributeInfoComposite';
-
+import { selectedMonolistAttributeSectionFieldsAndOgnlValidation } from 'ui/common/attributes/AttributeFormUtils';
 import {
   TYPE_BOOLEAN,
   TYPE_CHECKBOX,
@@ -50,8 +50,8 @@ export class MonolistAttributeFormBody extends Component {
 
   render() {
     const {
-      attributeCode, selectedAttribute, selectedAttributeType, isIndexable, type, invalid,
-      submitting, onSubmit, mode, attributesList, onAddAttribute, onClickDelete, onMove,
+      attributeCode, initialValues, selectedAttributeType, isIndexable, type, invalid,
+      submitting, mode, attributesList, onAddAttribute, onClickDelete, onMove,
       compositeAttributes, handleSubmit,
     } = this.props;
     const isMonoListComposite = mode === MODE_ADD_MONOLIST_ATTRIBUTE_COMPOSITE;
@@ -60,11 +60,11 @@ export class MonolistAttributeFormBody extends Component {
       if (isIndexable) {
         return (
           <FormGroup>
-            <label htmlFor="indexable" className="col-xs-2 control-label">
+            <label htmlFor="nestedAttribute.indexable" className="col-xs-2 control-label">
               <FormLabel labelId="app.indexable" />
             </label>
             <Col xs={4}>
-              <Field component={SwitchRenderer} name="indexable" />
+              <Field component={SwitchRenderer} name="nestedAttribute.indexable" />
             </Col>
           </FormGroup>
         );
@@ -74,7 +74,7 @@ export class MonolistAttributeFormBody extends Component {
 
     const renderAttributeInfo = () => {
       if (isMonoListComposite) {
-        return <AttributeInfoComposite />;
+        return <AttributeInfoComposite prefixName="nestedAttribute." />;
       }
 
       return (!NO_INFO_ATTRIBUTE.includes(type) ?
@@ -87,7 +87,7 @@ export class MonolistAttributeFormBody extends Component {
           </legend>
           <Field
             component={RenderTextInput}
-            name="type"
+            name="nestedAttribute.type"
             label={<FormLabel labelId="app.type" />}
             disabled
           />
@@ -98,29 +98,19 @@ export class MonolistAttributeFormBody extends Component {
 
     const renderSelectedAttribute = () => {
       switch (attributeType) {
-        case TYPE_TEXT: return (
-          <FormSection name="validationRules">
-            <AttributeHypeLongMonoTextSettings {...this.props} />
-          </FormSection>
-        );
-        case TYPE_NUMBER: return (
-          <FormSection name="validationRules">
-            <AttributesNumber {...this.props} />
-          </FormSection>
-        );
-        case TYPE_DATE: return (
-          <FormSection name="validationRules">
-            <AttributesDateSettings {...this.props} />
-          </FormSection>
-        );
+        case TYPE_TEXT: return <AttributeHypeLongMonoTextSettings {...this.props} prefixName="nestedAttribute." />;
+        case TYPE_NUMBER: return <AttributesNumber {...this.props} prefixName="nestedAttribute." />;
+        case TYPE_DATE: return <AttributesDateSettings {...this.props} prefixName="nestedAttribute." />;
         case TYPE_ENUMERATOR: return (
           <AttributeEnumSettings
-            enumeratorExtractorBeans={selectedAttribute.enumeratorExtractorBeans}
+            enumeratorExtractorBeans={initialValues.enumeratorExtractorBeans}
+            prefixName="nestedAttribute."
           />
         );
         case TYPE_ENUMERATOR_MAP: return (
           <AttributeEnumMapSettings
-            enumeratorMapExtractorBeans={selectedAttribute.enumeratorMapExtractorBeans}
+            enumeratorMapExtractorBeans={initialValues.enumeratorMapExtractorBeans}
+            prefixName="nestedAttribute."
           />
         );
         case TYPE_COMPOSITE: {
@@ -134,6 +124,7 @@ export class MonolistAttributeFormBody extends Component {
               onMove={onMove}
               invalid={invalid}
               submitting={submitting}
+              prefixName="nestedAttribute."
             /> : null;
         }
         default: return null;
@@ -141,10 +132,7 @@ export class MonolistAttributeFormBody extends Component {
     };
 
     const renderOgnlValidation = () => (
-      !isMonoListComposite ?
-        <FormSection name="validationRules">
-          <AttributeOgnlValidation />
-        </FormSection> : null
+      !isMonoListComposite ? <AttributeOgnlValidation prefixName="nestedAttribute." /> : null
     );
 
 
@@ -158,17 +146,15 @@ export class MonolistAttributeFormBody extends Component {
           ({isMonoListComposite ? TYPE_MONOLIST : selectedAttributeType}).
         </Alert>
         <form
-          onSubmit={handleSubmit(values => onSubmit(values, mode, selectedAttribute))}
+          onSubmit={handleSubmit}
           className="form-horizontal"
         >
           <Row>
             <Col xs={12}>
               <fieldset className="no-padding">
-                <FormSection name="nestedAttribute">
-                  {renderAttributeInfo()}
-                  {renderSelectedAttribute()}
-                  {renderOgnlValidation()}
-                </FormSection>
+                {renderAttributeInfo()}
+                {renderSelectedAttribute()}
+                {renderOgnlValidation()}
               </fieldset>
             </Col>
           </Row>
@@ -200,7 +186,7 @@ MonolistAttributeFormBody.propTypes = {
   onMove: PropTypes.func,
   type: PropTypes.string,
   attributeCode: PropTypes.string,
-  selectedAttribute: PropTypes.shape({
+  initialValues: PropTypes.shape({
     enumeratorExtractorBeans: PropTypes.arrayOf(PropTypes.string),
     enumeratorMapExtractorBeans: PropTypes.arrayOf(PropTypes.shape({
       code: PropTypes.string,
@@ -226,15 +212,49 @@ MonolistAttributeFormBody.defaultProps = {
   isIndexable: false,
   type: '',
   attributeCode: '',
-  selectedAttribute: {},
+  initialValues: {},
   selectedAttributeType: TYPE_MONOLIST,
   mode: '',
   attributesList: [],
   onFetchNestedAttribute: () => {},
 };
 
-const MonolistAttributeForm = reduxForm({
-  form: 'attribute',
+const MonolistAttributeForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({
+    initialValues, isIndexable, isSearchable,
+  }) => ({
+    ...initialValues,
+    // AttributeInfo
+    ...(initialValues && {
+      nestedAttribute: {
+        ...initialValues.nestedAttribute,
+        type: (initialValues.nestedAttribute && initialValues.nestedAttribute.type) || '',
+        compositeAttributeType: (initialValues.nestedAttribute && initialValues.nestedAttribute.compositeAttributeType) || '',
+        code: (initialValues && initialValues.nestedAttribute && initialValues.code) || '',
+        name: (initialValues && initialValues.nestedAttribute && initialValues.name) || '',
+        mandatory: initialValues.nestedAttribute.mandatory || false,
+        ...(isIndexable ? {
+          indexable: (initialValues
+          && initialValues.nestedAttribute
+          && initialValues.nestedAttribute.indexable) || false,
+        } : {}),
+        ...(isSearchable ? {
+          listFilter: (initialValues
+          && initialValues.nestedAttribute
+           && initialValues.nestedAttribute.indexable) || false,
+        } : {}),
+        // selectedAttributeType
+        ...(
+          initialValues
+          && selectedMonolistAttributeSectionFieldsAndOgnlValidation(initialValues)
+        ),
+      },
+    }),
+  }),
+  handleSubmit: (values, { props: { onSubmit, allowedRoles, mode } }) => {
+    onSubmit(values, allowedRoles, mode);
+  },
 })(MonolistAttributeFormBody);
 
 export default MonolistAttributeForm;

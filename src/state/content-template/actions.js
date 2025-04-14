@@ -1,6 +1,5 @@
 import { convertToQueryString, FILTER_OPERATORS } from '@entando/utils';
 import { addErrors, addToast, clearErrors, TOAST_ERROR } from '@entando/messages';
-import { initialize } from 'redux-form';
 import { setPage } from 'state/pagination/actions';
 import { NAMESPACE_CONTENT_TEMPLATES } from 'state/pagination/const';
 import {
@@ -144,7 +143,6 @@ export const fetchContentTemplate = id => dispatch => new Promise(resolve => (
     response.json().then((json) => {
       if (response.ok) {
         dispatch(setContentTemplate(json.payload));
-        dispatch(initialize('contenttemplateform', json.payload));
         resolve(json.payload);
       } else {
         dispatch(addErrors(json.errors.map(err => err.message)));

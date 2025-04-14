@@ -3,9 +3,10 @@ import 'test/enzyme-init';
 import { mapStateToProps, mapDispatchToProps } from 'ui/labels/add/AddFormContainer';
 
 const dispatchMock = jest.fn();
+const languageList = [{ code: 'a' }, { code: 'b' }];
 
 jest.mock('state/languages/selectors', () => ({
-  getActiveLanguages: jest.fn().mockReturnValue('getActiveLanguages_result'),
+  getActiveLanguages: jest.fn().mockReturnValue([{ code: 'a' }, { code: 'b' }]),
   getDefaultLanguage: jest.fn().mockReturnValue('getDefaultLanguage_result'),
 }));
 
@@ -24,7 +25,7 @@ jest.mock('state/labels/actions', () => ({
   createLabel: jest.fn().mockReturnValue('createLabel_result'),
 }));
 
-jest.mock('state/locale/selectors', () => ({ getLocale: () => ('en') }));
+jest.mock('state/locale/selectors', () => ({ getLocale: jest.fn().mockReturnValue('en') }));
 
 describe('AddFormContainer', () => {
   let props;
@@ -34,7 +35,7 @@ describe('AddFormContainer', () => {
 
   it('maps languages property state in LabelsForm', () => {
     expect(props).toHaveProperty('locale', 'en');
-    expect(props).toHaveProperty('languages', 'getActiveLanguages_result');
+    expect(props).toHaveProperty('languages', languageList);
     expect(props).toHaveProperty('defaultLanguage', 'getDefaultLanguage_result');
   });
 });
@@ -45,9 +46,9 @@ describe('mapDispatchToProps', () => {
     props = mapDispatchToProps(dispatchMock);
   });
 
-  it('maps the "onWillMount" prop a fetchLanguages dispatch', () => {
-    expect(props.onWillMount).toBeDefined();
-    props.onWillMount();
+  it('maps the "onDidMount" prop a fetchLanguages dispatch', () => {
+    expect(props.onDidMount).toBeDefined();
+    props.onDidMount();
     expect(dispatchMock).toHaveBeenCalledWith('fetchLanguages_result');
   });
 

@@ -1,4 +1,3 @@
-import { initialize } from 'redux-form';
 import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messages';
 
 import { getDataModels, getDataModel, postDataModel, putDataModel, deleteDataModel } from 'api/dataModels';
@@ -38,9 +37,7 @@ export const fetchDataModelListPaged = (page = { page: 1, pageSize: 10 }, params
 export const fetchDataModel = dataModelId => dispatch => new Promise((resolve) => {
   getDataModel(dataModelId).then((response) => {
     response.json().then((json) => {
-      if (response.ok) {
-        dispatch(initialize('dataModel', json.payload));
-      } else {
+      if (!response.ok) {
         dispatch(addErrors(json.errors.map(err => err.message)));
         json.errors.forEach(err => dispatch(addToast(err.message, TOAST_ERROR)));
       }

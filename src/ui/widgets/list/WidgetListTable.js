@@ -77,7 +77,7 @@ export const WidgetListTableBody = ({
       className: 'text-center',
     },
     Cell: (cellinfo) => {
-      const { values: { code, locked, hasConfig } } = cellinfo;
+      const { values: { code }, original: { locked, hasConfig } } = cellinfo;
       return (
         <div data-testid={`${code}-actions`}>
           <DropdownKebab pullRight id={`WidgetListRow-dropown-${code}`}>

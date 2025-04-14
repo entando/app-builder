@@ -66,11 +66,9 @@ describe('fetchUserProfile', () => {
       expect(getUserProfile).toHaveBeenCalledWith(USER_NAME);
 
       const actions = store.getActions();
-      expect(actions).toHaveLength(4);
+      expect(actions).toHaveLength(2);
       expect(actions[0]).toHaveProperty('type', SET_USER_PROFILE);
       expect(actions[1]).toHaveProperty('type', SET_SELECTED_PROFILE_TYPE);
-      expect(actions[2]).toHaveProperty('type', '@@redux-form/INITIALIZE');
-      expect(actions[3]).toHaveProperty('type', '@@redux-form/INITIALIZE');
       done();
     }).catch(done.fail);
   });

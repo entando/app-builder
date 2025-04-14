@@ -10,7 +10,7 @@ import { TEMPLATE_THUMBNAIL } from 'ui/pages/common/const';
 export const MODAL_ID = 'FindTemplateModal';
 
 const FindTemplateModal = ({
-  onSelectClick, pageTemplates, isEditMode, loading,
+  onSelectClick, pageTemplates, loading,
 }) => {
   const [searchValue, setSearchValue] = useState('');
 
@@ -31,7 +31,7 @@ const FindTemplateModal = ({
   };
 
   const handleSave = () => {
-    onSelectClick(selected, isEditMode);
+    onSelectClick(selected);
     handleModalClose();
   };
 
@@ -117,13 +117,11 @@ FindTemplateModal.propTypes = {
     code: PropTypes.string.isRequired,
   })),
   onSelectClick: PropTypes.func.isRequired,
-  isEditMode: PropTypes.bool,
 };
 
 FindTemplateModal.defaultProps = {
   loading: false,
   pageTemplates: [],
-  isEditMode: false,
 };
 
 export default FindTemplateModal;

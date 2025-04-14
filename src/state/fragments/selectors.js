@@ -6,6 +6,7 @@ import { getListWidget } from 'state/widgets/selectors';
 export const getFragments = state => state.fragments;
 export const getWidgetTypes = state => state.fragments.widgetTypes;
 export const getPlugins = state => state.fragments.plugins;
+export const getFragmentSettings = state => state.fragments.settings;
 
 export const getFragmentList = createSelector(
   getFragments,

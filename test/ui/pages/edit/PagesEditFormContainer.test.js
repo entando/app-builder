@@ -26,9 +26,12 @@ const ownProps = {
       pageCode: 'page_code',
     },
   },
+  onSave: jest.fn(),
 };
 
 const GROUPS = [{ code: 'group', name: 'groupName' }];
+
+const PAGE_CODE = 'page_code';
 
 jest.mock('state/groups/selectors', () => ({
   getGroupsList: jest.fn(),
@@ -47,6 +50,7 @@ jest.mock('state/pages/selectors', () => ({
   getCharsets: jest.fn().mockReturnValue('getCharsets_result'),
   getContentTypes: jest.fn().mockReturnValue('getContentTypes_result'),
   getPageTreePages: jest.fn().mockReturnValue([]),
+  getEditPage: jest.fn().mockReturnValue({}),
 }));
 
 jest.mock('state/languages/selectors', () => ({
@@ -56,7 +60,6 @@ jest.mock('state/languages/selectors', () => ({
 getActiveLanguages.mockReturnValue(LANGUAGES);
 getMyGroupsList.mockReturnValue(['administrators', 'free']);
 
-const PAGE_CODE = 'page_code';
 const STATE = {};
 
 describe('PagesEditFormContainer', () => {
@@ -81,7 +84,6 @@ describe('PagesEditFormContainer', () => {
       expect(props).toHaveProperty('pageTemplates', 'getPageTemplates_result');
       expect(props).toHaveProperty('charsets', 'getCharsets_result');
       expect(props).toHaveProperty('contentTypes', 'getContentTypes_result');
-      expect(props).toHaveProperty('keepDirtyOnReinitialize', true);
     });
   });
 
@@ -89,7 +91,7 @@ describe('PagesEditFormContainer', () => {
     const dispatchMock = jest.fn(arg => arg);
     let props;
     beforeEach(() => {
-      props = mapDispatchToProps(dispatchMock);
+      props = mapDispatchToProps(dispatchMock, { stayOnSave: true, onSave: jest.fn() });
     });
 
     describe('prop onWillMount', () => {

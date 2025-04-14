@@ -6,6 +6,9 @@ import { saveFile } from 'state/file-browser/actions';
 
 export const mapStateToProps = state => ({
   loading: getLoading(state).uploadFile,
+  initialValues: {
+    file: null,
+  },
 });
 
 export const mapDispatchToProps = dispatch => ({

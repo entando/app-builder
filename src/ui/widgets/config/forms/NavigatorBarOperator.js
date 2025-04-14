@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Col, Button } from 'patternfly-react';
 
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
+import SelectInput from 'ui/common/formik-field/SelectInput';
 
 const operatorTypeOptionIds = [
   { labelId: 'widget.navigationBar.config.none', code: '' },
@@ -20,7 +20,7 @@ const NavigatorBarOperator = ({
 }) => (
   <div>
     <Field
-      component={RenderSelectInput}
+      component={SelectInput}
       options={operatorTypeOptionIds.map(({ labelId, code }) => ({
         text: intl.formatMessage({ id: labelId }),
         value: code,
@@ -31,7 +31,7 @@ const NavigatorBarOperator = ({
       name="addConfig.operator"
     />
     <Field
-      component={RenderSelectInput}
+      component={SelectInput}
       options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => ({ text: `${v}`, value: v }))}
       label={
         <FormLabel labelId="widget.navigationBar.config.subtreeDepth" />

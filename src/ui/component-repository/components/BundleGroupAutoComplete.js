@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Field, reduxForm } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { Button, Icon } from 'patternfly-react';
-import RenderDropdownTypeaheadInput from 'ui/common/form/RenderDropdownTypeaheadInput';
+import RenderDropdownTypeaheadInput from 'ui/common/formik-field/RenderDropdownTypeaheadInput';
 import { BUNDLE_GROUP_FILTER_ID } from 'ui/component-repository/components/list/ComponentListWrapper';
 import { fetchBundleGroups, setBundleGroupIdFilter } from 'state/component-repository/hub/actions';
-import { getBundleGroups, getSelectedRegistry } from 'state/component-repository/hub/selectors';
-import { getCurrentPage, getPageSize } from 'state/pagination/selectors';
+
 
 export const FORM_NAME = 'hubBundleGroupSearchForm';
 
@@ -20,36 +19,29 @@ const msgs = defineMessages({
 });
 
 const BundleGroupAutoCompleteBody = (props) => {
-  const { intl, handleSubmit, onSubmit } = props;
+  const {
+    intl, handleSubmit, activeRegistry, bundlegroups, submitForm, resetForm,
+  } = props;
   const dispatch = useDispatch();
-  const activeRegistry = useSelector(getSelectedRegistry);
-  const bundlegroups = useSelector(getBundleGroups);
-  const page = useSelector(getCurrentPage);
-  const pageSize = useSelector(getPageSize);
+
   useEffect(
     () => { dispatch(fetchBundleGroups(activeRegistry.id)); },
     [activeRegistry.id, dispatch],
   );
 
-  const submitHandler = handleSubmit(values => onSubmit(
-    values, activeRegistry.id,
-    { page, pageSize },
-  ));
-
   const clearSearch = () => {
-    const { reset } = props;
-    reset();
+    resetForm();
     dispatch(setBundleGroupIdFilter());
-    submitHandler();
+    submitForm();
   };
 
   const handleChange = (value) => {
     dispatch(setBundleGroupIdFilter(value));
-    submitHandler();
+    submitForm();
   };
 
   return (
-    <form className="SearchForm__container" onSubmit={submitHandler}>
+    <form className="SearchForm__container" onSubmit={handleSubmit}>
       <Field
         component={RenderDropdownTypeaheadInput}
         name={BUNDLE_GROUP_FILTER_ID}
@@ -84,12 +76,27 @@ const BundleGroupAutoCompleteBody = (props) => {
 BundleGroupAutoCompleteBody.propTypes = {
   intl: intlShape.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
+  activeRegistry: PropTypes.shape({
+    id: PropTypes.string,
+  }).isRequired,
+  bundlegroups: PropTypes.arrayOf().isRequired,
 };
 
-const BundleGroupAutoComplete = reduxForm({
-  form: FORM_NAME,
+const BundleGroupAutoComplete = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => ({ ...initialValues }),
+  handleSubmit: (values, {
+    props: {
+      onSubmit, activeRegistry, page, pageSize,
+    },
+  }) => {
+    onSubmit(
+      values, activeRegistry.id,
+      { page, pageSize },
+    );
+  },
 })(BundleGroupAutoCompleteBody);
 
 export default injectIntl(BundleGroupAutoComplete);

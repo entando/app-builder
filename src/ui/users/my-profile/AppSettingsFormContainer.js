@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import { getUsername } from '@entando/apimanager';
 
 import { updateUserPreferences } from 'state/user-preferences/actions';
@@ -17,8 +16,6 @@ export const mapStateToProps = state => ({
     value: code,
     text: name,
   })),
-  defaultPageJoinGroups: formValueSelector('userPreferences')(state, 'defaultPageJoinGroups') || [],
-  defaultContentJoinGroups: formValueSelector('userPreferences')(state, 'defaultContentJoinGroups') || [],
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -31,8 +28,6 @@ export const mapDispatchToProps = dispatch => ({
   },
 });
 
-
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-  null, { pure: false },
-)(AppSettingsForm);
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false,
+})(AppSettingsForm);

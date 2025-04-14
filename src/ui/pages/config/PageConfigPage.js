@@ -50,6 +50,7 @@ class PageConfigPage extends Component {
     this.toggleEditingSettings = this.toggleEditingSettings.bind(this);
     this.openLinkPublishedPage = this.openLinkPublishedPage.bind(this);
     this.handleToggleToolbarCollapse = this.handleToggleToolbarCollapse.bind(this);
+    this.editPageFormRef = React.createRef();
   }
 
   componentDidMount() {
@@ -94,12 +95,11 @@ class PageConfigPage extends Component {
     });
   }
 
-  toggleEditingSettings() {
+  toggleEditingSettings(clearForm = false) {
     this.setState((state) => {
       const { editingSettings } = state;
-      if (editingSettings) {
-        const { onSettingsCancel } = this.props;
-        onSettingsCancel();
+      if (editingSettings && clearForm && this.editPageFormRef && this.editPageFormRef.current) {
+        this.editPageFormRef.current.resetForm();
       }
       return ({ editingSettings: !editingSettings });
     });
@@ -151,11 +151,16 @@ class PageConfigPage extends Component {
   renderActionBar(tab) {
     const {
       intl, pageDiffersFromPublished, restoreConfig, previewUri, pageStatus,
-      onClickSaveSettings, pageSettingsButtonInvalid, pageSettingsButtonSubmitting,
-      selectedPageForm,
     } = this.props;
 
     const { editingSettings } = this.state;
+
+    const onSaveSettings = () => {
+      if (this.editPageFormRef && this.editPageFormRef.current) {
+        this.editPageFormRef.current.submitForm();
+      }
+    };
+
     return (
       <Row className="PageConfigPage__toolbar-row PageConfigPage__btn-group--trans">
         <Col xs={12}>
@@ -188,7 +193,7 @@ class PageConfigPage extends Component {
                     'btn',
                     editingSettings ? '' : 'btn-primary',
                   ].join(' ')}
-                  onClick={this.toggleEditingSettings}
+                  onClick={() => this.toggleEditingSettings(true)}
                 >
                   <span>
                     <FormattedMessage id={`${editingSettings ? 'app.cancel' : 'app.edit'}`} />
@@ -202,8 +207,11 @@ class PageConfigPage extends Component {
                         'btn',
                         'btn-primary',
                       ].join(' ')}
-                      onClick={() => onClickSaveSettings(selectedPageForm)}
-                      disabled={pageSettingsButtonInvalid || pageSettingsButtonSubmitting}
+                      onClick={onSaveSettings}
+                      disabled={this.editPageFormRef && this.editPageFormRef.current ?
+                        (!this.editPageFormRef.current.isValid
+                        ||
+                        this.editPageFormRef.current.isSubmitting) : true}
                     >
                       <span>
                         <FormattedMessage id="app.save" />
@@ -272,7 +280,7 @@ class PageConfigPage extends Component {
       intl, pageIsOnTheFly, isOnTheFlyEnabled,
       setSelectedPageOnTheFly, pageIsPublished, publishPage, unpublishPage,
       applyDefaultConfig, pageConfigMatchesDefault, appTourProgress,
-      match,
+      match, onSaveSuccess,
     } = this.props;
     const { editingSettings, toolbarCollapsed } = this.state;
 
@@ -346,7 +354,9 @@ class PageConfigPage extends Component {
                       key={(match.params || {}).pageCode}
                       readOnly={!editingSettings}
                       stayOnSave
-                      onSave={this.toggleEditingSettings}
+                      onSaveSuccess={onSaveSuccess}
+                      innerRef={this.editPageFormRef}
+                      onSave={() => this.toggleEditingSettings(false)}
                     />
                   </div>
                 </Tab>
@@ -452,10 +462,7 @@ PageConfigPage.propTypes = {
   selectedPageForm: PropTypes.shape({}),
   loading: PropTypes.bool,
   appTourProgress: PropTypes.string,
-  onSettingsCancel: PropTypes.func.isRequired,
-  onClickSaveSettings: PropTypes.func.isRequired,
-  pageSettingsButtonSubmitting: PropTypes.bool,
-  pageSettingsButtonInvalid: PropTypes.bool,
+  onSaveSuccess: PropTypes.func.isRequired,
 };
 
 PageConfigPage.defaultProps = {
@@ -478,8 +485,6 @@ PageConfigPage.defaultProps = {
   selectedPageForm: {},
   loading: false,
   appTourProgress: '',
-  pageSettingsButtonSubmitting: false,
-  pageSettingsButtonInvalid: false,
 };
 
 export default injectIntl(PageConfigPage);

@@ -19,6 +19,8 @@ import {
   getProfileTypeSelectedAttribute,
   getProfileTypeAttributesIdList,
   getSelectedCompositeAttributes,
+  getSelectedAttributeNestedType,
+  getSelectedAttributeNestedIndexable,
 } from 'state/profile-types/selectors';
 import {
   TYPE_COMPOSITE,
@@ -37,13 +39,13 @@ export const mapStateToProps = (state, { match: { params } }) => ({
   mode: getActionModeProfileTypeSelectedAttribute(state),
   attributeCode: params.attributeCode,
   profileTypeCode: params.entityCode,
-  isIndexable: formValueSelector('attribute')(state, 'nestedAttribute.indexable'),
-  type: formValueSelector('attribute')(state, 'nestedAttribute.type'),
-  selectedAttribute: getAttributeSelectFromProfileType(state),
+  isIndexable: getSelectedAttributeNestedIndexable(state),
+  type: getSelectedAttributeNestedType(state),
   selectedAttributeTypeForAddComposite: getProfileTypeSelectedAttribute(state),
   selectedAttributeType: formValueSelector('attribute')(state, 'type'),
   attributesList: getProfileTypeAttributesIdList(state),
   compositeAttributes: getSelectedCompositeAttributes(state),
+  initialValues: getAttributeSelectFromProfileType(state),
 });
 
 export const mapDispatchToProps = (dispatch, { match: { params }, history }) => ({
@@ -62,7 +64,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
           }))
         ),
         '',
-        'attribute',
       ));
     } else {
       dispatch(fetchAttributeFromProfileType('attribute', profileTypeCode, attributeCode));
@@ -93,7 +94,6 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
         entityCode: profileTypeCode,
       })),
       type,
-      'addAttribute',
     ));
   },
   onClickDelete: (attributeCode) => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import { Row, Col, Button } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import FormLabel from 'ui/common/form/FormLabel';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 export const SIMPLE_WIDGET_CONFIG_FORM_ID = 'simpleWidgetConfigFormId';
@@ -55,8 +55,13 @@ SimpleWidgetConfigForm.defaultProps = {
   parameters: [],
 };
 
-const SimpleWidgetConfig = reduxForm({
-  form: SIMPLE_WIDGET_CONFIG_FORM_ID,
+const SimpleWidgetConfig = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { props: { onSubmit } }) => {
+    onSubmit(values);
+  },
+  displayName: SIMPLE_WIDGET_CONFIG_FORM_ID,
 })(SimpleWidgetConfigForm);
 
 export default SimpleWidgetConfig;

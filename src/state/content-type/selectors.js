@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { formValueSelector } from 'redux-form';
 import {
   get,
   isEmpty,
@@ -252,7 +251,6 @@ export const getNewAttributeComposite = createSelector(
   sel => sel.newAttributeComposite,
 );
 
-export const getFormTypeValue = (state, formName) => formValueSelector(formName)(state, 'type');
 
 export const getShapeMethodsByAttributeType = (type) => {
   switch (type) {

@@ -12,8 +12,14 @@ const AddEmailSenderFormContainer = () => {
     [dispatch],
   );
 
+  const initialValues = { code: '', email: '' };
+
   return (
-    <EmailSenderForm titleId="emailConfig.senderMgmt.new" onSubmit={handleSubmit} />
+    <EmailSenderForm
+      titleId="emailConfig.senderMgmt.new"
+      onSubmit={handleSubmit}
+      initialValues={initialValues}
+    />
   );
 };
 

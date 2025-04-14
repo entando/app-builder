@@ -1,9 +1,10 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
+import { Form, Field, withFormik } from 'formik';
+import * as Yup from 'yup';
 import { FormattedMessage } from 'react-intl';
 import { FormGroup, Button, Row, Col } from 'patternfly-react';
-import SwitchRenderer from 'ui/common/form/SwitchRenderer';
+import RenderSwitchInput from 'ui/common/formik-field/RenderSwitchInput';
 
 export class SettingsFragmentFormBody extends React.Component {
   componentWillMount() {
@@ -11,9 +12,10 @@ export class SettingsFragmentFormBody extends React.Component {
   }
 
   render() {
+    const { isValid, isSubmitting } = this.props;
     return (
       <div className="SettingsFragmentForm">
-        <form onSubmit={this.props.handleSubmit} className="SettingsFragmentForm">
+        <Form className="SettingsFragmentForm">
           <Row>
             <Col xs={12}>
               <fieldset>
@@ -26,7 +28,7 @@ export class SettingsFragmentFormBody extends React.Component {
                     </Col>
                     <Col xs={9} className="text-left">
                       <Field
-                        component={SwitchRenderer}
+                        component={RenderSwitchInput}
                         name="enableEditingWhenEmptyDefaultGui"
                       />
                     </Col>
@@ -41,6 +43,7 @@ export class SettingsFragmentFormBody extends React.Component {
                         type="submit"
                         bsStyle="primary"
                         className="pull-right"
+                        disabled={!isValid || isSubmitting}
                       >
                         <FormattedMessage id="app.save" />
                       </Button>
@@ -50,7 +53,7 @@ export class SettingsFragmentFormBody extends React.Component {
               </fieldset>
             </Col>
           </Row>
-        </form>
+        </Form>
       </div>
 
     );
@@ -59,11 +62,22 @@ export class SettingsFragmentFormBody extends React.Component {
 
 SettingsFragmentFormBody.propTypes = {
   onWillMount: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  isValid: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
 
-const SettingsFragmentForm = reduxForm({
-  form: 'fragmentSettings',
+const SettingsFragmentForm = withFormik({
+  enableReinitialize: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  validationSchema: () => (
+    Yup.object().shape({
+      enableEditingWhenEmptyDefaultGui: Yup.boolean().nullable(true),
+    })
+  ),
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values).then(() => setSubmitting(false));
+  },
+  displayName: 'fragmentSettings',
 })(SettingsFragmentFormBody);
 
 export default SettingsFragmentForm;

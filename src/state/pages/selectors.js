@@ -17,6 +17,7 @@ export const getSelectedPage = state => state.pages.selected;
 export const getSearchPagesRaw = state => state.pages.search;
 export const getDashboardPages = state => state.pages.dashboard;
 export const getIsVirtualRootOn = state => state.pages.virtualRoot;
+export const getEditPage = state => state.pages.editPage;
 
 export const getSearchPages = createSelector(
   [getSearchPagesRaw],

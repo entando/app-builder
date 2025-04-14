@@ -35,10 +35,4 @@ describe('ui/fragments/list/SettingsFragmentForm', () => {
   it('has component Button ', () => {
     expect(component.find('Button')).toHaveLength(1);
   });
-
-  it('on form submit calls handleSubmit', () => {
-    const preventDefault = jest.fn();
-    component.find('form').simulate('submit', { preventDefault });
-    expect(handleSubmit).toHaveBeenCalled();
-  });
 });

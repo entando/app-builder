@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
 import { required } from '@entando/utils';
-import { Field, FormSection } from 'redux-form';
-
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import { Field } from 'formik';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 
 const AttributeMonoListMonoSettings = ({ attributesList }) => {
@@ -21,18 +21,16 @@ const AttributeMonoListMonoSettings = ({ attributesList }) => {
           <legend>
             <FormattedMessage id="app.settings" />
           </legend>
-          <FormSection name="nestedAttribute">
-            <Field
-              component={RenderSelectInput}
-              options={selectAttribute}
-              defaultOptionId="app.chooseAnOption"
-              label={
-                <FormLabel labelId="app.list" required />
+          <Field
+            component={RenderSelectInput}
+            options={selectAttribute}
+            defaultOptionId="app.chooseAnOption"
+            label={
+              <FormLabel labelId="app.list" required />
               }
-              name="type"
-              validate={[required]}
-            />
-          </FormSection>
+            name="nestedAttribute.type"
+            validate={value => convertReduxValidationsToFormikValidations(value, [required])}
+          />
         </fieldset>
       </Col>
     </Row>

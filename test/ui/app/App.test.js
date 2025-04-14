@@ -59,7 +59,6 @@ import EditProfileTypeAttributePage from 'ui/profile-types/attributes/EditProfil
 import ReloadConfigPage from 'ui/reload-configuration/ReloadConfigPage';
 import ReloadConfirmPage from 'ui/reload-configuration/ReloadConfirmPage';
 import MonolistProfilePageContainer from 'ui/profile-types/attributes/monolist/MonolistProfilePageContainer';
-import MonolistPageContainer from 'ui/data-types/attributes/monolist/MonolistPageContainer';
 import DetailWidgetPageContainer from 'ui/widgets/detail/DetailWidgetPageContainer';
 import CloneWidgetPage from 'ui/widgets/clone/CloneWidgetPage';
 import CloneFragmentPageContainer from 'ui/fragments/clone/CloneFragmentPageContainer';
@@ -116,7 +115,6 @@ import {
   ROUTE_RELOAD_CONFIG,
   ROUTE_RELOAD_CONFIRM,
   ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD,
-  ROUTE_ATTRIBUTE_MONOLIST_ADD,
   ROUTE_WIDGET_DETAIL,
   ROUTE_CLONE_WIDGET,
   ROUTE_FRAGMENT_CLONE,
@@ -489,13 +487,6 @@ describe('App', () => {
     await waitFor(async () => {
       const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_PROFILE_ADD);
       expect(component.find(MonolistProfilePageContainer).exists()).toBe(true);
-    });
-  });
-
-  it('route to profile monolist container page', async () => {
-    await waitFor(async () => {
-      const component = mountWithRoute(ROUTE_ATTRIBUTE_MONOLIST_ADD);
-      expect(component.find(MonolistPageContainer).exists()).toBe(true);
     });
   });
 

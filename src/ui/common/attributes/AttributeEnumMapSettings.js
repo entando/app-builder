@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Row, Col } from 'patternfly-react';
-import { Field } from 'redux-form';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import { Field } from 'formik';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { required } from '@entando/utils';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 
 export const elements = value =>
   (value && !/^(\w+)=([^\s]+)$/i.test(value)
@@ -19,7 +19,7 @@ const msgs = defineMessages({
   },
 });
 
-const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans }) => {
+const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans, prefixName }) => {
   const selectAllowedOptions = enumeratorMapExtractorBeans.map(item => (
     {
       value: item.code,
@@ -35,7 +35,7 @@ const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans }) => 
           </legend>
           <Field
             component={RenderTextInput}
-            name="enumeratorStaticItems"
+            name={`${prefixName}enumeratorStaticItems`}
             label={
               <FormLabel labelId="app.enumeratorStaticItems" required />
           }
@@ -44,7 +44,7 @@ const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans }) => 
           />
           <Field
             component={RenderTextInput}
-            name="enumeratorStaticItemsSeparator"
+            name={`${prefixName}enumeratorStaticItemsSeparator`}
             label={
               <FormLabel labelId="app.enumeratorStaticItemsSeparator" />
             }
@@ -58,7 +58,7 @@ const AttributeEnumEnumMapSettings = ({ intl, enumeratorMapExtractorBeans }) => 
                 label={
                   <FormLabel labelId="app.enumeratorExtractorBean" />
               }
-                name="enumeratorMapExtractorBeans"
+                name={`${prefixName}enumeratorMapExtractorBeans`}
               /> : null
           }
 
@@ -73,10 +73,12 @@ AttributeEnumEnumMapSettings.propTypes = {
     code: PropTypes.string,
     descr: PropTypes.string,
   })),
+  prefixName: PropTypes.string,
 };
 
 AttributeEnumEnumMapSettings.defaultProps = {
   enumeratorMapExtractorBeans: [],
+  prefixName: '',
 };
 
 

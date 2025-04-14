@@ -1,63 +1,71 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Button, Modal } from 'patternfly-react';
-import { Field, reduxForm, destroy, submit, Form, reset } from 'redux-form';
+import { Field, withFormik } from 'formik';
 import PropTypes from 'prop-types';
-import { required } from '@entando/utils';
+import * as Yup from 'yup';
 
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import { getRegistries } from 'state/component-repository/hub/selectors';
 import { sendPostRegistry } from 'state/component-repository/hub/actions';
 import { setVisibleModal } from 'state/modal/actions';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 export const ADD_NEW_REGISTRY_MODAL_ID = 'AddNewRegistryModal';
 
-const NewRegistryFormId = 'NewRegistryFormId';
+export const mustBeUnique = (values, value, key) => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
 
-export const mustBeUnique = (values, key) => value => (value && values && values.includes(value) ? <FormattedMessage id={`hub.newRegistry.${key}.error`} /> : undefined);
+export const protocolCompliance = (value) => {
+  // get current protocol from window.location.protocol
+  const currentProtocol = window.location.protocol;
+  // if current protocol is https, then the protocol must be https
+  if (currentProtocol === 'https:' && value && value.startsWith('http://')) {
+    return <FormattedMessage id="hub.newRegistry.protocol.error" />;
+  }
+  return undefined;
+};
 
 const AddNewRegistryModalForm = ({
-  invalid, handleSubmit,
+  isValid, resetForm, values,
 }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const existingRegistries = useSelector(getRegistries);
 
-  const names = useMemo(() => existingRegistries.map(reg => reg.name), [existingRegistries]);
-  const urls = useMemo(() => existingRegistries.map(reg => reg.url), [existingRegistries]);
+  const names = existingRegistries.map(reg => reg.name);
+  const urls = existingRegistries.map(reg => reg.url);
 
-  const validateName = useMemo(() => [required, mustBeUnique(names, 'name')], [names]);
-  const validateUrl = useMemo(() => [required, mustBeUnique(urls, 'url')], [urls]);
+  const validateName = value => convertReduxValidationsToFormikValidations(value, [currVal => mustBeUnique(names, currVal, 'name')]);
+  const validateUrl = value => convertReduxValidationsToFormikValidations(value, [currVal => mustBeUnique(urls, currVal, 'url'), protocolCompliance]);
 
-  const handleSave = (values) => {
+  const handleSave = (formValues) => {
     setLoading(true);
-    dispatch(sendPostRegistry(values)).then((isSuccess) => {
+    dispatch(sendPostRegistry(formValues)).then((isSuccess) => {
       setLoading(false);
+      resetForm();
       if (isSuccess) {
         dispatch(setVisibleModal(''));
-        dispatch(destroy(NewRegistryFormId));
-      } else {
-        reset(NewRegistryFormId);
       }
     }).catch(() => {
       setLoading(false);
-      reset(NewRegistryFormId);
     });
   };
 
-  const handleCancel = () => dispatch(destroy(NewRegistryFormId));
+  const handleCancel = () => {
+    resetForm();
+  };
 
   const buttons = [
     <Button
       bsStyle="primary"
       type="submit"
       id="InstallationPlanModal__button-ok"
-      disabled={invalid || loading}
-      onClick={() => dispatch(submit(NewRegistryFormId))}
+      disabled={!isValid || loading}
+      onClick={() => handleSave(values)}
     >
       <FormattedMessage id="app.save" />
     </Button>,
@@ -76,45 +84,63 @@ const AddNewRegistryModalForm = ({
       closeLabel="app.cancel"
       modalCloseCleanup={handleCancel}
     >
-      <Form className="form-horizontal" onSubmit={handleSubmit(values => handleSave(values))}>
+      <form className="form-horizontal">
         <fieldset className="no-padding">
           <Field
             label={<FormLabel labelId="hub.newRegistry.name" required />}
             component={RenderTextInput}
             name="name"
-            type="text"
             validate={validateName}
           />
           <Field
             label={<FormLabel labelId="hub.newRegistry.url" required />}
             component={RenderTextInput}
             name="url"
-            type="text"
             validate={validateUrl}
           />
           <Field
             label={<FormLabel labelId="hub.newRegistry.apiKey" />}
             component={RenderTextInput}
             name="apiKey"
-            type="text"
           />
         </fieldset>
-      </Form>
+      </form>
     </GenericModalContainer>
   );
 };
 
 AddNewRegistryModalForm.propTypes = {
-  invalid: PropTypes.bool,
-  handleSubmit: PropTypes.func.isRequired,
+  isValid: PropTypes.bool,
+  resetForm: PropTypes.func.isRequired,
+  values: PropTypes.shape({
+    name: PropTypes.string,
+    url: PropTypes.string,
+    apiKey: PropTypes.string,
+  }).isRequired,
 };
 
 AddNewRegistryModalForm.defaultProps = {
-  invalid: false,
+  isValid: false,
 };
 
-const AddNewRegistryModal = reduxForm({
-  form: NewRegistryFormId,
+const AddNewRegistryModal = withFormik({
+  mapPropsToValues: () => {
+    const values = {
+      name: '',
+      url: '',
+      apiKey: '',
+    };
+    return values;
+  },
+  displayName: 'addNewRegistryModalForm',
+  validateOnMount: true,
+  enableReinitialize: true,
+  validationSchema: () => (
+    Yup.object().shape({
+      name: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      url: Yup.string().required(<FormattedMessage id="validateForm.required" />),
+      apiKey: Yup.string(),
+    })),
 })(AddNewRegistryModalForm);
 
 export default AddNewRegistryModal;

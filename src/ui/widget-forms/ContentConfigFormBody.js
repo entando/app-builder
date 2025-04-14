@@ -1,20 +1,21 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { reduxForm, FieldArray, Field } from 'redux-form';
+import { withFormik, FieldArray, Field } from 'formik';
 import { Button, Row, Col, Alert } from 'patternfly-react';
 import { Collapse } from 'react-collapse';
 import { isUndefined, get, uniq } from 'lodash';
 import { maxLength, required } from '@entando/utils';
 import ContentTableRenderer from 'ui/widget-forms/ContentTableRenderer';
 import SectionTitle from 'ui/common/SectionTitle';
-import RenderTextInput from 'ui/common/form/RenderTextInput';
-import RenderSelectInput from 'ui/common/form/RenderSelectInput';
+import RenderTextInput from 'ui/common/formik-field/RenderTextInput';
+import RenderSelectInput from 'ui/common/formik-field/SelectInput';
 import FormLabel from 'ui/common/form/FormLabel';
 import ConfirmCancelModalContainer from 'ui/common/cancel-modal/ConfirmCancelModalContainer';
 import NoDefaultWarningModal from 'ui/widget-forms/publish-single-content-config/NoDefaultWarningModal';
 import { MULTIPLE_CONTENTS_CONFIG } from 'ui/widget-forms/const';
 import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
+import { convertReduxValidationsToFormikValidations } from 'helpers/formikUtils';
 
 const maxLength70 = maxLength(70);
 
@@ -30,7 +31,7 @@ export class ContentConfigFormBody extends PureComponent {
   }
 
   componentDidMount() {
-    const { onDidMount, cloneMode } = this.props;
+    const { onDidMount, cloneMode, setFieldValue } = this.props;
     if (cloneMode) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
@@ -38,12 +39,16 @@ export class ContentConfigFormBody extends PureComponent {
         publishingSettingsOpen: true,
       });
     }
-    onDidMount();
+    onDidMount(setFieldValue);
   }
 
   componentDidUpdate(prevProps) {
-    const { chosenContents: prevContents } = prevProps;
-    const { chosenContents, chosenContentTypes, pushContentTypeDetails } = this.props;
+    const { values: { contents: prevContents } } = prevProps;
+    const {
+      values: { contents: chosenContents, chosenContentTypes = [] },
+      setFieldValue,
+      pushContentTypeDetails,
+    } = this.props;
     if (chosenContents !== prevContents) {
       const chosenContentTypeIds = chosenContentTypes.map(({ code }) => code);
       const contentTypesToLoad = uniq(chosenContents.map((content) => {
@@ -51,7 +56,7 @@ export class ContentConfigFormBody extends PureComponent {
         const typeCodeSub = contentId ? contentId.substr(0, 3) : '';
         return get(content, 'typeCode', typeCodeSub);
       })).filter(code => !chosenContentTypeIds.includes(code));
-      pushContentTypeDetails(contentTypesToLoad);
+      pushContentTypeDetails(contentTypesToLoad, chosenContentTypes, setFieldValue);
     }
   }
 
@@ -77,29 +82,32 @@ export class ContentConfigFormBody extends PureComponent {
       contentTemplates,
       extFormName,
       putPrefixField,
-      invalid,
-      submitting,
+      isValid,
+      isSubmitting,
       languages,
       pages,
       intl,
       widgetCode,
-      chosenContents,
       dirty,
       onCancel,
       onDiscard,
       onSave,
+      defaultLanguageCode,
+      values,
+      submitForm,
+    } = this.props;
+    const {
       ownerGroup,
       joinGroups,
-      widgetConfigFormData,
-      defaultLanguageCode,
-    } = this.props;
+      contents: chosenContents,
+    } = values;
     const { extraOptionsOpen, publishingSettingsOpen } = this.state;
     const multipleContentsMode = widgetCode === MULTIPLE_CONTENTS_CONFIG;
     const normalizedLanguages = languages.map(lang => lang.code);
     const normalizedPages = this.normalizeTitles(pages || []);
     const noContents = chosenContents.length === 0;
 
-    const defaultPageValue = widgetConfigFormData[putPrefixField('pageLink')];
+    const defaultPageValue = values[putPrefixField('pageLink')];
     const defaultLangLinkTextRequired = defaultPageValue !== null && defaultPageValue !== undefined && defaultPageValue !== '';
 
     const elementNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 50, 100, 500]
@@ -112,27 +120,31 @@ export class ContentConfigFormBody extends PureComponent {
           component={RenderTextInput}
           name={putPrefixField(`title_${langCode}`)}
           label={<FormLabel langLabelText={langCode} labelId="app.title" />}
-          validate={[maxLength70]}
+          validate={val => convertReduxValidationsToFormikValidations(val, [maxLength70])}
         />
       )) : null;
 
     const renderLinkTextFields = !isUndefined(normalizedLanguages) ? normalizedLanguages
-      .map(langCode => (
-        <Field
-          key={langCode}
-          component={RenderTextInput}
-          name={putPrefixField(`linkDescr_${langCode}`)}
-          label={(
-            <FormLabel
-              langLabelText={langCode}
-              labelId="widget.form.linkText"
-              required={langCode === defaultLanguageCode && defaultLangLinkTextRequired}
-            />
-)}
-          validate={langCode === defaultLanguageCode && defaultLangLinkTextRequired
-            ? [required, maxLength70] : [maxLength70]}
-        />
-      )) : null;
+      .map(langCode =>
+        (
+          <Field
+            key={langCode}
+            component={RenderTextInput}
+            name={putPrefixField(`linkDescr_${langCode}`)}
+            label={(
+              <FormLabel
+                langLabelText={langCode}
+                labelId="widget.form.linkText"
+                required={langCode === defaultLanguageCode && defaultLangLinkTextRequired}
+              />
+          )}
+            validate={val => convertReduxValidationsToFormikValidations(
+            val,
+            langCode === defaultLanguageCode && defaultLangLinkTextRequired
+            ? [required, maxLength70] : [maxLength70],
+          )}
+          />
+        )) : null;
 
     const handleCollapsePublishingSettings = () => this.collapseSection('publishingSettingsOpen');
     const handleCollapseExtraOptions = () => this.collapseSection('extraOptionsOpen');
@@ -147,7 +159,7 @@ export class ContentConfigFormBody extends PureComponent {
 
     const pageIsRequired = !isUndefined(normalizedLanguages)
       ? normalizedLanguages.some((langCode) => {
-        const descriptionValue = widgetConfigFormData[putPrefixField(`linkDescr_${langCode}`)];
+        const descriptionValue = values[putPrefixField(`linkDescr_${langCode}`)];
         return descriptionValue !== null && descriptionValue !== undefined && descriptionValue !== '';
       }) : false;
 
@@ -176,7 +188,9 @@ export class ContentConfigFormBody extends PureComponent {
                   label={
                     <FormLabel labelId="widget.form.page" required={!!pageIsRequired} />
             }
-                  validate={pageIsRequired ? [required] : []}
+                  validate={val =>
+                    convertReduxValidationsToFormikValidations(val, pageIsRequired ?
+                      [required] : [])}
                   options={normalizedPages}
                   optionValue="code"
                   optionDisplayName="name"
@@ -228,17 +242,19 @@ export class ContentConfigFormBody extends PureComponent {
         <Row>
           <Col xs={12}>
             <FieldArray
-              component={ContentTableRenderer}
-              contentTemplates={contentTemplates}
+              render={arrayHelpers => (
+                <ContentTableRenderer
+                  intl={intl}
+                  values={values[putPrefixField('contents')]}
+                  ownerGroup={ownerGroup}
+                  joinGroups={joinGroups}
+                  multipleContentsMode={multipleContentsMode}
+                  contentTemplates={contentTemplates}
+                  arrayHelpers={arrayHelpers}
+                  name={putPrefixField('contents')}
+                />
+              )}
               name={putPrefixField('contents')}
-              intl={intl}
-              ownerGroup={ownerGroup}
-              joinGroups={joinGroups}
-              multipleContentsMode={multipleContentsMode}
-            />
-            <FieldArray
-              name={putPrefixField('chosenContentTypes')}
-              component="span"
             />
           </Col>
         </Row>
@@ -252,8 +268,8 @@ export class ContentConfigFormBody extends PureComponent {
                   className="pull-right AddContentTypeFormBody__save--btn"
                   type="submit"
                   bsStyle="primary"
-                  disabled={invalid || submitting || noContents}
-                  onClick={onSave}
+                  disabled={!isValid || isSubmitting || noContents}
+                  onClick={() => onSave(submitForm)}
                 >
                   <FormattedMessage id="app.save" />
                 </Button>
@@ -267,9 +283,9 @@ export class ContentConfigFormBody extends PureComponent {
               </WidgetConfigPortal>
               <ConfirmCancelModalContainer
                 contentText={intl.formatMessage({ id: 'cms.label.modal.confirmCancel' })}
-                invalid={invalid}
-                submitting={submitting}
-                onSave={onSave}
+                invalid={!isValid}
+                submitting={isSubmitting}
+                onClick={() => onSave(submitForm)}
                 onDiscard={onDiscard}
               />
               <NoDefaultWarningModal multipleMode />
@@ -312,46 +328,59 @@ ContentConfigFormBody.propTypes = {
   pages: PropTypes.arrayOf(PropTypes.shape({})),
   onDidMount: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
-  invalid: PropTypes.bool,
-  submitting: PropTypes.bool,
+  isValid: PropTypes.bool,
+  isSubmitting: PropTypes.bool,
   language: PropTypes.string.isRequired,
   widgetCode: PropTypes.string.isRequired,
-  chosenContents: PropTypes.arrayOf(PropTypes.shape({})),
   dirty: PropTypes.bool,
   onDiscard: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   pushContentTypeDetails: PropTypes.func.isRequired,
-  chosenContentTypes: PropTypes.arrayOf(PropTypes.shape({})),
-  ownerGroup: PropTypes.string,
-  joinGroups: PropTypes.arrayOf(PropTypes.string),
   extFormName: PropTypes.string,
   putPrefixField: PropTypes.func,
   cloneMode: PropTypes.bool,
-  widgetConfigFormData: PropTypes.shape({}),
   defaultLanguageCode: PropTypes.string,
+  values: PropTypes.shape({
+    contents: PropTypes.arrayOf(PropTypes.shape({})),
+    chosenContentTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    ownerGroup: PropTypes.string,
+    joinGroups: PropTypes.arrayOf(PropTypes.string),
+  }),
+  errors: PropTypes.shape({}),
+  submitForm: PropTypes.func,
+  setFieldValue: PropTypes.func,
 };
 
 ContentConfigFormBody.defaultProps = {
   languages: [],
   pages: [],
-  chosenContents: [],
-  chosenContentTypes: [],
   dirty: false,
-  ownerGroup: '',
-  joinGroups: null,
   extFormName: '',
-  invalid: false,
-  submitting: false,
+  isValid: true,
+  isSubmitting: false,
   handleSubmit: () => {},
   putPrefixField: name => name,
   cloneMode: false,
-  widgetConfigFormData: {},
   defaultLanguageCode: 'en',
+  values: {
+    contents: [],
+    chosenContentTypes: [],
+    ownerGroup: '',
+    joinGroups: [],
+  },
+  errors: {},
+  submitForm: () => {},
+  setFieldValue: () => {},
 };
 
-export default reduxForm({
-  form: MultipleContentsConfigContainerId,
-  keepDirtyOnReinitialize: true,
+export default withFormik({
+  displayName: MultipleContentsConfigContainerId,
   enableReinitialize: true,
+  validateOnChange: true,
+  validateOnBlur: true,
+  mapPropsToValues: ({ initialValues }) => initialValues,
+  handleSubmit: (values, { setSubmitting, props: { onSubmit } }) => {
+    onSubmit(values).then(() => setSubmitting(false));
+  },
 })(ContentConfigFormBody);
