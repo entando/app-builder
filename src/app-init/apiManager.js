@@ -28,7 +28,7 @@ const ApiManager = ({
       store.dispatch(clearAppTourProgress());
       if (keycloak) {
         const { origin } = window.location;
-        keycloak.redirectUri = `${origin}${process.env.PUBLIC_URL || ''}${ROUTE_DASHBOARD}`;
+        keycloak.redirectUri = getBaseUrlWithVirtualContext(`${origin}${process.env.PUBLIC_URL || ''}`) + ROUTE_DASHBOARD;
       }
       auth.logout(status);
     } catch (err) {
