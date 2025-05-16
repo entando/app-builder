@@ -1,6 +1,9 @@
-import { get } from 'lodash';
+import getRuntimeEnv from 'helpers/getRuntimeEnv';
 
-export const adminConsoleUrl = url => `${get(process.env, 'DOMAIN', '')}/${url}`;
+export const adminConsoleUrl = (url) => {
+  const { DOMAIN } = getRuntimeEnv();
+  return `${DOMAIN}/${url}`;
+};
 
 export const generateMfeRoutes = mfe => mfe.reduce((acc, curr) => {
   if (curr.descriptorExt && curr.descriptorExt.paths) {
