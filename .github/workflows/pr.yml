@@ -77,7 +77,7 @@ jobs:
       #~ NPM CACHE
       - name: "Cache NPM Packages"
         id: package-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm
@@ -118,7 +118,7 @@ jobs:
 #      #~ NPM CACHE
 #      - name: "Cache NPM Packages"
 #        id: package-cache
-#        uses: actions/cache@v2
+#        uses: actions/cache@v4
 #        with:
 #          path: ~/.npm
 #          key: ${{ runner.os }}-npm
