@@ -4,7 +4,9 @@ import { shallow } from 'enzyme';
 import ReloadConfirm from 'ui/reload-configuration/ReloadConfirm';
 
 const SUCCESS_STATUS = 'success';
-const ERROR_STATUS = 'error';
+const WAITING_STATUS = 'waiting';
+const FAIL_STATUS = 'fail';
+const PROGRESS_STATUS = 'progress';
 
 describe('ReloadConfirm', () => {
   let component;
@@ -15,10 +17,10 @@ describe('ReloadConfirm', () => {
   });
 
   describe('if "status" prop is not defined', () => {
-    it('renders an Alert of type "danger"', () => {
+    it('renders an Alert of type "info"', () => {
       component = shallow(<ReloadConfirm />);
       const alert = component.find('Alert');
-      expect(alert.prop('type')).toEqual('danger');
+      expect(alert.prop('type')).toEqual('info');
     });
   });
 
@@ -29,10 +31,22 @@ describe('ReloadConfirm', () => {
       expect(alert.prop('type')).toEqual('success');
     });
 
-    it('renders an Alert of type "danger" if status is not "success"', () => {
-      component = shallow(<ReloadConfirm status={ERROR_STATUS} />);
+    it('renders an Alert of type "warning" if status is "waiting"', () => {
+      component = shallow(<ReloadConfirm status={WAITING_STATUS} />);
+      const alert = component.find('Alert');
+      expect(alert.prop('type')).toEqual('warning');
+    });
+
+    it('renders an Alert of type "danger" if status is "fail"', () => {
+      component = shallow(<ReloadConfirm status={FAIL_STATUS} />);
       const alert = component.find('Alert');
       expect(alert.prop('type')).toEqual('danger');
+    });
+
+    it('renders an Alert of type "info" if status is "progress"', () => {
+      component = shallow(<ReloadConfirm status={PROGRESS_STATUS} />);
+      const alert = component.find('Alert');
+      expect(alert.prop('type')).toEqual('info');
     });
   });
 });

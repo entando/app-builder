@@ -1,5 +1,6 @@
 import { makeRequest, METHODS } from '@entando/apimanager';
-import { SUCCESS } from 'test/mocks/reloadConfiguration';
+// eslint-disable-next-line import/no-unresolved, import/extensions
+import { SUCCESS, STATUS_RESPONSE } from 'test/mocks/reloadConfiguration';
 
 export const reloadConf = () => (
   makeRequest({
@@ -11,5 +12,13 @@ export const reloadConf = () => (
   })
 );
 
+export const getReloadStatus = () => (
+  makeRequest({
+    uri: '/api/reloadConfiguration/status',
+    method: METHODS.GET,
+    mockResponse: STATUS_RESPONSE,
+    useAuthentication: true,
+  })
+);
 
 export default reloadConf;
