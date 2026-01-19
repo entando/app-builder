@@ -438,32 +438,41 @@ const EntandoMenu = ({
 };
 
 const MfeMenuContainer = ({
-  menuId, headerId, onStartTutorial, appTourLastStep,
-}) => (
-  <div className="MfeMenuContainer">
-    <div className="MfeMenuContainer__header-menu-container">
+  menuId, headerId, onStartTutorial, appTourLastStep, onMount,
+}) => {
+  useEffect(() => {
+    if (onMount) {
+      onMount();
+    }
+  }, [onMount]);
+
+  return (
+    <div className="MfeMenuContainer">
+      <div className="MfeMenuContainer__header-menu-container">
+        {
+        headerId ? <MfeContainer id={headerId} />
+        : getHeader(onStartTutorial)
+      }
+      </div>
       {
-      headerId ? <MfeContainer id={headerId} />
-      : getHeader(onStartTutorial)
-    }
+        menuId && (
+          <div
+            className={`MfeMenuContainer__left-menu-container ${appTourLastStep === 3 || appTourLastStep === 4 ? 'tour-focus' : ''}`}
+          >
+            <MfeContainer id={menuId} />
+          </div>
+        )
+      }
     </div>
-    {
-      menuId && (
-        <div
-          className={`MfeMenuContainer__left-menu-container ${appTourLastStep === 3 || appTourLastStep === 4 ? 'tour-focus' : ''}`}
-        >
-          <MfeContainer id={menuId} />
-        </div>
-      )
-    }
-  </div>
-);
+  );
+};
 
 MfeMenuContainer.propTypes = {
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
   appTourLastStep: PropTypes.number.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 const VerticalMenu = (props) => {
@@ -480,6 +489,7 @@ const VerticalMenu = (props) => {
         menuId={mfeMenu.id}
         onStartTutorial={props.onStartTutorial}
         appTourLastStep={props.appTourLastStep}
+        onMount={props.onMount}
       />
     : <EntandoMenu {...props} />;
 };
