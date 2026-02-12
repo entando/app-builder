@@ -8,6 +8,7 @@ import { getLocale } from 'state/locale/selectors';
 import { getLoggedUserPermissions } from 'state/permissions/selectors';
 import { getDomain } from 'helpers/resourcePath';
 import { getSystemReport } from 'state/system/selectors';
+import { getRootPageCode } from 'state/pages/selectors';
 import { useDynamicResourceUrl } from 'hooks/useDynamicResourceUrl';
 import { selectCurrSystemConfigAdvancedSearch } from 'state/current-system-configuration/selectors';
 import { getUserPreferences } from 'state/user-preferences/selectors';
@@ -20,6 +21,7 @@ const MfeContainer = ({ id, history }) => {
   const currentSystemConfigurationAdvancedSearchOn =
   useSelector(selectCurrSystemConfigAdvancedSearch);
   const userPreferences = useSelector(getUserPreferences) || {};
+  const rootPageCode = useSelector(getRootPageCode);
 
   const mfeResourceBasePath = useDynamicResourceUrl(mfe.assetsBasePath);
 
@@ -35,6 +37,7 @@ const MfeContainer = ({ id, history }) => {
       systemReport,
       advancedSearchOn: currentSystemConfigurationAdvancedSearchOn,
       disableContentMenu: userPreferences.disableContentMenu,
+      rootPageCode,
     };
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
@@ -48,7 +51,7 @@ const MfeContainer = ({ id, history }) => {
     window.entando = entandoWindow;
   }, [history, locale, mfe.assetsBasePath, mfe.widgetName, permissions, systemReport,
     mfeResourceBasePath, currentSystemConfigurationAdvancedSearchOn,
-    userPreferences.disableContentMenu]);
+    userPreferences.disableContentMenu, rootPageCode]);
 
   const params = {
     config: {

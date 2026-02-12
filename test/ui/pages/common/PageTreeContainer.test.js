@@ -51,6 +51,7 @@ jest.mock('state/pages/selectors', () => ({
   getPageTreePages: jest.fn(),
   getSearchPages: jest.fn(),
   getIsVirtualRootOn: jest.fn(),
+  getRootPageCode: jest.fn(),
 }));
 
 jest.mock('state/groups/selectors', () => ({

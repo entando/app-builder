@@ -54,6 +54,7 @@ jest.mock('state/pages/selectors', () => ({
   getSelectedPage: jest.fn(),
   getReferencesFromSelectedPage: jest.fn(() => []),
   getAllPageTreeLoadedStatus: jest.fn(() => []),
+  getRootPageCode: jest.fn(() => 'homepage'),
 }));
 
 jest.mock('state/languages/selectors', () => ({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import { VerticalNav, Button, Icon } from 'patternfly-react';
@@ -36,10 +36,11 @@ import {
 import { withPermissionValues } from 'ui/auth/withPermissions';
 import InfoMenu from 'ui/internal-page/InfoMenu';
 // import getRuntimeEnv from 'helpers/getRuntimeEnv';
-import { HOMEPAGE_CODE } from 'state/pages/const';
+import { getRootPageCode } from 'state/pages/selectors';
 import useLocalStorage from 'helpers/useLocalStorage';
 import { getSystemReport } from 'state/system/selectors';
 import { fetchSystemReport } from 'state/system/actions';
+import { fetchRootPage } from 'state/pages/actions';
 import { dismissedWizardKey } from 'ui/app-tour/constant';
 import { getMfeTargetPrimaryMenu } from 'state/mfe/selectors';
 import MfeContainer from 'ui/app/MfeContainer';
@@ -201,6 +202,7 @@ const EntandoMenu = ({
   const [collapsed, setCollapsed] = useLocalStorage('navCollapsed', false);
   const systemReport = useSelector(getSystemReport);
   const currSystemConfigAdvancedSearchOn = useSelector(selectCurrSystemConfigAdvancedSearch);
+  const rootPageCode = useSelector(getRootPageCode);
 
   useEffect(() => {
     onMount();
@@ -272,7 +274,7 @@ const EntandoMenu = ({
                 id="menu-page-config"
                 title={intl.formatMessage({ id: 'menu.pageConfig', defaultMessage: 'Designer' })}
                 onClick={() =>
-                  history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: HOMEPAGE_CODE }))
+                  history.push(routeConverter(ROUTE_PAGE_CONFIG, { pageCode: rootPageCode }))
                 }
               />
               {
@@ -470,6 +472,12 @@ const VerticalMenu = (props) => {
   const mfeMenu = useSelector(getMfeTargetPrimaryMenu);
   // const mfeHeaderMenu = useSelector(getMfeTargetPrimaryHeader);
   // const isPrimaryTenant = useSelector(selectIsPrimaryTenant);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRootPage());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // TODO: remove when we have the ECR API is implemented
   const isMFEMenuEnabled = process.env.USE_MFE || false;
@@ -532,6 +540,7 @@ const mapDispatchToProps = (dispatch, { history }) => ({
   },
   onMount: () => {
     dispatch(fetchSystemReport());
+    dispatch(fetchRootPage());
   },
 });
 

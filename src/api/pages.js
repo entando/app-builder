@@ -45,6 +45,13 @@ export const getPage = (pageCode, status = PAGE_STATUS_DRAFT) => makeRequest({
   ),
 });
 
+export const getRootPage = () => makeRequest({
+  uri: '/api/pages/utils/root',
+  method: METHODS.GET,
+  mockResponse: HOMEPAGE_PAYLOAD,
+  useAuthentication: true,
+});
+
 export const getPageSEO = pageCode => makeRequest({
   uri: `/api/plugins/seo/pages/${pageCode}`,
   method: METHODS.GET,
@@ -82,7 +89,7 @@ export const getPageChildren = pageCode => makeRequest({
 });
 
 export const getViewPages = () => makeRequest({
-  uri: '/api/pages/viewpages',
+  uri: '/api/pages/utils/viewpages',
   method: METHODS.GET,
   mockResponse: VIEWPAGES_PAYLOAD,
   contentType: 'application/json',
@@ -175,7 +182,7 @@ export const putPageStatus = (pageCode, status) => makeRequest({
 });
 
 export const getFreePages = () => makeRequest({
-  uri: '/api/pages/search/group/free',
+  uri: '/api/pages/utils/search/group/free',
   method: METHODS.GET,
   mockResponse: FREE_PAGES_PAYLOAD,
   useAuthentication: true,
@@ -199,7 +206,7 @@ export const putPageSettings = pageSettings => makeRequest({
 export const getSearchPages = (page = { page: 1, pageSize: 10 }, params = '') =>
   makeRequest(
     {
-      uri: `/api/pages/search${params}`,
+      uri: `/api/pages/utils/search${params}`,
       method: METHODS.GET,
       useAuthentication: true,
       mockResponse: SEARCH_PAGES,

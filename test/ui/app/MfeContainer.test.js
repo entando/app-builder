@@ -38,6 +38,9 @@ describe('MfeContainer', () => {
       permissions: {
         loggedUser: [...mfeConfigMock.userPermissions],
       },
+      pages: {
+        rootPage: 'homepage',
+      },
       currentTenant: {
         currentTenant: {},
       },
