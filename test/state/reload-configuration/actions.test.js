@@ -7,13 +7,13 @@ import {
   sendReloadConf,
 } from 'state/reload-configuration/actions';
 
-import { reloadConf } from 'api/reloadConfiguration';
+import { reloadConf, getReloadStatus } from 'api/reloadConfiguration';
 import { mockApi } from 'test/testUtils';
 
-import { SET_STATUS } from 'state/reload-configuration/types';
+import { SET_STATUS, SET_LOADING, SET_RELOAD_INFO } from 'state/reload-configuration/types';
 
 import { history, ROUTE_RELOAD_CONFIRM } from 'app-init/router';
-import { SUCCESS } from 'test/mocks/reloadConfiguration';
+import { SUCCESS, STATUS_SUCCESS } from 'test/mocks/reloadConfiguration';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -28,6 +28,11 @@ jest.mock('app-init/router', () => ({
   },
 }));
 
+jest.mock('api/reloadConfiguration', () => ({
+  reloadConf: jest.fn(),
+  getReloadStatus: jest.fn(),
+}));
+
 describe('state/reload-configuration/actions', () => {
   let store;
 
@@ -38,15 +43,20 @@ describe('state/reload-configuration/actions', () => {
   it('setStatus() should return a well formed action', () => {
     const action = setStatus(SUCCESS.status);
     expect(action).toHaveProperty('type', SET_STATUS);
-    expect(action.payload).toHaveProperty('status', 'success');
+    expect(action.payload).toHaveProperty('status', 'progress');
   });
 
   describe('sendReloadConf()', () => {
     it('when reloadConf succeeds should call post action', (done) => {
       reloadConf.mockImplementation(mockApi({ payload: SUCCESS }));
+      getReloadStatus.mockImplementation(mockApi({ payload: STATUS_SUCCESS }));
       store.dispatch(sendReloadConf()).then(() => {
         expect(reloadConf).toHaveBeenCalled();
         expect(history.push).toHaveBeenCalledWith(ROUTE_RELOAD_CONFIRM);
+        const actions = store.getActions();
+        expect(actions[0]).toHaveProperty('type', SET_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_STATUS);
+        expect(actions[2]).toHaveProperty('type', SET_RELOAD_INFO);
         done();
       }).catch(done.fail);
     });
@@ -56,9 +66,13 @@ describe('state/reload-configuration/actions', () => {
       store.dispatch(sendReloadConf()).then(() => {
         expect(reloadConf).toHaveBeenCalled();
         const actions = store.getActions();
-        expect(actions).toHaveLength(2);
-        expect(actions[0]).toHaveProperty('type', ADD_ERRORS);
-        expect(actions[1]).toHaveProperty('type', ADD_TOAST);
+        expect(actions).toHaveLength(6);
+        expect(actions[0]).toHaveProperty('type', SET_LOADING);
+        expect(actions[1]).toHaveProperty('type', SET_STATUS);
+        expect(actions[2]).toHaveProperty('type', SET_RELOAD_INFO);
+        expect(actions[3]).toHaveProperty('type', ADD_ERRORS);
+        expect(actions[4]).toHaveProperty('type', ADD_TOAST);
+        expect(actions[5]).toHaveProperty('type', SET_LOADING);
         done();
       }).catch(done.fail);
     });
