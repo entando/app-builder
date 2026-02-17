@@ -9,6 +9,7 @@ import { getUsername } from '@entando/apimanager';
 import App from 'ui/app/App';
 import { fetchCurrentTenant } from 'state/multi-tenancy/actions';
 import { fetchCurrentSystemConfiguration } from 'state/current-system-configuration/actions';
+import { fetchSystemReport } from 'state/system/actions';
 
 export const mapStateToProps = (state, { location: { pathname } }) => ({
   username: getUsername(state),
@@ -19,6 +20,7 @@ export const mapStateToProps = (state, { location: { pathname } }) => ({
 export const mapDispatchToProps = dispatch => ({
   fetchPlugins: () => dispatch(fetchPlugins()),
   fetchCurrentSystemConfiguration: () => dispatch(fetchCurrentSystemConfiguration()),
+  fetchSystemReport: () => dispatch(fetchSystemReport()),
   fetchUserPreferences: (username) => {
     dispatch(clearAppTourProgress());
     dispatch(fetchUserPreferences(username));
