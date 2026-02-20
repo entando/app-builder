@@ -1,6 +1,6 @@
 import 'test/enzyme-init';
 import {
-  getPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
+  getPage, getRootPage, getPageChildren, setPagePosition, postPage, putPage, patchPage, deletePage,
   getSearchPages, getPageSettings, getFreePages, getPageConfig, deletePageWidget, putPageWidget,
   getReferencesPage, restorePageConfig, applyDefaultPageConfig, putPageSettings,
 } from 'api/pages';
@@ -45,6 +45,20 @@ describe('api/pages', () => {
       getPage(PAGE_CODE, PAGE_STATUS_PUBLISHED);
       expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
         uri: `/api/pages/${PAGE_CODE}?status=${PAGE_STATUS_PUBLISHED}`,
+        method: METHODS.GET,
+        useAuthentication: true,
+      }));
+    });
+  });
+
+  describe('getRootPage', () => {
+    it('returns a promise', () => {
+      expect(getRootPage()).toBeInstanceOf(Promise);
+    });
+    it('makes the correct request', () => {
+      getRootPage();
+      expect(makeRequest).toHaveBeenCalledWith(expect.objectContaining({
+        uri: '/api/pages/utils/root',
         method: METHODS.GET,
         useAuthentication: true,
       }));
@@ -201,7 +215,7 @@ describe('api/pages', () => {
       getSearchPages();
       expect(makeRequest).toHaveBeenCalledWith(
         expect.objectContaining({
-          uri: '/api/pages/search',
+          uri: '/api/pages/utils/search',
           method: METHODS.GET,
           mockResponse: SEARCH_PAGES,
           useAuthentication: true,
@@ -221,7 +235,7 @@ describe('api/pages', () => {
     it('verify success groups', () => {
       getFreePages();
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/api/pages/search/group/free',
+        uri: '/api/pages/utils/search/group/free',
         method: METHODS.GET,
         mockResponse: FREE_PAGES_PAYLOAD,
         useAuthentication: true,

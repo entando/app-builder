@@ -311,7 +311,7 @@ PageTree.defaultProps = {
   myGroupIds: [],
   virtualRootOn: false,
   getIsVirtualRootOn: false,
-  rootPageCode: 'homepage',
+  rootPageCode: null,
 };
 
 export default PageTree;

@@ -7,7 +7,7 @@ import NavigationBarConfigForm from 'ui/widgets/config/forms/NavigationBarConfig
 import { fetchSearchPages } from 'state/pages/actions';
 import { fetchLanguages } from 'state/languages/actions';
 import { getLocale } from 'state/locale/selectors';
-import { getSearchPages } from 'state/pages/selectors';
+import { getSearchPages, getRootPageCode } from 'state/pages/selectors';
 import { updateConfiguredPageWidget } from 'state/widget-config/actions';
 
 import { setVisibleModal } from 'state/modal/actions';
@@ -18,7 +18,6 @@ import { getLoading } from 'state/loading/selectors';
 import { getAppTourProgress } from 'state/app-tour/selectors';
 import { APP_TOUR_STARTED } from 'state/app-tour/const';
 import { setAppTourLastStep } from 'state/app-tour/actions';
-import { HOMEPAGE_CODE } from 'state/pages/const';
 
 export const NavigationBarWidgetID = 'navigationBarWidgetForm';
 
@@ -31,12 +30,13 @@ export const mapStateToProps = (state, ownProps) => ({
   expressions: formValueSelector(NavigationBarWidgetID)(state, 'expressions'),
   loading: getLoading(state).expressionList,
   appTourProgress: getAppTourProgress(state),
+  rootPageCode: getRootPageCode(state),
 });
 
 export const mapDispatchToProps = (dispatch, ownProps) => ({
-  onDidMount: ({ initialize, appTourProgress }) => {
+  onDidMount: ({ initialize, appTourProgress, rootPageCode }) => {
     if (appTourProgress === APP_TOUR_STARTED) {
-      dispatch(initialize({ addConfig: { spec: 'code', targetCode: HOMEPAGE_CODE } }));
+      dispatch(initialize({ addConfig: { spec: 'code', targetCode: rootPageCode } }));
     }
     dispatch(fetchLanguages({ page: 1, pageSize: 0 }));
     dispatch(fetchSearchPages({ page: 1, pageSize: 0 }));
