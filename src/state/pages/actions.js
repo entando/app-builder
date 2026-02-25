@@ -28,7 +28,8 @@ import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
-import { toggleLoading } from 'state/loading/actions';
+import { toggleLoading, setLoading } from 'state/loading/actions';
+import { getLoading } from 'state/loading/selectors';
 import { getDefaultLanguage } from 'state/languages/selectors';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
@@ -204,18 +205,17 @@ export const fetchIfPageExists = pageCode => new Promise((resolve) => {
   getPage(pageCode).then(response => resolve(response.ok)).catch(() => resolve(false));
 });
 
-let rootPageFetched = false;
-
-export const fetchRootPage = () => async (dispatch) => {
-  if (rootPageFetched) return;
+export const fetchRootPage = () => async (dispatch, getState) => {
+  if (getLoading(getState()).rootPage) return;
+  dispatch(setLoading('rootPage', true));
   try {
     const response = await getRootPage();
     const json = await response.json();
     if (response.ok) {
       dispatch(setRootPage(json.payload.code));
-      rootPageFetched = true;
     }
   } catch (e) {
+    dispatch(setLoading('rootPage', false));
     // falls back to 'homepage' default in reducer
   }
 };
