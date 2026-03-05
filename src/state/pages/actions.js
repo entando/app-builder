@@ -4,7 +4,7 @@ import { addToast, addErrors, TOAST_SUCCESS, TOAST_ERROR } from '@entando/messag
 import { setPage } from 'state/pagination/actions';
 import {
   getPage, getPageChildren, setPagePosition, postPage, deletePage, getFreePages,
-  getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages,
+  getPageSettings, putPage, putPageStatus, getViewPages, getSearchPages, getRootPage,
   putPageSettings, patchPage, getPageSEO, postPageSEO, putPageSEO, postClonePage,
 } from 'api/pages';
 import {
@@ -13,6 +13,7 @@ import {
   getChildrenMap,
   getSelectedPage,
   getAllPageTreeLoadedStatus,
+  getRootPageCode,
 } from 'state/pages/selectors';
 import { makeGetSelectedPageConfig } from 'state/page-config/selectors';
 import { setPublishedPageConfig } from 'state/page-config/actions';
@@ -21,13 +22,14 @@ import {
   MOVE_PAGE, SET_FREE_PAGES, SET_SELECTED_PAGE, REMOVE_PAGE, UPDATE_PAGE, SEARCH_PAGES,
   CLEAR_SEARCH, SET_REFERENCES_SELECTED_PAGE, CLEAR_TREE, BATCH_TOGGLE_EXPANDED, COLLAPSE_ALL,
   SET_DASHBOARD_PAGES,
-  SET_VIRTUAL_ROOT,
+  SET_VIRTUAL_ROOT, SET_ROOT_PAGE,
 } from 'state/pages/types';
-import { HOMEPAGE_CODE, PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
+import { PAGE_STATUS_DRAFT, PAGE_STATUS_PUBLISHED, PAGE_STATUS_UNPUBLISHED, SEO_ENABLED } from 'state/pages/const';
 import { history, ROUTE_PAGE_TREE, ROUTE_PAGE_CLONE, ROUTE_PAGE_ADD } from 'app-init/router';
 import { generateJsonPatch } from 'helpers/jsonPatch';
 import getSearchParam from 'helpers/getSearchParam';
-import { toggleLoading } from 'state/loading/actions';
+import { toggleLoading, setLoading } from 'state/loading/actions';
+import { getLoading } from 'state/loading/selectors';
 import { getDefaultLanguage } from 'state/languages/selectors';
 
 import { APP_TOUR_CANCELLED, APP_TOUR_STARTED, APP_TOUR_HOMEPAGE_CODEREF } from 'state/app-tour/const';
@@ -176,6 +178,11 @@ export const setVirtualRoot = virtualRoot => ({
   payload: virtualRoot,
 });
 
+export const setRootPage = rootPageCode => ({
+  type: SET_ROOT_PAGE,
+  payload: rootPageCode,
+});
+
 const wrapApiCall = apiFunc => (...args) => async (dispatch) => {
   const response = await apiFunc(...args);
   const json = await response.json();
@@ -197,6 +204,21 @@ export const fetchPageChildren = wrapApiCall(getPageChildren);
 export const fetchIfPageExists = pageCode => new Promise((resolve) => {
   getPage(pageCode).then(response => resolve(response.ok)).catch(() => resolve(false));
 });
+
+export const fetchRootPage = () => async (dispatch, getState) => {
+  if (getLoading(getState()).rootPage) return;
+  dispatch(setLoading('rootPage', true));
+  try {
+    const response = await getRootPage();
+    const json = await response.json();
+    if (response.ok) {
+      dispatch(setRootPage(json.payload.code));
+    }
+  } catch (e) {
+    dispatch(setLoading('rootPage', false));
+    // falls back to 'homepage' default in reducer
+  }
+};
 
 
 export const fetchViewPages = () => dispatch => new Promise((resolve) => {
@@ -240,8 +262,9 @@ export const sendDeletePage = (page, successRedirect = true) => async (dispatch)
   }
 };
 
-export const fetchPageTree = pageCode => async (dispatch) => {
-  if (pageCode === HOMEPAGE_CODE) {
+export const fetchPageTree = pageCode => async (dispatch, getState) => {
+  const rootPageCode = getRootPageCode(getState());
+  if (pageCode === rootPageCode) {
     const responses = await Promise.all([
       fetchPage(pageCode)(dispatch),
       fetchPageChildren(pageCode)(dispatch),
@@ -256,21 +279,22 @@ export const fetchPageTree = pageCode => async (dispatch) => {
 };
 
 
-export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
+export const handleExpandPage = (pageCode, alwaysExpand) => (
   (dispatch, getState) => {
     const state = getState();
-    const pageStatus = getStatusMap(state)[pageCode];
+    const effectivePageCode = pageCode || getRootPageCode(state);
+    const pageStatus = getStatusMap(state)[effectivePageCode];
     const toExpand = (!pageStatus || !pageStatus.expanded);
     const toLoad = (toExpand && (!pageStatus || pageStatus.expanded === undefined));
     if (toLoad) {
-      dispatch(setPageLoading(pageCode));
-      return fetchPageTree(pageCode)(dispatch)
+      dispatch(setPageLoading(effectivePageCode));
+      return fetchPageTree(effectivePageCode)(dispatch, getState)
         .then((pages) => {
           dispatch(addPages(pages));
-          dispatch(setPageExpanded(pageCode, true));
-          dispatch(setPageLoaded(pageCode));
+          dispatch(setPageExpanded(effectivePageCode, true));
+          dispatch(setPageLoaded(effectivePageCode));
           if (
-            pageCode === APP_TOUR_HOMEPAGE_CODEREF &&
+            effectivePageCode === APP_TOUR_HOMEPAGE_CODEREF &&
             getAppTourProgress(state) !== APP_TOUR_CANCELLED
           ) {
             dispatch(setExistingPages(pages));
@@ -278,7 +302,7 @@ export const handleExpandPage = (pageCode = HOMEPAGE_CODE, alwaysExpand) => (
         }).catch(() => {});
     }
     dispatch(setPageExpanded(
-      pageCode,
+      effectivePageCode,
       alwaysExpand !== undefined ? alwaysExpand : toExpand,
     ));
     return noopPromise();
@@ -320,7 +344,7 @@ const movePage = (pageCode, siblingCode, moveAbove) => (dispatch, getState) => {
   const siblingPage = getPagesMap(state)[siblingCode];
   const page = getPagesMap(state)[pageCode];
   const oldParentCode = page.parentCode;
-  const newParentCode = siblingPage.parentCode || HOMEPAGE_CODE;
+  const newParentCode = siblingPage.parentCode || getRootPageCode(state);
   const newSiblingChildren = getChildrenMap(state)[newParentCode]
     .filter(code => code !== pageCode);
   const newSiblingIndex = newSiblingChildren.indexOf(siblingCode);
@@ -564,8 +588,8 @@ export const fetchPageForm = pageCode => (dispatch, getState) => fetchPageInfo(p
   })
   .catch(() => {});
 
-export const loadSelectedPage = pageCode => dispatch =>
-  fetchPage(pageCode || getSearchParam('parentCode') || HOMEPAGE_CODE)(dispatch)
+export const loadSelectedPage = pageCode => (dispatch, getState) =>
+  fetchPage(pageCode || getSearchParam('parentCode') || getRootPageCode(getState()))(dispatch)
     .then((response) => {
       dispatch(setSelectedPage(response.payload));
       return response.payload;

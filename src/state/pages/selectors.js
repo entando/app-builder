@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { getLocale } from 'state/locale/selectors';
-import { HOMEPAGE_CODE, PAGE_STATUS_PUBLISHED } from 'state/pages/const';
+import { PAGE_STATUS_PUBLISHED } from 'state/pages/const';
 import { getDomain } from '@entando/apimanager';
 import { PREVIEW_NAMESPACE } from 'ui/pages/config/const';
 import { get } from 'lodash';
@@ -17,6 +17,7 @@ export const getSelectedPage = state => state.pages.selected;
 export const getSearchPagesRaw = state => state.pages.search;
 export const getDashboardPages = state => state.pages.dashboard;
 export const getIsVirtualRootOn = state => state.pages.virtualRoot;
+export const getRootPageCode = state => state.pages.rootPage;
 
 export const getSearchPages = createSelector(
   [getSearchPagesRaw],
@@ -41,8 +42,8 @@ export const getFreePages = createSelector(
 
 
 // relies on the children map order
-const getPagesOrder = (pagesChildren) => {
-  const fifo = [HOMEPAGE_CODE];
+const getPagesOrder = (pagesChildren, rootPageCode) => {
+  const fifo = [rootPageCode];
   const sorted = [];
   while (fifo.length) {
     const curPageCode = fifo.pop();
@@ -56,10 +57,10 @@ const getPagesOrder = (pagesChildren) => {
   return sorted;
 };
 
-const isVisible = (pageCode, pages, pagesStatus) => {
+const isVisible = (pageCode, pages, pagesStatus, rootPageCode) => {
   let curPageCode = pageCode;
   if (pages[curPageCode]) {
-    while (curPageCode !== HOMEPAGE_CODE) {
+    while (curPageCode !== rootPageCode) {
       if (pages[curPageCode].parentCode) {
         curPageCode = pages[curPageCode].parentCode;
         if (pagesStatus[curPageCode] && !pagesStatus[curPageCode].expanded) {
@@ -72,11 +73,11 @@ const isVisible = (pageCode, pages, pagesStatus) => {
   return false;
 };
 
-const getDepth = (pages, pageCode) => {
+const getDepth = (pages, pageCode, rootPageCode) => {
   let curPageCode = pageCode;
   let depth = 0;
   if (pages[curPageCode]) {
-    while (curPageCode !== HOMEPAGE_CODE) {
+    while (curPageCode !== rootPageCode) {
       curPageCode = pages[curPageCode].parentCode;
       depth += 1;
     }
@@ -86,14 +87,14 @@ const getDepth = (pages, pageCode) => {
 
 // calculates the position map based on children map
 export const getPositionMap = createSelector(
-  [getChildrenMap],
-  childrenMap => Object.keys(childrenMap).reduce((acc, pageCode) => {
+  [getChildrenMap, getRootPageCode],
+  (childrenMap, rootPageCode) => Object.keys(childrenMap).reduce((acc, pageCode) => {
     const children = childrenMap[pageCode];
     children.forEach((childCode, i) => {
       acc[childCode] = i + 1;
     });
     return acc;
-  }, { homepage: 1 }),
+  }, { [rootPageCode]: 1 }),
 );
 
 
@@ -105,10 +106,13 @@ const PAGE_STATUS_DEFAULTS = {
 
 export const getPageTreePages = createSelector(
   [getPagesMap, getChildrenMap, getStatusMap, getTitlesMap, getLocale, getDefaultLanguage,
-    getIsVirtualRootOn],
-  (pages, pageChildren, pagesStatus, pagesTitles, locale, defaultLang, virtualRootOn) => (
-    getPagesOrder(pageChildren)
-      .filter(pageCode => isVisible(pageCode, pages, pagesStatus))
+    getIsVirtualRootOn, getRootPageCode],
+  (
+    pages, pageChildren, pagesStatus, pagesTitles, locale,
+    defaultLang, virtualRootOn, rootPageCode,
+  ) => (
+    getPagesOrder(pageChildren, rootPageCode)
+      .filter(pageCode => isVisible(pageCode, pages, pagesStatus, rootPageCode))
       .map((pageCode) => {
         const isEmpty = !(pageChildren[pageCode] && pageChildren[pageCode].length);
         let hasPublishedChildren = false;
@@ -125,7 +129,7 @@ export const getPageTreePages = createSelector(
             Object.keys(pagesTitles[pageCode]).find(langCode => pagesTitles[pageCode][langCode])
           ];
 
-        if (pageCode === HOMEPAGE_CODE && virtualRootOn) {
+        if (pageCode === rootPageCode && virtualRootOn) {
           title = 'Root';
         }
 
@@ -133,7 +137,7 @@ export const getPageTreePages = createSelector(
           ...pages[pageCode],
           ...PAGE_STATUS_DEFAULTS,
           ...pagesStatus[pageCode],
-          depth: getDepth(pages, pageCode),
+          depth: getDepth(pages, pageCode, rootPageCode),
           isEmpty,
           hasPublishedChildren,
           parentStatus,

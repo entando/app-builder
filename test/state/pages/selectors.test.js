@@ -58,6 +58,7 @@ const MOCK_STATE = {
     freePages: [],
     selected: { ...HOMEPAGE_PAYLOAD, references: { jacmsContentManager: true } },
     virtualRoot: true,
+    rootPage: 'homepage',
   },
 };
 

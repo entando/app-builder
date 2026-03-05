@@ -16,14 +16,14 @@ import PublishPageModalContainer from 'ui/pages/common/PublishPageModalContainer
 import UnpublishPageModalContainer from 'ui/pages/common/UnpublishPageModalContainer';
 import PageListSearchTable from 'ui/pages/list/PageListSearchTable';
 import MovePageModalContainer from 'ui/pages/common/MovePageModalContainer';
-import { HOMEPAGE_CODE, PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
+import { PAGE_MOVEMENT_OPTIONS } from 'state/pages/const';
 
 
-export const getIsRootAndVirtual = (page, virtualRootOn) => {
+export const getIsRootAndVirtual = (page, virtualRootOn, rootPageCode) => {
   if (!page) {
     return false;
   }
-  if (page.code === HOMEPAGE_CODE && virtualRootOn) {
+  if (page.code === rootPageCode && virtualRootOn) {
     return true;
   }
   return false;
@@ -52,6 +52,7 @@ class PageTree extends Component {
       onCollapseAll,
       onExpandPage,
       virtualRootOn,
+      rootPageCode,
     } = this.props;
 
     const columnDefs = {
@@ -117,7 +118,7 @@ class PageTree extends Component {
             className.push('PageTree__tree-column-td--empty');
           }
           // No drag class is added if first level child and Virtual Root On
-          if (page.original.parentCode === HOMEPAGE_CODE && virtualRootOn) {
+          if (page.original.parentCode === rootPageCode && virtualRootOn) {
             className.push('PageTree__no-drag');
           }
 
@@ -169,7 +170,8 @@ class PageTree extends Component {
   }
 
   renderActionCell({ original: page }) {
-    const isRootAndVirtual = getIsRootAndVirtual(page, this.props.virtualRootOn);
+    const { virtualRootOn, rootPageCode } = this.props;
+    const isRootAndVirtual = getIsRootAndVirtual(page, virtualRootOn, rootPageCode);
 
     if (isRootAndVirtual) {
       return null;
@@ -294,6 +296,7 @@ PageTree.propTypes = {
   myGroupIds: PropTypes.arrayOf(PropTypes.string),
   virtualRootOn: PropTypes.bool,
   getIsVirtualRootOn: PropTypes.bool,
+  rootPageCode: PropTypes.string,
 };
 
 PageTree.defaultProps = {
@@ -308,6 +311,7 @@ PageTree.defaultProps = {
   myGroupIds: [],
   virtualRootOn: false,
   getIsVirtualRootOn: false,
+  rootPageCode: null,
 };
 
 export default PageTree;

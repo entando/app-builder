@@ -4,7 +4,7 @@ import { clearErrors } from '@entando/messages';
 import { formValueSelector } from 'redux-form';
 
 import PageTreePage from 'ui/pages/list/PageTreePage';
-import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree } from 'state/pages/actions';
+import { handleExpandPage, fetchSearchPages, clearSearchPage, clearTree, fetchRootPage } from 'state/pages/actions';
 import { getLocale } from 'state/locale/selectors';
 import { getSearchPages } from 'state/pages/selectors';
 import { toggleLoading } from 'state/loading/actions';
@@ -30,7 +30,8 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearTree());
     dispatch(clearSearchPage());
     dispatch(toggleLoading('pageTree'));
-    dispatch(handleExpandPage())
+    dispatch(fetchRootPage())
+      .then(() => dispatch(handleExpandPage()))
       .then(() => {
         if (appTourProgress === APP_TOUR_STARTED && isSuperuser) {
           dispatch(handleExpandPage(APP_TOUR_HOMEPAGE_CODEREF)).finally(() => dispatch(toggleLoading('pageTree')));
