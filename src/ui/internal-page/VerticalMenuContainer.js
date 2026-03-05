@@ -73,7 +73,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
   ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
 
-  const { contentSchedulerPluginInstalled } = systemReport;
+  const { contentSchedulerPluginInstalled, contentWorkFlowPluginInstalled } = systemReport;
 
   return (
     <Item
@@ -132,8 +132,17 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
         hasMenuContentsAccess && contentSchedulerPluginInstalled && (
           <SecondaryItem
             id="menu-scheduler"
-            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Content Scheduler' })}
+            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Scheduler' })}
             href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
+          />
+        )
+      }
+      {
+        hasMenuContentsAccess && contentWorkFlowPluginInstalled && (
+          <SecondaryItem
+            id="menu-workflow"
+            title={intl.formatMessage({ id: 'cms.menu.workflow', defaultMessage: 'WorkFlow' })}
+            href={adminConsoleUrl('do/jpcontentworkflow/Workflow/list.action')}
           />
         )
       }
@@ -438,32 +447,41 @@ const EntandoMenu = ({
 };
 
 const MfeMenuContainer = ({
-  menuId, headerId, onStartTutorial, appTourLastStep,
-}) => (
-  <div className="MfeMenuContainer">
-    <div className="MfeMenuContainer__header-menu-container">
+  menuId, headerId, onStartTutorial, appTourLastStep, onMount,
+}) => {
+  useEffect(() => {
+    if (onMount) {
+      onMount();
+    }
+  }, [onMount]);
+
+  return (
+    <div className="MfeMenuContainer">
+      <div className="MfeMenuContainer__header-menu-container">
+        {
+        headerId ? <MfeContainer id={headerId} />
+        : getHeader(onStartTutorial)
+      }
+      </div>
       {
-      headerId ? <MfeContainer id={headerId} />
-      : getHeader(onStartTutorial)
-    }
+        menuId && (
+          <div
+            className={`MfeMenuContainer__left-menu-container ${appTourLastStep === 3 || appTourLastStep === 4 ? 'tour-focus' : ''}`}
+          >
+            <MfeContainer id={menuId} />
+          </div>
+        )
+      }
     </div>
-    {
-      menuId && (
-        <div
-          className={`MfeMenuContainer__left-menu-container ${appTourLastStep === 3 || appTourLastStep === 4 ? 'tour-focus' : ''}`}
-        >
-          <MfeContainer id={menuId} />
-        </div>
-      )
-    }
-  </div>
-);
+  );
+};
 
 MfeMenuContainer.propTypes = {
   menuId: PropTypes.string.isRequired,
   headerId: PropTypes.string.isRequired,
   onStartTutorial: PropTypes.func.isRequired,
   appTourLastStep: PropTypes.number.isRequired,
+  onMount: PropTypes.func.isRequired,
 };
 
 const VerticalMenu = (props) => {
@@ -480,6 +498,7 @@ const VerticalMenu = (props) => {
         menuId={mfeMenu.id}
         onStartTutorial={props.onStartTutorial}
         appTourLastStep={props.appTourLastStep}
+        onMount={props.onMount}
       />
     : <EntandoMenu {...props} />;
 };
