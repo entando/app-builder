@@ -9,6 +9,7 @@ const localStorageStates = {
   appTour: ['appTourProgress', 'lastStep'],
   tableColumnOrder: [],
   fileBrowser: [],
+  pages: ['rootPage'],
 };
 
 export const getPersistedState = (state, path, localStorageState) => {
