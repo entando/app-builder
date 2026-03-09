@@ -9,6 +9,7 @@ import { routeConverter, hasAccess } from '@entando/utils';
 import { clearAppTourProgress, setAppTourLastStep, setWizardEnabled } from 'state/app-tour/actions';
 
 import { adminConsoleUrl } from 'helpers/urlUtils';
+import { checkPermission } from 'helpers/permissions';
 import UserMenuContainer from 'ui/internal-page/UserMenuContainer';
 import LanguageSelectContainer from 'ui/internal-page/LanguageSelectContainer';
 
@@ -132,10 +133,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
       {
         dynamicMenuItems
           .filter(item =>
-            hasAccess(
-              item['appBuilderMenu.requiredPermission'].split(',').map(p => p.trim()),
-              userPermissions,
-            ))
+            checkPermission(item['appBuilderMenu.requiredPermission'], userPermissions))
           .map(item => (
             <SecondaryItem
               key={item['appBuilderMenu.id']}
