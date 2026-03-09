@@ -74,7 +74,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
   ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
 
-  const { contentSchedulerPluginInstalled, contentWorkFlowPluginInstalled } = systemReport;
+  const dynamicMenuItems = Array.isArray(systemReport) ? systemReport : [];
 
   return (
     <Item
@@ -130,22 +130,23 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
         )
       }
       {
-        hasMenuContentsAccess && contentSchedulerPluginInstalled && (
-          <SecondaryItem
-            id="menu-scheduler"
-            title={intl.formatMessage({ id: 'cms.menu.scheduler', defaultMessage: 'Scheduler' })}
-            href={adminConsoleUrl('do/jpcontentscheduler/config/viewItem.action')}
-          />
-        )
-      }
-      {
-        hasMenuContentsAccess && contentWorkFlowPluginInstalled && (
-          <SecondaryItem
-            id="menu-workflow"
-            title={intl.formatMessage({ id: 'cms.menu.workflow', defaultMessage: 'WorkFlow' })}
-            href={adminConsoleUrl('do/jpcontentworkflow/Workflow/list.action')}
-          />
-        )
+        dynamicMenuItems
+          .filter(item =>
+            hasAccess(
+              item['appBuilderMenu.requiredPermission'].split(',').map(p => p.trim()),
+              userPermissions,
+            ))
+          .map(item => (
+            <SecondaryItem
+              key={item['appBuilderMenu.id']}
+              id={item['appBuilderMenu.id']}
+              title={intl.formatMessage({
+                id: item['appBuilderMenu.labelId'],
+                defaultMessage: item['appBuilderMenu.defaultLabel'],
+              })}
+              href={adminConsoleUrl(item['appBuilderMenu.href'])}
+            />
+          ))
       }
       {
         hasMenuContentTypeAccess && (

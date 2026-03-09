@@ -26,9 +26,7 @@ const mfeConfigMock = {
 jest.mock('hooks/useMfe', () => jest.fn(() => ({ assetLoading: mockedLoading, mfe: mockMfe })));
 
 jest.mock('state/system/selectors', () => ({
-  getSystemReport: jest.fn().mockReturnValue({
-    contentSchedulerPluginInstalled: true,
-  }),
+  getSystemReport: jest.fn().mockReturnValue([]),
 }));
 
 describe('MfeContainer', () => {
