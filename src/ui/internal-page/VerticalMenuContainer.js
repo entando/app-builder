@@ -55,6 +55,63 @@ const {
 
 const publicUrl = process.env.PUBLIC_URL;
 
+const getReportEntries = systemReport => (Array.isArray(systemReport) ? systemReport : []);
+
+const getGroupItems = group =>
+  (Array.isArray(group['appBuilderMenu.items']) ? group['appBuilderMenu.items'] : []);
+
+const renderMenuItemsByHook = (systemReport, hook) =>
+  getReportEntries(systemReport).filter(e => e['appBuilderMenu.hook'] === hook);
+
+const renderDynamicItems = (items, intl, userPermissions) =>
+  items
+    .filter(item => checkPermission(item.requiredPermission, userPermissions))
+    .map(item => (
+      <SecondaryItem
+        key={item.id}
+        id={item.id}
+        title={intl.formatMessage({
+          id: item.labelId,
+          defaultMessage: item.defaultLabel,
+        })}
+        href={adminConsoleUrl(item.href)}
+      />
+    ));
+
+const renderLegacyPluginsMenu = (intl, userPermissions, systemReport) => {
+  const pluginGroups = renderMenuItemsByHook(systemReport, 'legacyPlugins')
+    .filter(g => getGroupItems(g)
+      .some(item => checkPermission(item.requiredPermission, userPermissions)));
+
+  if (pluginGroups.length === 0) return null;
+
+  return (
+    <Item
+      id="menu-legacy-plugins"
+      key="legacyPlugins"
+      onClick={() => {}}
+      iconClass="fa fa-puzzle-piece"
+      title={intl.formatMessage({ id: 'menu.legacyPlugins', defaultMessage: 'Legacy Plugins' })}
+    >
+      {pluginGroups.flatMap((group) => {
+        const items = getGroupItems(group)
+          .filter(item => checkPermission(item.requiredPermission, userPermissions));
+        const pluginId = group['appBuilderMenu.pluginId'] || '';
+        const pluginLabel = group['appBuilderMenu.pluginLabel'] || pluginId;
+        return [
+          <SecondaryItem
+            key={`header-${pluginId}`}
+            id={`header-${pluginId}`}
+            className="LegacyPlugins__group-header"
+            title={pluginLabel}
+          />,
+          ...renderDynamicItems(items, intl, userPermissions),
+        ];
+      })}
+    </Item>
+  );
+};
+
 const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAdvancedSearchOn) => {
   const hasMenuContentsAccess = hasAccess([
     CRUD_CONTENTS_PERMISSION,
@@ -75,7 +132,8 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
   ], userPermissions);
   const hasMenuContentSettingsAccess = hasAccess(SUPERUSER_PERMISSION, userPermissions);
 
-  const dynamicMenuItems = Array.isArray(systemReport) ? systemReport : [];
+  const cmsGroups = renderMenuItemsByHook(systemReport, 'cms');
+  const cmsItems = cmsGroups.length > 0 ? getGroupItems(cmsGroups[0]) : [];
 
   return (
     <Item
@@ -130,22 +188,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
           />
         )
       }
-      {
-        dynamicMenuItems
-          .filter(item =>
-            checkPermission(item['appBuilderMenu.requiredPermission'], userPermissions))
-          .map(item => (
-            <SecondaryItem
-              key={item['appBuilderMenu.id']}
-              id={item['appBuilderMenu.id']}
-              title={intl.formatMessage({
-                id: item['appBuilderMenu.labelId'],
-                defaultMessage: item['appBuilderMenu.defaultLabel'],
-              })}
-              href={adminConsoleUrl(item['appBuilderMenu.href'])}
-            />
-          ))
-      }
+      {renderDynamicItems(cmsItems, intl, userPermissions)}
       {
         hasMenuContentTypeAccess && (
           <SecondaryItem
@@ -336,6 +379,7 @@ const EntandoMenu = ({
           ], userPermissions) &&
           renderCmsMenuItems(intl, userPermissions, systemReport, currSystemConfigAdvancedSearchOn)
         }
+        {renderLegacyPluginsMenu(intl, userPermissions, systemReport)}
         {
 
           hasAccess(

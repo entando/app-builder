@@ -326,6 +326,7 @@ export default {
     'menu.apiManagement.resources': 'Recursos',
     'menu.apiManagement.services': 'serviços',
     'menu.apiManagement.consumers': 'Consumer',
+    'menu.legacyPlugins': 'Plugins Legados',
     'menu.settings': 'Administração',
     'menu.emailConfig': 'Configuração de Email',
     'menu.apps': 'Apps',

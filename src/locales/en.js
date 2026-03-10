@@ -337,6 +337,7 @@ export default {
     'menu.scheduler': 'Scheduler',
     'menu.versioning': 'Versioning',
     'menu.apps': 'Apps',
+    'menu.legacyPlugins': 'Legacy Plugins',
     'menu.settings': 'Administration',
     'menu.emailConfig': 'Email Configuration',
     'dashboard.cards.noPermission': 'You have no permission to visualize this data',

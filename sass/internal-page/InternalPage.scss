@@ -307,6 +307,41 @@
 
 // sass-lint:enable force-element-nesting class-name-format nesting-depth
 
+// sass-lint:disable class-name-format force-element-nesting nesting-depth no-important no-qualifying-elements quotes property-sort-order
+.nav-pf-secondary-nav .list-group {
+  li.list-group-item.LegacyPlugins__group-header {
+    position: relative;
+    margin-top: 4px;
+    padding-left: 25px;
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 20px;
+      left: 20px;
+      height: 1px;
+      background-color: $color-pf-black-600;
+    }
+
+    &:first-of-type {
+      margin-top: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    > a {
+      padding-left: 20px !important;
+      font-weight: 700 !important;
+      cursor: default;
+    }
+  }
+}
+// sass-lint:enable class-name-format force-element-nesting nesting-depth no-important no-qualifying-elements quotes property-sort-order
+
 .NoAccessPage {
   position: fixed;
   top: 0;

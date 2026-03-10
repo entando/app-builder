@@ -16,7 +16,7 @@ describe('api/system', () => {
     it('should make a request with the correct parameters', () => {
       getSystemReport();
       expect(makeRequest).toHaveBeenCalledWith({
-        uri: '/api/system/report',
+        uri: '/api/system/legacy-components-menu',
         method: METHODS.GET,
         mockResponse: {},
         useAuthentication: true,
