@@ -412,6 +412,7 @@ export default {
     'widget.page.config.error': 'Impossibile caricare la configurazione del widget',
     'widget.page.config.goToConfig': 'Vai alla configurazione di default',
     'widget.page.config.readOnlyMessage': 'Questa è la configurazione di default del widget. Vuoi modificarla?',
+    'widget.page.config.legacySaveTooltip': 'Usa il pulsante Salva nel modulo di configurazione qui sotto',
     'widget.icon.description': 'Carica la tua icona dalla libreria delle icone o dal tuo computer',
     'widget.icon.iconLibrary': 'Icon Library',
     'widget.icon.upload': 'Carica',

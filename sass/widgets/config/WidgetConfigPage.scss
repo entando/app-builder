@@ -56,4 +56,11 @@
   & .panel-heading {
     background-color: $color-white;
   }
+
+  &__legacy-iframe {
+    width: 100%;
+    min-height: 600px;
+    border: 0;
+    overflow: hidden;
+  }
 }

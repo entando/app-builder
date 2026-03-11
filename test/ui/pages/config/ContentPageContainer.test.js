@@ -23,6 +23,7 @@ jest.mock('state/user-preferences/selectors', () => ({
 
 jest.mock('state/groups/selectors', () => ({
   getMyGroupsList: jest.fn(),
+  getGroupsMap: jest.fn(() => ({})),
 }));
 
 getPageTreePages.mockReturnValue([HOMEPAGE_PAYLOAD]);
