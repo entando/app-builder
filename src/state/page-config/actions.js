@@ -2,6 +2,7 @@ import { initialize } from 'redux-form';
 import { routeConverter } from '@entando/utils';
 import { addToast, addErrors, clearErrors, TOAST_ERROR } from '@entando/messages';
 
+import { isLegacyWidget } from 'helpers/legacyWidget';
 import { loadSelectedPageTemplate } from 'state/page-templates/actions';
 import { getSelectedPageTemplateMainFrame, getSelectedPageTemplateDefaultConfig } from 'state/page-templates/selectors';
 import { loadSelectedPage, setSelectedPage } from 'state/pages/actions';
@@ -254,10 +255,12 @@ export const configOrUpdatePageWidget = (sourceWidgetId, sourceFrameId, targetFr
     if (widget.hasConfig && !isAlreadyConfigured) {
       const nextStep = widgetNextSteps[sourceWidgetId];
       const appTourProgress = getAppTourProgress(getState());
+
       history.push(routeConverter(
         ROUTE_WIDGET_CONFIG,
         { pageCode, widgetCode: sourceWidgetId, framePos: targetFrameId },
       ));
+
       if (nextStep && appTourProgress === APP_TOUR_STARTED) {
         dispatch(setAppTourLastStep(nextStep));
       }
@@ -277,7 +280,7 @@ export const editWidgetConfig = (frameId, pageCode) =>
       const widget = getWidgetsMap(getState())[pageConfigItem.code];
       const isConfigurableWidget = widget && widget.hasConfig;
 
-      if (isConfigurableWidget || pageConfigItem.config) {
+      if (isLegacyWidget(widget) || isConfigurableWidget || pageConfigItem.config) {
         dispatch(initialize('widgetConfigForm', pageConfigItem.config));
         history.push(routeConverter(
           ROUTE_WIDGET_CONFIG,

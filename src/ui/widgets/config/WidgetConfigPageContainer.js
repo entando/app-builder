@@ -8,6 +8,7 @@ import WidgetConfigPage from 'ui/widgets/config/WidgetConfigPage';
 import { getSelectedWidget } from 'state/widgets/selectors';
 import { makeGetWidgetConfigFrameName } from 'state/widget-config/selectors';
 import { updateConfiguredPageWidget, initWidgetConfigPage, initWidgetConfigPageWithConfigData } from 'state/widget-config/actions';
+import { initConfigPage } from 'state/page-config/actions';
 import withPermissions from 'ui/auth/withPermissions';
 import { MANAGE_PAGES_PERMISSION } from 'state/permissions/const';
 import { ROUTE_APP_BUILDER_PAGE_CONFIG } from 'app-init/router';
@@ -27,6 +28,11 @@ export const mapDispatchToProps = (dispatch, { match: { params }, history }) => 
   onCancel: () => {
     const { pageCode } = params;
     history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode }));
+  },
+  onLegacySave: (pageCode) => {
+    dispatch(initConfigPage(pageCode || params.pageCode));
+    const code = pageCode || params.pageCode;
+    history.push(routeConverter(ROUTE_APP_BUILDER_PAGE_CONFIG, { pageCode: code }));
   },
 });
 

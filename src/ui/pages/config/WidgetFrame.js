@@ -7,6 +7,7 @@ import { routeConverter } from '@entando/utils';
 
 import { ROUTE_WIDGET_DETAIL, ROUTE_WIDGET_EDIT } from 'app-init/router';
 import { WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED } from 'state/page-config/const';
+import { LEGACY_CONFIG_CUSTOM_ELEMENT } from 'helpers/legacyWidget';
 import WidgetIcon from 'ui/widgets/common/WidgetIcon';
 
 
@@ -15,12 +16,14 @@ class WidgetFrame extends Component {
     const {
       widgetId, widgetName, widgetHasConfig, widgetStatus, frameId, frameName, frameIsMainFrame,
       onClickDelete, connectDragSource, connectDropTarget, isOver, onClickSettings, onClickSaveAs,
-      configUiName, widgetHasConfigForm,
+      configUiName, widgetHasConfigForm, configUi,
     } = this.props;
+
+    const isLegacy = configUi && configUi.customElement === LEGACY_CONFIG_CUSTOM_ELEMENT;
 
     let actionsMenu = null;
     if (widgetStatus !== WIDGET_STATUS_REMOVED) {
-      const configMenuItems = widgetHasConfig && (configUiName || widgetHasConfigForm) ?
+      const configMenuItems = widgetHasConfig && (configUiName || widgetHasConfigForm || isLegacy) ?
         [
           (
             <MenuItem
@@ -137,6 +140,7 @@ WidgetFrame.propTypes = {
   widgetStatus: PropTypes.oneOf([WIDGET_STATUS_MATCH, WIDGET_STATUS_DIFF, WIDGET_STATUS_REMOVED]),
   configUiName: PropTypes.string,
   widgetHasConfigForm: PropTypes.bool,
+  configUi: PropTypes.shape({ customElement: PropTypes.string }),
 
   /* eslint-disable react/no-unused-prop-types */
   frameId: PropTypes.number, // needed when it's droppable
@@ -166,6 +170,7 @@ WidgetFrame.defaultProps = {
   isOver: false,
   configUiName: null,
   widgetHasConfigForm: false,
+  configUi: null,
 };
 
 

@@ -70,6 +70,7 @@ export const makeGetPageConfigCellMap = params => createSelector(
             relatedCell.widgetTitle = widget.titles[locale] || widget.name;
             relatedCell.widgetHasConfig = widget.hasConfig;
             relatedCell.configUiName = widget.configUiName;
+            relatedCell.configUi = widget.configUi || null;
             relatedCell.widgetHasConfigForm = !!isMicrofrontendWidgetForm(widget);
           }
         }

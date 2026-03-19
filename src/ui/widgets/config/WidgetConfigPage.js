@@ -2,8 +2,8 @@ import { get } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape, defineMessages } from 'react-intl';
-import { Grid, Row, Col, Breadcrumb, Button } from 'patternfly-react';
-import { Panel } from 'react-bootstrap';
+import { Grid, Row, Col, Breadcrumb, Button, OverlayTrigger } from 'patternfly-react';
+import { Panel, Tooltip } from 'react-bootstrap';
 
 import BreadcrumbItem from 'ui/common/BreadcrumbItem';
 import InternalPage from 'ui/internal-page/InternalPage';
@@ -14,8 +14,10 @@ import { ROUTE_PAGE_CONFIG } from 'app-init/router';
 import { routeConverter } from '@entando/utils';
 import getAppBuilderWidgetForm from 'helpers/getAppBuilderWidgetForm';
 import { isMicrofrontendWidgetForm } from 'helpers/microfrontends';
+import { isLegacyWidget, buildLegacyConfigUrl } from 'helpers/legacyWidget';
 import WidgetConfigMicrofrontend from 'ui/widgets/config/WidgetConfigMicrofrontend';
 import WidgetConfigPanel from 'ui/widgets/config/WidgetConfigPanel';
+import WidgetConfigPortal from 'ui/widgets/config/WidgetConfigPortal';
 
 const msgs = defineMessages({
   widgetConfigError: {
@@ -40,6 +42,8 @@ class WidgetConfigPage extends Component {
   constructor(props) {
     super(props);
     this.toggleInfoTable = this.toggleInfoTable.bind(this);
+    this.handleLegacyMessage = this.handleLegacyMessage.bind(this);
+    this.legacyIframeRef = null;
     this.state = {
       infoTableOpen: false,
     };
@@ -47,6 +51,7 @@ class WidgetConfigPage extends Component {
 
   componentDidMount() {
     if (this.props.onDidMount) this.props.onDidMount(this.props);
+    window.addEventListener('message', this.handleLegacyMessage);
   }
 
   componentDidUpdate() {
@@ -61,6 +66,20 @@ class WidgetConfigPage extends Component {
 
   componentWillUnmount() {
     if (this.props.onWillUnmount) this.props.onWillUnmount(this.props);
+    window.removeEventListener('message', this.handleLegacyMessage);
+  }
+
+  handleLegacyMessage(event) {
+    if (!event.data) return;
+    if (event.data.type === 'entando.widgetConfigSaved') {
+      const { onLegacySave, pageCode } = this.props;
+      if (onLegacySave) {
+        onLegacySave(pageCode);
+      }
+    }
+    if (event.data.type === 'entando.legacyConfigResize' && this.legacyIframeRef) {
+      this.legacyIframeRef.style.height = `${event.data.height}px`;
+    }
   }
 
   toggleInfoTable() {
@@ -103,6 +122,47 @@ class WidgetConfigPage extends Component {
               )
             }
           </WidgetConfigPanel>
+        );
+      }
+      if (isLegacyWidget(widget)) {
+        const legacyUrl = buildLegacyConfigUrl(widget, pageCode, framePos);
+        return (
+          <Row>
+            <Col xs={12}>
+              <WidgetConfigPortal>
+                <OverlayTrigger
+                  placement="bottom"
+                  overlay={
+                    <Tooltip id="legacy-save-tooltip">
+                      <FormattedMessage id="widget.page.config.legacySaveTooltip" />
+                    </Tooltip>
+                  }
+                >
+                  <span className="pull-right">
+                    <Button
+                      className="WidgetConfigPage__save-btn"
+                      bsStyle="primary"
+                      disabled
+                    >
+                      <FormattedMessage id="app.save" />
+                    </Button>
+                  </span>
+                </OverlayTrigger>
+                <Button
+                  className="pull-right WidgetConfigPage__cancel-btn"
+                  onClick={onCancel}
+                >
+                  <FormattedMessage id="app.cancel" />
+                </Button>
+              </WidgetConfigPortal>
+              <iframe
+                title="Legacy Widget Configuration"
+                src={legacyUrl}
+                className="WidgetConfigPage__legacy-iframe"
+                ref={(el) => { this.legacyIframeRef = el; }}
+              />
+            </Col>
+          </Row>
         );
       }
       if (isMicrofrontendWidgetForm(widget)) {
@@ -198,6 +258,7 @@ WidgetConfigPage.propTypes = {
   pageCode: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onLegacySave: PropTypes.func,
   intl: intlShape.isRequired,
   history: PropTypes.shape({}).isRequired,
 };
@@ -207,6 +268,7 @@ WidgetConfigPage.defaultProps = {
   widgetConfig: null,
   onDidMount: null,
   onWillUnmount: null,
+  onLegacySave: null,
 };
 
 export default WidgetConfigPage;

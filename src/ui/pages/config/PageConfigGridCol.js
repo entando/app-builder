@@ -56,6 +56,7 @@ const PageConfigGridCol = ({ cellMap, cellKey, gridWidth }) => {
         widgetHasConfig={col.widgetHasConfig}
         widgetStatus={col.widgetStatus}
         widgetHasConfigForm={col.widgetHasConfigForm}
+        configUi={col.configUi}
       />
     );
   } else {
@@ -92,6 +93,9 @@ PageConfigGridCol.propTypes = {
     widgetCode: PropTypes.string,
     widgetStatus: PropTypes.string,
     configUiName: PropTypes.string,
+    configUi: PropTypes.shape({
+      customElement: PropTypes.string,
+    }),
     frameDescr: PropTypes.string,
     widgetTitle: PropTypes.string,
     widgetHasConfig: PropTypes.bool,
