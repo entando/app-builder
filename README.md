@@ -50,6 +50,21 @@ Not needed if you're using Keycloak.
 #### `COMPONENT_REPOSITORY_UI_ENABLED` (boolean, default: `false`)
 a boolean used to determine whether the Component Repository (former Digital Exchange) should be enabled or not.
 
+#### `ENTANDO_FEATURE_FLAGS` (string, default: `""`)
+a comma-separated list of feature flags to enable. Available flags:
+
+- `HEADLESS_WIDGET_CONFIG` — enables legacy widget configuration via headless Struts iframe. When enabled, widgets with `configUi.customElement` set to `LEGACY_CONFIG` will render their configuration form inside an iframe pointing to the Struts admin console.
+
+Example with a single flag:
+```
+ENTANDO_FEATURE_FLAGS=HEADLESS_WIDGET_CONFIG
+```
+
+Example with multiple flags:
+```
+ENTANDO_FEATURE_FLAGS=HEADLESS_WIDGET_CONFIG,ANOTHER_FLAG
+```
+
 #### `KEYCLOAK_ENABLED` (boolean, default: `false`)
 a boolean that enables authentication through [Keycloak](https://www.keycloak.org/). Won't be used if `USE_MOCKS` is set to true.
 
