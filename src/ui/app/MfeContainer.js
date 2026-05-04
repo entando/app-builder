@@ -42,6 +42,7 @@ const MfeContainer = ({ id, history }) => {
 
     if (JSON.stringify(entandoWindow.globals || {}) !== JSON.stringify(globals)) {
       entandoWindow.globals = globals;
+      window.dispatchEvent(new CustomEvent('entando-globals-updated', { detail: globals }));
     }
 
     entandoWindow.epc = entandoWindow.epc || {};
