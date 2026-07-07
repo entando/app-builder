@@ -5,8 +5,8 @@ const getContextFromURL = (pathname) => {
   const publicUrlIndex = pathFragments.findIndex(el => el === process.env.PUBLIC_URL.replace('/', ''));
   const context = pathFragments[publicUrlIndex + 1];
 
-  const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
-  const virtualContexts = ENTANDO_VIRTUAL_CONTEXTS.split(',');
+  const { AB_ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
+  const virtualContexts = AB_ENTANDO_VIRTUAL_CONTEXTS.split(',');
   if (virtualContexts.includes(context)) return context;
   return '';
 };
