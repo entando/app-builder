@@ -4,7 +4,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import getRuntimeEnv from 'helpers/getRuntimeEnv';
 import { determineBestLandingUrl, getContextFromURL } from 'helpers/contextUtils';
 
-const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
+const { AB_ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
 
 const ContextSelect = ({ intl }) => (
   <li className="ContextSelect">
@@ -21,7 +21,7 @@ const ContextSelect = ({ intl }) => (
       }}
     >
       {
-        ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
+        AB_ENTANDO_VIRTUAL_CONTEXTS.split(',').map(ctx => (
           ctx === 'ROOT' ?
             <option value={ctx} key={ctx} className="ContextSelect__option">
               {intl.formatMessage({ id: 'contextSelect.ROOT' })}

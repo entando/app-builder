@@ -180,7 +180,7 @@ const renderCmsMenuItems = (intl, userPermissions, systemReport, currSysConfigAd
 //     iconClass="fa fa-cart-plus"
 //     title={intl.formatMessage({ id: 'componentRepository.menuButton.title' })}
 //   />) : '');
-const { ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
+const { AB_ENTANDO_VIRTUAL_CONTEXTS } = getRuntimeEnv();
 const getHeader = (onStartTutorial, intl, userPermissions) => (
   <Masthead>
     <Brand
@@ -191,7 +191,7 @@ const getHeader = (onStartTutorial, intl, userPermissions) => (
     />
     <VerticalNav.IconBar collapse>
       {hasAccess(SUPERUSER_PERMISSION, userPermissions || [])
-        && ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} />}
+        && AB_ENTANDO_VIRTUAL_CONTEXTS && <ContextSelect intl={intl} />}
       <LanguageSelectContainer key="LanguageSelect" />
       <HomePageLinkContainer key="projectLink" />
       <InfoMenu key="InfoMenu" onStartTutorial={onStartTutorial} />

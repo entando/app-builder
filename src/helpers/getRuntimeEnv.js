@@ -24,7 +24,7 @@ const getContextFromURL = (pathname, entVirtualContexts) => {
 };
 
 const validateDomain = (domain) => {
-  const virtualContext = getContextFromURL(window.location.pathname, getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'));
+  const virtualContext = getContextFromURL(window.location.pathname, getEnvVar('AB_ENTANDO_VIRTUAL_CONTEXTS'));
   if (domain) {
     const isValidURL = isURL(domain, {
       allow_protocol_relative_urls: true,
@@ -54,6 +54,6 @@ export default () => ({
   COMPONENT_REPOSITORY_UI_ENABLED: getBooleanEnvVar('COMPONENT_REPOSITORY_UI_ENABLED'),
   DOMAIN: validateDomain(getEnvVar('DOMAIN')),
   KEYCLOAK_JSON: getEnvVar('KEYCLOAK_JSON') || `${validateDomain(getEnvVar('DOMAIN'))}/keycloak.json`,
-  ENTANDO_VIRTUAL_CONTEXTS: getEnvVar('ENTANDO_VIRTUAL_CONTEXTS'),
+  AB_ENTANDO_VIRTUAL_CONTEXTS: getEnvVar('AB_ENTANDO_VIRTUAL_CONTEXTS'),
   DOMAIN_CM: getEnvVar('DOMAIN_CM'),
 });
