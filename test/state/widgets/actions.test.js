@@ -325,6 +325,21 @@ describe('state/widgets/actions', () => {
         }).catch(done.fail);
       });
 
+      it('stores every widget returned by the API, whatever its code', (done) => {
+        const payload = [
+          ...WIDGET_LIST.payload,
+          { ...WIDGET_LIST.payload[0], code: 'userprofile_editCurrentUser_profile', widgetCategory: 'user' },
+          { ...WIDGET_LIST.payload[0], code: 'userprofile_editCurrentUser' },
+          { ...WIDGET_LIST.payload[0], code: 'userprofile_editCurrentUser_password' },
+        ];
+        getWidgets.mockImplementation(mockApi({ payload }));
+        store.dispatch(fetchWidgetList()).then(() => {
+          const setList = store.getActions().find(({ type }) => type === SET_WIDGET_LIST);
+          expect(setList.payload.widgetList).toEqual(payload);
+          done();
+        }).catch(done.fail);
+      });
+
       it('if API response is not ok, dispatch ADD_ERRORS', (done) => {
         getWidgets.mockImplementation(mockApi({ errors: true }));
         store.dispatch(fetchWidgetList()).then(() => {
