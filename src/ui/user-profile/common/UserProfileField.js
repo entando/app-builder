@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Row, Col } from 'patternfly-react';
@@ -73,43 +73,47 @@ const getEnumeratorOptions = (component, items, separator, mandatory, intl) => {
   }
 };
 
-const userProfileValidators = {};
+export const generateValidatorFunc = (
+  value, validatorFuncName, validatorFunc,
+  validatorArray, parseValueFunc, customErrorId,
+) => {
+  const userProfileValidators = {};
+  if (value === null || value === undefined) {
+    return;
+  }
+  const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
+  if (!userProfileValidators[validatorFuncName]) {
+    userProfileValidators[validatorFuncName] = {};
+  }
+  if (!userProfileValidators[validatorFuncName][value]) {
+    userProfileValidators[validatorFuncName] = {
+      ...userProfileValidators[validatorFuncName],
+      [value]: validatorFunc(parsedValue, customErrorId),
+    };
+  }
+  validatorArray.push(userProfileValidators[validatorFuncName][value]);
+};
 
-const UserProfileField = ({ attribute, intl }) => {
+export const UserProfileField = ({ attribute, intl, disabled }) => {
   const { validationRules } = attribute || {};
   const {
     minLength: textMinLen, maxLength: textMaxLen, regex, rangeEndNumber, rangeStartNumber,
   } = validationRules || {};
 
-  const generateValidatorFunc = (
-    value, validatorFuncName, validatorFunc,
-    validatorArray, parseValueFunc, customErrorId,
-  ) => {
-    if (value === null || value === undefined) {
-      return;
-    }
-    const parsedValue = parseValueFunc ? parseValueFunc(value) : value;
-    if (!userProfileValidators[validatorFuncName]) {
-      userProfileValidators[validatorFuncName] = {};
-    }
-    if (!userProfileValidators[validatorFuncName][value]) {
-      userProfileValidators[validatorFuncName] = {
-        ...userProfileValidators[validatorFuncName],
-        [value]: validatorFunc(parsedValue, customErrorId),
-      };
-    }
-    validatorArray.push(userProfileValidators[validatorFuncName][value]);
-  };
+  const vArray = useMemo(() => {
+    const validateArray = [...(attribute.mandatory ? [required] : [])];
+    generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
+    generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
+    generateValidatorFunc(
+      regex, 'regex', matchRegex, validateArray, RegexParser,
+      attribute.type === 'Email' && 'validateForm.email',
+    );
+    generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
+    generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
+    return validateArray;
+  }, [attribute.mandatory, attribute.type, rangeEndNumber, rangeStartNumber,
+    regex, textMaxLen, textMinLen]);
 
-  const validateArray = [...(attribute.mandatory ? [required] : [])];
-  generateValidatorFunc(textMinLen, 'minLength', minLength, validateArray);
-  generateValidatorFunc(textMaxLen, 'maxLength', maxLength, validateArray);
-  generateValidatorFunc(
-    regex, 'regex', matchRegex, validateArray, RegexParser,
-    attribute.type === 'Email' && 'validateForm.email',
-  );
-  generateValidatorFunc(rangeEndNumber, 'rangeEndNumber', maxValue, validateArray);
-  generateValidatorFunc(rangeStartNumber, 'rangeStartNumber', minValue, validateArray);
 
   return (<Field
     component={getComponentType(attribute.type)}
@@ -130,9 +134,10 @@ const UserProfileField = ({ attribute, intl }) => {
       helpText={getHelpMessage(attribute.validationRules, intl)}
       required={attribute.mandatory}
     />}
-    validate={validateArray}
+    validate={vArray}
     readOnly={readOnlyFields.includes(attribute.code)}
     data-testid={`UserProfileForm__${attribute.code}Field`}
+    disabled={disabled}
   />);
 };
 
@@ -154,6 +159,11 @@ const basicAttributeShape = PropTypes.shape({
 UserProfileField.propTypes = {
   attribute: basicAttributeShape.isRequired,
   intl: intlShape.isRequired,
+  disabled: PropTypes.bool,
+};
+
+UserProfileField.defaultProps = {
+  disabled: false,
 };
 
 export const CompositeField = ({
@@ -221,5 +231,3 @@ CompositeField.defaultProps = {
   fieldName: '',
   noLabel: false,
 };
-
-export default UserProfileField;
