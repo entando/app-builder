@@ -31,3 +31,8 @@ yarn-error.log*
 # Temporary env files
 /public/env-config.js
 env-config.js
+/.TESTING/
+/.REVIEW/
+/.RELEASE/
+/.PLAN/
+/.BUG/
