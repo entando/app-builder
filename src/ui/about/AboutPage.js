@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'patternfly-react';
 import { FormattedMessage } from 'react-intl';
 import InternalPage from 'ui/internal-page/InternalPage';
-import { appBuilderVersion } from 'helpers/versions';
+import { entandoVersion } from 'helpers/versions';
 
 const AboutPage = () => (
   <InternalPage className="AboutPage">
@@ -23,7 +23,7 @@ const AboutPage = () => (
             <a href="https://dev.entando.org/" target="_blank" rel="noopener noreferrer"> dev.entando.org</a>
           </p>
           <p>
-            <b><FormattedMessage id="info.about.version" values={{ version: appBuilderVersion }} /></b>
+            <b><FormattedMessage id="info.about.version" values={{ version: entandoVersion }} /></b>
           </p>
         </Col>
       </Row>

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { Modal } from 'patternfly-react';
 
 import GenericModalContainer from 'ui/common/modal/GenericModalContainer';
-import { appBuilderVersion } from 'helpers/versions';
+import { entandoVersion } from 'helpers/versions';
 
 export const MODAL_ID = 'AboutInfoModal';
 
@@ -35,7 +35,7 @@ const AboutInfoModal = () => {
           <a href="https://developer.entando.com/" target="_blank" rel="noopener noreferrer"> developer.entando.com</a>
         </p>
         <p>
-          <b><FormattedMessage id="info.about.version" values={{ version: appBuilderVersion }} /></b>
+          <b><FormattedMessage id="info.about.version" values={{ version: entandoVersion }} /></b>
         </p>
       </div>
     </GenericModalContainer>
